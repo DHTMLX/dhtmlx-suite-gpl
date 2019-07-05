@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- meta block -->
+  <title>Custom css - DHTMLX Toolbar</title>
+  <meta name="description" content="Check interactive samples of DHTMLX Toolbar to explore its customization and other details.">
+  <!-- end meta block -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+  <script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+  <link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+  <link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+  
+  
+  <!-- custom sample head -->
+</head>
+
+<body>
+  <header class="dhx_sample-header">
+    <div class="dhx_sample-header__main">
+    	<nav class="dhx_sample-header__breadcrumbs">
+    		<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+    			<li class="dhx_sample-header-breadcrumbs__item">
+    				<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Toolbar samples</a>
+    			</li>
+    			<li class="dhx_sample-header-breadcrumbs__item">
+    				<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Customization</a>
+    			</li>
+    			<li class="dhx_sample-header-breadcrumbs__item">
+    				<span class="dhx_sample-header-breadcrumbs__link">Custom css</span>
+    			</li>
+    		</ul>
+    	</nav>
+    	<h1 class="dhx_sample-header__title">
+    		<div class="dhx_sample-header__content">
+    			Custom css.
+    	</h1>
+    </div>
+</header>
+  <section class="dhx_sample-container">
+    <div class="dhx_sample-container__widget" id="toolbar"></div>
+
+  </section>
+  <style>
+    .custom-class {
+      border: 2px solid #0ab169;
+      border-radius: 5px;
+      padding: 10px;
+      background-color: rgba(10, 177, 105, 0.3);
+    }
+    .custom-class .dhx_navbar-item--separator {
+      background-color: #0ab169;
+    }
+  </style>
+  <script>
+    var data = [{
+        type: "button",
+        css: "test",
+        icon: "dxi-file-plus",
+        value: "New",
+
+        items: [{
+            icon: "dxi-folder",
+            value: "New Folder",
+            items: [{
+                value: "Test child",
+                hotkey: 'del',
+              },
+              {
+                icon: 'dxi-folder',
+                value: "Test child dd",
+                hotkey: "ctrl + a"
+              }
+            ]
+          },
+          {
+            icon: "dxi-file",
+            value: "New File"
+          },
+          {
+            type: "separator"
+          },
+          {
+            icon: "dxi-file",
+            value: "New File"
+          },
+          {
+            icon: "dxi-file",
+            value: "New File"
+          },
+        ]
+      },
+      {
+        type: "separator"
+      },
+      {
+        type: "button",
+        icon: "dxi-undo",
+        twoState: true,
+      },
+      {
+        type: "button",
+        icon: "dxi-redo",
+      },
+      {
+        type: "separator"
+      },
+      {
+        type: "button",
+        icon: "dxi-content-save",
+        value: "save"
+      },
+      {
+        type: "button",
+        icon: "dxi-content-copy",
+        value: "copy"
+      },
+      {
+        type: "button",
+        icon: "dxi-content-paste",
+        value: "paste"
+      },
+      {
+        type: "separator"
+      },
+      {
+        type: "button",
+        icon: "dxi-printer",
+        value: "print"
+      },
+      {
+        type: "spacer"
+      },
+      {
+        type: "input",
+        placeholder: "search",
+        width: "300",
+        label: "search",
+        icon: "dxi dxi-magnify",
+      },
+      {
+        type: "spacer"
+      },
+      {
+				value: "Log in",
+				color: "success",
+				view: "flat"
+			},
+			{
+				value: "Log out",
+				color: "danger",
+				view: "flat",
+			},
+      {
+        type: "spacer"
+      },
+      {
+        type: "imageButton",
+        src: "https://dhtmlx.com/blog/wp-content/uploads/2016/08/300-2400.png",
+        value: "VP",
+        count: "99",
+      },
+      {
+        type: "text",
+        value: "Toolbar demo"
+      }
+    ];
+    var toolbar = new dhx.Toolbar("toolbar", {
+      css: "custom-class"
+    });
+    toolbar.data.parse(data);
+  </script>
+
+</body>
+
+</html>

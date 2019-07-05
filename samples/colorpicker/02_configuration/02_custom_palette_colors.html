@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Custom palette colors - DHTMLX Colorpicker</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Colorpicker to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		
+		
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Colorpicker samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Custom palette colors</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Custom palette colors.
+				</h1>
+			</div>
+</header>
+			<section class="dhx_sample-container">
+				<div class="dhx_sample-container__widget" style="display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center;">
+					<div id="colorpicker"></div>
+					<div class="dhx_demo_helper" style="padding: 15px 0 7px 0;">
+						You can change block color by colorpicker
+					</div>
+					<div class="dhx_color-sample" style="width: 200px;height: 200px;margin: 8px 0;"></div>
+				</div>
+			</section>
+		
+			<script>
+				var colorpicker = new dhx.Colorpicker("colorpicker", {
+					css: "dhx_widget--bordered",
+					grayShades: false,
+					palette: [
+						["#69d2e7", "#a7dbd8", "#e0e4cc", "#f38630", "#fa6900", "#7fc7af", "#dad8a7"],
+						["#fe4365", "#fc9d9a", "#f9cdad", "#c8c8a9", "#83af9b", "#948c75", "#d5ded9"],
+						["#ecd078", "#d95b43", "#c02942", "#542437", "#53777a", "#cbe86b", "#f2e9e1"],
+						["#556270", "#4ecdc4", "#c7f464", "#ff6b6b", "#c44d58", "#dce9be", "#555152"],
+						["#774f38", "#e08e79", "#f1d4af", "#ece5ce", "#c5e0dc", "#005f6b", "#008c9e"],
+						["#e8ddcb", "#cdb380", "#036564", "#033649", "#031634", "#73626e", "#b38184"],
+						["#490a3d", "#bd1550", "#e97f02", "#f8ca00", "#8a9b0f", "#fc913a", "#f9d423"],
+						["#594f4f", "#547980", "#45ada8", "#9de0ad", "#e5fcc2", "#fecea8", "#ff847c"],
+						["#00a0b0", "#6a4a3c", "#cc333f", "#eb6841", "#edc951", "#80bca3", "#f6f7bd"],
+						["#e94e77", "#d68189", "#c6a49a", "#c6e5d9", "#f4ead5", "#40c0cb", "#f9f2e7"]
+					],
+					width: "auto"
+				});
+
+				var colorExample = document.querySelector(".dhx_color-sample");
+				colorpicker.events.on("colorChange", function (color) {
+					colorExample.style.backgroundColor = color;
+				});
+				colorpicker.setValue("#69d2e7");
+			</script>
+
+	</body>
+</html>

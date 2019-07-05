@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- meta block -->
+	<title>Date range - DHTMLX Calendar</title>
+	<meta name="description" content="Check interactive samples of DHTMLX Calendar to explore its initialization and other details.">
+	<!-- end meta block -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+	<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+	<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+	<link rel="stylesheet" href="../common/calendar.css?v=6.0.1">
+	
+	<!-- custom sample head -->
+	<style>
+		.dhx_calendar-result {
+			width: 100%;
+			display: -webkit-box;
+			display: -webkit-flex;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-box-orient: vertical;
+			-webkit-box-direction: normal;
+			-webkit-flex-direction: column;
+			    -ms-flex-direction: column;
+			        flex-direction: column;
+			-webkit-box-align: center;
+			-webkit-align-items: center;
+			    -ms-flex-align: center;
+			        align-items: center;
+			font-family: Roboto, Arial, Tahoma, Verdana, sans-serif;
+		}
+
+		.dhx_calendar-result__from,
+		.dhx_calendar-result__to {
+			padding: 5px 0;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="dhx_sample-header">
+		<div class="dhx_sample-header__main">
+			<nav class="dhx_sample-header__breadcrumbs">
+				<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Calendar samples</a>
+					</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Initialization</a>
+					</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<span class="dhx_sample-header-breadcrumbs__link">Date range</span>
+					</li>
+				</ul>
+			</nav>
+			<h1 class="dhx_sample-header__title">
+				<div class="dhx_sample-header__content">
+					You can create two calendars and link them to provide the ability of selecting a date range.
+					<div class="dhx_sample-docs-links">
+						Check documentation:
+						<a href="https://docs.dhtmlx.com/suite/calendar__operating_calendar.html#linkingtwocalendars" target="_blank" class="dhx_sample-header-link">Linking two calendars</a>
+					</div>
+				</div>
+			</h1>
+		</div>
+</header>
+	<section class="dhx_sample-container" style="-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;">
+		<div class="dhx_sample-container__widget" id="calendar1" style="margin-right: 20px; -webkit-box-pack: end; -webkit-justify-content: flex-end; -ms-flex-pack: end; justify-content: flex-end">
+		</div>
+		<div class="dhx_sample-container__widget" id="calendar2" style="margin-right: 20px; -webkit-box-pack: start; -webkit-justify-content: flex-start; -ms-flex-pack: start; justify-content: flex-start"></div>
+		<div class="dhx_calendar-result">
+			<div class="dhx_calendar-result__from" id="resultFrom"></div>
+			<div class="dhx_calendar-result__to" id="resultTo"></div>
+		</div>
+	</section>
+	<script>
+		var calendar = new dhx.Calendar("calendar1", {
+			css: "dhx_widget--bordered"
+		});
+		var calendar2 = new dhx.Calendar("calendar2", {
+			css: "dhx_widget--bordered"
+		});
+
+		calendar.link(calendar2);
+
+		calendar.events.on("change", function (date) {
+			document.querySelector("#resultFrom").innerHTML = "Date from: " + calendar.getValue() + "</br>";
+		});
+
+		calendar2.events.on("change", function (date) {
+			document.querySelector("#resultTo").innerHTML = "Date to: " + calendar2.getValue() + "</br>";
+		});
+
+
+	</script>
+
+</body>
+
+</html>

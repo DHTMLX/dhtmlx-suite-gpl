@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Inputs - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container { 
+				max-width: 800px;
+				min-height: auto;
+			}
+			.dhx_sample-container__widget {
+				width: 400px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Inputs</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Inputs.
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<form class="dhx_sample-container__widget" id="form-sample"></form>
+			<form class="dhx_sample-container__widget" id="form-settings"></form>
+		</section>
+
+		<script>
+			var inputConfig = {
+				type: "input",
+				validation: "",
+				icon: "dxi-magnify",
+				value: "",
+				placeholder: "i am input",
+				label: "i am label",
+				labelWidth: "100px",
+				labelInline: true,
+				disabled: false,
+				required: false,
+				help: "",
+				preMessage: "",
+				successMessage: "",
+				errorMessage: "",
+				// width: "",
+				// height: "",
+				// hiddenLabel: false
+			}
+			var formSettings = new dhx.Form("form-settings", {
+				cellCss: "dhx_widget--bordered",
+				rows: [
+					{
+						type: "input",
+						label: "value",
+						name: "value",
+						value: inputConfig.value,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "input",
+						label: "icon",
+						name: "icon",
+						value: inputConfig.icon,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "input",
+						label: "placeholder",
+						name: "placeholder",
+						value: inputConfig.placeholder,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "input",
+						label: "label",
+						name: "label",
+						value: inputConfig.label,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "input",
+						label: "labelWidth",
+						name: "labelWidth",
+						value: inputConfig.labelWidth,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						float: "center",
+						cols: [
+							{
+								type: "checkbox",
+								label: "labelInline",
+								name: "labelInline",
+								labelInline: true,
+								checked: inputConfig.labelInline
+							},
+							{
+								type: "checkbox",
+								label: "disabled",
+								name: "disabled",
+								labelInline: true,
+								checked: inputConfig.disabled
+							},
+							{
+								type: "checkbox",
+								label: "required",
+								name: "required",
+								labelInline: true,
+								checked: inputConfig.required
+							}
+						]
+					},
+					{
+						type: "input",
+						label: "help",
+						name: "help",
+						value: inputConfig.help,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "combo",
+						readonly: true,
+						name: "validation",
+						label: "validation",
+						labelInline: true,
+						labelWidth: "100px",
+						data: [
+							{id: "", value:""},
+							{id: "email", value: "email"},
+							{id: "integer", value: "integer"},
+							{id: "numeric", value: "numeric"},
+							{id: "alphanumeric", value: "alphanumeric"},
+							{id: "IPv4", value: "IPv4"}
+						]
+					},
+					{
+						type: "input",
+						label: "preMessage",
+						name: "preMessage",
+						value: inputConfig.preMessage,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "input",
+						label: "successMessage",
+						name: "successMessage",
+						value: inputConfig.successMessage,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "input",
+						label: "errorMessage",
+						name: "errorMessage",
+						value: inputConfig.errorMessage,
+						labelWidth: "100px",
+						labelInline: true
+					}
+				]
+			});
+			formSettings.events.on("change", function(name, value) {
+				inputConfig[name] = value;
+				createForm();
+			});
+			var form;
+			function createForm() {
+				if (form) {
+					form.destructor();
+				}
+				form = new dhx.Form("form-sample", {
+					cellCss: "dhx_widget--bordered",
+					rows: [
+						inputConfig
+					]
+				});
+			}
+			createForm();
+		</script>
+
+	</body>
+</html>

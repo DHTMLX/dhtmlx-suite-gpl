@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Get value - DHTMLX Combobox</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Combobox to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		
+		<script type="text/javascript" src="../common/dataset.js?v=6.0.1"></script>
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container {
+				max-width: 300px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Combobox samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Get value</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Get value.
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="getValue()">Get value</button>
+			<div id="value">id: item:</div>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="combobox"></div>
+			
+		</section>
+
+		<script>
+			var combobox = new dhx.Combobox("combobox");
+			combobox.data.parse(all);
+			function getValue(){
+				const id = combobox.getValue();
+				const item = combobox.data.getItem(id);
+				document.querySelector("#value").innerHTML ="id: "+id+", item: "+item.value;
+			}
+		</script>
+
+	</body>
+</html>

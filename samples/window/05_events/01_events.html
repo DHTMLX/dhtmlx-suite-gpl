@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>metaTitle</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Window to explore its events and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		
+		
+		<!-- custom sample head -->
+</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Window samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Events</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Window events</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Window events.
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="dhxWindow.show()">show</button>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="dhxWindow.hide()">hide</button>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="window"></div>
+			<div class="dhx_sample-container__sidebar" id="events"> </div>
+		</section>
+
+		<script>
+			var dhxWindow = new dhx.Window({width: 440, height: 520, title: "window", closable: true, movable: true, resizable: true});
+			
+			var eventsContainer = document.querySelector("#events");
+			var counter = 0;
+			var events = [
+					"resize",
+					"headerDoubleClick",
+					"move",
+					"afterShow",
+					"afterhide",
+					"beforeshow",
+					"beforehide"
+			];
+			
+			function eventHandler(event, arguments) {
+					var argsList = "";
+					for (var i = 0; i < arguments.length; i++) {
+							argsList += "<div>" + JSON.stringify(arguments[i]) + "</div>";
+					}
+					eventsContainer.insertAdjacentHTML("afterBegin", "<div class=\"dhx_sample-event\">Event " + counter++ + ": " + event + argsList + "</div>")
+			}
+			
+			events.forEach(function (event) {
+				dhxWindow.events.on(event, function () {
+					eventHandler(event, arguments);
+				});
+			});
+			dhxWindow.show(140, 155)
+		</script>
+
+	</body>
+</html>

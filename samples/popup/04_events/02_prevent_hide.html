@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Prevent hide - DHTMLX Popup</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Popup to explore its events and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container__widget {
+				position: fixed;
+				background: #000;
+				width: 100px;
+				height: 100px;
+				left: 50%;
+				top: 50%;
+				-webkit-transform: translate(-50%, -50%);
+				    -ms-transform: translate(-50%, -50%);
+				        transform: translate(-50%, -50%)
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Popup samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Events</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Prevent hide</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Prevent hide.
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls" id="popup-container">
+			<button id="show" class="dhx_sample-btn dhx_sample-btn--flat">Show</button>
+			<button id="hide" class="dhx_sample-btn dhx_sample-btn--flat">Hide</button>
+		</section>
+	
+		<script>
+			var popup = new dhx.Popup({
+				css: "dhx_widget--border-shadow"
+			});
+			popup.attachHTML(
+				"<div style='padding: 16px; text-align: center'>Hi there, <br/> welcome to DHTMLX popup samples</div>");;
+			popup.show("popup-container");
+			document.querySelector("#hide").addEventListener("click", function () {
+				popup.hide("popup-container");
+			})
+			document.querySelector("#show").addEventListener("click", function () {
+				popup.show("popup-container");
+			})
+			popup.events.on('beforehide', function () {
+				return
+			});
+		</script>
+
+	</body>
+</html>

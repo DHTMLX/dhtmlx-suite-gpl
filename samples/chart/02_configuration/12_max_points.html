@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Max points - DHTMLX Chart</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Chart to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		
+		<script type="text/javascript" src="../common/dataset.js?v=6.0.1"></script>
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Chart samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Max points</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Max points.
+						<div class="dhx_sample-docs-links">
+							Check documentation:
+							<a href="https://docs.dhtmlx.com/suite/chart__configuration_properties.html#mainproperties" target="_blank" class="dhx_sample-header-link">Configuration</a>
+						</div>
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="chart"></div>
+			
+		</section>
+
+		<script>
+		var data = [];
+        var k = 0;
+        for (var i=0; i<100000; i++) {
+            data.push({
+                value: "value" + i,
+                value: Math.floor(Math.random() * 10000+k)
+            })
+            k = (k + 0.02) % 5000;
+        }
+        var config = {
+            type:"line",
+            maxPoints:100,
+            scales: {
+                bottom: {
+					text: "value",
+					maxTicks: 10,
+					showText: false
+				},
+				left: {}
+            },
+            series: [
+                {
+                    value: "value",
+                    color: "#49A6D9",
+                    strokeWidth: 2,
+                    tooltip: true,
+                    pointType: "empty"
+                }
+            ]
+        }
+        var chart = new dhx.Chart("chart", config);
+        chart.data.parse(data);
+		</script>
+
+	</body>
+</html>

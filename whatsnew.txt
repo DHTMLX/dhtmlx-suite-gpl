@@ -1,0 +1,9 @@
+Version 6.0.1 (July 5, 2019)
+----------------------------
+
+### Fixes
+
+- Styles fixes
+- Issues with Calendar setValue() method
+- Issue with Slider set/getValue() methods
+- Issue with Confirm message box buttons

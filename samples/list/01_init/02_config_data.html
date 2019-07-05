@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- meta block -->
+	<title>meta</title>
+	<meta name="description" content="Check interactive samples of DHTMLX List to explore its initialization and other details.">
+	<!-- end meta block -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+	<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+	<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+	
+	
+	<!-- custom sample head -->
+	<script type="text/javascript" src="../common/listdata.js?v=6.0.1"></script>
+	<style>
+		.dhx_sample-container {
+			max-width: 600px;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="dhx_sample-header">
+		<div class="dhx_sample-header__main">
+			<nav class="dhx_sample-header__breadcrumbs">
+				<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">List samples</a>
+					</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Initialization</a>
+					</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<span class="dhx_sample-header-breadcrumbs__link">Load/parse data</span>
+					</li>
+				</ul>
+			</nav>
+			<h1 class="dhx_sample-header__title">
+				<div class="dhx_sample-header__content">
+					Load/parse data.
+			</h1>
+		</div>
+</header>
+	<section class="dhx_sample-container">
+		<div class="dhx_sample-container__widget" id="list" style="height: 500px;"></div>
+	</section>
+
+	<script>
+
+		
+		var data = [
+			{
+				"value": "Learning DHTMLX Suite UI",
+				"isbn": "184969933X",
+				"pageCount": 132,
+				"publishedDate": {
+					"$date": "2013-10-25T00:00:00.000-0700"
+				},
+				"thumbnailUrl": "https://images-na.ssl-images-amazon.com/images/I/61ot4vfL9HL.jpg",
+				"shortDescription": "Create your first single-page JavaScript application using multiple DHTMLX components and a touch of HTML5",
+				"longDescription": "Learning DHTMLX Suite UI is for web designers who have a basic knowledge of JavaScript and who are looking for powerful tools that will give them an extra edge in their own application development. This book is also useful for experienced developers who wish to get started with DHTMLX without going through the trouble of learning its quirks through trial and error. Readers are expected to have some knowledge of JavaScript, HTML, Document Object Model, and the ability to install a local web server.",
+				"status": "PUBLISH",
+				"authors": [
+					"Eli Geske"
+				],
+				"categories": [
+					"Web Development",
+					"JavaScript"
+				]
+			},
+			{
+				"value": "SOA Security",
+				"isbn": "1932394680",
+				"pageCount": 512,
+				"publishedDate": {
+					"$date": "2007-12-01T00:00:00.000-0800"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/kanneganti.jpg",
+				"longDescription": "Anyone seeking to implement SOA Security is forced to dig through a maze of inter-dependent specifications and API docs that assume a lot of prior security knowledge on the part of readers. Getting started on a project is proving to be a huge challenge to practitioners. This book seeks to change that. It provides a bottom-up understanding of security techniques appropriate for use in SOA without assuming any prior familiarity with security topics.    Unlike most other books about SOA that merely describe the standards, this book helps readers learn through action, by walking them through sample code that illustrates how real life problems can be solved using the techniques and best practices described in the standards. It simplifies things: where standards usually discuss many possible variations of each security technique, this book focuses on the 20% of variations that are used 80% of the time. This keeps the material covered useful for all readers except the most advanced.",
+				"status": "PUBLISH",
+				"authors": [
+					"Ramarao Kanneganti",
+					"Prasad A. Chodavarapu"
+				],
+				"categories": [
+					"Software Engineering"
+				]
+			},
+			{
+				"value": "Rails 3 in Action",
+				"isbn": "1935182277",
+				"pageCount": 425,
+				"publishedDate": {
+					"$date": "2011-09-20T00:00:00.000-0700"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/katz.jpg",
+				"shortDescription": "Rails 3 in Action will provide a thorough introduction to Ruby-based web development using Rails. Like Rails 3 itself, this book combines Merb and Rails in the form of authors Yehuda Katz, Merb Lead Developer.",
+				"longDescription": "In December 2008, the Merb team announced that they will be collaborating with the Rails core team on the next versions of Merb and Rails. Rather than maintaining parallel tracks, Merb 2 and Rails 3 will merge, preserving the flexible configuration and advanced features that Merb users love along with the rapid productivity and ease-of-use that makes Rails shine. As Engine Yard developer (and Manning author) Yehuda Katz puts it, \"Effectively, Merb 2 is Rails 3.\"    Rails 3 in Action will provide a thorough introduction to Ruby-based web development using Rails. Like Rails 3 itself, this book combines Merb and Rails in the form of authors Yehuda Katz, Merb Lead Developer.    As a developer, you'll benefit from several big advantages to this change:  Rails becomes more modular, by building on rails core with the ability to opt in or out of specific components and making it possible to replace parts of Rails without disturbing other parts.  Merb performance improvements flow into Rails, including benchmarking applications so developers can see which optimizations have real-world impact.  A defined public API with a test suite, so users and plugin developers have a stable API to build against.  A \"core\" version of Rails, like Merb's current core generator, that makes it easy to select just the parts that are important for your app.  DataMapper and Sequel support as first-class ORMs, along with ActiveRecord as the default.  Rack support in Rails 3, to improve the state of modular, sharable logic between applications.  The Rails 3 team is moving full steam ahead building the new version. The Merb team will start working on Rails immediately, and also continue to fix bugs and resolve other major issues in the current release of Merb. Interim versions of Merb will help ease the transition to Rails 3. In particular, Merb releases with deprecation notices and other transitional mechanisms will assist developers in tracking down the changes between Merb 1.x and Rails 3.    If you've already learned Merb, Rails 3 in Action will help you parlay that knowledge into the new Rails code base. If you're a long time Rails developer, it will help you get up to speed with all the new Rails 3 features and changes.",
+				"status": "PUBLISH",
+				"authors": [
+					"Ryan Bigg",
+					"Yehuda Katz"
+				],
+				"categories": [
+					"Internet"
+				]
+			},
+			{
+				"value": "Continuous Integration in .NET",
+				"isbn": "1935182552",
+				"pageCount": 328,
+				"publishedDate": {
+					"$date": "2011-03-14T00:00:00.000-0700"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/kawalerowicz.jpg",
+				"shortDescription": "Continuous Integration in .NET is a tutorial for developers and team leads that teaches you to reimagine your development strategy by creating a consistent continuous integration process. This book shows you how to build on the tools you already know--.NET Framework and Visual Studio and to use powerful software like MSBuild, Subversion, TFS 2010, Team City, CruiseControl.NET, NUnit, and Selenium.",
+				"longDescription": "There are three copies of a source file and no-one knows which is the right one. Your carefully-crafted unit tests won't run anymore. The three-year-old requirements doc is totally irrelevant. The boss wants to ship, ship, ship. The team in Austin has no idea what the team in Arlington is up to. You are in integration hell. Ready to try something different     Continuous integration is a software engineering process designed to minimize \"integration hell.\" It's a coordinated development approach that blends the best practices in software delivery: frequent integration, constant readiness, short build feedback cycles, persistent testing, and a flexible approach to developing--and modifying--system requirements. For .NET developers, especially, adopting these new approaches and the tools that support can require rethinking your dev process altogether.    Continuous Integration in .NET is a tutorial for developers and team leads that teaches you to reimagine your development strategy by creating a consistent continuous integration process. This book shows you how to build on the tools you already know--.NET Framework and Visual Studio and to use powerful software like MSBuild, Subversion, TFS 2010, Team City, CruiseControl.NET, NUnit, and Selenium.    Because CI is as much about the culture of your shop as the tooling, this book will help you bridge resistance to adoption by providing clear guidelines for starting and maintaining projects-along with defined metrics for measuring project success. Each author brings a unique set of experiences and practices to create a rich and varied picture of this powerful technique.    WHAT'S INSIDE        * Continuous integration-what is it       * Source control with Subversion and TFS Version Control.      * Continuous integration server with TFS 2010, CruiseControl.NET and TeamCity.      * Automating build with MSBuild.      * Testing with NUnit, Fitnesse and Selenium.      * Database Integration.      * Keeping code tidy with FxCop and StyleCop.      * Generating documentation with Sandcastle.      * Deploying with ClickOnce and WiX.      * Scaling continuous integration.",
+				"status": "PUBLISH",
+				"authors": [
+					"Marcin Kawalerowicz",
+					"Craig Berntson"
+				],
+				"categories": [
+					"Microsoft .NET"
+				]
+			},
+			{
+				"value": "Technology Paradise Lost",
+				"isbn": "1932394133",
+				"pageCount": 260,
+				"publishedDate": {
+					"$date": "2004-03-01T00:00:00.000-0800"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/keller.jpg",
+				"shortDescription": "In Technology Paradise Lost Keller describes how the new thinking is working inside some of the country's most complex and successful organizations, including Merrill Lynch, JetBlue, Harrah's, and Motorola which have cut IT spending to gain a competitive edge, and experienced marked gains to their bottom lines.",
+				"longDescription": "An engine of the world economy, the computer industry is sputtering. What happened  Will it regain its power and again drive economic growth as in the past     No.    That's the surprising conclusion reached by Erik Keller, a central player in the booming IT world of the 1990s. Driven by fear of being left behind, American corporations let IT grow until it reached one half of all corporate capital spending by the year 2000. Now, chastened by their spending failures, IT managers are converging on a new consensus: to exploit IT competitively they must use their smarts over big money.    This shift in thinking comes just as free, open-source software, low-cost international programming labor, and new technologies combine to make the new approach possible.    A former Research Fellow at Gartner, Keller had an insider's view of the irrational spending at many Fortune 500 companies, personally influencing billions of dollars of technology acquisitions.    In Technology Paradise Lost Keller describes how the new thinking is working inside some of the country's most complex and successful organizations, including Merrill Lynch, JetBlue, Harrah's, and Motorola which have cut IT spending to gain a competitive edge, and experienced marked gains to their bottom lines.    As it advances, the new IT think will cause further massive disruptions in the computer business, with fundamental changes in the ways software is developed, sold, and used. Efficiency of IT investment will grow as excess fat is squeezed out of IT salaries, software system costs, and consultants' fees.    In an unexpected twist, Keller argues that even as IT spending is reduced its importance for competitiveness will grow. Reduced spending does not mean IT has become a commodity. Counterintuitively, companies that spend less in order to get more from information technology will likely be the big winners.",
+				"status": "PUBLISH",
+				"authors": [
+					"Erik Keller"
+				],
+				"categories": [
+					"Business"
+				]
+			},
+			{
+				"value": "Kermit 95+",
+				"isbn": "1930110057",
+				"pageCount": 0,
+				"publishedDate": {
+					"$date": "2003-01-01T00:00:00.000-0800"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/kermit.jpg",
+				"longDescription": "Kermit 95+, Version 2.1 is a full-featured, fully native, 32-bit communications software package for Microsoft Windows 95/98/NT/2000/XP and IBM OS/2 3.0 and later from the Kermit Project at Columbia University. It works uniformly over a variety of connection methods. Included in the Kermit 95+, Version 2.1 bundle: Internet and modem communications, 40+ terminal emulations, Telnet, SSH, Kerberos, SSL/TLS, Unicode. Plus FTP, Kermit, and Zmodem file transfer, a built-in cross-platform scripting language to automate any communications or file management task, and companion Kermit software for Unix and VMS.    For those already familiar with the package, Version 2.1 adds in-the-box exportable secure authentication and strong encryption including SSH v1/v2, a secure scriptable FTP client, and runs in a GUI window with regular Windows font and size selections.",
+				"status": "PUBLISH",
+				"authors": [
+					"Kermit Project at Columbia University"
+				],
+				"categories": [
+					"Internet",
+					"Networking",
+					"Miscella"
+				]
+			},
+			{
+				"value": "Laszlo in Action",
+				"isbn": "1932394834",
+				"pageCount": 552,
+				"publishedDate": {
+					"$date": "2008-01-01T00:00:00.000-0800"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/klein.jpg",
+				"longDescription": "Laszlo in Action is the first comprehensive guide to the Laszlo system and its language LZX. OpenLaszlo is an increasingly popular open-source platform for the development and delivery of rich internet applications across multiple platforms: Flash, DHTML, and J2ME. The dramatic emergence of Ajax over the past year was a first step in the transition from page-oriented HTML web applications towards more full-featured rich internet applications. OpenLaszlo provides another important step in this continuing evolutionary process through the increased productivity resulting from LZX's declarative approach. It provides developers with the tools to create web-based applications offering the usability and interactivity associated with desktop applications, and the low costs associated with web-based deployment. The cross-platform nature of Laszlo LZX applications allows source code with only minimum modifications to run natively on all popular web browsers, on all desktop operating systems, on the Flash platform, and other platforms in the future.    Written to address the needs of a wide spectrum of developers, ranging from client-side HTML and JavaScript developers all the way to enterprise-class Java or Rails engineers, this book provides a very hands-on approach towards building applications that solve real-world problems across both the Flash and DHTML platforms. Starting with the fundamentals of Laszlo LZX, the authors quickly move towards applying this knowledge to the design and development of a full-scale application called the Laszlo Market. This provides a working context to assist understanding the underlying concepts of Laszlo LZX and, more importantly, how to apply this knowledge in innovative ways. The construction of the Laszlo Market proceeds over the course of the book illustrating topics starting with an initial wireframe and storyboard design to optimization issues dealing with the application's deployment across the Flash and DHTML platforms.",
+				"status": "PUBLISH",
+				"authors": [
+					"Norman Klein",
+					"Max Carlson with Glenn MacEwen"
+				],
+				"categories": [
+					"Web Development"
+				]
+			},
+			{
+				"value": "Groovy in Action",
+				"isbn": "1932394842",
+				"pageCount": 696,
+				"publishedDate": {
+					"$date": "2007-01-01T00:00:00.000-0800"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/koenig.jpg",
+				"longDescription": "Groovy, the brand-new language for the Java platform, brings to Java many of the features that have made Ruby popular. Groovy in Action is a comprehensive guide to Groovy programming, introducing Java developers to the new dynamic features that Groovy provides. To bring you Groovy in Action, Manning again went to the source by working with a team of expert authors including both members and the manager of the Groovy Project team. The result is the true definitive guide to the new Groovy language.    Groovy in Action introduces Groovy by example, presenting lots of reusable code while explaining the underlying concepts. Java developers new to Groovy find a smooth transition into the dynamic programming world. Groovy experts gain a solid reference that challenges them to explore Groovy deeply and creatively.    Because Groovy is so new, most readers will be learning it from scratch. Groovy in Action quickly moves through the Groovy basics, including:    Simple and collective Groovy data types  Working with closures and Groovy control structures  Dynamic Object Orientation, Groovy style  Readers are presented with rich and detailed examples illustrating Groovy's enhancements to Java, including    How to work with builders and the GDK  Database programming with Groovy  Groovy in Action then demonstrates how to Integrate Groovy with XML, and provides,    Tips and Tricks  Unit testing and build support  Groovy on Windows  An additional bonus is a chapter dedicated to Grails, the Groovy web application framework.",
+				"status": "PUBLISH",
+				"authors": [
+					"Dierk Koenig with Andrew Glover",
+					"Paul King",
+					"Guillaume Laforge",
+					"Jon Skeet"
+				],
+				"categories": [
+					"Java"
+				]
+			},
+			{
+				"value": "Groovy in Action, Second Edition",
+				"isbn": "1935182447",
+				"pageCount": 700,
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/koenig2.jpg",
+				"shortDescription": "Groovy in Action, Second Edition is a thoroughly-revised, comprehensive guide to Groovy programming. It introduces Java developers to the dynamic features that Groovy provides, and shows you how to apply Groovy to a range of tasks including building new apps, integration with existing code, and DSL development.",
+				"longDescription": "The first edition of Groovy in Action is the undisputed definitive reference on the Groovy language. Written by core members of the Groovy language team, this book presents Groovy like none other can   from the inside out. Since its introduction a few years back, Groovy has grown from an upstart dynamic language for the JVM to become an integral part of any Java developer's toolbox. Projects like Grails and Griffon have extended Groovy's reach into the web and desktop app world.    Groovy in Action, Second Edition is a thoroughly-revised, comprehensive guide to Groovy programming. It introduces Java developers to the dynamic features that Groovy provides, and shows you how to apply Groovy to a range of tasks including building new apps, integration with existing code, and DSL development.    This book introduces Groovy by example, presenting lots of reusable code while explaining the underlying concepts. Java developers new to Groovy find a smooth transition into the dynamic programming world. Groovy experts gain a solid reference that challenges them to explore Groovy deeply and creatively.    For readers learning it from scratch. Groovy in Action thoroughly moves through the Groovy basics, including:    Groovy's unique approach of optional typing  Simple and collective Groovy data types  Working with closures and Groovy control structures  The merits of Metaprogramming  Readers are presented with rich and detailed examples illustrating Groovy's enhancements to Java, including:    How to work with builders and the GDK  Database and XML programming with Groovy  Concurrency for the multicore era: actors, asynchronous collections and dataflow  Building Domain Specific languages   a very hot topic!  Groovy in Action then demonstrates how to integrate Groovy in Java projects and provides:    Tips and Tricks  Unit testing and build support  Groovy frameworks, including Grails, Griffon, and Groovy on Windows",
+				"status": "MEAP",
+				"authors": [
+					"Dierk König",
+					"Guillaume Laforge",
+					"Paul King",
+					"Cédric Champeau",
+					"Hamlet D'Arcy",
+					"Erik Pragt",
+					"",
+					"Jon Skeet"
+				],
+				"categories": [
+					"Java"
+				]
+			},
+			{
+				"value": "Object Technology Centers of Excellence",
+				"isbn": "132612313",
+				"pageCount": 200,
+				"publishedDate": {
+					"$date": "1996-06-01T00:00:00.000-0700"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/korson.jpg",
+				"shortDescription": "Object Technology Centers of Excellence provides guidance to those charged with managing the shift to object technology. It is the only book on the market aimed not at the project level but at the corporate level, with a focus on the infrastructures necessary for a successful transition.",
+				"longDescription": "Object Technology Centers (OTC) are technology transfer catalysts for the rapid development and deployment of object-oriented infrastructure. Object Technology Centers of Excellence provides guidance to those charged with managing the shift to object technology. It is the only book on the market aimed not at the project level but at the corporate level, with a focus on the infrastructures necessary for a successful transition.    This book presents case histories of early adopters of OT, which can help you understand the steps your company must take-and paths it should avoid. Object Technology Centers of Excellence is recommended reading in any organization planning or transitioning to OT, not just involved with formal OTCs. The book includes practical advice for managers, members of technical staffs, and consultants.    The case histories involve some heavy hitters:    IBM  Wiltel  The Travelers  Bell Northern Research  Also, summaries are presented for Andersen Consulting, Northern Telecom, Prudential Insurance Company, Ascom Nexion, and several others.",
+				"status": "PUBLISH",
+				"authors": [
+					"Timothy D. Korson",
+					"Vijay K. Vaishnavi"
+				],
+				"categories": [
+					"Object-Technology Programming",
+					""
+				]
+			},
+			{
+				"value": "Test Driven",
+				"isbn": "1932394850",
+				"pageCount": 544,
+				"publishedDate": {
+					"$date": "2007-09-01T00:00:00.000-0700"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/koskela.jpg",
+				"longDescription": "In test-driven development, you first write an executable test of what your application code must do. Only then do you write the code itself and, with the test spurring you on, improve your design. In acceptance test-driven development (ATDD), you use the same technique to implement product features, benefiting from iterative development, rapid feedback cycles, and better-defined requirements. TDD and its supporting tools and techniques lead to better software faster.    Test Driven brings under one cover practical TDD techniques distilled from several years of community experience. With examples in Java and the Java EE environment, it explores both the techniques and the mindset of TDD and ATDD. It uses carefully chosen examples to illustrate TDD tools and design patterns, not in the abstract but concretely in the context of the technologies you face at work. It is accessible to TDD beginners, and it offers effective and less-well-known techniques to older TDD hands.",
+				"status": "PUBLISH",
+				"authors": [
+					"Lasse Koskela"
+				],
+				"categories": [
+					"Software Engineering"
+				]
+			},
+			{
+				"value": "Effective Unit Testing",
+				"isbn": "1935182579",
+				"pageCount": 350,
+				"publishedDate": {
+					"$date": "2013-02-04T00:00:00.000-0800"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/koskela2.jpg",
+				"status": "PUBLISH",
+				"authors": [
+					"Lasse Koskela"
+				],
+				"categories": [
+					"Java"
+				]
+			},
+			{
+				"value": "Making Java Groovy",
+				"isbn": "1935182943",
+				"pageCount": 0,
+				"publishedDate": {
+					"$date": "2013-09-19T00:00:00.000-0700"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/kousen.jpg",
+				"shortDescription": "Making Java Groovy is a practical handbook for developers who want to blend Groovy into their day-to-day work with Java. It starts by introducing the key differences between Java and Groovy   and how you can use them to your advantage. Then, it guides you step-by-step through realistic development challenges, from web applications to web services to desktop applications, and shows how Groovy makes them easier to put into production.",
+				"longDescription": "Java is large and powerful, but that size and power carries with it complexity and accumulated inconsistencies. Groovy is an elegant JVM-based dynamic language that gracefully co-exists with Java. It both extends and simplifies Java   and for most Java developers, Groovy is super easy to learn. If you know where to apply it, adding in a little Groovy will make you a better Java developer.    Making Java Groovy is a practical handbook for developers who want to blend Groovy into their day-to-day work with Java. It starts by introducing the key differences between Java and Groovy   and how you can use them to your advantage. Then, it guides you step-by-step through realistic development challenges, from web applications to web services to desktop applications, and shows how Groovy makes them easier to put into production.    This book stays away from theory and drills down on the typical situations you face every day, like consuming and creating SOAP and RESTful web services, working with databases, and using the Spring framework. You'll also explore the great Groovy tools for build processes, testing, and deployment. Finally, you'll learn how Groovy-based domain specific languages simplify Java development.",
+				"status": "PUBLISH",
+				"authors": [
+					"Kenneth A. Kousen"
+				],
+				"categories": [
+					"Java"
+				]
+			},
+			{
+				"value": "The Awesome Power of Direct3D/DirectX",
+				"isbn": "1884777473",
+				"pageCount": 840,
+				"publishedDate": {
+					"$date": "2002-12-01T00:00:00.000-0800"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/kovach.jpg",
+				"shortDescription": "The Awesome Power of Direct3D/DirectX shows you how to build a complete working 3D application, including 3D sound, joystick input, animation, textures, shadows, and even collision detection.",
+				"longDescription": "If you are programming real-time 3D applications for simulations, games, marketing, demonstrations or computer-animated videos using Microsoft's Direct3D Software Development Kit, this book is for you. Unlike other books, The Awesome Power of Direct3D/DirectX shows you how to build a complete working 3D application, including 3D sound, joystick input, animation, textures, shadows, and even collision detection!    It shows you how to write code using both Retained Mode and Immediate Mode. It does not bury the code in \"wrappers\" that hide the nuances of the SDK. Nothing is hidden.",
+				"status": "PUBLISH",
+				"authors": [
+					"Peter J. Kovach"
+				],
+				"categories": [
+					"Computer Graphics"
+				]
+			},
+			{
+				"value": "Practical Software Requirements",
+				"isbn": "1884777597",
+				"pageCount": 448,
+				"publishedDate": {
+					"$date": "1998-09-01T00:00:00.000-0700"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/kovitz.jpg",
+				"longDescription": "Practical Software Requirements is a comprehensive guidebook for the programmer or manager writing requirements for the first time, as well as the experienced system analyst.    The author takes a unique approach to the subject: that a useful requirements document derives from the techniques employed by programmers and interface designers. His in-depth treatment includes non-hierarchical ways to break down complex problems, elements of the problem domain, and different information needed for different problem types.    An extensive section on style covers the nuts and bolts of making the information understandable: how to group and sequence topics, how to word a definition, even how to avoid boring the reader.    This unusual, example-filled book covers all aspects of a daunting but critical task: giving development staff all the information they need to do their jobs.",
+				"status": "PUBLISH",
+				"authors": [
+					"Benjamin L. Kovitz"
+				],
+				"categories": [
+					"Software Engineering",
+					"Theory"
+				]
+			},
+			{
+				"value": "NHibernate in Action",
+				"isbn": "1932394923",
+				"pageCount": 400,
+				"publishedDate": {
+					"$date": "2009-02-01T00:00:00.000-0800"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/kuate.jpg",
+				"longDescription": "In the classic style of Manning's \"In Action\" series, NHibernate in Action introduces .NET developers to the NHibernate Object/Relational Mapping tool. As NHibernate is a port of Hibernate from Java to .NET, the book is based on Manning's bestselling Hibernate in Action.    NHibernate in Action begins by describing how to implement persistence in a layered .NET application. The book then quickly springs into action by introducing NHibernate through a classic \"Hello World\" example. It explains how to configure NHibernate to specify the mapping information between business objects and database tables, and then explores the internal architecture of NHibernate. A complete example application is progressively built with Agile methodologies in mind, which shows readers all kinds of entity and relationship mappings and how to perform CRUD operations. The book also covers advanced techniques like caching, concurrency access, and isolation levels. The Hibernate Query Language (HQL) and criteria query APIs are thoroughly detailed with optimization tips.    The last chapters of this book discuss various development scenarios, how to implement the layers of an NHibernate application (covering Windows and Web development), and which tools are available for these tasks. They also provide some solutions for data-binding objects to .NET GUI controls, integrating services, and interacting with components using DataSets. Finally, they explain how to build a complex application involving advanced session management and distributed transactions.",
+				"status": "PUBLISH",
+				"authors": [
+					"Pierre Henri Kuate",
+					"Tobin Harris",
+					"Christian Bauer",
+					"",
+					"Gavin King"
+				],
+				"categories": [
+					"Microsoft .NET"
+				]
+			},
+			{
+				"value": "Microsoft Reporting Services in Action",
+				"isbn": "1932394222",
+				"pageCount": 656,
+				"publishedDate": {
+					"$date": "2004-08-01T00:00:00.000-0700"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/lachev.jpg",
+				"longDescription": "Business reporting is a lifeline of business, so a better reporting environment is a big deal. With a sophisticated, modern tool like Microsoft SQL Server 2000 Reporting Services, you can report-enable any type of application, regardless of its targeted platform or development language.    Written for information workers, system administrators, and developers, this book is a detailed and practical guide to the functionality provided by Reporting Services. It systematically shows off many powerful RS features by leading you through a dizzying variety of possible uses. Following a typical report lifecycle, the book shows you how to create, manage, and deliver RS reports.    In the first half, you will master the skills you need to create reports. System administrators will learn the ropes of managing and securing the report environment. The second half of the book teaches developers the techniques they need to integrate RS with their WinForm or web-based applications. It does this with the help of a wide variety of real-world scenarios which will give you ideas on how to use RS in addition to teaching you the ropes.    An experienced software designer and developer, Teo Lachev works as a technology consultant with the Enterprise Application Services practice of Hewlett-Packard. He is a Microsoft Certified Solution Developer and a Microsoft Certified Trainer. Teo lives in Atlanta, GA.",
+				"status": "PUBLISH",
+				"authors": [
+					"Teo Lachev"
+				],
+				"categories": [
+					"Microsoft .NET"
+				]
+			},
+			{
+				"value": "AspectJ in Action",
+				"isbn": "1930110936",
+				"pageCount": 512,
+				"publishedDate": {
+					"$date": "2003-07-01T00:00:00.000-0700"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/laddad.jpg",
+				"longDescription": "A software system is the realization of a set of concerns. One of the central premises of object-oriented programming is that each concern should be implemented as a separate module. However, there are certain system-wide concerns, such as logging, security, performance, and so forth, that often need to be addressed in many, if not all of the modules. Consequently, the code to handle these system-wide concerns may be mixed in with the core logic of a huge number of modules, resulting in lower productivity, poor quality, and systems that are hard to evolve.    Aspect-oriented programming overcomes these problems by modularizing the system-wide concerns.    AspectJ enables AOP programming in Java by adding a few new language constructs. By using Java as the base language and creating a final system that is compatible with Java byte code specification, AspectJ passes on all the benefits of Java. The use of Java as the base language also makes AspectJ a relatively easy language to learn.    AspectJ in Action is a practical guide to AOP and AspectJ. The reusable code examples that are provided will enable quick implementation of functionality in your system.    The book is divided into three parts. The first part introduces AOP and AspectJ and will be helpful to developers wanting to learn or advance their knowledge of AspectJ. The second and third parts present examples of everyday situations in which you can use simple and easy AspectJ solutions to implement common system requirements such as logging, policy enforcement, resource pooling, business rules, thread-safety, authentication and authorization, as well as transaction management.",
+				"status": "PUBLISH",
+				"authors": [
+					"Ramnivas Laddad"
+				],
+				"categories": [
+					"Java"
+				]
+			},
+			{
+				"value": "AspectJ in Action, Second Edition",
+				"isbn": "1933988053",
+				"pageCount": 568,
+				"publishedDate": {
+					"$date": "2009-09-01T00:00:00.000-0700"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/laddad2.jpg",
+				"shortDescription": "AspectJ in Action, Second Edition is a fully updated, major revision of Ramnivas Laddad's best-selling first edition. It's a hands-on guide for Java developers. After introducing the core principles of AOP, it shows you how to create reusable solutions using AspectJ 6 and Spring 3. You'll master key features including annotation-based syntax, load-time weaver, annotation-based crosscutting, and Spring-AspectJ integration. Building on familiar technologies such as JDBC, Hibernate, JPA, Spring Security, Spring MVC, and Swing, you'll apply AOP to common problems encountered in enterprise applications.",
+				"longDescription": "To allow the creation of truly modular software, OOP has evolved into aspect-oriented programming. AspectJ is a mature AOP implementation for Java, now integrated with Spring.    AspectJ in Action, Second Edition is a fully updated, major revision of Ramnivas Laddad's best-selling first edition. It's a hands-on guide for Java developers. After introducing the core principles of AOP, it shows you how to create reusable solutions using AspectJ 6 and Spring 3. You'll master key features including annotation-based syntax, load-time weaver, annotation-based crosscutting, and Spring-AspectJ integration. Building on familiar technologies such as JDBC, Hibernate, JPA, Spring Security, Spring MVC, and Swing, you'll apply AOP to common problems encountered in enterprise applications.    This book requires no previous experience in AOP and AspectJ, but it assumes you're familiar with OOP, Java, and the basics of Spring.    WHAT'S INSIDE:        * Totally revised Second Edition      * When and how to apply AOP      * Master patterns and best practices      * Code you can reuse in real-world applications  ",
+				"status": "PUBLISH",
+				"authors": [
+					"Ramnivas Laddad"
+				],
+				"categories": [
+					"Java"
+				]
+			},
+			{
+				"value": "Hadoop in Action",
+				"isbn": "1935182196",
+				"pageCount": 325,
+				"publishedDate": {
+					"$date": "2010-12-01T00:00:00.000-0800"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/lam.jpg",
+				"shortDescription": "Hadoop in Action teaches readers how to use Hadoop and write MapReduce programs. The intended readers are programmers, architects, and project managers who have to process large amounts of data offline. Hadoop in Action will lead the reader from obtaining a copy of Hadoop to setting it up in a cluster and writing data analytic programs.",
+				"longDescription": "Hadoop is an open source framework implementing the MapReduce algorithm behind Google's approach to querying the distributed data sets that constitute the internet. This definition naturally leads to an obvious question, \"What are \"maps\" and why do they need to be \"reduced \"    Massive data sets can be extremely difficult to analyze and query using traditional mechanisms, especially when the queries themselves are quite complicated. In effect, the MapReduce algorithm breaks up both the query and the data set into constituent parts   that's the \"mapping.\" The mapped components of the query can be processed simultaneously   or \"reduced\"   to rapidly return results.    Hadoop in Action teaches readers how to use Hadoop and write MapReduce programs. The intended readers are programmers, architects, and project managers who have to process large amounts of data offline. Hadoop in Action will lead the reader from obtaining a copy of Hadoop to setting it up in a cluster and writing data analytic programs.    The book begins by making the basic idea of Hadoop and MapReduce easier to grasp by applying the default Hadoop installation to a few easy-to-follow tasks, such as analyzing changes in word frequency across a body of documents. The book continues through the basic concepts of MapReduce applications developed using Hadoop, including a close look at framework components, use of Hadoop for a variety of data analysis tasks, and numerous examples of Hadoop in action.    Hadoop in Action will explain how to use Hadoop and present design patterns and practices of programming MapReduce. MapReduce is a complex idea both conceptually and in its implementation, and Hadoop users are challenged to learn all the knobs and levers for running Hadoop. This book takes you beyond the mechanics of running Hadoop, teaching you to write meaningful programs in a MapReduce framework.    This book assumes the reader will have a basic familiarity with Java, as most code examples will be written in Java. Familiarity with basic statistical concepts (e.g. histogram, correlation) will help the reader appreciate the more advanced data processing examples.",
+				"status": "PUBLISH",
+				"authors": [
+					"Chuck Lam"
+				],
+				"categories": [
+					"Java"
+				]
+			},
+			{
+				"value": "SQR in PeopleSoft and Other Applications",
+				"isbn": "1884777775",
+				"pageCount": 600,
+				"publishedDate": {
+					"$date": "2003-09-01T00:00:00.000-0700"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/landres.jpg",
+				"longDescription": "A software system is the realization of a set of concerns. One of the central premises of object-oriented programming is that each concern should be implemented as a separate module. However, there are certain system-wide concerns, such as logging, security, performance, and so forth, that often need to be addressed in many, if not all of the modules. Consequently, the code to handle these system-wide concerns may be mixed in with the core logic of a huge number of modules, resulting in lower productivity, poor quality, and systems that are hard to evolve.    Aspect-oriented programming overcomes these problems by modularizing the system-wide concerns.    AspectJ enables AOP programming in Java by adding a few new language constructs. By using Java as the base language and creating a final system that is compatible with Java byte code specification, AspectJ passes on all the benefits of Java. The use of Java as the base language also makes AspectJ a relatively easy language to learn.    AspectJ in Action is a practical guide to AOP and AspectJ. The reusable code examples that are provided will enable quick implementation of functionality in your system.    The book is divided into three parts. The first part introduces AOP and AspectJ and will be helpful to developers wanting to learn or advance their knowledge of AspectJ. The second and third parts present examples of everyday situations in which you can use simple and easy AspectJ solutions to implement common system requirements such as logging, policy enforcement, resource pooling, business rules, thread-safety, authentication and authorization, as well as transaction management.",
+				"status": "PUBLISH",
+				"authors": [
+					"Galina",
+					"Vlad Landres"
+				],
+				"categories": [
+					"Business",
+					"Client-Server"
+				]
+			},
+			{
+				"value": "SQR in PeopleSoft and Other Applications, Second Edition",
+				"isbn": "1932394001",
+				"pageCount": 696,
+				"publishedDate": {
+					"$date": "2003-09-01T00:00:00.000-0700"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/landres2.jpg",
+				"longDescription": "Programmers, database developers, administrators responsible for PeopleSoft support, functional users, and project managers are discovering SQR, or Structured Query Report Writer, which has become increasingly popular since PeopleSoft selected it as its main SQL processing and reporting tool. This new language liberates programmers from the constraints of SQL and allows them to concentrate on the application aspects of their programs. This new edition covers all SQR language elements and features, showing developers the best ways of utilizing the languages capabilities and demonstrating good programming habits. Written in a \"let's do it together\" tutorial style, this book starts with the basics and leads users toward a full understanding of the subject. Part one describes the SQR language with all of its features, while part two covers all aspects of interaction between SQR programs and PeopleSoft. This makes the book a working manual for both SQR programmers and PeopleSoft developers.",
+				"status": "PUBLISH",
+				"authors": [
+					"Galina Landres",
+					"Vlad Landres"
+				],
+				"categories": [
+					"Business",
+					"Client-Server"
+				]
+			},
+			{
+				"value": "F# in Action",
+				"isbn": "1935182250",
+				"pageCount": 425,
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/laucher.jpg",
+				"shortDescription": "F# in Action introduces the F# language, but it goes well beyond the standard tutorial and reference approach. F# expert Amanda Laucher draws on her extensive experience deploying F#-based solutions to show you how to use F# in real, day-to-day work.",
+				"longDescription": "Microsoft's F# offers a true functional programming language for the .NET platform. The \"functional programming\" approach creates exceptionally stable, fault-tolerant code that's especially efficient for the concurrent programming requirements of multi-processor and high-availability applications. F# builds on the legacy of Erlang, Haskel, and OCaml, adding full .NET support and easy interoperability with C# and other .NET platform features.    F# in Action introduces the F# language, but it goes well beyond the standard tutorial and reference approach. F# expert Amanda Laucher draws on her extensive experience deploying F#-based solutions to show you how to use F# in real, day-to-day work. You'll see \"Greenfield\" examples, where you build new F# programs from scratch. You'll also dig into \"Brownfield\" scenarios, where you integrate F# code into in-place systems. Along the way, you'll master the functional programming style and learn where and how to apply it most effectively.",
+				"status": "MEAP",
+				"authors": [
+					"Amanda Laucher"
+				],
+				"categories": [
+					"Microsoft .NET"
+				]
+			},
+			{
+				"value": "iText in Action, Second Edition",
+				"isbn": "1935182617",
+				"pageCount": 600,
+				"publishedDate": {
+					"$date": "2010-11-22T00:00:00.000-0800"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/lowagie2.jpg",
+				"shortDescription": "iText in Action, Second Edition offers an introduction and a practical guide to iText and the internals of PDF. While at the entry level iText is easy to learn, there's an astonishing range of things you can do once you dive below the surface. This book lowers the learning curve and, though numerous innovative and practical examples, unlocks the secrets hidden in Adobe's PDF Reference. The examples are in Java but they can be easily adapted to .NET using one of iText's .NET ports: iTextSharp or iText.NET.",
+				"longDescription": "Far from a static document presentation format, PDF supports many dynamic or interactive features. With iText, the leading tool creating and manipulating PDF programmatically, you can transform PDF documents into live, interactive applications quickly and easily. iText, a free, open source library for Java and .NET, was developed and maintained by Bruno Lowagie, the author of this book, with the help of many contributors.    iText in Action, Second Edition offers an introduction and a practical guide to iText and the internals of PDF. While at the entry level iText is easy to learn, there's an astonishing range of things you can do once you dive below the surface. This book lowers the learning curve and, though numerous innovative and practical examples, unlocks the secrets hidden in Adobe's PDF Reference. The examples are in Java but they can be easily adapted to .NET using one of iText's .NET ports: iTextSharp or iText.NET.    This totally revised new edition introduces the new functionality added to iText in recent releases, and it updates all examples from JDK 1.4 to Java 5. You'll learn how to use traditional and new form types in PDF, including full coverage of the AcroForm technology. You'll also explore the XML Forms Architecture (XFA) and learn how to fill static and dynamic XFA forms with iText. Along the way, you'll discover new techniques for linking documents, creating a PDF based on records in a database, and much more.    WHAT'S INSIDE        * Serve PDF to a browser      * Automate both static and dynamic XFA forms      * Generate dynamic PDF documents from XML files or databases      * Use PDF's many interactive features      * Add bookmarks, page numbers, watermarks, etc.      * Split, concatenate, and manipulate PDF pages      * Add digital signatures to a PDF file      * New hands-on, ready to use examples",
+				"status": "PUBLISH",
+				"authors": [
+					"Bruno Lowagie"
+				],
+				"categories": [
+					"Java"
+				]
+			},
+			{
+				"value": "Power-3D",
+				"isbn": "138412146",
+				"pageCount": 550,
+				"publishedDate": {
+					"$date": "1997-10-01T00:00:00.000-0700"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/lussier.jpg",
+				"longDescription": "In the past, serious computer graphics programmers generally had to use \"industrial strength\" workstation hardware and software. Now, advanced graphics capabilities have become available in the PC arena. Whether you're a programmer, 3D enthusiast, C++ coder, games developer or animation specialist, POWER-3D will help you with fast, practical 3D implementations in the Windows environments.",
+				"status": "PUBLISH",
+				"authors": [
+					"Kyle Lussier"
+				],
+				"categories": [
+					"Computer Graphics"
+				]
+			},
+			{
+				"value": "SNA and TCP/IP Enterprise Networking",
+				"isbn": "131271687",
+				"pageCount": 540,
+				"publishedDate": {
+					"$date": "1997-09-01T00:00:00.000-0700"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/lynch.jpg",
+				"shortDescription": "SNA and TCP/IP Enterprise Networking shows the reader how enterprise networking evolved, what approaches and techniques can be used today, and where tomorrow's trends lie, illustrating among others Web-to-SNA connectivity and Java based integration approaches.",
+				"longDescription": "Most textbooks concentrate on presenting the theory, concepts, and products, with examples of implementations in some cases. The distinctive quality of SNA and TCP/IP Enterprise Networking is in its structure. It answers not only \"What \", \"Why \", and \"How \", but also \"What's next \". It shows the reader how enterprise networking evolved, what approaches and techniques can be used today, and where tomorrow's trends lie, illustrating among others Web-to-SNA connectivity and Java based integration approaches.    SNA and TCP/IP Enterprise Networking was written by visionaries, scientists, networking product developers, industry experts, consultants, and end-user representatives, who not only implement the products but also participate in definition of open networking standards. It should be equally appealing to the network practitioners implementing technology as the senior managers making strategic decisions on enterprise networking.",
+				"status": "PUBLISH",
+				"authors": [
+					"Daniel C. Lynch",
+					"James P. Gray",
+					"and Edward Rabinovitch",
+					"editors"
+				],
+				"categories": [
+					"Software Engineering",
+					"Theory"
+				]
+			},
+			{
+				"value": "Subversion in Action",
+				"isbn": "1932394478",
+				"pageCount": 356,
+				"publishedDate": {
+					"$date": "2004-12-01T00:00:00.000-0800"
+				},
+				"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/machols.jpg",
+				"shortDescription": "Learn all about this new open source version control application and why it is replacing CVS as the standard. Examples demonstrate how to customize features to deal with day-to-day problems.",
+				"longDescription": "A new-generation version control tool, Subversion is replacing the current open source standard, CVS. With Subversion's control components you can simplify and streamline the management of your code way beyond what's possible with CVS. For example, with just one powerful feature, Subversion's atomic commit, you can easily track and roll back a set of changes.    Subversion in Action introduces you to Subversion and the concepts of version control. Using production-quality examples it teaches you how Subversion features can be customized and combined to effectively deal with your day-to-day source control problems. You'll learn how to do practical things you cannot do with CVS, like seamlessly renaming and moving files.    The book covers branching and repository control, access control, and much more. It is written not just for release engineers, but also for developers, configuration managers, and system administrators.",
+				"status": "PUBLISH",
+				"authors": [
+					"Jeffrey Machols"
+				],
+				"categories": [
+					"Java"
+				]
+			}
+		];
+		var list = new dhx.List("list", {
+			css: "dhx_widget--bordered",
+			template: template,
+			itemHeight: 72,
+			data: data,
+		});
+	</script>
+
+</body>
+
+</html>

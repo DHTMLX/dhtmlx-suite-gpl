@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Add row css - DHTMLX TreeGrid</title>
+		<meta name="description" content="Check interactive samples of DHTMLX TreeGrid to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		
+		<script type="text/javascript" src="../common/dataset.js?v=6.0.1"></script>
+		<!-- custom sample head -->
+		<style>
+			.myCustomClass{
+				background:greenyellow;
+			}
+		</style>
+</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">TreeGrid samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Add row css</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Add row css.
+						<div class="dhx_sample-docs-links">
+							Check documentation:
+							<a href="https://docs.dhtmlx.com/suite/treegrid__customization.html#stylingrows" target="_blank" class="dhx_sample-header-link">Styling rows</a>
+						</div>
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container dhx_sample-container--treegrid">
+			<div class="dhx_sample-container__widget" id="grid"></div>
+			
+		</section>
+
+		<script>
+			var treeGrid = new dhx.TreeGrid("grid", {
+				columns: [
+					{ width: 260, id: "name", header: [{ text: "Name" }] },
+					{ width: 260, id: "native", type: "string", header: [{ text: "Native name" }] },
+					{ width: 200, id: "capital", type: "string", header: [{ text: "Capital" }] },
+					{ width: 200, id: "currency", type: "string", header: [{ text: "Currency" }] }
+				],
+				data: dataset
+			});
+			var rowId = treeGrid.data.getId(0);
+			treeGrid.addRowCss(rowId, "myCustomClass");
+		</script>
+
+	</body>
+</html>

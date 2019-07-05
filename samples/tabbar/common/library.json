@@ -1,0 +1,337 @@
+[
+	{
+		"value": "CORS in Action",
+		"isbn": "161729182X",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/hossain.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Monsur Hossain"
+		],
+		"categories": []
+	},
+	{
+		"value": "Reactive Design Patterns",
+		"isbn": "1617291803",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/kuhn.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Roland Kuhn",
+			"Jamie Allen"
+		],
+		"categories": []
+	},
+	{
+		"value": "Storm Applied",
+		"isbn": "1617291897",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/pathirana.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Sean Allen",
+			"Peter Pathirana",
+			"",
+			"Matthew Jankowski"
+		],
+		"categories": []
+	},
+	{
+		"value": "Real-World Machine Learning",
+		"isbn": "1617291927",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/brink.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Henrik Brink",
+			"Joseph Richards"
+		],
+		"categories": []
+	},
+	{
+		"value": "jQuery UI in Action",
+		"isbn": "1617291935",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/vantoll.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Theodore J. (T.J.) VanToll III"
+		],
+		"categories": []
+	},
+	{
+		"value": "Web Components in Action",
+		"isbn": "1617291943",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/buckett2.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Chris Buckett"
+		],
+		"categories": []
+	},
+	{
+		"value": "JavaScript Application Design",
+		"isbn": "1617291951",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/bevacqua.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Nicolas G. Bevacqua"
+		],
+		"categories": []
+	},
+	{
+		"value": "Git in Practice",
+		"isbn": "1617291978",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/mcquaid.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Mike McQuaid"
+		],
+		"categories": []
+	},
+	{
+		"value": "Impala in Action",
+		"isbn": "1617291986",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/saltzer.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Richard L. Saltzer",
+			"Istvan Szegedi"
+		],
+		"categories": []
+	},
+	{
+		"value": "Java 8 in Action",
+		"isbn": "1617291994",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/urma.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Raoul-Gabriel Urma",
+			"Mario Fusco",
+			"",
+			"Alan Mycroft"
+		],
+		"categories": []
+	},
+	{
+		"value": "Elixir in Action",
+		"isbn": "161729201X",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/juric.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Saša Juric´"
+		],
+		"categories": []
+	},
+	{
+		"value": "MongoDB in Action, Second Edition",
+		"isbn": "1617291609",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/banker2.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Kyle Banker",
+			"Peter Bakkum",
+			"Tim Hawkins",
+			"Shaun Verch",
+			"",
+			"Douglas Garrett"
+		],
+		"categories": []
+	},
+	{
+		"value": "Getting MEAN with Mongo, Express, Angular, and Node",
+		"isbn": "1617292036",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/sholmes.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Simon Holmes"
+		],
+		"categories": []
+	},
+	{
+		"value": "jQuery in Action, Third Edition",
+		"isbn": "1617292079",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/derosa.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Bear Bibeault",
+			"Yehuda Katz",
+			"",
+			"Aurelio De Rosa"
+		],
+		"categories": []
+	},
+	{
+		"value": "D3.js in Action",
+		"isbn": "1617292117",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/meeks.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Elijah Meeks"
+		],
+		"categories": []
+	},
+	{
+		"value": "Learn SQL Server Administration in a Month of Lunches",
+		"isbn": "1617292133",
+		"pageCount": 0,
+		"publishedDate": {
+			"$date": "2014-05-02T00:00:00.000-0700"
+		},
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/jones5.jpg",
+		"status": "PUBLISH",
+		"authors": [
+			"Don Jones"
+		],
+		"categories": []
+	},
+	{
+		"value": "Geoprocessing with Python",
+		"isbn": "1617292141",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/garrard.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Chris Garrard"
+		],
+		"categories": []
+	},
+	{
+		"value": "Barcodes with iOS",
+		"isbn": "161729215X",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/drobnik.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Oliver Drobnik"
+		],
+		"categories": []
+	},
+	{
+		"value": "Chef in Action",
+		"isbn": "1617292214",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/aivaliotis.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Dimitri Aivaliotis"
+		],
+		"categories": []
+	},
+	{
+		"value": "Hadoop in Practice, Second Edition",
+		"isbn": "1617292222",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/holmes2.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Alex Holmes"
+		],
+		"categories": []
+	},
+	{
+		"value": "Oculus Rift in Action",
+		"isbn": "1617292192",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/bdavis.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Bradley Austin Davis",
+			"Karen Bryla",
+			"",
+			"Alex Benton"
+		],
+		"categories": []
+	},
+	{
+		"value": "OpenStack in Action",
+		"isbn": "1617292168",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/bumgardner.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Cody Bumgardner"
+		],
+		"categories": []
+	},
+	{
+		"value": "PowerShell in Depth, Second Edition",
+		"isbn": "1617292184",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/jones6.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Don Jones",
+			"Jeffery Hicks",
+			"",
+			"Richard Siddaway"
+		],
+		"categories": []
+	},
+	{
+		"value": "Practical Probabilistic Programming",
+		"isbn": "1617292338",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/pfeffer.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Avi Pfeffer"
+		],
+		"categories": []
+	},
+	{
+		"value": "Unity in Action",
+		"isbn": "161729232X",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/hocking.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Joseph Hocking"
+		],
+		"categories": []
+	},
+	{
+		"value": "Express.js in Action",
+		"isbn": "1617292427",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/hahn.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Evan M. Hahn"
+		],
+		"categories": []
+	},
+	{
+		"value": "Learn Git in a Month of Lunches",
+		"isbn": "1617292419",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/umali.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Rick Umali"
+		],
+		"categories": []
+	},
+	{
+		"value": "Understanding SPAs",
+		"isbn": "1617292435",
+		"pageCount": 0,
+		"thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/scott2.jpg",
+		"status": "MEAP",
+		"authors": [
+			"Emmit A. Scott",
+			"Jr."
+		],
+		"categories": []
+	}
+]

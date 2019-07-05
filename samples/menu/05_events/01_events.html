@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Events - DHTMLX Menu</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Menu to explore its events and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		
+		
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Menu samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Events</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Events</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Events.
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="menu"></div>
+			<div class="dhx_sample-container__sidebar"> </div>
+		</section>
+
+		<script>
+				var menu = new dhx.Menu("menu", {css: "dhx_widget--bg_gray"});
+			menu.data.parse([
+				{value: "File", 
+					items: [
+						{
+							value: "New File",
+						},
+						{
+							value: "New window",
+						},
+						{
+							value: "Open File",
+						},
+						{
+							value: "Save File",
+						}
+					]
+				},
+				{value: "Edit", 
+					items: [
+						{
+							value: "Undo"
+						},
+						{
+							value:  "Redo"
+						},
+						{
+							value: "Cut"
+						},
+						{
+							value: "Copy"
+						}
+					]
+				}
+			])
+			var events = [
+      "click",
+      "openmenu",
+    ];
+
+    var eventsContainer = document.querySelector(".dhx_sample-container__sidebar")
+    var counter = 1;
+
+    events.forEach(function (event) {
+      menu.events.on(event, function () {
+        eventsContainer.insertAdjacentHTML('afterbegin', getEvent(event, arguments));
+      });
+    });
+
+    function getEvent(event, args) {
+      let argsList = "<div class='arguments'>Arguments:</div>";
+      for (var i = 0; i < args.length; i++) {
+
+        argsList += "<div>" + args[i] + "</div>";
+      }
+      return "<div class=\"dhx_sample-event\">Event " + counter++ + ": " + event + argsList + "</div>";
+    }
+		</script>
+
+	</body>
+</html>

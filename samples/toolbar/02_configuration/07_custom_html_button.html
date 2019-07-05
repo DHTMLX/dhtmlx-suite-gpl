@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Custom html button - DHTMLX Toolbar</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Toolbar to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		
+		
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Toolbar samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Custom html button</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Custom html button.
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="toolbar"></div>
+			
+		</section>
+
+		<script>
+			var data=[
+				{
+					css: "customButton",
+					type:"customButton",
+					html: "<div>button with custom html</div>"
+				}
+			]
+			var toolbar = new dhx.Toolbar("toolbar", {css:"dhx_widget--bordered"});
+			toolbar.data.parse(data);
+		</script>
+		<style>
+				.customButton button {
+				position: relative;
+				color: #ff5252;
+				font-size: 16px;
+				border: 2px solid #ff5252; 
+				border-radius: 5px; 
+				padding: 5px 10px; 
+				font-weight: bold;
+				background: transparent;
+				width: 100%;
+				cursor: pointer;
+			}
+			.customButton button:focus {
+				outline: none;
+			}
+			.customButton button::after {
+				content: "";
+				display: block;
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				opacity: 0;
+				z-index: -1;
+				-webkit-transition: opacity 0.3s ease-in-out;
+				transition: opacity 0.3s ease-in-out;
+				background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 82, 82, 0.8)), color-stop(30%, #fff), color-stop(70%, #fff),to(rgba(255, 82, 82, 0.8)));
+				background: -webkit-linear-gradient(top, rgba(255, 82, 82, 0.8) 0%, #fff 30%, #fff 70%,rgba(255, 82, 82, 0.8) 100%);
+				background: linear-gradient(to bottom, rgba(255, 82, 82, 0.8) 0%, #fff 30%, #fff 70%,rgba(255, 82, 82, 0.8) 100%);
+			}
+			.customButton button:hover:after {
+				opacity: 0.6;
+			}
+			.customButton button:active:after {
+				opacity: 1;
+			}
+		</style>
+	</body>
+</html>

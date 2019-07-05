@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Custom toggle icon - DHTMLX Tree</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Tree to explore its customization and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		
+		
+		<!-- custom sample head -->
+		<link rel="stylesheet" href="//cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css?v=6.0.1">
+		<style>
+			.dhx_sample-container {
+				max-width: 400px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Tree samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Customization</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Custom toggle icon</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Custom toggle icon.
+						<div class="dhx_sample-docs-links">
+							Check documentation:
+							<a href="https://docs.dhtmlx.com/suite/tree__setting_tree_appearance.html#changingicons" target="_blank" class="dhx_sample-header-link">Changing icons</a>
+						</div>
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="tree"></div>
+			
+		</section>
+
+		<script>
+			var tree = new dhx.Tree("tree", {
+				css: "custom-class"
+			});
+			tree.data.load("../common/treedata.json");
+		</script>
+		<style>
+		.custom-class .dhx_tree-toggle-button:before {
+			content: "\F141";
+			font-family: "Material Design Icons";
+		}
+		.custom-class .dhx_tree-toggle-button--open:before {
+			content: "\F13D";
+			font-family: "Material Design Icons";
+		}
+		</style>
+	</body>
+</html>

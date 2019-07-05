@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- meta block -->
+	<title>Padding - DHTMLX Layout</title>
+	<meta name="description" content="Check interactive samples of DHTMLX Layout to explore its configuration and other details.">
+	<!-- end meta block -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+	<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+	<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+	
+	
+	<!-- custom sample head -->
+	<style>
+		.dhx_form-group--inline {
+			max-width: 200px;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="dhx_sample-header">
+		<div class="dhx_sample-header__main">
+			<nav class="dhx_sample-header__breadcrumbs">
+				<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Layout samples</a>
+					</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+					</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<span class="dhx_sample-header-breadcrumbs__link">Padding</span>
+					</li>
+				</ul>
+			</nav>
+			<h1 class="dhx_sample-header__title">
+				<div class="dhx_sample-header__content">
+					Padding.
+			</h1>
+		</div>
+</header>
+	<section class="dhx_sample-controls">
+		<button id="set-padding-size" class="dhx_sample-btn dhx_sample-btn--flat">Set padding</button>
+		<div class="dhx_sample-form-group dhx_form-group dhx_form-group--inline dhx_form-group--label_sr">
+			<input type="number" id="padding-size" value="10" class="dhx_input dhx_sample-input">
+		</div>
+	</section>
+	<section class="dhx_sample-container">
+		<div class="dhx_sample-container__widget" id="layout"></div>
+
+	</section>
+
+	<script>
+		var paddingSize = 10;
+		function getLayoutConfig(paddingSize) {
+			return {
+				padding: paddingSize,
+				css: "dhx_layout-cell--bordered",
+				cols: [
+					{
+						padding: paddingSize,
+						css: "dhx_layout-cell--bordered",
+						html: "First Block"
+					},
+					{
+						padding: paddingSize,
+						css: "dhx_layout-cell--bordered",
+						html: "Second Block"
+					}
+				]
+			}
+		}
+		var l = new dhx.Layout("layout", getLayoutConfig(paddingSize));
+		document.querySelector("#set-padding-size").addEventListener("click", function() {
+			paddingSize = document.querySelector("#padding-size").value
+			if (l) {
+				l.destructor()
+			}
+			l = new dhx.Layout("layout", getLayoutConfig(paddingSize));
+		})
+	</script>
+
+</body>
+
+</html>

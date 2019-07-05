@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Tooltip inverse colors - DHTMLX Message</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Message to explore its customization and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_form {
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-orient: horizontal;
+				-webkit-box-direction: normal;
+				-webkit-flex-direction: row;
+				    -ms-flex-direction: row;
+				        flex-direction: row;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				    -ms-flex-pack: center;
+				        justify-content: center;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				    -ms-flex-align: center;
+				        align-items: center;
+				max-width: 300px;
+			}
+			.dhx_tooltip-rect {
+				width: 240px;
+				height: 100px;
+				line-height: 100px;
+				border: 1px solid #a6a6a6;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Message samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Customization</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Tooltip inverse colors</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Tooltip inverse colors.
+				</h1>
+			</div>
+</header>
+<section class="dhx_sample-controls">
+		<form id="form-controls" class="dhx_form">
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder">
+				<input type="radio" checked id="dark" name="theme" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Dark</span>
+			</label> 
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder">
+				<input type="radio" id="light" name="theme" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Light</span>
+			</label> 
+		</form>
+	</section>
+	<section class="dhx_sample-container">
+		<div class="dhx_tooltip-rect" onmouseover="show(this)" id="tooltip">Hover me to see the tooltip</div>
+	</section>
+
+		<script>
+			var theme = "dark"
+			document.querySelector("#form-controls").addEventListener("change", function(e) {
+				theme = e.target.id
+			})
+			function show(node) {
+				dhx.tooltip("dhtmlxTooltip in a" + theme + " mode", {node: node, position: "bottom", force: true, css: "dhx_tooltip--" + theme});
+			}
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Add/remove item - DHTMLX Menu</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Menu to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		
+		
+		<!-- custom sample head -->
+		<link href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css?v=6.0.1" media="all" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Menu samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Add/remove item</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Add/remove item.
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="addInner()">add inner item to first</button>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="addRight()">add new item to right</button>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="removeRight()">remove right item</button>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="menu"></div>
+			
+		</section>
+
+		<script>
+			var menu = new dhx.Menu("menu", {css: "dhx_widget--bg_gray"});
+			menu.data.load("../common/menu.json");
+
+			function removeRight() {
+				menu.data.remove(menu.data.getId(menu.data.getLength() - 1));
+			}
+			function addRight() {
+				menu.data.add({
+					value: "another item"
+				}, -1);
+			}
+			function addInner() {
+				menu.data.add({
+					value: "inner item"
+				}, -1, menu.data.getId(0));
+			}
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- meta block -->
+	<title>Events - DHTMLX Colorpicker</title>
+	<meta name="description" content="Check interactive samples of DHTMLX Colorpicker to explore its events and other details.">
+	<!-- end meta block -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+	<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+	<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+	
+	
+	<!-- custom sample head -->
+</head>
+
+<body>
+	<header class="dhx_sample-header">
+		<div class="dhx_sample-header__main">
+			<nav class="dhx_sample-header__breadcrumbs">
+				<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Colorpicker samples</a>
+					</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Events</a>
+					</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<span class="dhx_sample-header-breadcrumbs__link">Events</span>
+					</li>
+				</ul>
+			</nav>
+			<h1 class="dhx_sample-header__title">
+				<div class="dhx_sample-header__content">
+					Events.
+			</h1>
+		</div>
+</header>
+	<section class="dhx_sample-container">
+		<div class="dhx_sample-container__widget" style="display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center;">
+			<div id="colorpicker"></div>
+			<div class="dhx_demo_helper" style="padding: 15px 0 7px 0;">
+				You can change block color by colorpicker
+			</div>
+			<div class="dhx_color-sample" style="width: 200px;height: 200px;margin: 8px 0;"></div>
+		</div>
+		  <div id="events" class="dhx_sample-container__sidebar"></div>
+	  </section>
+
+	<script>
+		var colorpicker = new dhx.Colorpicker("colorpicker");
+
+		var eventsContainer = document.querySelector("#events");
+		var events = [
+			"colorChange",
+			"selectClick",
+			"cancelClick",
+			"viewChange"
+		];
+		function eventHandler(event, arguments) {
+			var argsList = "";
+			for (var i = 0; i < arguments.length; i++) {
+				argsList += "<div>" + JSON.stringify(arguments[i]) + "</div>";
+			}
+			eventsContainer.insertAdjacentHTML(
+				"afterBegin",
+				"<div class='dhx_sample-event'>Event: " +
+				event +
+				"<div class='arguments'>Arguments:</div>" +
+				argsList +
+				"</div>"
+			);
+		}
+		function clearAll() {
+			eventsContainer.innerHTML = "";
+		}
+		events.forEach(function (event) {
+			colorpicker.events.on(event, function () {
+				eventHandler(event, arguments);
+			});
+		});
+		var colorExample = document.querySelector(".dhx_color-sample");
+		colorpicker.events.on("colorChange", function (color) {
+			colorExample.style.backgroundColor = color;
+		});
+		colorpicker.setValue("#039be5");
+	</script>
+
+</body>
+
+</html>

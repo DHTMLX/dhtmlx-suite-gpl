@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Basic initilization - DHTMLX Ribbon</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Ribbon to explore its initialization and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		
+		
+		<!-- custom sample head -->
+		<script src="../common/data.js?v=6.0.1"></script>
+		<link href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css?v=6.0.1" media="all" rel="stylesheet" type="text/css">
+		<style>
+			.dhx_sample-container {
+				-webkit-box-orient: vertical;
+				-webkit-box-direction: normal;
+				-webkit-flex-direction: column;
+				    -ms-flex-direction: column;
+				        flex-direction: column;
+				-webkit-justify-content: space-around;
+				    -ms-flex-pack: distribute;
+				        justify-content: space-around;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Ribbon samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Initialization</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Basic initilization</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Basic initilization.
+				</h1>
+			</div>
+</header>
+		<main class="dhx_sample-container">
+			<section>
+				<h3>Data parse:</h3>
+				<div class="dhx_sample-container__widget" id="ribbon-parse"></div>
+			</section>
+			<section>
+				<h3>Data load:</h3>
+				<div class="dhx_sample-container__widget" id="ribbon-load"></div>
+			</section>
+		</main>
+
+		<script>
+			var ribbon = new dhx.Ribbon("ribbon-parse", {css: "dhx_widget--bordered dhx_widget--bg_gray"});
+			ribbon.data.parse(data);
+
+			var ribbon2 = new dhx.Ribbon("ribbon-load", {css: "dhx_widget--bordered dhx_widget--bg_gray"});
+			ribbon2.data.load("../common/struct.json");
+		</script>
+
+	</body>
+</html>

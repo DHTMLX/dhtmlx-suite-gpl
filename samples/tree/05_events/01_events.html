@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Events - DHTMLX Tree</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Tree to explore its events and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container {
+				max-width: 700px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Tree samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Events</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Events</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Events.
+						<div class="dhx_sample-docs-links">
+							Check documentation:
+							<a href="https://docs.dhtmlx.com/suite/tree__api__refs__tree_events.html" target="_blank" class="dhx_sample-header-link">Events</a>
+							<a href="https://docs.dhtmlx.com/suite/tree__api__refs__tree_events.html" target="_blank" class="dhx_sample-header-link">Event Handling</a>
+						</div>
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="tree"></div>
+			<div class="dhx_sample-container__sidebar" id="events"></div>
+		</section>
+
+		<script>
+			var tree = new dhx.Tree("tree", {open: true, checkbox: false,});
+			tree.data.load("../common/treedata.json");
+			var eventsContainer = document.querySelector('#events');
+			var counter = 0;
+			var events = [
+					"itemcontextmenu",
+					"itemdblclick",
+					"itemclick"
+			];
+			
+			function eventHandler(event, arguments) {
+					var argsList = "";
+					for (var i = 0; i < arguments.length; i++) {
+							argsList += "<div>" + JSON.stringify(arguments[i]) + "</div>";
+					}
+					eventsContainer.insertAdjacentHTML("afterBegin", "<div class=\"dhx_sample-event\">Event " + counter++ + ": " + event + argsList + "</div>")
+			}
+			
+			events.forEach(function (event) {
+				tree.events.on(event, function () {
+					eventHandler(event, arguments);
+				});
+			});
+		</script>
+
+	</body>
+</html>

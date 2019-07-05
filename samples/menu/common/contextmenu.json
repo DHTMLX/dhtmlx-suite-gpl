@@ -1,0 +1,38 @@
+[{
+	"type": "menuItem",
+	"id": "add",
+	"value": "Add",
+	"icon": "mdi mdi-plus",
+	"items": [
+		{
+			"id": "redo1",
+			"value": "redo",
+			"icon": "mdi mdi-redo",
+			"disabled": "true"
+		}, {
+			"type": "separator"
+		}, {
+			"id": "lock1",
+			"value": "lockCell",
+			"icon": "mdi mdi-key"
+		}
+	]
+}, {
+	"type": "menuItem",
+	"id": "rename",
+	"value": "Rename",
+	"icon": "mdi mdi-pencil"
+}, {
+	"type": "menuItem",
+	"id": "delete",
+	"value": "Delete",
+	"icon": "mdi mdi-delete",
+	"hotkey": "Del"
+}, {
+	"type": "separator"
+}, {
+	"type": "menuItem",
+	"id": "info",
+	"value": "Info",
+	"icon": "mdi mdi-information"
+}]

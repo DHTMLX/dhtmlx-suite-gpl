@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Selection - DHTMLX TreeGrid</title>
+		<meta name="description" content="Check interactive samples of DHTMLX TreeGrid to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		
+		<script type="text/javascript" src="../common/books_dataset.js?v=6.0.1"></script>
+		<!-- custom sample head -->
+</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">TreeGrid samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Selection</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Selection.
+						<div class="dhx_sample-docs-links">
+							Check documentation:
+							<a href="https://docs.dhtmlx.com/suite/treegrid__configuration.html#selection" target="_blank" class="dhx_sample-header-link">Selection</a>
+						</div>
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container dhx_sample-container--treegrid">
+			<div class="dhx_sample-container__widget" id="grid"></div>
+			
+		</section>
+
+		<script>
+			var treeGrid = new dhx.TreeGrid("grid", {
+				columns: [
+					{ width: 280, id: "name", header: [{ text: "Book Name" }] },
+					{ width: 160, id: "price", type: "string", header: [{ text: "Terms and conditions", colspan: 2 }, { text: "Price" }] },
+					{ width: 160, id: "cover", type: "string", header: [{}, { text: "Cover" }] },
+					{ width: 160, id: "ships", type: "string", header: [{ text: "Ships in" }] },
+					{ width: 160, id: "inStock", type: "string", header: [{ text: "In stock" }] }
+				],
+				data: dataset,
+				selection: true
+			});
+		</script>
+
+	</body>
+</html>

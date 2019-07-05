@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- meta block -->
+  <title>Events - DHTMLX Toolbar</title>
+  <meta name="description" content="Check interactive samples of DHTMLX Toolbar to explore its events and other details.">
+  <!-- end meta block -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+  <script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+  <link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+  <link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+  
+  
+  <!-- custom sample head -->
+</head>
+<style>
+  .dhx_sample-container__sidebar {
+    min-width: 300px;
+  }
+</style>
+
+<body>
+  <header class="dhx_sample-header">
+    <div class="dhx_sample-header__main">
+    	<nav class="dhx_sample-header__breadcrumbs">
+    		<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+    			<li class="dhx_sample-header-breadcrumbs__item">
+    				<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Toolbar samples</a>
+    			</li>
+    			<li class="dhx_sample-header-breadcrumbs__item">
+    				<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Events</a>
+    			</li>
+    			<li class="dhx_sample-header-breadcrumbs__item">
+    				<span class="dhx_sample-header-breadcrumbs__link">Events</span>
+    			</li>
+    		</ul>
+    	</nav>
+    	<h1 class="dhx_sample-header__title">
+    		<div class="dhx_sample-header__content">
+    			Events.
+    	</h1>
+    </div>
+</header>
+  <section class="dhx_sample-container">
+    <div class="dhx_sample-container__widget" id="toolbar"></div>
+    <div class="dhx_sample-container__sidebar"></div>
+  </section>
+
+  <script>
+    var data = [{
+        css: "test",
+        icon: "dxi dxi-file-plus",
+        value: "New",
+        items: [{
+            icon: "dxi dxi-folder",
+            value: "New Folder",
+            items: [{
+                value: "Test child",
+                hotkey: 'del',
+              },
+              {
+                icon: 'dxi dxi-folder',
+                value: "Test child dd",
+                hotkey: "ctrl + a"
+              }
+            ]
+          },
+          {
+            icon: "dxi dxi-file",
+            value: "New File"
+          },
+          {
+            type: "separator"
+          },
+          {
+            icon: "dxi dxi-file",
+            value: "New File"
+          },
+          {
+            icon: "dxi dxi-file",
+            value: "New File"
+          },
+        ]
+      },
+      {
+        type: "separator"
+      },
+      {
+        icon: "dxi dxi-undo",
+        twoState: true,
+      },
+      {
+        icon: "dxi dxi-redo",
+      },
+      {
+        type: "separator"
+      },
+      {
+        icon: "dxi dxi-content-save",
+        value: "save"
+      },
+      {
+        icon: "dxi dxi-content-copy",
+        value: "copy"
+      },
+      {
+        icon: "dxi dxi-content-paste",
+        value: "paste"
+      },
+      {
+        type: "separator"
+      },
+      {
+        
+        icon: "dxi dxi-printer",
+        value: "print"
+      },
+      {
+        type: "spacer"
+      },
+      {
+        type: "input",
+        placeholder: "search",
+        width: "300",
+        label: "search",
+        icon: "dxi dxi dxi dxi-magnify",
+      },
+      {
+        type: "spacer"
+      },
+      {
+        type: "button",
+				value: "Log in",
+				color: "success",
+				view: "flat"
+			},
+			{
+        type: "button",
+				value: "Log out",
+				color: "danger",
+				view: "flat",
+			},
+      {
+        type: "spacer"
+      },
+      {
+        type: "imageButton",
+        src: "https://dhtmlx.com/blog/wp-content/uploads/2016/08/300-2400.png",
+        value: "VP",
+        count: "99",
+      },
+      {
+        type: "text",
+        value: "Toolbar demo"
+      }
+    ];
+    var toolbar = new dhx.Toolbar("toolbar", {
+      css: "dhx_widget--bordered dhx_widget--bg_gray"
+    });
+    toolbar.data.parse(data);
+
+    var events = [
+      "inputcreated",
+      "click",
+      "openmenu",
+      "inputfocus",
+      "inputblur",
+    ];
+
+    var eventsContainer = document.querySelector(".dhx_sample-container__sidebar")
+    var counter = 1;
+
+    events.forEach(function (event) {
+      toolbar.events.on(event, function () {
+        eventsContainer.insertAdjacentHTML('afterbegin', getEvent(event, arguments));
+      });
+    });
+
+    function getEvent(event, args) {
+      let argsList = "<div class='arguments'>Arguments:</div>";
+      for (var i = 0; i < args.length; i++) {
+
+        argsList += "<div>" + args[i] + "</div>";
+      }
+      return "<div class=\"dhx_sample-event\">Event " + counter++ + ": " + event + argsList + "</div>";
+    }
+  </script>
+
+</body>
+
+</html>

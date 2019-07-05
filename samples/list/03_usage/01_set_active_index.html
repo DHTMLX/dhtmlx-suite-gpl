@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Set active index - DHTMLX List</title>
+		<meta name="description" content="Check interactive samples of DHTMLX List to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		
+		
+		<!-- custom sample head -->
+		<script type="text/javascript" src="../common/listdata.js?v=6.0.1"></script>
+		<style>
+			.dhx_sample-container {
+				max-width: 600px;
+			}
+			.dhx_sample-controls {
+				-webkit-box-orient: vertical;
+				-webkit-box-direction: normal;
+				-webkit-flex-direction: column;
+				    -ms-flex-direction: column;
+				        flex-direction: column;
+			}
+			.dhx_form-group {
+				max-width: 280px;
+				margin-bottom: 20px;
+				margin-left: -40px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">List samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Set active index</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Set active index.
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<h3>Specify the index of an item you want to set focus to in the Active Item input.</h3>
+			<div class="dhx_sample-form-group dhx_form-group dhx_form-group--inline">
+				<label for="active_item" class="dhx_label">Active item</label>
+				<input type="text" id="active_item" class="dhx_input dhx_sample-input">
+				
+			</div>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="list" style="height: 500px;"></div>
+			
+		</section>
+
+		<script>
+			var list = new dhx.List("list", {css: "dhx_widget--bordered", template: template, itemHeight: 72});
+			list.data.load("../common/books.json");
+			document.querySelector("#active_item").addEventListener("change", function () {
+				list.setFocusIndex(parseInt(this.value));
+			});
+		</script>
+
+	</body>
+</html>

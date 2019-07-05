@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Textareas - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container__widget {
+				width: 600px;
+			}
+			.dhx_sample-container { 
+				max-width: 1000px;
+				min-height: 800px;
+			}
+			.dhx_sample-container__widget {
+				-webkit-align-self: flex-start;
+				    -ms-flex-item-align: start;
+				        align-self: flex-start;
+			}
+			.dhx_sample-container__sidebar {
+				max-height: 1000px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Textareas</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Textareas.
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<form class="dhx_sample-container__widget" id="form-sample"></form>
+			<form class="dhx_sample-container__widget" id="form-settings"></form>
+		</section>
+
+		<script>
+			var textareaConfig = {
+				type: "textarea",
+				validation: "",
+				value: "",
+				placeholder: "i am textarea",
+				label: "i am textarea",
+				labelWidth: "100px",
+				labelInline: true,
+				disabled: false,
+				required: false,
+				readOnly: false,
+				resizable: false,
+				help: "",
+				preMessage: "",
+				successMessage: "",
+				errorMessage: ""
+			}
+			var formSettings = new dhx.Form("form-settings", {
+				cellCss: "dhx_widget--bordered",
+				rows: [
+					{
+						type: "input",
+						label: "value",
+						name: "value",
+						value: textareaConfig.value,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "input",
+						label: "placeholder",
+						name: "placeholder",
+						value: textareaConfig.placeholder,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "input",
+						label: "label",
+						name: "label",
+						value: textareaConfig.label,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "input",
+						label: "labelWidth",
+						name: "labelWidth",
+						value: textareaConfig.labelWidth,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						rows: [
+							{
+								"align": "end",
+								cols: [
+									{
+										type: "checkbox",
+										label: "labelInline",
+										name: "labelInline",
+										labelInline: true,
+										gravity: false,
+										width: "25%",
+										checked: textareaConfig.labelInline
+									},
+									{
+										type: "checkbox",
+										label: "disabled",
+										name: "disabled",
+										labelInline: true,
+										width: "25%",
+										gravity: false,
+										checked: textareaConfig.disabled
+									},
+									{
+										type: "checkbox",
+										label: "required",
+										name: "required",
+										labelInline: true,
+										width: "26%",
+										gravity: false,
+										checked: textareaConfig.required
+									},
+								]
+							},
+							{
+								"align": "end",
+								cols: [
+									{
+										type: "checkbox",
+										label: "readOnly",
+										name: "readOnly",
+										labelInline: true,
+										gravity: false,
+										width: "25%",
+										checked: textareaConfig.readOnly
+									},
+									{
+										type: "checkbox",
+										label: "resizable",
+										name: "resizable",
+										labelInline: true,
+										gravity: false,
+										width: "51%",
+										checked: textareaConfig.resizable
+									}
+								]
+							}
+						]
+					},
+					{
+						type: "input",
+						label: "help",
+						name: "help",
+						value: textareaConfig.help,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "combo",
+						readonly: true,
+						name: "validation",
+						label: "validation",
+						labelInline: true,
+						labelWidth: "100px",
+						data: [
+							{id: "", value:""},
+							{id: "email", value: "email"},
+							{id: "integer", value: "integer"},
+							{id: "numeric", value: "numeric"},
+							{id: "alphanumeric", value: "alphanumeric"},
+							{id: "IPv4", value: "IPv4"}
+						]
+					},
+					{
+						type: "input",
+						label: "preMessage",
+						name: "preMessage",
+						value: textareaConfig.preMessage,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "input",
+						label: "successMessage",
+						name: "successMessage",
+						value: textareaConfig.successMessage,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "input",
+						label: "errorMessage",
+						name: "errorMessage",
+						value: textareaConfig.errorMessage,
+						labelWidth: "100px",
+						labelInline: true
+					}
+				]
+			});
+			formSettings.events.on("change", function(name, value) {
+				textareaConfig[name] = value;
+				createForm();
+			});
+			var form;
+			function createForm() {
+				if (form) {
+					form.destructor();
+				}
+				form = new dhx.Form("form-sample", {
+					cellCss: "dhx_widget--bordered",
+					rows: [
+						textareaConfig
+					]
+				});
+			}
+			createForm();
+		</script>
+	</body>
+</html>

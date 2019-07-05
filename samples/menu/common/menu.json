@@ -1,0 +1,147 @@
+[{
+	"id": "edit",
+	"value": "edit",
+	"hotKey":  "ctrl-z",
+	"count": 25,
+	"countColor": "success",
+	"disabled": true,
+	"items": [{
+		"id": "undo",
+		"value": "Undo",
+		"icon": "dxi dxi-undo",
+		"hotKey":  "Ctrl-z",
+		"count": 25,
+		"countColor": "danger",
+		"items": [
+			{
+				"id": "redo1",
+				"value": "redo",
+				"icon": "dxi dxi-redo",
+				"disabled": "true"
+			}, {
+				"type": "separator"
+			}, {
+				"id": "lock1",
+				"value": "lockCell",
+				"icon": "dxi dxi-key"
+			}
+		]
+	},
+	{
+		"id": "redo",
+		"value": "redo",
+		"icon": "dxi dxi-redo"
+	}, 
+	{
+		"type": "separator"
+	}, 
+	{
+		"id": "lock",
+		"value": "lockCell",
+		"icon": "dxi dxi-key"
+	}, 
+	{
+		"type": "spacer"
+	}, {
+		"id": "clear",
+		"value": "clear",
+		"icon": "dxi dxi-eraser",
+		"items": [{
+			"id": "clear-value",
+			"value": "clearValue"
+		}, {
+			"id": "clear-styles",
+			"value": "clearStyles"
+		}, {
+			"id": "clear-all",
+			"value": "clearAll"
+		}]
+	}]
+}, 
+{
+	"type": "separator"
+},
+{
+	"id": "insert",
+	"value": "insert",
+	"items": [{
+		"id": "columns",
+		"value": "columns",
+		"icon": "dxi dxi-table-column",
+		"items": [{
+			"id": "add-col",
+			"value": "addColumn",
+			"icon": "dxi dxi-table-column-plus-before"
+		}, {
+			"id": "remove-col",
+			"value": "removeColumn",
+			"icon": "dxi dxi-table-column-remove"
+		}]
+	}, {
+		"id": "rows",
+		"value": "rows",
+		"icon": "dxi dxi-table-row",
+		"items": [{
+			"id": "add-row",
+			"value": "addRow",
+			"icon": "dxi dxi-table-row-plus-after"
+		}, {
+			"id": "remove-row",
+			"value": "removeRow",
+			"icon": "dxi dxi-table-row-remove"
+		}]
+	}]
+}, {
+	"id": "configuration",
+	"value": "format",
+	"items": [{
+		"id": "font-weight-bold",
+		"value": "bold",
+		"icon": "dxi dxi-format-bold"
+	}, {
+		"id": "font-style-italic",
+		"value": "italic",
+		"icon": "dxi dxi-format-italic"
+	}, {
+		"id": "text-decoration-underline",
+		"value": "underline",
+		"icon": "dxi dxi-format-underline"
+	}, {
+		"type": "separator"
+	}, {
+		"id": "align",
+		"value": "align",
+		"items": [{
+			"id": "align-left",
+			"value": "left",
+			"icon": "dxi dxi-format-align-left"
+		}, {
+			"id": "align-center",
+			"value": "center",
+			"icon": "dxi dxi-format-align-center"
+		}, {
+			"id": "align-right",
+			"value": "right",
+			"icon": "dxi dxi-format-align-right"
+		}]
+	}]
+}, 
+{
+	"type": "spacer"
+},
+{
+	"value": "help",
+	"items": [{
+		"id": "about",
+		"value": "About",
+		"icon": "mdi mdi-information-variant"
+	}, {
+		"id": "help",
+		"value": "Help",
+		"icon": "mdi mdi-help"
+	}, {
+		"id": "bug",
+		"value": "Bug Reporting",
+		"icon": "mdi mdi-bug"
+	}]
+}]

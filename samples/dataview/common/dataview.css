@@ -1,0 +1,52 @@
+.innerHtml img {
+	float: left;
+	margin-right: 10px;
+}
+
+.innerHtml p {
+	margin: 0;
+	font-family: Roboto, Arial, Tahoma, Verdana, sans-serif;
+	font-size: 14px;
+	line-height: 1.5;
+	color: #333;
+}
+
+.item_wrap {
+	max-height: 125px;
+	overflow: hidden;
+	position: relative;
+
+}
+
+.item_wrap:after {
+	content: "";
+	pointer-events: none;
+	display: block;
+	position: absolute;
+	right: 0;
+	bottom: -10px;
+	height: 50px;
+	left: calc(112px);
+	background: linear-gradient(0deg, rgba(255, 255, 255, 1) 30%, rgba(255, 255, 255, 0.4) 66%, rgba(255, 255, 255, 0) 100%);
+	z-index: 2;
+}
+
+.item_wrap .image {
+	width: 100px;
+	height: auto;
+	float: left;
+	margin-right: 12px;
+}
+
+.item_wrap .title {
+	margin-top: 0;
+	margin-bottom: 0;
+	font-size: 1.2em;
+	padding-bottom: 4px;
+	padding-top: 12px;
+	min-height: 40px;
+}
+
+.item_wrap .description {
+	margin: 0;
+}
