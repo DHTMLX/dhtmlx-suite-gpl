@@ -6,11 +6,9 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-		
-		
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">	
 		<!-- custom sample head -->
 		<style>
 			.dhx_sample-container { 
@@ -42,11 +40,10 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					<div class="dhx_sample-header__content">
-						Inputs.
+					Inputs.
 				</h1>
 			</div>
-</header>
+		</header>
 		<section class="dhx_sample-container">
 			<form class="dhx_sample-container__widget" id="form-sample"></form>
 			<form class="dhx_sample-container__widget" id="form-settings"></form>
@@ -56,7 +53,7 @@
 			var inputConfig = {
 				type: "input",
 				validation: "",
-				icon: "dxi-magnify",
+				icon: "dxi dxi-magnify",
 				value: "",
 				placeholder: "i am input",
 				label: "i am label",
@@ -64,13 +61,12 @@
 				labelInline: true,
 				disabled: false,
 				required: false,
+				autocomplete: false,
+				hidden: false,
 				help: "",
 				preMessage: "",
 				successMessage: "",
-				errorMessage: "",
-				// width: "",
-				// height: "",
-				// hiddenLabel: false
+				errorMessage: ""
 			}
 			var formSettings = new dhx.Form("form-settings", {
 				cellCss: "dhx_widget--bordered",
@@ -116,31 +112,65 @@
 						labelInline: true
 					},
 					{
-						float: "center",
+						align: "end",
 						cols: [
 							{
 								type: "checkbox",
 								label: "labelInline",
 								name: "labelInline",
 								labelInline: true,
-								checked: inputConfig.labelInline
+								checked: inputConfig.labelInline,
+								gravity: false,
+								width: "132px"
 							},
 							{
 								type: "checkbox",
 								label: "disabled",
 								name: "disabled",
 								labelInline: true,
-								checked: inputConfig.disabled
-							},
+								checked: inputConfig.disabled,
+								gravity: false,
+								width: "132px"
+							}
+						]						
+					},
+					{
+						align: "end",
+						cols: [
 							{
 								type: "checkbox",
 								label: "required",
 								name: "required",
 								labelInline: true,
-								checked: inputConfig.required
+								checked: inputConfig.required,
+								gravity: false,
+								width: "132px"				
+							},
+							{
+								type: "checkbox",
+								label: "autocomplete",
+								name: "autocomplete",
+								labelInline: true,
+								checked: inputConfig.autocomplete,
+								gravity: false,
+								width: "132px"
 							}
-						]
+						]						
 					},
+					{
+						align: "end",
+						cols: [
+							{
+								type: "checkbox",
+								label: "hidden",
+								name: "hidden",
+								labelInline: true,
+								checked: inputConfig.hidden,
+								gravity: false,
+								width: "132px"				
+							}
+						]						
+					},				
 					{
 						type: "input",
 						label: "help",
@@ -209,6 +239,5 @@
 			}
 			createForm();
 		</script>
-
 	</body>
 </html>

@@ -6,13 +6,20 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Grid to explore its usage and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-		
-		<script type="text/javascript" src="../common/dataset.js?v=6.0.1"></script>
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<script type="text/javascript" src="../common/dataset.js?v=6.1.4"></script>
 		<!-- custom sample head -->
-</head>
+		<style>
+			.dhx_sample-container {
+				height: 600px;
+			}
+			.dhx_sample-controls {
+				height: 60px;
+			}
+		</style>
+	</head>
 	<body>
 		<header class="dhx_sample-header">
 			<div class="dhx_sample-header__main">
@@ -34,7 +41,7 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-						You can filter grid data by the specified criteria with the help of the filter() method of data collection.
+							You can filter grid data by the specified criteria with the help of the filter() method of data collection.
 						<div class="dhx_sample-docs-links">
 							Check documentation:
 							<a href="https://docs.dhtmlx.com/suite/grid__usage.html#filteringdata" target="_blank" class="dhx_sample-header-link">Filtering data</a>
@@ -42,8 +49,8 @@
 					</div>
 				</h1>
 			</div>
-</header>
-<section class="dhx_sample-controls">
+		</header>
+		<section class="dhx_sample-controls">
 		<div class="filter" style="padding: 10px 20px;">
 				<label for="columns">Column:</label>
 				<select name="columns" id="columns" class="selectList" onchange="selectChange()">
@@ -54,12 +61,9 @@
 				<label for="value" style="margin:0 0 0 10px;">Value:</label>
 				<input id="filterInput" type="text" name="value" oninput="filter(this.value)" class="selectList">
 			</div>
-	</section>
-
-
+		</section>
 		<section class="dhx_sample-container">
 			<div class="dhx_sample-container__widget" id="grid"></div>
-			
 		</section>
 
 		<script>

@@ -6,11 +6,9 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-		
-		
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">	
 		<!-- custom sample head -->
 		<style>	
 			.dhx_sample-container {
@@ -58,204 +56,211 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					<div class="dhx_sample-header__content">
-						Blocks.
+					Blocks.
 				</h1>
 			</div>
-</header>
+		</header>
 		<section class="dhx_sample-container">
-				<form class="dhx_sample-container__widget" id="form-sample"></form>
-				<form class="dhx_sample-container__widget" id="form-settings"></form>
-			</section>
+			<form class="dhx_sample-container__widget" id="form-sample"></form>
+			<form class="dhx_sample-container__widget" id="form-settings"></form>
+		</section>
 	
-			<script>
-				var blockConfig = {
-					type: "block",
-					title: "",
-					width: "",
-					height: "",
-					dir: "rows",
-					size: "",
-					align: "",
+		<script>
+			var blockConfig = {
+				type: "block",
+				title: "",
+				width: "",
+				height: "",
+				dir: "rows",
+				size: "",
+				align: "",
+				padding: "20px",
+				height: "300px",
+				cellCss: "dhx_layout-cell--bordered"
+			};
+			var formSettings = new dhx.Form("form-settings", {
+				cellCss: "dhx_layout-cell--bordered",
+				cols: [{
 					padding: "20px",
-					height: "300px",
-					cellCss: "dhx_layout-cell--bordered"
-				};
-				var formSettings = new dhx.Form("form-settings", {
-					cellCss: "dhx_layout-cell--bordered",
-					cols: [{
-						padding: "20px",
-						rows: [
-							{
-								type: "input",
-								label: "title",
-								name: "title",
-								value: blockConfig.title,
-								labelWidth: "50px",
-								labelInline: true
-							},
-							{
-								type: "input",
-								label: "width",
-								name: "width",
-								value: blockConfig.width,
-								labelWidth: "50px",
-								labelInline: true
-							},
-							{
-								type: "input",
-								label: "height",
-								value: "400px",
-								name: "height",
-								value: blockConfig.height,
-								labelWidth: "50px",
-								labelInline: true
-							},
-							{
-								type: "input",
-								label: "padding",
-								name: "padding",
-								value: blockConfig.padding,
-								labelWidth: "50px",
-								labelInline: true
-							}]
+					rows: [
+						{
+							type: "input",
+							label: "title",
+							name: "title",
+							value: blockConfig.title,
+							labelWidth: "50px",
+							labelInline: true
 						},
 						{
-							rows: [{
-								title: "Align:",
+							type: "input",
+							label: "width",
+							name: "width",
+							value: blockConfig.width,
+							labelWidth: "50px",
+							labelInline: true
+						},
+						{
+							type: "input",
+							label: "height",
+							value: "400px",
+							name: "height",
+							value: blockConfig.height,
+							labelWidth: "50px",
+							labelInline: true
+						},
+						{
+							type: "input",
+							label: "padding",
+							name: "padding",
+							value: blockConfig.padding,
+							labelWidth: "50px",
+							labelInline: true
+						}]
+					},
+					{
+						rows: [{
+							title: "Align:",
+							padding: "10px",
+							align: "around",
+							cellCss: "dhx_layout-cell--bordered",
+							rows:[{
+									type: "radioGroup",
+									name: "align",
+									options: {
+										padding: "10px",
+										align: "center",
+										cols:[{
+												type: "radioButton",
+												label: "start",
+												gravity: false,
+												labelInline: true,
+												value: "start",
+												checked: true,
+											},
+											{
+												type: "radioButton",
+												label: "center",
+												gravity: false,
+												labelInline: true,
+												value: "center",
+											},
+											{
+												type: "radioButton",
+												label: "end",
+												gravity: false,
+												labelInline: true,
+												value: "end"
+											},
+											{
+												type: "radioButton",
+												label: "between",
+												gravity: false,
+												labelInline: true,
+												value: "between"
+											},
+											{
+												type: "radioButton",
+												label: "around",
+												gravity: false,
+												labelInline: true,
+												value: "around"
+											},
+											{
+												type: "radioButton",
+												label: "evenly",
+												gravity: false,
+												labelInline: true,
+												value: "evenly"
+											}
+										]
+									}
+								}]
+							},
+							{
+								title: "Direction:",
+								cellCss: "dhx_layout-cell--bordered dhx_layout-cell--no-border_top",
 								padding: "10px",
-								align: "around",
-								cellCss: "dhx_layout-cell--bordered",
-								cols: [{
-										type: "radioButton",
-										label: "start",
-										name: "align",
-										gravity: false,
-										labelInline: true,
-										value: "start",
-										checked: true,
-									},
-									{
-										type: "radioButton",
-										label: "center",
-										gravity: false,
-										name: "align",
-										labelInline: true,
-										value: "center",
-									},
-									{
-										type: "radioButton",
-										label: "end",
-										gravity: false,
-										name: "align",
-										labelInline: true,
-										value: "end"
-									},
-									{
-										type: "radioButton",
-										label: "between",
-										gravity: false,
-										name: "align",
-										labelInline: true,
-										value: "between"
-									},
-									{
-										type: "radioButton",
-										label: "around",
-										gravity: false,
-										name: "align",
-										labelInline: true,
-										value: "around"
-									},
-									{
-										type: "radioButton",
-										label: "evenly",
-										gravity: false,
-										name: "align",
-										labelInline: true,
-										value: "evenly"
-									},
-								]	
-								},
-								{
-									title: "Direction:",
-									cellCss: "dhx_layout-cell--bordered dhx_layout-cell--no-border_top",
-									padding: "10px",
-									cols: [
-										{
-											type: "radioButton",
-											label: "as rows",
-											name: "dir",
-											labelInline: true,
-											value: "rows",
-											checked: true
-										},
-										{
-											type: "radioButton",
-											label: "as cols",
-											name: "dir",
-											labelInline: true,
-											value: "cols"
-										}
-									]
-								}
-							]
-						}
-					]
-				});
-				formSettings.events.on("change", function(name, value) {
-					blockConfig[name] = value;
-					createForm();
-				});
-				var form;
-				function createForm() {
-					if (form) {
-						form.destructor();
+								rows:[{
+									type: "radioGroup",
+									name: "dir",
+									options: {
+										padding: "10px",
+										align: "center",
+										cols:[{
+												type: "radioButton",
+												label: "as rows",
+												labelInline: true,
+												value: "rows",
+												checked: true,
+												gravity: false,
+											},
+											{
+												type: "radioButton",
+												label: "as cols",
+												labelInline: true,
+												value: "cols",
+												gravity: false,
+											}
+										]
+									}
+								}]
+							}
+						]
 					}
-					var items = [
-						{
-							type: "input",
-							label: "Name",
-							icon: "dxi-magnify",
-							placeholder: "John Doe",
-							labelInline: true,
-							gravity: false,
-							labelWidth:  "50px",
-						},
-						{
-							type: "input",
-							label: "Email",
-							labelWidth:  "50px",
-							gravity: false,
-							placeholder: "jd@mail.name",
-							labelInline: true,
-						},
-						{	
-							type: "checkbox",
-							label: "I agree",
-							name: "agree",
-							gravity: false,
-							labelInline: true,
-							labelWidth:  "50px",
-							id: "agree",
-							value: "checkboxvalue",
-						},
-						{
-							type: "button",
-							value: "Send",
-							size: "medium",
-							gravity: false,
-							view: "flat",
-							color: "primary",
-						},
-					];
-					delete blockConfig.rows;
-					delete blockConfig.cols;
-					blockConfig[blockConfig.dir] = items;
-					form = new dhx.Form("form-sample", blockConfig);
-				}
+				]
+			});
+			formSettings.events.on("change", function(name, value) {
+				blockConfig[name] = value;
 				createForm();
-			</script>
-
+			});
+			var form;
+			function createForm() {
+				if (form) {
+					form.destructor();
+				}
+				var items = [
+					{
+						type: "input",
+						label: "Name",
+						icon: "dxi dxi-magnify",
+						placeholder: "John Doe",
+						labelInline: true,
+						gravity: false,
+						labelWidth:  "50px",
+					},
+					{
+						type: "input",
+						label: "Email",
+						labelWidth:  "50px",
+						gravity: false,
+						placeholder: "jd@mail.name",
+						labelInline: true,
+					},
+					{	
+						type: "checkbox",
+						label: "I agree",
+						name: "agree",
+						gravity: false,
+						labelInline: true,
+						labelWidth:  "50px",
+						id: "agree",
+						value: "checkboxvalue",
+					},
+					{
+						type: "button",
+						value: "Send",
+						size: "medium",
+						gravity: false,
+						view: "flat",
+						color: "primary",
+					},
+				];
+				delete blockConfig.rows;
+				delete blockConfig.cols;
+				blockConfig[blockConfig.dir] = items;
+				form = new dhx.Form("form-sample", blockConfig);
+			}
+			createForm();
+		</script>
 	</body>
 </html>

@@ -2,18 +2,18 @@
 <html>
 	<head>
 		<!-- meta block -->
-		<title>metaTitle</title>
+		<title>Attaching other components - DHTMLX Window</title>
 		<meta name="description" content="Check interactive samples of DHTMLX Window to explore its initialization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
 		
 		
 		<!-- custom sample head -->
-		<link rel="stylesheet" href="../common/list.min.css?v=6.0.1">
-		<script type="text/javascript" src="../common/list.min.js?v=6.0.1"></script>
+		<link rel="stylesheet" href="../common/list.min.css?v=6.1.4">
+		<script type="text/javascript" src="../common/list.min.js?v=6.1.4"></script>
 	</head>
 	<body>
 		<header class="dhx_sample-header">
@@ -36,7 +36,8 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-						Attaching other components.
+							Attaching other components.
+					</div>
 				</h1>
 			</div>
 </header>
@@ -72,7 +73,7 @@
 				{text: "22. dhtmlxWindow"},
 			];
 			
-			var list = new dhx.List();
+			var list = new dhx.List(null, {css: "dhx_widget--bordered"});
 			list.data.parse(data);
 
 			dhxWindow.attach(list)

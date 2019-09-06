@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Get series - DHTMLX Chart</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Chart to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		
+		<script type="text/javascript" src="../common/dataset.js?v=6.1.4"></script>
+		<!-- custom sample head -->
+		<style>
+			textarea {
+				padding: 20px;
+				width: 290px;
+				height: 400px;
+				font-size: 16px;
+				resize: none;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Chart samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Get series</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+							Get series.
+						<div class="dhx_sample-docs-links">
+							Check documentation:
+							<a href="https://docs.dhtmlx.com/suite/chart__api__chart_getseries_method.html" target="_blank" class="dhx_sample-header-link">Get series method</a>
+						</div>
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="getSeries()">Get series config</button>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="chart"></div>
+			<div class="dhx_sample-result">
+				<h4>Result:</h4>
+				<textarea id="data-result" class="dhx_textarea"></textarea>
+			</div>
+		</section>
+
+		<script>
+			var config = {
+				type: "radar",
+				scales: {
+					radial:{
+						value:"month",
+						maxTicks: 10
+					}
+				},
+				series: [
+					{
+						id: "A",
+						value: "company A",
+						pointColor: "blue"
+					},
+					{
+						id: "B",
+						value: "company B",
+						pointColor: "red",
+					},
+					{
+						id: "C",
+						value: "company C",
+						pointColor: "green",
+					},
+					{
+						id: "D",
+						value: "company D",
+						pointColor: "orange",
+					}
+				]
+			};
+			var chart = new dhx.Chart("chart", config);
+			chart.data.parse(companiesData);
+
+			var textArea = document.querySelector('#data-result');
+			function getSeries() {
+				textArea.value = "";
+				chart.eachSeries((series) => {
+					textArea.value += JSON.stringify(chart.getSeries(series.id).config, null, 4) + ",\n";
+				});
+			}
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>List - DHTMLX Combobox</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Combobox to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		
+		<script type="text/javascript" src="../common/dataset.js?v=6.1.4"></script>
+		<!-- custom sample head -->
+		<style>
+			.dhx_form-group--inline {
+				max-width: 200px;
+			}
+			.dhx_sample-container {
+				max-width: 300px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Combobox samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">List</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+							List.
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<button id="get-selected-index" class="dhx_sample-btn dhx_sample-btn--flat">Get selected index</button>
+			<div class="dhx_sample-form-group dhx_form-group dhx_form-group--inline dhx_form-group--label_sr">
+				<label for="selected_index" class="dhx_label">Active item</label>
+				<input type="text" id="selected_index" class="dhx_input dhx_sample-input" readonly>
+			</div>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="combobox"></div>
+			
+		</section>
+
+		<script>
+			var combobox = new dhx.Combobox("combobox");
+			combobox.data.load("../common/countries.json");
+			document.querySelector("#get-selected-index").addEventListener("click", function () {
+				const selected = combobox.list.data.getIndex(combobox.list.selection.getId());
+				if (selected >= 0) {
+					document.querySelector("#selected_index").value = selected;
+				}
+			});
+		</script>
+
+	</body>
+</html>

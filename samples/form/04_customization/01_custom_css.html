@@ -6,15 +6,13 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its customization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-		
-		
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">		
 		<!-- custom sample head -->
 		<style>
 			.dhx_form-group--inline {
-				max-width: 200px;
+				max-width: fit-content;
 			}
 			.dhx_sample-container { 
 				max-width: 600px;
@@ -42,14 +40,12 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					<div class="dhx_sample-header__content">
-						Form custom styles..
+					Form custom styles.
 				</h1>
 			</div>
-</header>
+		</header>
 		<section class="dhx_sample-container">
 			<div class="dhx_sample-container__widget" id="form-sample"></div>
-			
 		</section>
 
 		<script>
@@ -75,7 +71,7 @@
 						name: "agree",
 						labelInline: true,
 						id: "agree",
-						value: "checkboxvalue",
+						value: "checkboxvalue"
 					},
 					{
 						cellCss: "center-button",
@@ -97,7 +93,11 @@
 				background: #fff;
 			}
 			.border-bottom .dhx_label {
-				border-bottom: 2px solid #ff5252;
+				border-right: 2px solid #ff5252;
+				padding-right: 5px;
+			}
+			.border-bottom:hover .dhx_label {
+				border-right: 2px solid #0288d1;
 			}
 			.center-button {
 				display: -webkit-box;

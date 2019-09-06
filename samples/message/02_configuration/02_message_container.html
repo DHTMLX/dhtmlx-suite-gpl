@@ -6,11 +6,9 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Message to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-		
-		
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
 		<!-- custom sample head -->
 		<style>
 			.dhx_form {
@@ -43,6 +41,7 @@
 				position: relative;
 				text-align: center;
 				line-height: 398px;
+				overflow: hidden;
 			}
 			.position {
 				max-width: 200px;
@@ -89,8 +88,7 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					<div class="dhx_sample-header__content">
-						Message container.
+							Message container.
 				</h1>
 			</div>
 </header>
@@ -121,17 +119,16 @@
 
 		<script>
 			var config = {
-				position: "top-right",
-				expire: 3000,
+				position: "top-right"
 			};
-			var node = document.querySelector("#node")
+			var node = document.querySelector("#node");
 			document.getElementById("form-controls").addEventListener("change", function(e) {
 				config[e.target.id] = e.target.value;
 			});
 			document.getElementById("show").addEventListener("click", function() {
 				var text = (config.node || "global") + " " + config.position;
 				config.text = "dhtmlxMessage";
-				console.log('config', config, node)
+				console.log('config', config, node);
 				dhx.message(config);
 			});
 		</script>

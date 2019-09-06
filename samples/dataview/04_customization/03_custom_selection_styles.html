@@ -6,12 +6,17 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Dataview to explore its customization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-		<link rel="stylesheet" href="../common/dataview.css?v=6.0.1">
-		<script type="text/javascript" src="../common/dataset.js?v=6.0.1"></script>
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<link rel="stylesheet" href="../common/dataview.css?v=6.1.4">
+		<script type="text/javascript" src="../common/dataset.js?v=6.1.4"></script>
 		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container__widget {
+				max-width: 1200px;
+			}
+		</style>
 	</head>
 	<body>
 		<header class="dhx_sample-header">
@@ -34,7 +39,8 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-						Custom selection styles.
+							Custom selection styles.
+					</div>
 				</h1>
 			</div>
 </header>
@@ -65,8 +71,7 @@
 			});
 		</script>
 		<style>
-
-			.custom-class.dhx_dataview-item--selected {
+			.dhx_dataview-item--selected {
 				border-color: transparent;
 				box-shadow: 0px 1px 5px 0px rgb(2, 136, 209, 0.5), inset 0px 0px 0px 1px rgb(2, 136, 209, 1);
 			}

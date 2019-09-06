@@ -7,12 +7,12 @@
   <meta name="description" content="Check interactive samples of DHTMLX Toolbar to explore its events and other details.">
   <!-- end meta block -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-  <script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-  <link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-  <link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-  
-  
+  <script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+  <link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+  <link rel="stylesheet" href="../../common/index.css?v=6.1.4">
   <!-- custom sample head -->
+  <script src="../common/data.js?v=6.1.4"></script>
+  <link href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css?v=6.1.4" media="all" rel="stylesheet" type="text/css">
 </head>
 <style>
   .dhx_sample-container__sidebar {
@@ -40,8 +40,7 @@
     		</ul>
     	</nav>
     	<h1 class="dhx_sample-header__title">
-    		<div class="dhx_sample-header__content">
-    			Events.
+    				Events.
     	</h1>
     </div>
 </header>
@@ -51,113 +50,6 @@
   </section>
 
   <script>
-    var data = [{
-        css: "test",
-        icon: "dxi dxi-file-plus",
-        value: "New",
-        items: [{
-            icon: "dxi dxi-folder",
-            value: "New Folder",
-            items: [{
-                value: "Test child",
-                hotkey: 'del',
-              },
-              {
-                icon: 'dxi dxi-folder',
-                value: "Test child dd",
-                hotkey: "ctrl + a"
-              }
-            ]
-          },
-          {
-            icon: "dxi dxi-file",
-            value: "New File"
-          },
-          {
-            type: "separator"
-          },
-          {
-            icon: "dxi dxi-file",
-            value: "New File"
-          },
-          {
-            icon: "dxi dxi-file",
-            value: "New File"
-          },
-        ]
-      },
-      {
-        type: "separator"
-      },
-      {
-        icon: "dxi dxi-undo",
-        twoState: true,
-      },
-      {
-        icon: "dxi dxi-redo",
-      },
-      {
-        type: "separator"
-      },
-      {
-        icon: "dxi dxi-content-save",
-        value: "save"
-      },
-      {
-        icon: "dxi dxi-content-copy",
-        value: "copy"
-      },
-      {
-        icon: "dxi dxi-content-paste",
-        value: "paste"
-      },
-      {
-        type: "separator"
-      },
-      {
-        
-        icon: "dxi dxi-printer",
-        value: "print"
-      },
-      {
-        type: "spacer"
-      },
-      {
-        type: "input",
-        placeholder: "search",
-        width: "300",
-        label: "search",
-        icon: "dxi dxi dxi dxi-magnify",
-      },
-      {
-        type: "spacer"
-      },
-      {
-        type: "button",
-				value: "Log in",
-				color: "success",
-				view: "flat"
-			},
-			{
-        type: "button",
-				value: "Log out",
-				color: "danger",
-				view: "flat",
-			},
-      {
-        type: "spacer"
-      },
-      {
-        type: "imageButton",
-        src: "https://dhtmlx.com/blog/wp-content/uploads/2016/08/300-2400.png",
-        value: "VP",
-        count: "99",
-      },
-      {
-        type: "text",
-        value: "Toolbar demo"
-      }
-    ];
     var toolbar = new dhx.Toolbar("toolbar", {
       css: "dhx_widget--bordered dhx_widget--bg_gray"
     });

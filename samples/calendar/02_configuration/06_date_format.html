@@ -6,10 +6,10 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Calendar to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-		<link rel="stylesheet" href="../common/calendar.css?v=6.0.1">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<link rel="stylesheet" href="../common/calendar.css?v=6.1.4">
 		
 		<!-- custom sample head -->
 		<style>
@@ -45,8 +45,8 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					<div class="dhx_sample-header__content">
-						There is a possibility to specify the format of dates in the calendar via the dateFormat property.
+						<div class="dhx_sample-header__content">
+							There is a possibility to specify the format of dates in the calendar via the dateFormat property.
 						<div class="dhx_sample-docs-links">
 							Check documentation:
 							<a href="https://docs.dhtmlx.com/suite/calendar__configuring.html#dateformat" target="_blank" class="dhx_sample-header-link">Date Format</a>
@@ -55,31 +55,32 @@
 					</div>
 				</h1>
 			</div>
-</header>
-			<section class="dhx_sample-controls">
-				<div class="dhx_input-wrapper dxi dxi-chevron-down">
-					<select name="date-format" class="dhx_select dhx_input" id="date_format">
-						<option value="%d.%m.%y">%d.%m.%y</option>
-						<option value="%m-%d-%y">%m-%d-%y</option>
-						<option value="%d/%m/%y">%d/%m/%y</option>
-					</select>
-				</div>
-					<button id="getDate" class="dhx_sample-btn dhx_sample-btn--flat">Get Date</button>
-					<input class="dhx_sample-show" type="text" readonly>
-			</section>
-			<section class="dhx_sample-container">
-				<div class="dhx_sample-container__widget" id="calendar"></div>					
-			</section>		
-			<script>
-				document.addEventListener('DOMContentLoaded', function(){
-					var calendar = new dhx.Calendar("calendar", {value: new Date(), css: "dhx_widget--bordered"});
-					var formatSelect = document.querySelector("#date_format");
-					var resultArea  = document.querySelector(".dhx_sample-show");
-					document.querySelector("#getDate").addEventListener("click", function(e){
-						var formatValue  = formatSelect.value;
-						calendar.config.dateFormat = formatValue;
-						resultArea.value = calendar.getValue();
-					})
+		</header>
+		<section class="dhx_sample-controls">
+			<div class="dhx_input-wrapper dxi dxi-chevron-down">
+				<select name="date-format" class="dhx_select dhx_input" id="date_format">
+					<option value="%d.%m.%y">%d.%m.%y</option>
+					<option value="%m-%d-%y">%m-%d-%y</option>
+					<option value="%d/%m/%y">%d/%m/%y</option>
+				</select>
+			</div>
+				<button id="getDate" class="dhx_sample-btn dhx_sample-btn--flat">Get Date</button>
+				<input class="dhx_sample-show" type="text" readonly>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="calendar"></div>					
+		</section>		
+		<script>
+			document.addEventListener('DOMContentLoaded', function(){
+				var calendar = new dhx.Calendar("calendar", {value: new Date(), css: "dhx_widget--bordered"});
+				var formatSelect = document.querySelector("#date_format");
+				var resultArea  = document.querySelector(".dhx_sample-show");
+				document.querySelector("#getDate").addEventListener("click", function(e){
+					var formatValue  = formatSelect.value;
+					calendar.config.dateFormat = formatValue;
+					resultArea.value = calendar.getValue();
 				})
-			</script>
-    </body></html>
+			})
+		</script>
+	</body>
+</html>

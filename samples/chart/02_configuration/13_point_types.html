@@ -6,11 +6,11 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Chart to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
 		
-		<script type="text/javascript" src="../common/dataset.js?v=6.0.1"></script>
+		<script type="text/javascript" src="../common/dataset.js?v=6.1.4"></script>
 		<!-- custom sample head -->
 	</head>
 	<body>
@@ -34,7 +34,7 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-						Point types.
+							Point types.
 						<div class="dhx_sample-docs-links">
 							Check documentation:
 							<a href="https://docs.dhtmlx.com/suite/chart__configuration_properties.html#mainproperties" target="_blank" class="dhx_sample-header-link">Series configuration</a>
@@ -49,54 +49,54 @@
 		</section>
 
 		<script>
-		var config = {
-            type:"spline",
-            scales: {
-                "bottom" : {
-                    text: "month",
-                },
-                "left" : {
-                    maxTicks: 10,
-                    max: 100,
-                    size: 50,
-                    targetLine: 80,
-                }
-            },
-            series: [
-                {
-                    id: "A",
-                    value: "company A",
-                    color: "#5E83BA",
-                    pointType: "rect"
-                },
-                {
-                    id: "B",
-                    value:"company B",
-                    color: "#98A468",
-                    pointType: "triangle",
-                },
-                {
-                    id: "C",
-                    value: "company C",
-                    color: "#9A8BA5",
-                    pointType: "circle",
-                },
-                {
-                    id: "D",
-                    value: "company D",
-                    color: "#EEB98E",
-                    pointType: "rhombus"
-                }
-            ],
-            legend: {
-                series: ["A", "B", "C", "D"],
-                valign: "middle",
-                size:150,
-                halign: "right"
-            }
-		}
-		var chart = new dhx.Chart("chart", config);
-		chart.data.parse(companiesData);
+			var config = {
+				type:"spline",
+				scales: {
+					"bottom" : {
+						text: "month",
+					},
+					"left" : {
+						maxTicks: 10,
+						max: 100,
+						size: 50,
+						targetLine: 80,
+					}
+				},
+				series: [
+					{
+						id: "A",
+						value: "company A",
+						color: "#5E83BA",
+						pointType: "rect"
+					},
+					{
+						id: "B",
+						value:"company B",
+						color: "#98A468",
+						pointType: "triangle",
+					},
+					{
+						id: "C",
+						value: "company C",
+						color: "#9A8BA5",
+						pointType: "circle",
+					},
+					{
+						id: "D",
+						value: "company D",
+						color: "#EEB98E",
+						pointType: "rhombus"
+					}
+				],
+				legend: {
+					series: ["A", "B", "C", "D"],
+					valign: "middle",
+					size:150,
+					halign: "right"
+				}
+			};
+			var chart = new dhx.Chart("chart", config);
+			chart.data.parse(companiesData);
 		</script>
 
 	</body>

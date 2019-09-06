@@ -6,11 +6,9 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-		
-		
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">	
 		<!-- custom sample head -->
 		<style>
 			.dhx_sample-container { 
@@ -42,11 +40,10 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					<div class="dhx_sample-header__content">
-						Radio buttons.
+					Radio buttons.
 				</h1>
 			</div>
-</header>
+		</header>
 		<section class="dhx_sample-container">
 			<form class="dhx_sample-container__widget" id="form-sample"></form>
 			<form class="dhx_sample-container__widget" id="form-settings"></form>
@@ -54,82 +51,79 @@
 
 		<script>
 			var radioConfig = {
-				type: "radioButton",
-				label: "i am radiobutton",
-				labelWidth: "100px",
-				labelInline: true,
+				type: "radioGroup",
+				name: "radioGroup",
 				disabled: false,
 				required: false,
-				help: "",
-			}
+				hidden: false,
+				options: {
+					padding: "5px",
+					rows:[{
+						type: "radioButton",
+						label: "Select 1",
+						help: " Help information - 1",
+						labelWidth: "120px",
+						labelInline: true,
+						value: "This selected button - 1",
+						},
+						{
+						type: "radioButton",
+						label: "Select 2",
+						help: " Help information - 2",
+						labelWidth: "120px",
+						labelInline: true,
+						value: "This selected button - 2",
+					},
+					{
+						type: "radioButton",
+						label: "Select 3",
+						help: " Help information - 3",
+						labelWidth: "120px",
+						labelInline: true,
+						value: "This selected button - 3",
+					}]
+				}			
+			};
 			var formSettings = new dhx.Form("form-settings", {
 				cellCss: "dhx_widget--bordered",
 				rows: [
 					{
-						type: "input",
-						label: "label",
-						name: "label",
-						value: radioConfig.label,
+						type: "text",
+						label: "value:",
+						name: "value",
 						labelWidth: "100px",
-						labelInline: true
+						labelInline: true,
+						id: "input"
 					},
 					{
-						type: "input",
-						label: "labelWidth",
-						name: "labelWidth",
-						value: radioConfig.labelWidth,
-						labelWidth: "100px",
-						labelInline: true
-					},
-					{
-						type: "input",
-						label: "help",
-						name: "help",
-						value: radioConfig.help,
-						labelWidth: "100px",
-						labelInline: true
-					},
-					{
-						cols: [
+					cols: [
 							{
-								rows: [
-									{
-										type: "checkbox",
-										label: "checked",
-										name: "checked",
-										checked: radioConfig.checked,
-										labelWidth: "50px",
-										labelInline: true
-									},
-									{
-										type: "checkbox",
-										label: "labelInline",
-										name: "labelInline",
-										labelInline: true,
-										labelWidth: "50px",
-										checked: radioConfig.labelInline
-									},
-								],
+								type: "checkbox",
+								label: "disabled",
+								name: "disabled",
+								labelInline: true,
+								labelWidth: "50px",
+								checked: radioConfig.disabled,
 							},
 							{
-								rows: [
-									{
-										type: "checkbox",
-										label: "disabled",
-										name: "disabled",
-										labelInline: true,
-										labelWidth: "50px",
-										checked: radioConfig.disabled
-									},
-									{
-										type: "checkbox",
-										label: "required",
-										name: "required",
-										labelInline: true,
-										labelWidth: "50px",
-										checked: radioConfig.required
-									}
-								]
+								type: "checkbox",
+								label: "required",
+								name: "required",
+								labelInline: true,
+								labelWidth: "50px",
+								checked: radioConfig.required,
+							},
+						]
+					}, 
+					{
+					cols: [
+							{
+								type: "checkbox",
+								label: "hidden",
+								name: "hidden",
+								labelInline: true,
+								labelWidth: "50px",
+								checked: radioConfig.hidden,
 							}
 						]
 					}
@@ -149,6 +143,11 @@
 					rows: [
 						radioConfig
 					]
+				});
+				form.events.on("Change", function(id, value) {
+					formSettings.setValue({
+						"input": value
+					});
 				});
 			}
 			createForm();

@@ -6,11 +6,11 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Chart to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
 		
-		<script type="text/javascript" src="../common/dataset.js?v=6.0.1"></script>
+		<script type="text/javascript" src="../common/dataset.js?v=6.1.4"></script>
 		<!-- custom sample head -->
 	</head>
 	<body>
@@ -34,7 +34,7 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-						Sets a template for scale labels.
+							Sets a template for scale labels.
 						<div class="dhx_sample-docs-links">
 							Check documentation:
 							<a href="https://docs.dhtmlx.com/suite/chart__configuration_properties.html#scales" target="_blank" class="dhx_sample-header-link">Scale configuration</a>
@@ -49,32 +49,32 @@
 		</section>
 
 		<script>
-		var config = {
-			type:"line",
-			scales: {
-				"bottom" : {
-					text: "month",
-					textTemplate: function(month) {
-						return "m:" + month;
+			var config = {
+				type:"line",
+				scales: {
+					"bottom" : {
+						text: "month",
+						textTemplate: function(month) {
+							return "m:" + month;
+						}
+					},
+					"left" : {
+						maxTicks: 10,
+						max: 100,
+						min: 0
 					}
 				},
-				"left" : {
-					maxTicks: 10,
-					max: 100,
-					min: 0
-				}
-			},
-			series: [
-				{
-					id: "A",
-					value: "company C",
-					color: "#5E83BA",
-					strokeWidth: 2
-				}
-			]
-		};
-		var chart = new dhx.Chart("chart", config);
-		chart.data.parse(companiesData);
+				series: [
+					{
+						id: "A",
+						value: "company C",
+						color: "#5E83BA",
+						strokeWidth: 2
+					}
+				]
+			};
+			var chart = new dhx.Chart("chart", config);
+			chart.data.parse(companiesData);
 		</script>
 
 	</body>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Select - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">	
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container { 
+				max-width: 600px;
+				min-height: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Select</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					Select.
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="form"></div>
+		</section>
+		<script>
+			var form = new dhx.Form("form", {
+				cellCss: "dhx_layout-cell--bordered",
+				rows: [
+                    {
+						type: "select",
+						label: "select",
+						labelInline: true,
+                        labelWidth: "60px",
+						value: "1",
+						validation: function(value) {
+							return value === "5";
+                        },
+                        preMessage: "Choose the number 5",
+                        successMessage: "You have chosen the number 5!",
+                        errorMessage: "You have chosen the wrong number",
+						id: "select_id",
+						options: [
+							{
+								value: "",
+								content: ""
+							},
+							{
+								value: "1",
+								content: "1"
+							},
+							{
+								value: "2",
+								content: "2"
+							},
+							{
+								value: "3",
+								content: "3"
+							},
+							{
+								value: "4",
+								content: "4"
+                            },
+                            {
+								value: "5",
+								content: "5"
+							}
+						]
+					}
+				]
+			});
+		</script>
+	</body>
+</html>

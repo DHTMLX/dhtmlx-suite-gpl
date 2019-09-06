@@ -6,22 +6,22 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its initialization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-		
-		
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">		
 		<!-- custom sample head -->
 		<style>
 			.dhx_sample-container { 
-				max-width: 400px;
+				max-width: 450px;
 			}
+
 			.dhx_sample-container__widget {
 				-webkit-box-flex: 1;
 				-webkit-flex: 1 0 auto;
 				    -ms-flex: 1 0 auto;
 				        flex: 1 0 auto;
 				height: 100%;
+				width: 100%;	
 			}
 		</style>
 	</head>
@@ -45,11 +45,11 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					<div class="dhx_sample-header__content">
-						All dhxForm inputs.
+					All dhxForm inputs.
 				</h1>
 			</div>
-</header>
+		</header>
+
 		<section class="dhx_sample-container">
 			<form class="dhx_sample-container__widget" id="form-sample"></form>
 		</section>
@@ -63,11 +63,12 @@
 						type: "input",
 						label: "Name",
 						labelInline: true,
-						icon: "dxi-magnify",
+						icon: "dxi dxi-magnify",
 						name: "name-input",
 						labelWidth: "120px",
 						required: true,
-						placeholder: "John Doe"
+						placeholder: "John Doe",
+						id:"input_id"
 					},
 					{
 						type: "combo",
@@ -76,6 +77,7 @@
 						labelInline: true,
 						help: "Help information",
 						labelWidth: "120px",
+						id: "combo_id",
 						data: [
 							{value: "1", id: "1"},
 							{value: "2", id: "2"},
@@ -90,10 +92,10 @@
 						css: "slider",
 						labelInline: true,
 						help: " Help information",
-						required: true,
 						labelWidth: "120px",
 						min: 0,
 						max: 100,
+						id: "slider_id"
 					},
 					{
 						type: "datepicker",
@@ -101,20 +103,33 @@
 						required: true,
 						labelInline: true,
 						labelWidth: "120px",
+						id: "datepicker_id"
 					},
 					{
 						type: "timepicker",
 						actions: "true",
 						label: "time",
+						required: true,
 						labelInline: true,
 						labelWidth: "120px",
+						id: "timepicker_id"
 					},
 					{
 						type: "select",
 						label: "select",
 						labelInline: true,
 						labelWidth: "120px",
+						value: "2",
+						validation: function(value) {
+							return value !== "";
+						},
+						required: true,
+						id: "select_id",
 						options: [
+							{
+								value: "",
+								content: ""
+							},
 							{
 								value: "1",
 								content: "1"
@@ -132,16 +147,17 @@
 								content: "4"
 							}
 						]
-
 					},
 					{
 						type: "textarea",
+						name: "textarea",
 						label: "textarea",
 						help: "Help information",
 						required: true,
 						labelInline: true,
 						labelWidth: "120px",
-						value: "I AM TEXTAREA!!!"
+						value: "I am textarea!",
+						id: "textarea_id"
 					},
 					{
 						type: "simpleVault",
@@ -150,21 +166,41 @@
 						label: "files",
 						labelInline: true,
 						labelWidth: "120px",
+						id: "simplevault_id"
 					},
 					{
 						type: "text",
 						label: "text input",
+						name: "text-input",
 						labelInline: true,
 						labelWidth: "120px",
-						value: "I AM TEXTINPUT!!!"
+						value: "I am textinput!",
+						id: "text_id"
 					},
-					{
-						type: "radioButton",
-						label: "Select me",
-						help: " Help information",
+					{	
+						type: "radioGroup",
+						name: "radioGroup",
 						required: true,
-						labelWidth: "120px",
-						labelInline: true,
+						options: {
+							padding: "5px",
+							rows:[{
+								type: "radioButton",
+								label: "Select 1",
+								help: " Help information - 1",
+								labelWidth: "120px",
+								labelInline: true,
+								value: "This selected button - 1",
+								checked: true
+								},
+								{
+								type: "radioButton",
+								label: "Select 2",
+								help: " Help information - 2",
+								labelWidth: "120px",
+								labelInline: true,
+								value: "This selected button - 2"
+							}]
+						}
 					},
 					{	
 						type: "checkbox",
@@ -176,12 +212,15 @@
 						id: "agree",
 						value: "checkboxvalue",
 						labelInline: true,
+						id: "checkbox_id"
 					},
 					{
 						labelInline: true,
 						label: "Choose your color",
-						labelWidth: "120px",
-						type: "colorpicker"
+						required: true,
+						labelWidth: "130px",
+						type: "colorpicker",
+						id: "colorpicker_id"
 					},
 					{
 						align: "end",
@@ -192,15 +231,13 @@
 								value: "Send",
 								size: "medium",
 								view: "flat",
-								color: "primary"
+								color: "primary",
+								id: "button_id"
 							}
 						]
 					}
 				]
 			});
 		</script>
-		<style>
-			
-		</style>
 	</body>
 </html>

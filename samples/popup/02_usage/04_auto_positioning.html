@@ -6,11 +6,9 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Popup to explore its usage and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-		
-		
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
 		<!-- custom sample head -->
 		<style>
 				.dhx_form {
@@ -103,11 +101,10 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					<div class="dhx_sample-header__content">
-						Auto posititoning.
+					Auto posititoning.
 				</h1>
 			</div>
-</header>
+		</header>
 	<section class="dhx_sample-controls">
 			<form id="form-controls" class="dhx_form">
 				<label class="dhx_form-group dhx_checkbox dhx_form-group--inline dhx_form-group--no-message-holder">
@@ -139,26 +136,27 @@
 			<div id="popup-box-center" class="box box--center">DOM node for popup</div>
 		</section>
 		<script>
+			var html = "<div style='padding: 16px; text-align: center'>Hi there, <br/> welcome to DHTMLX popup samples</div>";
 			var popup = new dhx.Popup({
 				css: "dhx_widget--border-shadow"
 			});
-			popup.attachHTML("<div style='padding: 16px; text-align: center'>Hi there, <br/> welcome to DHTMLX popup samples</div>");
+			popup.attachHTML(html);
 			var popup1 = new dhx.Popup({
 				css: "dhx_widget--border-shadow"
 			});
-			popup1.attachHTML("<div style='padding: 16px; text-align: center'>Hi there, <br/> welcome to DHTMLX popup samples</div>");
+			popup1.attachHTML(html);
 			var popup2 = new dhx.Popup({
 				css: "dhx_widget--border-shadow"
 			});
-			popup2.attachHTML("<div style='padding: 16px; text-align: center'>Hi there, <br/> welcome to DHTMLX popup samples</div>");
+			popup2.attachHTML(html);
 			var popup3 = new dhx.Popup({
 				css: "dhx_widget--border-shadow"
 			});
-			popup3.attachHTML("<div style='padding: 16px; text-align: center'>Hi there, <br/> welcome to DHTMLX popup samples</div>");
+			popup3.attachHTML(html);
 			var popup4 = new dhx.Popup({
 				css: "dhx_widget--border-shadow"
 			});
-			popup4.attachHTML("<div style='padding: 16px; text-align: center'>Hi there, <br/> welcome to DHTMLX popup samples</div>");
+			popup4.attachHTML(html);
 
 
 			var config = {
@@ -172,7 +170,7 @@
 				} else {
 					config[e.target.id] = e.target.value;
 				}
-			})
+			});
 
 			var targetNodes = document.querySelectorAll(".box");
 			function show() {
@@ -183,7 +181,6 @@
 				popup4.show(targetNodes[4], config);
 			}
 			document.getElementById("show").addEventListener("click", show);
-			
 		</script>
 
 	</body>

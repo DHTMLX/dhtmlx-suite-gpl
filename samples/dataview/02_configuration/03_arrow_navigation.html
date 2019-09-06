@@ -6,13 +6,28 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Dataview to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-		<link rel="stylesheet" href="../common/dataview.css?v=6.0.1">
-		<script type="text/javascript" src="../common/dataset.js?v=6.0.1"></script>
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<link rel="stylesheet" href="../common/dataview.css?v=6.1.4">
+		<script type="text/javascript" src="../common/dataset.js?v=6.1.4"></script>
 		<!-- custom sample head -->
 		<style>
+			.dhx_sample-controls .dhx_sample-form-group {
+				max-width: 200px;
+			}
+			.dhx_sample-container > div {
+				width: 50%;
+			}
+			.dhx_sample-container > div:first-child {
+				margin-right: 20px;
+			}
+			.dhx_sample-container__widget {
+				height: 600px;
+			}
+			.item_wrap:after {
+				display: none;
+			}
 		</style>
 	</head>
 	<body>
@@ -36,12 +51,13 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-						Arrow navigation.
+							Arrow navigation.
+					</div>
 				</h1>
 			</div>
 </header>
 		<section class="dhx_sample-controls">
-					Focus widget to use arrow navigation
+			<h3>Focus widget to use arrow navigation</h3>
 		</section>
 		<section class="dhx_sample-container">
 			<div class="dhx_sample-container__widget" id="dataview" style="height: 500px"></div>

@@ -6,10 +6,10 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Calendar to explore its initialization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-		<link rel="stylesheet" href="../common/calendar.css?v=6.0.1">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<link rel="stylesheet" href="../common/calendar.css?v=6.1.4">
 		
 		<!-- custom sample head -->
 	</head>
@@ -33,8 +33,8 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					<div class="dhx_sample-header__content">
-						Localized Calendar.
+						<div class="dhx_sample-header__content">
+							Localized Calendar.
 						<div class="dhx_sample-docs-links">
 							Check documentation:
 							<a href="https://docs.dhtmlx.com/suite/calendar__localizing_calendar.html" target="_blank" class="dhx_sample-header-link">Localization</a>
@@ -42,7 +42,7 @@
 					</div>
 				</h1>
 			</div>
-</header>
+		</header>
 		<section class="dhx_sample-controls">
 			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_form-group dhx_sample-input__wrapper--pl-16">
 				<input type="radio" checked name="lang" id="english" class="dhx_radiobutton__input">
@@ -63,16 +63,16 @@
 			// TODO add locale
 			var locale = {
 				de: {
-					monthShort: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
-					month: ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
-					weekdaysShort: ["Son", "Mon", "Die", "Mit", "Don", "Fre", "Sam"],
-					weekdays: ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"]
+					monthsShort: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
+					months: ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
+					daysShort: ["Son", "Mon", "Die", "Mit", "Don", "Fre", "Sam"],
+					days: ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"]
 				},
 				en: {
-					monthShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-					month: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-					weekdaysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-					weekdays: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+					monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+					months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+					daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+					days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 				}
 			}
 			var calendar = new dhx.Calendar("calendar", {css: "dhx_widget--bordered"});

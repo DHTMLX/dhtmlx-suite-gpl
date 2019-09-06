@@ -7,11 +7,9 @@
 	<meta name="description" content="Check interactive samples of DHTMLX Tree to explore its usage and other details.">
 	<!-- end meta block -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-	<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-	<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-	
-	
+	<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+	<link rel="stylesheet" href="../../common/index.css?v=6.1.4">	
 	<!-- custom sample head -->
 	<style>
 		.dhx_sample-container {
@@ -49,7 +47,7 @@
 				</div>
 			</h1>
 		</div>
-</header>
+	</header>
 	<section class="dhx_sample-controls">
 		<button id="open" class="dhx_sample-btn dhx_sample-btn--flat" onclick="treeOpen()">open</button>
 		<button id="close" class="dhx_sample-btn dhx_sample-btn--flat" onclick="treeClose()">close</button>
@@ -57,20 +55,20 @@
 	<section class="dhx_sample-container">
 		<div class="dhx_sample-container__widget" id="tree"></div>
 	</section>
-		<script>
-			var tree = new dhx.Tree("tree", {});
-			tree.data.load("../common/treedata.json").then(function(){
-				tree.selection.add("Books")
-			});
-			function treeOpen() {
-				var id = tree.selection.getId();
-				tree.open(id);
-			}
-			function treeClose() {
-				var id = tree.selection.getId();
-				tree.close(id);
-			}
-		</script>
+	<script>
+		var tree = new dhx.Tree("tree", {});
+		tree.data.load("../common/treedata.json").then(function(){
+			tree.selection.add("Books")
+		});
+		function treeOpen() {
+			var id = tree.selection.getId();
+			tree.open(id);
+		}
+		function treeClose() {
+			var id = tree.selection.getId();
+			tree.close(id);
+		}
+	</script>
 </body>
 
 </html>

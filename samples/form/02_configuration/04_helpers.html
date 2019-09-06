@@ -6,11 +6,9 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-		
-		
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">		
 		<!-- custom sample head -->
 		<style>
 			.dhx_sample-container { 
@@ -39,50 +37,49 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					<div class="dhx_sample-header__content">
-						Helpers.
+					Helpers.
 				</h1>
 			</div>
-</header>
-			<section class="dhx_sample-container">
-					<form class="dhx_sample-container__widget" id="form-sample"></form>
-				</section>
-		
-				<script>
-					var form = new dhx.Form("form-sample", {
-						cellCss: "dhx_widget--bordered",
-						rows: [
-							{
-								type: "input",
-								label: "Name",
-								placeholder: "John Doe",
-								help: "Help message for name"
-							},
-							{
-								type: "input",
-								label: "Email",
-								placeholder: "jd@mail.name",
-								help: "Help message for email"
-							},
-							{	
-								type: "checkbox",
-								label: "I agree",
-								name: "agree",
-								id: "agree",
-								labelInline: true,
-								value: "checkboxvalue",
-								help: "Help message for checkbox"
-							},
-							{
-								type: "button",
-								value: "Send",
-								submit: true,
-								size: "medium",
-								view: "flat",
-								color: "primary"
-							},
-						]
-					});
-			</script>
+		</header>
+		<section class="dhx_sample-container">
+				<form class="dhx_sample-container__widget" id="form-sample"></form>
+		</section>
+	
+		<script>
+			var form = new dhx.Form("form-sample", {
+				cellCss: "dhx_widget--bordered",
+				rows: [
+					{
+						type: "input",
+						label: "Name",
+						placeholder: "John Doe",
+						help: "Help message for name"
+					},
+					{
+						type: "input",
+						label: "Email",
+						placeholder: "jd@mail.name",
+						help: "Help message for email"
+					},
+					{	
+						type: "checkbox",
+						label: "I agree",
+						name: "agree",
+						id: "agree",
+						labelInline: true,
+						value: "checkboxvalue",
+						help: "Help message for checkbox"
+					},
+					{
+						type: "button",
+						value: "Send",
+						submit: true,
+						size: "medium",
+						view: "flat",
+						color: "primary"
+					},
+				]
+			});
+		</script>
 	</body>
 </html>

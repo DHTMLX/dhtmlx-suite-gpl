@@ -85,7 +85,7 @@ var data = [{
     {
         id: "avatar",
         type: "imageButton",
-        src: "../common/ava.jpg",
+        src: "../common/ava.png",
         count: 15
     }
 ];

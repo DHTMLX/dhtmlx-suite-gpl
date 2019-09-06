@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- meta block -->
+	<title>Editing data - DHTMLX Grid</title>
+	<meta name="description" content="Check interactive samples of DHTMLX Grid to explore its configuration and other details.">
+	<!-- end meta block -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+	<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+	<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+	<script type="text/javascript" src="../common/dataset.js?v=6.1.4"></script>
+	<!-- custom sample head -->
+	<style>
+		.dhx_sample-container {
+			height: 600px;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="dhx_sample-header">
+		<div class="dhx_sample-header__main">
+			<nav class="dhx_sample-header__breadcrumbs">
+				<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Grid samples</a>
+					</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+					</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<span class="dhx_sample-header-breadcrumbs__link">Editing data</span>
+					</li>
+				</ul>
+			</nav>
+			<h1 class="dhx_sample-header__title">
+				<div class="dhx_sample-header__content">
+						Editing data.
+					<div class="dhx_sample-docs-links">
+						Check documentation:
+						<a href="https://docs.dhtmlx.com/suite/grid__usage.html#editingdata" target="_blank" class="dhx_sample-header-link">Editing data</a>
+					</div>
+				</div>
+			</h1>
+		</div>
+	</header>
+	<section class="dhx_sample-container">
+		<div class="dhx_sample-container__widget" id="grid"></div>
+	</section>
+
+	<script>
+		var data = [
+			{
+				project: "Real Estate",
+				owner: "Louise Fisher",
+				start_date: "02/03/2018",
+				end_date: "06/05/2018",
+				status: "Done",
+				hours: 92,
+				cost: 3588,
+				budget: 11768,
+				balance: 8180,
+			},
+			{
+				project: "HR System",
+				owner: "Daniel Peterson",
+				start_date: "03/04/2018",
+				end_date: "02/07/2018",
+				status: "Done",
+				hours: 340,
+				cost: 15980,
+				budget: 18856,
+				balance: 2876,
+			},
+			{
+				project: "Inventory",
+				owner: "Fred Duncan",
+				start_date: "01/06/2018",
+				end_date: "01/09/2018",
+				status: "Done",
+				hours: 484,
+				cost: 21296,
+				budget: 14907,
+				balance: -6389,
+			},
+			{
+				project: "Trip planner",
+				owner: "Michael Rice",
+				start_date: "01/08/2018",
+				end_date: "06/11/2018",
+				status: "Done",
+				hours: 345,
+				cost: 14835,
+				budget: 70911,
+				balance: 56076,
+			},
+			{
+				project: "HR System",
+				owner: "Andrew Stewart",
+				start_date: "01/06/2018",
+				end_date: "02/09/2018",
+				status: "Done",
+				hours: 57,
+				cost: 2052,
+				budget: 5068,
+				balance: 3016,
+			},
+			{
+				project: "HR System",
+				owner: "Martin Thompson",
+				start_date: "06/02/2018",
+				end_date: "01/06/2018",
+				status: "Done",
+				hours: 211,
+				cost: 8229,
+				budget: 16540,
+				balance: 8311,
+			},
+			{
+				project: "Ticket System",
+				owner: "Martin Thompson",
+				start_date: "06/05/2019",
+				end_date: "03/07/2019",
+				status: "In Progress",
+				hours: 3,
+				cost: 144,
+				budget: 122,
+				balance: -22,
+			},
+			{
+				project: "Education System",
+				owner: "Mark Harper",
+				start_date: "02/04/2019",
+				end_date: "03/08/2019",
+				status: "In Progress",
+				hours: 76,
+				cost: 3496,
+				budget: 12515,
+				balance: 9019,
+			}
+		];
+		var grid = new dhx.Grid("grid", {
+			columns: [
+				{
+					width: 150,
+					id: "project",
+					header: [{ text: "Project" }, { content: "selectFilter" }],
+				},
+				{
+					width: 150, id: "status", header: [{ text: "Status" }, { content: "selectFilter" }],
+					editorType: "select",
+					options: ["Done", "In Progress", "Not Started"]
+				},
+				{ width: 150, id: "owner", header: [{ text: "Owner" }, { content: "inputFilter" }] },
+				{ width: 150, id: "hours", header: [{ text: "Number of hours" }, { content: "inputFilter" }] },
+				{ width: 150, id: "start_date", header: [{ text: "Calendar", colspan: 2 }, { text: "Start date" }], type: "date", dateFormat: "%d/%m/%Y" },
+				{ width: 150, id: "end_date", header: ["", { text: "End date" }], type: "date", dateFormat: "%d/%m/%Y" },
+
+				{ width: 150, id: "cost", header: [{ text: "Cost" }, { content: "inputFilter" }] },
+				{ width: 150, id: "budget", header: [{ text: "Budget" }, { content: "inputFilter" }] },
+				{ width: 150, id: "balance", header: [{ text: "Balance" }, { content: "inputFilter" }] },
+			],
+			data: data,
+			editing: true
+		});
+	</script>
+
+</body>
+
+</html>

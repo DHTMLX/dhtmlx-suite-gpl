@@ -6,11 +6,11 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Chart to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
 		
-		<script type="text/javascript" src="../common/dataset.js?v=6.0.1"></script>
+		<script type="text/javascript" src="../common/dataset.js?v=6.1.4"></script>
 		<!-- custom sample head -->
 	</head>
 	<body>
@@ -34,7 +34,7 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-						Max points.
+							Max points.
 						<div class="dhx_sample-docs-links">
 							Check documentation:
 							<a href="https://docs.dhtmlx.com/suite/chart__configuration_properties.html#mainproperties" target="_blank" class="dhx_sample-header-link">Configuration</a>
@@ -49,38 +49,37 @@
 		</section>
 
 		<script>
-		var data = [];
-        var k = 0;
-        for (var i=0; i<100000; i++) {
-            data.push({
-                value: "value" + i,
-                value: Math.floor(Math.random() * 10000+k)
-            })
-            k = (k + 0.02) % 5000;
-        }
-        var config = {
-            type:"line",
-            maxPoints:100,
-            scales: {
-                bottom: {
-					text: "value",
-					maxTicks: 10,
-					showText: false
+			var data = [];
+			var k = 0;
+			for (var i=0; i<100000; i++) {
+				data.push({
+					value: Math.floor(Math.random() * 10000+k)
+				});
+				k = (k + 0.02) % 5000;
+			}
+			var config = {
+				type:"line",
+				maxPoints:100,
+				scales: {
+					bottom: {
+						text: "value",
+						maxTicks: 10,
+						showText: false
+					},
+					left: {}
 				},
-				left: {}
-            },
-            series: [
-                {
-                    value: "value",
-                    color: "#49A6D9",
-                    strokeWidth: 2,
-                    tooltip: true,
-                    pointType: "empty"
-                }
-            ]
-        }
-        var chart = new dhx.Chart("chart", config);
-        chart.data.parse(data);
+				series: [
+					{
+						value: "value",
+						color: "#49A6D9",
+						strokeWidth: 2,
+						tooltip: true,
+						pointType: "empty"
+					}
+				]
+			};
+			var chart = new dhx.Chart("chart", config);
+			chart.data.parse(data);
 		</script>
 
 	</body>

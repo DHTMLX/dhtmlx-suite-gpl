@@ -6,11 +6,9 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-		
-		
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">		
 		<!-- custom sample head -->
 		<style>
 			.dhx_sample-container { 
@@ -39,31 +37,30 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					<div class="dhx_sample-header__content">
-						Labels.
+					Labels.
 				</h1>
 			</div>
-</header>
-			<form class="dhx_sample-controls" id="form-controls">
-				<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
-					<input type="radio" checked name="label" id="Block" value="blockLabel" class="dhx_radiobutton__input">
-					<span class="dhx_radiobutton__visual-input"></span>
-					<span class="dhx_label">Block </span>
-				</label>
-				<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
-					<input type="radio" name="label" id="Inline" value="inlineLabel" class="dhx_radiobutton__input">
-					<span class="dhx_radiobutton__visual-input"></span>
-					<span class="dhx_label">Inline</span>
-				</label>
-				<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
-					<input type="radio" name="label" id="hidden" value="hiddenLabel" class="dhx_radiobutton__input">
-					<span class="dhx_radiobutton__visual-input"></span>
-					<span class="dhx_label">Hidden</span>
-				</label>
-			</form>
-			<section class="dhx_sample-container">
-				<form class="dhx_sample-container__widget" id="form-sample"></form>
-			</section>
+		</header>
+		<form class="dhx_sample-controls" id="form-controls">
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input type="radio" checked name="label" id="Block" value="blockLabel" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Block </span>
+			</label>
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input type="radio" name="label" id="Inline" value="inlineLabel" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Inline</span>
+			</label>
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input type="radio" name="label" id="hidden" value="hiddenLabel" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Hidden</span>
+			</label>
+		</form>
+		<section class="dhx_sample-container">
+			<form class="dhx_sample-container__widget" id="form-sample"></form>
+		</section>
 		<style>
 			.align-right {
 				text-align: right;
@@ -186,6 +183,5 @@
 				form = new dhx.Form("form-sample", config[e.target.value]);
 			});
 		</script>
-
 	</body>
 </html>

@@ -2,15 +2,15 @@
 <html>
 	<head>
 		<!-- meta block -->
-		<title>bar gradient - DHTMLX Chart</title>
+		<title>Bar gradient - DHTMLX Chart</title>
 		<meta name="description" content="Check interactive samples of DHTMLX Chart to explore its customization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
 		
-		<script type="text/javascript" src="../common/dataset.js?v=6.0.1"></script>
+		<script type="text/javascript" src="../common/dataset.js?v=6.1.4"></script>
 		<!-- custom sample head -->
 	</head>
 	<body>
@@ -28,13 +28,13 @@
 							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Customization</a>
 						</li>
 						<li class="dhx_sample-header-breadcrumbs__item">
-							<span class="dhx_sample-header-breadcrumbs__link">bar gradient</span>
+							<span class="dhx_sample-header-breadcrumbs__link">Bar gradient</span>
 						</li>
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-						A function that defines a color gradient for bars.
+							A function that defines a color gradient for bars.
 						<div class="dhx_sample-docs-links">
 							Check documentation:
 							<a href="https://docs.dhtmlx.com/suite/chart__configuration_properties.html#scales" target="_blank" class="dhx_sample-header-link">Scale configuration</a>
@@ -49,44 +49,44 @@
 		</section>
 
 		<script>
-		var config = {
-			type:"bar",
-			scales: {
-				"bottom" : {
-					text: "month",
+			var config = {
+				type:"bar",
+				scales: {
+					"bottom" : {
+						text: "month",
+					},
+					"left" : {
+						max: 90
+					}
 				},
-				"left" : {
-					max: 90
-				}
-			},
-			series: [
-				{
-					id: "A",
-					value: "company A",
-					color: "none",
-					size: 35,
-					fill: "#5E83BA",
-					gradient: function(color) {
-						return {
-							stops: [
-								{
-									offset: 0.5,
-									color,
-									opacity: 1
-								}, 
-								{
-									offset: 1,
-									color: "#394E79",
-									opacity: 1
-								}
-							]
+				series: [
+					{
+						id: "A",
+						value: "company A",
+						color: "none",
+						size: 35,
+						fill: "#5E83BA",
+						gradient: function(color) {
+							return {
+								stops: [
+									{
+										offset: 0.5,
+										color,
+										opacity: 1
+									},
+									{
+										offset: 1,
+										color: "#394E79",
+										opacity: 1
+									}
+								]
+							}
 						}
 					}
-				}
-			]
-		}
-		var chart = new dhx.Chart("chart", config);
-		chart.data.parse(companiesData);
+				]
+			};
+			var chart = new dhx.Chart("chart", config);
+			chart.data.parse(companiesData);
 		</script>
 
 	</body>

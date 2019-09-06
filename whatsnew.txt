@@ -1,3 +1,149 @@
+Version 6.1.4 (September 5, 2019)
+----------------------------
+
+### Fixes
+- Issues with date sorting in Grid
+- Issue with filters in Grid
+- Issue with resizer in Layout
+- Issue with resizing textarea in Form
+- Issues with restoring selection in Grid, DataView and List
+- Issues with Calendar styles
+- Fixes in samples
+
+Version 6.1.3 (August 29, 2019)
+----------------------------
+
+### Fixes
+- Issues with scroll in DataView
+- Issues with styles in Chart
+- Issues with property "hidden" in Checkboxes and RadioGroup of Form
+
+Version 6.1.2 (August 22, 2019)
+----------------------------
+
+### Fixes
+- Restore ability to send FormData in Form send() method
+- Issues with Form select
+- Issue with Datacollection add() method
+
+Version 6.1.1 (August 16, 2019)
+----------------------------
+
+### Fixes
+- Issues with DnD in List and DataView
+- Issue with getValue() method in Form
+
+Version 6.1.0 (August 15, 2019)
+----------------------------
+
+### New functionality
+
+#### ComboBox
+- Ability to manipulate the visibility of the Combo popup via the Popup API
+
+#### Dataview/List
+- The possibility to edit items via API (DataView / List) or the configuration object (DataView / List)
+- New editing-related events: DoubleClick, BeforeEditStart, BeforeEditEnd, AfterEditStart, AfterEditEnd
+- Multiple selection of items (DataView / List)
+- Multiple drag-n-drop of items (DataView / List)
+
+#### Data/Tree Collection
+- A new LoadError event for catching loading errors
+
+#### Form
+- Dynamic config updating and re-rendering of a form
+- Adding values into controls on the fly
+- Clearing a form
+- The new send() method for sending a form to the server
+- A new RadioGroup control for grouping RadioButtons
+
+#### Grid
+- Editing the whole Grid or separate columns via the configuration object
+- Editing certain cells via the API method
+- New editing-related events: BeforeEditStart, BeforeEditEnd, AfterEditStart, AfterEditEnd
+- The possibility to define the type of an editor for a column
+- A new type:"date" for a column
+- The ability to add vertical span into the columns headers
+- The possibility to enable automatic adding of an empty row to the end of the Grid
+
+#### Popup
+- The possibility to adjust the Popup offsets
+
+#### Tree
+- The possibility to enable editing of items via the configuration object
+
+#### Window
+- The ability to check the visibility of a window
+
+### Updates
+
+#### Data/Tree Collection
+- Calling sort without parameters resets applied sorting
+- The possibility to add an array of items via the add method
+
+#### Form
+- The possibility to set values for DatePicker, TimePicker, ColorPicker Form controls via inputs
+- The possibility to make Form Inputs hidden
+- The autocomplete feature for Form Inputs
+- Validation of a Form Select control
+
+#### Grid
+- Extended selection possibilities
+
+### Fixes
+
+- The possibility to set value for the Combo control via the configuration object of Form
+- Behavior of the Slider control
+
+
+Version 6.0.4 (August 6, 2019)
+----------------------------
+
+### Fixes
+
+- Issue with the load() method of Datacollection
+- Issue with arrow navigation in Tabbar
+- Issues with Window positioning and sizing
+- Issue with sort() method of Datacollection
+- Issues with DnD in Tree
+- Issue with badges in Toolbar
+- Issues with Message positioning
+- Issues with names in Calendar localization
+- Styles fixes
+
+Version 6.0.3 (July 19, 2019)
+----------------------------
+
+### Fixes
+
+- Issues with the require property of Form
+- Restore the setConfig() method of Form
+- Issues with Form validation
+- Issue with checkboxes in Tree
+- Issue with the Select all button in Combobox
+- Issue with virtual list in Combobox
+- Issue with selection in List
+- Issue with header filters in Grid
+- Issue with footer in Window
+- Issue with the month view in Calendar
+- Issues with key navigation in Timepicker
+- Issues with z-index in Window and Popup
+- Styles fixes
+
+Version 6.0.2 (July 11, 2019)
+----------------------------
+
+### Fixes
+
+- Styles fixes
+- Issues with Form custom css
+- Issues with Form elements
+- Issue with Form getValue() method
+- Issues with Menu and Context menu
+- Issues with popup in Form 
+- Issue with scroll in Combobox
+- Issue with data parsing in Toolbar
+
 Version 6.0.1 (July 5, 2019)
 ----------------------------
 

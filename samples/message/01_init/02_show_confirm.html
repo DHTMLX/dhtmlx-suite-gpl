@@ -6,11 +6,9 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Message to explore its initialization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-		
-		
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
 		<!-- custom sample head -->
 	</head>
 	<body>
@@ -33,8 +31,7 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					<div class="dhx_sample-header__content">
-						Show confirm.
+							Show confirm.
 				</h1>
 			</div>
 </header>
@@ -44,12 +41,9 @@
 		<script>
 			function show() {
 				dhx.confirm({
-					header: "DHTMLX Confirmation Box",
+					header: "DHTMLX Confirm Box",
 					text: "With the help of DHTMLX components you are able to create versatile user interfaces for web apps of any kind. Modern technologies and design make our library a great tool for developers working on the most complex projects. And here dhtmlxMessage represents a small but indispensable toolkit of helpers for initializing all types of messages: notifications, alert and confirmation boxes, and tooltips. Try out the abilities of dhtmlxMessage in our interactive demos and samples.",
-					buttons: ["Cancel", "Ok"],
-					buttonsAlignment: 'center',
-					escClose: true
-				});
+				}).then( i => console.log('i', i))
 			}
 		</script>
 	</body>

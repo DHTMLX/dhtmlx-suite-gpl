@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Get Window visible status - DHTMLX Window</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Window to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_form-group--inline {
+				max-width: 200px;
+			}
+			.dhx_sample-container {
+				max-width: 300px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Window samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Get Window visible status</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+							Get Window visible status.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input type="radio" checked name="show" id="show" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Visible </span>
+			</label>
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input type="radio" name="show" id="hide" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Hidden</span>
+			</label>
+			<button id="get-window-visible" class="dhx_sample-btn dhx_sample-btn--flat">Get Window visible status</button>
+			<div class="dhx_sample-form-group dhx_form-group dhx_form-group--inline dhx_form-group--label_sr">
+				<label for="selected_visible" class="dhx_label">Active item</label>
+				<input type="text" id="selected_visible" class="dhx_input dhx_sample-input" readonly>
+			</div>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="window"></div>
+			
+		</section>
+
+		<script>
+			var windowHTML = "<p>Here is a neat JavaScript window system with flexible configuration options. For example, you can easily set the size of the window by redefining its width and height.</p><img style='display: block; width: 200px; height: 200px; margin-top: 20px; margin-left: auto; margin-right: auto' src='../common/developer.svg'>"
+			var dhxWindow = new dhx.Window({width: 440, height: 450, title: "Window"});
+			dhxWindow.attachHTML(windowHTML);
+			dhxWindow.show();
+			document.querySelector("#show").addEventListener("change", function(){
+				dhxWindow.show();
+			});
+			document.querySelector("#hide").addEventListener("change", function(){
+				dhxWindow.hide();
+			});
+			document.querySelector("#get-window-visible").addEventListener("click", function () {
+				document.querySelector("#selected_visible").value = dhxWindow.isVisible();
+			});
+		</script>
+
+	</body>
+</html>

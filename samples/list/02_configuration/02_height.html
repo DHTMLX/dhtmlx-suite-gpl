@@ -6,16 +6,18 @@
 		<meta name="description" content="Check interactive samples of DHTMLX List to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
-		
-		
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
 		<!-- custom sample head -->
-		<script type="text/javascript" src="../common/listdata.js?v=6.0.1"></script>
+		<script type="text/javascript" src="../common/listdata.js?v=6.1.4"></script>
 		<style>
-			.dhx_sample-container {
+			.dhx_sample-container__widget {
 				max-width: 600px;
+				height: 500px;
+			}
+			.dhx_sample-controls {
+				height: 60px;
 			}
 		</style>
 	</head>
@@ -40,7 +42,8 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-						Setup list height.
+							Setup list height.
+					</div>
 				</h1>
 			</div>
 </header>
@@ -56,10 +59,10 @@
 		</section>
 
 		<script>
-			var list = new dhx.List("list", {hieght: 700, css: "dhx_widget--bordered", template: template, itemHeight: 72});
+			var list = new dhx.List("list", {height: 700, css: "dhx_widget--bordered", template: template, itemHeight: 72});
 			list.data.load("../common/books.json");
 			function handleSetHeight(height) {
-				list.config.height = height
+				list.config.height = height;
 				list.paint()
 			}
 		</script>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>TimePicker - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">	
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container { 
+				max-width: 800px;
+				min-height: auto;
+			}
+			.dhx_sample-container__widget {
+				width: 400px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">TimePicker</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					TimePicker.
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-container">
+			<form class="dhx_sample-container__widget" id="form-sample"></form>
+			<form class="dhx_sample-container__widget" id="form-settings"></form>
+		</section>
+
+		<script>
+			var timePickerConfig = {
+				type: "timepicker",
+				placeholder: "Choose a time",
+				label: "Time",
+				labelWidth: "100px",
+				labelInline: true,
+				disabled: false,
+                required: false,
+                editing: false,
+				help: "",
+				preMessage: "",
+				successMessage: "",
+                errorMessage: "",
+                weekStart: "sunday",
+                timeFormat: 24
+			}
+			var formSettings = new dhx.Form("form-settings", {
+				cellCss: "dhx_widget--bordered",
+				rows: [
+                    {
+						type: "select",
+                        label: "timeFormat",
+                        name: "timeFormat",
+						labelInline: true,
+						labelWidth: "100px",
+                        value: timePickerConfig.timeFormat,
+						options: [
+							{
+								value: "24",
+								content: "24"
+							},
+							{
+								value: "12",
+								content: "12"
+							}
+						]
+                    },
+					{
+						type: "input",
+						label: "icon",
+						name: "icon",
+						value: timePickerConfig.icon,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "input",
+						label: "placeholder",
+						name: "placeholder",
+						value: timePickerConfig.placeholder,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "input",
+						label: "label",
+						name: "label",
+						value: timePickerConfig.label,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "input",
+						label: "labelWidth",
+						name: "labelWidth",
+						value: timePickerConfig.labelWidth,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						align: "end",
+						cols: [
+							{
+								type: "checkbox",
+								label: "labelInline",
+								name: "labelInline",
+								labelInline: true,
+								checked: timePickerConfig.labelInline,
+								gravity: false,
+								width: "132px"
+							},
+							{
+								type: "checkbox",
+								label: "disabled",
+								name: "disabled",
+								labelInline: true,
+								checked: timePickerConfig.disabled,
+								gravity: false,
+								width: "132px"
+							}
+						]						
+					},
+					{
+						align: "end",
+						cols: [
+							{
+								type: "checkbox",
+								label: "required",
+								name: "required",
+								labelInline: true,
+								checked: timePickerConfig.required,
+								gravity: false,
+								width: "132px"				
+							},
+							{
+								type: "checkbox",
+								label: "editing",
+								name: "editing",
+								labelInline: true,
+								checked: timePickerConfig.editing,
+								gravity: false,
+								width: "132px"
+							}
+						]						
+                    },	
+					{
+						type: "input",
+						label: "help",
+						name: "help",
+						value: timePickerConfig.help,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "input",
+						label: "preMessage",
+						name: "preMessage",
+						value: timePickerConfig.preMessage,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "input",
+						label: "successMessage",
+						name: "successMessage",
+						value: timePickerConfig.successMessage,
+						labelWidth: "100px",
+						labelInline: true
+					},
+					{
+						type: "input",
+						label: "errorMessage",
+						name: "errorMessage",
+						value: timePickerConfig.errorMessage,
+						labelWidth: "100px",
+						labelInline: true
+					}
+				]
+			});
+			formSettings.events.on("change", function(name, value) {
+                timePickerConfig[name] = value;
+                if (timePickerConfig.timeFormat === 24 || timePickerConfig.timeFormat === "24") {
+                    timePickerConfig.timeFormat = 24;
+                } else {
+                    timePickerConfig.timeFormat = 12
+                }
+                createForm();
+			});
+			var form;
+			function createForm() {
+				if (form) {
+					form.destructor();
+                }
+				form = new dhx.Form("form-sample", {
+					cellCss: "dhx_widget--bordered",
+					rows: [
+                        timePickerConfig
+					]
+				});
+			}
+			createForm();
+		</script>
+	</body>
+</html>

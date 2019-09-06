@@ -5208,7 +5208,7 @@ var Sort = /** @class */ (function () {
             by.rule = function (a, b) {
                 var aa = _this._checkVal(by.as, a[by.by]);
                 var bb = _this._checkVal(by.as, b[by.by]);
-                return helpers_1.naturalCompare(aa.toString(), bb.toString()); // didnt work with numbers
+                return helpers_1.naturalCompare(aa.toString(), bb.toString());
             };
             this._sort(array, by);
         }

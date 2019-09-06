@@ -1,0 +1,72 @@
+[
+  {
+    "month": "`02",
+    "company A": 20,
+    "company B": 52,
+    "company C": 72,
+    "company D": 34
+  },
+  {
+    "month": "`03",
+    "company A": 5,
+    "company B": 33,
+    "company C": 90,
+    "company D": 55
+  },
+  {
+    "month": "`04",
+    "company A": 55,
+    "company B": 30,
+    "company C": 81,
+    "company D": 66
+  },
+  {
+    "month": "`05",
+    "company A": 30,
+    "company B": 11,
+    "company C": 62,
+    "company D": 22
+  },
+  {
+    "month": "`06",
+    "company A": 27,
+    "company B": 14,
+    "company C": 68,
+    "company D": 70
+  },
+  {
+    "month": "`07",
+    "company A": 32,
+    "company B": 31,
+    "company C": 64,
+    "company D": 50
+  },
+  {
+    "month": "`08",
+    "company A": 50,
+    "company B": 22,
+    "company C": 30,
+    "company D": 80
+  },
+  {
+    "month": "`09",
+    "company A": 12,
+    "company B": 19,
+    "company C": 65,
+    "company D": 48
+  },
+  {
+    "month": "`10",
+    "company A": 10,
+    "company B": 24,
+    "company C": 50,
+    "company D": 66
+  },
+  {
+    "month": "`11",
+    "company A": 17,
+    "company B": 40,
+    "company C": 78,
+    "company D": 55
+  }
+]

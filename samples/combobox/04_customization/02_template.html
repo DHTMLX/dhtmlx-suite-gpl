@@ -6,11 +6,11 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Combobox to explore its customization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
 		
-		<script type="text/javascript" src="../common/countries_dataset.js?v=6.0.1"></script>
+		<script type="text/javascript" src="../common/countries_dataset.js?v=6.1.4"></script>
 		<!-- custom sample head -->
 		<style>
 			.dhx_sample-container {
@@ -38,8 +38,7 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					<div class="dhx_sample-header__content">
-						Template.
+							Template.
 				</h1>
 			</div>
 </header>
@@ -51,7 +50,7 @@
 		<script>
 			var combobox = new dhx.Combobox("combobox", {
 				template: function (item) {
-					return "<div style='display:inline-block; vertical-align:middle;'><img style='width:20px;height:20px;margin-right:10px;' src="+item.src+"></div>" + item.value + "</div>";
+					return "<div style='user-select:none;display:inline-block; vertical-align:middle;'><img style='width:20px;height:20px;margin-right:10px;' src="+item.src+"></div>" + item.value + "</div>";
 				}
 			});
 			combobox.data.parse(countries);

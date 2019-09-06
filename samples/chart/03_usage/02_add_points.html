@@ -6,11 +6,11 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Chart to explore its usage and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
 		
-		<script type="text/javascript" src="../common/dataset.js?v=6.0.1"></script>
+		<script type="text/javascript" src="../common/dataset.js?v=6.1.4"></script>
 		<!-- custom sample head -->
 	</head>
 	<body>
@@ -34,7 +34,7 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-						Adding data on the fly.
+							Adding data on the fly.
 						<div class="dhx_sample-docs-links">
 							Check documentation:
 							<a href="https://docs.dhtmlx.com/suite/chart__usage.html#addingitemsintochart" target="_blank" class="dhx_sample-header-link">Adding items into Chart</a>
@@ -45,9 +45,7 @@
 			</div>
 </header>
 		<section class="dhx_sample-controls">
-			<div class="dhx_sample-form-group dhx_form-group dhx_form-group--inline">
-				<button id="get-selected-index" class="dhx_sample-btn dhx_sample-btn--flat" onclick="add()">add</button>
-			</div>
+			<button id="get-selected-index" class="dhx_sample-btn dhx_sample-btn--flat" onclick="add()">add</button>
 		</section>
 		<section class="dhx_sample-container">
 			<div class="dhx_sample-container__widget" id="chart"></div>
@@ -55,48 +53,48 @@
 		</section>
 
 		<script>
-		var config = {
-			type:"line",
-			scales: {
-				"bottom" : {
-					text: "t",
-					showText: false
+			var config = {
+				type:"line",
+				scales: {
+					"bottom" : {
+						text: "t",
+						showText: false
+					},
+					"left" : {
+						maxTicks: 10,
+						max: 100,
+						min: 0
+					}
 				},
-				"left" : {
-					maxTicks: 10,
-					max: 100,
-					min: 0
-				}
-			},
-			series: [
+				series: [
+					{
+						value: "value",
+						color: "#5E83BA",
+						strokeWidth: 2
+					}
+				]
+			};
+			var chart = new dhx.Chart("chart", config);
+			chart.data.parse([
 				{
-					value: "value",
-					color: "#5E83BA",
-					strokeWidth: 2
+					value: Math.random() * 100,
+					t: "u" + Date.now() + 1
+				},
+				{
+					value: Math.random() * 100,
+					t: "u" + Date.now() + 2
+				},
+				{
+					value: Math.random() * 100,
+					t: "u" + Date.now() + 3
 				}
-			]
-		};
-		var chart = new dhx.Chart("chart", config);
-		chart.data.parse([
-			{
-				value: Math.random() * 100,
-				t: "u" + Date.now() + 1
-			},
-			{
-				value: Math.random() * 100,
-				t: "u" + Date.now() + 2
-			},
-			{
-				value: Math.random() * 100,
-				t: "u" + Date.now() + 3
+			]);
+			function add() {
+				chart.data.add({
+					value: Math.random() * 100,
+					t: "u" + Date.now()
+				});
 			}
-		])
-		function add() {
-			chart.data.add({
-				value: Math.random() * 100,
-				t: "u" + Date.now()
-			});
-		}
 		</script>
 
 	</body>

@@ -1,24 +1,24 @@
 var menuStruct = [
     {
-    id: "edit", value: "edit", items: [
-            { id: "undo", value: "undo", icon: "mdi mdi-undo" },
-            { id: "redo", value: "redo", icon: "mdi mdi-redo" },
-            { type: "separator" },
-            { id: "lock", value: "lockCell", icon: "mdi mdi-key" },
-            { type: "separator" },
+        id: "edit", value: "Edit", items: [
+            {id: "undo", value: "Undo", icon: "mdi mdi-undo"},
+            {id: "redo", value: "Redo", icon: "mdi mdi-redo"},
+            {type: "separator"},
+            {id: "lock", value: "Lock cell", icon: "mdi mdi-key"},
+            {type: "separator"},
             {
-                id: "clear", value: "clear", icon: "mdi mdi-eraser", items: [
+                id: "clear", value: "Clear", icon: "mdi mdi-eraser", items: [
                     {
                         id: "clear-value",
-                        value: "clearValue"
+                        value: "Clear value"
                     },
                     {
                         id: "clear-styles",
-                        value: "clearStyles"
+                        value: "Clear styles"
                     },
                     {
                         id: "clear-all",
-                        value: "clearAll"
+                        value: "Clear all"
                     }
                 ]
             }
@@ -26,31 +26,31 @@ var menuStruct = [
 
     },
     {
-        id: "insert", value: "insert", items: [
+        id: "insert", value: "Insert", items: [
             {
-                id: "columns", value: "columns", icon: "mdi mdi-table-column", items: [
+                id: "columns", value: "Columns", icon: "mdi mdi-table-column", items: [
                     {
                         id: "add-col",
-                        value: "addColumn",
+                        value: "Add column",
                         icon: "mdi mdi-table-column-plus-before"
                     },
                     {
                         id: "remove-col",
-                        value: "removeColumn",
+                        value: "Remove column",
                         icon: "mdi mdi-table-column-remove"
                     }
                 ]
             },
             {
-                id: "rows", value: "rows", icon: "mdi mdi-table-row", items: [
+                id: "rows", value: "Rows", icon: "mdi mdi-table-row", items: [
                     {
                         id: "add-row",
-                        value: "addRow",
+                        value: "Add row",
                         icon: "mdi mdi-table-row-plus-after"
                     },
                     {
                         id: "remove-row",
-                        value: "removeRow",
+                        value: "Remove row",
                         icon: "mdi mdi-table-row-remove"
                     }
                 ]
@@ -58,38 +58,38 @@ var menuStruct = [
         ]
     },
     {
-        id: "configuration", value: "format", items: [
+        id: "configuration", value: "Format", items: [
             {
                 id: "font-weight-bold",
-                value: "bold",
+                value: "Bold",
                 icon: "mdi mdi-format-bold"
             },
             {
                 id: "font-style-italic",
-                value: "italic",
+                value: "Italic",
                 icon: "mdi mdi-format-italic"
             },
             {
                 id: "text-decoration-underline",
-                value: "underline",
+                value: "Underline",
                 icon: "mdi mdi-format-underline"
             },
-            { type: "separator" },
+            {type: "separator"},
             {
-                id: "align", value: "align", items: [
+                id: "align", value: "Align", items: [
                     {
                         id: "align-left",
-                        value: "left",
+                        value: "Left",
                         icon: "mdi mdi-format-align-left"
                     },
                     {
                         id: "align-center",
-                        value: "center",
+                        value: "Center",
                         icon: "mdi mdi-format-align-center"
                     },
                     {
                         id: "align-right",
-                        value: "right",
+                        value: "Right",
                         icon: "mdi mdi-format-align-right"
                     }
                 ]
@@ -97,7 +97,7 @@ var menuStruct = [
         ]
     },
     {
-        value: "help", items: [
+        value: "Help", items: [
             {
                 id: "about",
                 value: "About",
@@ -110,7 +110,7 @@ var menuStruct = [
             },
             {
                 id: "bug",
-                value: "Bug Reporting",
+                value: "Bug reporting",
                 icon: "mdi mdi-bug"
             }
         ]
@@ -119,9 +119,9 @@ var menuStruct = [
 
 
 var contextMenuStruct = [
-    { type: "menuItem", id: "add", value: "Add", icon: "mdi mdi-plus" },
-    { type: "menuItem", id: "rename", value: "Rename", icon: "mdi mdi-pencil" },
-    { type: "menuItem", id: "delete", value: "Delete", icon: "mdi mdi-delete", hotkey: "Del" },
-    { type: "separator" },
-    { type: "menuItem", id: "info", value: "Info", icon: "mdi mdi-information" }
+    {type: "menuItem", id: "add", value: "Add", icon: "mdi mdi-plus"},
+    {type: "menuItem", id: "rename", value: "Rename", icon: "mdi mdi-pencil"},
+    {type: "menuItem", id: "delete", value: "Delete", icon: "mdi mdi-delete", hotkey: "Del"},
+    {type: "separator"},
+    {type: "menuItem", id: "info", value: "Info", icon: "mdi mdi-information"}
 ];

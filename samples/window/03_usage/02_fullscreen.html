@@ -2,13 +2,13 @@
 <html>
 	<head>
 		<!-- meta block -->
-		<title>metaTitle</title>
+		<title>Fullscreen mode - DHTMLX Window</title>
 		<meta name="description" content="Check interactive samples of DHTMLX Window to explore its usage and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
 		
 		
 		<!-- custom sample head -->
@@ -34,7 +34,8 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-						Fullscreen mode.
+							Fullscreen mode.
+					</div>
 				</h1>
 			</div>
 </header>
@@ -48,9 +49,9 @@
 		
 		<script>
 			var windowHTML = "<p>dhtmlxWindow is a flexible window system, which is equipped with several useful modes. Here you can try out the fullscreen mode.</p><p>Besides, you can make use of modal, movable, resizable, and free modes. Inspect all samples to discover other modes and important features.</p><img style='display: block; width: 200px; height: 200px; margin-top: 20px; margin-left: auto; margin-right: auto' src='../common/developer.svg'>";
-			var dhxWindow = new dhx.Window({width: 440, height: 520, title: "Window", closable: true});
+			var dhxWindow = new dhx.Window({width: 440, height: 450, title: "Window", closable: true});
 			dhxWindow.attachHTML(windowHTML);
-			dhxWindow.show()
+			dhxWindow.show();
 			document.querySelector("#fullscreen").addEventListener('click', function(){
 				dhxWindow.fullScreen()
 			})

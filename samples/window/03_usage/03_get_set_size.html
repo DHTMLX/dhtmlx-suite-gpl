@@ -2,13 +2,13 @@
 <html>
 	<head>
 		<!-- meta block -->
-		<title>metaTitle</title>
+		<title>Set/get Window size - DHTMLX Window</title>
 		<meta name="description" content="Check interactive samples of DHTMLX Window to explore its usage and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.0.1"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.0.1">
-		<link rel="stylesheet" href="../../common/index.css?v=6.0.1">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
+		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
 		
 		
 		<!-- custom sample head -->
@@ -44,7 +44,8 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-						Set/get Window size.
+							Set/get Window size.
+					</div>
 				</h1>
 			</div>
 </header>
@@ -67,7 +68,7 @@
 		
 		<script>
 			var windowHTML = "<p>Here is a neat JavaScript window system with flexible configuration options. For example, you can easily set the size of the window by redefining its width and height.</p><img style='display: block; width: 200px; height: 200px; margin-top: 20px; margin-left: auto; margin-right: auto' src='../common/developer.svg'>"
-			var dhxWindow = new dhx.Window({width: 440, height: 520, title: "window", resizable: true});
+			var dhxWindow = new dhx.Window({width: 440, height: 450, title: "Window", resizable: true});
 			var heightEl = document.querySelector("#height");
 			var widthEl = document.querySelector("#width");
 			dhxWindow.attachHTML(windowHTML);
