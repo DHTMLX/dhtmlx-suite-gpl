@@ -12473,7 +12473,7 @@ var Cell = /** @class */ (function (_super) {
             this._parent.show();
         }
         this.paint();
-        this.events.fire(types_1.LayoutEvents.afterHide, [this.id]);
+        this.events.fire(types_1.LayoutEvents.afterShow, [this.id]);
     };
     Cell.prototype.expand = function () {
         if (!this.events.fire(types_1.LayoutEvents.beforeExpand, [this.id])) {
