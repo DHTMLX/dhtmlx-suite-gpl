@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Min width - DHTMLX Grid</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Grid to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/grid.css?v=6.4.2">
+		<script type="text/javascript" src="../common/dataset.js?v=6.4.2"></script>
+		<!-- custom sample head -->
+		<style>
+			.dhx_form-group--inline {
+				max-width: 300px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Grid samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Min width</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						You can adjust the parameters of the columns so that their width is not less than the set value.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder" id="form-select">
+				<label for="col" class="dhx_label">Select column:</label>
+				<select name="col" class="dhx_select dhx_input" id="col">
+					<option value="country" selected>Country</option>
+					<option value="population">Population</option>
+					<option value="yearlyChange">Yearly Change</option>
+					<option value="netChange">Net Change</option>
+					<option value="destiny">Density (P/Km²)</option>
+					<option value="area">Land Area (Km²)</option>
+					<option value="migrants">Migrants (net)</option>
+					<option value="fert">Fert. Rate</option>
+					<option value="age">Med. Age</option>
+					<option value="urban">Urban Pop</option>
+				</select>
+			</div>
+			<div class="dhx_sample-form-group dhx_form-group dhx_form-group--inline">
+				<label for="min_width" class="dhx_label">Min width</label>
+				<input type="number" id="min_width" class="dhx_input dhx_sample-input" value="125" onchange="initGrid(this.value)">
+			</div>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="grid"></div>
+		</section>
+		<script>
+			var grid;
+			var col = "country";
+
+			var config = {
+				columns: [
+					{ minWidth: 125, width: 100, id: "country", header: [{ text: "Country" }] },
+					{ minWidth: 125, width: 100, id: "population", header: [{ text: "Population" }] },
+					{ minWidth: 125, width: 100, id: "yearlyChange", header: [{ text: "Yearly Change" }] },
+					{ minWidth: 125, width: 100, id: "netChange", header: [{ text: "Net Change" }] },
+					{ minWidth: 125, width: 100, id: "destiny", header: [{ text: "Density (P/Km²)" }] },
+					{ minWidth: 125, width: 100, id: "area", header: [{ text: "Land Area (Km²)" }] },
+					{ minWidth: 125, width: 100, id: "migrants", header: [{ text: "Migrants (net)" }] },
+					{ minWidth: 125, width: 100, id: "fert", header: [{ text: "Fert. Rate" }] },
+					{ minWidth: 125, width: 100, id: "age", header: [{ text: "Med. Age" }] },
+					{ minWidth: 125, width: 100, id: "urban", header: [{ text: "Urban Pop" }] }
+				],
+				data: dataset
+			};
+
+			function initGrid(minWidth) {
+				minWidth = minWidth || 125;
+				if (grid) {
+					grid.destructor();
+				}
+				config.columns.map(function (item) {
+					if (item.id === col) {
+						item.minWidth = parseInt(minWidth);
+					}
+				});
+				grid = new dhx.Grid("grid", config);
+			}
+
+			document.getElementById("form-select").addEventListener("change", function(e) {
+				col = e.target.value;
+			});
+
+			initGrid();
+		</script>
+	</body>
+</html>

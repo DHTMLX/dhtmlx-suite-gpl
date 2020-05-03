@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Select button - DHTMLX Ribbon</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Ribbon to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		
+		
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Ribbon samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Select button</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+							Select button.
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="ribbon"></div>
+		</section>
+		<script>
+			var ribbon = new dhx.Ribbon("ribbon", {css: "dhx_widget--bordered"});
+			ribbon.data.parse([
+				{
+					type: "block",
+					direction: "col",
+					"items": [
+						{
+							value: "New",
+							icon: "dxi dxi-file-outline",
+							size: "auto",
+						}
+					]
+				},
+				{
+					type: "block",
+					direction: "col",
+					"items": [
+						{
+							value: "Save",
+							icon: "dxi dxi-file-export",
+							size: "small",
+						},
+						{
+							value: "Remove",
+							icon: "dxi dxi-delete",
+							size: "small",
+						},
+						{
+							type: "selectButton",
+							value: "jpeg",
+							size: "small",
+							count: 20,
+							items: [
+								{
+									value: "jpeg",
+									hotkey: "alt+1"
+								},
+								{
+									value: "pdf",
+									hotkey: "alt+2"
+								},
+								{
+									value: "png",
+									hotkey: "alt+3"
+								}
+							]
+						}
+					]
+				}
+			]);
+		</script>
+	</body>
+</html>

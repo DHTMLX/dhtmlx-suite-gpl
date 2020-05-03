@@ -6,25 +6,20 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">		
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/form.css?v=6.4.2">
+		
 		<!-- custom sample head -->
 		<style>
-			.dhx_sample-container__widget {
-				width: 600px;
-			}
-			.dhx_sample-container { 
-				max-width: 1000px;
-				min-height: 800px;
+			.dhx_sample-container {
+				width: 1000px;
 			}
 			.dhx_sample-container__widget {
-				-webkit-align-self: flex-start;
-				    -ms-flex-item-align: start;
-				        align-self: flex-start;
-			}
-			.dhx_sample-container__sidebar {
-				max-height: 1000px;
+				padding: 0 25px;
+				height: 100%;
+				max-width: 450px;
 			}
 		</style>
 	</head>
@@ -48,15 +43,16 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					Textareas.
+					<div class="dhx_sample-header__content">
+						Textareas.
+					</div>
 				</h1>
 			</div>
-		</header>
+</header>
 		<section class="dhx_sample-container">
 			<form class="dhx_sample-container__widget" id="form-sample"></form>
 			<form class="dhx_sample-container__widget" id="form-settings"></form>
 		</section>
-
 		<script>
 			var textareaConfig = {
 				type: "textarea",
@@ -65,114 +61,119 @@
 				placeholder: "i am textarea",
 				label: "i am textarea",
 				labelWidth: "100px",
-				labelInline: true,
+				labelPosition: "left",
 				disabled: false,
 				required: false,
 				readOnly: false,
 				resizable: false,
-				help: "",
+				helpMessage: "",
 				preMessage: "",
 				successMessage: "",
 				errorMessage: "",
 				height: "150px",
 				hidden: false
-			}
+			};
 			var formSettings = new dhx.Form("form-settings", {
-				cellCss: "dhx_widget--bordered",
+				css: "dhx_widget--bordered",
 				rows: [
 					{
 						type: "input",
 						label: "value",
 						name: "value",
 						value: textareaConfig.value,
-						labelWidth: "100px",
-						labelInline: true
+						labelWidth: "130px",
+						labelPosition: "left"
 					},
 					{
 						type: "input",
 						label: "placeholder",
 						name: "placeholder",
 						value: textareaConfig.placeholder,
-						labelWidth: "100px",
-						labelInline: true
+						labelWidth: "130px",
+						labelPosition: "left"
 					},
 					{
 						type: "input",
 						label: "label",
 						name: "label",
 						value: textareaConfig.label,
-						labelWidth: "100px",
-						labelInline: true
+						labelWidth: "130px",
+						labelPosition: "left"
 					},
 					{
 						type: "input",
 						label: "labelWidth",
 						name: "labelWidth",
 						value: textareaConfig.labelWidth,
-						labelWidth: "100px",
-						labelInline: true
+						labelWidth: "130px",
+						labelPosition: "left"
+					},
+					{
+						type: "select",
+						readonly: true,
+						name: "labelPosition",
+						label: "labelPosition",
+						labelPosition: "left",
+						labelWidth: "130px",
+						options: [
+							{content: "left", value: "left"},
+							{content: "bottom", value: "bottom"},
+						]
 					},
 					{
 						type: "input",
 						label: "Height",
 						name: "height",
 						value: textareaConfig.height,
-						labelWidth: "100px",
-						labelInline: true
+						labelWidth: "130px",
+						labelPosition: "left"
 					},
 					{
 						rows: [
 							{
-								"align": "end",
+								align: "end",
+								padding: "0 0 0 20px",
 								cols: [
-									{
-										type: "checkbox",
-										label: "labelInline",
-										name: "labelInline",
-										labelInline: true,
-										gravity: false,
-										width: "25%",
-										checked: textareaConfig.labelInline
-									},
 									{
 										type: "checkbox",
 										label: "disabled",
 										name: "disabled",
-										labelInline: true,
-										width: "25%",
+										labelPosition: "left",
 										gravity: false,
+										width: "30%",
 										checked: textareaConfig.disabled
 									},
 									{
 										type: "checkbox",
 										label: "required",
 										name: "required",
-										labelInline: true,
-										width: "26%",
+										labelPosition: "left",
 										gravity: false,
+										width: "30%",
 										checked: textareaConfig.required
 									},
 								]
 							},
 							{
-								"align": "end",
+								align: "end",
+								padding: "0 0 0 20px",
 								cols: [
 									{
 										type: "checkbox",
 										label: "readOnly",
 										name: "readOnly",
-										labelInline: true,
+										labelPosition: "left",
 										gravity: false,
-										width: "25%",
+										width: "30%",
 										checked: textareaConfig.readOnly
 									},
 									{
 										type: "checkbox",
 										label: "resizable",
 										name: "resizable",
-										labelInline: true,
+										labelPosition: "left",
 										gravity: false,
-										width: "51%",
+										width: "30%",
 										checked: textareaConfig.resizable
 									}
 								]
@@ -181,19 +182,19 @@
 					},
 					{
 						type: "input",
-						label: "help",
-						name: "help",
-						value: textareaConfig.help,
-						labelWidth: "100px",
-						labelInline: true
+						label: "helpMessage",
+						name: "helpMessage",
+						value: textareaConfig.helpMessage,
+						labelWidth: "130px",
+						labelPosition: "left",
 					},
 					{
 						type: "combo",
 						readonly: true,
 						name: "validation",
 						label: "validation",
-						labelInline: true,
-						labelWidth: "100px",
+						labelPosition: "left",
+						labelWidth: "130px",
 						data: [
 							{id: "", value:""},
 							{id: "email", value: "email"},
@@ -208,27 +209,28 @@
 						label: "preMessage",
 						name: "preMessage",
 						value: textareaConfig.preMessage,
-						labelWidth: "100px",
-						labelInline: true
+						labelWidth: "130px",
+						labelPosition: "left",
 					},
 					{
 						type: "input",
 						label: "successMessage",
 						name: "successMessage",
 						value: textareaConfig.successMessage,
-						labelWidth: "100px",
-						labelInline: true
+						labelWidth: "130px",
+						labelPosition: "left",
 					},
 					{
 						type: "input",
 						label: "errorMessage",
 						name: "errorMessage",
 						value: textareaConfig.errorMessage,
-						labelWidth: "100px",
-						labelInline: true
+						labelWidth: "130px",
+						labelPosition: "left",
 					}
 				]
 			});
+
 			formSettings.events.on("change", function(name, value) {
 				textareaConfig[name] = value;
 				createForm();
@@ -239,7 +241,7 @@
 					form.destructor();
 				}
 				form = new dhx.Form("form-sample", {
-					cellCss: "dhx_widget--bordered",
+					css: "dhx_widget--bordered",
 					rows: [
 						textareaConfig
 					]
@@ -247,5 +249,6 @@
 			}
 			createForm();
 		</script>
+
 	</body>
 </html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Navigation items - DHTMLX Sidebar</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Sidebar to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/sidebar.css?v=6.4.2">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container__sidebar {
+				border-right: none;
+				border-top: none;
+				border-bottom: none;
+				margin: 0;
+				height: calc(100vh - 61px);
+			}
+			.dhx_form-group:not(:last-child) {
+				margin-right: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Sidebar samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Navigation items</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Navigation items.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="sidebar"></div>
+			<div class="dhx_sample-container__result"><textarea id="data" readonly class="dhx_textarea"></textarea></div>
+			<div class="dhx_sample-container__sidebar">
+				<form class="dhx_sample_form" id="form-controls">
+					<div class="dhx_form-group">
+						<label for="value" class="dhx_label">Item value</label>
+						<input type="text" id="value" name="value" value="Sidebar navItem" class="dhx_input dhx_sample-input">
+					</div>
+					<div class="dhx_form-group">
+						<label for="tooltip" class="dhx_label">Item tooltip</label>
+						<input type="text" id="tooltip" value="navItem tooltip" name="tooltip" class="dhx_input dhx_sample-input">
+					</div>
+					<div class="dhx_form-group">
+						<label for="icon" class="dhx_label">Item icon</label>
+						<input type="text" id="icon" value="dxi dxi-file-outline" name="icon" class="dhx_input dhx_sample-input">
+					</div>
+					<div class="dhx_form-group">
+						<label for="count" class="dhx_label">Item count</label>
+						<input type="text" id="count" value="20" name="count" class="dhx_input dhx_sample-input">
+					</div>
+					<div class="dhx_form-group">
+						<label for="countColor" class="dhx_label">Item count color</label>
+						<select name="countColor" class="dhx_select dhx_input" id="countColor">
+							<option value="danger" selected>danger</option>
+							<option value="primary">primary</option>
+							<option value="secondary">secondary</option>
+							<option value="success">success</option>
+						</select>
+					</div>
+				</form>
+			</div>
+		</section>
+		<script>
+			var sidebar = new dhx.Sidebar("sidebar", {
+				css: "dhx_widget--border_right"
+			});
+			var cfg = {
+				id: "nav",
+				value: "Sidebar navItem",
+				tooltip: "Item tooltip",
+				icon: "dxi dxi-file-outline",
+				count: 20,
+				countColor: "danger"
+			};
+			sidebar.data.add(cfg);
+			document.getElementById("data").innerHTML = JSON.stringify(cfg, null, 4);
+			document.getElementById("form-controls").addEventListener("change", function(e) {
+				var prop = e.target.id;
+				var updateObj = {};
+				updateObj[prop] = e.target.value;
+				sidebar.data.update(cfg.id, updateObj);
+				document.getElementById("data").innerHTML = JSON.stringify(cfg, null, 4)
+			});
+		</script>
+	</body>
+</html>

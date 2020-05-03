@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Map - DHTMLX Data</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Data to explore its datacollection-api and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/data.css?v=6.4.2">
+		<script type="text/javascript" src="../common/index.js?v=6.4.2"></script>
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-result {
+				justify-content: space-between;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Data samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Datacollection-api</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Map</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Map.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<div class="dhx_sample-form-group dhx_form-group dhx_form-group--inline">
+				<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="map()">get array of values</button>
+			</div>
+		</section>
+		<div class="dhx_sample-result">
+			<div>
+				<h4>Parsed data:</h4>
+				<textarea id="data" class="dhx_textarea"></textarea>
+			</div>
+			<div>
+				<h4>Result:</h4>
+				<textarea id="data-result" class="dhx_textarea"></textarea>
+			</div>
+		</div>
+		<script>
+			var datacollection = new dhx.DataCollection();
+			datacollection.parse([
+				{value: "Vilnius", id: "1"},
+				{value: "Paris", id: "2"},
+				{value: "London", id: "3"},
+				{value: "Rome", id: "4"}
+			]);
+			printData(datacollection, "data");
+			function map() {
+				var values = datacollection.map(function(item) {
+					return item.value;
+				});
+				document.querySelector("#data-result").value = JSON.stringify(values, null, 4)
+			}
+		</script>
+	</body>
+</html>

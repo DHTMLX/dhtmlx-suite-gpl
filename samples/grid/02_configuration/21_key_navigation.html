@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Key navigation - DHTMLX Grid</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Grid to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/grid.css?v=6.4.2">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container {
+				max-width: 1366px;
+			}
+			.dhx_sample-container__info {
+				position: relative;
+				width: 400px;
+				font-size: 14px;
+				margin-left: 30px;
+				overflow: auto;
+				border: 1px solid #d2d2d2;
+				padding-bottom: 20px;
+			}
+			.dhx_sample-container__info > div:first-child {
+				padding-left: 8px;
+				padding-top: 2px;
+				height: 100%;
+			}
+			.dhx_sample-container__info-blur {
+				position: fixed;
+				height: 20px;
+				width: inherit;
+				background: linear-gradient(rgba(0, 0, 0, 0), #DFDFDF);
+			}
+			.dhx_sample-info {
+				align-items: center;
+				padding: 6px 0;
+				line-height: 24px;
+			}
+			.hotkey {
+				margin-right: 8px;
+				background-color: #e8e8e8;
+				width: fit-content;
+				text-align: center;
+				padding: 0 8px;
+				border-radius: 2px;
+				border: 1px solid #d2d2d2;
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Grid samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Key navigation</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Key navigation.
+					</div>
+				</h1>
+			</div>
+</header>
+		<form class="dhx_sample-controls">
+			<label class="dhx_form-group dhx_checkbox dhx_form-group--inline dhx_form-group--no-message-holder">
+				<input type="checkbox" checked name="keynavigation" class="dhx_checkbox__input">
+				<span class="dhx_checkbox__visual-input"></span>
+				<span class="dhx_sample-label">KeyNavigation</span>
+			</label>
+			<label class="dhx_form-group dhx_checkbox dhx_form-group--inline dhx_form-group--no-message-holder">
+				<input type="checkbox" checked name="selection" class="dhx_checkbox__input">
+				<span class="dhx_checkbox__visual-input"></span>
+				<span class="dhx_sample-label">Selection</span>
+			</label>
+			<label class="dhx_form-group dhx_checkbox dhx_form-group--inline dhx_form-group--no-message-holder">
+				<input type="checkbox" checked name="editable" class="dhx_checkbox__input">
+				<span class="dhx_checkbox__visual-input"></span>
+				<span class="dhx_sample-label">Editable</span>
+			</label>
+			<label class="dhx_form-group dhx_checkbox dhx_form-group--inline dhx_form-group--no-message-holder">
+				<input type="checkbox" checked name="multiselection" class="dhx_checkbox__input">
+				<span class="dhx_checkbox__visual-input"></span>
+				<span class="dhx_sample-label">Multiselection</span>
+			</label>
+		</form>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="grid"></div>
+			<div class="dhx_sample-container__info">
+				<div id="info"></div>
+				<div class="dhx_sample-container__info-blur"></div>
+			</div>
+		</section>
+		<script>
+			var data = [
+				{
+					project: "Real Estate",
+					owner: "Louise Fisher",
+					start_date: "02/03/2018",
+					end_date: "06/05/2018",
+					status: "Done",
+					hours: 92,
+					cost: 3588,
+					budget: 11768,
+					balance: 8180,
+					paid: true,
+					renewals: "1-2 times"
+				},
+				{
+					project: "HR System",
+					owner: "Daniel Peterson",
+					start_date: "03/04/2018",
+					end_date: "02/07/2018",
+					status: "Done",
+					hours: 340,
+					cost: 15980,
+					budget: 18856,
+					balance: 2876,
+					paid: true,
+					renewals: "1 time"
+				},
+				{
+					project: "Inventory",
+					owner: "Fred Duncan",
+					start_date: "01/06/2018",
+					end_date: "01/09/2018",
+					status: "Done",
+					hours: 484,
+					cost: 21296,
+					budget: 14907,
+					balance: -6389,
+					paid: false,
+					renewals: "1 time"
+				},
+				{
+					project: "Trip planner",
+					owner: "Michael Rice",
+					start_date: "01/08/2018",
+					end_date: "06/11/2018",
+					status: "Done",
+					hours: 345,
+					cost: 14835,
+					budget: 70911,
+					balance: 56076,
+					paid: false,
+					renewals: "1-2 times"
+				},
+				{
+					project: "HR System",
+					owner: "Andrew Stewart",
+					start_date: "01/06/2018",
+					end_date: "02/09/2018",
+					status: "Done",
+					hours: 57,
+					cost: 2052,
+					budget: 5068,
+					balance: 3016,
+					paid: true,
+					renewals: "1-2 times"
+				},
+				{
+					project: "HR System",
+					owner: "Martin Thompson",
+					start_date: "06/02/2018",
+					end_date: "01/06/2018",
+					status: "Done",
+					hours: 211,
+					cost: 8229,
+					budget: 16540,
+					balance: 8311,
+					paid: false,
+					renewals: "more than 5 times"
+				},
+				{
+					project: "Ticket System",
+					owner: "Martin Thompson",
+					start_date: "06/05/2019",
+					end_date: "03/07/2019",
+					status: "In Progress",
+					hours: 3,
+					cost: 144,
+					budget: 122,
+					balance: -22,
+					paid: true,
+					renewals: "1 time"
+				},
+				{
+					project: "Education System",
+					owner: "Mark Harper",
+					start_date: "02/04/2019",
+					end_date: "03/08/2019",
+					status: "In Progress",
+					hours: 76,
+					cost: 3496,
+					budget: 12515,
+					balance: 9019,
+					paid: true,
+					renewals: "more than 5 times"
+				},
+				{
+					project: "Real Estate",
+					owner: "Louise Fisher",
+					start_date: "02/03/2018",
+					end_date: "06/05/2018",
+					status: "Done",
+					hours: 92,
+					cost: 3588,
+					budget: 11768,
+					balance: 8180,
+					paid: true,
+					renewals: "1-2 times"
+				},
+				{
+					project: "HR System",
+					owner: "Daniel Peterson",
+					start_date: "03/04/2018",
+					end_date: "02/07/2018",
+					status: "Done",
+					hours: 340,
+					cost: 15980,
+					budget: 18856,
+					balance: 2876,
+					paid: true,
+					renewals: "1 time"
+				},
+				{
+					project: "Inventory",
+					owner: "Fred Duncan",
+					start_date: "01/06/2018",
+					end_date: "01/09/2018",
+					status: "Done",
+					hours: 484,
+					cost: 21296,
+					budget: 14907,
+					balance: -6389,
+					paid: false,
+					renewals: "1 time"
+				},
+				{
+					project: "Trip planner",
+					owner: "Michael Rice",
+					start_date: "01/08/2018",
+					end_date: "06/11/2018",
+					status: "Done",
+					hours: 345,
+					cost: 14835,
+					budget: 70911,
+					balance: 56076,
+					paid: false,
+					renewals: "1-2 times"
+				},
+				{
+					project: "HR System",
+					owner: "Andrew Stewart",
+					start_date: "01/06/2018",
+					end_date: "02/09/2018",
+					status: "Done",
+					hours: 57,
+					cost: 2052,
+					budget: 5068,
+					balance: 3016,
+					paid: true,
+					renewals: "1-2 times"
+				},
+				{
+					project: "HR System",
+					owner: "Martin Thompson",
+					start_date: "06/02/2018",
+					end_date: "01/06/2018",
+					status: "Done",
+					hours: 211,
+					cost: 8229,
+					budget: 16540,
+					balance: 8311,
+					paid: false,
+					renewals: "more than 5 times"
+				},
+				{
+					project: "Ticket System",
+					owner: "Martin Thompson",
+					start_date: "06/05/2019",
+					end_date: "03/07/2019",
+					status: "In Progress",
+					hours: 3,
+					cost: 144,
+					budget: 122,
+					balance: -22,
+					paid: true,
+					renewals: "1 time"
+				},
+				{
+					project: "Education System",
+					owner: "Mark Harper",
+					start_date: "02/04/2019",
+					end_date: "03/08/2019",
+					status: "In Progress",
+					hours: 76,
+					cost: 3496,
+					budget: 12515,
+					balance: 9019,
+					paid: true,
+					renewals: "more than 5 times"
+				},
+				{
+					project: "Real Estate",
+					owner: "Louise Fisher",
+					start_date: "02/03/2018",
+					end_date: "06/05/2018",
+					status: "Done",
+					hours: 92,
+					cost: 3588,
+					budget: 11768,
+					balance: 8180,
+					paid: true,
+					renewals: "1-2 times"
+				},
+				{
+					project: "HR System",
+					owner: "Daniel Peterson",
+					start_date: "03/04/2018",
+					end_date: "02/07/2018",
+					status: "Done",
+					hours: 340,
+					cost: 15980,
+					budget: 18856,
+					balance: 2876,
+					paid: true,
+					renewals: "1 time"
+				},
+				{
+					project: "Inventory",
+					owner: "Fred Duncan",
+					start_date: "01/06/2018",
+					end_date: "01/09/2018",
+					status: "Done",
+					hours: 484,
+					cost: 21296,
+					budget: 14907,
+					balance: -6389,
+					paid: false,
+					renewals: "1 time"
+				},
+				{
+					project: "Trip planner",
+					owner: "Michael Rice",
+					start_date: "01/08/2018",
+					end_date: "06/11/2018",
+					status: "Done",
+					hours: 345,
+					cost: 14835,
+					budget: 70911,
+					balance: 56076,
+					paid: false,
+					renewals: "1-2 times"
+				},
+				{
+					project: "HR System",
+					owner: "Andrew Stewart",
+					start_date: "01/06/2018",
+					end_date: "02/09/2018",
+					status: "Done",
+					hours: 57,
+					cost: 2052,
+					budget: 5068,
+					balance: 3016,
+					paid: true,
+					renewals: "1-2 times"
+				},
+				{
+					project: "HR System",
+					owner: "Martin Thompson",
+					start_date: "06/02/2018",
+					end_date: "01/06/2018",
+					status: "Done",
+					hours: 211,
+					cost: 8229,
+					budget: 16540,
+					balance: 8311,
+					paid: false,
+					renewals: "more than 5 times"
+				},
+				{
+					project: "Ticket System",
+					owner: "Martin Thompson",
+					start_date: "06/05/2019",
+					end_date: "03/07/2019",
+					status: "In Progress",
+					hours: 3,
+					cost: 144,
+					budget: 122,
+					balance: -22,
+					paid: true,
+					renewals: "1 time"
+				},
+				{
+					project: "Education System",
+					owner: "Mark Harper",
+					start_date: "02/04/2019",
+					end_date: "03/08/2019",
+					status: "In Progress",
+					hours: 76,
+					cost: 3496,
+					budget: 12515,
+					balance: 9019,
+					paid: true,
+					renewals: "more than 5 times"
+				},
+				{
+					project: "Real Estate",
+					owner: "Louise Fisher",
+					start_date: "02/03/2018",
+					end_date: "06/05/2018",
+					status: "Done",
+					hours: 92,
+					cost: 3588,
+					budget: 11768,
+					balance: 8180,
+					paid: true,
+					renewals: "1-2 times"
+				},
+				{
+					project: "HR System",
+					owner: "Daniel Peterson",
+					start_date: "03/04/2018",
+					end_date: "02/07/2018",
+					status: "Done",
+					hours: 340,
+					cost: 15980,
+					budget: 18856,
+					balance: 2876,
+					paid: true,
+					renewals: "1 time"
+				},
+				{
+					project: "Inventory",
+					owner: "Fred Duncan",
+					start_date: "01/06/2018",
+					end_date: "01/09/2018",
+					status: "Done",
+					hours: 484,
+					cost: 21296,
+					budget: 14907,
+					balance: -6389,
+					paid: false,
+					renewals: "1 time"
+				},
+				{
+					project: "Trip planner",
+					owner: "Michael Rice",
+					start_date: "01/08/2018",
+					end_date: "06/11/2018",
+					status: "Done",
+					hours: 345,
+					cost: 14835,
+					budget: 70911,
+					balance: 56076,
+					paid: false,
+					renewals: "1-2 times"
+				},
+				{
+					project: "HR System",
+					owner: "Andrew Stewart",
+					start_date: "01/06/2018",
+					end_date: "02/09/2018",
+					status: "Done",
+					hours: 57,
+					cost: 2052,
+					budget: 5068,
+					balance: 3016,
+					paid: true,
+					renewals: "1-2 times"
+				},
+				{
+					project: "HR System",
+					owner: "Martin Thompson",
+					start_date: "06/02/2018",
+					end_date: "01/06/2018",
+					status: "Done",
+					hours: 211,
+					cost: 8229,
+					budget: 16540,
+					balance: 8311,
+					paid: false,
+					renewals: "more than 5 times"
+				},
+				{
+					project: "Ticket System",
+					owner: "Martin Thompson",
+					start_date: "06/05/2019",
+					end_date: "03/07/2019",
+					status: "In Progress",
+					hours: 3,
+					cost: 144,
+					budget: 122,
+					balance: -22,
+					paid: true,
+					renewals: "1 time"
+				},
+				{
+					project: "Education System",
+					owner: "Mark Harper",
+					start_date: "02/04/2019",
+					end_date: "03/08/2019",
+					status: "In Progress",
+					hours: 76,
+					cost: 3496,
+					budget: 12515,
+					balance: 9019,
+					paid: true,
+					renewals: "more than 5 times"
+				}
+			];
+			var hotKeys = [
+				{
+					hotKey: "Enter",
+					action: "Open the editor in the selected cell. If the editor is currently opened - close the editor and save changes"
+				},
+				{
+					hotKey: "Escape",
+					action: "Close the editor of the selected cell without saving"
+				},
+				{
+					hotKey: "ArrowUp",
+					action: "Move selection to the previous vertical cell"
+				},
+				{
+					hotKey: "ArrowDown",
+					action: "Move selection to the next vertical cell"
+				},
+				{
+					hotKey: "ArrowLeft",
+					action: "Move selection to the previous horizontal cell"
+				},
+				{
+					hotKey: "ArrowRight",
+					action: "Move selection to the next horizontal cell"
+				},
+				{
+					hotKey: "Ctrl+ArrowUp",
+					action: "Move selection to the first vertical cell"
+				},
+				{
+					hotKey: "Ctrl+ArrowDown",
+					action: "Move selection to the last vertical cell"
+				},
+				{
+					hotKey: "Ctrl+ArrowLeft",
+					action: "Move selection to the first horizontal cell"
+				},
+				{
+					hotKey: "Ctrl+ArrowRight",
+					action: "Move selection to the last horizontal cell"
+				},
+				{
+					hotKey: "Shift+ArrowUp",
+					action: "Move selection to the previous vertical cell (with change the selected cells, it doesn't work with 'complex' selection)"
+				},
+				{
+					hotKey: "Shift+ArrowDown",
+					action: "Move selection to the next vertical cell (with change the selected cells, it doesn't work with 'complex' selection)"
+				},
+				{
+					hotKey: "Shift+ArrowLeft",
+					action: "Move selection to the previous horizontal cell (with change the selected cells, it doesn't work with 'complex' selection)"
+				},
+				{
+					hotKey: "Shift+ArrowRight",
+					action: "Move selection to the next horizontal cell (with change the selected cells, it doesn't work with 'complex' selection)"
+				},
+				{
+					hotKey: "Ctrl+Shift+ArrowUp",
+					action: "Move selection to the first vertical cell (with change the selected cells, it doesn't work with 'complex' selection)"
+				},
+				{
+					hotKey: "Ctrl+Shift+ArrowDown",
+					action: "Move selection to the last vertical cell (with change the selected cells, it doesn't work with 'complex' selection)"
+				},
+				{
+					hotKey: "Ctrl+Shift+ArrowLeft",
+					action: "Move selection to the first horizontal cell (with change the selected cells, it doesn't work with 'complex' selection)"
+				},
+				{
+					hotKey: "Ctrl+Shift+ArrowRight",
+					action: "Move selection to the last horizontal cell (with change the selected cells, it doesn't work with 'complex' selection)"
+				},
+				{
+					hotKey: "Tab",
+					action: "Move selection to the next horizontal cell"
+				},
+				{
+					hotKey: "Shit+Tab",
+					action: "Move selection to the previous horizontal cell"
+				},
+				{
+					hotKey: "PageUp",
+					action: "Scroll Grid up to the height of the visible content (without changing the selected cells)"
+				},
+				{
+					hotKey: "PageDown",
+					action: "Scroll Grid down to the height of the visible content (without changing the selected cells)"
+				},
+				{
+					hotKey: "Home",
+					action: "Navigate to the beginning of the Grid content (without changing the selected cells)"
+				},
+				{
+					hotKey: "End",
+					action: "Navigate to the end of the Grid content (without changing the selected cells)"
+				}
+			];
+
+			var grid;
+			var config = {
+				columns: [
+					{ width: 160, id: "project", header: [{ text: "Project" }, { content: "comboFilter" }] },
+					{ width: 160, id: "status", header: [{ text: "Status" }, { content: "selectFilter" }], editorType: "select", options: ["Done", "In Progress", "Not Started"] },
+					{ width: 160, id: "paid", header: [{ text: "Paid", rowspan: 2 }], type: "boolean" },
+					{ width: 160, id: "owner", header: [{ text: "Owner" }, { content: "inputFilter" }] },
+					{ width: 160, id: "hours", header: [{ text: "Number of hours" }, { content: "inputFilter" }] },
+					{ width: 160, id: "renewals", header: [{ text: "Number of renewals" }, { content: "comboFilter" }], type: "string", editorType: "combobox", options: ["1 time", "1-2 times", "more than 5 times"] },
+					{ width: 160, id: "start_date", header: [{ text: "Calendar", colspan: 2 }, { text: "Start date" }], type: "date", dateFormat: "%d/%m/%Y" },
+					{ width: 160, id: "end_date", header: ["", { text: "End date" }], type: "date", dateFormat: "%d/%m/%Y" },
+					{ width: 160, id: "cost", header: [{ text: "Cost" }, { content: "inputFilter" }] },
+					{ width: 160, id: "budget", header: [{ text: "Budget" }, { content: "inputFilter" }] },
+					{ width: 160, id: "balance", header: [{ text: "Balance" }, { content: "inputFilter" }] },
+				],
+				editable: true,
+				selection: "cell",
+				keyNavigation: true,
+				multiselection: true
+			};
+
+			function createGrid() {
+				if (grid) {
+					grid.destructor();
+				}
+				grid = new dhx.Grid("grid", config);
+				grid.data.parse(data);
+				if (config.selection) {
+					grid.selection.setCell(grid.data.getItem(grid.data.getId(0)), grid.config.columns[0]);
+				}
+			}
+			createGrid();
+
+			document.querySelector(".dhx_sample-controls").addEventListener("change", function (e) {
+				if (e.target.name === "selection") {
+					config[e.target.name] = (e.target.checked ? "cell" : false);
+					var multiselectionCheckbox = document.querySelector("[name=multiselection]");
+					multiselectionCheckbox.checked = e.target.checked;
+					multiselectionCheckbox.disabled = !e.target.checked;
+				} else {
+					config[e.target.name] = e.target.checked;
+				}
+				createGrid();
+			});
+
+			for (var i = 0; i < hotKeys.length; i++) {
+				document.querySelector("#info").insertAdjacentHTML("beforeEnd","<div class='dhx_sample-info'><span class='hotkey'>" + hotKeys[i].hotKey + "</span><span class='action'>" + hotKeys[i].action + "</span></div>");
+			}
+		</script>
+	</body>
+</html>

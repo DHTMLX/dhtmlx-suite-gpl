@@ -6,24 +6,12 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Dataview to explore its usage and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
-		<link rel="stylesheet" href="../common/dataview.css?v=6.1.4">
-		<script type="text/javascript" src="../common/dataset.js?v=6.1.4"></script>
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/dataview.css?v=6.4.2">
+		<script type="text/javascript" src="../common/dataset.js?v=6.4.2"></script>
 		<!-- custom sample head -->
-		<style>
-			.dhx_form-group--inline {
-				max-width: 200px;
-			}
-			.dhx_sample-container__widget {
-				width: 1200px;
-				height: 500px;
-			}
-			.dhx_sample-controls {
-				height: 60px;
-			}
-		</style>
 	</head>
 	<body>
 		<header class="dhx_sample-header">
@@ -46,29 +34,28 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-							Set focus index.
+						Set focus index.
 					</div>
 				</h1>
 			</div>
 </header>
 		<section class="dhx_sample-controls">
-			<div class="dhx_sample-form-group dhx_form-group dhx_form-group--inline">
-				<label for="focus_item" class="dhx_label">Focus item</label>
-				<input type="text" id="focus_item" class="dhx_input dhx_sample-input">
+			<div class="dhx_sample-form-group dhx_form-group--inline">
+				<label for="focus_item" class="dhx_sample-label">Focus item</label>
+				<input type="text" id="focus_item" class="dhx_sample-input">
 			</div>
 		</section>
 		<section class="dhx_sample-container">
 			<div class="dhx_sample-container__widget" id="dataview"></div>
 		</section>
-
 		<script>
 			function template(item) {
-					var template = "<div class='item_wrap'>";
-					template += "<img class='image' src=" + "../common/images/" + item.thumbnailName + " />";
-					template += "<h2 class='title'>" + item.value + "</h2>";
-					template += "<p class='description'>" + item.shortDescription + "</p>";
-					template += "</div>"
-					return template;
+				var template = "<div class='item_wrap'>";
+				template += "<img class='image' src=" + "../common/images/" + item.thumbnailName + " />";
+				template += "<h2 class='title'>" + item.value + "</h2>";
+				template += "<p class='description'>" + item.shortDescription + "</p>";
+				template += "</div>";
+				return template;
 			}
 			var dataview = new dhx.DataView("dataview", {
 				itemsInRow: 4,
@@ -76,9 +63,10 @@
 				template:  template,
 			});
 			dataview.data.load("../common/books.json");
-			document.querySelector("#focus_item").addEventListener("change", function () {
-				dataview.setFocusIndex(parseInt(this.value));
-			})
+			document.querySelector("#focus_item").addEventListener("keyup", function () {
+				var id = dataview.data.getId(parseInt(this.value));
+				dataview.setFocus(id);
+			});
 		</script>
 	</body>
 </html>

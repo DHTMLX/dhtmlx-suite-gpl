@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Custom HTML - DHTMLX Menu</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Menu to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		
+		
+		<!-- custom sample head -->
+		<style>
+			.custom-input-wrapper {
+				padding: 4px 6px;
+			}
+			.custom-input-wrapper .custom-input {
+				width: 100%;
+				padding: 4px;
+			}
+			.custom-image {
+				display: flex;
+				align-items: center;
+				margin: 0 20px;
+			}
+			.custom-image img {
+				max-height: 36px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Menu samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Custom HTML</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+							Custom HTML.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="menu"></div>
+		</section>
+		<script>
+			var menu = new dhx.Menu("menu", {
+				css: "dhx_widget--bg_gray",
+				navigationType: "click"
+			});
+			menu.data.load("../common/menu.json").then(function () {
+				menu.data.add({
+					type: "customHTML",
+					html: "<img src='../common/logo.svg' alt=''/>",
+					css: "custom-image"
+				}, 0);
+				menu.data.update("edit", {
+					value: "Click on me"
+				});
+				menu.data.add({
+					id: "input",
+					parent: "edit",
+					type: "customHTML",
+					html: "<div class='custom-input-wrapper'><input id='value' value='Click on me' class='custom-input' oninput='updateValue(this.value)' type='text'></div>"
+				}, 0);
+			});
+
+			menu.events.on("openMenu", function (id) {
+				if (id === "edit") {
+					setTimeout(function () {
+						var myInput = document.querySelector(".custom-input");
+						myInput.value = menu.data.getItem(id).value;
+						myInput.focus();
+						myInput.setSelectionRange(0, myInput.value.length);
+					}, 50);
+				}
+			});
+
+			function updateValue(value) {
+				menu.data.update("edit", { value: value });
+			}
+		</script>
+	</body>
+</html>

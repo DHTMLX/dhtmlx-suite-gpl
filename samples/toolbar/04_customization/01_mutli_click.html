@@ -6,9 +6,11 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Toolbar to explore its customization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		
+		
 		<!-- custom sample head -->
 	</head>
 	<body>
@@ -31,17 +33,18 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
 							Multi click.
+					</div>
 				</h1>
 			</div>
-</header>
+		</header>
 		<section class="dhx_sample-container">
 			<div class="dhx_sample-container__widget" id="toolbar"></div>
 			<div class="dhx_sample-container__sidebar"> </div>
 		</section>
-
 		<script>
-			var data=[
+			var data = [
 				{
 					icon: "dxi dxi-undo",
 					id: "undo_but",
@@ -58,20 +61,22 @@
 					multiClick: true,
 					active: false
 				},
-			]
-			var toolbar = new dhx.Toolbar("toolbar", {css:"dhx_widget--bordered dhx_widget--bg_gray"})
+			];
+
+			var toolbar = new dhx.Toolbar("toolbar", {
+				css:"dhx_widget--bordered dhx_widget--bg_gray"
+			});
 			toolbar.data.parse(data);
 
-			var eventsContainer = document.querySelector(".dhx_sample-container__sidebar")
+			var eventsContainer = document.querySelector(".dhx_sample-container__sidebar");
 			var counter = 1;
 
 			toolbar.events.on("click", function () {
 				eventsContainer.insertAdjacentHTML('afterbegin', getEvent("click", arguments));
 			});
 
-			
 			function getEvent(event, args) {
-				let argsList = "<div class='arguments'>Arguments:</div>";
+				var argsList = "<div class='arguments'>Arguments:</div>";
 				for (var i = 0; i < args.length; i++) {
 					
 					argsList += "<div>" + args[i] + "</div>";
@@ -79,6 +84,5 @@
 				return "<div class=\"dhx_sample-event\">Event " + counter++ + ": " + event + argsList + "</div>";
 			}
 		</script>
-
 	</body>
 </html>

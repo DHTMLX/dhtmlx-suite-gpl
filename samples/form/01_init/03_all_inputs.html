@@ -6,22 +6,16 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its initialization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">		
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/form.css?v=6.4.2">
+		
 		<!-- custom sample head -->
 		<style>
-			.dhx_sample-container { 
-				max-width: 450px;
-			}
-
 			.dhx_sample-container__widget {
-				-webkit-box-flex: 1;
-				-webkit-flex: 1 0 auto;
-				    -ms-flex: 1 0 auto;
-				        flex: 1 0 auto;
+				padding: 0 50px;
 				height: 100%;
-				width: 100%;	
 			}
 		</style>
 	</head>
@@ -45,39 +39,40 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					All dhxForm inputs.
+					<div class="dhx_sample-header__content">
+						All dhxForm inputs.
+					</div>
 				</h1>
 			</div>
-		</header>
-
+</header>
 		<section class="dhx_sample-container">
 			<form class="dhx_sample-container__widget" id="form-sample"></form>
 		</section>
-
 		<script>
 			var form = new dhx.Form("form-sample", {
-				cellCss: "dhx_widget--bordered",
+				css: "dhx_widget--bordered",
 				padding: "30",
 				rows: [
 					{
 						type: "input",
 						label: "Name",
-						labelInline: true,
+						labelPosition: "left",
 						icon: "dxi dxi-magnify",
-						name: "name-input",
-						labelWidth: "120px",
+						labelWidth: "130px",
 						required: true,
 						placeholder: "John Doe",
-						id:"input_id"
+						id: "name",
+						name: "name"
 					},
 					{
 						type: "combo",
 						label: "count",
 						required: true,
-						labelInline: true,
-						help: "Help information",
-						labelWidth: "120px",
-						id: "combo_id",
+						labelPosition: "left",
+						helpMessage: "Help information",
+						labelWidth: "130px",
+						id: "combo",
+						name: "combo",
 						data: [
 							{value: "1", id: "1"},
 							{value: "2", id: "2"},
@@ -90,41 +85,44 @@
 						type: "slider",
 						label: "slider",
 						css: "slider",
-						labelInline: true,
-						help: " Help information",
-						labelWidth: "120px",
+						labelPosition: "left",
+						helpMessage: " Help information",
+						labelWidth: "130px",
 						min: 0,
 						max: 100,
-						id: "slider_id"
+						id: "slider",
+						name: "slider"
 					},
 					{
 						type: "datepicker",
 						label: "date",
 						required: true,
-						labelInline: true,
-						labelWidth: "120px",
-						id: "datepicker_id"
+						labelPosition: "left",
+						labelWidth: "130px",
+						id: "datepicker",
+						name: "datepicker"
 					},
 					{
 						type: "timepicker",
-						actions: "true",
+						controls: "true",
 						label: "time",
 						required: true,
-						labelInline: true,
-						labelWidth: "120px",
-						id: "timepicker_id"
+						labelPosition: "left",
+						labelWidth: "130px",
+						id: "timepicker",
+						name: "timepicker"
 					},
 					{
 						type: "select",
 						label: "select",
-						labelInline: true,
-						labelWidth: "120px",
+						labelPosition: "left",
+						labelWidth: "130px",
 						value: "2",
 						validation: function(value) {
 							return value !== "";
 						},
-						required: true,
-						id: "select_id",
+						id: "select",
+						name: "select",
 						options: [
 							{
 								value: "",
@@ -150,77 +148,79 @@
 					},
 					{
 						type: "textarea",
-						name: "textarea",
 						label: "textarea",
-						help: "Help information",
+						helpMessage: "Help information",
 						required: true,
-						labelInline: true,
-						labelWidth: "120px",
+						labelPosition: "left",
+						labelWidth: "130px",
 						value: "I am textarea!",
-						id: "textarea_id"
+						id: "textarea",
+						name: "textarea",
 					},
 					{
 						type: "simpleVault",
-						help: "Help information",
+						helpMessage: "Help information",
 						required: true,
 						label: "files",
-						labelInline: true,
-						labelWidth: "120px",
-						id: "simplevault_id"
+						labelPosition: "left",
+						labelWidth: "130px",
+						id: "simplevault",
+						name: "simplevault"
 					},
 					{
 						type: "text",
 						label: "text input",
-						name: "text-input",
-						labelInline: true,
-						labelWidth: "120px",
+						labelPosition: "left",
+						labelWidth: "130px",
 						value: "I am textinput!",
-						id: "text_id"
+						id: "text",
+						name: "text"
 					},
 					{	
 						type: "radioGroup",
-						name: "radioGroup",
 						required: true,
 						options: {
 							padding: "5px",
 							rows:[{
 								type: "radioButton",
 								label: "Select 1",
-								help: " Help information - 1",
-								labelWidth: "120px",
-								labelInline: true,
+								helpMessage: " Help information - 1",
+								labelWidth: "130px",
+								labelPosition: "right",
 								value: "This selected button - 1",
 								checked: true
 								},
 								{
 								type: "radioButton",
 								label: "Select 2",
-								help: " Help information - 2",
-								labelWidth: "120px",
-								labelInline: true,
+								helpMessage: " Help information - 2",
+								labelWidth: "130px",
+								labelPosition: "right",
 								value: "This selected button - 2"
 							}]
-						}
+						},
+						id: "radiogroup",
+						name: "radiogroup",
 					},
 					{	
 						type: "checkbox",
 						label: "I agree",
-						name: "agree",
-						labelWidth: "120px",
-						help: "Help information",
+						labelWidth: "130px",
+						helpMessage: "Help information",
 						required: true,
-						id: "agree",
 						value: "checkboxvalue",
-						labelInline: true,
-						id: "checkbox_id"
+						labelPosition: "right",
+						id: "checkbox",
+						name: "checkbox",
 					},
 					{
-						labelInline: true,
+						labelPosition: "left",
 						label: "Choose your color",
 						required: true,
 						labelWidth: "130px",
 						type: "colorpicker",
-						id: "colorpicker_id"
+						id: "colorpicker",
+						name: "colorpicker"
 					},
 					{
 						align: "end",
@@ -228,11 +228,14 @@
 							{
 								gravity: false,
 								type: "button",
+								submit: true,
 								value: "Send",
 								size: "medium",
 								view: "flat",
 								color: "primary",
-								id: "button_id"
+								id: "button",
+								name: "button",
+								url: "https://docs.dhtmlx.com/suite/backend/formData/"
 							}
 						]
 					}

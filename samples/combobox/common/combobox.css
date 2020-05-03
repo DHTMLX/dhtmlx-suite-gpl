@@ -1,0 +1,7 @@
+.dhx_sample-container > div:not(#events) {
+    max-width: 300px;
+}
+
+.dhx_sample-container > div:not(:last-child) {
+    padding-right: 12px;
+}

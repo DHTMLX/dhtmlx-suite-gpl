@@ -6,9 +6,9 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Message to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
 		<!-- custom sample head -->
 		<style>
 			.dhx_form {
@@ -29,7 +29,10 @@
 				-webkit-align-items: center;
 				    -ms-flex-align: center;
 				        align-items: center;
-				max-width: 300px;
+				width: 100%;
+			}
+			.dhx_form-group {
+				width: 240px;
 			}
 			.dhx_tooltip-rect {
 				width: 240px;
@@ -60,19 +63,21 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-							Tooltip delay configuration.
+					<div class="dhx_sample-header__content">
+						Tooltip delay configuration.
+					</div>
 				</h1>
 			</div>
-</header>
+		</header>
 		<section class="dhx_sample-controls">
 			<form id="form-controls" class="dhx_form">
 				<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder">
 					<label for="value" class="dhx_label">Show delay</label>
-					<input type="text" id="showDelay" name="showDelay" value="750" class="dhx_input dhx_sample-input" style="width: 240px;">
+					<input type="text" id="showDelay" name="showDelay" value="750" class="dhx_input dhx_sample-input">
 				</div>
 				<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder">
 					<label for="value" class="dhx_label">Hide delay</label>
-					<input type="text" id="hideDelay" name="hideDelay" value="200" class="dhx_input dhx_sample-input" style="width: 240px;">
+					<input type="text" id="hideDelay" name="hideDelay" value="200" class="dhx_input dhx_sample-input">
 				</div>
 				<label class="dhx_form-group dhx_checkbox dhx_form-group--inline dhx_form-group--no-message-holder">
 					<input type="checkbox" id="force" name="force" class="dhx_checkbox__input">
@@ -83,10 +88,8 @@
 		</section>
 		<section class="dhx_sample-container">
 			<div class="dhx_tooltip-rect" onmouseover="show(this)" id="tooltip">Hover me to see the tooltip</div>
-			<div class="dhx_sample-container__sidebar"><textarea readonly id="result" style="width: 100%; height: 200px;"></textarea></div>
+			<div class="dhx_sample-container__sidebar"><textarea readonly id="result"></textarea></div>
 		</section>
-		
-
 		<script>
 			var config = {
 				force: false,
@@ -109,6 +112,5 @@
 				delete config.node;
 			}
 		</script>
-
 	</body>
 </html>

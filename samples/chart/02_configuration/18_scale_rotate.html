@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Scale rotate - DHTMLX Chart</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Chart to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/chart.css?v=6.4.2">
+		<script type="text/javascript" src="../common/dataset.js?v=6.4.2"></script>
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Chart samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Scale rotate</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Scale rotate.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="chart"></div>
+		</section>
+		<script>
+			var month = [
+				"January",
+				"February",
+				"March",
+				"April",
+				"May",
+				"June",
+				"July",
+				"August",
+				"September",
+				"October",
+				"November",
+				"December"
+			];
+
+			var data = salesBarData.map(function (item) {
+				var monthNum = parseFloat(item.month.slice(1));
+				item.month = month[monthNum - 1] + " - " + (month[monthNum] || month[0]);
+				return item;
+			});
+
+			var config = {
+				type: "bar",
+				scales: {
+					bottom : {
+						size: 100,
+						text: "month",
+						scaleRotate: -45
+					},
+					left : {
+						size: 150,
+						max: 1000,
+						maxTicks: 10,
+						min: 0,
+						scaleRotate: 15
+					},
+					top: {
+						size: 100
+					}
+				},
+				series: [
+					{
+						id: "A",
+						value: "company A",
+						color: "#74A2E7",
+						fill: "#74A2E7",
+						barWidth: 22
+					},
+					{
+						id: "B",
+						value: "company B",
+						color: "#5E83BA",
+						fill: "#5E83BA",
+						barWidth: 22
+					}
+				],
+				legend: {
+					series: ["A", "B"],
+					halign: "right",
+					valign: "middle"
+				}
+			};
+			var chart = new dhx.Chart("chart", config);
+			chart.data.parse(salesBarData);
+		</script>
+	</body>
+</html>

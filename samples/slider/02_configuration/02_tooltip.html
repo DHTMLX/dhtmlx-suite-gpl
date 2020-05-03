@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- meta block -->
+	<title>Tooltip for the Slider - DHTMLX Slider</title>
+	<meta name="description" content="Check interactive samples of DHTMLX Slider to explore its configuration and other details.">
+	<!-- end meta block -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+	<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+	<link rel="stylesheet" href="../../common/index.css?v=6.4.2">	
+	<!-- custom sample head -->
+	<style>
+		.dhx_sample-container {
+			margin-top: 50px;
+			max-width: 500px;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="dhx_sample-header">
+		<div class="dhx_sample-header__main">
+			<nav class="dhx_sample-header__breadcrumbs">
+				<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Slider samples</a>
+					</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+					</li>
+					<li class="dhx_sample-header-breadcrumbs__item">
+						<span class="dhx_sample-header-breadcrumbs__link">Tooltip for the Slider</span>
+					</li>
+				</ul>
+			</nav>
+			<h1 class="dhx_sample-header__title">
+				<div class="dhx_sample-header__content">
+					Tooltip for the Slider.
+				</div>
+			</h1>
+		</div>
+	</header>
+	<section class="dhx_sample-controls">
+		<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+			<input checked name="tooltip" id="tooltip-on" onchange="handleChange(this.value)" value="true" type="radio" class="dhx_radiobutton__input">
+			<span class="dhx_radiobutton__visual-input"></span>
+			<span class="dhx_label">Tooltip ON</span>
+		</label>
+		<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+			<input type="radio" class="dhx_radiobutton__input" name="tooltip" id="tooltip-off" onchange="handleChange(this.value)" value="false">
+			<span class="dhx_radiobutton__visual-input"></span>
+			<span class="dhx_label">Tooltip OFF</span>
+		</label>
+	</section>
+	<section class="dhx_sample-container">
+		<div class="dhx_sample-container__widget" id="slider"></div>
+	</section>
+	<script>
+		var slider;
+		var config = {
+			min: 0,
+			max: 100,
+			step: 1,
+			tooltip: true
+		};
+		function createSlider() {
+			if (slider) {
+				slider.destructor();
+			}
+			slider = new dhx.Slider("slider", config);
+		}
+		function handleChange(isShowTooltip) {
+			config.tooltip = isShowTooltip === "true";
+			createSlider();
+		}
+		createSlider();
+	</script>
+</body>
+
+</html>

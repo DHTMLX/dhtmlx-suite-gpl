@@ -1,106 +1,117 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<!-- meta block -->
+		<title>Events - DHTMLX Sidebar</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Sidebar to explore its events and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/sidebar.css?v=6.4.2">
+		
+		<!-- custom sample head -->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/4.4.95/css/materialdesignicons.css?v=6.4.2" media="all" rel="stylesheet" type="text/css">
+		<style>
+			.dhx_sample-container__sidebar {
+				position: absolute;
+				top: 150px;
+				left: 50%;
+				-webkit-transform: translateX(-50%);
+				-ms-transform: translateX(-50%);
+				transform: translateX(-50%);
+				width: 400px;
+				height: 600px;
+			}
 
-<head>
-	<!-- meta block -->
-	<title>Events - DHTMLX Sidebar</title>
-	<meta name="description" content="Check interactive samples of DHTMLX Sidebar to explore its events and other details.">
-	<!-- end meta block -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-	<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-	<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
-	<!-- custom sample head -->
-	<link href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css?v=6.1.4" media="all" rel="stylesheet" type="text/css">
-	<style>
-		.dhx_sample-container__sidebar {
-			position: absolute;
-			top: 150px;
-			left: 50%;
-			-webkit-transform: translateX(-50%);
-			    -ms-transform: translateX(-50%);
-			        transform: translateX(-50%);
-			width: 400px;
-			height: 600px;
-		}
-
-		.dhx_sample-controls {
-			position: absolute;
-			-webkit-transform: translate(-50%, 0);
-			    -ms-transform: translate(-50%, 0);
-			        transform: translate(-50%, 0);
-			width: 100%;
-			max-width: 1220px;
-			left: 50%;
-		}
-	</style>
-</head>
-
-<body>
-	<header class="dhx_sample-header">
-		<div class="dhx_sample-header__main">
-			<nav class="dhx_sample-header__breadcrumbs">
-				<ul class="dhx_sample-header-breadcrumbs">
+			.dhx_sample-controls {
+				position: absolute;
+				-webkit-transform: translate(-50%, 0);
+				-ms-transform: translate(-50%, 0);
+				transform: translate(-50%, 0);
+				width: 100%;
+				max-width: 1220px;
+				left: 50%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
 						<li class="dhx_sample-header-breadcrumbs__item">
 							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
 						</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Sidebar samples</a>
-					</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Events</a>
-					</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<span class="dhx_sample-header-breadcrumbs__link">Events</span>
-					</li>
-				</ul>
-			</nav>
-			<h1 class="dhx_sample-header__title">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Sidebar samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Events</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Events</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
 						Events.
-			</h1>
-		</div>
+					</div>
+				</h1>
+			</div>
 </header>
-	<section class="dhx_sample-container" style="margin-top: 0; border-left: 1px solid gray; border-right: 1px solid gray">
-		<div class="dhx_sample-container__widget" style="height: calc(100vh - 61px);" id="sidebar"></div>
-		<div class="dhx_sample-controls">
-			<button id="toggle" class="dhx_sample-btn dhx_sample-btn--flat">Toggle Sidebar</button>
-		</div>
-		<div class="dhx_sample-container__sidebar" id="dhx_result"></div>
-	</section>
-
-
-	<script>
-		var sidebar = new dhx.Sidebar("sidebar", {
-			css: "dhx_widget--border_right"
-		});
-		sidebar.data.load("../common/struct.json");
-		var events = [
-			"click",
-			"openmenu",
-			"toggle",
-		];
-		document.querySelector("#toggle").addEventListener("click", function () {
-			sidebar.toggle()
-		})
-		var eventsContainer = document.querySelector(".dhx_sample-container__sidebar")
-		var counter = 1;
-
-		events.forEach(function (event) {
-			sidebar.events.on(event, function () {
-				eventsContainer.insertAdjacentHTML('afterbegin', getEvent(event, arguments));
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="sidebar"></div>
+			<div class="dhx_sample-controls">
+				<button id="toggle" class="dhx_sample-btn dhx_sample-btn--flat" onclick="toggle()">Toggle Sidebar</button>
+				<button id="clear" class="dhx_sample-btn dhx_sample-btn--flat" onclick="clearContainer()">Clear</button>
+			</div>
+			<div class="dhx_sample-container__sidebar" id="dhx_result"></div>
+		</section>
+		<script>
+			var sidebar = new dhx.Sidebar("sidebar", {
+				css: "dhx_widget--border_right"
 			});
-		});
+			sidebar.data.load("../common/struct.json");
+			var events = [
+				"click",
+				"openMenu",
+				"beforeHide",
+				"afterHide",
+				"beforeCollapse",
+				"afterCollapse",
+				"beforeExpand",
+				"afterExpand"
+			];
 
-		function getEvent(event, args) {
-			let argsList = "<div class='arguments'>Arguments:</div>";
-			for (var i = 0; i < args.length; i++) {
+			var eventsContainer = document.querySelector(".dhx_sample-container__sidebar")
+			var counter = 1;
 
-				argsList += "<div>" + args[i] + "</div>";
+			events.forEach(function (event) {
+				sidebar.events.on(event, function () {
+					eventsContainer.insertAdjacentHTML('afterbegin', getEvent(event, arguments));
+				});
+			});
+
+			function getEvent(event, args) {
+				var argsList = "<div class='arguments'>Arguments:</div>";
+				for (var i = 0; i < args.length; i++) {
+
+					argsList += "<div>" + args[i] + "</div>";
+				}
+				return "<div class=\"dhx_sample-event\">Event " + counter++ + ": " + event + argsList + "</div>";
 			}
-			return "<div class=\"dhx_sample-event\">Event " + counter++ + ": " + event + argsList + "</div>";
-		}
-	</script>
 
-</body>
+			function toggle() {
+				sidebar.toggle()
+			}
 
+			function clearContainer() {
+				eventsContainer.innerHTML = '';
+				counter = 1;
+			}
+		</script>
+	</body>
 </html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>ForEach - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/form.css?v=6.4.2">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container__widget {
+				padding: 0 50px;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">ForEach</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						ForEach.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="eachControl()">Disable all controls except the first and last</button>
+		</section>
+		<section class="dhx_sample-container">
+			<form class="dhx_sample-container__widget" id="form-sample"></form>
+		</section>
+		<script>
+			var form = new dhx.Form("form", {
+				css: "dhx_widget--bordered",
+				rows: [
+					{
+						type: "input",
+						gravity: false,
+						label: "Name",
+						icon: "dxi dxi-magnify",
+						placeholder: "John Doe",
+						name: "name"
+					},
+					{
+						type: "input",
+						gravity: false,
+						label: "Email",
+						placeholder: "jd@mail.name",
+						name: "email"
+					},
+					{
+						type: "input",
+						gravity: false,
+						inputType: "password",
+						label: "Password",
+						placeholder: "********",
+						name: "password"
+					},
+					{
+						type: "checkbox",
+						gravity: false,
+						label: "I agree",
+						labelPosition: "right",
+						value: "checkboxvalue",
+						id: "agree",
+						name: "agree"
+					},
+					{
+						type: "button",
+						gravity: false,
+						value: "Send",
+						size: "medium",
+						view: "flat",
+						submit: true,
+						color: "primary"
+					},
+				]
+			});
+
+			function eachControl() {
+				form.forEach((item, index, array) => {
+					if (index !== 0 && index !== array.length - 1) {
+						item.disable();
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

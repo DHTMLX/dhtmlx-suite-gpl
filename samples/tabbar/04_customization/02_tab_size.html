@@ -6,22 +6,21 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Tabbar to explore its customization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
 		<!-- custom sample head -->
 		<style>
-			.dhx_sample-container {
-				max-width: 802px;
-			}
 			.dhx_form-group--inline {
 				max-width: 200px;
 			}
-			.dhx_sample-container__widget {
+			.dhx_sample-container {
+				width: 800px;
 				max-width: 100%;
 			}
 			.dhx_layout-cell-content {
-				max-width: 800px;
+				height: 450px;
+				padding: 12px;
 			}
 		</style>
 	</head>
@@ -45,10 +44,12 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-							Tab size.
+					<div class="dhx_sample-header__content">
+						Tab size.
+					</div>
 				</h1>
 			</div>
-</header>
+		</header>
 		<section class="dhx_sample-controls">
 			<div class="dhx_sample-form-group dhx_form-group dhx_form-group--inline">
 				<label for="tabHeight" class="dhx_label">Tab height</label>
@@ -76,11 +77,9 @@
 					{ tab: "Rome", html: "<div><p style='font-size: 18px; line-height: 1.6; padding-left: 20px; padding-right: 20px'><storng>Rome (Latin and Italian: Roma [ˈroːma]</storng> is the capital city and a special comune of Italy (named Comune di Roma Capitale). Rome also serves as the capital of the Lazio region. With 2,872,800 residents in 1,285 km2 (496.1 sq mi), it is also the country's most populated comune. It is the fourth most populous city in the European Union by population within city limits. It is the centre of the Metropolitan City of Rome, which has a population of 4,355,725 residents, thus making it the most populous metropolitan city in Italy.</p></div>"}
 				]
 			});
-			function handleChange(id, value){
+			function handleChange(id, value) {
 				tabbar.config[id] = value;
-				// console.log('tabbar.config', cfg)
-				// tabbar = new dhx.Tabbar("tabbar", cfg)
-				tabbar.paint()
+				tabbar.paint();
 			}
 		</script>
 

@@ -1,10 +1,11 @@
-var data = [{
+var data = [
+    {
         id: "other",
         icon: "mdi mdi-menu",
-        "type": "button",
-        "view": "link",
-        "circle": true,
-        "color": "secondary",
+        type: "button",
+        view: "link",
+        circle: true,
+        color: "secondary",
     },
     {
         id: "add",
@@ -17,7 +18,8 @@ var data = [{
     {
         id: "language",
         value: "Language",
-        items: [{
+        items: [
+            {
                 id: "eng",
                 value: "English"
             },
@@ -38,7 +40,8 @@ var data = [{
     {
         id: "skin",
         value: "Skin",
-        items: [{
+        items: [
+            {
                 id: "material",
                 value: "Material"
             },

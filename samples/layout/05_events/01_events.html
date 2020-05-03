@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Events - DHTMLX Layout</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Layout to explore its events and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/layout.css?v=6.4.2">
+		
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Layout samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Events</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Events</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Events.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="toggleVisibility(this)">Hide</button>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="updateLayout(this)">Add</button>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="layout"></div>
+			<div class="dhx_sample-container__sidebar"></div>
+		</section>
+		<script>
+			var layout = new dhx.Layout("layout", {
+				css: "dhx_layout-cell--bordered",
+				rows: [{
+					id: "toolbar",
+					header: "Header",
+					collapsable: true,
+					css: "dhx_layout-cell--border_bottom",
+					gravity: false,
+					height: "80px"
+				},
+					{
+						cols: [
+							{
+								id: "sidebar",
+								header: "Sidebar",
+								collapsable: true,
+								gravity: false,
+								css: "dhx_layout-cell--border_right",
+								width: "200px",
+								resizable: true,
+							},
+							{
+								rows: [
+									{
+										id: "content",
+										css: "",
+										header: "Content",
+
+									}
+								]
+							},
+							{
+								id: "rightbar",
+								header: "Aside",
+								collapsable: true,
+								gravity: false,
+								css: "dhx_layout-cell--border_left",
+								width: "200px"
+							},
+						]
+					},
+					{
+						id: "footer",
+						header: "Footer",
+						collapsable: true,
+						css: "dhx_layout-cell--border_top",
+						gravity: false,
+						height: "80px"
+					}
+				]
+			});
+
+
+			var events = [
+				"beforeShow",
+				"afterShow",
+				"beforeHide",
+				"afterHide",
+				"beforeResizeStart",
+				"resize",
+				"afterResizeEnd",
+				"beforeAdd",
+				"afterAdd",
+				"beforeRemove",
+				"afterRemove",
+				"beforeCollapse",
+				"afterCollapse",
+				"beforeExpand",
+				"afterExpand",
+			];
+
+			var eventsContainer = document.querySelector(".dhx_sample-container__sidebar")
+			var counter = 1;
+
+			events.forEach(function (event) {
+				layout.events.on(event, function () {
+					eventsContainer.insertAdjacentHTML('afterbegin', getEvent(event, arguments));
+				});
+			});
+
+			function getEvent(event, args) {
+				let argsList = "<div class='arguments'>Arguments:</div>";
+				for (var i = 0; i < args.length; i++) {
+
+					argsList += "<div>" + args[i] + "</div>";
+				}
+				return "<div class=\"dhx_sample-event\">Event " + counter++ + ": " + event + argsList + "</div>";
+			}
+
+			var isHidden = false;
+			var isRemoved = true;
+
+			function toggleVisibility(target) {
+				if (isHidden) {
+					layout.getCell("toolbar").show();
+					target.innerHTML = "Hide";
+					isHidden = false;
+				} else {
+					layout.getCell("toolbar").hide();
+					target.innerHTML = "Show";
+					isHidden = true;
+				}
+			}
+
+			var cellConfig = {
+				css: "dhx_layout-cell--border_bottom",
+				html: "New layout cell",
+				id: "content"
+			};
+
+			function updateLayout(target) {
+				if (isRemoved) {
+					layout.addCell({
+						css: "dhx_layout-cell--border_bottom",
+						html: "New layout cell",
+						id: "removeable"
+					});
+					target.innerHTML = "Remove";
+					isRemoved = false;
+				} else {
+					layout.removeCell("removeable");
+					target.innerHTML = "Add";
+					isRemoved = true;
+				}
+			}
+		</script>
+	</body>
+</html>

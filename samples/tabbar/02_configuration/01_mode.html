@@ -6,24 +6,21 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Tabbar to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		
+		
 		<!-- custom sample head -->
-	<style>
-		.dhx_sample-container {
-			max-width: 800px;
-		}
-		.dhx_sample-radio__label {
-			padding-left: 10px;
-		}
-		.dhx_sample-radio__label:after {
-			left: -10px;
-		}
-		.dhx_layout-cell-content {
-			max-width: 800px;
-		}
-	</style>
+		<style>
+			.dhx_sample-container {
+				width: 800px;
+			}
+			.dhx_layout-cell-content {
+				width: 800px;
+				height: 450px;
+			}
+		</style>
 	</head>
 	<body>
 		<header class="dhx_sample-header">
@@ -45,27 +42,33 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-							Mode.
+					<div class="dhx_sample-header__content">
+						Mode.
+					</div>
 				</h1>
 			</div>
 </header>
 		<section class="dhx_sample-controls">
-			<div class="dhx_sample-input__wrapper dhx_sample-input__wrapper--pl-16">
-				<input checked name="mode" id="top" value="top" onchange="createTabbar(this.value)" type="radio" class="dhx_sample-radio__input">
-				<label for="top" class="dhx_sample-radio__label">top</label>
-			</div>
-			<div class="dhx_sample-input__wrapper dhx_sample-input__wrapper--pl-16">
-				<input name="mode" id="left" value="left" onchange="createTabbar(this.value)" type="radio" class="dhx_sample-radio__input">
-				<label for="left" class="dhx_sample-radio__label">left</label>
-			</div>
-			<div class="dhx_sample-input__wrapper dhx_sample-input__wrapper--pl-16">
-				<input name="mode" id="right" value="right" onchange="createTabbar(this.value)" type="radio" class="dhx_sample-radio__input">
-				<label for="right" class="dhx_sample-radio__label">right</label>
-			</div>
-			<div class="dhx_sample-input__wrapper dhx_sample-input__wrapper--pl-16">
-				<input name="mode" id="bottom" value="bottom" onchange="createTabbar(this.value)" type="radio" class="dhx_sample-radio__input">
-				<label for="bottom" class="dhx_sample-radio__label">bottom</label>
-			</div>
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input checked name="mode" id="top" value="top" onchange="createTabbar(this.value)" type="radio" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Top</span>
+			</label>
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input class="dhx_radiobutton__input" name="mode" id="left" value="left" onchange="createTabbar(this.value)" type="radio">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Left</span>
+			</label>
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input name="mode" id="right" value="right" onchange="createTabbar(this.value)" type="radio" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Right</span>
+			</label>
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input class="dhx_radiobutton__input" name="mode" id="bottom" value="bottom" onchange="createTabbar(this.value)" type="radio">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Bottom</span>
+			</label>
 		</section>
 		<section class="dhx_sample-container">
 			<div class="dhx_sample-container__widget" id="tabbar"></div>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Buttons - DHTMLX Ribbon</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Ribbon to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		
+		
+		<!-- custom sample head -->
+		<style>
+			#form-controls .dhx_form-group.dhx_radiobutton {
+				width: 45%;
+			}
+
+			#form-controls h2 {
+				font-family: Roboto, Arial, Tahoma, Verdana, sans-serif;
+				font-size: 18px;
+				font-weight: 500;
+				line-height: 1.3;
+			}
+
+			#form-controls .dhx_form-group:not(:last-child) {
+				margin-right: 0;
+			}
+
+			.separator {
+				border: 1px solid #DFDFDF;
+				margin: 10px 0;
+			}
+
+			.dhx_sample-container__widget {
+				-webkit-align-self: flex-start;
+				-ms-flex-item-align: start;
+				align-self: flex-start;
+			}
+
+			.dhx_sample-container__sidebar {
+				max-height: 1000px;
+			}
+
+			.dhx_ribbon__item {
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Ribbon samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Buttons</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+							Buttons.
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="ribbon"></div>
+			<div class="dhx_sample-container__sidebar">
+				<form id="form-controls">
+					<div class="dhx_form-group">
+						<label for="value" class="dhx_label">Item value</label>
+						<input type="text" id="value" name="value" value="BUTTON" class="dhx_input dhx_sample-input">
+					</div>
+					<div class="dhx_form-group">
+						<label for="tooltip" class="dhx_label">Item tooltip</label>
+						<input type="text" id="tooltip" name="tooltip" value="Tooltip" class="dhx_input dhx_sample-input">
+					</div>
+					<div class="dhx_form-group">
+						<label for="icon" class="dhx_label">Item icon</label>
+						<input type="text" id="icon" name="icon" value="dxi dxi-plus" class="dhx_input dhx_sample-input">
+					</div>
+					<div class="dhx_form-group">
+						<label for="count" class="dhx_label">Item count</label>
+						<input type="text" id="count" value="20" name="count" class="dhx_input dhx_sample-input">
+					</div>
+					<div class="dhx_form-group">
+						<label for="countColor" class="dhx_label">Item count color</label>
+						<select name="countColor" class="dhx_select dhx_input" id="countColor">
+							<option value="danger">danger</option>
+							<option value="primary">primary</option>
+							<option value="secondary">secondary</option>
+							<option value="success" selected>success</option>
+						</select>
+					</div>
+					<div class="dhx_form-group">
+						<label for="view" class="dhx_label">Item view</label>
+						<select name="view" class="dhx_select dhx_input" id="view">
+							<option value="flat">flat</option>
+							<option value="link">link</option>
+						</select>
+					</div>
+					<div class="dhx_form-group">
+						<label for="view" class="dhx_label">Item size</label>
+						<select name="size" class="dhx_select dhx_input" id="size">
+							<option value="small">small</option>
+							<option value="medium" selected>medium</option>
+						</select>
+					</div>
+					<div class="dhx_form-group">
+						<label for="color" class="dhx_label">Item color</label>
+						<select name="color" class="dhx_select dhx_input" id="color">
+							<option value="primary">primary</option>
+							<option value="danger">danger</option>
+							<option value="secondary">secondary</option>
+							<option value="success">success</option>
+						</select>
+					</div>
+					<label class="dhx_form-group dhx_checkbox dhx_form-group--inline">
+						<input id="full" type="checkbox" class="dhx_checkbox__input">
+						<span class="dhx_checkbox__visual-input"></span>
+						<span class="dhx_label">Full</span>
+					</label>
+					<label class="dhx_form-group dhx_checkbox dhx_form-group--inline">
+						<input id="circle" type="checkbox" class="dhx_checkbox__input">
+						<span class="dhx_checkbox__visual-input"></span>
+						<span class="dhx_label">Circle</span>
+					</label>
+					<label class="dhx_form-group dhx_checkbox dhx_form-group--inline">
+						<input id="loading" type="checkbox" class="dhx_checkbox__input">
+						<span class="dhx_checkbox__visual-input"></span>
+						<span class="dhx_label">Loading</span>
+					</label>
+				</form>
+			</div>
+		</section>
+		<script>
+			var ribbon = new dhx.Ribbon("ribbon", {css: "dhx_widget--bordered dhx_widget--bg_gray"});
+			var cfg = {
+				id: "btn",
+				type: "button",
+				value: "BUTTON",
+				tooltip: "Tooltip",
+				icon: "dxi dxi-plus",
+				count: "20",
+				countColor: "success",
+				view: "flat",
+				size: "medium",
+				color: "primary",
+				full: false,
+				circle: false,
+				loading: false
+			};
+			ribbon.data.add(cfg);
+
+			document.getElementById("form-controls").addEventListener("change", function(e) {
+				var prop = e.target.id;
+				var updateObj = {};
+				if (e.target.type === "checkbox") {
+					updateObj[prop] = e.target.checked;
+				} else {
+					updateObj[prop] = e.target.value;
+				}
+				ribbon.data.update(cfg.id, updateObj);
+			});
+		</script>
+	</body>
+</html>

@@ -6,17 +6,20 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">	
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/form.css?v=6.4.2">
+		
 		<!-- custom sample head -->
 		<style>
-			.dhx_sample-container { 
-				max-width: 800px;
-				min-height: auto;
+			.dhx_sample-container {
+				width: 1000px;
 			}
 			.dhx_sample-container__widget {
-				width: 400px;
+				padding: 0 25px;
+				height: 100%;
+				max-width: 450px;
 			}
 		</style>
 	</head>
@@ -40,10 +43,12 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					ColorPicker.
+					<div class="dhx_sample-header__content">
+						ColorPicker.
+					</div>
 				</h1>
 			</div>
-		</header>
+</header>
 		<section class="dhx_sample-container">
 			<form class="dhx_sample-container__widget" id="form-sample"></form>
 			<form class="dhx_sample-container__widget" id="form-settings"></form>
@@ -55,127 +60,130 @@
 				placeholder: "Choose a color",
 				label: "Color",
 				labelWidth: "100px",
-				labelInline: true,
+				labelPosition: "left",
 				disabled: false,
                 required: false,
-                editing: false,
-				help: "",
+                editable: false,
+				helpMessage: "",
 				preMessage: "",
 				successMessage: "",
                 errorMessage: "",
-			}
+			};
 			var formSettings = new dhx.Form("form-settings", {
-				cellCss: "dhx_widget--bordered",
+				css: "dhx_widget--bordered",
 				rows: [
 					{
 						type: "input",
 						label: "icon",
 						name: "icon",
 						value: colorPickerConfig.icon,
-						labelWidth: "100px",
-						labelInline: true
+						labelWidth: "120px",
+						labelPosition: "left"
 					},
 					{
 						type: "input",
 						label: "placeholder",
 						name: "placeholder",
 						value: colorPickerConfig.placeholder,
-						labelWidth: "100px",
-						labelInline: true
+						labelWidth: "120px",
+						labelPosition: "left"
 					},
 					{
 						type: "input",
 						label: "label",
 						name: "label",
 						value: colorPickerConfig.label,
-						labelWidth: "100px",
-						labelInline: true
+						labelWidth: "120px",
+						labelPosition: "left"
 					},
 					{
 						type: "input",
 						label: "labelWidth",
 						name: "labelWidth",
 						value: colorPickerConfig.labelWidth,
-						labelWidth: "100px",
-						labelInline: true
+						labelWidth: "120px",
+						labelPosition: "left"
 					},
 					{
-						align: "end",
-						cols: [
-							{
-								type: "checkbox",
-								label: "labelInline",
-								name: "labelInline",
-								labelInline: true,
-								checked: colorPickerConfig.labelInline,
-								gravity: false,
-								width: "132px"
-							},
-							{
-								type: "checkbox",
-								label: "disabled",
-								name: "disabled",
-								labelInline: true,
-								checked: colorPickerConfig.disabled,
-								gravity: false,
-								width: "132px"
-							}
-						]						
+						type: "select",
+						readonly: true,
+						name: "labelPosition",
+						label: "labelPosition",
+						labelPosition: "left",
+						labelWidth: "120px",
+						options: [
+							{content: "left", value: "left"},
+							{content: "top", value: "top"},
+						]
 					},
 					{
-						align: "end",
+						align: "start",
+						padding: "0 0 0 140px",
 						cols: [
 							{
 								type: "checkbox",
 								label: "required",
 								name: "required",
-								labelInline: true,
+								labelPosition: "right",
 								checked: colorPickerConfig.required,
 								gravity: false,
-								width: "132px"				
+								width: "50%"
 							},
 							{
 								type: "checkbox",
-								label: "editing",
-								name: "editing",
-								labelInline: true,
-								checked: colorPickerConfig.editing,
+								label: "editable",
+								name: "editable",
+								labelPosition: "right",
+								checked: colorPickerConfig.editable,
 								gravity: false,
-								width: "132px"
 							}
 						]						
-                    },	
+					},	
+					{
+						align: "start",
+						padding: "0 0 0 140px",
+						cols: [
+							{
+								type: "checkbox",
+								label: "disabled",
+								name: "disabled",
+								labelPosition: "right",
+								checked: colorPickerConfig.disabled,
+								gravity: false,
+							}
+						]						
+					},
 					{
 						type: "input",
-						label: "help",
-						name: "help",
-						value: colorPickerConfig.help,
-						labelWidth: "100px",
-						labelInline: true
+						label: "helpMessage",
+						name: "helpMessage",
+						value: colorPickerConfig.helpMessage,
+						labelWidth: "120px",
+						labelPosition: "left"
 					},
 					{
 						type: "input",
 						label: "preMessage",
 						name: "preMessage",
 						value: colorPickerConfig.preMessage,
-						labelWidth: "100px",
-						labelInline: true
+						labelWidth: "120px",
+						labelPosition: "left"
 					},
 					{
 						type: "input",
 						label: "successMessage",
 						name: "successMessage",
 						value: colorPickerConfig.successMessage,
-						labelWidth: "100px",
-						labelInline: true
+						labelWidth: "120px",
+						labelPosition: "left"
 					},
 					{
 						type: "input",
 						label: "errorMessage",
 						name: "errorMessage",
 						value: colorPickerConfig.errorMessage,
-						labelWidth: "100px",
-						labelInline: true
+						labelWidth: "120px",
+						labelPosition: "left"
 					}
 				]
 			});
@@ -187,15 +195,16 @@
 			function createForm() {
 				if (form) {
 					form.destructor();
-                }
+                };
 				form = new dhx.Form("form-sample", {
-					cellCss: "dhx_widget--bordered",
+					css: "dhx_widget--bordered",
 					rows: [
                         colorPickerConfig
 					]
 				});
-			}
+			};
 			createForm();
 		</script>
+
 	</body>
 </html>

@@ -2,13 +2,15 @@
 <html>
 	<head>
 		<!-- meta block -->
-		<title>custom styles - DHTMLX Timepicker</title>
+		<title>Custom style - DHTMLX Timepicker</title>
 		<meta name="description" content="Check interactive samples of DHTMLX Timepicker to explore its customization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		
+		
 		<!-- custom sample head -->
 		<style>
 			.dhx_sample-container {
@@ -31,27 +33,27 @@
 							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Customization</a>
 						</li>
 						<li class="dhx_sample-header-breadcrumbs__item">
-							<span class="dhx_sample-header-breadcrumbs__link">custom styles</span>
+							<span class="dhx_sample-header-breadcrumbs__link">Custom style</span>
 						</li>
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-							custom styles.
+					<div class="dhx_sample-header__content">
+						Custom style.
+					</div>
 				</h1>
 			</div>
 </header>
 		<section class="dhx_sample-container">
 			<div class="dhx_sample-container__widget  dhx_sample-container__widget--timepicker" id="timepicker"></div>
-			
 		</section>
-
 		<script>
 			var timepicker = new dhx.Timepicker("timepicker", {css: "dhx_widget--bordered bg-grey"});
 		</script>
 		<style>
-				.bg-grey {
-					background: #efefef;
-				}
-			</style>
+			.bg-grey {
+				background: #efefef;
+			}
+		</style>
 	</body>
 </html>

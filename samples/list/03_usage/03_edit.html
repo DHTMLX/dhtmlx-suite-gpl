@@ -6,18 +6,17 @@
 		<meta name="description" content="Check interactive samples of DHTMLX List to explore its usage and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		
+		
 		<!-- custom sample head -->
-		<script type="text/javascript" src="../common/listdata.js?v=6.1.4"></script>
+		<script type="text/javascript" src="../common/listdata.js?v=6.4.2"></script>
 		<style>
-			.dhx_sample-container__widget {
+			.dhx_sample-container {
 				max-width: 600px;
 				height: 500px;
-			}
-			.dhx_sample-controls {
-				height: 60px;
 			}
 		</style>
 	</head>
@@ -42,11 +41,11 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-							Edit items.
+						Edit items.
 					</div>
 				</h1>
 			</div>
-		</header>
+</header>
 		<section class="dhx_sample-controls">
 			<button id="edit_btn" class="dhx_sample-btn dhx_sample-btn--flat">Edit</button>
 		</section>
@@ -59,7 +58,7 @@
 			list.selection.add(list.data.getId(0));
 			document.querySelector("#edit_btn").addEventListener("click", function () {
 				var selectionId = list.selection.getId();
-				list.edit(selectionId);
+				list.editItem(selectionId);
 			});
 		</script>
 	</body>

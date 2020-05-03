@@ -6,10 +6,25 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Message to explore its customization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
 		<!-- custom sample head -->
+		<style>
+			.custom-class {
+				background: #000;
+			}
+			.custom-class .dhx_alert__header{
+				text-align: center;
+				color: #0288d1;
+			}
+			.custom-class .dhx_alert__content {
+				color: #fff;
+				padding: 20px;
+				line-height: 1.5;
+				font-size: 18px;
+			}
+		</style>
 	</head>
 	<body>
 		<header class="dhx_sample-header">
@@ -31,12 +46,12 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-							Confirm custom styles.
+					<div class="dhx_sample-header__content">
+						Confirm custom styles.
+					</div>
 				</h1>
 			</div>
-</header>
-
-
+		</header>
 		<script>		
 				dhx.confirm({
 				header: "DHTMLX Confirmation Box",
@@ -47,20 +62,5 @@
 				css: "custom-class",
 			});
 		</script>
-		<style>
-				.custom-class {
-					background: #000;
-				}
-				.custom-class .dhx_alert__header{
-					text-align: center;
-					color: #0288d1;
-				}
-				.custom-class .dhx_alert__content {
-					color: #fff;
-					padding: 20px;
-					line-height: 1.5;
-					font-size: 18px;
-				}
-			</style>
 	</body>
 </html>

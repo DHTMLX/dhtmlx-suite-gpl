@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Set value - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/form.css?v=6.4.2">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container__widget {
+				padding: 0 50px;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Set value</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Set value.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls dhx_sample-controls--top">
+            <button id="set_value" class="dhx_sample-btn dhx_sample-btn--flat">Set value</button>
+        </section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="form"></div>
+		</section>
+		<script>
+			var config = {
+				css: "dhx_widget--bordered",
+				padding: "30",
+				rows: [
+					{
+						type: "input",
+						label: "Name",
+						labelPosition: "left",
+						icon: "dxi dxi-magnify",
+						labelWidth: "130px",
+						id:"input",
+						name:"input"
+					},
+					{
+						type: "combo",
+						label: "Count",
+						labelPosition: "left",
+                        labelWidth: "130px",
+                        multiselection: true,
+						id: "combo",
+						name: "combo",
+						data: [
+							{value: "1", id: "id_1"},
+							{value: "2", id: "id_2"},
+							{value: "3", id: "id_3"},
+							{value: "4", id: "id_4"},
+							{value: "5", id: "id_5"},
+						]
+					},
+					{
+						type: "slider",
+						label: "Slider",
+						css: "slider",
+						labelPosition: "left",
+						labelWidth: "130px",
+						min: 0,
+						max: 100,
+						id: "slider",
+						name: "slider"
+					},
+					{
+						type: "datepicker",
+						label: "Date",
+						labelPosition: "left",
+						labelWidth: "130px",
+                        id: "datepicker",
+                        name: "datepicker"
+					},
+					{
+						type: "timepicker",
+						controls: "true",
+						label: "Time",
+						labelPosition: "left",
+                        labelWidth: "130px",
+                        timeFormat: 12,
+						id: "timepicker",
+						name: "timepicker"
+					},
+					{
+						type: "select",
+						label: "Select",
+						labelPosition: "left",
+						labelWidth: "130px",
+						id: "select",
+						name: "select",
+						options: [
+							{
+								value: "",
+								content: ""
+							},
+							{
+								value: "1",
+								content: "1"
+							},
+							{
+								value: "2",
+								content: "2"
+							},
+							{
+								value: "3",
+								content: "3"
+							},
+							{
+								value: "4",
+								content: "4"
+							}
+						]
+					},
+					{
+						type: "textarea",
+						label: "Textarea",
+						labelPosition: "left",
+						labelWidth: "130px",
+						value: "I am textarea!",
+						id: "textarea",
+						name: "textarea"
+					},
+					{
+						type: "text",
+						label: "Text input",
+						labelPosition: "left",
+						labelWidth: "130px",
+						value: "I am textinput!",
+						id: "text",
+						name: "text"
+					},
+					{	
+						type: "checkbox",
+						label: "I agree",
+						labelWidth: "130px",
+						id: "agree",
+						value: "checkboxvalue",
+						labelPosition: "right",
+						id: "checkbox",
+						name: "checkbox"
+					},
+					{
+						labelPosition: "left",
+						label: "Choose your color",
+						labelWidth: "130px",
+						type: "colorpicker",
+						id: "colorpicker",
+						name: "colorpicker"
+					},
+					{
+						align: "end",
+						cols: [
+							{
+								gravity: false,
+								type: "button",
+								submit: true,
+								value: "Send",
+								size: "medium",
+								view: "flat",
+								color: "primary",
+								id: "button",
+								name: "button"
+							}
+						]
+					}
+				]
+            };
+			var form = new dhx.Form("form", config);
+            document.querySelector("#set_value").addEventListener("click", function() {
+                form.setValue({
+                    "input": "Some text",
+                    "combo": ["id_1","id_2"],
+                    "slider": [30],
+                    "datepicker": "10/03/19",
+                    "timepicker": "07:00AM",
+                    "select": "1",
+                    "textarea": "Some text",
+                    "text": "Some text",
+                    "checkbox": true,
+                    "colorpicker": "#02F7C6"
+                });
+            });
+		</script>
+	</body>
+</html>

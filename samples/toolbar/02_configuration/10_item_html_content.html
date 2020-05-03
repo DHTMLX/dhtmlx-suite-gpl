@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Item HTML Content - DHTMLX Toolbar</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Toolbar to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		
+		
+		<!-- custom sample head -->
+		<style>
+			.user-button {
+				padding: 4px 16px;
+				border-radius: 4px;
+				border: solid 1px #bbbbbb;
+				display: flex;
+				align-items: center;
+			}
+
+			.user-button:hover {
+				transition: opacity .2s ease-out;
+				border: 1px solid #636363;
+			}
+
+			.user-avatar {
+				border-radius: 100px;
+				height: 24px;
+				width: 24px;
+			}
+
+			.user-name {
+				color: #616161;
+				margin-left: 8px;
+			}
+			.dhx_toolbar-button:hover{
+				background-color: transparent;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Toolbar samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Item HTML Content</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+							Item HTML Content.
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="toolbar"></div>
+		</section>
+		<script>
+			var data = [
+				{
+					type: "navItem",
+					html: "<div class='user-button'><img class='user-avatar' src='../common/avatars/Avatar_05.jpg'/><span class='user-name'>Deborah Kinsley</span></div>",
+					tooltip: "Edited by Deborah Kinsley 11/05/2019"
+				},
+				{
+					type: "navItem",
+					html: "<div class='user-button'><img class='user-avatar' src='../common/avatars/Avatar_02.jpg'/><span class='user-name'>Mike Murphy</span></div>",
+					tooltip: "Edited by Mike Murphy 10/07/2019"
+				}
+			];
+
+			var toolbar = new dhx.Toolbar("toolbar", {
+				css: "dhx_widget--bordered dhx_widget--bg_gray",
+				data: data
+			});
+		</script>
+	</body>
+</html>

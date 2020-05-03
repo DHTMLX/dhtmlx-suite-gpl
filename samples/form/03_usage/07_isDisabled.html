@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Is disabled - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/form.css?v=6.4.2">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container__widget {
+				padding: 0 50px;
+				height: 100%;
+			}
+			.dhx_form-group--inline {
+				max-width: 200px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Is disabled</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Is disabled.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<button id="status" class="dhx_sample-btn dhx_sample-btn--flat" >Is disabled</button>
+			<div class="dhx_sample-form-group dhx_form-group dhx_form-group--inline dhx_form-group--label_sr">
+				<input type="text" id="form-value" class="dhx_sample-input" readonly>
+			</div>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="form"></div>
+		</section>
+		<script>
+			var form = new dhx.Form("form", {
+				css: "dhx_widget--bordered",
+				disabled: true,
+				rows: [
+					{
+						type: "input",
+						label: "Name",
+						placeholder: "John Doe"
+					},
+					{
+						type: "input",
+						label: "Email",
+						placeholder: "jd@mail.name"
+					},
+					{	
+						type: "checkbox",
+						label: "I agree",
+						labelPosition: "right",
+						value: "checkboxvalue"
+					},
+					{
+						type: "button",
+						submit: true,
+						value: "Send",
+						size: "medium",
+						view: "flat",
+						color: "primary"
+					},
+				]
+			});
+			document.getElementById("status").addEventListener("click", function () {
+				var status = form.isDisabled();
+				document.getElementById("form-value").value = status;
+			});
+		</script>
+	</body>
+</html>

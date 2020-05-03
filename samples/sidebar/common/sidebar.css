@@ -1,0 +1,28 @@
+.dhx_sample-container {
+    height: calc(100vh - 61px);
+    margin-top: 0;
+    border-left: 1px solid #D7D7D7;
+    border-right: 1px solid #D7D7D7;
+}
+
+.dhx_sample-container__widget {
+    width: fit-content;
+    height: calc(100vh - 61px);
+}
+
+.dhx_sample-container__result {
+    width: 100%;
+    height: calc(100vh - 61px);
+}
+
+.dhx_textarea {
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    font-size: 18px;
+    border: none;
+    resize: none;
+    padding: 20px;
+}
+.dhx_textarea:focus {
+    outline: 0;
+}

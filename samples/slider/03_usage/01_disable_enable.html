@@ -7,9 +7,9 @@
 	<meta name="description" content="Check interactive samples of DHTMLX Slider to explore its usage and other details.">
 	<!-- end meta block -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-	<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-	<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+	<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+	<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
 	<!-- custom sample head -->
 	<style>
 		.dhx_sample-container {
@@ -39,19 +39,23 @@
 				</ul>
 			</nav>
 			<h1 class="dhx_sample-header__title">
-						Disable/enable slider.
+				<div class="dhx_sample-header__content">
+					Disable/enable slider.
+				</div>
 			</h1>
 		</div>
-</header>
+	</header>
 	<section class="dhx_sample-controls">
-		<div class="dhx_sample-input__wrapper dhx_sample-input__wrapper--pl-16">
-			<input checked id="state-enable" name="state" onchange="handleChange(this.value)" value type="radio" class="dhx_sample-radio__input">
-			<label for="state-enable" class="dhx_sample-radio__label">Enable</label>
-		</div>
-		<div class="dhx_sample-input__wrapper dhx_sample-input__wrapper--pl-16">
-			<input id="state-disable" name="state" onchange="handleChange(this.value)" value="disable" type="radio" class="dhx_sample-radio__input">
-			<label for="state-disable" class="dhx_sample-radio__label">Diasble</label>
-		</div>
+		<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+			<input checked id="state-enable" name="state" onchange="handleChange(this.value)" value type="radio" class="dhx_radiobutton__input">
+			<span class="dhx_radiobutton__visual-input"></span>
+			<span class="dhx_label">Enable</span>
+		</label>
+		<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+			<input class="dhx_radiobutton__input" id="state-disable" name="state" onchange="handleChange(this.value)" value="disable" type="radio" >
+			<span class="dhx_radiobutton__visual-input"></span>
+			<span class="dhx_label">Disabled</span>
+		</label>
 	</section>
 	<section class="dhx_sample-container">
 		<div class="dhx_sample-container__widget" id="slider"></div>

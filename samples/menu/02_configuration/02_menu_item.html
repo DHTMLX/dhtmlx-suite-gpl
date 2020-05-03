@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Menu item - DHTMLX Menu</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Menu to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+
+
+		<!-- custom sample head -->
+		<style>
+			.form-controls{
+				padding-left: 20px;
+			}
+			.dhx_sample-input {
+				width: 240px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Menu samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Menu item</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+							Menu item.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="menu"></div>
+			<form id="form-controls" class="form-controls">
+				<div class="dhx_form-group">
+					<label for="value" class="dhx_label">Item value</label>
+					<input type="text" id="value" name="value" value="some value" class="dhx_input dhx_sample-input">
+				</div>
+				<div class="dhx_form-group">
+					<label for="value" class="dhx_label">Item hotkey</label>
+					<input type="text" id="hotkey" name="hotkey" class="dhx_input dhx_sample-input">
+				</div>
+				<div class="dhx_form-group">
+					<label for="value" class="dhx_label">Item icon</label>
+					<input type="text" id="icon" name="icon" class="dhx_input dhx_sample-input" value="dxi dxi-check">
+				</div>
+				<div class="dhx_form-group">
+					<label for="parent" class="dhx_label">Item parent</label>
+					<select name="parent" class="dhx_select dhx_input" id="parent">
+						<option value=""> </option>
+						<option value="first">first</option>
+						<option value="second">second</option>
+						<option value="third">third</option>
+					</select>
+				</div>
+				<button id="add" type="button" class="dhx_sample-btn dhx_sample-btn--flat">Add</button>
+			</form>
+		</section>
+		<script>
+			var menu = new dhx.Menu("menu", {css: "dhx_widget--bg_gray"});
+			menu.data.parse([
+				{
+					id: "first",
+					value: "first"
+				},
+				{
+					id: "second",
+					value: "second"
+				},
+				{
+					id: "third",
+					value: "third"
+				},
+			]);
+
+			var itemConfig = { value: "some value", icon: "dxi dxi-check" };
+			var form = document.getElementById("form-controls");
+			var btn = document.getElementById("add");
+			form.addEventListener("change", function(e) {
+				itemConfig[e.target.id] = e.target.value;
+			});
+			btn.addEventListener("click", function() {
+				menu.data.add({
+					value: itemConfig.value,
+					parent: itemConfig.parent,
+					icon: itemConfig.icon,
+					hotkey: itemConfig.hotkey
+				});
+			});
+		</script>
+	</body>
+</html>

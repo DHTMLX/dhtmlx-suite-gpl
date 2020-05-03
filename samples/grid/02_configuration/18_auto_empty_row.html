@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Auto empty row - DHTMLX Grid</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Grid to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/grid.css?v=6.4.2">
+		<script type="text/javascript" src="../common/dataset.js?v=6.4.2"></script>
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Grid samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Auto empty row</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Auto empty row.
+						<div class="dhx_sample-docs-links">
+							Check documentation:
+							<a href="https://docs.dhtmlx.com/suite/grid__usage.html#autoemptyrow" target="_blank" class="dhx_sample-header-link">Auto empty row</a>
+						</div>
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="grid"></div>
+		</section>
+		<script>
+			var data = [
+				{
+					project: "Real Estate",
+					owner: "Louise Fisher",
+					start_date: "02/03/2018",
+					end_date: "06/05/2018",
+					status: "Done",
+					hours: 92,
+					cost: 3588,
+					budget: 11768,
+					balance: 8180,
+				},
+				{
+					project: "HR System",
+					owner: "Daniel Peterson",
+					start_date: "03/04/2018",
+					end_date: "02/07/2018",
+					status: "Done",
+					hours: 340,
+					cost: 15980,
+					budget: 18856,
+					balance: 2876,
+				}
+			];
+			var grid = new dhx.Grid("grid", {
+				columns: [
+					{
+						width: 150,
+						id: "project",
+						header: [{ text: "Project" }, { content: "selectFilter" }],
+					},
+					{
+						width: 150, id: "status", header: [{ text: "Status" }, { content: "selectFilter" }],
+						editorType: "select",
+						options: ["Done", "In Progress", "Not Started"]
+					},
+					{ width: 150, id: "owner", header: [{ text: "Owner" }, { content: "inputFilter" }] },
+					{ width: 150, id: "hours", header: [{ text: "Number of hours" }, { content: "inputFilter" }] },
+					{ width: 150, id: "start_date", header: [{ text: "Calendar", colspan: 2 }, { text: "Start date" }], type: "date", dateFormat: "%d/%m/%Y" },
+					{ width: 150, id: "end_date", header: ["", { text: "End date" }], type: "date", dateFormat: "%d/%m/%Y" },
+
+					{ width: 150, id: "cost", header: [{ text: "Cost" }, { content: "inputFilter" }] },
+					{ width: 150, id: "budget", header: [{ text: "Budget" }, { content: "inputFilter" }] },
+					{ width: 150, id: "balance", header: [{ text: "Balance" }, { content: "inputFilter" }] },
+				],
+				data: data,
+				editable: true,
+				autoEmptyRow: true
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Group buttons - DHTMLX Toolbar</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Toolbar to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+
+
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Toolbar samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Group buttons</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+							Group buttons.
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="toolbar"></div>
+		</section>
+		<script>
+			var data = [
+				{
+					icon: "dxi dxi-format-align-left",
+					tooltip: "align left",
+					group: "align",
+					twoState: true,
+					active: true
+				},
+				{
+					icon: "dxi dxi-format-align-center",
+					tooltip: "align center",
+					group: "align",
+					twoState: true,
+					active: false
+				},
+				{
+					icon: "dxi dxi-format-align-right",
+					tooltip: "align right",
+					group: "align",
+					twoState: true,
+					active: false
+				},
+				{ type: "separator" },
+				{
+					icon: "dxi dxi-format-vertical-align-top",
+					tooltip: "vertical align top",
+					group: "v_align",
+					twoState: true,
+					active: true
+				},
+				{
+					icon: "dxi dxi-format-vertical-align-center",
+					tooltip: "vertical align center",
+					group: "v_align",
+					twoState: true,
+					active: false
+				},
+				{
+					icon: "dxi dxi-format-vertical-align-bottom",
+					tooltip: "vertical align bottom",
+					group: "v_align",
+					twoState: true,
+					active: false
+				}
+			];
+
+			var toolbar = new dhx.Toolbar("toolbar", {
+				css: "dhx_widget--bordered"
+			});
+			toolbar.data.parse(data);
+		</script>
+	</body>
+</html>

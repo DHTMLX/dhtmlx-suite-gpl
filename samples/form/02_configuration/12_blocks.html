@@ -6,33 +6,22 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">	
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/form.css?v=6.4.2">
+		
 		<!-- custom sample head -->
-		<style>	
+		<style>
 			.dhx_sample-container {
-				-webkit-box-orient: vertical;
-				-webkit-box-direction: normal;
-				-webkit-flex-direction: column;
-				    -ms-flex-direction: column;
-				        flex-direction: column;
-			}
-			#form-sample {
-				margin-bottom: 20px;
-				-webkit-box-flex: 1;
-				-webkit-flex: 1 0 auto;
-				    -ms-flex: 1 0 auto;
-				        flex: 1 0 auto;
-			}
-			#form-settings {
-				-webkit-box-flex: 1;
-				-webkit-flex: 1 0 auto;
-				    -ms-flex: 1 0 auto;
-				        flex: 1 0 auto;
+				width: 1000px;
+				height: 100%;
+				flex-direction: column;
+				align-items: center;
 			}
 			.dhx_sample-container__widget {
-				max-height: 300px;
+				margin-top: 20px;
+				height: 100%;
 			}
 		</style>
 	</head>
@@ -56,65 +45,68 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					Blocks.
+					<div class="dhx_sample-header__content">
+						Blocks.
+					</div>
 				</h1>
 			</div>
-		</header>
+</header>
 		<section class="dhx_sample-container">
 			<form class="dhx_sample-container__widget" id="form-sample"></form>
 			<form class="dhx_sample-container__widget" id="form-settings"></form>
 		</section>
-	
 		<script>
 			var blockConfig = {
 				type: "block",
 				title: "",
 				width: "",
-				height: "",
 				dir: "rows",
 				size: "",
 				align: "",
 				padding: "20px",
 				height: "300px",
-				cellCss: "dhx_layout-cell--bordered"
+				css: "dhx_layout-cell--bordered"
 			};
 			var formSettings = new dhx.Form("form-settings", {
-				cellCss: "dhx_layout-cell--bordered",
+				css: "dhx_layout-cell--bordered",
 				cols: [{
 					padding: "20px",
 					rows: [
 						{
 							type: "input",
+							gravit: false,
 							label: "title",
 							name: "title",
 							value: blockConfig.title,
-							labelWidth: "50px",
-							labelInline: true
+							labelWidth: "100px",
+							labelPosition: "right"
 						},
 						{
 							type: "input",
+							gravit: false,
 							label: "width",
 							name: "width",
 							value: blockConfig.width,
-							labelWidth: "50px",
-							labelInline: true
+							labelWidth: "100px",
+							labelPosition: "right"
 						},
 						{
 							type: "input",
+							gravit: false,
 							label: "height",
-							value: "400px",
 							name: "height",
 							value: blockConfig.height,
-							labelWidth: "50px",
-							labelInline: true
+							labelWidth: "100px",
+							labelPosition: "right"
 						},
 						{
 							type: "input",
+							gravit: false,
 							label: "padding",
 							name: "padding",
 							value: blockConfig.padding,
-							labelWidth: "50px",
-							labelInline: true
+							labelWidth: "100px",
+							labelPosition: "right"
 						}]
 					},
 					{
@@ -122,7 +114,7 @@
 							title: "Align:",
 							padding: "10px",
 							align: "around",
-							cellCss: "dhx_layout-cell--bordered",
+							css: "dhx_layout-cell--bordered",
 							rows:[{
 									type: "radioGroup",
 									name: "align",
@@ -133,7 +125,7 @@
 												type: "radioButton",
 												label: "start",
 												gravity: false,
-												labelInline: true,
+												labelPosition: "left",
 												value: "start",
 												checked: true,
 											},
@@ -141,35 +133,35 @@
 												type: "radioButton",
 												label: "center",
 												gravity: false,
-												labelInline: true,
+												labelPosition: "left",
 												value: "center",
 											},
 											{
 												type: "radioButton",
 												label: "end",
 												gravity: false,
-												labelInline: true,
+												labelPosition: "left",
 												value: "end"
 											},
 											{
 												type: "radioButton",
 												label: "between",
 												gravity: false,
-												labelInline: true,
+												labelPosition: "left",
 												value: "between"
 											},
 											{
 												type: "radioButton",
 												label: "around",
 												gravity: false,
-												labelInline: true,
+												labelPosition: "left",
 												value: "around"
 											},
 											{
 												type: "radioButton",
 												label: "evenly",
 												gravity: false,
-												labelInline: true,
+												labelPosition: "left",
 												value: "evenly"
 											}
 										]
@@ -178,7 +170,7 @@
 							},
 							{
 								title: "Direction:",
-								cellCss: "dhx_layout-cell--bordered dhx_layout-cell--no-border_top",
+								css: "dhx_layout-cell--bordered dhx_layout-cell--no-border_top",
 								padding: "10px",
 								rows:[{
 									type: "radioGroup",
@@ -189,7 +181,7 @@
 										cols:[{
 												type: "radioButton",
 												label: "as rows",
-												labelInline: true,
+												labelPosition: "left",
 												value: "rows",
 												checked: true,
 												gravity: false,
@@ -197,7 +189,7 @@
 											{
 												type: "radioButton",
 												label: "as cols",
-												labelInline: true,
+												labelPosition: "left",
 												value: "cols",
 												gravity: false,
 											}
@@ -217,42 +209,31 @@
 			function createForm() {
 				if (form) {
 					form.destructor();
-				}
+				};
 				var items = [
 					{
 						type: "input",
 						label: "Name",
 						icon: "dxi dxi-magnify",
 						placeholder: "John Doe",
-						labelInline: true,
+						labelPosition: "right",
 						gravity: false,
-						labelWidth:  "50px",
 					},
 					{
 						type: "input",
 						label: "Email",
-						labelWidth:  "50px",
 						gravity: false,
 						placeholder: "jd@mail.name",
-						labelInline: true,
-					},
-					{	
-						type: "checkbox",
-						label: "I agree",
-						name: "agree",
-						gravity: false,
-						labelInline: true,
-						labelWidth:  "50px",
-						id: "agree",
-						value: "checkboxvalue",
+						labelPosition: "right",
 					},
 					{
 						type: "button",
+						submit: true,
 						value: "Send",
 						size: "medium",
 						gravity: false,
 						view: "flat",
-						color: "primary",
+						color: "primary"
 					},
 				];
 				delete blockConfig.rows;
@@ -262,5 +243,6 @@
 			}
 			createForm();
 		</script>
+
 	</body>
 </html>
