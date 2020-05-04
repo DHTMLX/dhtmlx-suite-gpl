@@ -1,0 +1,11 @@
+.dhx_sample-container {
+    height: 600px;
+}
+
+.dhx_sample-container__widget {
+    width: 850px;
+}
+
+.dhx_sample-container__sidebar {
+    width: 350px;
+}

@@ -6,30 +6,22 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Tabbar to explore its initialization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		
+		
 		<!-- custom sample head -->
-		<script src="../common/dataviewset.js?v=6.1.4"></script>
-		<script type="text/javascript" src="../common/dataview/dataview.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../common/dataview/dataview.css?v=6.1.4">
-		<script type="text/javascript" src="../common/list/list.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../common/list/list.css?v=6.1.4">
+		<script src="../common/dataviewset.js?v=6.4.2"></script>
+		<script type="text/javascript" src="../common/dataview/dataview.min.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../common/dataview/dataview.min.css?v=6.4.2">
+		<script type="text/javascript" src="../common/list/list.min.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../common/list/list.min.css?v=6.4.2">
 		<style>
 			.list_item {
-				display: -webkit-box;
-				display: -webkit-flex;
-				display: -ms-flexbox;
 				display: flex;
-				-webkit-box-orient: vertical;
-				-webkit-box-direction: normal;
-				-webkit-flex-direction: column;
-				    -ms-flex-direction: column;
-				        flex-direction: column;
-				-webkit-box-pack: center;
-				-webkit-justify-content: center;
-				    -ms-flex-pack: center;
-				        justify-content: center;
+				flex-direction: column;
+				justify-content: center;
 				height: 100%;
 				padding-left: 12px;
 			}
@@ -49,54 +41,52 @@
 				font-size: 12px;
 				color:rgba(0, 0, 0, 0.5);
 			}
-			.dhx_dataview-item{
-			background: #FFF;
-		}
-		.item-wrap{
-			padding: 4px;
-			box-sizing: border-box;
-		}
-		.title{
-			font-size: 1.2em;
-			padding-bottom: 4px;
-			padding-top: 12px;
-		}
-		.image{
-			width: 100px;
-			height: 100px;
-			float: left;
-			margin-right: 12px;
-		}
-
-		.item-wrap--grid{
-			width: 330px;
-			height: 108px;
-			padding-top: 4px;
-    		padding-left: 4px;
-		}
-
-		.item-wrap--list{
-			width: 1055px;
-		}
-		.item-wrap--preview{
-			width: 155px;
-			height: 180px;
-			text-align: center;
-			padding-top: 6px;
-		}
-		.item-wrap--preview .title{
-			text-align: center;
-			padding: 4px 0;
-		}
-		.item-wrap--preview .image{
-			width:140px;
-			height:140px;
-			text-align: center;
-			margin-right: 0;
-			float: none;
-		}
-			.dhx_sample-container {
-				max-height: 600px;
+			.dhx_dataview-item {
+				background: #FFF;
+			}
+			.item-wrap {
+				padding: 4px;
+				box-sizing: border-box;
+			}
+			.title {
+				font-size: 1.2em;
+				padding-bottom: 4px;
+				padding-top: 12px;
+			}
+			.image {
+				width: 100px;
+				height: 100px;
+				float: left;
+				margin-right: 12px;
+			}
+			.item-wrap--grid {
+				width: 330px;
+				height: 108px;
+				padding-top: 4px;
+				padding-left: 4px;
+			}
+			.item-wrap--list {
+				width: 1055px;
+			}
+			.item-wrap--preview {
+				width: 155px;
+				height: 180px;
+				text-align: center;
+				padding-top: 6px;
+			}
+			.item-wrap--preview .title {
+				text-align: center;
+				padding: 4px 0;
+			}
+			.item-wrap--preview .image {
+				width:140px;
+				height:140px;
+				text-align: center;
+				margin-right: 0;
+				float: none;
+			}
+			.dhx_tabbar {
+				height: 600px;
 			}
 		</style>
 	</head>
@@ -120,7 +110,9 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-							Attach.
+					<div class="dhx_sample-header__content">
+						Attach.
+					</div>
 				</h1>
 			</div>
 </header>
@@ -171,9 +163,9 @@
 				gap: "10px"
 			});
 			dataview.data.parse(dataset);
-			tabbar.cell("dataview").attach(dataview);
+			tabbar.getCell("dataview").attach(dataview);
 			list.data.load("../common/library.json").then(function() {
-				tabbar.cell("list").attach(list);
+				tabbar.getCell("list").attach(list);
 			});
 		</script>
 

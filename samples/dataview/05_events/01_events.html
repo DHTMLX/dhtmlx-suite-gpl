@@ -6,20 +6,15 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Dataview to explore its events and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
-		<link rel="stylesheet" href="../common/dataview.css?v=6.1.4">
-		<script type="text/javascript" src="../common/dataset.js?v=6.1.4"></script>
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/dataview.css?v=6.4.2">
+		<script type="text/javascript" src="../common/dataset.js?v=6.4.2"></script>
 		<!-- custom sample head -->
 		<style>
 			.dhx_sample-container__sidebar {
 				min-width: 350px;
-				width: 350px;
-			}
-			.dhx_sample-container__widget {
-				width: 600px;
-				height: 600px;
 			}
 		</style>
 	</head>
@@ -44,7 +39,7 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-							Dataview events.
+						Dataview events.
 					</div>
 				</h1>
 			</div>
@@ -53,19 +48,20 @@
 			<div class="dhx_sample-container__widget" id="dataview"></div>
 			<div class="dhx_sample-container__sidebar"> </div>
 		</section>
-
 		<script>
 			function template(item) {
 				var template = "<div class='item_wrap'>";
 				template += "<img class='image' src=" + "../common/images/" + item.thumbnailName + " />";
 				template += "<h2 class='title'>" + item.value + "</h2>";
 				template += "<p class='description'>" + item.shortDescription + "</p>";
-				template += "</div>"
+				template += "</div>";
 				return template;
 			}
+
 			var dataview = new dhx.DataView("dataview", {
 				itemsInRow: 3,
-				editing: true,
+				editable: true,
+				gap: 10,
 				css: "dhx_widget--bordered", 
 				dragMode: "both",
 				template: template,
@@ -73,7 +69,6 @@
 			dataview.data.load("../common/books.json");
 			var events = [
 				"click",
-				"contextmenu",
 				"focuschange",
 				"beforedrag",
 				"beforedrop",
@@ -88,10 +83,12 @@
 				"beforeEditStart",
 				"afterEditStart",
 				"beforeEditEnd",
-				"afterEditEnd"
+				"afterEditEnd",
+				"itemRightClick",
+				"itemMouseOver",
 			];
 			
-			var eventsContainer = document.querySelector(".dhx_sample-container__sidebar")
+			var eventsContainer = document.querySelector(".dhx_sample-container__sidebar");
 			var counter = 1;
 			
 			events.forEach(function (event) {
@@ -101,12 +98,11 @@
 			});
 			
 			function getEvent(event, args) {
-				let argsList = "<div class='arguments'>Arguments:</div>";
+				var argsList = "<div class='arguments'>Arguments:</div>";
 				for (var i = 0; i < args.length; i++) {
-					
 					argsList += "<div>" + args[i] + "</div>";
 				}
-				return "<div class=\"dhx_sample-event\">Event " + counter++ + ": " + event + argsList + "</div>";
+				return "<div class='dhx_sample-event'>Event " + counter++ + ": " + event + argsList + "</div>";
 			}
 		</script>
 

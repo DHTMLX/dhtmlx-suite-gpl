@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Item HTML Content - DHTMLX Menu</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Menu to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_menu-button__text {
+				display: flex;
+				align-items: center;
+			}
+			.menu-item{
+				vertical-align: middle;
+				margin-right: 4px;
+			}
+			.context-menu-item{
+				padding-left: 12px;
+				margin-right: 8px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Menu samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Item HTML Content</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+							Item HTML Content.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="menu"></div>
+		</section>
+		<script>
+			var data = [
+				{
+					id: "file",
+					value: "File",
+					items: [
+						{ id: "fileOpen", value: "Open", icon: "dxi dxi-folder-open" },
+						{ id: "fileDownload", value: "Download", icon: "dxi dxi-download" }
+					]
+				},
+				{
+					id: "edit",
+					value: "Edit",
+					items: [
+						{ id: "undo", value: "Undo", icon: "dxi dxi-undo" },
+						{ id: "redo", value: "Redo", icon: "dxi dxi-redo" }
+					]
+				},
+				{
+					id: "charts",
+					html: "<img class='menu-item' src='../common/img/chart-pie.svg'/><span class='dhx_nav-menu-button__text'>Charts</span>",
+					items: [
+						{
+							id: "spline",
+							html: "<img class='menu-item context-menu-item' src='../common/img/chart-spline.svg'/><span class='dhx_menu-button__text'> Spline</span>"
+						},
+						{
+							id: "donut",
+							html: "<img class='menu-item context-menu-item' src='../common/img/chart-donut.svg'/><span class='dhx_menu-button__text'> Donut</span>"
+						},
+						{
+							id: "bar",
+							html: "<img class='menu-item context-menu-item' src='../common/img/chart-bar.svg'/><span class='dhx_menu-button__text'> Bar</span>"
+						}
+					]
+				},
+			];
+
+			var menu = new dhx.Menu("menu", { css: "dhx_widget--bg_gray", data: data });
+		</script>
+	</body>
+</html>

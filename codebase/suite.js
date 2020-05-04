@@ -1,12 +1,12 @@
 /*
 @license
 
-dhtmlxSuite v.6.1.4 GPL
+dhtmlxSuite v.6.4.2 GPL
 
 This software is covered by GPL license.
 To use it in non-GPL project, you need obtain Commercial or Enterprise license
 Please contact sales@dhtmlx.com. Usage without proper license is prohibited.
-(c) Dinamenta, UAB.
+(c) XB Software.
 
 */
 if (window.dhx){ window.dhx_legacy = dhx; delete window.dhx; }(function webpackUniversalModuleDefinition(root, factory) {
@@ -102,7 +102,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 81);
+/******/ 	return __webpack_require__(__webpack_require__.s = 83);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -110,14 +110,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
-var dom = __webpack_require__(97);
+var dom = __webpack_require__(90);
 exports.el = dom.defineElement;
 exports.sv = dom.defineSvgElement;
 exports.view = dom.defineView;
 exports.create = dom.createView;
 exports.inject = dom.injectView;
+exports.KEYED_LIST = dom.KEYED_LIST;
 function disableHelp() {
     dom.DEVMODE.mutations = false;
     dom.DEVMODE.warnings = false;
@@ -151,7 +152,20 @@ function resizer(handler) {
     });
 }
 exports.resizer = resizer;
+function resizeHandler(container, handler) {
+    return exports.create({ render: function () { return resizer(handler); } }).mount(container);
+}
+exports.resizeHandler = resizeHandler;
+function awaitRedraw() {
+    return new Promise(function (res) {
+        requestAnimationFrame(function () {
+            res();
+        });
+    });
+}
+exports.awaitRedraw = awaitRedraw;
 
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(12)))
 
 /***/ }),
 /* 1 */
@@ -160,7 +174,7 @@ exports.resizer = resizer;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var html_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var counter = (new Date()).valueOf();
 function uid() {
     return "u" + (counter++);
@@ -172,7 +186,10 @@ function extend(target, source, deep) {
         for (var key in source) {
             var sobj = source[key];
             var tobj = target[key];
-            if (deep && typeof tobj === "object" && !(tobj instanceof Date) && !(tobj instanceof Array)) {
+            if (sobj === undefined) {
+                delete target[key];
+            }
+            else if (deep && typeof tobj === "object" && !(tobj instanceof Date) && !(tobj instanceof Array)) {
                 extend(tobj, sobj);
             }
             else {
@@ -270,68 +287,86 @@ function isNumeric(val) {
     return !isNaN(val - parseFloat(val));
 }
 exports.isNumeric = isNumeric;
+function downloadFile(data, filename, mimeType) {
+    if (mimeType === void 0) { mimeType = "text/plain"; }
+    var file = new Blob([data], { type: mimeType });
+    if (window.navigator.msSaveOrOpenBlob) {
+        // IE10+
+        window.navigator.msSaveOrOpenBlob(file, filename);
+    }
+    else {
+        var a_1 = document.createElement("a");
+        var url_1 = URL.createObjectURL(file);
+        a_1.href = url_1;
+        a_1.download = filename;
+        document.body.appendChild(a_1);
+        a_1.click();
+        setTimeout(function () {
+            document.body.removeChild(a_1);
+            window.URL.revokeObjectURL(url_1);
+        }, 0);
+    }
+}
+exports.downloadFile = downloadFile;
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function executedFunction() {
+        var _this = this;
+        var args = arguments;
+        var later = function () {
+            timeout = null;
+            if (!immediate) {
+                func.apply(_this, args);
+            }
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) {
+            func.apply(this, args);
+        }
+    };
+}
+exports.debounce = debounce;
+function compare(obj1, obj2) {
+    for (var p in obj1) {
+        if (obj1.hasOwnProperty(p) !== obj2.hasOwnProperty(p)) {
+            return false;
+        }
+        switch (typeof (obj1[p])) {
+            case "object":
+                if (!compare(obj1[p], obj2[p])) {
+                    return false;
+                }
+                break;
+            case "function":
+                if (typeof (obj2[p]) === "undefined" || (p !== "compare" && obj1[p].toString() !== obj2[p].toString())) {
+                    return false;
+                }
+                break;
+            default:
+                if (obj1[p] !== obj2[p]) {
+                    return false;
+                }
+        }
+    }
+    for (var p in obj2) {
+        if (typeof (obj1[p]) === "undefined") {
+            return false;
+        }
+    }
+    return true;
+}
+exports.compare = compare;
+exports.isType = function (value) {
+    var regex = /^\[object (\S+?)\]$/;
+    var matches = Object.prototype.toString.call(value).match(regex) || [];
+    return (matches[1] || "undefined").toLowerCase();
+};
 
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var EventSystem = /** @class */ (function () {
-    function EventSystem(context) {
-        this.events = {};
-        this.context = context || this;
-    }
-    EventSystem.prototype.on = function (name, callback, context) {
-        var event = name.toLowerCase();
-        this.events[event] = this.events[event] || [];
-        this.events[event].push({ callback: callback, context: context || this.context });
-    };
-    EventSystem.prototype.detach = function (name, context) {
-        var event = name.toLowerCase();
-        var eStack = this.events[event];
-        if (context && eStack && eStack.length) {
-            for (var i = eStack.length - 1; i >= 0; i--) {
-                if (eStack[i].context === context) {
-                    eStack.splice(i, 1);
-                }
-            }
-        }
-        else {
-            this.events[event] = [];
-        }
-    };
-    EventSystem.prototype.fire = function (name, args) {
-        if (typeof args === "undefined") {
-            args = [];
-        }
-        var event = name.toLowerCase();
-        if (this.events[event]) {
-            var res = this.events[event].map(function (e) { return e.callback.apply(e.context, args); });
-            return res.indexOf(false) < 0;
-        }
-        return true;
-    };
-    EventSystem.prototype.clear = function () {
-        this.events = {};
-    };
-    return EventSystem;
-}());
-exports.EventSystem = EventSystem;
-function EventsMixin(obj) {
-    obj = obj || {};
-    var eventSystem = new EventSystem(obj);
-    obj.detachEvent = eventSystem.detach.bind(eventSystem);
-    obj.attachEvent = eventSystem.on.bind(eventSystem);
-    obj.callEvent = eventSystem.fire.bind(eventSystem);
-}
-exports.EventsMixin = EventsMixin;
-
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -348,7 +383,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__webpack_require__(84);
+__webpack_require__(86);
 function toNode(node) {
     if (typeof node === "string") {
         node = (document.getElementById(node) || document.querySelector(node));
@@ -383,10 +418,11 @@ function locate(target, attr) {
     return node ? node.getAttribute(attr) : "";
 }
 exports.locate = locate;
-function locateNode(target, attr) {
+function locateNode(target, attr, dir) {
     if (attr === void 0) { attr = "dhx_id"; }
+    if (dir === void 0) { dir = "target"; }
     if (target instanceof Event) {
-        target = target.target;
+        target = target[dir];
     }
     while (target) {
         if (target.getAttribute && target.getAttribute(attr)) {
@@ -396,6 +432,23 @@ function locateNode(target, attr) {
     }
 }
 exports.locateNode = locateNode;
+function locateNodeByClassName(target, className) {
+    if (target instanceof Event) {
+        target = target.target;
+    }
+    while (target) {
+        if (className) {
+            if (target.classList && target.classList.contains(className)) {
+                return target;
+            }
+        }
+        else if (target.getAttribute && target.getAttribute("dhx_id")) {
+            return target;
+        }
+        target = target.parentNode;
+    }
+}
+exports.locateNodeByClassName = locateNodeByClassName;
 function getBox(elem) {
     var box = elem.getBoundingClientRect();
     var body = document.body;
@@ -517,7 +570,7 @@ function placeBottomOrTop(pos, config) {
     }
     if (bottomDiff < 0 && topDiff < 0) {
         if (config.auto) {
-            return placeRightOrLeft(pos, __assign({}, config, { mode: Position.right, auto: false }));
+            return placeRightOrLeft(pos, __assign(__assign({}, config), { mode: Position.right, auto: false }));
         }
         top = bottomDiff > topDiff ? pos.bottom : topDiff;
     }
@@ -563,7 +616,7 @@ function placeRightOrLeft(pos, config) {
     }
     if (leftDiff < 0 && rightDiff < 0) {
         if (config.auto) {
-            return placeBottomOrTop(pos, __assign({}, config, { mode: Position.bottom, auto: false }));
+            return placeBottomOrTop(pos, __assign(__assign({}, config), { mode: Position.bottom, auto: false }));
         }
         left = leftDiff > rightDiff ? leftDiff : pos.right;
     }
@@ -588,6 +641,64 @@ function placeRightOrLeft(pos, config) {
 
 
 /***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var EventSystem = /** @class */ (function () {
+    function EventSystem(context) {
+        this.events = {};
+        this.context = context || this;
+    }
+    EventSystem.prototype.on = function (name, callback, context) {
+        var event = name.toLowerCase();
+        this.events[event] = this.events[event] || [];
+        this.events[event].push({ callback: callback, context: context || this.context });
+    };
+    EventSystem.prototype.detach = function (name, context) {
+        var event = name.toLowerCase();
+        var eStack = this.events[event];
+        if (context && eStack && eStack.length) {
+            for (var i = eStack.length - 1; i >= 0; i--) {
+                if (eStack[i].context === context) {
+                    eStack.splice(i, 1);
+                }
+            }
+        }
+        else {
+            this.events[event] = [];
+        }
+    };
+    EventSystem.prototype.fire = function (name, args) {
+        if (typeof args === "undefined") {
+            args = [];
+        }
+        var event = name.toLowerCase();
+        if (this.events[event]) {
+            var res = this.events[event].map(function (e) { return e.callback.apply(e.context, args); });
+            return res.indexOf(false) < 0;
+        }
+        return true;
+    };
+    EventSystem.prototype.clear = function () {
+        this.events = {};
+    };
+    return EventSystem;
+}());
+exports.EventSystem = EventSystem;
+function EventsMixin(obj) {
+    obj = obj || {};
+    var eventSystem = new EventSystem(obj);
+    obj.detachEvent = eventSystem.detach.bind(eventSystem);
+    obj.attachEvent = eventSystem.on.bind(eventSystem);
+    obj.callEvent = eventSystem.fire.bind(eventSystem);
+}
+exports.EventsMixin = EventsMixin;
+
+
+/***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -595,7 +706,7 @@ function placeRightOrLeft(pos, config) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
-var html_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var View = /** @class */ (function () {
     function View(_container, config) {
         this._uid = core_1.uid();
@@ -669,6 +780,7 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
+var types_1 = __webpack_require__(6);
 var defaultColors = [
     "#394E79",
     "#5E83BA",
@@ -768,7 +880,11 @@ exports.getFontStyle = memo(function (className) {
 });
 function linearGradient(grad, id) {
     var stops = grad.stops;
-    var colors = stops.map(function (item) { return dom_1.sv("stop", { "offset": item.offset * 100 + "%", "stop-color": item.color, "stop-opacity": item.opacity || 1 }); });
+    var colors = stops.map(function (item) { return dom_1.sv("stop", {
+        "offset": item.offset * 100 + "%",
+        "stop-color": item.color,
+        "stop-opacity": item.opacity || 1
+    }); });
     var gradient = dom_1.sv("linearGradient", {
         id: id,
         gradientTransform: "rotate(90)"
@@ -777,7 +893,11 @@ function linearGradient(grad, id) {
 }
 exports.linearGradient = linearGradient;
 function getRadialGradient(opts, stops, id) {
-    var colors = stops.map(function (item) { return dom_1.sv("stop", { "offset": item.offset, "stop-color": item.color, "stop-opacity": item.opacity || 1 }); });
+    var colors = stops.map(function (item) { return dom_1.sv("stop", {
+        "offset": item.offset,
+        "stop-color": item.color,
+        "stop-opacity": item.opacity || 1
+    }); });
     var gradient = dom_1.sv("radialGradient", __assign({ id: id, cx: 0, cy: 0, gradientUnits: "userSpaceOnUse" }, opts), colors);
     return gradient;
 }
@@ -808,6 +928,98 @@ function calcPointRef(pointId, serieId) {
     return pointId + "_" + serieId;
 }
 exports.calcPointRef = calcPointRef;
+function getClassesForRotateScale(position, angle) {
+    var className = "";
+    var classList = [];
+    if (position === types_1.ScaleType.left || position === types_1.ScaleType.top) {
+        classList.push("start-text", "end-text");
+    }
+    else if (position === types_1.ScaleType.right || position === types_1.ScaleType.bottom) {
+        classList.push("end-text", "start-text");
+    }
+    switch (position) {
+        case types_1.ScaleType.left:
+        case types_1.ScaleType.right:
+            if (angle === 0) {
+                className = classList[1];
+            }
+            else if (angle > 0) {
+                if (angle === 180) {
+                    className = classList[0];
+                }
+                else if (angle > 180) {
+                    if (angle < 270) {
+                        className = classList[0];
+                    }
+                    else if (angle > 270) {
+                        className = classList[1];
+                    }
+                }
+                else if (angle < 180) {
+                    if (angle > 90) {
+                        className = classList[0];
+                    }
+                    else if (angle < 90) {
+                        className = classList[1];
+                    }
+                }
+            }
+            else if (angle < 0) {
+                if (angle === -180) {
+                    className = classList[0];
+                }
+                else if (angle < -180) {
+                    if (angle > -270) {
+                        className = classList[0];
+                    }
+                    else if (angle < -270) {
+                        className = classList[1];
+                    }
+                }
+                else if (angle > -180) {
+                    if (angle < -90) {
+                        className = classList[0];
+                    }
+                    else if (angle > -90) {
+                        className = classList[1];
+                    }
+                }
+            }
+            break;
+        case types_1.ScaleType.top:
+        case types_1.ScaleType.bottom:
+            if (angle > 0) {
+                if (angle > 180) {
+                    className = classList[0];
+                }
+                else if (angle < 180) {
+                    className = classList[1];
+                }
+            }
+            else if (angle < 0) {
+                if (angle > -180) {
+                    className = classList[0];
+                }
+                else if (angle < -180) {
+                    className = classList[1];
+                }
+            }
+            break;
+    }
+    return className;
+}
+exports.getClassesForRotateScale = getClassesForRotateScale;
+function getScales(config) {
+    var scales = [];
+    for (var scaleName in config) {
+        var scale = config[scaleName];
+        if (scale.min || scale.max || scale.maxTicks || scale.text || scale.value) {
+            scales.push(scaleName);
+        }
+    }
+    return scales;
+}
+exports.getScales = getScales;
 
 
 /***/ }),
@@ -837,6 +1049,7 @@ var ChartEvents;
     ChartEvents["chartMouseMove"] = "chartMouseMove";
     ChartEvents["chartMouseLeave"] = "chartMouseLeave";
     ChartEvents["resize"] = "resize";
+    ChartEvents["serieClick"] = "serieClick";
 })(ChartEvents = exports.ChartEvents || (exports.ChartEvents = {}));
 var ScaleType;
 (function (ScaleType) {
@@ -899,16 +1112,18 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(17));
-__export(__webpack_require__(55));
-__export(__webpack_require__(92));
-__export(__webpack_require__(93));
-__export(__webpack_require__(25));
-__export(__webpack_require__(18));
-__export(__webpack_require__(58));
+__export(__webpack_require__(15));
 __export(__webpack_require__(57));
 __export(__webpack_require__(95));
-__export(__webpack_require__(56));
+__export(__webpack_require__(96));
+__export(__webpack_require__(21));
+__export(__webpack_require__(98));
+__export(__webpack_require__(16));
+__export(__webpack_require__(60));
+__export(__webpack_require__(59));
+__export(__webpack_require__(99));
+__export(__webpack_require__(58));
+__export(__webpack_require__(34));
 
 
 /***/ }),
@@ -944,6 +1159,11 @@ var FormEvents;
     FormEvents["beforeSend"] = "beforesend";
     FormEvents["afterSend"] = "aftersend";
 })(FormEvents = exports.FormEvents || (exports.FormEvents = {}));
+var BaseElementEvent;
+(function (BaseElementEvent) {
+    BaseElementEvent["change"] = "change";
+    BaseElementEvent["configUpdate"] = "configUpdate";
+})(BaseElementEvent = exports.BaseElementEvent || (exports.BaseElementEvent = {}));
 var Validation;
 (function (Validation) {
     Validation["empty"] = "";
@@ -972,18 +1192,18 @@ var ClearMethod;
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
 var _a;
+Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = __webpack_require__(8);
 function getFormItemCss(item, validate) {
     var _a;
-    var labelInline = item.labelInline, required = item.required, disabled = item.disabled, hiddenLabel = item.hiddenLabel, css = item.css, $validationStatus = item.$validationStatus;
+    var labelPosition = item.labelPosition, required = item.required, disabled = item.disabled, hiddenLabel = item.hiddenLabel, css = item.css, $validationStatus = item.$validationStatus;
     var cssStatus = (_a = {},
         _a[types_1.ValidationStatus.pre] = "",
         _a[types_1.ValidationStatus.error] = " dhx_form-group--state_error",
         _a[types_1.ValidationStatus.success] = " dhx_form-group--state_success",
         _a)[$validationStatus] || "";
-    var labelPositionCss = labelInline ? " dhx_form-group--inline" : "";
+    var labelPositionCss = labelPosition === "right" || labelPosition === "left" ? " dhx_form-group--inline" : "";
     var requiredCss = required ? " dhx_form-group--required" : "";
     var disabledCss = disabled ? " dhx_form-group--disabled" : "";
     var labelSrCss = hiddenLabel ? " dhx_form-group--label_sr" : "";
@@ -1049,24 +1269,16 @@ function isTimeFormat(value, timeFormat) {
     return /(^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$)/i.test(value);
 }
 exports.isTimeFormat = isTimeFormat;
+exports.isEmptyObj = function (obj) {
+    for (var key in obj) {
+        return false;
+    }
+    return true;
+};
 
 
 /***/ }),
 /* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(126));
-__export(__webpack_require__(62));
-
-
-/***/ }),
-/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1077,13 +1289,18 @@ var EditorType;
     EditorType["input"] = "input";
     EditorType["select"] = "select";
     EditorType["datepicker"] = "datePicker";
+    EditorType["checkbox"] = "checkbox";
+    EditorType["combobox"] = "combobox";
 })(EditorType = exports.EditorType || (exports.EditorType = {}));
 var GridEvents;
 (function (GridEvents) {
     GridEvents["scroll"] = "scroll";
     GridEvents["sort"] = "sort";
     GridEvents["expand"] = "expand";
-    GridEvents["headerInput"] = "headerInput";
+    GridEvents["filterChange"] = "filterChange";
+    GridEvents["beforeResizeStart"] = "beforeResizeStart";
+    GridEvents["resize"] = "resize";
+    GridEvents["afterResizeEnd"] = "afterResizeEnd";
     GridEvents["cellClick"] = "cellClick";
     GridEvents["cellRightClick"] = "cellRightClick";
     GridEvents["cellMouseOver"] = "cellMouseOver";
@@ -1103,11 +1320,15 @@ var GridEvents;
     GridEvents["afterEditStart"] = "afterEditStart";
     GridEvents["beforeEditEnd"] = "beforeEditEnd";
     GridEvents["afterEditEnd"] = "afterEditEnd";
+    GridEvents["beforeKeyDown"] = "beforeKeyDown";
+    GridEvents["afterKeyDown"] = "afterKeyDown";
+    // TODO: remove suite_7.0
+    GridEvents["headerInput"] = "headerInput";
 })(GridEvents = exports.GridEvents || (exports.GridEvents = {}));
 
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1116,119 +1337,12 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(99));
+__export(__webpack_require__(131));
+__export(__webpack_require__(64));
 
 
 /***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function getHotKeyCode(code) {
-    var matches = code.toLowerCase().match(/\w+/g);
-    var comp = 0;
-    var key = "";
-    for (var i = 0; i < matches.length; i++) {
-        var check = matches[i];
-        if (check === "ctrl") {
-            comp += 4;
-        }
-        else if (check === "shift") {
-            comp += 2;
-        }
-        else if (check === "alt") {
-            comp += 1;
-        }
-        else {
-            key = check;
-        }
-    }
-    return comp + key;
-}
-var KeyManager = /** @class */ (function () {
-    function KeyManager() {
-        var _this = this;
-        this._keysStorage = {};
-        document.addEventListener("keydown", function (e) {
-            var comp = (e.ctrlKey || e.metaKey ? 4 : 0) + (e.shiftKey ? 2 : 0) + (e.altKey ? 1 : 0);
-            var key;
-            if ((e.which >= 48 && e.which <= 57) || (e.which >= 65 && e.which <= 90)) { // A-Z 0-9
-                key = String.fromCharCode(e.which);
-            }
-            else {
-                key = e.key;
-            }
-            var code = comp + (key && key.toLowerCase());
-            var actions = _this._keysStorage[code];
-            if (actions) {
-                for (var i = 0; i < actions.length; i++) {
-                    actions[i].handler(e);
-                }
-            }
-        });
-    }
-    KeyManager.prototype.addHotKey = function (key, handler, scope) {
-        var code = getHotKeyCode(key);
-        if (!this._keysStorage[code]) {
-            this._keysStorage[code] = [];
-        }
-        this._keysStorage[code].push({
-            handler: handler,
-            scope: scope
-        });
-    };
-    KeyManager.prototype.removeHotKey = function (key, scope) {
-        var keyStorage = this._keysStorage;
-        if (key) {
-            var code = getHotKeyCode(key);
-            delete keyStorage[code];
-        }
-        if (scope) {
-            for (var code in keyStorage) {
-                var toDelete = []; // items index to delete
-                for (var i = 0; i < keyStorage[code].length; i++) {
-                    if (keyStorage[code][i].scope === scope) {
-                        toDelete.push(i);
-                    }
-                }
-                if (keyStorage[code].length === toDelete.length) {
-                    delete keyStorage[code];
-                }
-                else {
-                    for (var i = toDelete.length - 1; i >= 0; i--) { // begin from last coz splice change other index
-                        keyStorage[code].splice(toDelete[i], 1);
-                    }
-                }
-            }
-        }
-    };
-    KeyManager.prototype.exist = function (key) {
-        var code = getHotKeyCode(key);
-        return !!this._keysStorage[code];
-    };
-    return KeyManager;
-}());
-exports.keyManager = new KeyManager();
-function addHotkeys(handlers, beforeCall) {
-    var context = new Date();
-    var wrapHandler = function (handler) { return function (e) {
-        if (beforeCall && beforeCall() === false) {
-            return;
-        }
-        handler(e);
-    }; };
-    for (var key in handlers) {
-        exports.keyManager.addHotKey(key, wrapHandler(handlers[key]), context);
-    }
-    return function () { return exports.keyManager.removeHotKey(undefined, context); };
-}
-exports.addHotkeys = addHotkeys;
-
-
-/***/ }),
-/* 14 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {(function () {
@@ -1548,10 +1662,125 @@ exports.addHotkeys = addHotkeys;
   } else {}
 })()
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(32), __webpack_require__(85).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(33), __webpack_require__(87).setImmediate))
 
 /***/ }),
-/* 15 */
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var html_1 = __webpack_require__(2);
+function getHotKeyCode(code) {
+    var matches = code.toLowerCase().match(/\w+/g);
+    var comp = 0;
+    var key = "";
+    for (var i = 0; i < matches.length; i++) {
+        var check = matches[i];
+        if (check === "ctrl") {
+            comp += 4;
+        }
+        else if (check === "shift") {
+            comp += 2;
+        }
+        else if (check === "alt") {
+            comp += 1;
+        }
+        else {
+            key = check;
+        }
+    }
+    return comp + key;
+}
+var KeyManager = /** @class */ (function () {
+    function KeyManager() {
+        var _this = this;
+        this._keysStorage = {};
+        document.addEventListener("keydown", function (e) {
+            var comp = (e.ctrlKey || e.metaKey ? 4 : 0) + (e.shiftKey ? 2 : 0) + (e.altKey ? 1 : 0);
+            var key;
+            if ((e.which >= 48 && e.which <= 57) || (e.which >= 65 && e.which <= 90)) { // A-Z 0-9
+                key = String.fromCharCode(e.which);
+            }
+            else {
+                // dirty: added space binding
+                if (e.which === 32 && !html_1.isIE()) {
+                    key = e.code;
+                }
+                else {
+                    key = e.key;
+                }
+            }
+            var code = comp + (key && key.toLowerCase());
+            var actions = _this._keysStorage[code];
+            if (actions) {
+                for (var i = 0; i < actions.length; i++) {
+                    actions[i].handler(e);
+                }
+            }
+        });
+    }
+    KeyManager.prototype.addHotKey = function (key, handler, scope) {
+        var code = getHotKeyCode(key);
+        if (!this._keysStorage[code]) {
+            this._keysStorage[code] = [];
+        }
+        this._keysStorage[code].push({
+            handler: handler,
+            scope: scope
+        });
+    };
+    KeyManager.prototype.removeHotKey = function (key, scope) {
+        var keyStorage = this._keysStorage;
+        if (key) {
+            var code = getHotKeyCode(key);
+            delete keyStorage[code];
+        }
+        if (scope) {
+            for (var code in keyStorage) {
+                var toDelete = []; // items index to delete
+                for (var i = 0; i < keyStorage[code].length; i++) {
+                    if (keyStorage[code][i].scope === scope) {
+                        toDelete.push(i);
+                    }
+                }
+                if (keyStorage[code].length === toDelete.length) {
+                    delete keyStorage[code];
+                }
+                else {
+                    for (var i = toDelete.length - 1; i >= 0; i--) { // begin from last coz splice change other index
+                        keyStorage[code].splice(toDelete[i], 1);
+                    }
+                }
+            }
+        }
+    };
+    KeyManager.prototype.exist = function (key) {
+        var code = getHotKeyCode(key);
+        return !!this._keysStorage[code];
+    };
+    return KeyManager;
+}());
+exports.keyManager = new KeyManager();
+function addHotkeys(handlers, beforeCall) {
+    var context = new Date();
+    var wrapHandler = function (handler) { return function (e) {
+        if (beforeCall && beforeCall() === false) {
+            return;
+        }
+        handler(e);
+    }; };
+    for (var key in handlers) {
+        exports.keyManager.addHotKey(key, wrapHandler(handlers[key]), context);
+    }
+    return function () { return exports.keyManager.removeHotKey(undefined, context); };
+}
+exports.addHotkeys = addHotkeys;
+
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1560,96 +1789,12 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(105));
-__export(__webpack_require__(106));
-__export(__webpack_require__(22));
+__export(__webpack_require__(102));
+__export(__webpack_require__(28));
 
 
 /***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var dom_1 = __webpack_require__(0);
-var view_1 = __webpack_require__(4);
-var ts_popup_1 = __webpack_require__(10);
-var html_1 = __webpack_require__(3);
-var Label = /** @class */ (function (_super) {
-    __extends(Label, _super);
-    function Label(container, config) {
-        if (config === void 0) { config = {}; }
-        var _this = _super.call(this, container, config) || this;
-        if (_this.config.help) {
-            _this._helper = new ts_popup_1.Popup({ css: "dhx_tooltip dhx_tooltip--forced dhx_tooltip--light" });
-            _this._helper.attachHTML(_this.config.help);
-        }
-        _this._handlers = __assign({ showHelper: function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                _this._helper.show(e.target, { mode: _this.config.labelInline ? html_1.Position.right : html_1.Position.bottom });
-            } }, _this._getHandlers());
-        var render = function () { return _this._draw(); };
-        _this.mount(container, dom_1.create({ render: render }));
-        return _this;
-    }
-    Label.prototype._getHandlers = function () {
-        return {};
-    };
-    Label.prototype._init = function () {
-        return;
-    };
-    Label.prototype._draw = function () {
-        return this._drawLabel();
-    };
-    Label.prototype._drawLabel = function () {
-        var _a = this.config, id = _a.id, labelInline = _a.labelInline, label = _a.label, labelWidth = _a.labelWidth, help = _a.help;
-        var width = labelInline && labelWidth ? labelWidth : "";
-        return dom_1.el("label.dhx_label", {
-            for: id || this._uid,
-            style: { minWidth: width, maxWidth: width },
-            class: help ? "dhx_label--with-help" : ""
-        }, help ? [
-            dom_1.el("span.dhx_label__holder", label),
-            dom_1.el("span.dhx_label-help.dxi.dxi-help-circle-outline", {
-                tabindex: "0",
-                role: "button",
-                onclick: this._handlers.showHelper
-            }),
-        ] : label);
-    };
-    return Label;
-}(view_1.View));
-exports.Label = Label;
-
-
-/***/ }),
-/* 17 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1677,6 +1822,8 @@ var DataEvents;
     DataEvents["change"] = "change";
     DataEvents["load"] = "load";
     DataEvents["loadError"] = "loaderror";
+    DataEvents["beforeLazyLoad"] = "beforelazyload";
+    DataEvents["afterLazyLoad"] = "afterlazyload";
 })(DataEvents = exports.DataEvents || (exports.DataEvents = {}));
 var DragEvents;
 (function (DragEvents) {
@@ -1711,14 +1858,14 @@ var DataDriver;
 
 
 /***/ }),
-/* 18 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var dataproxy_1 = __webpack_require__(25);
-var drivers_1 = __webpack_require__(56);
+var dataproxy_1 = __webpack_require__(21);
+var drivers_1 = __webpack_require__(58);
 function isEqualObj(a, b) {
     for (var key in a) {
         if (a[key] !== b[key]) {
@@ -1844,6 +1991,113 @@ exports.hasJsonOrArrayStructure = hasJsonOrArrayStructure;
 
 
 /***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(109));
+__export(__webpack_require__(110));
+__export(__webpack_require__(23));
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var dom_1 = __webpack_require__(0);
+var view_1 = __webpack_require__(4);
+var ts_popup_1 = __webpack_require__(11);
+var html_1 = __webpack_require__(2);
+var Label = /** @class */ (function (_super) {
+    __extends(Label, _super);
+    function Label(container, config) {
+        if (config === void 0) { config = {}; }
+        var _this = _super.call(this, container, config) || this;
+        _this.config.helpMessage = _this.config.helpMessage || _this.config.help; // TODO: remove sute_7.0
+        if (_this.config.labelInline) {
+            _this.config.labelPosition = "left"; // TODO: remove sute_7.0
+        }
+        _this._handlers = __assign({ showHelper: function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                _this._helper.show(e.target, { mode: _this.config.labelPosition === "left" ? html_1.Position.right : html_1.Position.bottom });
+            } }, _this._getHandlers());
+        var render = function () { return _this._draw(); };
+        _this.mount(container, dom_1.create({ render: render }));
+        return _this;
+    }
+    Label.prototype._getHandlers = function () {
+        return {};
+    };
+    Label.prototype._init = function () {
+        return;
+    };
+    Label.prototype._draw = function () {
+        return this._drawLabel();
+    };
+    Label.prototype._drawLabel = function () {
+        if (this.config.helpMessage) {
+            if (this._helper) {
+                this._helper.attachHTML(this.config.helpMessage);
+            }
+            else {
+                this._helper = new ts_popup_1.Popup({ css: "dhx_tooltip dhx_tooltip--forced dhx_tooltip--light" });
+                this._helper.attachHTML(this.config.helpMessage);
+            }
+        }
+        var _a = this.config, id = _a.id, labelPosition = _a.labelPosition, label = _a.label, labelWidth = _a.labelWidth, helpMessage = _a.helpMessage;
+        var width = labelPosition === "left" && labelWidth ? labelWidth : "";
+        return dom_1.el("label.dhx_label", {
+            for: id || this._uid,
+            style: { minWidth: width, maxWidth: width },
+            class: helpMessage ? "dhx_label--with-help" : ""
+        }, helpMessage ? [
+            dom_1.el("span.dhx_label__holder", label),
+            dom_1.el("span.dhx_label-help.dxi.dxi-help-circle-outline", {
+                tabindex: "0",
+                role: "button",
+                onclick: this._handlers.showHelper
+            }),
+        ] : label);
+    };
+    return Label;
+}(view_1.View));
+exports.Label = Label;
+
+
+/***/ }),
 /* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1853,11 +2107,11 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(101));
-__export(__webpack_require__(102));
-__export(__webpack_require__(103));
-__export(__webpack_require__(60));
-__export(__webpack_require__(33));
+__export(__webpack_require__(105));
+__export(__webpack_require__(106));
+__export(__webpack_require__(107));
+__export(__webpack_require__(62));
+__export(__webpack_require__(35));
 
 
 /***/ }),
@@ -1871,10 +2125,10 @@ function rgbToHex(color) {
     if (color.substr(0, 1) === "#") {
         return color;
     }
-    var digits = /(.*?)rgb[a]?\((\d+), *(\d+), *(\d+),* *([\d]*)\)/.exec(color);
-    var red = parseInt(digits[2], 10).toString(16);
-    var green = parseInt(digits[3], 10).toString(16);
-    var blue = parseInt(digits[4], 10).toString(16);
+    var digits = /(.*?)rgb[a]?\((\d+), *(\d+), *(\d+),* *([\d+.]*)\)/.exec(color);
+    var red = parseInt(digits[2], 10).toString(16).padStart(2, "0");
+    var green = parseInt(digits[3], 10).toString(16).padStart(2, "0");
+    var blue = parseInt(digits[4], 10).toString(16).padStart(2, "0");
     return "#" + red + green + blue;
 }
 exports.rgbToHex = rgbToHex;
@@ -1929,7 +2183,7 @@ function getStyleByClass(cssClass, container, targetClass, def) {
 }
 exports.getStyleByClass = getStyleByClass;
 function removeHTMLTags(str) {
-    if (typeof str !== "string" && typeof str !== "number") {
+    if (typeof str !== "string" && typeof str !== "number" && typeof str !== "boolean") {
         return "";
     }
     return ("" + ((str === undefined || str === null) ? "" : str)).replace(/<[^>]*>/g, "").replace(/[\"]/g, "&quot;").trim();
@@ -1961,10 +2215,69 @@ function isRowEmpty(row) {
     }, true);
 }
 exports.isRowEmpty = isRowEmpty;
+function isSortable(config, col) {
+    return col.sortable !== false && config.sortable || col.sortable;
+}
+exports.isSortable = isSortable;
+function isAutoWidth(config, col) {
+    if (!col) {
+        var check_1 = false;
+        config.columns.map(function (column) {
+            if (column.autoWidth !== false && config.autoWidth || column.autoWidth) {
+                check_1 = true;
+                return;
+            }
+        });
+        return check_1;
+    }
+    return col.autoWidth !== false && config.autoWidth || col.autoWidth;
+}
+exports.isAutoWidth = isAutoWidth;
 
 
 /***/ }),
 /* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var ajax_1 = __webpack_require__(34);
+var DataProxy = /** @class */ (function () {
+    function DataProxy(url, config) {
+        this.url = this._url = url;
+        this.config = config;
+    }
+    DataProxy.prototype.updateUrl = function (url, params) {
+        if (params === void 0) { params = {}; }
+        this._url = this.url = url || this._url;
+        this.url += "?";
+        for (var param in params) {
+            this.config[param] = params[param];
+            this.url += param + "=" + encodeURIComponent(params[param]) + "&";
+        }
+        this.url = this.url.slice(0, -1);
+    };
+    DataProxy.prototype.load = function () {
+        return ajax_1.ajax.get(this.url, null, { responseType: "text" });
+    };
+    DataProxy.prototype.save = function (data, mode) {
+        switch (mode) {
+            case "delete":
+                return ajax_1.ajax.delete(this.url, data);
+            case "update":
+            case "insert":
+            default:
+                return ajax_1.ajax.post(this.url, data);
+        }
+    };
+    return DataProxy;
+}());
+exports.DataProxy = DataProxy;
+
+
+/***/ }),
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1980,7 +2293,7 @@ var SelectionEvents;
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2001,12 +2314,15 @@ var ItemType;
     ItemType["menuItem"] = "menuItem";
     ItemType["block"] = "block";
     ItemType["navItem"] = "navItem";
+    ItemType["customHTML"] = "customHTML";
 })(ItemType = exports.ItemType || (exports.ItemType = {}));
 var NavigationBarEvents;
 (function (NavigationBarEvents) {
-    NavigationBarEvents["inputCreated"] = "inputcreated";
+    NavigationBarEvents["inputCreated"] = "inputCreated";
     NavigationBarEvents["click"] = "click";
     NavigationBarEvents["openMenu"] = "openmenu";
+    NavigationBarEvents["beforeHide"] = "beforeHide";
+    NavigationBarEvents["afterHide"] = "afterHide";
     NavigationBarEvents["inputFocus"] = "inputfocus";
     NavigationBarEvents["inputBlur"] = "inputblur";
 })(NavigationBarEvents = exports.NavigationBarEvents || (exports.NavigationBarEvents = {}));
@@ -2018,14 +2334,14 @@ var NavigationType;
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(22);
+var types_1 = __webpack_require__(23);
 function getCount(item, widgetClass, isLimited) {
     var countColor = {
         danger: " dhx_navbar-count--color_danger",
@@ -2052,14 +2368,14 @@ function navbarComponentMixin(widgetName, item, asMenuItem, body) {
     var itemClass = getNavbarItemClass(widgetName, item, asMenuItem);
     var hasRibbonSize = widgetName === "ribbon" && (item.type === types_1.ItemType.navItem || item.type === types_1.ItemType.imageButton);
     return dom_1.el("li", {
-        _key: item.id,
-        class: itemClass +
+        "_key": item.id,
+        "class": itemClass +
             (item.icon && !item.value && hasRibbonSize ? " dhx_ribbon__item--icon" : "") +
             (item.src && !item.value && hasRibbonSize ? " dhx_ribbon__item--icon" : "") +
             (item.size && hasRibbonSize ? " dhx_ribbon__item--" + item.size : ""),
-    }, [
-        body
-    ]);
+        ".innerHTML": item.type === types_1.ItemType.customHTML ? item.html : undefined,
+        "dhx_id": item.type === types_1.ItemType.customHTML ? item.id : undefined,
+    }, item.type !== types_1.ItemType.customHTML ? [body] : undefined);
 }
 exports.navbarComponentMixin = navbarComponentMixin;
 function getNavbarButtonCSS(_a, widgetName) {
@@ -2107,7 +2423,22 @@ var getNavbarItemClass = function (widgetName, item, asMenuItem) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(128));
+__export(__webpack_require__(68));
+__export(__webpack_require__(41));
+
+
+/***/ }),
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2128,9 +2459,11 @@ exports.shiftCoordinates = shiftCoordinates;
 exports.pieLikeHandlers = {
     onmouseover: function (shiftX, shiftY, _, node) {
         node.el.setAttribute("transform", "translate(" + shiftX + ", " + shiftY + ") scale(1.05)");
+        node.el.classList.add("dhx_pie-transform-delay");
     },
     onmouseout: function (_, node) {
         node.el.setAttribute("transform", "translate(0, 0)");
+        node.el.classList.remove("dhx_pie-transform-delay");
     }
 };
 function checkMiss(v, r) {
@@ -2203,73 +2536,7 @@ exports.radarScale = radarScale;
 
 
 /***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(Promise) {
-Object.defineProperty(exports, "__esModule", { value: true });
-var DataProxy = /** @class */ (function () {
-    function DataProxy(url) {
-        this.url = url;
-    }
-    DataProxy.prototype.load = function () {
-        return this._ajax(this.url);
-    };
-    DataProxy.prototype.save = function (data, mode) {
-        var modes = {
-            insert: "POST",
-            delete: "DELETE",
-            update: "POST"
-        };
-        return this._ajax(this.url, data, modes[mode] || "POST");
-    };
-    DataProxy.prototype._ajax = function (url, data, method) {
-        if (method === void 0) { method = "GET"; }
-        return new Promise(function (resolve, reject) {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function () {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    resolve(xhr.response || xhr.responseText);
-                }
-                else {
-                    reject({
-                        status: xhr.status,
-                        statusText: xhr.statusText
-                    });
-                }
-            };
-            xhr.onerror = function () {
-                reject({
-                    status: xhr.status,
-                    statusText: xhr.statusText
-                });
-            };
-            xhr.open(method, url);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            switch (method) {
-                case "POST":
-                case "DELETE":
-                case "PUT":
-                    xhr.send(JSON.stringify(data));
-                    break;
-                case "GET":
-                    xhr.send();
-                    break;
-                default:
-                    xhr.send();
-                    break;
-            }
-        });
-    };
-    return DataProxy;
-}());
-exports.DataProxy = DataProxy;
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(14)))
-
-/***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2304,34 +2571,40 @@ var VaultMode;
 
 
 /***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(104));
-var ts_navbar_1 = __webpack_require__(15);
-exports.ItemType = ts_navbar_1.ItemType;
-exports.NavigationBarEvents = ts_navbar_1.NavigationBarEvents;
-
-
-/***/ }),
 /* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(123));
-__export(__webpack_require__(66));
-__export(__webpack_require__(38));
+var LayoutEvents;
+(function (LayoutEvents) {
+    LayoutEvents["beforeShow"] = "beforeShow";
+    LayoutEvents["afterShow"] = "afterShow";
+    LayoutEvents["beforeHide"] = "beforeHide";
+    LayoutEvents["afterHide"] = "afterHide";
+    LayoutEvents["beforeResizeStart"] = "beforeResizeStart";
+    LayoutEvents["resize"] = "resize";
+    LayoutEvents["afterResizeEnd"] = "afterResizeEnd";
+    LayoutEvents["beforeAdd"] = "beforeAdd";
+    LayoutEvents["afterAdd"] = "afterAdd";
+    LayoutEvents["beforeRemove"] = "beforeRemove";
+    LayoutEvents["afterRemove"] = "afterRemove";
+    LayoutEvents["beforeCollapse"] = "beforeCollapse";
+    LayoutEvents["afterCollapse"] = "afterCollapse";
+    LayoutEvents["beforeExpand"] = "beforeExpand";
+    LayoutEvents["afterExpand"] = "afterExpand";
+})(LayoutEvents = exports.LayoutEvents || (exports.LayoutEvents = {}));
+var resizeMode;
+(function (resizeMode) {
+    resizeMode[resizeMode["unknown"] = 0] = "unknown";
+    resizeMode[resizeMode["percents"] = 1] = "percents";
+    resizeMode[resizeMode["pixels"] = 2] = "pixels";
+    resizeMode[resizeMode["mixedpx1"] = 3] = "mixedpx1";
+    resizeMode[resizeMode["mixedpx2"] = 4] = "mixedpx2";
+    resizeMode[resizeMode["mixedperc1"] = 5] = "mixedperc1";
+    resizeMode[resizeMode["mixedperc2"] = 6] = "mixedperc2";
+})(resizeMode = exports.resizeMode || (exports.resizeMode = {}));
 
 
 /***/ }),
@@ -2344,8 +2617,10 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(124));
-__export(__webpack_require__(65));
+__export(__webpack_require__(108));
+var ts_navbar_1 = __webpack_require__(17);
+exports.ItemType = ts_navbar_1.ItemType;
+exports.NavigationBarEvents = ts_navbar_1.NavigationBarEvents;
 
 
 /***/ }),
@@ -2358,8 +2633,8 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(125));
-__export(__webpack_require__(63));
+__export(__webpack_require__(129));
+__export(__webpack_require__(67));
 
 
 /***/ }),
@@ -2372,15 +2647,29 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(130));
-__export(__webpack_require__(67));
-__export(__webpack_require__(40));
-var en_1 = __webpack_require__(41);
+__export(__webpack_require__(135));
+__export(__webpack_require__(69));
+__export(__webpack_require__(43));
+var en_1 = __webpack_require__(44);
 exports.locale = en_1.default;
 
 
 /***/ }),
 /* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(161));
+__export(__webpack_require__(74));
+
+
+/***/ }),
+/* 33 */
 /***/ (function(module, exports) {
 
 var g;
@@ -2406,7 +2695,192 @@ module.exports = g;
 
 
 /***/ }),
-/* 33 */
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Promise) {
+Object.defineProperty(exports, "__esModule", { value: true });
+var types_1 = __webpack_require__(15);
+var helpers_1 = __webpack_require__(16);
+function toQueryString(data) {
+    return Object.keys(data).reduce(function (entries, key) {
+        var value = typeof data[key] === "object" ? JSON.stringify(data[key]) : data[key];
+        entries.push(key + "=" + encodeURIComponent(value));
+        return entries;
+    }, []).join("&");
+}
+function inferResponseType(contentType) {
+    if (!contentType) {
+        return "text";
+    }
+    if (contentType.indexOf("json") >= 0) {
+        return "json";
+    }
+    if (contentType.indexOf("xml") >= 0) {
+        return "xml";
+    }
+    return "text";
+}
+function send(url, data, method, headers, responseType) {
+    function parseResponse(responseText, genResponseType) {
+        switch (genResponseType) {
+            case "json": {
+                return JSON.parse(responseText);
+            }
+            case "text": {
+                return responseText;
+            }
+            case "xml": {
+                var driver = helpers_1.toDataDriver(types_1.DataDriver.xml);
+                if (driver) {
+                    return driver.toJsonObject(responseText);
+                }
+                else {
+                    return { parseError: "Incorrect data driver type: 'xml'" };
+                }
+            }
+            default: {
+                return responseText;
+            }
+        }
+    }
+    var allHeaders = headers || {};
+    if (responseType) {
+        allHeaders.Accept = "application/" + responseType;
+    }
+    if (method !== "GET") {
+        allHeaders["Content-Type"] = allHeaders["Content-Type"] || "application/json";
+    }
+    if (method === "GET") {
+        var urlData = data && typeof data === "object" ?
+            toQueryString(data) :
+            data && typeof data === "string" ?
+                data : "";
+        if (urlData) {
+            url += (url.indexOf("?") === -1) ? "?" : "&";
+            url += urlData;
+        }
+        data = null;
+    }
+    if (!window.fetch) {
+        return new Promise(function (resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    if (responseType === "raw") {
+                        resolve({
+                            url: xhr.responseURL,
+                            headers: xhr.getAllResponseHeaders()
+                                .trim()
+                                .split(/[\r\n]+/)
+                                .reduce(function (acc, cur) {
+                                var kv = cur.split(": ");
+                                acc[kv[0]] = kv[1];
+                                return acc;
+                            }, {}),
+                            body: xhr.response
+                        });
+                    }
+                    if (xhr.status === 204) {
+                        resolve();
+                    }
+                    else {
+                        resolve(parseResponse(xhr.responseText, responseType || inferResponseType(xhr.getResponseHeader("Content-Type"))));
+                    }
+                }
+                else {
+                    reject({
+                        status: xhr.status,
+                        statusText: xhr.statusText
+                    });
+                }
+            };
+            xhr.onerror = function () {
+                reject({
+                    status: xhr.status,
+                    statusText: xhr.statusText,
+                    message: xhr.responseText
+                });
+            };
+            xhr.open(method, url);
+            for (var headerKey in allHeaders) {
+                xhr.setRequestHeader(headerKey, allHeaders[headerKey]);
+            }
+            switch (method) {
+                case "POST":
+                case "DELETE":
+                case "PUT":
+                    xhr.send(data !== undefined ? JSON.stringify(data) : "");
+                    break;
+                case "GET":
+                    xhr.send();
+                    break;
+                default:
+                    xhr.send();
+                    break;
+            }
+        });
+    }
+    else {
+        return window.fetch(url, {
+            method: method,
+            body: data ? JSON.stringify(data) : null,
+            headers: allHeaders,
+        })
+            .then(function (response) {
+            if (response.ok) {
+                var genResponseType = responseType || inferResponseType(response.headers.get("Content-Type"));
+                if (genResponseType === "raw") {
+                    return {
+                        // @ts-ignore
+                        headers: Object.fromEntries(response.headers.entries()),
+                        url: response.url,
+                        body: response.body
+                    };
+                }
+                if (response.status !== 204) {
+                    switch (genResponseType) {
+                        case "json": {
+                            return response.json();
+                        }
+                        case "xml": {
+                            var driver_1 = helpers_1.toDataDriver(types_1.DataDriver.xml);
+                            if (driver_1) {
+                                return response.text()
+                                    .then(function (xmlData) { return driver_1.toJsonObject(xmlData); });
+                            }
+                            else {
+                                return response.text();
+                            }
+                        }
+                        default:
+                            return response.text();
+                    }
+                }
+            }
+            else {
+                return response.text()
+                    .then(function (message) { return Promise.reject({
+                    status: response.status,
+                    statusText: response.statusText,
+                    message: message
+                }); });
+            }
+        });
+    }
+}
+exports.ajax = {
+    get: function (url, data, config) { return send(url, data, "GET", config && config.headers, config !== undefined ? config.responseType : undefined); },
+    post: function (url, data, config) { return send(url, data, "POST", config && config.headers, config !== undefined ? config.responseType : undefined); },
+    put: function (url, data, config) { return send(url, data, "PUT", config && config.headers, config !== undefined ? config.responseType : undefined); },
+    delete: function (url, data, config) { return send(url, data, "DELETE", config && config.headers, config !== undefined ? config.responseType : undefined); }
+};
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(12)))
+
+/***/ }),
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2436,7 +2910,7 @@ var MessageContainerPosition;
 
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2450,7 +2924,7 @@ exports.default = locale;
 
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2477,7 +2951,7 @@ exports.default = locale;
 
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2486,13 +2960,13 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(120));
-__export(__webpack_require__(61));
-__export(__webpack_require__(37));
+__export(__webpack_require__(124));
+__export(__webpack_require__(63));
+__export(__webpack_require__(39));
 
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2502,23 +2976,40 @@ var ListEvents;
 (function (ListEvents) {
     ListEvents["click"] = "click";
     ListEvents["doubleClick"] = "doubleclick";
-    ListEvents["contextmenu"] = "contextmenu";
     ListEvents["focusChange"] = "focuschange";
     ListEvents["beforeEditStart"] = "beforeEditStart";
     ListEvents["afterEditStart"] = "afterEditStart";
     ListEvents["beforeEditEnd"] = "beforeEditEnd";
     ListEvents["afterEditEnd"] = "afterEditEnd";
+    ListEvents["itemRightClick"] = "itemRightClick";
+    ListEvents["itemMouseOver"] = "itemMouseOver";
+    // TODO: remove sute_7.0
+    ListEvents["contextmenu"] = "contextmenu";
 })(ListEvents = exports.ListEvents || (exports.ListEvents = {}));
 
 
 /***/ }),
-/* 38 */
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(130));
+__export(__webpack_require__(65));
+
+
+/***/ }),
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var en_1 = __webpack_require__(39);
+var en_1 = __webpack_require__(42);
 var core_1 = __webpack_require__(1);
 /*
     %d	day as a number with leading zero, 01..31
@@ -2565,9 +3056,18 @@ var formatters = {
     "%Y": function (date) { return date.getFullYear(); },
     "%h": function (date) {
         var hours = date.getHours() % 12;
+        if (hours === 0) {
+            hours = 12;
+        }
         return hours < 10 ? "0" + hours : hours;
     },
-    "%g": function (date) { return date.getHours() % 12; },
+    "%g": function (date) {
+        var hours = date.getHours() % 12;
+        if (hours === 0) {
+            hours = 12;
+        }
+        return hours;
+    },
     "%H": function (date) {
         var hours = date.getHours();
         return hours < 10 ? "0" + hours : hours;
@@ -2581,8 +3081,12 @@ var formatters = {
         var seconds = date.getSeconds();
         return seconds < 10 ? "0" + seconds : seconds;
     },
-    "%a": function (date) { return date.getHours() > 12 ? "pm" : "am"; },
-    "%A": function (date) { return date.getHours() > 12 ? "PM" : "AM"; },
+    "%a": function (date) {
+        return date.getHours() >= 12 ? "pm" : "am";
+    },
+    "%A": function (date) {
+        return date.getHours() >= 12 ? "PM" : "AM";
+    },
     "%u": function (date) { return date.getMilliseconds(); }
 };
 var setFormatters = {
@@ -2634,15 +3138,15 @@ var setFormatters = {
             ? date.setFullYear(Number(value))
             : date.setFullYear(Number("2000"));
     },
-    "%h": function (date, value) {
+    "%h": function (date, value, dateFormat) {
         var check = /(^0[1-9]|1[0-2]$)/i.test(value);
-        check
+        check && dateFormat === "pm" || dateFormat === "PM"
             ? date.setHours(Number(value))
             : date.setHours(Number(0));
     },
-    "%g": function (date, value) {
+    "%g": function (date, value, dateFormat) {
         var check = /(^[1-9]$)|(^0[1-9]|1[0-2]$)/i.test(value);
-        check
+        check && dateFormat === "pm" || dateFormat === "PM"
             ? date.setHours(Number(value))
             : date.setHours(Number(0));
     },
@@ -2731,6 +3235,9 @@ function tokenizeFormat(format) {
     return tokens;
 }
 function stringToDate(str, format, validate) {
+    if (typeof str !== "string") {
+        return;
+    }
     var tokens = tokenizeFormat(format);
     var dateParts = [];
     var index = 0;
@@ -2764,12 +3271,19 @@ function stringToDate(str, format, validate) {
             value: str.slice(index)
         });
     }
-    var date = new Date();
     dateParts.reverse();
+    var dateFormat;
     for (var _a = 0, dateParts_1 = dateParts; _a < dateParts_1.length; _a++) {
         var datePart = dateParts_1[_a];
+        if (datePart.formatter === "%A" || datePart.formatter === "%a") {
+            dateFormat = datePart.value;
+        }
+    }
+    var date = new Date();
+    for (var _b = 0, dateParts_2 = dateParts; _b < dateParts_2.length; _b++) {
+        var datePart = dateParts_2[_b];
         if (setFormatters[datePart.formatter]) {
-            setFormatters[datePart.formatter](date, datePart.value);
+            setFormatters[datePart.formatter](date, datePart.value, dateFormat);
         }
     }
     return validate ? true : date;
@@ -2778,7 +3292,7 @@ exports.stringToDate = stringToDate;
 
 
 /***/ }),
-/* 39 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2795,7 +3309,7 @@ exports.default = locale;
 
 
 /***/ }),
-/* 40 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2924,7 +3438,7 @@ exports.isHex = isHex;
 
 
 /***/ }),
-/* 41 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2941,7 +3455,7 @@ exports.default = en;
 
 
 /***/ }),
-/* 42 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2958,9 +3472,9 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var AxisCreator_1 = __webpack_require__(142);
+var AxisCreator_1 = __webpack_require__(148);
 var types_1 = __webpack_require__(6);
-var SvgScales_1 = __webpack_require__(68);
+var SvgScales_1 = __webpack_require__(70);
 var common_1 = __webpack_require__(5);
 var renderScale = {
     left: SvgScales_1.left,
@@ -3060,7 +3574,7 @@ var Scale = /** @class */ (function () {
         if (config.locator) {
             this.locator = common_1.locator(config.locator);
         }
-        this.config = __assign({}, defaults, config);
+        this.config = __assign(__assign({}, defaults), config);
     };
     Scale.prototype._logPoint = function (pos) {
         var logPos;
@@ -3084,7 +3598,7 @@ exports.Scale = Scale;
 
 
 /***/ }),
-/* 43 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3105,7 +3619,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var common_1 = __webpack_require__(5);
 var types_1 = __webpack_require__(6);
-var BaseSeria_1 = __webpack_require__(44);
+var BaseSeria_1 = __webpack_require__(47);
 var ScaleSeria = /** @class */ (function (_super) {
     __extends(ScaleSeria, _super);
     function ScaleSeria() {
@@ -3158,7 +3672,7 @@ exports.default = ScaleSeria;
 
 
 /***/ }),
-/* 44 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3167,10 +3681,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var types_1 = __webpack_require__(6);
 var common_1 = __webpack_require__(5);
-var line_1 = __webpack_require__(145);
+var line_1 = __webpack_require__(151);
 var BaseSeria = /** @class */ (function () {
     function BaseSeria(_data, config, other) {
+        var _this = this;
         this._data = _data;
+        this._handlers = {
+            onclick: function (id, value) { return _this._events.fire(types_1.ChartEvents.serieClick, [id, value]); }
+        };
         this.id = config.id = config.id || core_1.uid();
         this._events = other;
         this._points = [];
@@ -3226,7 +3744,9 @@ var BaseSeria = /** @class */ (function () {
     BaseSeria.prototype._setDefaults = function (config) {
         this.config = config;
     };
-    BaseSeria.prototype._defaultLocator = function (_) { return [null, null]; };
+    BaseSeria.prototype._defaultLocator = function (_) {
+        return [null, null];
+    };
     BaseSeria.prototype._getPointType = function (form, color, showTooltip) {
         if (showTooltip) {
             return line_1.getShadeHelper(form, color, line_1.hoverMode);
@@ -3241,7 +3761,7 @@ exports.default = BaseSeria;
 
 
 /***/ }),
-/* 45 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3273,7 +3793,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var common_1 = __webpack_require__(5);
 var types_1 = __webpack_require__(6);
-var BaseSeria_1 = __webpack_require__(44);
+var BaseSeria_1 = __webpack_require__(47);
 var NoScaleSeria = /** @class */ (function (_super) {
     __extends(NoScaleSeria, _super);
     function NoScaleSeria() {
@@ -3341,7 +3861,7 @@ var NoScaleSeria = /** @class */ (function (_super) {
             subType: types_1.NoScaleSubType.basic,
             paddings: 20
         };
-        this.config = __assign({}, defaults, config);
+        this.config = __assign(__assign({}, defaults), config);
         this._drawPointType = this._getPointType(types_1.PointType.empty, "none", this.config.tooltip);
         this._valueLocator = common_1.locator(config.value);
         this._textLocator = common_1.locator(config.text);
@@ -3364,7 +3884,7 @@ exports.default = NoScaleSeria;
 
 
 /***/ }),
-/* 46 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3396,7 +3916,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
 var common_1 = __webpack_require__(5);
-var ScaleSeria_1 = __webpack_require__(43);
+var ScaleSeria_1 = __webpack_require__(46);
 var Line = /** @class */ (function (_super) {
     __extends(Line, _super);
     function Line() {
@@ -3436,7 +3956,7 @@ var Line = /** @class */ (function (_super) {
             active: true,
             tooltip: true
         };
-        this.config = __assign({}, defaults, config);
+        this.config = __assign(__assign({}, defaults), config);
     };
     return Line;
 }(ScaleSeria_1.default));
@@ -3444,21 +3964,7 @@ exports.default = Line;
 
 
 /***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(156));
-__export(__webpack_require__(72));
-
-
-/***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3473,7 +3979,7 @@ exports.default = {
 
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3483,17 +3989,20 @@ var DataViewEvents;
 (function (DataViewEvents) {
     DataViewEvents["click"] = "click";
     DataViewEvents["doubleClick"] = "doubleclick";
-    DataViewEvents["contextmenu"] = "contextmenu";
     DataViewEvents["focusChange"] = "focuschange";
     DataViewEvents["beforeEditStart"] = "beforeEditStart";
     DataViewEvents["afterEditStart"] = "afterEditStart";
     DataViewEvents["beforeEditEnd"] = "beforeEditEnd";
     DataViewEvents["afterEditEnd"] = "afterEditEnd";
+    DataViewEvents["itemRightClick"] = "itemRightClick";
+    DataViewEvents["itemMouseOver"] = "itemMouseOver";
+    // TODO: remove sute_7.0
+    DataViewEvents["contextmenu"] = "contextmenu";
 })(DataViewEvents = exports.DataViewEvents || (exports.DataViewEvents = {}));
 
 
 /***/ }),
-/* 50 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3515,16 +4024,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
 var helper_1 = __webpack_require__(9);
-var label_1 = __webpack_require__(16);
-var events_1 = __webpack_require__(2);
+var label_1 = __webpack_require__(18);
+var events_1 = __webpack_require__(3);
 var types_1 = __webpack_require__(8);
 var INIT_DEBOUNCE_TIME = 500;
-var InputEvents;
-(function (InputEvents) {
-    InputEvents["change"] = "change";
-    InputEvents["error"] = "error";
-    InputEvents["success"] = "success";
-})(InputEvents = exports.InputEvents || (exports.InputEvents = {}));
 var Input = /** @class */ (function (_super) {
     __extends(Input, _super);
     function Input(container, config) {
@@ -3532,11 +4035,20 @@ var Input = /** @class */ (function (_super) {
         var _this = _super.call(this, null, config) || this;
         _this.events = new events_1.EventSystem();
         _this._debounceTime = INIT_DEBOUNCE_TIME;
-        _this.events.on(InputEvents.change, function (value) {
-            _this.config.value = value || "";
-        });
+        _this._initView(config);
         return _this;
     }
+    Input.prototype.disable = function () {
+        this.config.disabled = true;
+        this.paint();
+    };
+    Input.prototype.enable = function () {
+        this.config.disabled = false;
+        this.paint();
+    };
+    Input.prototype.isDisabled = function () {
+        return this.config.disabled;
+    };
     Input.prototype.validate = function () {
         var requiredCondition = !this.config.required || this.config.value;
         var isValid = !this.config.validation || helper_1.validateInput(this.config.value, this.config.validation);
@@ -3555,12 +4067,39 @@ var Input = /** @class */ (function (_super) {
         this.paint();
     };
     Input.prototype.setValue = function (value) {
-        this.events.fire(InputEvents.change, [value]);
+        this.events.fire(types_1.BaseElementEvent.change, [value]);
         this.config.value = value;
         this.paint();
     };
     Input.prototype.getValue = function () {
         return this.config.value || "";
+    };
+    // TODO: remove sute_7.0
+    Input.prototype.setConfig = function (config) {
+        this._initView(config);
+    };
+    Input.prototype._initView = function (config) {
+        var _this = this;
+        if (helper_1.isEmptyObj(config)) {
+            return;
+        }
+        this.config = {
+            type: this.config.type,
+            id: this.config.id,
+            name: this.config.name,
+            disabled: false,
+            value: ""
+        };
+        for (var key in config) {
+            if (key !== "id" && key !== "type" && key !== "name") {
+                this.config[key] = config[key];
+            }
+        }
+        this.events.on(types_1.BaseElementEvent.change, function (value) {
+            _this.config.value = value || "";
+        });
+        this.events.fire(types_1.BaseElementEvent.configUpdate, [this.config]);
+        this.paint();
     };
     Input.prototype._init = function () {
         var _a = this.config, validation = _a.validation, value = _a.value;
@@ -3575,7 +4114,7 @@ var Input = /** @class */ (function (_super) {
         var _this = this;
         return {
             oninput: function (e) {
-                var value = e.target.value;
+                var value = e.target.value.trim();
                 _this.config.value = value;
                 if (_this._debounceTimer) {
                     clearTimeout(_this._debounceTimer);
@@ -3588,20 +4127,20 @@ var Input = /** @class */ (function (_super) {
                     _this._validate(value);
                 }, _this._debounceTime);
             },
-            onblur: function (e) {
-                _this._validate(e.target.value, true);
+            onblur: function () {
+                _this._validate(_this.config.value, true);
             }
         };
     };
     Input.prototype._draw = function () {
-        var _a = this.config, id = _a.id, value = _a.value, disabled = _a.disabled, name = _a.name, icon = _a.icon, placeholder = _a.placeholder, required = _a.required, inputType = _a.inputType, validation = _a.validation, hidden = _a.hidden, autocomplete = _a.autocomplete;
+        var _a = this.config, id = _a.id, value = _a.value, disabled = _a.disabled, name = _a.name, icon = _a.icon, placeholder = _a.placeholder, required = _a.required, inputType = _a.inputType, validation = _a.validation, hidden = _a.hidden, autocomplete = _a.autocomplete, readOnly = _a.readOnly, maxlength = _a.maxlength;
         var visibility = hidden ? " dhx_form-group--hidden" : "";
         return dom_1.el("div.dhx_form-group", {
             class: helper_1.getFormItemCss(this.config, Boolean(required) || Boolean(validation)) + visibility
         }, [
             this._drawLabel(),
-            dom_1.el(".dhx_input-wrapper", {}, [
-                dom_1.el("div.dhx_input-container", {}, [
+            dom_1.el(".dhx_input__wrapper", {}, [
+                dom_1.el("div.dhx_input__container", {}, [
                     this.config.icon ? dom_1.el(".dhx_input__icon", {
                         class: this.config.icon
                     }) : null,
@@ -3613,13 +4152,15 @@ var Input = /** @class */ (function (_super) {
                         name: name || "",
                         disabled: disabled,
                         required: required,
+                        readOnly: readOnly,
+                        maxlength: maxlength,
                         onblur: this._handlers.onblur,
                         oninput: this._handlers.oninput,
                         class: icon ? "dhx_input--icon-padding" : "",
                         autocomplete: autocomplete ? "on" : "off"
                     }),
                 ]),
-                helper_1.getValidationMessage(this.config) && dom_1.el("span.dhx_input-caption", helper_1.getValidationMessage(this.config))
+                helper_1.getValidationMessage(this.config) && dom_1.el("span.dhx_input__caption", helper_1.getValidationMessage(this.config))
             ]),
         ]);
     };
@@ -3632,30 +4173,26 @@ var Input = /** @class */ (function (_super) {
         this._debounceTime = INIT_DEBOUNCE_TIME;
         if (this.config.validation) {
             if (!helper_1.validateInput(value, this.config.validation)) {
-                this.events.fire(InputEvents.error, [value]);
                 this.config.$validationStatus = types_1.ValidationStatus.error;
                 this.paint();
                 return;
             }
             else {
-                this.events.fire(InputEvents.success, [value]);
                 this.config.$validationStatus = types_1.ValidationStatus.success;
                 this.paint();
             }
         }
         else if (this.config.required) {
             if (value === "") {
-                this.events.fire(InputEvents.error, [value]);
                 this.config.$validationStatus = types_1.ValidationStatus.error;
                 this.paint();
             }
             else {
-                this.events.fire(InputEvents.success, [value]);
                 this.config.$validationStatus = types_1.ValidationStatus.success;
                 this.paint();
             }
         }
-        this.events.fire(InputEvents.change, [value]);
+        this.events.fire(types_1.BaseElementEvent.change, [value]);
     };
     return Input;
 }(label_1.Label));
@@ -3663,7 +4200,7 @@ exports.Input = Input;
 
 
 /***/ }),
-/* 51 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3698,6 +4235,12 @@ function normalizeColumns(columns) {
             col.$uniqueData = [];
         }
         col.width = col.width || 100;
+        if (col.width < col.minWidth) {
+            col.width = col.minWidth;
+        }
+        if (col.width > col.maxWidth) {
+            col.width = col.maxWidth;
+        }
     }
 }
 exports.normalizeColumns = normalizeColumns;
@@ -3710,7 +4253,7 @@ function countColumns(config, columns) {
     var footer = false;
     columns.map(function (col) {
         headerRowsCount = Math.max(headerRowsCount, col.header.length);
-        totalWidth += col.width;
+        totalWidth += col.hidden ? 0 : col.width;
         if (col.footer) {
             footerRowsCount = Math.max(footerRowsCount, col.footer.length);
             if (!footer) {
@@ -3800,7 +4343,7 @@ exports.getUnique = getUnique;
 
 
 /***/ }),
-/* 52 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3820,7 +4363,7 @@ exports.getWidth = getWidth;
 
 
 /***/ }),
-/* 53 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3829,22 +4372,22 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(54));
-__export(__webpack_require__(96));
-__export(__webpack_require__(26));
+__export(__webpack_require__(56));
+__export(__webpack_require__(100));
+__export(__webpack_require__(27));
 
 
 /***/ }),
-/* 54 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
-var html_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var ts_data_1 = __webpack_require__(7);
-var types_1 = __webpack_require__(26);
+var types_1 = __webpack_require__(27);
 var Uploader = /** @class */ (function () {
     function Uploader(config, data, events) {
         if (config === void 0) { config = {}; }
@@ -4121,10 +4664,10 @@ var Uploader = /** @class */ (function () {
 }());
 exports.Uploader = Uploader;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(12)))
 
 /***/ }),
-/* 55 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4141,12 +4684,12 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var events_1 = __webpack_require__(2);
-var loader_1 = __webpack_require__(88);
-var sort_1 = __webpack_require__(91);
-var dataproxy_1 = __webpack_require__(25);
-var helpers_1 = __webpack_require__(18);
-var types_1 = __webpack_require__(17);
+var events_1 = __webpack_require__(3);
+var loader_1 = __webpack_require__(91);
+var sort_1 = __webpack_require__(94);
+var dataproxy_1 = __webpack_require__(21);
+var helpers_1 = __webpack_require__(16);
+var types_1 = __webpack_require__(15);
 var core_1 = __webpack_require__(1);
 var DataCollection = /** @class */ (function () {
     function DataCollection(config, events) {
@@ -4173,49 +4716,27 @@ var DataCollection = /** @class */ (function () {
             return;
         }
         if (Array.isArray(obj)) {
-            obj.map(function (element, key) {
+            return obj.map(function (element, key) {
                 if (key !== 0) {
                     index = index + 1;
                 }
-                var id = _this._addCore(element, index);
-                _this._onChange("add", element.id, element);
-                _this.events.fire(types_1.DataEvents.afterAdd, [element]);
-                return id;
+                return _this._add(element, index);
             });
         }
         else {
-            var id = this._addCore(obj, index);
-            this._onChange("add", obj.id, obj);
-            this.events.fire(types_1.DataEvents.afterAdd, [obj]);
-            return id;
+            return this._add(obj, index);
         }
     };
     DataCollection.prototype.remove = function (id) {
         var _this = this;
         if (id) {
             if (id instanceof Array) {
-                id.map(function (element) {
-                    var obj = _this._pull[element];
-                    if (obj) {
-                        if (!_this.events.fire(types_1.DataEvents.beforeRemove, [obj])) {
-                            return;
-                        }
-                        _this._removeCore(obj.id);
-                        _this._onChange("remove", element, obj);
-                    }
-                    _this.events.fire(types_1.DataEvents.afterRemove, [obj]);
+                id.map(function (elementId) {
+                    _this._remove(elementId);
                 });
             }
             else {
-                var obj = this._pull[id];
-                if (obj) {
-                    if (!this.events.fire(types_1.DataEvents.beforeRemove, [obj])) {
-                        return;
-                    }
-                    this._removeCore(obj.id);
-                    this._onChange("remove", id, obj);
-                }
-                this.events.fire(types_1.DataEvents.afterRemove, [obj]);
+                this._remove(id);
             }
         }
     };
@@ -4279,7 +4800,19 @@ var DataCollection = /** @class */ (function () {
     DataCollection.prototype.getLength = function () {
         return this._order.length;
     };
+    DataCollection.prototype.isDataLoaded = function (from, to) {
+        if (from === void 0) { from = 0; }
+        if (to === void 0) { to = this._order.length; }
+        if (core_1.isNumeric(from) && core_1.isNumeric(to)) {
+            return this._order.slice(from, to).filter(function (item) { return item.$empty; }).length === 0;
+        }
+        return !this.find(function (item) { return item.$empty; });
+    };
     DataCollection.prototype.filter = function (rule, config) {
+        if (!this.isDataLoaded()) {
+            helpers_1.dhxWarning("the method doesn't work with lazyLoad");
+            return;
+        }
         config = core_1.extend({
             add: false,
             multiple: true
@@ -4333,6 +4866,10 @@ var DataCollection = /** @class */ (function () {
         return res;
     };
     DataCollection.prototype.sort = function (by) {
+        if (!this.isDataLoaded()) {
+            helpers_1.dhxWarning("the method doesn't work with lazyLoad");
+            return;
+        }
         if (!by) {
             this._order = [];
             for (var key in this._pull) {
@@ -4349,57 +4886,37 @@ var DataCollection = /** @class */ (function () {
         this.events.fire(types_1.DataEvents.change);
     };
     DataCollection.prototype.copy = function (id, index, target, targetId) {
-        if (!this.exists(id)) {
-            return null;
+        var _this = this;
+        if (id instanceof Array) {
+            return id.map(function (elementId, key) {
+                return _this._copy(elementId, index, target, targetId, key);
+            });
         }
-        var newid = core_1.uid();
-        if (target) {
-            if (!(target instanceof DataCollection) && targetId) {
-                target.add(helpers_1.copyWithoutInner(this.getItem(id)), index);
-                return;
-            }
-            if (target.exists(id)) {
-                target.add(__assign({}, helpers_1.copyWithoutInner(this.getItem(id)), { id: newid }), index);
-                return newid;
-            }
-            else {
-                target.add(helpers_1.copyWithoutInner(this.getItem(id)), index);
-                return id;
-            }
+        else {
+            return this._copy(id, index, target, targetId);
         }
-        this.add(__assign({}, helpers_1.copyWithoutInner(this.getItem(id)), { id: newid }), index);
-        return newid;
     };
     DataCollection.prototype.move = function (id, index, target, targetId) {
-        if (target && target !== this && this.exists(id)) {
-            var item = core_1.copy(this.getItem(id), true);
-            if (target.exists(id)) {
-                item.id = core_1.uid();
-            }
-            if (targetId) {
-                item.parent = targetId;
-            }
-            target.add(item, index);
-            // remove data from original collection
-            this.remove(id);
-            return item.id;
+        var _this = this;
+        if (id instanceof Array) {
+            return id.map(function (elementId, key) {
+                return _this._move(elementId, index, target, targetId, key);
+            });
         }
-        if (this.getIndex(id) === index) {
-            return null;
+        else {
+            return this._move(id, index, target, targetId);
         }
-        // move other elements
-        var spliced = this._order.splice(this.getIndex(id), 1)[0];
-        if (index === -1) {
-            index = this._order.length;
+    };
+    DataCollection.prototype.forEach = function (cb) {
+        for (var i = 0; i < this._order.length; i++) {
+            cb.call(this, this._order[i], i, this._order);
         }
-        this._order.splice(index, 0, spliced);
-        this.events.fire(types_1.DataEvents.change); // if target not this, it trigger add and remove
-        return id;
     };
     DataCollection.prototype.load = function (url, driver) {
         if (typeof url === "string") {
-            url = new dataproxy_1.DataProxy(url);
+            this.dataProxy = url = new dataproxy_1.DataProxy(url);
         }
+        this.dataProxy = url;
         return this._loader.load(url, driver);
     };
     DataCollection.prototype.parse = function (data, driver) {
@@ -4418,6 +4935,26 @@ var DataCollection = /** @class */ (function () {
     DataCollection.prototype.save = function (url) {
         this._loader.save(url);
     };
+    DataCollection.prototype.changeId = function (id, newId, silent) {
+        if (newId === void 0) { newId = core_1.uid(); }
+        if (!silent && !this.isDataLoaded()) {
+            helpers_1.dhxWarning("the method doesn't work with lazyLoad");
+            return;
+        }
+        var item = this.getItem(id);
+        if (!item) {
+            helpers_1.dhxWarning("item not found");
+        }
+        else {
+            item.id = newId;
+            core_1.extend(this._pull[id], item);
+            this._pull[newId] = this._pull[id];
+            if (!silent) {
+                this._onChange("update", newId, this._pull[newId]);
+            }
+            delete this._pull[id];
+        }
+    };
     // todo: loop through the array and check saved statuses
     DataCollection.prototype.isSaved = function () {
         return !this._changes.order.length; // todo: bad solution, errors and holded elments are missed...
@@ -4425,7 +4962,7 @@ var DataCollection = /** @class */ (function () {
     DataCollection.prototype.map = function (cb) {
         var result = [];
         for (var i = 0; i < this._order.length; i++) {
-            result.push(cb.call(this, this._order[i], i));
+            result.push(cb.call(this, this._order[i], i, this._order));
         }
         return result;
     };
@@ -4436,9 +4973,10 @@ var DataCollection = /** @class */ (function () {
         if (to > this._order.length - 1) {
             to = this._order.length - 1;
         }
+        var arr = this._order.slice(from, to);
         var result = [];
         for (var i = from; i <= to; i++) {
-            result.push(cb.call(this, this._order[i], i));
+            result.push(cb.call(this, this._order[i], i, arr));
         }
         return result;
     };
@@ -4466,6 +5004,93 @@ var DataCollection = /** @class */ (function () {
     };
     DataCollection.prototype.getInitialData = function () {
         return this._initOrder;
+    };
+    DataCollection.prototype._add = function (obj, index) {
+        if (!this.isDataLoaded()) {
+            helpers_1.dhxWarning("the method doesn't work with lazyLoad");
+            return;
+        }
+        var id = this._addCore(obj, index);
+        this._onChange("add", obj.id, obj);
+        this.events.fire(types_1.DataEvents.afterAdd, [obj]);
+        return id;
+    };
+    DataCollection.prototype._remove = function (id) {
+        if (!this.isDataLoaded()) {
+            helpers_1.dhxWarning("the method doesn't work with lazyLoad");
+            return;
+        }
+        var obj = this._pull[id];
+        if (obj) {
+            if (!this.events.fire(types_1.DataEvents.beforeRemove, [obj])) {
+                return;
+            }
+            this._removeCore(obj.id);
+            this._onChange("remove", id, obj);
+        }
+        this.events.fire(types_1.DataEvents.afterRemove, [obj]);
+    };
+    DataCollection.prototype._copy = function (id, index, target, targetId, key) {
+        if (!this.isDataLoaded()) {
+            helpers_1.dhxWarning("the method doesn't work with lazyLoad");
+            return;
+        }
+        if (!this.exists(id)) {
+            return null;
+        }
+        var newid = core_1.uid();
+        if (key) {
+            index = index === -1 ? -1 : index + key;
+        }
+        if (target) {
+            if (!(target instanceof DataCollection) && targetId) {
+                target.add(helpers_1.copyWithoutInner(this.getItem(id)), index);
+                return;
+            }
+            if (target.exists(id)) {
+                target.add(__assign(__assign({}, helpers_1.copyWithoutInner(this.getItem(id))), { id: newid }), index);
+                return newid;
+            }
+            else {
+                target.add(helpers_1.copyWithoutInner(this.getItem(id)), index);
+                return id;
+            }
+        }
+        this.add(__assign(__assign({}, helpers_1.copyWithoutInner(this.getItem(id))), { id: newid }), index);
+        return newid;
+    };
+    DataCollection.prototype._move = function (id, index, target, targetId, key) {
+        if (!this.isDataLoaded()) {
+            helpers_1.dhxWarning("the method doesn't work with lazyLoad");
+            return;
+        }
+        if (key) {
+            index = index === -1 ? -1 : index + key;
+        }
+        if (target && target !== this && this.exists(id)) {
+            var item = core_1.copy(this.getItem(id), true);
+            if (target.exists(id)) {
+                item.id = core_1.uid();
+            }
+            if (targetId) {
+                item.parent = targetId;
+            }
+            target.add(item, index);
+            // remove data from original collection
+            this.remove(id);
+            return item.id;
+        }
+        if (this.getIndex(id) === index) {
+            return null;
+        }
+        // move other elements
+        var spliced = this._order.splice(this.getIndex(id), 1)[0];
+        if (index === -1) {
+            index = this._order.length;
+        }
+        this._order.splice(index, 0, spliced);
+        this.events.fire(types_1.DataEvents.change);
+        return id;
     };
     DataCollection.prototype._removeAll = function () {
         this._pull = {};
@@ -4541,7 +5166,7 @@ var DataCollection = /** @class */ (function () {
                 if (item.error) {
                     item.error = false;
                 }
-                item = __assign({}, item, { obj: obj, status: status });
+                item = __assign(__assign({}, item), { obj: obj, status: status });
                 this.events.fire(types_1.DataEvents.change, [id, status, obj]);
                 return;
             }
@@ -4581,7 +5206,7 @@ exports.DataCollection = DataCollection;
 
 
 /***/ }),
-/* 56 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4598,18 +5223,18 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var JsonDriver_1 = __webpack_require__(57);
-var CsvDriver_1 = __webpack_require__(58);
-var XMLDriver_1 = __webpack_require__(89);
+var JsonDriver_1 = __webpack_require__(59);
+var CsvDriver_1 = __webpack_require__(60);
+var XMLDriver_1 = __webpack_require__(92);
 exports.dataDrivers = {
     json: JsonDriver_1.JsonDriver,
     csv: CsvDriver_1.CsvDriver
 };
-exports.dataDriversPro = __assign({}, exports.dataDrivers, { xml: XMLDriver_1.XMLDriver });
+exports.dataDriversPro = __assign(__assign({}, exports.dataDrivers), { xml: XMLDriver_1.XMLDriver });
 
 
 /***/ }),
-/* 57 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4636,7 +5261,7 @@ exports.JsonDriver = JsonDriver;
 
 
 /***/ }),
-/* 58 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4655,20 +5280,19 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var CsvDriver = /** @class */ (function () {
     function CsvDriver(config) {
-        if (config === void 0) { config = {}; }
         var initConfig = {
             skipHeader: 0,
             nameByHeader: false,
-            row: "\n",
-            column: ",",
+            rowDelimiter: "\n",
+            columnDelimiter: ",",
         };
-        this.config = __assign({}, initConfig, config);
+        this.config = __assign(__assign({}, initConfig), config);
         if (this.config.nameByHeader) {
             this.config.skipHeader = 1;
         }
     }
     CsvDriver.prototype.getFields = function (row, headers) {
-        var parts = row.trim().split(this.config.column);
+        var parts = row.trim().split(this.config.columnDelimiter);
         var obj = {};
         for (var i = 0; i < parts.length; i++) {
             obj[headers ? headers[i] : i + 1] = parts[i];
@@ -4676,7 +5300,7 @@ var CsvDriver = /** @class */ (function () {
         return obj;
     };
     CsvDriver.prototype.getRows = function (data) {
-        return data.trim().split(this.config.row);
+        return data.trim().split(this.config.rowDelimiter);
     };
     CsvDriver.prototype.toJsonArray = function (data) {
         var _this = this;
@@ -4685,14 +5309,20 @@ var CsvDriver = /** @class */ (function () {
         if (this.config.skipHeader) {
             var top_1 = rows.splice(0, this.config.skipHeader);
             if (this.config.nameByHeader) {
-                names = top_1[0].trim().split(this.config.column);
+                names = top_1[0].trim().split(this.config.columnDelimiter);
             }
         }
         return rows.map(function (row) { return _this.getFields(row, names); });
     };
-    CsvDriver.prototype.serialize = function (data) {
-        var header = data[0] ? Object.keys(data[0]).filter(function (key) { return key[0] !== "$"; }).join(",") : "";
-        return header + this._serialize(data);
+    CsvDriver.prototype.serialize = function (data, withoutHeader) {
+        var header = data[0] ? Object.keys(data[0])
+            .filter(function (key) { return key[0] !== "$"; })
+            .join(this.config.columnDelimiter) : "";
+        var readyData = this._serialize(data);
+        if (withoutHeader) {
+            return readyData;
+        }
+        return header + readyData;
     };
     CsvDriver.prototype._serialize = function (data) {
         var _this = this;
@@ -4701,12 +5331,12 @@ var CsvDriver = /** @class */ (function () {
                 if (key[0] === "$" || key === "items") {
                     return total;
                 }
-                return "" + total + row[key] + (i === row.length - 1 ? "" : ",");
+                return "" + total + row[key] + (i === row.length - 1 ? "" : _this.config.columnDelimiter);
             }, "");
             if (row.items) {
                 return csv + "\n" + cells + _this._serialize(row.items);
             }
-            return csv + "\n" + cells;
+            return "" + csv + _this.config.rowDelimiter + cells;
         }, "");
     };
     return CsvDriver;
@@ -4715,7 +5345,7 @@ exports.CsvDriver = CsvDriver;
 
 
 /***/ }),
-/* 59 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4741,7 +5371,7 @@ exports.blockScreen = blockScreen;
 
 
 /***/ }),
-/* 60 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4758,8 +5388,8 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var html_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(33);
+var html_1 = __webpack_require__(2);
+var types_1 = __webpack_require__(35);
 var DEFAULT_SHOW_DELAY = 750;
 var DEFAULT_HIDE_DELAY = 200;
 function findPosition(targetRect, position, width, height) {
@@ -4820,7 +5450,7 @@ function showTooltip(node, text, position, css, force) {
     var rects = node.getBoundingClientRect();
     tooltipText.textContent = text;
     document.body.appendChild(tooltipBox);
-    tooltipBox.className = "dhx_tooltip" + (force ? " dhx_tooltip--forced" : "");
+    tooltipBox.className = "dhx_widget dhx_tooltip" + (force ? " dhx_tooltip--forced" : "");
     var _a = tooltipBox.getBoundingClientRect(), width = _a.width, height = _a.height;
     var _b = findPosition(rects, position, width, height), left = _b.left, top = _b.top, pos = _b.pos;
     switch (pos) {
@@ -4902,7 +5532,7 @@ function tooltip(text, config) {
     if (hideTimeout) {
         clearTimeout(hideTimeout);
         hideTimeout = null;
-        addListeners(node, text, __assign({}, config, { force: true }));
+        addListeners(node, text, __assign(__assign({}, config), { force: true }));
     }
     else {
         addListeners(node, text, config);
@@ -4930,13 +5560,13 @@ function _mousemove(e) {
 
 
 /***/ }),
-/* 61 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var types_1 = __webpack_require__(21);
+var types_1 = __webpack_require__(22);
 var ts_data_1 = __webpack_require__(7);
 var Selection = /** @class */ (function () {
     function Selection(config, data) {
@@ -4949,6 +5579,12 @@ var Selection = /** @class */ (function () {
         this._data.events.on(ts_data_1.DataEvents.removeAll, function () {
             _this._selected = [];
         });
+        if (typeof this.config.multiselection === "string") {
+            var types = ["click", "ctrlClick"];
+            if (types.indexOf(this.config.multiselection) === -1) {
+                this.config.multiselection = false;
+            }
+        }
         this._data.events.on(ts_data_1.DataEvents.afterRemove, function (obj) {
             _this._selected = _this._selected.filter(function (selectedId) { return selectedId !== obj.id; });
             if (_this.config.multiselection && _this.getId().length !== 0) {
@@ -5027,7 +5663,7 @@ var Selection = /** @class */ (function () {
     Selection.prototype._addMulti = function (id, isCtrl, isShift) {
         var _this = this;
         var currentSelectedItemIndex = this._data.getIndex(id);
-        if (this.config.multiselectionMode === "click") {
+        if (this.config.multiselection === "click" || this.config.multiselection === true) {
             if (isShift) {
                 this._addWithShift(currentSelectedItemIndex);
                 this.events.fire(types_1.SelectionEvents.afterSelect, [id]);
@@ -5038,7 +5674,7 @@ var Selection = /** @class */ (function () {
                 this._lastShiftSelectedIndexes = [];
             }
         }
-        if (this.config.multiselectionMode === "ctrlClick") {
+        if (this.config.multiselection === "ctrlClick") {
             if (!isShift && !isCtrl) {
                 this._data.map(function (item) {
                     item.$selected = false;
@@ -5118,7 +5754,7 @@ var Selection = /** @class */ (function () {
         // clean selection
         this.remove();
         // select item
-        if (this.config && this.config.multiselectionMode === "click") {
+        if (this.config && this.config.multiselection !== "ctrlClick") {
             this._selectItem(id);
         }
         else {
@@ -5151,7 +5787,7 @@ exports.Selection = Selection;
 
 
 /***/ }),
-/* 62 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5159,16 +5795,16 @@ exports.Selection = Selection;
 Object.defineProperty(exports, "__esModule", { value: true });
 var PopupEvents;
 (function (PopupEvents) {
-    PopupEvents["beforeHide"] = "beforehide";
-    PopupEvents["beforeShow"] = "beforeshow";
-    PopupEvents["afterHide"] = "afterhide";
-    PopupEvents["afterShow"] = "aftershow";
+    PopupEvents["beforeHide"] = "beforeHide";
+    PopupEvents["beforeShow"] = "beforeShow";
+    PopupEvents["afterHide"] = "afterHide";
+    PopupEvents["afterShow"] = "afterShow";
     PopupEvents["click"] = "click";
 })(PopupEvents = exports.PopupEvents || (exports.PopupEvents = {}));
 
 
 /***/ }),
-/* 63 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5188,7 +5824,7 @@ var SliderEvents;
 
 
 /***/ }),
-/* 64 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5203,7 +5839,7 @@ exports.default = locale;
 
 
 /***/ }),
-/* 65 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5212,52 +5848,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var TimepickerEvents;
 (function (TimepickerEvents) {
     TimepickerEvents["change"] = "change";
-    TimepickerEvents["save"] = "save";
+    TimepickerEvents["apply"] = "apply";
+    TimepickerEvents["beforeClose"] = "beforeClose";
+    TimepickerEvents["afterClose"] = "afterClose";
+    // TODO: remove sute_7.0
     TimepickerEvents["close"] = "close";
+    TimepickerEvents["save"] = "save";
 })(TimepickerEvents = exports.TimepickerEvents || (exports.TimepickerEvents = {}));
-
-
-/***/ }),
-/* 66 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var ViewMode;
-(function (ViewMode) {
-    ViewMode["days"] = "calendar";
-    ViewMode["years"] = "year";
-    ViewMode["months"] = "month";
-    ViewMode["timepicker"] = "timepicker";
-})(ViewMode = exports.ViewMode || (exports.ViewMode = {}));
-var CalendarEvents;
-(function (CalendarEvents) {
-    CalendarEvents["change"] = "change";
-    CalendarEvents["beforeChange"] = "beforechange";
-    CalendarEvents["dateHover"] = "dateHover";
-})(CalendarEvents = exports.CalendarEvents || (exports.CalendarEvents = {}));
-
-
-/***/ }),
-/* 67 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var ColorpickerEvents;
-(function (ColorpickerEvents) {
-    ColorpickerEvents["colorChange"] = "colorChange";
-    ColorpickerEvents["selectClick"] = "selectClick";
-    ColorpickerEvents["cancelClick"] = "cancelClick";
-    ColorpickerEvents["viewChange"] = "viewChange";
-})(ColorpickerEvents = exports.ColorpickerEvents || (exports.ColorpickerEvents = {}));
-var ViewsTypes;
-(function (ViewsTypes) {
-    ViewsTypes["palette"] = "palette";
-    ViewsTypes["picker"] = "picker";
-})(ViewsTypes = exports.ViewsTypes || (exports.ViewsTypes = {}));
 
 
 /***/ }),
@@ -5267,26 +5864,90 @@ var ViewsTypes;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var ViewMode;
+(function (ViewMode) {
+    ViewMode["calendar"] = "calendar";
+    ViewMode["years"] = "year";
+    ViewMode["months"] = "month";
+    ViewMode["timepicker"] = "timepicker";
+})(ViewMode = exports.ViewMode || (exports.ViewMode = {}));
+var CalendarEvents;
+(function (CalendarEvents) {
+    CalendarEvents["change"] = "change";
+    CalendarEvents["beforeChange"] = "beforechange";
+    CalendarEvents["modeChange"] = "modeChange";
+    CalendarEvents["monthSelected"] = "monthSelected";
+    CalendarEvents["yearSelected"] = "yearSelected";
+    CalendarEvents["cancelClick"] = "cancelClick";
+    CalendarEvents["dateMouseOver"] = "dateMouseOver";
+    // TODO: remove sute_7.0
+    CalendarEvents["dateHover"] = "dateHover";
+})(CalendarEvents = exports.CalendarEvents || (exports.CalendarEvents = {}));
+
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var ColorpickerEvents;
+(function (ColorpickerEvents) {
+    ColorpickerEvents["change"] = "change";
+    ColorpickerEvents["apply"] = "apply";
+    ColorpickerEvents["cancelClick"] = "cancelClick";
+    ColorpickerEvents["modeChange"] = "modeChange";
+    // TODO: remove sute_7.0
+    ColorpickerEvents["selectClick"] = "selectClick";
+    ColorpickerEvents["colorChange"] = "colorChange";
+    ColorpickerEvents["viewChange"] = "viewChange";
+})(ColorpickerEvents = exports.ColorpickerEvents || (exports.ColorpickerEvents = {}));
+var ViewsMode;
+(function (ViewsMode) {
+    ViewsMode["palette"] = "palette";
+    ViewsMode["picker"] = "picker";
+})(ViewsMode = exports.ViewsMode || (exports.ViewsMode = {}));
+
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var common_1 = __webpack_require__(5);
+var html_1 = __webpack_require__(2);
 var defaultTextTemplate = function (item) { return item.toString(); };
 function bottom(points, config, width, height) {
-    var title = config.title, textPadding = config.textPadding, scalePadding = config.scalePadding, textTemplate = config.textTemplate, showText = config.showText;
+    var title = config.title, textPadding = config.textPadding, scalePadding = config.scalePadding, textTemplate = config.textTemplate, showText = config.showText, scaleRotate = config.scaleRotate;
     var template = textTemplate || defaultTextTemplate;
     var text = [];
     var extraTittlePadding = 0;
     if (showText) {
         extraTittlePadding = textPadding;
-        text = points.map(function (p) { return p[0] !== 0 ? dom_1.sv("text", { class: "scale-text top-text", x: p[0], y: height + textPadding }, [common_1.verticalCenteredText(template(p[1]))])
-            : dom_1.sv("text", { class: "scale-text start-text top-text", x: p[0], y: height + textPadding }, [common_1.verticalCenteredText(template(p[1]))]); });
+        var canRotate_1 = scaleRotate && !isNaN(scaleRotate);
+        var y_1 = height + textPadding;
+        text = points.map(function (p) {
+            var x = p[0];
+            var transform = canRotate_1 ? "rotate(" + scaleRotate + " " + x + " " + y_1 + ")" : "";
+            var classList = ["scale-text", "top-text"];
+            if (canRotate_1) {
+                var angle = scaleRotate % 360;
+                classList.push(common_1.getClassesForRotateScale(html_1.Position.bottom, angle));
+            }
+            return dom_1.sv("text", { x: x, y: y_1, class: classList.join(" "), transform: transform }, [common_1.verticalCenteredText(template(p[1]))]);
+        });
     }
     var id = core_1.uid();
     var svTitle = null;
-    var mainLine = dom_1.sv("path", { class: "main-scale", d: "M0 " + height + " H" + (width - 0.5), id: id }); // -0.5 instead of 0, coz stroke-linecap: square and dirrent stroke size
+    var mainLine = dom_1.sv("path", { class: "main-scale", d: "M0 " + height + " H" + (width - 0.5), id: id });
     if (title) {
         svTitle = dom_1.sv("text", { dx: width / 2, dy: scalePadding + extraTittlePadding }, [
-            dom_1.sv("textPath", { href: "#" + id, class: "scale-title" }, title)
+            dom_1.sv("textPath", { href: "#" + id, class: "scale-title " }, title)
         ]);
     }
     return dom_1.sv("g", [
@@ -5330,14 +5991,24 @@ function bottomGrid(points, width, height, config) {
 }
 exports.bottomGrid = bottomGrid;
 function top(points, config, width, _height) {
-    var title = config.title, textPadding = config.textPadding, scalePadding = config.scalePadding, textTemplate = config.textTemplate, showText = config.showText;
+    var title = config.title, textPadding = config.textPadding, scalePadding = config.scalePadding, textTemplate = config.textTemplate, showText = config.showText, scaleRotate = config.scaleRotate;
     var template = textTemplate || defaultTextTemplate;
     var text = [];
     var extraTittlePadding = 0;
     if (showText) {
         extraTittlePadding = textPadding;
-        text = points.map(function (p) { return p[0] !== 0 ? dom_1.sv("text", { x: p[0], y: -textPadding, class: "scale-text" }, [common_1.verticalCenteredText(template(p[1]))])
-            : dom_1.sv("text", { x: p[0], y: -textPadding, class: "scale-text start-text" }, [common_1.verticalCenteredText(template(p[1]))]); });
+        var canRotate_2 = scaleRotate && !isNaN(scaleRotate);
+        var y_2 = -textPadding;
+        text = points.map(function (p) {
+            var classList = ["scale-text"];
+            var x = p[0];
+            var transform = canRotate_2 ? "rotate(" + scaleRotate + " " + x + " " + y_2 + ")" : "";
+            if (canRotate_2) {
+                var angle = scaleRotate % 360;
+                classList.push(common_1.getClassesForRotateScale(html_1.Position.top, angle));
+            }
+            return dom_1.sv("text", { x: x, y: y_2, class: classList.join(" "), transform: transform }, [common_1.verticalCenteredText(template(p[1]))]);
+        });
     }
     var id = core_1.uid();
     var mainLine = dom_1.sv("path", { d: "M0 0 H" + width, class: "main-scale", id: id });
@@ -5383,14 +6054,19 @@ function topGrid(points, _width, height, config) {
 }
 exports.topGrid = topGrid;
 function left(points, config, _width, height) {
-    var title = config.title, textPadding = config.textPadding, scalePadding = config.scalePadding, textTemplate = config.textTemplate, showText = config.showText;
+    var title = config.title, textPadding = config.textPadding, scalePadding = config.scalePadding, textTemplate = config.textTemplate, showText = config.showText, scaleRotate = config.scaleRotate;
     var template = textTemplate || defaultTextTemplate;
     var text = [];
     var extraTittlePadding = 0;
     if (showText) {
         var style_1 = common_1.getFontStyle("scale-text");
         var maxTextWidth_1 = 0;
+        var canRotate_3 = scaleRotate && !isNaN(scaleRotate);
         text = points.map(function (p) {
+            var y = p[0];
+            var x = -textPadding;
+            var transform = canRotate_3 ? "rotate(" + scaleRotate + " " + x + " " + y + ")" : "";
+            var classList = ["scale-text"];
             var scaleText = template(p[1]);
             if (title) {
                 var textWidth = common_1.getTextWidth(scaleText, style_1);
@@ -5398,7 +6074,14 @@ function left(points, config, _width, height) {
                     maxTextWidth_1 = textWidth;
                 }
             }
-            return dom_1.sv("text", { class: "scale-text end-text", x: -textPadding, y: p[0] }, [common_1.verticalCenteredText(scaleText)]);
+            if (canRotate_3) {
+                var angle = scaleRotate % 360;
+                classList.push(common_1.getClassesForRotateScale(html_1.Position.left, angle));
+            }
+            else {
+                classList.push("end-text");
+            }
+            return dom_1.sv("text", { x: x, y: y, class: classList.join(" "), transform: transform }, [common_1.verticalCenteredText(scaleText)]);
         });
         extraTittlePadding = maxTextWidth_1 + textPadding;
     }
@@ -5451,22 +6134,34 @@ function leftGrid(points, width, height, config) {
 }
 exports.leftGrid = leftGrid;
 function right(points, config, width, height) {
-    var title = config.title, textPadding = config.textPadding, scalePadding = config.scalePadding, textTemplate = config.textTemplate, showText = config.showText;
+    var title = config.title, textPadding = config.textPadding, scalePadding = config.scalePadding, textTemplate = config.textTemplate, showText = config.showText, scaleRotate = config.scaleRotate;
     var template = textTemplate || defaultTextTemplate;
     var text = [];
     var extraTittlePadding = 0;
     if (showText) {
         var style_2 = common_1.getFontStyle("scale-text");
         var maxTextWidth_2 = 0;
+        var canRotate_4 = scaleRotate && !isNaN(scaleRotate);
         text = points.map(function (p) {
             var scaleText = template(p[1]);
+            var y = p[0];
+            var x = width + textPadding;
+            var transform = canRotate_4 ? "rotate(" + scaleRotate + " " + x + " " + y + ")" : "";
+            var classList = ["scale-text"];
             if (title) {
                 var textWidth = common_1.getTextWidth(scaleText, style_2);
                 if (maxTextWidth_2 < textWidth) {
                     maxTextWidth_2 = textWidth;
                 }
             }
-            return dom_1.sv("text", { x: width + textPadding, class: "scale-text start-text", y: p[0] }, [common_1.verticalCenteredText(scaleText)]);
+            if (canRotate_4) {
+                var angle = scaleRotate % 360;
+                classList.push(common_1.getClassesForRotateScale(html_1.Position.right, angle));
+            }
+            else {
+                classList.push("start-text");
+            }
+            return dom_1.sv("text", { x: x, y: y, class: classList.join(" "), transform: transform }, [common_1.verticalCenteredText(scaleText)]);
         });
         extraTittlePadding = textPadding + maxTextWidth_2;
     }
@@ -5516,7 +6211,7 @@ exports.rightGrid = rightGrid;
 
 
 /***/ }),
-/* 69 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5549,7 +6244,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
 var common_1 = __webpack_require__(5);
 var types_1 = __webpack_require__(6);
-var ScaleSeria_1 = __webpack_require__(43);
+var ScaleSeria_1 = __webpack_require__(46);
 var Area = /** @class */ (function (_super) {
     __extends(Area, _super);
     function Area() {
@@ -5633,7 +6328,7 @@ var Area = /** @class */ (function (_super) {
             tooltip: true,
             pointType: types_1.PointType.empty
         };
-        this.config = __assign({}, defaults, config);
+        this.config = __assign(__assign({}, defaults), config);
         var showTooltip = this.config.tooltip;
         var point = this.config.pointType;
         var color = this.config.pointColor || this.config.color;
@@ -5647,7 +6342,7 @@ exports.default = Area;
 
 
 /***/ }),
-/* 70 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5681,7 +6376,7 @@ var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var common_1 = __webpack_require__(5);
 var types_1 = __webpack_require__(6);
-var ScaleSeria_1 = __webpack_require__(43);
+var ScaleSeria_1 = __webpack_require__(46);
 var Bar = /** @class */ (function (_super) {
     __extends(Bar, _super);
     function Bar() {
@@ -5731,16 +6426,19 @@ var Bar = /** @class */ (function (_super) {
         var baseLine = this.config.baseLine;
         return this._baseLinePosition = baseLine !== undefined ? this.yScale.point(baseLine) * height : height - 1;
     };
-    Bar.prototype._text = function (item, prev) {
+    Bar.prototype._text = function (item, prev, rotate) {
+        var x = item[0];
+        var y = (prev + item[1]) / 2;
+        var canRotate = rotate && !isNaN(rotate);
         return {
-            x: item[0],
-            y: (prev + item[1]) / 2,
-            class: "bar-text"
+            x: x, y: y,
+            class: "bar-text",
+            transform: canRotate ? "rotate(" + rotate + " " + x + " " + y + ")" : ""
         };
     };
     Bar.prototype._getForm = function (points, css, _width, height, prev) {
         var _this = this;
-        var _a = this.config, fill = _a.fill, alpha = _a.alpha, showText = _a.showText;
+        var _a = this.config, fill = _a.fill, alpha = _a.alpha, showText = _a.showText, showTextTemplate = _a.showTextTemplate, showTextRotate = _a.showTextRotate;
         var svg = [];
         var base = this._base(height);
         var getPrev = function (index) { return !prev ? base : prev[index][1]; };
@@ -5749,22 +6447,24 @@ var Bar = /** @class */ (function (_super) {
             "d": _this._path(item, getPrev(index)),
             "class": css,
             fill: fill,
+            "onclick": [_this._handlers.onclick, item[2], _this.config.value],
             "fill-opacity": alpha
         }); });
         svg.push.apply(svg, series);
-        if (showText) {
+        if (showText || showTextTemplate || showTextRotate) {
             var isWrite_1 = function (item, index) { return Math.abs(getPrev(index) - item[1]) > 16 ? true : false; }; // hide text, where height < 16
             var text = points.map(function (item, index) {
-                return isWrite_1(item, index) ?
-                    dom_1.sv("text", _this._text(item, getPrev(index)), [common_1.verticalCenteredText(_this._getText(item))]) :
-                    null;
+                var value = _this._getText(item);
+                return isWrite_1(item, index)
+                    ? dom_1.sv("text", _this._text(item, getPrev(index), showTextRotate), [showTextTemplate ? common_1.verticalCenteredText(showTextTemplate(value)) : common_1.verticalCenteredText(value)])
+                    : null;
             });
             svg.push.apply(svg, text);
         }
         return svg;
     };
     Bar.prototype._getText = function (item) {
-        return item[3].toString();
+        return item[4].toString();
     };
     Bar.prototype._setDefaults = function (config) {
         var defaults = {
@@ -5774,7 +6474,7 @@ var Bar = /** @class */ (function (_super) {
             tooltip: true,
             pointType: types_1.PointType.empty
         };
-        this.config = __assign({}, defaults, config);
+        this.config = __assign(__assign({}, defaults), config);
         var showTooltip = this.config.tooltip;
         var point = this.config.pointType;
         var color = this.config.pointColor || this.config.color;
@@ -5795,7 +6495,7 @@ exports.default = Bar;
 
 
 /***/ }),
-/* 71 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5848,7 +6548,7 @@ exports.default = spline;
 
 
 /***/ }),
-/* 72 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5858,6 +6558,10 @@ var ComboboxEvents;
 (function (ComboboxEvents) {
     ComboboxEvents["change"] = "change";
     ComboboxEvents["open"] = "open";
+    ComboboxEvents["input"] = "input";
+    ComboboxEvents["beforeClose"] = "beforeClose";
+    ComboboxEvents["afterClose"] = "afterClose";
+    // TODO: remove sute_7.0
     ComboboxEvents["close"] = "close";
 })(ComboboxEvents = exports.ComboboxEvents || (exports.ComboboxEvents = {}));
 var ComboState;
@@ -5869,7 +6573,7 @@ var ComboState;
 
 
 /***/ }),
-/* 73 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5882,30 +6586,31 @@ exports.default = {
 
 
 /***/ }),
-/* 74 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var cells_1 = __webpack_require__(52);
+var cells_1 = __webpack_require__(54);
 var main_1 = __webpack_require__(20);
-var types_1 = __webpack_require__(11);
-var editors_1 = __webpack_require__(184);
-function handleMouse(row, col, conf, type, e) {
+var types_1 = __webpack_require__(10);
+var editors_1 = __webpack_require__(190);
+var html_1 = __webpack_require__(2);
+function handleMouse(rowStart, colStart, conf, type, e) {
+    colStart = html_1.locateNodeByClassName(e.target, "dhx_grid-fixed-cols-wrap") ? 0 : colStart;
+    var target = html_1.locateNodeByClassName(e.target, "dhx_grid-cell");
+    if (!target) {
+        return;
+    }
+    var rowNode = target.parentNode;
+    var bodyNode = rowNode.parentNode;
+    var colIndex = Array.prototype.indexOf.call(rowNode.childNodes, target);
+    var col = conf.columns[colStart + colIndex];
+    var rowIndex = Array.prototype.indexOf.call(bodyNode.childNodes, rowNode);
+    var row = conf.data[rowStart + rowIndex];
     conf.events.fire(type, [row, col, e]);
 }
 function getHandlers(row, column, conf) {
@@ -5917,20 +6622,36 @@ function getHandlers(row, column, conf) {
         oncontextmenu: [handleMouse, row, column, conf, types_1.GridEvents.cellRightClick]
     };
 }
+exports.getHandlers = getHandlers;
 function getTreeCell(content, row, col, conf) {
-    return dom_1.el(".dhx_grid-cell", __assign({ class: "dhx_tree-cell " + (col.$cellCss[row.id] || "") + " " + (row.$items ? "dhx_grid-expand-cell" : ""), style: {
+    var isEditable = conf.$editable && conf.$editable.row === row.id && conf.$editable.col === col.id;
+    var css = "";
+    if (conf.dragMode && conf.dragItem === "row") {
+        css += (row.$drophere && !isEditable ? " dhx_grid-cell--drophere" : "") +
+            (row.$dragtarget && !isEditable ? " dhx_grid-cell--dragtarget" : "") +
+            (!isEditable ? " dhx_grid-cell--drag" : "");
+    }
+    var parentPadding = 24 * row.$level;
+    return dom_1.el(".dhx_grid-cell", {
+        class: "dhx_tree-cell " + (col.$cellCss[row.id] || "") + " " + (row.$items ? "dhx_grid-expand-cell" : "") +
+            (" " + (isEditable ? "dhx_tree-editing-cell" : "") + " " + css),
+        style: {
             width: col.width,
-            lineHeight: conf.rowHeight + "px",
-            paddingLeft: 24 * row.$level
-        }, dhx_id: row.id }, getHandlers(row, col, conf)), [
+            lineHeight: conf.rowHeight - 1 + "px",
+            padding: !row.$items ? "0 0 0 " + parentPadding + "px" : 0
+        }
+    }, [
         row.$items ? dom_1.el(".dhx_grid-expand-cell-icon", {
             class: row.$opened ? "dxi dxi-chevron-up" : "dxi dxi-chevron-down",
             dhx_id: row.id,
+            style: {
+                padding: row.$level ? "0 4px 0 " + parentPadding + "px" : "0 0 0 4px"
+            }
         }) : null,
         dom_1.el(".dhx_tree-cell", {
             title: main_1.removeHTMLTags(row[col.id]),
             style: {
-                width: col.width - row.$level * 10,
+                width: "100%",
                 height: "100%",
                 textAlign: "left"
             }
@@ -5938,7 +6659,7 @@ function getTreeCell(content, row, col, conf) {
     ]);
 }
 function getEditorCell(row, col, conf) {
-    return editors_1.getEditor(row, col, conf).toHTML();
+    return editors_1.getEditor(row, col, conf);
 }
 function getCells(conf) {
     if (!conf.data || !conf.columns) {
@@ -5947,7 +6668,8 @@ function getCells(conf) {
     var pos = conf.$positions;
     var data = conf.data ? conf.data.slice(pos.yStart, pos.yEnd) : [];
     var columns = conf.columns.slice(pos.xStart, pos.xEnd);
-    return data.map(function (row) {
+    return data.map(function (row, index) {
+        var isLastRow = data.length - 1 === index;
         var rowCss = "";
         if (conf.rowCss) {
             rowCss = conf.rowCss(row);
@@ -5956,28 +6678,62 @@ function getCells(conf) {
             rowCss += row.$css;
         }
         return dom_1.el(".dhx_grid-row", {
-            "style": { height: conf.rowHeight },
-            "dhx_grid-row": row.id,
-            "class": rowCss
+            style: { height: isLastRow ? conf.rowHeight + 1 : conf.rowHeight },
+            dhx_id: row.id,
+            class: rowCss,
+            _key: row.id,
+            _flags: dom_1.KEYED_LIST
         }, columns.map(function (col) {
-            var t = function (text, _row, _col) { return (text || text === 0) ? text : ""; };
-            var template = col.template || t;
-            var content = template(row[col.id], row, col);
-            // ability to use domvm node as template result
-            content = typeof content === "string" ? dom_1.el("div.dhx_cell-content", { ".innerHTML": content }) : content;
-            var css = ((col.$cellCss[row.id] || "") + " dhx_" + col.type + "-cell").replace(/\s+/g, " ");
-            var isEditable = conf.$editable && conf.$editable.row === row.id && conf.$editable.col === col.id;
-            if (isEditable) {
-                content = getEditorCell(row, col, conf);
-                css += " dhx_grid-cell__editable";
+            if (!col.hidden) {
+                var defaultTemplate = function (text) {
+                    if (typeof text === "boolean" || col.type === "boolean") {
+                        if (typeof text !== "string") {
+                            return "" + Boolean(text);
+                        }
+                    }
+                    return (text || text === 0) ? text : "";
+                };
+                var content = col.template ?
+                    col.template(row[col.id], row, col) :
+                    defaultTemplate(row[col.id]);
+                // content can be a domvm node or a string
+                if (typeof content === "string") {
+                    content = dom_1.el("div.dhx_cell-content", (conf.htmlEnable && col.htmlEnable !== false) || col.htmlEnable ? { ".innerHTML": content } : content);
+                }
+                var css = ((col.$cellCss[row.id] || "") + " dhx_" + col.type + "-cell").replace(/\s+/g, " ");
+                var colWidth = col.width;
+                var isEditable = conf.$editable && conf.$editable.row === row.id && conf.$editable.col === col.id;
+                if (isEditable || (col.type === "boolean" && (conf.editable || col.editable))) {
+                    if (!(conf.splitAt && conf.columns.length !== conf.splitAt && conf.columns.indexOf(col) < conf.splitAt)) {
+                        content = getEditorCell(row, col, conf).toHTML();
+                        css += " dhx_grid-cell__editable";
+                        if (conf.splitAt === conf.columns.indexOf(col) + 1) {
+                            colWidth -= 1;
+                        }
+                    }
+                }
+                if (conf.type === "tree" && conf.firstColId === col.id) {
+                    return getTreeCell(content, row, col, conf);
+                }
+                var colName = void 0;
+                if (col.type === "boolean") {
+                    colName = core_1.findIndex(col.header, function (item) { return item.text !== undefined; });
+                }
+                if (conf.dragMode && conf.dragItem === "row") {
+                    css += (row.$drophere && !isEditable ? " dhx_grid-cell--drophere" : "") +
+                        (row.$dragtarget && !isEditable ? " dhx_grid-cell--dragtarget" : "") +
+                        (!isEditable ? " dhx_grid-cell--drag" : "");
+                }
+                return dom_1.el(".dhx_grid-cell", {
+                    class: css,
+                    style: {
+                        width: colWidth,
+                        lineHeight: conf.rowHeight - 1 + "px"
+                    },
+                    _key: col.id,
+                    title: col.type === "boolean" ? colName.text : main_1.removeHTMLTags(typeof content === "string" ? content : row[col.id])
+                }, [content]);
             }
-            if (conf.type === "tree" && conf.firstColId === col.id) {
-                return getTreeCell(content, row, col, conf);
-            }
-            return dom_1.el(".dhx_grid-cell", __assign({ class: css, style: {
-                    width: col.width,
-                    lineHeight: conf.rowHeight + "px"
-                }, _key: row.id + col.id }, getHandlers(row, col, conf), { title: main_1.removeHTMLTags(row[col.id]) }), [content]);
         }));
     });
 }
@@ -6014,6 +6770,9 @@ function getSpans(conf) {
         }
         var currCol = columns[colIndex];
         var currRow = conf.data[rowIndex];
+        if (currCol.hidden) {
+            return "continue";
+        }
         var content = spans[i].text ?
             spans[i].text
             : currRow[col] === undefined ? "" : currRow[col];
@@ -6022,7 +6781,7 @@ function getSpans(conf) {
         var template = currCol.template || t;
         content = template(content, currRow, currCol);
         content = typeof content === "string" ? dom_1.el("div.dhx_span-cell-content", { ".innerHTML": content }) : content;
-        var top_1 = conf.rowHeight * rowIndex;
+        var top_1 = conf.rowHeight * rowIndex - 1;
         var left = 0;
         for (var s = colIndex - 1; s >= 0; s--) {
             left += columns[s].width;
@@ -6079,7 +6838,7 @@ exports.getShifts = getShifts;
 
 
 /***/ }),
-/* 75 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6095,12 +6854,19 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var cells_1 = __webpack_require__(52);
+var cells_1 = __webpack_require__(54);
 var main_1 = __webpack_require__(20);
-var types_1 = __webpack_require__(11);
-var content_1 = __webpack_require__(76);
+var types_1 = __webpack_require__(10);
+var content_1 = __webpack_require__(78);
 function handleMouse(col, config, type, e) {
     config.events.fire(type, [col, e]);
 }
@@ -6119,11 +6885,12 @@ function buildRows(columns, name) {
 }
 function getCustomContentCell(cell, column, config, rowName, css) {
     if (css === void 0) { css = ""; }
-    var rowHeight = config[name + "RowHeight"] || 40;
+    var rowHeight = (config[rowName + "RowHeight"] - 10 + 1) || 31;
     var type = column.type ? "dhx_" + column.type + "-cell" : "dhx_string_cell";
+    // TODO: over with index of filter inside of header or footer
     return dom_1.el(".dhx_grid-" + rowName + "-cell.dhx_grid-custom-content-cell." + type, __assign({ class: css, style: {
             width: column.width,
-            lineHeight: rowHeight + 1 + "px"
+            lineHeight: rowHeight + "px"
         } }, getHandlers(column, rowName, config)), [
         content_1.content[cell.content] && content_1.content[cell.content].toHtml(column, config)
     ]);
@@ -6136,7 +6903,7 @@ function getRows(config, rowsConfig) {
     var columns = config.currentColumns;
     var rowHeight = config[rowName + "RowHeight"] || 40;
     var rows = buildRows(columns, rowName);
-    return rows.map(function (row) { return dom_1.el(".dhx_" + rowName + "-row", { style: { height: rowHeight } }, row.map(function (cell, i) {
+    return rows.map(function (row, j) { return dom_1.el(".dhx_" + rowName + "-row", { style: { height: rowHeight } }, row.map(function (cell, i) {
         var css = cell.css || "";
         var column = columns[i];
         var sortIconCss = "dxi dxi-sort-variant dhx_grid-sort-icon";
@@ -6144,8 +6911,7 @@ function getRows(config, rowsConfig) {
             sortIconCss += " dhx_grid-sort-icon--" + (config.sortDir || "asc");
             css += " dhx_grid-" + rowName + "-cell--sorted ";
         }
-        var sortIconVisible = cell.text && config.headerSort && rowName !== "footer";
-        // [todo]
+        var sortIconVisible = main_1.isSortable(config, column) && cell.text && rowName !== "footer";
         if (sortIconVisible) {
             css += " dhx_grid-header-cell--sortable";
         }
@@ -6155,16 +6921,39 @@ function getRows(config, rowsConfig) {
             css += " dhx_grid-header-cell--" + (column.type === "number" ? "align_right" : "align_left") + " ";
         }
         css += isFirstCol + " " + isLastCol;
+        var resizable = column.resizable !== undefined ? column.resizable : config.resizable;
+        if (resizable) {
+            resizable = dom_1.el("div", { class: "dhx_resizer_grip_wrap" }, [
+                dom_1.el("div", {
+                    class: "dhx_resizer_grip",
+                    dhx_resized: column.id,
+                    style: {
+                        height: rows.length * 100 + "%"
+                    }
+                }, [
+                    dom_1.el("div", { class: "dhx_resizer_grip_line" })
+                ])
+            ]);
+            if (rowName === "footer" || j > 0) {
+                resizable = null;
+            }
+        }
         if (cell.content) {
             return getCustomContentCell(cell, column, config, rowName, css);
         }
-        return dom_1.el(".dhx_grid-" + rowName + "-cell", __assign({ class: css.trim(), dhx_id: column.id, _key: i, style: {
+        return !column.hidden ? dom_1.el(".dhx_grid-" + rowName + "-cell", __assign(__assign({ class: css.trim(), dhx_id: column.id, _key: i, style: {
                 width: column.width,
                 lineHeight: rowHeight + 1 + "px"
-            } }, getHandlers(column, rowName, config), { title: main_1.removeHTMLTags(cell.text) }), [
-            dom_1.el("div", { ".innerHTML": cell.text }),
-            sortIconVisible && dom_1.el("div", { class: sortIconCss }, cell.text)
-        ]);
+            } }, getHandlers(column, rowName, config)), { title: main_1.removeHTMLTags(cell.text) }), [
+            dom_1.el("div", {
+                class: "dhx_grid-header-cell-text"
+            }, [
+                dom_1.el("div", {
+                    ".innerHTML": cell.text
+                }), resizable || null
+            ]),
+            sortIconVisible && dom_1.el("div", { class: sortIconCss })
+        ]) : null;
     })); });
 }
 exports.getRows = getRows;
@@ -6177,7 +6966,7 @@ function getSpans(config, rowsConfig) {
         leftShift = 0;
         return dom_1.el(".dhx_span-row", { style: { top: height * i + "px", height: height } }, row.map(function (cell, cellIdx) {
             var col = cols[cellIdx];
-            leftShift += col.width;
+            leftShift += col.hidden ? 0 : col.width;
             var isFirstCol = cellIdx === 0 ? "dhx_first-column-cell" : "";
             var isLastCol = (cellIdx === cols.length - 1)
                 || ((cell.colspan || 0) + (cellIdx - 1) >= cols.length - 1) ? "dhx_last-column-cell" : "";
@@ -6185,10 +6974,7 @@ function getSpans(config, rowsConfig) {
             if (cell.rowspan) {
                 spanHeight = spanHeight * cell.rowspan - 1;
             }
-            var sortIconVisible = cell.rowspan
-                && cell.text
-                && config.headerSort
-                && rowsConfig.name !== "footer";
+            var sortIconVisible = main_1.isSortable(config, col) && cell.rowspan && cell.text && rowsConfig.name !== "footer";
             var sortIconCss = "dxi dxi-sort-variant dhx_grid-sort-icon";
             if (config.sortBy && "" + col.id === config.sortBy && !cell.content) {
                 sortIconCss += " dhx_grid-sort-icon--" + (config.sortDir || "asc");
@@ -6200,12 +6986,17 @@ function getSpans(config, rowsConfig) {
             if (!cell.content) {
                 css += " dhx_grid-header-cell--" + (col.type === "number" ? "align_right" : "align_left") + " ";
             }
-            return (cell.colspan || cell.rowspan) ?
+            var borderLeft = "";
+            if (leftShift - col.width > 0) {
+                borderLeft = "1px solid #e4e4e4";
+            }
+            return (cell.colspan || cell.rowspan) && !col.hidden ?
                 dom_1.el(".dhx_span-cell", {
                     style: {
                         width: cells_1.getWidth(config.columns, cell.colspan, cellIdx),
                         height: spanHeight,
                         left: leftShift - col.width,
+                        borderLeft: borderLeft,
                         top: height * i,
                         lineHeight: spanHeight + "px"
                     },
@@ -6214,7 +7005,7 @@ function getSpans(config, rowsConfig) {
                     dhx_id: col.id
                 }, [
                     dom_1.el("div", { ".innerHTML": cell.text }),
-                    sortIconVisible && dom_1.el("div", { class: sortIconCss }, cell.text)
+                    sortIconVisible && dom_1.el("div", { class: sortIconCss })
                 ])
                 : null;
         }).filter(function (cell) { return cell; }));
@@ -6227,7 +7018,7 @@ function getFixedRows(config, rowsConfig) {
     var spans = getSpans(config, rowsConfig);
     var fixedCols = null;
     if (rowsConfig.name === "footer" && !rowsConfig.sticky) {
-        fixedCols = config.splitAt >= 0 && getRows(__assign({}, config, { currentColumns: config.columns.slice(0, config.splitAt), $positions: __assign({}, config.$positions, { xStart: 0, xEnd: config.splitAt }) }), rowsConfig);
+        fixedCols = config.splitAt >= 0 && getRows(__assign(__assign({}, config), { currentColumns: config.columns.slice(0, config.splitAt), $positions: __assign(__assign({}, config.$positions), { xStart: 0, xEnd: config.splitAt }) }), rowsConfig);
     }
     var styles = (_a = {
             position: "sticky"
@@ -6243,7 +7034,7 @@ function getFixedRows(config, rowsConfig) {
     var BORDERS = 2;
     return dom_1.el(".dhx_" + rowsConfig.name + "-wrapper", {
         class: rowsConfig.sticky ? "" : "dhx_compatible-" + rowsConfig.name,
-        style: __assign({}, styles, { left: rowsConfig.sticky ? left : 0, height: config[rowsConfig.name + "Height"], width: rowsConfig.sticky ? config.$totalWidth : rowsConfig.wrapper.width - BORDERS })
+        style: __assign(__assign({}, styles), { left: rowsConfig.sticky ? left : 0, height: config[rowsConfig.name + "Height"], width: rowsConfig.sticky ? config.$totalWidth : rowsConfig.wrapper.width - BORDERS })
     }, [
         dom_1.el(".dhx_grid-" + rowsConfig.name, {
             style: {
@@ -6253,7 +7044,7 @@ function getFixedRows(config, rowsConfig) {
                 width: config.$totalWidth,
             }
         }, [
-            dom_1.el(".dhx_" + rowsConfig.name + "-rows", rows.slice()),
+            dom_1.el(".dhx_" + rowsConfig.name + "-rows", __spreadArrays(rows)),
             dom_1.el(".dhx_" + rowsConfig.name + "-spans", {
                 style: {
                     marginLeft: -rowsConfig.shifts.x
@@ -6275,19 +7066,30 @@ exports.getFixedRows = getFixedRows;
 
 
 /***/ }),
-/* 76 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(11);
+var ts_combobox_1 = __webpack_require__(32);
+var ts_data_1 = __webpack_require__(7);
+var types_1 = __webpack_require__(10);
 var inputDelay;
 function onInput(eventSystem, colId, filter, filterObj, e) {
     var inputHandler = function () {
         filterObj.value[colId] = e.target.value;
-        eventSystem.fire(types_1.GridEvents.headerInput, [e.target.value, colId, filter]);
+        eventSystem.fire(types_1.GridEvents.filterChange, [e.target.value, colId, filter]);
+        eventSystem.fire(types_1.GridEvents.headerInput, [e.target.value, colId, filter]); // TODO: remove sute_7.0
     };
     if (filter === "selectFilter") {
         inputHandler();
@@ -6354,13 +7156,72 @@ exports.content = {
                     onchange: [onInput, config.events, column.id, "selectFilter", this],
                     _key: column.id,
                     value: this.value[column.id] || ""
-                }, [
+                }, __spreadArrays([
                     dom_1.el("option", { value: "" }, "")
-                ].concat(column.$uniqueData.map(function (val) { return val && dom_1.el("option", { value: val }, val); })))
+                ], column.$uniqueData.map(function (val) { return val && dom_1.el("option", { value: val }, val); })))
             ]);
         },
         match: function (value, match) { return value === match; },
         value: {}
+    },
+    comboFilter: {
+        toHtml: function (column, config) {
+            var combo;
+            var colId = column.id.toString();
+            if (!this.combo[colId]) {
+                var conf = column.header.filter(function (item) { return item.filterConfig !== undefined; })[0];
+                if (conf && conf.filterConfig) {
+                    combo = new ts_combobox_1.Combobox(null, JSON.parse(JSON.stringify(conf.filterConfig)));
+                }
+                else {
+                    combo = new ts_combobox_1.Combobox(null, {});
+                }
+                combo.data.parse(column.$uniqueData.map(function (value) { return ({ value: value }); }));
+                config.events.on(ts_data_1.DataEvents.load, function () {
+                    combo.data.parse(column.$uniqueData.map(function (value) { return ({ value: value }); }));
+                });
+                this.combo[colId] = combo;
+                combo.events.on("change", function (id) {
+                    if (id) {
+                        var item = void 0;
+                        var value = void 0;
+                        if (combo.data.getItem(id)) {
+                            item = combo.list.selection.getItem();
+                            value = item.value;
+                            config.events.fire(types_1.GridEvents.filterChange, [value, colId, "comboFilter"]);
+                            config.events.fire(types_1.GridEvents.headerInput, [value, colId, "comboFilter"]); // TODO: remove sute_7.0
+                        }
+                        else {
+                            config.events.fire(types_1.GridEvents.filterChange, ["", colId, "comboFilter"]);
+                            config.events.fire(types_1.GridEvents.headerInput, ["", colId, "comboFilter"]); // TODO: remove sute_7.0
+                        }
+                    }
+                });
+                combo.popup.events.on("afterHide", function () {
+                    if (!combo.list.selection.getItem()) {
+                        combo.clear();
+                        config.events.fire(types_1.GridEvents.filterChange, ["", colId, "comboFilter"]);
+                        config.events.fire(types_1.GridEvents.headerInput, ["", colId, "comboFilter"]); // TODO: remove sute_7.0
+                    }
+                });
+            }
+            else {
+                combo = this.combo[column.id];
+            }
+            return dom_1.inject(combo.getRootView());
+        },
+        match: function (value, match) { return new RegExp("" + match, "i").test(value) && new RegExp("" + match, "i").exec(value).index === 0; },
+        destroy: function () {
+            var comboFilters = _this.content.comboFilter.combo;
+            if (comboFilters) {
+                for (var combo in comboFilters) {
+                    comboFilters[combo].destructor();
+                    delete comboFilters[combo];
+                }
+            }
+        },
+        value: {},
+        combo: {}
     },
     sum: {
         calculate: function (_col, roots) { return roots.reduce(function (sum, c) { return sum += parseFloat(c) || 0; }, 0).toFixed(3); },
@@ -6402,7 +7263,7 @@ exports.content = {
 
 
 /***/ }),
-/* 77 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6410,12 +7271,17 @@ exports.content = {
 Object.defineProperty(exports, "__esModule", { value: true });
 var SidebarEvents;
 (function (SidebarEvents) {
+    SidebarEvents["beforeCollapse"] = "beforeCollapse";
+    SidebarEvents["afterCollapse"] = "afterCollapse";
+    SidebarEvents["beforeExpand"] = "beforeExpand";
+    SidebarEvents["afterExpand"] = "afterExpand";
+    // TODO: remove sute_7.0
     SidebarEvents["toggle"] = "toggle";
 })(SidebarEvents = exports.SidebarEvents || (exports.SidebarEvents = {}));
 
 
 /***/ }),
-/* 78 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6431,20 +7297,23 @@ var RenderMode;
 var TabbarEvents;
 (function (TabbarEvents) {
     TabbarEvents["change"] = "change";
+    TabbarEvents["beforeClose"] = "beforeClose";
+    TabbarEvents["afterClose"] = "afterClose";
+    // TODO: remove sute_7.0
     TabbarEvents["close"] = "close";
 })(TabbarEvents = exports.TabbarEvents || (exports.TabbarEvents = {}));
 
 
 /***/ }),
-/* 79 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var Keymanager_1 = __webpack_require__(13);
 var EditorMode;
 (function (EditorMode) {
@@ -6554,7 +7423,7 @@ exports.default = new Editor();
 
 
 /***/ }),
-/* 80 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6576,47 +7445,59 @@ var TreeEvents;
 (function (TreeEvents) {
     TreeEvents["itemClick"] = "itemclick";
     TreeEvents["itemDblClick"] = "itemdblclick";
+    TreeEvents["itemRightClick"] = "itemrightclick";
+    TreeEvents["beforeCollapse"] = "beforeCollapse";
+    TreeEvents["afterCollapse"] = "afterCollapse";
+    TreeEvents["beforeExpand"] = "beforeExpand";
+    TreeEvents["afterExpand"] = "afterExpand";
+    // TODO: remove sute_7.0
     TreeEvents["itemContextMenu"] = "itemcontextmenu";
 })(TreeEvents = exports.TreeEvents || (exports.TreeEvents = {}));
 
 
 /***/ }),
-/* 81 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-__webpack_require__(82);
+__webpack_require__(84);
+// HELPERS
 /* tslint:disable */
-var CssManager_1 = __webpack_require__(83);
+var CssManager_1 = __webpack_require__(85);
 exports.cssManager = CssManager_1.cssManager;
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 exports.EventSystem = events_1.EventSystem;
-var ts_vault_1 = __webpack_require__(53);
+var dom_1 = __webpack_require__(0);
+exports.awaitRedraw = dom_1.awaitRedraw;
+exports.resizeHandler = dom_1.resizeHandler;
+var ts_vault_1 = __webpack_require__(55);
 exports.Uploader = ts_vault_1.Uploader;
-var ts_layout_1 = __webpack_require__(12);
-exports.Layout = ts_layout_1.Layout;
-var ts_list_1 = __webpack_require__(36);
-exports.List = ts_list_1.List;
-var ts_calendar_1 = __webpack_require__(28);
-exports.Calendar = ts_calendar_1.Calendar;
-var ts_colorpicker_1 = __webpack_require__(31);
-exports.Colorpicker = ts_colorpicker_1.Colorpicker;
-var ts_chart_1 = __webpack_require__(134);
-exports.Chart = ts_chart_1.Chart;
-var ts_combobox_1 = __webpack_require__(47);
-exports.Combobox = ts_combobox_1.Combobox;
 var ts_data_1 = __webpack_require__(7);
 exports.DataCollection = ts_data_1.DataCollection;
 exports.TreeCollection = ts_data_1.TreeCollection;
 exports.DataProxy = ts_data_1.DataProxy;
 exports.dataDrivers = ts_data_1.dataDrivers;
-var ts_dataview_1 = __webpack_require__(160);
+exports.ajax = ts_data_1.ajax;
+// WIDGETS
+var ts_layout_1 = __webpack_require__(14);
+exports.Layout = ts_layout_1.Layout;
+var ts_list_1 = __webpack_require__(38);
+exports.List = ts_list_1.List;
+var ts_calendar_1 = __webpack_require__(25);
+exports.Calendar = ts_calendar_1.Calendar;
+var ts_colorpicker_1 = __webpack_require__(31);
+exports.Colorpicker = ts_colorpicker_1.Colorpicker;
+var ts_chart_1 = __webpack_require__(139);
+exports.Chart = ts_chart_1.Chart;
+var ts_combobox_1 = __webpack_require__(32);
+exports.Combobox = ts_combobox_1.Combobox;
+var ts_dataview_1 = __webpack_require__(165);
 exports.DataView = ts_dataview_1.DataView;
-var ts_form_1 = __webpack_require__(164);
+var ts_form_1 = __webpack_require__(169);
 exports.Form = ts_form_1.Form;
-var ts_grid_1 = __webpack_require__(179);
+var ts_grid_1 = __webpack_require__(184);
 exports.Grid = ts_grid_1.Grid;
 var ts_message_1 = __webpack_require__(19);
 exports.message = ts_message_1.message;
@@ -6625,33 +7506,34 @@ exports.confirm = ts_message_1.confirm;
 exports.enableTooltip = ts_message_1.enableTooltip;
 exports.disableTooltip = ts_message_1.disableTooltip;
 exports.tooltip = ts_message_1.tooltip;
-var ts_menu_1 = __webpack_require__(189);
+var ts_menu_1 = __webpack_require__(198);
 exports.Menu = ts_menu_1.Menu;
 exports.ContextMenu = ts_menu_1.ContextMenu;
-var ts_popup_1 = __webpack_require__(10);
+var ts_popup_1 = __webpack_require__(11);
 exports.Popup = ts_popup_1.Popup;
-var ts_ribbon_1 = __webpack_require__(192);
+var ts_ribbon_1 = __webpack_require__(201);
 exports.Ribbon = ts_ribbon_1.Ribbon;
-var ts_sidebar_1 = __webpack_require__(194);
+var ts_sidebar_1 = __webpack_require__(203);
 exports.Sidebar = ts_sidebar_1.Sidebar;
-var ts_slider_1 = __webpack_require__(30);
+var ts_slider_1 = __webpack_require__(40);
 exports.Slider = ts_slider_1.Slider;
-var ts_tabbar_1 = __webpack_require__(196);
+var ts_tabbar_1 = __webpack_require__(205);
 exports.Tabbar = ts_tabbar_1.Tabbar;
-var ts_timepicker_1 = __webpack_require__(29);
+var ts_timepicker_1 = __webpack_require__(30);
 exports.Timepicker = ts_timepicker_1.Timepicker;
-var ts_toolbar_1 = __webpack_require__(27);
+var ts_toolbar_1 = __webpack_require__(29);
 exports.Toolbar = ts_toolbar_1.Toolbar;
-var ts_tree_1 = __webpack_require__(198);
+var ts_tree_1 = __webpack_require__(207);
 exports.Tree = ts_tree_1.Tree;
-var ts_window_1 = __webpack_require__(201);
+var ts_window_1 = __webpack_require__(210);
 exports.Window = ts_window_1.Window;
+// TOOLS
 var ts_colorpicker_2 = __webpack_require__(31);
-var en_1 = __webpack_require__(34);
-var en_2 = __webpack_require__(39);
-var en_3 = __webpack_require__(48);
-var en_4 = __webpack_require__(73);
-var en_5 = __webpack_require__(64);
+var en_1 = __webpack_require__(36);
+var en_2 = __webpack_require__(42);
+var en_3 = __webpack_require__(50);
+var en_4 = __webpack_require__(75);
+var en_5 = __webpack_require__(66);
 var w = window;
 exports.i18n = (w.dhx && w.dhx.i18n) ? w.dhx.i18 : {};
 exports.i18n.setLocale = function (component, value) {
@@ -6669,13 +7551,13 @@ exports.i18n.timepicker = exports.i18n.timepicker || en_5.default;
 
 
 /***/ }),
-/* 82 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
 
 /***/ }),
-/* 83 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6766,7 +7648,7 @@ exports.cssManager = new CssManager();
 
 
 /***/ }),
-/* 84 */
+/* 86 */
 /***/ (function(module, exports) {
 
 if (Element && !Element.prototype.matches) {
@@ -6778,7 +7660,7 @@ if (Element && !Element.prototype.matches) {
 
 
 /***/ }),
-/* 85 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
@@ -6834,7 +7716,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(86);
+__webpack_require__(88);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -6845,10 +7727,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (typeof global !== "undefined" && global.clearImmediate) ||
                          (this && this.clearImmediate);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(32)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(33)))
 
 /***/ }),
-/* 86 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -7038,10 +7920,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(32), __webpack_require__(87)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(33), __webpack_require__(89)))
 
 /***/ }),
-/* 87 */
+/* 89 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -7231,1706 +8113,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 88 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(Promise) {
-Object.defineProperty(exports, "__esModule", { value: true });
-var helpers_1 = __webpack_require__(18);
-var types_1 = __webpack_require__(17);
-var Loader = /** @class */ (function () {
-    function Loader(parent, changes) {
-        this._parent = parent;
-        this._changes = changes; // todo: [dirty] mutation
-    }
-    Loader.prototype.load = function (url, driver) {
-        var _this = this;
-        return this._parent.loadData = url.load().then(function (data) {
-            _this._parent.removeAll();
-            // const parcedData = this.parse(data, driver);
-            return _this.parse(data, driver);
-        }).catch(function (error) {
-            _this._parent.events.fire(types_1.DataEvents.loadError, [error]);
-        });
-    };
-    Loader.prototype.parse = function (data, driver) {
-        if (driver === void 0) { driver = "json"; }
-        if (driver === "json" && !helpers_1.hasJsonOrArrayStructure(data)) {
-            this._parent.events.fire(types_1.DataEvents.loadError, ["Uncaught SyntaxError: Unexpected end of input"]);
-        }
-        driver = helpers_1.toDataDriver(driver);
-        data = driver.toJsonArray(data);
-        this._parent.$parse(data);
-        return data;
-    };
-    Loader.prototype.save = function (url) {
-        var _this = this;
-        var _loop_1 = function (el) {
-            if (el.saving || el.pending) {
-                helpers_1.dhxWarning("item is saving");
-            }
-            else {
-                var prevEl_1 = this_1._findPrevState(el.id);
-                if (prevEl_1 && prevEl_1.saving) {
-                    var pending = new Promise(function (res, rej) {
-                        prevEl_1.promise.then(function () {
-                            el.pending = false;
-                            res(_this._setPromise(el, url));
-                        }).catch(function (err) {
-                            _this._removeFromOrder(prevEl_1);
-                            _this._setPromise(el, url);
-                            helpers_1.dhxWarning(err);
-                            rej(err);
-                        });
-                    });
-                    this_1._addToChain(pending);
-                    el.pending = true;
-                }
-                else {
-                    this_1._setPromise(el, url);
-                }
-            }
-        };
-        var this_1 = this;
-        for (var _i = 0, _a = this._changes.order; _i < _a.length; _i++) {
-            var el = _a[_i];
-            _loop_1(el);
-        }
-        this._parent.saveData.then(function () {
-            _this._saving = false;
-        });
-    };
-    Loader.prototype._setPromise = function (el, url) {
-        var _this = this;
-        el.promise = url.save(el.obj, el.status);
-        el.promise.then(function () {
-            _this._removeFromOrder(el);
-        }).catch(function (err) {
-            el.saving = false;
-            el.error = true;
-            helpers_1.dhxError(err);
-        });
-        el.saving = true;
-        this._saving = true;
-        this._addToChain(el.promise);
-        return el.promise;
-    };
-    Loader.prototype._addToChain = function (promise) {
-        // tslint:disable-next-line:prefer-conditional-expression
-        if (this._parent.saveData && this._saving) {
-            this._parent.saveData = this._parent.saveData.then(function () { return promise; });
-        }
-        else {
-            this._parent.saveData = promise;
-        }
-    };
-    Loader.prototype._findPrevState = function (id) {
-        for (var _i = 0, _a = this._changes.order; _i < _a.length; _i++) {
-            var el = _a[_i];
-            if (el.id === id) {
-                return el;
-            }
-        }
-        return null;
-    };
-    Loader.prototype._removeFromOrder = function (el) {
-        this._changes.order = this._changes.order.filter(function (item) { return !helpers_1.isEqualObj(item, el); });
-    };
-    return Loader;
-}());
-exports.Loader = Loader;
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(14)))
-
-/***/ }),
-/* 89 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var xml_1 = __webpack_require__(90);
-var ARRAY_NAME = "items";
-var ITEM_NAME = "item";
-var XMLDriver = /** @class */ (function () {
-    function XMLDriver() {
-    }
-    XMLDriver.prototype.toJsonArray = function (data) {
-        return this.getRows(data);
-    };
-    XMLDriver.prototype.serialize = function (data) {
-        return xml_1.jsonToXML(data);
-    };
-    XMLDriver.prototype.getFields = function (row) {
-        return row;
-    };
-    XMLDriver.prototype.getRows = function (data) {
-        if (typeof data === "string") {
-            data = this._fromString(data);
-        }
-        var childNodes = data.childNodes && data.childNodes[0] && data.childNodes[0].childNodes;
-        if (!childNodes || !childNodes.length) {
-            return null;
-        }
-        return this._getRows(childNodes);
-    };
-    XMLDriver.prototype._getRows = function (nodes) {
-        var result = [];
-        for (var i = 0; i < nodes.length; i++) {
-            if (nodes[i].tagName === ITEM_NAME) {
-                result.push(this._nodeToJS(nodes[i]));
-            }
-        }
-        return result;
-    };
-    XMLDriver.prototype._fromString = function (data) {
-        return (new DOMParser()).parseFromString(data, "text/xml");
-    };
-    XMLDriver.prototype._nodeToJS = function (node) {
-        var result = {};
-        if (this._haveAttrs(node)) {
-            var attrs = node.attributes;
-            for (var i = 0; i < attrs.length; i++) {
-                var _a = attrs[i], name_1 = _a.name, value = _a.value;
-                result[name_1] = this._toType(value);
-            }
-        }
-        if (node.nodeType === 3) {
-            result.value = result.value || this._toType(node.textContent);
-            return result;
-        }
-        var childNodes = node.childNodes;
-        if (childNodes) {
-            for (var i = 0; i < childNodes.length; i++) {
-                var subNode = childNodes[i];
-                var tag = subNode.tagName;
-                if (!tag) {
-                    continue;
-                }
-                if (tag === ARRAY_NAME && subNode.childNodes) {
-                    result[tag] = this._getRows(subNode.childNodes);
-                }
-                else {
-                    if (this._haveAttrs(subNode)) {
-                        result[tag] = this._nodeToJS(subNode);
-                    }
-                    else {
-                        result[tag] = this._toType(subNode.textContent);
-                    }
-                }
-            }
-        }
-        return result;
-    };
-    XMLDriver.prototype._toType = function (val) {
-        if (val === "false" || val === "true") {
-            return val === "true";
-        }
-        if (!isNaN(val)) {
-            return Number(val);
-        }
-        return val;
-    };
-    XMLDriver.prototype._haveAttrs = function (node) {
-        return node.attributes && node.attributes.length;
-    };
-    return XMLDriver;
-}());
-exports.XMLDriver = XMLDriver;
-
-
-/***/ }),
 /* 90 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var INDENT_STEP = 4;
-function jsonToXML(data, root) {
-    if (root === void 0) { root = "root"; }
-    var result = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<" + root + ">";
-    for (var i = 0; i < data.length; i++) {
-        result += "\n" + itemToXML(data[i]);
-    }
-    return result + ("\n</" + root + ">");
-}
-exports.jsonToXML = jsonToXML;
-function ws(count) {
-    return " ".repeat(count);
-}
-function itemToXML(item, indent) {
-    if (indent === void 0) { indent = INDENT_STEP; }
-    var result = ws(indent) + "<item>\n";
-    for (var key in item) {
-        if (Array.isArray(item[key])) {
-            result += ws(indent + INDENT_STEP) + ("<" + key + ">\n");
-            result += item[key].map(function (subItem) { return itemToXML(subItem, indent + INDENT_STEP * 2); }).join("\n") + "\n";
-            result += ws(indent + INDENT_STEP) + ("</" + key + ">\n");
-        }
-        else {
-            result += ws(indent + INDENT_STEP) + ("<" + key + ">" + item[key] + "</" + key + ">\n");
-        }
-    }
-    result += ws(indent) + "</item>";
-    return result;
-}
-
-
-/***/ }),
-/* 91 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var helpers_1 = __webpack_require__(18);
-var Sort = /** @class */ (function () {
-    function Sort() {
-    }
-    Sort.prototype.sort = function (array, by) {
-        var _this = this;
-        if (by.rule && typeof by.rule === "function") {
-            this._sort(array, by);
-        }
-        else if (by.by) {
-            by.rule = function (a, b) {
-                var aa = _this._checkVal(by.as, a[by.by]);
-                var bb = _this._checkVal(by.as, b[by.by]);
-                return helpers_1.naturalCompare(aa.toString(), bb.toString());
-            };
-            this._sort(array, by);
-        }
-    };
-    Sort.prototype._checkVal = function (method, val) {
-        return method ? method.call(this, val) : val;
-    };
-    Sort.prototype._sort = function (arr, conf) {
-        var _this = this;
-        var dir = {
-            asc: 1,
-            desc: -1
-        };
-        return arr.sort(function (a, b) {
-            return conf.rule.call(_this, a, b) * (dir[conf.dir] || dir.asc);
-        });
-    };
-    return Sort;
-}());
-exports.Sort = Sort;
-
-
-/***/ }),
-/* 92 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(1);
-var datacollection_1 = __webpack_require__(55);
-var dataproxy_1 = __webpack_require__(25);
-var helpers_1 = __webpack_require__(18);
-var types_1 = __webpack_require__(17);
-function addToOrder(store, obj, parent, index) {
-    if (index !== undefined && index !== -1 && store[parent] && store[parent][index]) {
-        store[parent].splice(index, 0, obj);
-    }
-    else {
-        if (!store[parent]) {
-            store[parent] = [];
-        }
-        store[parent].push(obj);
-    }
-}
-var TreeCollection = /** @class */ (function (_super) {
-    __extends(TreeCollection, _super);
-    function TreeCollection(config, events) {
-        var _a;
-        var _this = _super.call(this, config, events) || this;
-        var root = _this._root = "_ROOT_" + core_1.uid();
-        _this._childs = (_a = {}, _a[root] = [], _a);
-        _this._initChilds = null;
-        return _this;
-    }
-    TreeCollection.prototype.add = function (obj, index, parent) {
-        var _this = this;
-        if (index === void 0) { index = -1; }
-        if (parent === void 0) { parent = this._root; }
-        if (typeof obj !== "object") {
-            obj = {
-                value: obj
-            };
-        }
-        if (Array.isArray(obj)) {
-            obj.map(function (element, key) {
-                if (key > 0 && index !== -1) {
-                    index = index + 1;
-                }
-                element.parent = element.parent ? element.parent.toString() : parent;
-                var id = _super.prototype.add.call(_this, element, index);
-                if (Array.isArray(element.items)) {
-                    for (var _i = 0, _a = element.items; _i < _a.length; _i++) {
-                        var item = _a[_i];
-                        _this.add(item, -1, element.id);
-                    }
-                }
-                return id;
-            });
-        }
-        else {
-            obj.parent = obj.parent ? obj.parent.toString() : parent;
-            var id = _super.prototype.add.call(this, obj, index);
-            if (Array.isArray(obj.items)) {
-                for (var _i = 0, _a = obj.items; _i < _a.length; _i++) {
-                    var item = _a[_i];
-                    this.add(item, -1, obj.id);
-                }
-            }
-            return id;
-        }
-    };
-    TreeCollection.prototype.getRoot = function () {
-        return this._root;
-    };
-    TreeCollection.prototype.getParent = function (id, asObj) {
-        if (asObj === void 0) { asObj = false; }
-        if (!this._pull[id]) {
-            return null;
-        }
-        var parent = this._pull[id].parent;
-        return asObj ? this._pull[parent] : parent;
-    };
-    TreeCollection.prototype.getItems = function (id) {
-        if (this._childs && this._childs[id]) {
-            return this._childs[id];
-        }
-        return [];
-    };
-    TreeCollection.prototype.getLength = function (id) {
-        if (id === void 0) { id = this._root; }
-        if (!this._childs[id]) {
-            return null;
-        }
-        return this._childs[id].length;
-    };
-    TreeCollection.prototype.removeAll = function (id) {
-        var _a;
-        if (id) {
-            var childs = this._childs[id].slice();
-            for (var _i = 0, childs_1 = childs; _i < childs_1.length; _i++) {
-                var child = childs_1[_i];
-                this.remove(child.id);
-            }
-        }
-        else {
-            _super.prototype.removeAll.call(this);
-            var root = this._root;
-            this._initChilds = null;
-            this._childs = (_a = {}, _a[root] = [], _a);
-        }
-    };
-    TreeCollection.prototype.getIndex = function (id) {
-        var parent = this.getParent(id);
-        if (!parent || !this._childs[parent]) {
-            return -1;
-        }
-        return core_1.findIndex(this._childs[parent], function (item) { return item.id === id; });
-    };
-    TreeCollection.prototype.sort = function (by) {
-        var _this = this;
-        if (!by) {
-            this._childs = {};
-            // [dirty]
-            this._parse_data(Object.keys(this._pull).map(function (key) { return _this._pull[key]; }));
-            if (this._filters) {
-                for (var key in this._filters) {
-                    var filter = this._filters[key];
-                    this.filter(filter.rule, filter.config);
-                }
-            }
-        }
-        else {
-            for (var key in this._childs) {
-                this._sort.sort(this._childs[key], by);
-            }
-            if (this._initChilds && Object.keys(this._initChilds).length) {
-                for (var key in this._initChilds) {
-                    this._sort.sort(this._initChilds[key], by);
-                }
-            }
-        }
-        this.events.fire(types_1.DataEvents.change);
-    };
-    TreeCollection.prototype.map = function (cb, parent, direct) {
-        if (parent === void 0) { parent = this._root; }
-        if (direct === void 0) { direct = true; }
-        var result = [];
-        if (!this.haveItems(parent)) {
-            return result;
-        }
-        for (var i = 0; i < this._childs[parent].length; i++) {
-            result.push(cb.call(this, this._childs[parent][i], i));
-            if (direct) {
-                var childResult = this.map(cb, this._childs[parent][i].id, direct);
-                result = result.concat(childResult);
-            }
-        }
-        return result;
-    };
-    TreeCollection.prototype.filter = function (rule, config) {
-        if (config === void 0) { config = {}; }
-        if (!rule) {
-            this.restoreOrder();
-            return;
-        }
-        if (!this._initChilds) {
-            this._initChilds = this._childs;
-        }
-        config.type = config.type || types_1.TreeFilterType.leafs;
-        // [todo] we can store multiple filter rules, like in datacollection
-        this._filters = {};
-        this._filters._ = {
-            rule: rule,
-            config: config
-        };
-        var newChilds = {};
-        this._recursiveFilter(rule, config, this._root, 0, newChilds);
-        var parents = [];
-        var _loop_1 = function (i) {
-            if (newChilds[i].length > 0 && newChilds[i] !== newChilds[this_1.getRoot()]) {
-                var item = newChilds[this_1.getRoot()].find(function (element) {
-                    if (element.id === i) {
-                        return element;
-                    }
-                });
-                if (item) {
-                    parents.push(item);
-                }
-            }
-        };
-        var this_1 = this;
-        for (var i in newChilds) {
-            _loop_1(i);
-        }
-        newChilds[this.getRoot()] = parents;
-        this._childs = newChilds;
-        this.events.fire(types_1.DataEvents.change);
-    };
-    TreeCollection.prototype.restoreOrder = function () {
-        if (this._initChilds) {
-            this._childs = this._initChilds;
-            this._initChilds = null;
-        }
-        this.events.fire(types_1.DataEvents.change);
-    };
-    TreeCollection.prototype.copy = function (id, index, target, targetId) {
-        if (target === void 0) { target = this; }
-        if (targetId === void 0) { targetId = this._root; }
-        if (!this.exists(id)) {
-            return null;
-        }
-        var currentChilds = this._childs[id];
-        if (target === this && !this.canCopy(id, targetId)) {
-            return null;
-        }
-        var itemCopy = helpers_1.copyWithoutInner(this.getItem(id), { items: true });
-        if (target.exists(id)) {
-            itemCopy.id = core_1.uid();
-        }
-        if (!helpers_1.isTreeCollection(target)) {
-            target.add(itemCopy, index);
-            return;
-        }
-        if (this.exists(id)) {
-            itemCopy.parent = targetId;
-            target.add(itemCopy, index);
-            id = itemCopy.id;
-        }
-        if (currentChilds) {
-            for (var _i = 0, currentChilds_1 = currentChilds; _i < currentChilds_1.length; _i++) {
-                var child = currentChilds_1[_i];
-                var childId = child.id;
-                var childIndex = this.getIndex(childId);
-                this.copy(childId, childIndex, target, id);
-            }
-        }
-        return id;
-    };
-    TreeCollection.prototype.move = function (id, index, target, targetId) {
-        if (target === void 0) { target = this; }
-        if (targetId === void 0) { targetId = this._root; }
-        if (!this.exists(id)) {
-            return null;
-        }
-        if (target !== this) {
-            if (!helpers_1.isTreeCollection(target)) { // move to datacollection
-                target.add(helpers_1.copyWithoutInner(this.getItem(id)), index);
-                this.remove(id);
-                return;
-            }
-            var returnId = this.copy(id, index, target, targetId);
-            this.remove(id);
-            return returnId;
-        }
-        // move inside
-        if (!this.canCopy(id, targetId)) {
-            return null;
-        }
-        var parent = this.getParent(id);
-        var parentIndex = this.getIndex(id);
-        // get item from parent array and move to target array
-        var spliced = this._childs[parent].splice(parentIndex, 1)[0];
-        spliced.parent = targetId; // need for next moving, ... not best solution, may be full method for get item
-        if (!this._childs[parent].length) {
-            delete this._childs[parent];
-        }
-        if (!this.haveItems(targetId)) {
-            this._childs[targetId] = [];
-        }
-        if (index === -1) {
-            index = this._childs[targetId].push(spliced);
-        }
-        else {
-            this._childs[targetId].splice(index, 0, spliced);
-        }
-        this.events.fire(types_1.DataEvents.change);
-        return id;
-    };
-    TreeCollection.prototype.eachChild = function (id, cb, direct, checkItem) {
-        if (direct === void 0) { direct = true; }
-        if (checkItem === void 0) { checkItem = function () { return true; }; }
-        if (!this.haveItems(id)) {
-            return;
-        }
-        for (var i = 0; i < this._childs[id].length; i++) {
-            cb.call(this, this._childs[id][i], i);
-            if (direct && checkItem(this._childs[id][i])) {
-                this.eachChild(this._childs[id][i].id, cb, direct, checkItem);
-            }
-        }
-    };
-    TreeCollection.prototype.getNearId = function (id) {
-        return id; // for selection
-    };
-    TreeCollection.prototype.loadItems = function (id, driver) {
-        var _this = this;
-        if (driver === void 0) { driver = "json"; }
-        var url = this.config.autoload + "?id=" + id;
-        var proxy = new dataproxy_1.DataProxy(url);
-        proxy.load().then(function (data) {
-            driver = helpers_1.toDataDriver(driver);
-            data = driver.toJsonArray(data);
-            _this._parse_data(data, id);
-            _this.events.fire(types_1.DataEvents.change);
-        });
-    };
-    TreeCollection.prototype.refreshItems = function (id, driver) {
-        if (driver === void 0) { driver = "json"; }
-        this.removeAll(id);
-        this.loadItems(id, driver);
-    };
-    TreeCollection.prototype.eachParent = function (id, cb, self) {
-        if (self === void 0) { self = false; }
-        var item = this.getItem(id);
-        if (!item) {
-            return;
-        }
-        if (self) {
-            cb.call(this, item);
-        }
-        if (item.parent === this._root) {
-            return;
-        }
-        var parent = this.getItem(item.parent);
-        cb.call(this, parent);
-        this.eachParent(item.parent, cb);
-    };
-    TreeCollection.prototype.haveItems = function (id) {
-        return id in this._childs;
-    };
-    TreeCollection.prototype.canCopy = function (id, target) {
-        if (id === target) {
-            return false;
-        }
-        var canCopy = true;
-        this.eachParent(target, function (item) { return item.id === id ? canCopy = false : null; }); // locate return string
-        return canCopy;
-    };
-    TreeCollection.prototype.serialize = function (driver, checkItem) {
-        if (driver === void 0) { driver = types_1.DataDriver.json; }
-        var data = this._serialize(this._root, checkItem);
-        var dataDriver = helpers_1.toDataDriver(driver);
-        if (dataDriver) {
-            return dataDriver.serialize(data);
-        }
-    };
-    TreeCollection.prototype.getId = function (index, parent) {
-        if (parent === void 0) { parent = this._root; }
-        if (!this._childs[parent] || !this._childs[parent][index]) {
-            return;
-        }
-        return this._childs[parent][index].id;
-    };
-    TreeCollection.prototype._removeAll = function (id) {
-        var _a;
-        if (id) {
-            var childs = this._childs[id].slice();
-            for (var _i = 0, childs_2 = childs; _i < childs_2.length; _i++) {
-                var child = childs_2[_i];
-                this.remove(child.id);
-            }
-        }
-        else {
-            _super.prototype._removeAll.call(this);
-            var root = this._root;
-            this._initChilds = null;
-            this._childs = (_a = {}, _a[root] = [], _a);
-        }
-    };
-    TreeCollection.prototype._removeCore = function (id) {
-        if (this._pull[id]) {
-            var parent_1 = this.getParent(id);
-            this._childs[parent_1] = this._childs[parent_1].filter(function (item) { return item.id !== id; });
-            if (parent_1 !== this._root && !this._childs[parent_1].length) {
-                delete this._childs[parent_1];
-            }
-            if (this._initChilds && this._initChilds[parent_1]) {
-                this._initChilds[parent_1] = this._initChilds[parent_1].filter(function (item) { return item.id !== id; });
-                if (parent_1 !== this._root && !this._initChilds[parent_1].length) {
-                    delete this._initChilds[parent_1];
-                }
-            }
-            this._fastDeleteChilds(this._childs, id);
-            if (this._initChilds) {
-                this._fastDeleteChilds(this._initChilds, id);
-            }
-        }
-    };
-    TreeCollection.prototype._addToOrder = function (_order, obj, index) {
-        var childs = this._childs;
-        var initChilds = this._initChilds;
-        var parent = obj.parent;
-        this._pull[obj.id] = obj;
-        addToOrder(childs, obj, parent, index);
-        if (initChilds) {
-            addToOrder(initChilds, obj, parent, index);
-        }
-    };
-    TreeCollection.prototype._parse_data = function (data, parent) {
-        if (parent === void 0) { parent = this._root; }
-        for (var _i = 0, data_1 = data; _i < data_1.length; _i++) {
-            var obj = data_1[_i];
-            if (this.config.init) {
-                obj = this.config.init(obj);
-            }
-            if (typeof obj !== "object") {
-                obj = {
-                    value: obj
-                };
-            }
-            obj.id = obj.id ? obj.id.toString() : core_1.uid();
-            obj.parent = obj.parent ? obj.parent.toString() : parent;
-            this._pull[obj.id] = obj;
-            if (!this._childs[obj.parent]) {
-                this._childs[obj.parent] = [];
-            }
-            this._childs[obj.parent].push(obj);
-            if (obj.items && obj.items instanceof Object) {
-                this._parse_data(obj.items, obj.id);
-            }
-        }
-    };
-    TreeCollection.prototype._fastDeleteChilds = function (target, id) {
-        if (this._pull[id]) {
-            delete this._pull[id];
-        }
-        if (!target[id]) {
-            return;
-        }
-        for (var i = 0; i < target[id].length; i++) {
-            this._fastDeleteChilds(target, target[id][i].id);
-        }
-        delete target[id];
-    };
-    TreeCollection.prototype._recursiveFilter = function (rule, config, current, level, newChilds) {
-        var _this = this;
-        var childs = this._childs[current];
-        if (!childs) {
-            return;
-        }
-        var condition = function (item) {
-            switch (config.type) {
-                case types_1.TreeFilterType.all: {
-                    return true;
-                }
-                case types_1.TreeFilterType.level: {
-                    return level === config.level;
-                }
-                case types_1.TreeFilterType.leafs: {
-                    return !_this.haveItems(item.id);
-                }
-            }
-        };
-        if (typeof rule === "function") {
-            var customRule = function (item) { return !condition(item) || rule(item); };
-            var filtered = childs.filter(customRule);
-            if (filtered.length) {
-                newChilds[current] = filtered;
-            }
-        }
-        else if (rule.by && rule.match) {
-            var customRule = function (item) { return !condition(item) || item[rule.by].toString().toLowerCase().indexOf(rule.match.toString().toLowerCase()) !== -1; };
-            newChilds[current] = childs.filter(customRule);
-        }
-        for (var _i = 0, childs_3 = childs; _i < childs_3.length; _i++) {
-            var child = childs_3[_i];
-            this._recursiveFilter(rule, config, child.id, level + 1, newChilds);
-        }
-    };
-    TreeCollection.prototype._serialize = function (parent, fn) {
-        var _this = this;
-        if (parent === void 0) { parent = this._root; }
-        return this.map(function (item) {
-            var itemCopy = {};
-            for (var key in item) {
-                if (key === "parent" || key === "items") {
-                    continue;
-                }
-                itemCopy[key] = item[key];
-            }
-            if (fn) {
-                itemCopy = fn(itemCopy);
-            }
-            if (_this.haveItems(item.id)) {
-                itemCopy.items = _this._serialize(item.id, fn);
-            }
-            return itemCopy;
-        }, parent, false);
-    };
-    return TreeCollection;
-}(datacollection_1.DataCollection));
-exports.TreeCollection = TreeCollection;
-
-
-/***/ }),
-/* 93 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var html_1 = __webpack_require__(3);
-var CollectionStore_1 = __webpack_require__(94);
-var types_1 = __webpack_require__(17);
-var helpers_1 = __webpack_require__(18);
-function getPosition(e) {
-    var y = e.clientY;
-    var element = html_1.locateNode(e);
-    if (!element) {
-        return null;
-    }
-    var treeLine = element.childNodes[0];
-    var _a = treeLine.getBoundingClientRect(), top = _a.top, height = _a.height;
-    return (y - top) / height;
-}
-function dragEventContent(element, elements) {
-    var rect = element.getBoundingClientRect();
-    var ghost = document.createElement("div");
-    var clone = element.cloneNode(true);
-    clone.style.width = rect.width + "px";
-    clone.style.height = rect.height + "px";
-    clone.style.maxHeight = rect.height + "px";
-    clone.style.opacity = "0.6";
-    ghost.appendChild(clone);
-    if (elements && elements.length) {
-        elements.forEach(function (node, key) {
-            var nodeClone = node.cloneNode(true);
-            nodeClone.style.width = rect.width + "px";
-            nodeClone.style.height = rect.height + "px";
-            nodeClone.style.maxHeight = rect.height + "px";
-            nodeClone.style.top = ((key + 1) * 12 - rect.height) - (rect.height * key) + "px";
-            nodeClone.style.left = (key + 1) * 12 + "px";
-            nodeClone.style.opacity = "0.6";
-            nodeClone.style.zIndex = "" + (-key - 1);
-            ghost.appendChild(nodeClone);
-        });
-    }
-    ghost.className = "dhx_drag-ghost";
-    ghost.style.position = "absolute";
-    ghost.style.pointerEvents = "none";
-    return ghost;
-}
-var DragManager = /** @class */ (function () {
-    function DragManager() {
-        var _this = this;
-        this._transferData = {};
-        this._canMove = true;
-        this._selectedIds = [];
-        this._onMouseMove = function (e) {
-            if (!_this._transferData.id) {
-                return;
-            }
-            var pageX = e.pageX, pageY = e.pageY;
-            if (!_this._transferData.ghost) {
-                if (Math.abs(_this._transferData.x - pageX) < 3 && Math.abs(_this._transferData.y - pageY) < 3) {
-                    return;
-                }
-                else {
-                    var ghost = _this._onDragStart(_this._transferData.id, _this._transferData.targetId);
-                    if (!ghost) {
-                        _this._endDrop();
-                        return;
-                    }
-                    else {
-                        _this._transferData.ghost = ghost;
-                        document.body.appendChild(_this._transferData.ghost);
-                    }
-                }
-            }
-            _this._moveGhost(pageX, pageY);
-            _this._onDrag(e);
-        };
-        this._onMouseUp = function () {
-            if (!_this._transferData.x) {
-                return;
-            }
-            if (_this._transferData.ghost) {
-                _this._removeGhost();
-                _this._onDrop();
-            }
-            else {
-                _this._endDrop();
-            }
-            document.removeEventListener("mousemove", _this._onMouseMove);
-            document.removeEventListener("mouseup", _this._onMouseUp);
-        };
-    }
-    DragManager.prototype.setItem = function (id, item) {
-        CollectionStore_1.collectionStore.setItem(id, item);
-    };
-    DragManager.prototype.onMouseDown = function (e, selectedIds, itemsForGhost) {
-        if (e.which !== 1) {
-            return;
-        }
-        e.preventDefault();
-        document.addEventListener("mousemove", this._onMouseMove);
-        document.addEventListener("mouseup", this._onMouseUp);
-        var item = html_1.locateNode(e, "dhx_id");
-        var id = item && item.getAttribute("dhx_id");
-        var targetId = html_1.locate(e, "dhx_widget_id");
-        if (selectedIds && selectedIds.indexOf(id) !== -1 && selectedIds.length > 1) {
-            this._selectedIds = selectedIds;
-            this._itemsForGhost = itemsForGhost;
-        }
-        else {
-            this._selectedIds = [];
-            this._itemsForGhost = null;
-        }
-        if (id && targetId) {
-            var _a = html_1.getBox(item), left = _a.left, top_1 = _a.top;
-            this._transferData.initXOffset = e.pageX - left;
-            this._transferData.initYOffset = e.pageY - top_1;
-            this._transferData.x = e.pageX;
-            this._transferData.y = e.pageY;
-            this._transferData.targetId = targetId;
-            this._transferData.id = id;
-            this._transferData.item = item;
-        }
-    };
-    DragManager.prototype._moveGhost = function (x, y) {
-        if (this._transferData.ghost) {
-            this._transferData.ghost.style.left = x - this._transferData.initXOffset + "px";
-            this._transferData.ghost.style.top = y - this._transferData.initYOffset + "px";
-        }
-    };
-    DragManager.prototype._removeGhost = function () {
-        document.body.removeChild(this._transferData.ghost);
-    };
-    DragManager.prototype._onDrop = function () {
-        if (!this._canMove) {
-            this._endDrop();
-            return;
-        }
-        var target = CollectionStore_1.collectionStore.getItem(this._lastCollectionId);
-        var config = target && target.config;
-        if (!target || config.dragMode === types_1.DragMode.source) {
-            this._endDrop();
-            return;
-        }
-        if (target.events.fire(types_1.DragEvents.beforeDrop, [this._lastId, this._transferData.target])) {
-            var to = {
-                id: this._lastId,
-                target: target
-            };
-            var from = {
-                id: this._transferData.id,
-                target: this._transferData.target
-            };
-            this._move(from, to);
-            to.target.events.fire(types_1.DragEvents.dropComplete, [to.id, this._transferData.dropPosition]);
-        }
-        this._endDrop();
-    };
-    DragManager.prototype._onDragStart = function (id, targetId) {
-        var target = CollectionStore_1.collectionStore.getItem(targetId);
-        var config = target.config;
-        if (config.dragMode === types_1.DragMode.target) {
-            return null;
-        }
-        var item = target.data.getItem(id);
-        var ghost = dragEventContent(this._transferData.item, this._itemsForGhost);
-        var ans = target.events.fire(types_1.DragEvents.beforeDrag, [item, ghost]);
-        if (!ans || !id) {
-            return null;
-        }
-        target.events.fire(types_1.DragEvents.dragStart, [id, this._selectedIds]);
-        this._toggleTextSelection(true);
-        this._transferData.target = target;
-        this._transferData.dragConfig = config;
-        return ghost;
-    };
-    DragManager.prototype._onDrag = function (e) {
-        var clientX = e.clientX, clientY = e.clientY;
-        var element = document.elementFromPoint(clientX, clientY);
-        var collectionId = html_1.locate(element, "dhx_widget_id");
-        if (!collectionId) {
-            if (this._canMove) {
-                this._cancelCanDrop();
-            }
-            return;
-        }
-        var target = CollectionStore_1.collectionStore.getItem(collectionId);
-        var id = html_1.locate(element, "dhx_id");
-        if (!id) {
-            this._cancelCanDrop();
-            this._lastCollectionId = collectionId;
-            this._lastId = null;
-            this._canDrop();
-            return;
-        }
-        if (target.config.dropBehaviour === types_1.DropBehaviour.complex) {
-            var pos = getPosition(e);
-            if (pos <= 0.25) {
-                this._transferData.dropPosition = types_1.DropPosition.top;
-            }
-            else if (pos >= 0.75) {
-                this._transferData.dropPosition = types_1.DropPosition.bot;
-            }
-            else {
-                this._transferData.dropPosition = types_1.DropPosition.in;
-            }
-        }
-        else if (this._lastId === id && this._lastCollectionId === collectionId) {
-            return;
-        }
-        var from = {
-            id: this._transferData.id,
-            target: this._transferData.target
-        };
-        if (target.config.dragMode === "source") {
-            return;
-        }
-        from.target.events.fire(types_1.DragEvents.dragOut, [id, target]);
-        if (collectionId !== this._transferData.targetId || !helpers_1.isTreeCollection(from.target.data) ||
-            (helpers_1.isTreeCollection(from.target.data) && from.target.data.canCopy(from.id, id))) {
-            this._cancelCanDrop(); // clear last
-            this._lastId = id;
-            this._lastCollectionId = collectionId;
-            var canMove = from.target.events.fire(types_1.DragEvents.dragIn, [id, this._transferData.dropPosition, CollectionStore_1.collectionStore.getItem(collectionId)]);
-            if (canMove) {
-                this._canDrop();
-            }
-        }
-        else {
-            this._cancelCanDrop();
-        }
-    };
-    DragManager.prototype._move = function (from, to) {
-        var fromData = from.target.data;
-        var toData = to.target.data;
-        var index = 0;
-        var targetId = to.id;
-        var behaviour = helpers_1.isTreeCollection(toData) ? to.target.config.dropBehaviour : undefined;
-        switch (behaviour) {
-            case types_1.DropBehaviour.child:
-                break;
-            case types_1.DropBehaviour.sibling:
-                targetId = toData.getParent(targetId);
-                index = toData.getIndex(to.id) + 1;
-                break;
-            case types_1.DropBehaviour.complex:
-                var dropPosition = this._transferData.dropPosition;
-                if (dropPosition === types_1.DropPosition.top) {
-                    targetId = toData.getParent(targetId);
-                    index = toData.getIndex(to.id);
-                }
-                else if (dropPosition === types_1.DropPosition.bot) {
-                    targetId = toData.getParent(targetId);
-                    index = toData.getIndex(to.id) + 1;
-                }
-                break;
-            default:
-                // list move
-                if (!to.id) {
-                    index = -1;
-                }
-                else if (from.target === to.target && toData.getIndex(from.id) < toData.getIndex(to.id)) {
-                    index = toData.getIndex(to.id) - 1;
-                }
-                else {
-                    index = toData.getIndex(to.id);
-                }
-        }
-        if (this._transferData.dragConfig.dragCopy) {
-            if (this._selectedIds instanceof Array && this._selectedIds.length > 1) {
-                this._selectedIds.map(function (selctedId) {
-                    fromData.copy(selctedId, index, toData, targetId);
-                    if (index > -1) {
-                        index++;
-                    }
-                });
-            }
-            else {
-                fromData.copy(from.id, index, toData, targetId);
-            }
-        }
-        else {
-            if (this._selectedIds instanceof Array && this._selectedIds.length > 1) {
-                this._selectedIds.map(function (selctedId) {
-                    fromData.move(selctedId, index, toData, targetId);
-                    if (index > -1) {
-                        index++;
-                    }
-                });
-            }
-            else {
-                fromData.move(from.id, index, toData, targetId); // typescript bug??
-            }
-        }
-    };
-    DragManager.prototype._endDrop = function () {
-        this._toggleTextSelection(false);
-        if (this._transferData.target) {
-            this._transferData.target.events.fire(types_1.DragEvents.dragEnd, [this._transferData.id, this._selectedIds]);
-        }
-        this._cancelCanDrop();
-        this._canMove = true;
-        this._transferData = {};
-        this._lastId = null;
-        this._lastCollectionId = null;
-    };
-    DragManager.prototype._cancelCanDrop = function () {
-        this._canMove = false;
-        var collection = CollectionStore_1.collectionStore.getItem(this._lastCollectionId);
-        if (collection && this._lastId) {
-            collection.events.fire(types_1.DragEvents.cancelDrop, [this._lastId]);
-        }
-        this._lastCollectionId = null;
-        this._lastId = null;
-    };
-    DragManager.prototype._canDrop = function () {
-        this._canMove = true;
-        var target = CollectionStore_1.collectionStore.getItem(this._lastCollectionId);
-        if (target && this._lastId) {
-            target.events.fire(types_1.DragEvents.canDrop, [this._lastId, this._transferData.dropPosition]);
-        }
-    };
-    DragManager.prototype._toggleTextSelection = function (add) {
-        if (add) {
-            document.body.classList.add("dhx_no-select");
-        }
-        else {
-            document.body.classList.remove("dhx_no-select");
-        }
-    };
-    return DragManager;
-}());
-var dhx = window.dhxHelpers = window.dhxHelpers || {};
-dhx.dragManager = dhx.dragManager || new DragManager();
-exports.dragManager = dhx.dragManager;
-
-
-/***/ }),
-/* 94 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var CollectionStore = /** @class */ (function () {
-    function CollectionStore() {
-        this._store = {};
-    }
-    CollectionStore.prototype.setItem = function (id, target) {
-        this._store[id] = target;
-    };
-    CollectionStore.prototype.getItem = function (id) {
-        if (!this._store[id]) {
-            return null;
-        }
-        return this._store[id];
-    };
-    return CollectionStore;
-}());
-var dhx = window.dhxHelpers = window.dhxHelpers || {};
-dhx.collectionStore = dhx.collectionStore || new CollectionStore();
-exports.collectionStore = dhx.collectionStore;
-
-
-/***/ }),
-/* 95 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var events_1 = __webpack_require__(2);
-var types_1 = __webpack_require__(21);
-var types_2 = __webpack_require__(17);
-var Selection = /** @class */ (function () {
-    function Selection(_config, data, events) {
-        var _this = this;
-        this.events = events || (new events_1.EventSystem(this));
-        this._data = data;
-        this._data.events.on(types_2.DataEvents.removeAll, function () {
-            _this._selected = null;
-        });
-        this._data.events.on(types_2.DataEvents.change, function () {
-            if (_this._selected) {
-                var near = _this._data.getNearId(_this._selected);
-                if (near !== _this._selected) {
-                    _this._selected = null;
-                    if (near) {
-                        _this.add(near);
-                    }
-                }
-            }
-        });
-    }
-    Selection.prototype.getId = function () {
-        return this._selected;
-    };
-    Selection.prototype.getItem = function () {
-        if (this._selected) {
-            return this._data.getItem(this._selected);
-        }
-        return null;
-    };
-    Selection.prototype.remove = function (id) {
-        id = id || this._selected;
-        if (!id) {
-            return true;
-        }
-        if (this.events.fire(types_1.SelectionEvents.beforeUnSelect, [id])) {
-            this._data.update(id, { $selected: false });
-            this._selected = null;
-            this.events.fire(types_1.SelectionEvents.afterUnSelect, [id]);
-            return true;
-        }
-        return false;
-    };
-    Selection.prototype.add = function (id) {
-        if (this._selected === id) {
-            return;
-        }
-        this.remove();
-        if (this.events.fire(types_1.SelectionEvents.beforeSelect, [id])) {
-            this._selected = id;
-            this._data.update(id, { $selected: true });
-            this.events.fire(types_1.SelectionEvents.afterSelect, [id]);
-        }
-    };
-    return Selection;
-}());
-exports.Selection = Selection;
-
-
-/***/ }),
-/* 96 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(1);
-var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
-var scrollView_1 = __webpack_require__(98);
-var view_1 = __webpack_require__(4);
-var ts_data_1 = __webpack_require__(7);
-var ts_layout_1 = __webpack_require__(12);
-var ts_message_1 = __webpack_require__(19);
-var ts_toolbar_1 = __webpack_require__(27);
-var en_1 = __webpack_require__(35);
-var types_1 = __webpack_require__(26);
-var Uploader_1 = __webpack_require__(54);
-var configs_1 = __webpack_require__(116);
-var helper_1 = __webpack_require__(117);
-var ProgressBar_1 = __webpack_require__(118);
-var ReadStackPreview_1 = __webpack_require__(119);
-var Vault = /** @class */ (function (_super) {
-    __extends(Vault, _super);
-    function Vault(container, config) {
-        if (config === void 0) { config = {}; }
-        var _this = _super.call(this, null, core_1.extend({
-            mode: types_1.VaultMode.list,
-            toolbar: true,
-            updateFromResponse: true,
-            scaleFactor: 4,
-            customScroll: true,
-            uploader: {},
-            progressBar: {}
-        }, config)) || this;
-        if (!_this.config.toolbar) {
-            _this.config.uploader.autosend = true;
-        }
-        if (config.data) {
-            _this.data = config.data;
-            _this.events = config.data.events;
-            _this.events.context = _this;
-        }
-        else {
-            _this.events = new events_1.EventSystem(_this);
-            _this.data = new ts_data_1.DataCollection({}, _this.events);
-        }
-        _this.data.config.init = function (obj) {
-            obj.status = obj.status || types_1.FileStatus.uploaded;
-            if (obj.file) {
-                obj.size = obj.file.size;
-                obj.name = obj.file.name;
-            }
-            else {
-                obj.size = obj.size || 0;
-                obj.name = obj.name || "";
-            }
-            if (_this.config.mode === types_1.VaultMode.grid && obj.file && helper_1.isImage(obj)) {
-                _this._readStack.add(obj, _this.uploader.config.autosend);
-            }
-            return obj;
-        };
-        _this._readStack = new ReadStackPreview_1.ReadStackPreview(_this.data);
-        _this.uploader = new Uploader_1.Uploader(_this.config.uploader, _this.data, _this.events);
-        _this._scrollView = new scrollView_1.ScrollView(function () { return _this._vaultView.getRootView(); });
-        _this._progressBar = new ProgressBar_1.ProgressBar(_this.events, _this.config.progressBar);
-        _this.events.on(types_1.UploaderEvents.uploadProgress, function (progress, current, total) { return _this._progressBar.setState(progress, { current: current, total: total }); });
-        _this._initHandlers();
-        _this._initUI(container);
-        _this._initEvents();
-        return _this;
-    }
-    Vault.prototype.destructor = function () {
-        this.toolbar.destructor();
-        this._readStack.stop();
-        this.uploader.unlinkDropArea();
-        this.uploader.abort();
-    };
-    Vault.prototype.getRootView = function () {
-        return this._layout.getRootView();
-    };
-    Vault.prototype._initUI = function (container) {
-        var _this = this;
-        var cfg = this.config.toolbar ? configs_1.layoutConfig : configs_1.layoutConfigWithoutTopbar;
-        cfg.on = this._getDragEvents();
-        var layout = this._layout = new ts_layout_1.Layout(container, cfg);
-        var toolbar = this.toolbar = new ts_toolbar_1.Toolbar(null, { css: "vault-toolbar" });
-        this.toolbar.data.parse([
-            {
-                id: "add",
-                tooltip: en_1.default.add,
-                type: ts_toolbar_1.ItemType.button,
-                icon: "dxi-plus"
-            },
-            {
-                id: "upload",
-                tooltip: en_1.default.upload,
-                type: ts_toolbar_1.ItemType.button,
-                icon: "dxi icon-upload" // Custom Web Font Icon
-            },
-            {
-                id: "spacer",
-                type: ts_toolbar_1.ItemType.spacer
-            },
-            {
-                id: "remove-all",
-                tooltip: en_1.default.clearAll,
-                type: ts_toolbar_1.ItemType.button,
-                icon: "dxi-delete-forever"
-            }
-        ]);
-        this._hideUploadAndDeleteButtons();
-        this._vaultView = view_1.toViewLike(dom_1.create({ render: function () { return _this._draw(); } }));
-        if (this.config.toolbar) {
-            layout.cell("topbar").attach(toolbar);
-        }
-        layout.cell("vault").attach(this._vaultView);
-    };
-    Vault.prototype._initHandlers = function () {
-        var _this = this;
-        this._handlers = {
-            onclick: {
-                ".action-add": function () { return _this.uploader.selectFile(); },
-                ".action-remove-file": function (e) {
-                    var id = html_1.locate(e);
-                    if (!id) {
-                        return;
-                    }
-                    _this.data.update(id, { $toRemove: true });
-                    setTimeout(function () {
-                        _this.data.update(id, { $toRemove: false }, true);
-                        _this.data.remove(id);
-                    }, 200);
-                }
-            },
-            onmouseover: {
-                ".action-download": function (e) {
-                    ts_message_1.tooltip(en_1.default.download, {
-                        node: e.target,
-                        position: ts_message_1.Position.bottom
-                    });
-                },
-                ".action-remove-file": function (e) {
-                    ts_message_1.tooltip(en_1.default.clear, {
-                        node: e.target,
-                        position: ts_message_1.Position.bottom
-                    });
-                },
-                ".title-content, .dhx-file-name": function (e) {
-                    var id = html_1.locate(e);
-                    var item = _this.data.getItem(id);
-                    ts_message_1.tooltip(item.name, {
-                        node: e.target,
-                        position: ts_message_1.Position.bottom,
-                        css: "tooltip-light"
-                    });
-                }
-            }
-        };
-    };
-    Vault.prototype._getDragEvents = function () {
-        var _this = this;
-        var rect = {
-            left: null,
-            top: null,
-            width: null,
-            height: null
-        };
-        return {
-            dragleave: function (e) {
-                if (!_this._canDrop) {
-                    return;
-                }
-                if (e.pageX > rect.left + rect.width - 1 || e.pageX < rect.left || e.pageY > rect.top + rect.height - 1 || e.pageY < rect.top) {
-                    _this._canDrop = false;
-                    if (_this.config.toolbar) {
-                        _this._layout.cell("topbar").show();
-                    }
-                    _this._layout.config.css = "vault-layout";
-                    _this._layout.paint();
-                }
-            },
-            dragenter: function (e) {
-                e.preventDefault();
-                if (_this.uploader.isActive || _this._canDrop) {
-                    return;
-                }
-                var types = e.dataTransfer.types;
-                for (var _i = 0, types_2 = types; _i < types_2.length; _i++) {
-                    var type = types_2[_i];
-                    if (type !== "Files" && type !== "application/x-moz-file") {
-                        _this._canDrop = false;
-                        return;
-                    }
-                }
-                _this._canDrop = true;
-                var clientRect = _this.getRootView().node.el.getBoundingClientRect();
-                rect.left = clientRect.left + window.pageXOffset;
-                rect.top = clientRect.top + window.pageYOffset;
-                rect.width = clientRect.width;
-                rect.height = clientRect.height;
-                _this._canDrop = true;
-                if (_this.config.toolbar) {
-                    _this._layout.cell("topbar").hide();
-                }
-                _this._layout.config.css = "vault-layout dhx-dragin";
-                _this._layout.paint();
-            },
-            dragover: function (e) {
-                e.preventDefault();
-            },
-            drop: function (e) {
-                e.preventDefault();
-                if (!_this._canDrop) {
-                    return;
-                }
-                var dataTransfer = e.dataTransfer;
-                _this.uploader.parseFiles(dataTransfer);
-                _this._canDrop = false;
-                if (_this.config.toolbar) {
-                    _this._layout.cell("topbar").show();
-                }
-                _this._layout.config.css = "vault-layout";
-                _this._layout.paint();
-            }
-        };
-    };
-    Vault.prototype._hideUploadAndDeleteButtons = function () {
-        this.toolbar.hide(["upload", "remove-all"]);
-    };
-    Vault.prototype._showUploadAndDeleteButtons = function () {
-        if (this.uploader.config.autosend) {
-            this.toolbar.show("remove-all");
-        }
-        else {
-            this.toolbar.show(["upload", "remove-all"]);
-        }
-    };
-    Vault.prototype._initEvents = function () {
-        var _this = this;
-        this.data.events.on(ts_data_1.DataEvents.change, function () {
-            if (!_this.data.getLength()) {
-                _this._hideUploadAndDeleteButtons();
-            }
-            else {
-                _this._showUploadAndDeleteButtons();
-            }
-            _this._vaultView.paint();
-        });
-        this.events.on(types_1.UploaderEvents.uploadBegin, function () {
-            if (_this.config.toolbar) {
-                _this._layout.cell("topbar").attach(_this._progressBar);
-            }
-        });
-        this.events.on(types_1.UploaderEvents.uploadComplete, function () {
-            if (_this.config.mode === types_1.VaultMode.grid && _this.uploader.config.autosend) {
-                _this._readStack.read();
-            }
-            if (_this.config.toolbar) {
-                _this._layout.cell("topbar").attach(_this.toolbar);
-            }
-        });
-        this.toolbar.events.on(ts_toolbar_1.NavigationBarEvents.click, function (id) {
-            switch (id) {
-                case "add":
-                    _this.uploader.selectFile();
-                    break;
-                case "remove-all":
-                    _this.data.removeAll();
-                    break;
-                case "upload":
-                    _this.uploader.send();
-                    break;
-            }
-        });
-        this.events.on(types_1.ProgressBarEvents.cancel, function () {
-            _this.uploader.abort();
-            _this._vaultView.paint();
-        });
-    };
-    Vault.prototype._draw = function () {
-        var isEmpty = !this.data.getLength();
-        var files = this.config.mode === types_1.VaultMode.grid ? this._drawGrid() : this._drawList();
-        return dom_1.el("div", __assign({ class: "vault dhx_widget" + (this._canDrop ? " drop-here" : "") }, this._handlers, { dhx_widget_id: this._uid }), [
-            this._canDrop || isEmpty ? this._drawDropableArea() :
-                this.config.customScroll ? this._scrollView.render(files) : files
-        ]);
-    };
-    Vault.prototype._getFileActions = function (file) {
-        var defaultActions = [];
-        var hoverActions = [];
-        var actions = [
-            dom_1.el(".dhx-default-actions", defaultActions),
-            dom_1.el(".dhx-hover-actions", hoverActions)
-        ];
-        if (file.status === types_1.FileStatus.inprogress) {
-            return actions;
-        }
-        if (file.status !== types_1.FileStatus.failed && file.link) {
-            var link = (this.config.downloadURL || "") + file.link;
-            var downloadName = link.split("/").pop().split("?")[0];
-            var download = dom_1.el("a", {
-                download: downloadName,
-                class: "download-link",
-                href: link
-            }, [
-                dom_1.el(".icon-btn.dxi.dxi-download.action-download")
-            ]);
-            hoverActions.push(download);
-        }
-        var remove = dom_1.el(".icon-btn.dxi.dxi-delete-forever.action-remove-file");
-        hoverActions.push(remove);
-        if (file.status === types_1.FileStatus.failed) {
-            var warn = dom_1.el(".dxi.dxi-alert-circle.warning-status");
-            defaultActions.push(warn);
-        }
-        if (file.status === types_1.FileStatus.uploaded) {
-            var uploadComplete = dom_1.el(".dxi.dxi-checkbox-marked-circle.uploaded-status");
-            defaultActions.push(uploadComplete);
-        }
-        return actions;
-    };
-    Vault.prototype._drawList = function () {
-        var _this = this;
-        return dom_1.el(".dhx-files-block.dhx-webkit-scroll", this.data.map(function (item) {
-            var isError = item.status === types_1.FileStatus.failed && item.request;
-            var inProgress = item.status === types_1.FileStatus.inprogress;
-            var inQueue = item.status === types_1.FileStatus.queue;
-            var notUploaded = item.status !== types_1.FileStatus.uploaded;
-            return dom_1.el("div", {
-                class: "dhx-file-item" + (item.$toRemove ? " to-remove" : "") + (inQueue ? " in-queue" : ""),
-                dhx_id: item.id,
-                _key: item.id
-            }, [
-                dom_1.el(".dhx-file-icon", [
-                    dom_1.el("div", {
-                        class: "dhx-file-type " + helper_1.getFileClassName(item) + (notUploaded ? " not-loaded" : "")
-                    })
-                ]),
-                dom_1.el(".dhx-file-title", [
-                    dom_1.el(".dhx-title-content", item.name),
-                    dom_1.el(".dhx-file-info", [
-                        isError && dom_1.el(".warn-message", item.request.statusText || en_1.default.error),
-                        inProgress ? dom_1.el(".progress-value", (item.progress * 100).toFixed(1) + "%")
-                            : dom_1.el(".dhx-size" + (isError && ".dhx-size-error" || ""), helper_1.getBasis(item.size))
-                    ])
-                ]),
-                inProgress && dom_1.el(".dhx-download-progress", {
-                    style: {
-                        width: (item.progress * 100).toFixed(1) + "%"
-                    }
-                }),
-                !inProgress && dom_1.el(".dhx-file-action", _this._getFileActions(item))
-            ]);
-        }));
-    };
-    Vault.prototype._drawDropableArea = function () {
-        return dom_1.el(".dhx-dropable-area.drop-files-here", [
-            dom_1.el(".dhx-big-icon-block", [
-                dom_1.el(".dxi.icon-upload") // Custom Web Font Icon
-            ]),
-            !this._canDrop && dom_1.el(".drop-area-bold-text", en_1.default.dragAndDrop),
-            !this._canDrop && dom_1.el(".drop-area-bold-text", en_1.default.filesOrFoldersHere),
-            !this._canDrop && dom_1.el(".drop-area-light-text", en_1.default.or),
-            !this._canDrop && dom_1.el("button.dhx_btn.dhx_btn--flat.dhx_btn--small.action-add", en_1.default.browse)
-        ]);
-    };
-    Vault.prototype._drawGrid = function () {
-        var _this = this;
-        return dom_1.el("div", {
-            class: "dhx-files-grid dhx-webkit-scroll"
-        }, [
-            dom_1.el(".dhx-grid-content", this.data.map(function (item) {
-                var inProgress = item.status === types_1.FileStatus.inprogress;
-                var inQueue = item.status === types_1.FileStatus.queue;
-                var isError = item.status === types_1.FileStatus.failed;
-                return dom_1.el("div", {
-                    class: "dhx-file-grid-item" + (inProgress ? " in-progress" : "")
-                        + (item.$toRemove ? " to-remove" : "") + (inQueue ? " in-queue" : "") + (isError ? " failed" : ""),
-                    dhx_id: item.id,
-                    _key: item.id
-                }, [
-                    dom_1.el(".dhx-preview-wrapper", [
-                        item.preview ? dom_1.el(".dhx-server-file-preview", [
-                            dom_1.el("img", { src: item.preview })
-                        ]) :
-                            item.image ? dom_1.el("canvas", {
-                                width: 98 * _this.config.scaleFactor,
-                                height: 98 * _this.config.scaleFactor,
-                                _hooks: {
-                                    didInsert: function (node) {
-                                        var _a = helper_1.calculateCover(item.image), dx = _a.dx, dy = _a.dy, sx = _a.sx, sy = _a.sy, sHeight = _a.sHeight, sWidth = _a.sWidth;
-                                        var ctx = node.el.getContext("2d");
-                                        ctx.drawImage(item.image, sx, sy, sWidth, sHeight, dx, dy, 98 * _this.config.scaleFactor, 98 * _this.config.scaleFactor);
-                                    }
-                                }
-                            }) : dom_1.el("div", {
-                                class: "dhx-file-preview dhx-file-type " + helper_1.getFileClassName(item)
-                            }),
-                        inProgress && _this._drawCircle(item.progress)
-                    ].concat(_this._getFileActions(item), [
-                        dom_1.el(".dhx-file-info", [
-                            isError && dom_1.el(".warn-message", item.request.statusText || en_1.default.error),
-                            !inProgress && dom_1.el(".dhx-size" + (isError && ".dhx-size-error" || ""), helper_1.getBasis(item.size))
-                        ])
-                    ])),
-                    dom_1.el(".dhx-file-name", helper_1.truncateWord(item.name))
-                ]);
-            }))
-        ]);
-    };
-    Vault.prototype._drawCircle = function (progress) {
-        return dom_1.el(".progress-layout", [
-            dom_1.el(".progress-amount", (progress * 100).toFixed(1) + "%"),
-            dom_1.sv("svg", {
-                xmlns: "http://www.w3.org/2000/svg",
-                class: "progress-circle",
-                viewBox: "0 0 60 60",
-            }, [
-                dom_1.sv("circle", {
-                    "cx": 30,
-                    "cy": 30,
-                    "r": 28,
-                    "stroke-width": 4,
-                    "class": "progress-bar-background",
-                }),
-                dom_1.sv("circle.active-circle", {
-                    "cx": 30,
-                    "cy": 30,
-                    "r": 28,
-                    "stroke-width": 4,
-                    "stroke-dasharray": "175.9 175.9",
-                    "stroke-dashoffset": (1 - progress) * 175.9,
-                    "class": "progress-bar-active",
-                }),
-            ])
-        ]);
-    };
-    return Vault;
-}(view_1.View));
-exports.Vault = Vault;
-
-
-/***/ }),
-/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -10871,7 +10054,1934 @@ return nano;
 
 
 /***/ }),
+/* 91 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Promise) {
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var helpers_1 = __webpack_require__(16);
+var types_1 = __webpack_require__(15);
+var Loader = /** @class */ (function () {
+    function Loader(parent, changes) {
+        this._parent = parent;
+        this._changes = changes; // todo: [dirty] mutation
+    }
+    Loader.prototype.load = function (url, driver) {
+        var _this = this;
+        // TODO: change way for checking lazyLoad
+        if (url.config && !this._parent.events.fire(types_1.DataEvents.beforeLazyLoad, [])) {
+            return;
+        }
+        return this._parent.loadData = url.load().then(function (data) {
+            if (data) {
+                return _this.parse(data, driver);
+            }
+            else {
+                return [];
+            }
+        }).catch(function (error) {
+            _this._parent.events.fire(types_1.DataEvents.loadError, [error]);
+        });
+    };
+    Loader.prototype.parse = function (data, driver) {
+        var _this = this;
+        if (driver === void 0) { driver = "json"; }
+        if (driver === "json" && !helpers_1.hasJsonOrArrayStructure(data)) {
+            this._parent.events.fire(types_1.DataEvents.loadError, ["Uncaught SyntaxError: Unexpected end of input"]);
+        }
+        driver = helpers_1.toDataDriver(driver);
+        data = driver.toJsonArray(data);
+        if (!(data instanceof Array)) {
+            var totalCount = data.total_count - 1;
+            var from_1 = data.from;
+            data = data.data;
+            if (this._parent.getLength() === 0) {
+                var newData = [];
+                for (var i = 0, j = 0; i <= totalCount; i++) {
+                    if (i >= from_1 && i <= (from_1 + data.length - 1)) {
+                        newData.push(data[j]);
+                        j++;
+                    }
+                    else {
+                        newData.push({ $empty: true });
+                    }
+                }
+                data = newData;
+            }
+            else {
+                data.forEach(function (newItem, i) {
+                    var index = from_1 + i;
+                    var oldId = _this._parent.getId(index);
+                    if (oldId) {
+                        var emptyItem = _this._parent.getItem(oldId);
+                        if (emptyItem && emptyItem.$empty) {
+                            _this._parent.changeId(oldId, newItem.id, true);
+                            _this._parent.update(newItem.id, __assign(__assign({}, newItem), { $empty: undefined }), true);
+                        }
+                    }
+                    else {
+                        helpers_1.dhxWarning("item not found");
+                    }
+                });
+                this._parent.events.fire(types_1.DataEvents.afterLazyLoad, [from_1, data.length]);
+                this._parent.events.fire(types_1.DataEvents.change);
+                return data;
+            }
+        }
+        if (!!this._parent.getInitialData()) {
+            this._parent.removeAll();
+        }
+        this._parent.$parse(data);
+        return data;
+    };
+    Loader.prototype.save = function (url) {
+        var _this = this;
+        var _loop_1 = function (el) {
+            if (el.saving || el.pending) {
+                helpers_1.dhxWarning("item is saving");
+            }
+            else {
+                var prevEl_1 = this_1._findPrevState(el.id);
+                if (prevEl_1 && prevEl_1.saving) {
+                    var pending = new Promise(function (res, rej) {
+                        prevEl_1.promise.then(function () {
+                            el.pending = false;
+                            res(_this._setPromise(el, url));
+                        }).catch(function (err) {
+                            _this._removeFromOrder(prevEl_1);
+                            _this._setPromise(el, url);
+                            helpers_1.dhxWarning(err);
+                            rej(err);
+                        });
+                    });
+                    this_1._addToChain(pending);
+                    el.pending = true;
+                }
+                else {
+                    this_1._setPromise(el, url);
+                }
+            }
+        };
+        var this_1 = this;
+        for (var _i = 0, _a = this._changes.order; _i < _a.length; _i++) {
+            var el = _a[_i];
+            _loop_1(el);
+        }
+        this._parent.saveData.then(function () {
+            _this._saving = false;
+        });
+    };
+    Loader.prototype._setPromise = function (el, url) {
+        var _this = this;
+        el.promise = url.save(el.obj, el.status);
+        el.promise.then(function () {
+            _this._removeFromOrder(el);
+        }).catch(function (err) {
+            el.saving = false;
+            el.error = true;
+            helpers_1.dhxError(err);
+        });
+        el.saving = true;
+        this._saving = true;
+        this._addToChain(el.promise);
+        return el.promise;
+    };
+    Loader.prototype._addToChain = function (promise) {
+        // tslint:disable-next-line:prefer-conditional-expression
+        if (this._parent.saveData && this._saving) {
+            this._parent.saveData = this._parent.saveData.then(function () { return promise; });
+        }
+        else {
+            this._parent.saveData = promise;
+        }
+    };
+    Loader.prototype._findPrevState = function (id) {
+        for (var _i = 0, _a = this._changes.order; _i < _a.length; _i++) {
+            var el = _a[_i];
+            if (el.id === id) {
+                return el;
+            }
+        }
+        return null;
+    };
+    Loader.prototype._removeFromOrder = function (el) {
+        this._changes.order = this._changes.order.filter(function (item) { return !helpers_1.isEqualObj(item, el); });
+    };
+    return Loader;
+}());
+exports.Loader = Loader;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(12)))
+
+/***/ }),
+/* 92 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var xml_1 = __webpack_require__(93);
+var ARRAY_NAME = "items";
+var ITEM_NAME = "item";
+// convert xml tag to js object, all subtags and attributes are mapped to the properties of result object
+function tagToObject(tag, initialObj) {
+    initialObj = initialObj || {};
+    // map attributes
+    var a = tag.attributes;
+    if (a && a.length) {
+        for (var i = 0; i < a.length; i++) {
+            initialObj[a[i].name] = a[i].value;
+        }
+    }
+    // map subtags
+    var b = tag.childNodes;
+    for (var i = 0; i < b.length; i++) {
+        if (b[i].nodeType === 1) {
+            var name_1 = b[i].tagName;
+            if (initialObj[name_1]) {
+                if (typeof initialObj[name_1].push !== "function") {
+                    initialObj[name_1] = [initialObj[name_1]];
+                }
+                initialObj[name_1].push(tagToObject(b[i], {}));
+            }
+            else {
+                initialObj[name_1] = tagToObject(b[i], {}); // sub-object for complex subtags
+            }
+        }
+    }
+    return initialObj;
+}
+var XMLDriver = /** @class */ (function () {
+    function XMLDriver() {
+    }
+    XMLDriver.prototype.toJsonArray = function (data) {
+        return this.getRows(data);
+    };
+    XMLDriver.prototype.toJsonObject = function (data) {
+        var doc;
+        if (typeof data === "string") {
+            doc = this._fromString(data);
+        }
+        return tagToObject(doc);
+    };
+    XMLDriver.prototype.serialize = function (data) {
+        return xml_1.jsonToXML(data);
+    };
+    XMLDriver.prototype.getFields = function (row) {
+        return row;
+    };
+    XMLDriver.prototype.getRows = function (data) {
+        if (typeof data === "string") {
+            data = this._fromString(data);
+        }
+        if (data) {
+            var childNodes = data.childNodes && data.childNodes[0] && data.childNodes[0].childNodes;
+            if (!childNodes || !childNodes.length) {
+                return null;
+            }
+            return this._getRows(childNodes);
+        }
+        return [];
+    };
+    XMLDriver.prototype._getRows = function (nodes) {
+        var result = [];
+        for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].tagName === ITEM_NAME) {
+                result.push(this._nodeToJS(nodes[i]));
+            }
+        }
+        return result;
+    };
+    XMLDriver.prototype._fromString = function (data) {
+        try {
+            return (new DOMParser()).parseFromString(data, "text/xml");
+        }
+        catch (_a) {
+            return null;
+        }
+    };
+    XMLDriver.prototype._nodeToJS = function (node) {
+        var result = {};
+        if (this._haveAttrs(node)) {
+            var attrs = node.attributes;
+            for (var i = 0; i < attrs.length; i++) {
+                var _a = attrs[i], name_2 = _a.name, value = _a.value;
+                result[name_2] = this._toType(value);
+            }
+        }
+        if (node.nodeType === 3) {
+            result.value = result.value || this._toType(node.textContent);
+            return result;
+        }
+        var childNodes = node.childNodes;
+        if (childNodes) {
+            for (var i = 0; i < childNodes.length; i++) {
+                var subNode = childNodes[i];
+                var tag = subNode.tagName;
+                if (!tag) {
+                    continue;
+                }
+                if (tag === ARRAY_NAME && subNode.childNodes) {
+                    result[tag] = this._getRows(subNode.childNodes);
+                }
+                else {
+                    if (this._haveAttrs(subNode)) {
+                        result[tag] = this._nodeToJS(subNode);
+                    }
+                    else {
+                        result[tag] = this._toType(subNode.textContent);
+                    }
+                }
+            }
+        }
+        return result;
+    };
+    XMLDriver.prototype._toType = function (val) {
+        if (val === "false" || val === "true") {
+            return val === "true";
+        }
+        if (!isNaN(val)) {
+            return Number(val);
+        }
+        return val;
+    };
+    XMLDriver.prototype._haveAttrs = function (node) {
+        return node.attributes && node.attributes.length;
+    };
+    return XMLDriver;
+}());
+exports.XMLDriver = XMLDriver;
+
+
+/***/ }),
+/* 93 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var INDENT_STEP = 4;
+function jsonToXML(data, root) {
+    if (root === void 0) { root = "root"; }
+    var result = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<" + root + ">";
+    for (var i = 0; i < data.length; i++) {
+        result += "\n" + itemToXML(data[i]);
+    }
+    return result + ("\n</" + root + ">");
+}
+exports.jsonToXML = jsonToXML;
+function ws(count) {
+    return " ".repeat(count);
+}
+function itemToXML(item, indent) {
+    if (indent === void 0) { indent = INDENT_STEP; }
+    var result = ws(indent) + "<item>\n";
+    for (var key in item) {
+        if (Array.isArray(item[key])) {
+            result += ws(indent + INDENT_STEP) + ("<" + key + ">\n");
+            result += item[key].map(function (subItem) { return itemToXML(subItem, indent + INDENT_STEP * 2); }).join("\n") + "\n";
+            result += ws(indent + INDENT_STEP) + ("</" + key + ">\n");
+        }
+        else {
+            result += ws(indent + INDENT_STEP) + ("<" + key + ">" + item[key] + "</" + key + ">\n");
+        }
+    }
+    result += ws(indent) + "</item>";
+    return result;
+}
+
+
+/***/ }),
+/* 94 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var helpers_1 = __webpack_require__(16);
+var Sort = /** @class */ (function () {
+    function Sort() {
+    }
+    Sort.prototype.sort = function (array, by) {
+        var _this = this;
+        if (by.rule && typeof by.rule === "function") {
+            this._sort(array, by);
+        }
+        else if (by.by) {
+            by.rule = function (a, b) {
+                var aa = _this._checkVal(by.as, a[by.by]);
+                var bb = _this._checkVal(by.as, b[by.by]);
+                return helpers_1.naturalCompare(aa.toString(), bb.toString());
+            };
+            this._sort(array, by);
+        }
+    };
+    Sort.prototype._checkVal = function (method, val) {
+        return method ? method.call(this, val) : val;
+    };
+    Sort.prototype._sort = function (arr, conf) {
+        var _this = this;
+        var dir = {
+            asc: 1,
+            desc: -1
+        };
+        return arr.sort(function (a, b) {
+            return conf.rule.call(_this, a, b) * (dir[conf.dir] || dir.asc);
+        });
+    };
+    return Sort;
+}());
+exports.Sort = Sort;
+
+
+/***/ }),
+/* 95 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(1);
+var datacollection_1 = __webpack_require__(57);
+var dataproxy_1 = __webpack_require__(21);
+var helpers_1 = __webpack_require__(16);
+var types_1 = __webpack_require__(15);
+function addToOrder(store, obj, parent, index) {
+    if (index !== undefined && index !== -1 && store[parent] && store[parent][index]) {
+        store[parent].splice(index, 0, obj);
+    }
+    else {
+        if (!store[parent]) {
+            store[parent] = [];
+        }
+        store[parent].push(obj);
+    }
+}
+var TreeCollection = /** @class */ (function (_super) {
+    __extends(TreeCollection, _super);
+    function TreeCollection(config, events) {
+        var _a;
+        var _this = _super.call(this, config, events) || this;
+        var root = _this._root = "_ROOT_" + core_1.uid();
+        _this._childs = (_a = {}, _a[root] = [], _a);
+        _this._initChilds = null;
+        return _this;
+    }
+    TreeCollection.prototype.add = function (obj, index, parent) {
+        var _this = this;
+        if (index === void 0) { index = -1; }
+        if (parent === void 0) { parent = this._root; }
+        if (typeof obj !== "object") {
+            obj = {
+                value: obj
+            };
+        }
+        if (Array.isArray(obj)) {
+            return obj.map(function (element, key) {
+                return _this._add(element, index, parent, key);
+            });
+        }
+        else {
+            return this._add(obj, index, parent);
+        }
+    };
+    TreeCollection.prototype.getRoot = function () {
+        return this._root;
+    };
+    TreeCollection.prototype.getParent = function (id, asObj) {
+        if (asObj === void 0) { asObj = false; }
+        if (!this._pull[id]) {
+            return null;
+        }
+        var parent = this._pull[id].parent;
+        return asObj ? this._pull[parent] : parent;
+    };
+    TreeCollection.prototype.getItems = function (id) {
+        if (this._childs && this._childs[id]) {
+            return this._childs[id];
+        }
+        return [];
+    };
+    TreeCollection.prototype.getLength = function (id) {
+        if (id === void 0) { id = this._root; }
+        if (!this._childs[id]) {
+            return null;
+        }
+        return this._childs[id].length;
+    };
+    TreeCollection.prototype.removeAll = function (id) {
+        var _a;
+        if (id) {
+            var childs = __spreadArrays(this._childs[id]);
+            for (var _i = 0, childs_1 = childs; _i < childs_1.length; _i++) {
+                var child = childs_1[_i];
+                this.remove(child.id);
+            }
+        }
+        else {
+            _super.prototype.removeAll.call(this);
+            var root = this._root;
+            this._initChilds = null;
+            this._childs = (_a = {}, _a[root] = [], _a);
+        }
+    };
+    TreeCollection.prototype.getIndex = function (id) {
+        var parent = this.getParent(id);
+        if (!parent || !this._childs[parent]) {
+            return -1;
+        }
+        return core_1.findIndex(this._childs[parent], function (item) { return item.id === id; });
+    };
+    TreeCollection.prototype.sort = function (by) {
+        var _this = this;
+        if (!by) {
+            this._childs = {};
+            // [dirty]
+            this._parse_data(Object.keys(this._pull).map(function (key) { return _this._pull[key]; }));
+            if (this._filters) {
+                for (var key in this._filters) {
+                    var filter = this._filters[key];
+                    this.filter(filter.rule, filter.config);
+                }
+            }
+        }
+        else {
+            for (var key in this._childs) {
+                this._sort.sort(this._childs[key], by);
+            }
+            if (this._initChilds && Object.keys(this._initChilds).length) {
+                for (var key in this._initChilds) {
+                    this._sort.sort(this._initChilds[key], by);
+                }
+            }
+        }
+        this.events.fire(types_1.DataEvents.change);
+    };
+    TreeCollection.prototype.filter = function (rule, config) {
+        var _this = this;
+        if (config === void 0) { config = {}; }
+        if (!rule) {
+            this.restoreOrder();
+            return;
+        }
+        if (!this._initChilds) {
+            this._initChilds = this._childs;
+        }
+        config.type = config.type || types_1.TreeFilterType.all;
+        // [todo] we can store multiple filter rules, like in datacollection
+        this._filters = {};
+        this._filters._ = {
+            rule: rule,
+            config: config
+        };
+        var newChilds = {};
+        this._recursiveFilter(rule, config, this._root, 0, newChilds);
+        Object.keys(newChilds).forEach(function (key) {
+            var parentId = _this.getParent(key);
+            var current = _this.getItem(key);
+            while (parentId) {
+                if (!newChilds[parentId]) {
+                    newChilds[parentId] = [];
+                }
+                if (current && !newChilds[parentId].find(function (x) { return x.id === current.id; })) {
+                    newChilds[parentId].push(current);
+                }
+                current = _this.getItem(parentId);
+                parentId = _this.getParent(parentId);
+            }
+        });
+        this._childs = newChilds;
+        this.events.fire(types_1.DataEvents.change);
+    };
+    TreeCollection.prototype.restoreOrder = function () {
+        if (this._initChilds) {
+            this._childs = this._initChilds;
+            this._initChilds = null;
+        }
+        this.events.fire(types_1.DataEvents.change);
+    };
+    TreeCollection.prototype.copy = function (id, index, target, targetId) {
+        var _this = this;
+        if (target === void 0) { target = this; }
+        if (targetId === void 0) { targetId = this._root; }
+        if (id instanceof Array) {
+            return id.map(function (elementId, key) {
+                return _this._copy(elementId, index, target, targetId, key);
+            });
+        }
+        else {
+            return this._copy(id, index, target, targetId);
+        }
+    };
+    TreeCollection.prototype.move = function (id, index, target, targetId) {
+        var _this = this;
+        if (target === void 0) { target = this; }
+        if (targetId === void 0) { targetId = this._root; }
+        if (id instanceof Array) {
+            return id.map(function (elementId, key) {
+                return _this._move(elementId, index, target, targetId, key);
+            });
+        }
+        else {
+            return this._move(id, index, target, targetId);
+        }
+    };
+    TreeCollection.prototype.forEach = function (cb, parent, level) {
+        if (parent === void 0) { parent = this._root; }
+        if (level === void 0) { level = Infinity; }
+        if (!this.haveItems(parent) || (level < 1)) {
+            return;
+        }
+        var array = this._childs[parent];
+        for (var i = 0; i < array.length; i++) {
+            cb.call(this, array[i], i, array);
+            if (this.haveItems(array[i].id)) {
+                this.forEach(cb, array[i].id, --level);
+            }
+        }
+    };
+    TreeCollection.prototype.eachChild = function (id, cb, direct, checkItem) {
+        if (direct === void 0) { direct = true; }
+        if (checkItem === void 0) { checkItem = function () { return true; }; }
+        if (!this.haveItems(id)) {
+            return;
+        }
+        for (var i = 0; i < this._childs[id].length; i++) {
+            cb.call(this, this._childs[id][i], i);
+            if (direct && checkItem(this._childs[id][i])) {
+                this.eachChild(this._childs[id][i].id, cb, direct, checkItem);
+            }
+        }
+    };
+    TreeCollection.prototype.getNearId = function (id) {
+        return id; // for selection
+    };
+    TreeCollection.prototype.loadItems = function (id, driver) {
+        var _this = this;
+        if (driver === void 0) { driver = "json"; }
+        var url = this.config.autoload + "?id=" + id;
+        var proxy = new dataproxy_1.DataProxy(url);
+        proxy.load().then(function (data) {
+            driver = helpers_1.toDataDriver(driver);
+            data = driver.toJsonArray(data);
+            _this._parse_data(data, id);
+            _this.events.fire(types_1.DataEvents.change);
+        });
+    };
+    TreeCollection.prototype.refreshItems = function (id, driver) {
+        if (driver === void 0) { driver = "json"; }
+        this.removeAll(id);
+        this.loadItems(id, driver);
+    };
+    TreeCollection.prototype.eachParent = function (id, cb, self) {
+        if (self === void 0) { self = false; }
+        var item = this.getItem(id);
+        if (!item) {
+            return;
+        }
+        if (self) {
+            cb.call(this, item);
+        }
+        if (item.parent === this._root) {
+            return;
+        }
+        var parent = this.getItem(item.parent);
+        cb.call(this, parent);
+        this.eachParent(item.parent, cb);
+    };
+    TreeCollection.prototype.haveItems = function (id) {
+        return id in this._childs;
+    };
+    TreeCollection.prototype.canCopy = function (id, target) {
+        if (id === target) {
+            return false;
+        }
+        var canCopy = true;
+        this.eachParent(target, function (item) { return item.id === id ? canCopy = false : null; }); // locate return string
+        return canCopy;
+    };
+    TreeCollection.prototype.serialize = function (driver, checkItem) {
+        if (driver === void 0) { driver = types_1.DataDriver.json; }
+        var data = this._serialize(this._root, checkItem);
+        var dataDriver = helpers_1.toDataDriver(driver);
+        if (dataDriver) {
+            return dataDriver.serialize(data);
+        }
+    };
+    TreeCollection.prototype.getId = function (index, parent) {
+        if (parent === void 0) { parent = this._root; }
+        if (!this._childs[parent] || !this._childs[parent][index]) {
+            return;
+        }
+        return this._childs[parent][index].id;
+    };
+    // Non public API from suite_6.4
+    TreeCollection.prototype.map = function (cb, parent, direct) {
+        if (parent === void 0) { parent = this._root; }
+        if (direct === void 0) { direct = true; }
+        var result = [];
+        if (!this.haveItems(parent)) {
+            return result;
+        }
+        for (var i = 0; i < this._childs[parent].length; i++) {
+            result.push(cb.call(this, this._childs[parent][i], i, this._childs));
+            if (direct) {
+                var childResult = this.map(cb, this._childs[parent][i].id, direct);
+                result = result.concat(childResult);
+            }
+        }
+        return result;
+    };
+    TreeCollection.prototype._add = function (obj, index, parent, key) {
+        if (index === void 0) { index = -1; }
+        if (parent === void 0) { parent = this._root; }
+        obj.parent = obj.parent ? obj.parent.toString() : parent;
+        if (key > 0 && index !== -1) {
+            index = index + 1;
+        }
+        var id = _super.prototype._add.call(this, obj, index);
+        if (Array.isArray(obj.items)) {
+            for (var _i = 0, _a = obj.items; _i < _a.length; _i++) {
+                var item = _a[_i];
+                this.add(item, -1, obj.id);
+            }
+        }
+        return id;
+    };
+    TreeCollection.prototype._copy = function (id, index, target, targetId, key) {
+        if (target === void 0) { target = this; }
+        if (targetId === void 0) { targetId = this._root; }
+        if (!this.exists(id)) {
+            return null;
+        }
+        var currentChilds = this._childs[id];
+        if (key) {
+            index = index === -1 ? -1 : index + key;
+        }
+        if (target === this && !this.canCopy(id, targetId)) {
+            return null;
+        }
+        var itemCopy = helpers_1.copyWithoutInner(this.getItem(id), { items: true });
+        if (target.exists(id)) {
+            itemCopy.id = core_1.uid();
+        }
+        if (!helpers_1.isTreeCollection(target)) {
+            target.add(itemCopy, index);
+            return;
+        }
+        if (this.exists(id)) {
+            itemCopy.parent = targetId;
+            if (target !== this && targetId === this._root) {
+                itemCopy.parent = target.getRoot();
+            }
+            target.add(itemCopy, index);
+            id = itemCopy.id;
+        }
+        if (currentChilds) {
+            for (var _i = 0, currentChilds_1 = currentChilds; _i < currentChilds_1.length; _i++) {
+                var child = currentChilds_1[_i];
+                var childId = child.id;
+                var childIndex = this.getIndex(childId);
+                if (typeof id === "string") {
+                    this.copy(childId, childIndex, target, id);
+                }
+            }
+        }
+        return id;
+    };
+    TreeCollection.prototype._move = function (id, index, target, targetId, key) {
+        if (target === void 0) { target = this; }
+        if (targetId === void 0) { targetId = this._root; }
+        if (!this.exists(id)) {
+            return null;
+        }
+        if (key) {
+            index = index === -1 ? -1 : index + key;
+        }
+        if (target !== this) {
+            if (!helpers_1.isTreeCollection(target)) { // move to datacollection
+                target.add(helpers_1.copyWithoutInner(this.getItem(id)), index);
+                this.remove(id);
+                return;
+            }
+            var returnId = this.copy(id, index, target, targetId);
+            this.remove(id);
+            return returnId;
+        }
+        // move inside
+        if (!this.canCopy(id, targetId)) {
+            return null;
+        }
+        var parent = this.getParent(id);
+        var parentIndex = this.getIndex(id);
+        // get item from parent array and move to target array
+        var spliced = this._childs[parent].splice(parentIndex, 1)[0];
+        spliced.parent = targetId; // need for next moving, ... not best solution, may be full method for get item
+        if (!this._childs[parent].length) {
+            delete this._childs[parent];
+        }
+        if (!this.haveItems(targetId)) {
+            this._childs[targetId] = [];
+        }
+        if (index === -1) {
+            index = this._childs[targetId].push(spliced);
+        }
+        else {
+            this._childs[targetId].splice(index, 0, spliced);
+        }
+        this.events.fire(types_1.DataEvents.change);
+        return id;
+    };
+    TreeCollection.prototype._removeAll = function (id) {
+        var _a;
+        if (id) {
+            var childs = __spreadArrays(this._childs[id]);
+            for (var _i = 0, childs_2 = childs; _i < childs_2.length; _i++) {
+                var child = childs_2[_i];
+                this.remove(child.id);
+            }
+        }
+        else {
+            _super.prototype._removeAll.call(this);
+            var root = this._root;
+            this._initChilds = null;
+            this._childs = (_a = {}, _a[root] = [], _a);
+        }
+    };
+    TreeCollection.prototype._removeCore = function (id) {
+        if (this._pull[id]) {
+            var parent_1 = this.getParent(id);
+            this._childs[parent_1] = this._childs[parent_1].filter(function (item) { return item.id !== id; });
+            if (parent_1 !== this._root && !this._childs[parent_1].length) {
+                delete this._childs[parent_1];
+            }
+            if (this._initChilds && this._initChilds[parent_1]) {
+                this._initChilds[parent_1] = this._initChilds[parent_1].filter(function (item) { return item.id !== id; });
+                if (parent_1 !== this._root && !this._initChilds[parent_1].length) {
+                    delete this._initChilds[parent_1];
+                }
+            }
+            this._fastDeleteChilds(this._childs, id);
+            if (this._initChilds) {
+                this._fastDeleteChilds(this._initChilds, id);
+            }
+        }
+    };
+    TreeCollection.prototype._addToOrder = function (_order, obj, index) {
+        var childs = this._childs;
+        var initChilds = this._initChilds;
+        var parent = obj.parent;
+        this._pull[obj.id] = obj;
+        addToOrder(childs, obj, parent, index);
+        if (initChilds) {
+            addToOrder(initChilds, obj, parent, index);
+        }
+    };
+    TreeCollection.prototype._parse_data = function (data, parent) {
+        if (parent === void 0) { parent = this._root; }
+        for (var _i = 0, data_1 = data; _i < data_1.length; _i++) {
+            var obj = data_1[_i];
+            if (this.config.init) {
+                obj = this.config.init(obj);
+            }
+            if (typeof obj !== "object") {
+                obj = {
+                    value: obj
+                };
+            }
+            obj.id = obj.id ? obj.id.toString() : core_1.uid();
+            obj.parent = obj.parent ? obj.parent.toString() : parent;
+            this._pull[obj.id] = obj;
+            if (!this._childs[obj.parent]) {
+                this._childs[obj.parent] = [];
+            }
+            this._childs[obj.parent].push(obj);
+            if (obj.items && obj.items instanceof Object) {
+                this._parse_data(obj.items, obj.id);
+            }
+        }
+    };
+    TreeCollection.prototype._fastDeleteChilds = function (target, id) {
+        if (this._pull[id]) {
+            delete this._pull[id];
+        }
+        if (!target[id]) {
+            return;
+        }
+        for (var i = 0; i < target[id].length; i++) {
+            this._fastDeleteChilds(target, target[id][i].id);
+        }
+        delete target[id];
+    };
+    TreeCollection.prototype._recursiveFilter = function (rule, config, current, level, newChilds) {
+        var _this = this;
+        var childs = this._childs[current];
+        if (!childs) {
+            return;
+        }
+        var condition = function (item) {
+            switch (config.type) {
+                case types_1.TreeFilterType.all: {
+                    return true;
+                }
+                case types_1.TreeFilterType.level: {
+                    return level === config.level;
+                }
+                case types_1.TreeFilterType.leafs: {
+                    return !_this.haveItems(item.id);
+                }
+            }
+        };
+        if (typeof rule === "function") {
+            var customRule = function (item) { return condition(item) && rule(item); };
+            var filtered = childs.filter(customRule);
+            if (filtered.length) {
+                newChilds[current] = filtered;
+            }
+        }
+        else if (rule.by && rule.match) {
+            var customRule = function (item) { return condition(item) && item[rule.by].toString().toLowerCase().indexOf(rule.match.toString().toLowerCase()) !== -1; };
+            var filtered = childs.filter(customRule);
+            if (filtered.length) {
+                newChilds[current] = filtered;
+            }
+        }
+        for (var _i = 0, childs_3 = childs; _i < childs_3.length; _i++) {
+            var child = childs_3[_i];
+            this._recursiveFilter(rule, config, child.id, level + 1, newChilds);
+        }
+    };
+    TreeCollection.prototype._serialize = function (parent, fn) {
+        var _this = this;
+        if (parent === void 0) { parent = this._root; }
+        return this.map(function (item) {
+            var itemCopy = {};
+            for (var key in item) {
+                if (key === "parent" || key === "items") {
+                    continue;
+                }
+                itemCopy[key] = item[key];
+            }
+            if (fn) {
+                itemCopy = fn(itemCopy);
+            }
+            if (_this.haveItems(item.id)) {
+                itemCopy.items = _this._serialize(item.id, fn);
+            }
+            return itemCopy;
+        }, parent, false);
+    };
+    return TreeCollection;
+}(datacollection_1.DataCollection));
+exports.TreeCollection = TreeCollection;
+
+
+/***/ }),
+/* 96 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var html_1 = __webpack_require__(2);
+var CollectionStore_1 = __webpack_require__(97);
+var types_1 = __webpack_require__(15);
+var helpers_1 = __webpack_require__(16);
+function getPosition(e) {
+    var y = e.clientY;
+    var element = html_1.locateNode(e);
+    if (!element) {
+        return null;
+    }
+    var treeLine = element.childNodes[0];
+    var _a = treeLine.getBoundingClientRect(), top = _a.top, height = _a.height;
+    return (y - top) / height;
+}
+function dragEventContent(element, elements) {
+    var rect = element.getBoundingClientRect();
+    var ghost = document.createElement("div");
+    var clone = element.cloneNode(true);
+    clone.style.width = rect.width + "px";
+    clone.style.height = rect.height + "px";
+    clone.style.maxHeight = rect.height + "px";
+    clone.style.fontSize = window.getComputedStyle(element.parentElement).fontSize;
+    clone.style.opacity = "0.8";
+    clone.style.fontSize = window.getComputedStyle(element.parentElement).fontSize;
+    ghost.appendChild(clone);
+    if (elements && elements.length) {
+        elements.forEach(function (node, key) {
+            var nodeClone = node.cloneNode(true);
+            nodeClone.style.width = rect.width + "px";
+            nodeClone.style.height = rect.height + "px";
+            nodeClone.style.maxHeight = rect.height + "px";
+            nodeClone.style.top = ((key + 1) * 12 - rect.height) - (rect.height * key) + "px";
+            nodeClone.style.left = (key + 1) * 12 + "px";
+            nodeClone.style.opacity = "0.6";
+            nodeClone.style.zIndex = "" + (-key - 1);
+            ghost.appendChild(nodeClone);
+        });
+    }
+    ghost.className = "dhx_drag-ghost";
+    return ghost;
+}
+var DragManager = /** @class */ (function () {
+    function DragManager() {
+        var _this = this;
+        this._transferData = {};
+        this._canMove = true;
+        this._selectedIds = [];
+        this._onMouseMove = function (e) {
+            if (!_this._transferData.id) {
+                return;
+            }
+            var pageX = e.pageX, pageY = e.pageY;
+            if (!_this._transferData.ghost) {
+                if (Math.abs(_this._transferData.x - pageX) < 3 && Math.abs(_this._transferData.y - pageY) < 3) {
+                    return;
+                }
+                else {
+                    var ghost = _this._onDragStart(_this._transferData.id, _this._transferData.targetId);
+                    if (!ghost) {
+                        _this._endDrop();
+                        return;
+                    }
+                    else {
+                        _this._transferData.ghost = ghost;
+                        document.body.appendChild(_this._transferData.ghost);
+                    }
+                }
+            }
+            _this._moveGhost(pageX, pageY);
+            _this._onDrag(e);
+        };
+        this._onMouseUp = function () {
+            if (!_this._transferData.x) {
+                return;
+            }
+            if (_this._transferData.ghost) {
+                _this._removeGhost();
+                _this._onDrop();
+            }
+            else {
+                _this._endDrop();
+            }
+            document.removeEventListener("mousemove", _this._onMouseMove);
+            document.removeEventListener("mouseup", _this._onMouseUp);
+        };
+    }
+    DragManager.prototype.setItem = function (id, item) {
+        CollectionStore_1.collectionStore.setItem(id, item);
+    };
+    DragManager.prototype.onMouseDown = function (e, selectedIds, itemsForGhost) {
+        if (e.which !== 1) {
+            return;
+        }
+        e.preventDefault();
+        document.addEventListener("mousemove", this._onMouseMove);
+        document.addEventListener("mouseup", this._onMouseUp);
+        var item = html_1.locateNode(e, "dhx_id");
+        var id = item && item.getAttribute("dhx_id");
+        var targetId = html_1.locate(e, "dhx_widget_id");
+        if (selectedIds && selectedIds.indexOf(id) !== -1 && selectedIds.length > 1) {
+            this._selectedIds = selectedIds;
+            this._itemsForGhost = itemsForGhost;
+        }
+        else {
+            this._selectedIds = [];
+            this._itemsForGhost = null;
+        }
+        if (id && targetId) {
+            var _a = html_1.getBox(item), left = _a.left, top_1 = _a.top;
+            this._transferData.initXOffset = e.pageX - left;
+            this._transferData.initYOffset = e.pageY - top_1;
+            this._transferData.x = e.pageX;
+            this._transferData.y = e.pageY;
+            this._transferData.targetId = targetId;
+            this._transferData.id = id;
+            this._transferData.item = item;
+        }
+    };
+    DragManager.prototype._moveGhost = function (x, y) {
+        if (this._transferData.ghost) {
+            this._transferData.ghost.style.left = x - this._transferData.initXOffset + "px";
+            this._transferData.ghost.style.top = y - this._transferData.initYOffset + "px";
+        }
+    };
+    DragManager.prototype._removeGhost = function () {
+        document.body.removeChild(this._transferData.ghost);
+    };
+    DragManager.prototype._onDrop = function () {
+        if (!this._canMove) {
+            this._endDrop();
+            return;
+        }
+        var target = CollectionStore_1.collectionStore.getItem(this._lastCollectionId);
+        var config = target && target.config;
+        if (!target || config.dragMode === types_1.DragMode.source) {
+            this._endDrop();
+            return;
+        }
+        if (target.events.fire(types_1.DragEvents.beforeDrop, [this._lastId, this._transferData.target])) {
+            var to = {
+                id: this._lastId,
+                target: target
+            };
+            var from = {
+                id: this._transferData.id,
+                target: this._transferData.target
+            };
+            this._move(from, to);
+            to.target.events.fire(types_1.DragEvents.dropComplete, [to.id, this._transferData.dropPosition]);
+        }
+        this._endDrop();
+    };
+    DragManager.prototype._onDragStart = function (id, targetId) {
+        var target = CollectionStore_1.collectionStore.getItem(targetId);
+        var config = target.config;
+        if (config.dragMode === types_1.DragMode.target) {
+            return null;
+        }
+        var item = target.data.getItem(id);
+        var ghost = dragEventContent(this._transferData.item, this._itemsForGhost);
+        var ans = target.events.fire(types_1.DragEvents.beforeDrag, [item, ghost]);
+        if (!ans || !id) {
+            return null;
+        }
+        target.events.fire(types_1.DragEvents.dragStart, [id, this._selectedIds]);
+        this._toggleTextSelection(true);
+        this._transferData.target = target;
+        this._transferData.dragConfig = config;
+        return ghost;
+    };
+    DragManager.prototype._onDrag = function (e) {
+        var clientX = e.clientX, clientY = e.clientY;
+        var element = document.elementFromPoint(clientX, clientY);
+        var collectionId = html_1.locate(element, "dhx_widget_id");
+        if (!collectionId) {
+            if (this._canMove) {
+                this._cancelCanDrop();
+            }
+            return;
+        }
+        var target = CollectionStore_1.collectionStore.getItem(collectionId);
+        var id = html_1.locate(element, "dhx_id");
+        if (!id) {
+            this._cancelCanDrop();
+            this._lastCollectionId = collectionId;
+            this._lastId = null;
+            this._canDrop();
+            return;
+        }
+        if (target.config.dropBehaviour === types_1.DropBehaviour.complex) {
+            var pos = getPosition(e);
+            if (pos <= 0.25) {
+                this._transferData.dropPosition = types_1.DropPosition.top;
+            }
+            else if (pos >= 0.75) {
+                this._transferData.dropPosition = types_1.DropPosition.bot;
+            }
+            else {
+                this._transferData.dropPosition = types_1.DropPosition.in;
+            }
+        }
+        else if (this._lastId === id && this._lastCollectionId === collectionId) {
+            return;
+        }
+        var from = {
+            id: this._transferData.id,
+            target: this._transferData.target
+        };
+        if (target.config.dragMode === "source") {
+            return;
+        }
+        from.target.events.fire(types_1.DragEvents.dragOut, [id, target]);
+        if (collectionId !== this._transferData.targetId || !helpers_1.isTreeCollection(from.target.data) ||
+            (helpers_1.isTreeCollection(from.target.data) && from.target.data.canCopy(from.id, id))) {
+            this._cancelCanDrop(); // clear last
+            this._lastId = id;
+            this._lastCollectionId = collectionId;
+            var canMove = from.target.events.fire(types_1.DragEvents.dragIn, [id, this._transferData.dropPosition, CollectionStore_1.collectionStore.getItem(collectionId)]);
+            if (canMove) {
+                this._canDrop();
+            }
+        }
+        else {
+            this._cancelCanDrop();
+        }
+    };
+    DragManager.prototype._move = function (from, to) {
+        var fromData = from.target.data;
+        var toData = to.target.data;
+        var index = 0;
+        var targetId = to.id;
+        var behaviour = helpers_1.isTreeCollection(toData) ? to.target.config.dropBehaviour : undefined;
+        switch (behaviour) {
+            case types_1.DropBehaviour.child:
+                break;
+            case types_1.DropBehaviour.sibling:
+                targetId = toData.getParent(targetId);
+                index = toData.getIndex(to.id) + 1;
+                break;
+            case types_1.DropBehaviour.complex:
+                var dropPosition = this._transferData.dropPosition;
+                if (dropPosition === types_1.DropPosition.top) {
+                    targetId = toData.getParent(targetId);
+                    index = toData.getIndex(to.id);
+                }
+                else if (dropPosition === types_1.DropPosition.bot) {
+                    targetId = toData.getParent(targetId);
+                    index = toData.getIndex(to.id) + 1;
+                }
+                break;
+            default:
+                // list move
+                if (!to.id) {
+                    index = -1;
+                }
+                else if (from.target === to.target && toData.getIndex(from.id) < toData.getIndex(to.id)) {
+                    index = toData.getIndex(to.id) - 1;
+                }
+                else {
+                    index = toData.getIndex(to.id);
+                }
+        }
+        if (this._transferData.dragConfig.dragCopy) {
+            if (this._selectedIds instanceof Array && this._selectedIds.length > 1) {
+                this._selectedIds.map(function (selctedId) {
+                    fromData.copy(selctedId, index, toData, targetId);
+                    if (index > -1) {
+                        index++;
+                    }
+                });
+            }
+            else {
+                fromData.copy(from.id, index, toData, targetId);
+            }
+        }
+        else {
+            if (this._selectedIds instanceof Array && this._selectedIds.length > 1) {
+                this._selectedIds.map(function (selctedId) {
+                    fromData.move(selctedId, index, toData, targetId);
+                    if (index > -1) {
+                        index++;
+                    }
+                });
+            }
+            else {
+                fromData.move(from.id, index, toData, targetId); // typescript bug??
+            }
+        }
+    };
+    DragManager.prototype._endDrop = function () {
+        this._toggleTextSelection(false);
+        if (this._transferData.target) {
+            this._transferData.target.events.fire(types_1.DragEvents.dragEnd, [this._transferData.id, this._selectedIds]);
+        }
+        this._cancelCanDrop();
+        this._canMove = true;
+        this._transferData = {};
+        this._lastId = null;
+        this._lastCollectionId = null;
+    };
+    DragManager.prototype._cancelCanDrop = function () {
+        this._canMove = false;
+        var collection = CollectionStore_1.collectionStore.getItem(this._lastCollectionId);
+        if (collection && this._lastId) {
+            collection.events.fire(types_1.DragEvents.cancelDrop, [this._lastId]);
+        }
+        this._lastCollectionId = null;
+        this._lastId = null;
+    };
+    DragManager.prototype._canDrop = function () {
+        this._canMove = true;
+        var target = CollectionStore_1.collectionStore.getItem(this._lastCollectionId);
+        if (target && this._lastId) {
+            target.events.fire(types_1.DragEvents.canDrop, [this._lastId, this._transferData.dropPosition]);
+        }
+    };
+    DragManager.prototype._toggleTextSelection = function (add) {
+        if (add) {
+            document.body.classList.add("dhx_no-select");
+        }
+        else {
+            document.body.classList.remove("dhx_no-select");
+        }
+    };
+    return DragManager;
+}());
+var dhx = window.dhxHelpers = window.dhxHelpers || {};
+dhx.dragManager = dhx.dragManager || new DragManager();
+exports.dragManager = dhx.dragManager;
+
+
+/***/ }),
+/* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var CollectionStore = /** @class */ (function () {
+    function CollectionStore() {
+        this._store = {};
+    }
+    CollectionStore.prototype.setItem = function (id, target) {
+        this._store[id] = target;
+    };
+    CollectionStore.prototype.getItem = function (id) {
+        if (!this._store[id]) {
+            return null;
+        }
+        return this._store[id];
+    };
+    return CollectionStore;
+}());
+var dhx = window.dhxHelpers = window.dhxHelpers || {};
+dhx.collectionStore = dhx.collectionStore || new CollectionStore();
+exports.collectionStore = dhx.collectionStore;
+
+
+/***/ }),
 /* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Promise) {
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var dataproxy_1 = __webpack_require__(21);
+var core_1 = __webpack_require__(1);
+var ajax_1 = __webpack_require__(34);
+var LazyDataProxy = /** @class */ (function (_super) {
+    __extends(LazyDataProxy, _super);
+    function LazyDataProxy(url, config) {
+        var _this = _super.call(this, url) || this;
+        _this.config = core_1.extend({
+            from: 0,
+            limit: 50,
+            delay: 50,
+            prepare: 0
+        }, config);
+        _this.updateUrl(url, { from: _this.config.from, limit: _this.config.limit });
+        return _this;
+    }
+    LazyDataProxy.prototype.load = function () {
+        var _this = this;
+        return new Promise(function (resolve) {
+            if (!_this._timeout) {
+                ajax_1.ajax.get(_this.url, { responseType: "text" }).then(resolve);
+                _this._cooling = true;
+                _this._timeout = setTimeout(function () { return; });
+            }
+            else {
+                clearTimeout(_this._timeout);
+                _this._timeout = setTimeout(function () {
+                    ajax_1.ajax.get(_this.url, { responseType: "text" }).then(resolve);
+                    _this._cooling = true;
+                }, _this.config.delay);
+                if (_this._cooling) {
+                    resolve(null);
+                    _this._cooling = false;
+                }
+            }
+        });
+    };
+    return LazyDataProxy;
+}(dataproxy_1.DataProxy));
+exports.LazyDataProxy = LazyDataProxy;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(12)))
+
+/***/ }),
+/* 99 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var events_1 = __webpack_require__(3);
+var types_1 = __webpack_require__(22);
+var types_2 = __webpack_require__(15);
+var Selection = /** @class */ (function () {
+    function Selection(_config, data, events) {
+        var _this = this;
+        this.events = events || (new events_1.EventSystem(this));
+        this._data = data;
+        this._data.events.on(types_2.DataEvents.removeAll, function () {
+            _this._selected = null;
+        });
+        this._data.events.on(types_2.DataEvents.change, function () {
+            if (_this._selected) {
+                var near = _this._data.getNearId(_this._selected);
+                if (near !== _this._selected) {
+                    _this._selected = null;
+                    if (near) {
+                        _this.add(near);
+                    }
+                }
+            }
+        });
+    }
+    Selection.prototype.getId = function () {
+        return this._selected;
+    };
+    Selection.prototype.getItem = function () {
+        if (this._selected) {
+            return this._data.getItem(this._selected);
+        }
+        return null;
+    };
+    Selection.prototype.remove = function (id) {
+        id = id || this._selected;
+        if (!id) {
+            return true;
+        }
+        if (this.events.fire(types_1.SelectionEvents.beforeUnSelect, [id])) {
+            this._data.update(id, { $selected: false });
+            this._selected = null;
+            this.events.fire(types_1.SelectionEvents.afterUnSelect, [id]);
+            return true;
+        }
+        return false;
+    };
+    Selection.prototype.add = function (id) {
+        if (this._selected === id) {
+            return;
+        }
+        this.remove();
+        if (this.events.fire(types_1.SelectionEvents.beforeSelect, [id])) {
+            this._selected = id;
+            this._data.update(id, { $selected: true });
+            this.events.fire(types_1.SelectionEvents.afterSelect, [id]);
+        }
+    };
+    return Selection;
+}());
+exports.Selection = Selection;
+
+
+/***/ }),
+/* 100 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(1);
+var dom_1 = __webpack_require__(0);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
+var scrollView_1 = __webpack_require__(101);
+var view_1 = __webpack_require__(4);
+var ts_data_1 = __webpack_require__(7);
+var ts_layout_1 = __webpack_require__(14);
+var ts_message_1 = __webpack_require__(19);
+var ts_toolbar_1 = __webpack_require__(29);
+var en_1 = __webpack_require__(37);
+var types_1 = __webpack_require__(27);
+var Uploader_1 = __webpack_require__(56);
+var configs_1 = __webpack_require__(120);
+var helper_1 = __webpack_require__(121);
+var ProgressBar_1 = __webpack_require__(122);
+var ReadStackPreview_1 = __webpack_require__(123);
+var Vault = /** @class */ (function (_super) {
+    __extends(Vault, _super);
+    function Vault(container, config) {
+        if (config === void 0) { config = {}; }
+        var _this = _super.call(this, null, core_1.extend({
+            mode: types_1.VaultMode.list,
+            toolbar: true,
+            updateFromResponse: true,
+            scaleFactor: 4,
+            customScroll: true,
+            uploader: {},
+            progressBar: {}
+        }, config)) || this;
+        if (!_this.config.toolbar) {
+            _this.config.uploader.autosend = true;
+        }
+        if (config.data) {
+            _this.data = config.data;
+            _this.events = config.data.events;
+            _this.events.context = _this;
+        }
+        else {
+            _this.events = new events_1.EventSystem(_this);
+            _this.data = new ts_data_1.DataCollection({}, _this.events);
+        }
+        _this.data.config.init = function (obj) {
+            obj.status = obj.status || types_1.FileStatus.uploaded;
+            if (obj.file) {
+                obj.size = obj.file.size;
+                obj.name = obj.file.name;
+            }
+            else {
+                obj.size = obj.size || 0;
+                obj.name = obj.name || "";
+            }
+            if (_this.config.mode === types_1.VaultMode.grid && obj.file && helper_1.isImage(obj)) {
+                _this._readStack.add(obj, _this.uploader.config.autosend);
+            }
+            return obj;
+        };
+        _this._readStack = new ReadStackPreview_1.ReadStackPreview(_this.data);
+        _this.uploader = new Uploader_1.Uploader(_this.config.uploader, _this.data, _this.events);
+        _this._scrollView = new scrollView_1.ScrollView(function () { return _this._vaultView.getRootView(); });
+        _this._progressBar = new ProgressBar_1.ProgressBar(_this.events, _this.config.progressBar);
+        _this.events.on(types_1.UploaderEvents.uploadProgress, function (progress, current, total) { return _this._progressBar.setState(progress, { current: current, total: total }); });
+        _this._initHandlers();
+        _this._initUI(container);
+        _this._initEvents();
+        return _this;
+    }
+    Vault.prototype.destructor = function () {
+        this.toolbar.destructor();
+        this._readStack.stop();
+        this.uploader.unlinkDropArea();
+        this.uploader.abort();
+    };
+    Vault.prototype.getRootView = function () {
+        return this._layout.getRootView();
+    };
+    Vault.prototype._initUI = function (container) {
+        var _this = this;
+        var cfg = this.config.toolbar ? configs_1.layoutConfig : configs_1.layoutConfigWithoutTopbar;
+        cfg.on = this._getDragEvents();
+        var layout = this._layout = new ts_layout_1.Layout(container, cfg);
+        var toolbar = this.toolbar = new ts_toolbar_1.Toolbar(null, { css: "vault-toolbar" });
+        this.toolbar.data.parse([
+            {
+                id: "add",
+                tooltip: en_1.default.add,
+                type: ts_toolbar_1.ItemType.button,
+                icon: "dxi-plus"
+            },
+            {
+                id: "upload",
+                tooltip: en_1.default.upload,
+                type: ts_toolbar_1.ItemType.button,
+                icon: "dxi icon-upload" // Custom Web Font Icon
+            },
+            {
+                id: "spacer",
+                type: ts_toolbar_1.ItemType.spacer
+            },
+            {
+                id: "remove-all",
+                tooltip: en_1.default.clearAll,
+                type: ts_toolbar_1.ItemType.button,
+                icon: "dxi-delete-forever"
+            }
+        ]);
+        this._hideUploadAndDeleteButtons();
+        this._vaultView = view_1.toViewLike(dom_1.create({ render: function () { return _this._draw(); } }));
+        if (this.config.toolbar) {
+            layout.getCell("topbar").attach(toolbar);
+        }
+        layout.getCell("vault").attach(this._vaultView);
+    };
+    Vault.prototype._initHandlers = function () {
+        var _this = this;
+        this._handlers = {
+            onclick: {
+                ".action-add": function () { return _this.uploader.selectFile(); },
+                ".action-remove-file": function (e) {
+                    var id = html_1.locate(e);
+                    if (!id) {
+                        return;
+                    }
+                    _this.data.update(id, { $toRemove: true });
+                    setTimeout(function () {
+                        _this.data.update(id, { $toRemove: false }, true);
+                        _this.data.remove(id);
+                    }, 200);
+                }
+            },
+            onmouseover: {
+                ".action-download": function (e) {
+                    ts_message_1.tooltip(en_1.default.download, {
+                        node: e.target,
+                        position: ts_message_1.Position.bottom
+                    });
+                },
+                ".action-remove-file": function (e) {
+                    ts_message_1.tooltip(en_1.default.clear, {
+                        node: e.target,
+                        position: ts_message_1.Position.bottom
+                    });
+                },
+                ".title-content, .dhx-file-name": function (e) {
+                    var id = html_1.locate(e);
+                    var item = _this.data.getItem(id);
+                    ts_message_1.tooltip(item.name, {
+                        node: e.target,
+                        position: ts_message_1.Position.bottom,
+                        css: "tooltip-light"
+                    });
+                }
+            }
+        };
+    };
+    Vault.prototype._getDragEvents = function () {
+        var _this = this;
+        var rect = {
+            left: null,
+            top: null,
+            width: null,
+            height: null
+        };
+        return {
+            dragleave: function (e) {
+                if (!_this._canDrop) {
+                    return;
+                }
+                if (e.pageX > rect.left + rect.width - 1 || e.pageX < rect.left || e.pageY > rect.top + rect.height - 1 || e.pageY < rect.top) {
+                    _this._canDrop = false;
+                    if (_this.config.toolbar) {
+                        _this._layout.getCell("topbar").show();
+                    }
+                    _this._layout.config.css = "vault-layout";
+                    _this._layout.paint();
+                }
+            },
+            dragenter: function (e) {
+                e.preventDefault();
+                if (_this.uploader.isActive || _this._canDrop) {
+                    return;
+                }
+                var types = e.dataTransfer.types;
+                for (var _i = 0, types_2 = types; _i < types_2.length; _i++) {
+                    var type = types_2[_i];
+                    if (type !== "Files" && type !== "application/x-moz-file") {
+                        _this._canDrop = false;
+                        return;
+                    }
+                }
+                _this._canDrop = true;
+                var clientRect = _this.getRootView().node.el.getBoundingClientRect();
+                rect.left = clientRect.left + window.pageXOffset;
+                rect.top = clientRect.top + window.pageYOffset;
+                rect.width = clientRect.width;
+                rect.height = clientRect.height;
+                _this._canDrop = true;
+                if (_this.config.toolbar) {
+                    _this._layout.getCell("topbar").hide();
+                }
+                _this._layout.config.css = "vault-layout dhx-dragin";
+                _this._layout.paint();
+            },
+            dragover: function (e) {
+                e.preventDefault();
+            },
+            drop: function (e) {
+                e.preventDefault();
+                if (!_this._canDrop) {
+                    return;
+                }
+                var dataTransfer = e.dataTransfer;
+                _this.uploader.parseFiles(dataTransfer);
+                _this._canDrop = false;
+                if (_this.config.toolbar) {
+                    _this._layout.getCell("topbar").show();
+                }
+                _this._layout.config.css = "vault-layout";
+                _this._layout.paint();
+            }
+        };
+    };
+    Vault.prototype._hideUploadAndDeleteButtons = function () {
+        this.toolbar.hide(["upload", "remove-all"]);
+    };
+    Vault.prototype._showUploadAndDeleteButtons = function () {
+        if (this.uploader.config.autosend) {
+            this.toolbar.show("remove-all");
+        }
+        else {
+            this.toolbar.show(["upload", "remove-all"]);
+        }
+    };
+    Vault.prototype._initEvents = function () {
+        var _this = this;
+        this.data.events.on(ts_data_1.DataEvents.change, function () {
+            if (!_this.data.getLength()) {
+                _this._hideUploadAndDeleteButtons();
+            }
+            else {
+                _this._showUploadAndDeleteButtons();
+            }
+            _this._vaultView.paint();
+        });
+        this.events.on(types_1.UploaderEvents.uploadBegin, function () {
+            if (_this.config.toolbar) {
+                _this._layout.getCell("topbar").attach(_this._progressBar);
+            }
+        });
+        this.events.on(types_1.UploaderEvents.uploadComplete, function () {
+            if (_this.config.mode === types_1.VaultMode.grid && _this.uploader.config.autosend) {
+                _this._readStack.read();
+            }
+            if (_this.config.toolbar) {
+                _this._layout.getCell("topbar").attach(_this.toolbar);
+            }
+        });
+        this.toolbar.events.on(ts_toolbar_1.NavigationBarEvents.click, function (id) {
+            switch (id) {
+                case "add":
+                    _this.uploader.selectFile();
+                    break;
+                case "remove-all":
+                    _this.data.removeAll();
+                    break;
+                case "upload":
+                    _this.uploader.send();
+                    break;
+            }
+        });
+        this.events.on(types_1.ProgressBarEvents.cancel, function () {
+            _this.uploader.abort();
+            _this._vaultView.paint();
+        });
+    };
+    Vault.prototype._draw = function () {
+        var isEmpty = !this.data.getLength();
+        var files = this.config.mode === types_1.VaultMode.grid ? this._drawGrid() : this._drawList();
+        return dom_1.el("div", __assign(__assign({ class: "vault dhx_widget" + (this._canDrop ? " drop-here" : "") }, this._handlers), { dhx_widget_id: this._uid }), [
+            this._canDrop || isEmpty ? this._drawDropableArea() :
+                this.config.customScroll ? this._scrollView.render(files) : files
+        ]);
+    };
+    Vault.prototype._getFileActions = function (file) {
+        var defaultActions = [];
+        var hoverActions = [];
+        var actions = [
+            dom_1.el(".dhx-default-actions", defaultActions),
+            dom_1.el(".dhx-hover-actions", hoverActions)
+        ];
+        if (file.status === types_1.FileStatus.inprogress) {
+            return actions;
+        }
+        if (file.status !== types_1.FileStatus.failed && file.link) {
+            var link = (this.config.downloadURL || "") + file.link;
+            var downloadName = link.split("/").pop().split("?")[0];
+            var download = dom_1.el("a", {
+                download: downloadName,
+                class: "download-link",
+                href: link
+            }, [
+                dom_1.el(".icon-btn.dxi.dxi-download.action-download")
+            ]);
+            hoverActions.push(download);
+        }
+        var remove = dom_1.el(".icon-btn.dxi.dxi-delete-forever.action-remove-file");
+        hoverActions.push(remove);
+        if (file.status === types_1.FileStatus.failed) {
+            var warn = dom_1.el(".dxi.dxi-alert-circle.warning-status");
+            defaultActions.push(warn);
+        }
+        if (file.status === types_1.FileStatus.uploaded) {
+            var uploadComplete = dom_1.el(".dxi.dxi-checkbox-marked-circle.uploaded-status");
+            defaultActions.push(uploadComplete);
+        }
+        return actions;
+    };
+    Vault.prototype._drawList = function () {
+        var _this = this;
+        return dom_1.el(".dhx-files-block.dhx-webkit-scroll", this.data.map(function (item) {
+            var isError = item.status === types_1.FileStatus.failed && item.request;
+            var inProgress = item.status === types_1.FileStatus.inprogress;
+            var inQueue = item.status === types_1.FileStatus.queue;
+            var notUploaded = item.status !== types_1.FileStatus.uploaded;
+            return dom_1.el("div", {
+                class: "dhx-file-item" + (item.$toRemove ? " to-remove" : "") + (inQueue ? " in-queue" : ""),
+                dhx_id: item.id,
+                _key: item.id
+            }, [
+                dom_1.el(".dhx-file-icon", [
+                    dom_1.el("div", {
+                        class: "dhx-file-type " + helper_1.getFileClassName(item) + (notUploaded ? " not-loaded" : "")
+                    })
+                ]),
+                dom_1.el(".dhx-file-title", [
+                    dom_1.el(".dhx-title-content", item.name),
+                    dom_1.el(".dhx-file-info", [
+                        isError && dom_1.el(".warn-message", item.request.statusText || en_1.default.error),
+                        inProgress ? dom_1.el(".progress-value", (item.progress * 100).toFixed(1) + "%")
+                            : dom_1.el(".dhx-size" + (isError && ".dhx-size-error" || ""), helper_1.getBasis(item.size))
+                    ])
+                ]),
+                inProgress && dom_1.el(".dhx-download-progress", {
+                    style: {
+                        width: (item.progress * 100).toFixed(1) + "%"
+                    }
+                }),
+                !inProgress && dom_1.el(".dhx-file-action", _this._getFileActions(item))
+            ]);
+        }));
+    };
+    Vault.prototype._drawDropableArea = function () {
+        return dom_1.el(".dhx-dropable-area.drop-files-here", [
+            dom_1.el(".dhx-big-icon-block", [
+                dom_1.el(".dxi.icon-upload") // Custom Web Font Icon
+            ]),
+            !this._canDrop && dom_1.el(".drop-area-bold-text", en_1.default.dragAndDrop),
+            !this._canDrop && dom_1.el(".drop-area-bold-text", en_1.default.filesOrFoldersHere),
+            !this._canDrop && dom_1.el(".drop-area-light-text", en_1.default.or),
+            !this._canDrop && dom_1.el("button.dhx_btn.dhx_btn--flat.dhx_btn--small.action-add", en_1.default.browse)
+        ]);
+    };
+    Vault.prototype._drawGrid = function () {
+        var _this = this;
+        return dom_1.el("div", {
+            class: "dhx-files-grid dhx-webkit-scroll"
+        }, [
+            dom_1.el(".dhx-grid-content", this.data.map(function (item) {
+                var inProgress = item.status === types_1.FileStatus.inprogress;
+                var inQueue = item.status === types_1.FileStatus.queue;
+                var isError = item.status === types_1.FileStatus.failed;
+                return dom_1.el("div", {
+                    class: "dhx-file-grid-item" + (inProgress ? " in-progress" : "")
+                        + (item.$toRemove ? " to-remove" : "") + (inQueue ? " in-queue" : "") + (isError ? " failed" : ""),
+                    dhx_id: item.id,
+                    _key: item.id
+                }, [
+                    dom_1.el(".dhx-preview-wrapper", __spreadArrays([
+                        item.preview ? dom_1.el(".dhx-server-file-preview", [
+                            dom_1.el("img", { src: item.preview })
+                        ]) :
+                            item.image ? dom_1.el("canvas", {
+                                width: 98 * _this.config.scaleFactor,
+                                height: 98 * _this.config.scaleFactor,
+                                _hooks: {
+                                    didInsert: function (node) {
+                                        var _a = helper_1.calculateCover(item.image), dx = _a.dx, dy = _a.dy, sx = _a.sx, sy = _a.sy, sHeight = _a.sHeight, sWidth = _a.sWidth;
+                                        var ctx = node.el.getContext("2d");
+                                        ctx.drawImage(item.image, sx, sy, sWidth, sHeight, dx, dy, 98 * _this.config.scaleFactor, 98 * _this.config.scaleFactor);
+                                    }
+                                }
+                            }) : dom_1.el("div", {
+                                class: "dhx-file-preview dhx-file-type " + helper_1.getFileClassName(item)
+                            }),
+                        inProgress && _this._drawCircle(item.progress)
+                    ], _this._getFileActions(item), [
+                        dom_1.el(".dhx-file-info", [
+                            isError && dom_1.el(".warn-message", item.request.statusText || en_1.default.error),
+                            !inProgress && dom_1.el(".dhx-size" + (isError && ".dhx-size-error" || ""), helper_1.getBasis(item.size))
+                        ])
+                    ])),
+                    dom_1.el(".dhx-file-name", helper_1.truncateWord(item.name))
+                ]);
+            }))
+        ]);
+    };
+    Vault.prototype._drawCircle = function (progress) {
+        return dom_1.el(".progress-layout", [
+            dom_1.el(".progress-amount", (progress * 100).toFixed(1) + "%"),
+            dom_1.sv("svg", {
+                xmlns: "http://www.w3.org/2000/svg",
+                class: "progress-circle",
+                viewBox: "0 0 60 60",
+            }, [
+                dom_1.sv("circle", {
+                    "cx": 30,
+                    "cy": 30,
+                    "r": 28,
+                    "stroke-width": 4,
+                    "class": "progress-bar-background",
+                }),
+                dom_1.sv("circle.active-circle", {
+                    "cx": 30,
+                    "cy": 30,
+                    "r": 28,
+                    "stroke-width": 4,
+                    "stroke-dasharray": "175.9 175.9",
+                    "stroke-dashoffset": (1 - progress) * 175.9,
+                    "class": "progress-bar-active",
+                }),
+            ])
+        ]);
+    };
+    return Vault;
+}(view_1.View));
+exports.Vault = Vault;
+
+
+/***/ }),
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10879,12 +11989,12 @@ return nano;
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var html_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var ScrollView = /** @class */ (function () {
     function ScrollView(getRootView, config) {
         var _a;
-        if (config === void 0) { config = {}; }
         var _this = this;
+        if (config === void 0) { config = {}; }
         this.config = core_1.extend({
             speed: 20
         }, config);
@@ -10988,8 +12098,8 @@ var ScrollView = /** @class */ (function () {
             _a);
     }
     ScrollView.prototype.render = function (element) {
-        var _this = this;
         var _a;
+        var _this = this;
         if (this._scrollWidth === 0) {
             return element;
         }
@@ -11079,7 +12189,7 @@ exports.ScrollView = ScrollView;
 
 
 /***/ }),
-/* 99 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11098,7 +12208,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Cell_1 = __webpack_require__(100);
+var Cell_1 = __webpack_require__(103);
+var types_1 = __webpack_require__(28);
 var dom_1 = __webpack_require__(0);
 var Layout = /** @class */ (function (_super) {
     __extends(Layout, _super);
@@ -11108,6 +12219,10 @@ var Layout = /** @class */ (function (_super) {
         _this._root = _this.config.parent || _this;
         _this._all = {};
         _this._parseConfig();
+        if (_this.config.activeTab) {
+            _this.config.activeView = _this.config.activeTab;
+        }
+        // Need replace to tabbar
         if (_this.config.views) {
             _this.config.activeView = _this.config.activeView || _this._cells[0].id;
             _this._isViewLayout = true;
@@ -11118,13 +12233,9 @@ var Layout = /** @class */ (function (_super) {
         }
         return _this;
     }
-    Layout.prototype.cell = function (id) {
-        // FIXME
-        return this._root._all[id];
-    };
     Layout.prototype.toVDOM = function () {
         if (this._isViewLayout) {
-            var roots = [this.cell(this.config.activeView).toVDOM()];
+            var roots = [this.getCell(this.config.activeView).toVDOM()];
             return _super.prototype.toVDOM.call(this, roots);
         }
         var nodes = [];
@@ -11140,27 +12251,37 @@ var Layout = /** @class */ (function (_super) {
         return _super.prototype.toVDOM.call(this, nodes);
     };
     Layout.prototype.removeCell = function (id) {
+        if (!this.events.fire(types_1.LayoutEvents.beforeRemove, [id])) {
+            return;
+        }
         var root = (this.config.parent || this);
         if (root !== this) {
             return root.removeCell(id);
         }
         // this === root layout
-        var view = this.cell(id);
+        var view = this.getCell(id);
         if (view) {
             var parent_1 = view.getParent();
             delete this._all[id];
             parent_1._cells = parent_1._cells.filter(function (cell) { return cell.id !== id; });
             parent_1.paint();
         }
+        this.events.fire(types_1.LayoutEvents.afterRemove, [id]);
     };
     Layout.prototype.addCell = function (config, index) {
         if (index === void 0) { index = -1; }
+        if (!this.events.fire(types_1.LayoutEvents.beforeAdd, [config.id])) {
+            return;
+        }
         var view = this._createCell(config);
         if (index < 0) {
             index = this._cells.length + index + 1;
         }
         this._cells.splice(index, 0, view);
         this.paint();
+        if (!this.events.fire(types_1.LayoutEvents.afterAdd, [config.id])) {
+            return;
+        }
     };
     Layout.prototype.getId = function (index) {
         if (index < 0) {
@@ -11170,6 +12291,33 @@ var Layout = /** @class */ (function (_super) {
     };
     Layout.prototype.getRefs = function (name) {
         return this._root.getRootView().refs[name];
+    };
+    Layout.prototype.getCell = function (id) {
+        return this._root._all[id];
+    };
+    Layout.prototype.forEach = function (cb, parent, level) {
+        if (level === void 0) { level = Infinity; }
+        if (!this._haveCells(parent) || level < 1) {
+            return;
+        }
+        var array;
+        if (parent) {
+            array = this._root._all[parent]._cells;
+        }
+        else {
+            array = this._root._cells;
+        }
+        for (var index = 0; index < array.length; index++) {
+            var cell = array[index];
+            cb.call(this, cell, index, array);
+            if (this._haveCells(cell.id)) {
+                cell.forEach(cb, cell.id, --level);
+            }
+        }
+    };
+    // TODO: remove sute_7.0
+    Layout.prototype.cell = function (id) {
+        return this.getCell(id);
     };
     Layout.prototype._getCss = function (content) {
         var layoutCss = this._xLayout ? "dhx_layout-columns" : "dhx_layout-rows";
@@ -11203,13 +12351,20 @@ var Layout = /** @class */ (function (_super) {
         this._root._all[view.id] = view;
         return view;
     };
+    Layout.prototype._haveCells = function (id) {
+        if (id) {
+            var array = this._root._all[id];
+            return array._cells && array._cells.length > 0;
+        }
+        return Object.keys(this._all).length > 0;
+    };
     return Layout;
 }(Cell_1.Cell));
 exports.Layout = Layout;
 
 
 /***/ }),
-/* 100 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11242,64 +12397,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var view_1 = __webpack_require__(4);
-var resizeMode;
-(function (resizeMode) {
-    resizeMode[resizeMode["unknown"] = 0] = "unknown";
-    resizeMode[resizeMode["percents"] = 1] = "percents";
-    resizeMode[resizeMode["pixels"] = 2] = "pixels";
-    resizeMode[resizeMode["mixedpx1"] = 3] = "mixedpx1";
-    resizeMode[resizeMode["mixedpx2"] = 4] = "mixedpx2";
-    resizeMode[resizeMode["mixedperc1"] = 5] = "mixedperc1";
-    resizeMode[resizeMode["mixedperc2"] = 6] = "mixedperc2";
-})(resizeMode || (resizeMode = {}));
-function getResizeMode(dir, conf1, conf2) {
-    var field = dir ? "width" : "height";
-    var is1perc = conf1[field] && conf1[field].indexOf("%") !== -1;
-    var is2perc = conf2[field] && conf2[field].indexOf("%") !== -1;
-    var is1px = conf1[field] && conf1[field].indexOf("px") !== -1;
-    var is2px = conf2[field] && conf2[field].indexOf("px") !== -1;
-    if (is1perc && is2perc) {
-        return resizeMode.percents;
-    }
-    if (is1px && is2px) {
-        return resizeMode.pixels;
-    }
-    if (is1px && !is2px) {
-        return resizeMode.mixedpx1;
-    }
-    if (is2px && !is1px) {
-        return resizeMode.mixedpx2;
-    }
-    if (is1perc) {
-        return resizeMode.mixedperc1;
-    }
-    if (is2perc) {
-        return resizeMode.mixedperc2;
-    }
-    return resizeMode.unknown;
-}
-function getBlockRange(block1, block2, isXLayout) {
-    if (isXLayout === void 0) { isXLayout = true; }
-    if (isXLayout) {
-        return {
-            min: block1.left + window.pageXOffset,
-            max: block2.right + window.pageXOffset
-        };
-    }
-    return {
-        min: block1.top + window.pageYOffset,
-        max: block2.bottom + window.pageYOffset
-    };
-}
+var types_1 = __webpack_require__(28);
+var helpers_1 = __webpack_require__(104);
+var events_1 = __webpack_require__(3);
 var Cell = /** @class */ (function (_super) {
     __extends(Cell, _super);
     function Cell(parent, config) {
-        var _this = _super.call(this, parent, core_1.extend({ gravity: true }, config)) || this;
+        var _this = _super.call(this, parent, core_1.extend({ gravity: true, collapsed: false }, config)) || this;
+        _this._disabled = [];
         var p = parent;
         if (p && p.isVisible) {
             _this._parent = p;
         }
-        _this.config.full = _this.config.full === undefined ? Boolean(_this.config.header || _this.config.collapsable) : _this.config.full;
+        if (_this._parent && _this._parent.events) {
+            _this.events = _this._parent.events;
+        }
+        else {
+            _this.events = new events_1.EventSystem(_this);
+        }
+        _this.config.full = _this.config.full === undefined ? Boolean(_this.config.header ||
+            _this.config.collapsable || _this.config.headerHeight || _this.config.headerIcon || _this.config.headerImage)
+            : _this.config.full;
         _this._initHandlers();
         _this.id = _this.config.id || core_1.uid();
         return _this;
@@ -11332,12 +12450,19 @@ var Cell = /** @class */ (function (_super) {
         return !this.config.hidden && (!this._parent || this._parent.isVisible());
     };
     Cell.prototype.hide = function () {
+        if (!this.events.fire(types_1.LayoutEvents.beforeHide, [this.id])) {
+            return;
+        }
         this.config.hidden = true;
         if (this._parent && this._parent.paint) {
             this._parent.paint();
         }
+        this.events.fire(types_1.LayoutEvents.afterHide, [this.id]);
     };
     Cell.prototype.show = function () {
+        if (!this.events.fire(types_1.LayoutEvents.beforeShow, [this.id])) {
+            return;
+        }
         if (this._parent && this._parent.config.activeView) {
             this._parent.config.activeView = this.id;
         }
@@ -11348,6 +12473,31 @@ var Cell = /** @class */ (function (_super) {
             this._parent.show();
         }
         this.paint();
+        this.events.fire(types_1.LayoutEvents.afterShow, [this.id]);
+    };
+    Cell.prototype.expand = function () {
+        if (!this.events.fire(types_1.LayoutEvents.beforeExpand, [this.id])) {
+            return;
+        }
+        this.config.collapsed = false;
+        this.events.fire(types_1.LayoutEvents.afterExpand, [this.id]);
+        this.paint();
+    };
+    Cell.prototype.collapse = function () {
+        if (!this.events.fire(types_1.LayoutEvents.beforeCollapse, [this.id])) {
+            return;
+        }
+        this.config.collapsed = true;
+        this.events.fire(types_1.LayoutEvents.afterCollapse, [this.id]);
+        this.paint();
+    };
+    Cell.prototype.toggle = function () {
+        if (this.config.collapsed) {
+            this.expand();
+        }
+        else {
+            this.collapse();
+        }
     };
     Cell.prototype.getParent = function () {
         return this._parent;
@@ -11413,7 +12563,7 @@ var Cell = /** @class */ (function (_super) {
             }
         }
         var resizer = this.config.resizable && !this._isLastCell() && !this.config.collapsed ?
-            dom_1.el(".dhx_layout-resizer." + (this._isXDirection() ? "dhx_layout-resizer--x" : "dhx_layout-resizer--y"), __assign({}, this._resizerHandlers, { _ref: "resizer_" + this._uid }), [dom_1.el("span.dhx_layout-resizer__icon", {
+            dom_1.el(".dhx_layout-resizer." + (this._isXDirection() ? "dhx_layout-resizer--x" : "dhx_layout-resizer--y"), __assign(__assign({}, this._resizerHandlers), { _ref: "resizer_" + this._uid }), [dom_1.el("span.dhx_layout-resizer__icon", {
                     class: "dxi " + (this._isXDirection() ? "dxi-dots-vertical" : "dxi-dots-horizontal")
                 })]) : null;
         var handlers = {};
@@ -11422,11 +12572,11 @@ var Cell = /** @class */ (function (_super) {
                 handlers["on" + key] = this.config.on[key];
             }
         }
-        var cell = dom_1.el("div", __assign((_a = { _key: this._uid, style: this.config.full || this.config.html ? style : __assign({}, style, stylePadding), _ref: this._uid }, _a["aria-labelledby"] = this.config.id ? "tab-content-" + this.config.id : null, _a), handlers, { class: this._getCss(false) +
+        var cell = dom_1.el("div", __assign(__assign((_a = { _key: this._uid, style: this.config.full || this.config.html ? style : __assign(__assign({}, style), stylePadding), _ref: this._uid }, _a["aria-labelledby"] = this.config.id ? "tab-content-" + this.config.id : null, _a), handlers), { class: this._getCss(false) +
                 (this.config.css ? " " + this.config.css : "") +
                 (this.config.collapsed ? " dhx_layout-cell--collapsed" : "") +
                 (this.config.resizable ? " dhx_layout-cell--resizeble" : "") +
-                //  только для селов
+                // for cells only
                 (this.config.gravity ? " dhx_layout-cell--gravity" : "") }), this.config.full ? [
             dom_1.el("div", {
                 tabindex: this.config.collapsable ? "0" : "-1",
@@ -11435,10 +12585,13 @@ var Cell = /** @class */ (function (_super) {
                     (this.config.collapsable ? " dhx_layout-cell-header--collapseble" : "") +
                     (this.config.collapsed ? " dhx_layout-cell-header--collapsed" : "") +
                     (((this.getParent() || {}).config || {}).isAccordion ? " dhx_layout-cell-header--accordion" : ""),
-                onclick: this._handlers.collapse,
+                style: {
+                    height: this.config.headerHeight
+                },
+                onclick: this._handlers.toggle,
                 onkeydown: this._handlers.enterCollapse
             }, [
-                this.config.headerIcon && dom_1.el("span.dhx_layout-cell-header__icon" + this.config.headerIcon),
+                this.config.headerIcon && dom_1.el("span.dhx_layout-cell-header__icon", { class: this.config.headerIcon }),
                 this.config.headerImage && dom_1.el(".dhx_layout-cell-header__image-wrapper", [
                     dom_1.el("img", {
                         src: this.config.headerImage,
@@ -11446,12 +12599,16 @@ var Cell = /** @class */ (function (_super) {
                     })
                 ]),
                 this.config.header && dom_1.el("h3.dhx_layout-cell-header__title", this.config.header),
-                this.config.collapsable && dom_1.el("div.dhx_layout-cell-header__collapse-icon", {
-                    class: this._getCollapseIcon()
-                }),
+                this.config.collapsable
+                    ? dom_1.el("div.dhx_layout-cell-header__collapse-icon", {
+                        class: this._getCollapseIcon()
+                    })
+                    : dom_1.el("div.dhx_layout-cell-header__collapse-icon", {
+                        class: "dxi dxi-empty"
+                    })
             ]),
             !this.config.collapsed ? dom_1.el("div", {
-                "style": this.config.html || nodes ? stylePadding : null,
+                "style": __assign(__assign({}, stylePadding), { height: "calc(100% - " + (this.config.headerHeight || 37) + "px)" }),
                 ".innerHTML": this.config.html,
                 "class": this._getCss(true) + " dhx_layout-cell-content",
             }, kids) : null
@@ -11471,6 +12628,31 @@ var Cell = /** @class */ (function (_super) {
     };
     Cell.prototype._initHandlers = function () {
         var _this = this;
+        this._handlers = {
+            enterCollapse: function (e) {
+                if (e.keyCode === 13) {
+                    _this._handlers.toggle();
+                }
+            },
+            collapse: function () {
+                if (!_this.config.collapsable) {
+                    return;
+                }
+                _this.collapse();
+            },
+            expand: function () {
+                if (!_this.config.collapsable) {
+                    return;
+                }
+                _this.expand();
+            },
+            toggle: function () {
+                if (!_this.config.collapsable) {
+                    return;
+                }
+                _this.toggle();
+            }
+        };
         var blockOpts = {
             left: null,
             top: null,
@@ -11488,9 +12670,10 @@ var Cell = /** @class */ (function (_super) {
             document.body.classList.remove("dhx_no-select--resize");
             document.removeEventListener("mouseup", mouseUp);
             document.removeEventListener("mousemove", mouseMove);
+            _this.events.fire(types_1.LayoutEvents.afterResizeEnd, [_this.id]);
         };
         var mouseMove = function (e) {
-            if (!blockOpts.isActive || blockOpts.mode === resizeMode.unknown) {
+            if (!blockOpts.isActive || blockOpts.mode === types_1.resizeMode.unknown) {
                 return;
             }
             var newValue = blockOpts.xLayout
@@ -11504,42 +12687,29 @@ var Cell = /** @class */ (function (_super) {
                 newValue = blockOpts.size - blockOpts.resizerLength;
             }
             switch (blockOpts.mode) {
-                case resizeMode.pixels:
+                case types_1.resizeMode.pixels:
                     _this.config[prop] = newValue - blockOpts.resizerLength / 2 + "px";
                     blockOpts.nextCell.config[prop] = blockOpts.size - newValue - blockOpts.resizerLength / 2 + "px";
                     break;
-                case resizeMode.mixedpx1:
+                case types_1.resizeMode.mixedpx1:
                     _this.config[prop] = newValue - blockOpts.resizerLength / 2 + "px";
                     break;
-                case resizeMode.mixedpx2:
+                case types_1.resizeMode.mixedpx2:
                     blockOpts.nextCell.config[prop] = blockOpts.size - newValue - blockOpts.resizerLength / 2 + "px";
                     break;
-                case resizeMode.percents:
+                case types_1.resizeMode.percents:
                     _this.config[prop] = newValue / blockOpts.size * blockOpts.percentsum + "%";
                     blockOpts.nextCell.config[prop] = (blockOpts.size - newValue) / blockOpts.size * blockOpts.percentsum + "%";
                     break;
-                case resizeMode.mixedperc1:
+                case types_1.resizeMode.mixedperc1:
                     _this.config[prop] = newValue / blockOpts.size * blockOpts.percentsum + "%";
                     break;
-                case resizeMode.mixedperc2:
+                case types_1.resizeMode.mixedperc2:
                     blockOpts.nextCell.config[prop] = (blockOpts.size - newValue) / blockOpts.size * blockOpts.percentsum + "%";
                     break;
             }
             _this.paint();
-        };
-        this._handlers = {
-            enterCollapse: function (e) {
-                if (e.keyCode === 13) {
-                    _this._handlers.collapse();
-                }
-            },
-            collapse: function () {
-                if (!_this.config.collapsable) {
-                    return;
-                }
-                _this.config.collapsed = !_this.config.collapsed;
-                _this.paint();
-            }
+            _this.events.fire(types_1.LayoutEvents.resize, [_this.id]);
         };
         this._resizerHandlers = {
             onmousedown: function (e) {
@@ -11548,6 +12718,9 @@ var Cell = /** @class */ (function (_super) {
                 }
                 if (blockOpts.isActive) {
                     mouseUp();
+                }
+                if (!_this.events.fire(types_1.LayoutEvents.beforeResizeStart, [_this.id])) {
+                    return;
                 }
                 document.body.classList.add("dhx_no-select--resize");
                 var block = _this.getCellView();
@@ -11560,21 +12733,21 @@ var Cell = /** @class */ (function (_super) {
                 blockOpts.xLayout = _this._isXDirection();
                 blockOpts.left = blockOffsets.left + window.pageXOffset;
                 blockOpts.top = blockOffsets.top + window.pageYOffset;
-                blockOpts.range = getBlockRange(blockOffsets, nextBlockOffsets, blockOpts.xLayout);
+                blockOpts.range = helpers_1.getBlockRange(blockOffsets, nextBlockOffsets, blockOpts.xLayout);
                 blockOpts.size = blockOpts.range.max - blockOpts.range.min;
                 blockOpts.isActive = true;
                 blockOpts.nextCell = nextCell;
                 blockOpts.resizerLength = blockOpts.xLayout ? resizerOffsets.width : resizerOffsets.height;
-                blockOpts.mode = getResizeMode(blockOpts.xLayout, _this.config, nextCell.config);
-                if (blockOpts.mode === resizeMode.percents) {
+                blockOpts.mode = helpers_1.getResizeMode(blockOpts.xLayout, _this.config, nextCell.config);
+                if (blockOpts.mode === types_1.resizeMode.percents) {
                     var field = blockOpts.xLayout ? "width" : "height";
                     blockOpts.percentsum = parseFloat(_this.config[field]) + parseFloat(nextCell.config[field]);
                 }
-                if (blockOpts.mode === resizeMode.mixedperc1) {
+                if (blockOpts.mode === types_1.resizeMode.mixedperc1) {
                     var field = blockOpts.xLayout ? "width" : "height";
                     blockOpts.percentsum = 1 / (blockOffsets[field] / (blockOpts.size - blockOpts.resizerLength)) * parseFloat(_this.config[field]);
                 }
-                if (blockOpts.mode === resizeMode.mixedperc2) {
+                if (blockOpts.mode === types_1.resizeMode.mixedperc2) {
                     var field = blockOpts.xLayout ? "width" : "height";
                     blockOpts.percentsum = 1 / (nextBlockOffsets[field] / (blockOpts.size - blockOpts.resizerLength)) * parseFloat(nextCell.config[field]);
                 }
@@ -11630,16 +12803,12 @@ var Cell = /** @class */ (function (_super) {
         }
         else {
             if (config.height !== undefined && !config.collapsed) {
-                style.flexBasis = config.height;
                 style.height = config.height;
             }
             if (config.width !== undefined) {
                 style.width = config.width;
             }
         }
-        // if (config.padding) {
-        // 	style.padding = config.padding;
-        // }
         return style;
     };
     return Cell;
@@ -11648,14 +12817,65 @@ exports.Cell = Cell;
 
 
 /***/ }),
-/* 101 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var html_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(33);
+var types_1 = __webpack_require__(28);
+function getResizeMode(isXLayout, conf1, conf2) {
+    var field = isXLayout ? "width" : "height";
+    var is1perc = conf1[field] && conf1[field].indexOf("%") !== -1;
+    var is2perc = conf2[field] && conf2[field].indexOf("%") !== -1;
+    var is1px = conf1[field] && conf1[field].indexOf("px") !== -1;
+    var is2px = conf2[field] && conf2[field].indexOf("px") !== -1;
+    if (is1perc && is2perc) {
+        return types_1.resizeMode.percents;
+    }
+    if (is1px && is2px) {
+        return types_1.resizeMode.pixels;
+    }
+    if (is1px && !is2px) {
+        return types_1.resizeMode.mixedpx1;
+    }
+    if (is2px && !is1px) {
+        return types_1.resizeMode.mixedpx2;
+    }
+    if (is1perc) {
+        return types_1.resizeMode.mixedperc1;
+    }
+    if (is2perc) {
+        return types_1.resizeMode.mixedperc2;
+    }
+    return types_1.resizeMode.unknown;
+}
+exports.getResizeMode = getResizeMode;
+function getBlockRange(block1, block2, isXLayout) {
+    if (isXLayout === void 0) { isXLayout = true; }
+    if (isXLayout) {
+        return {
+            min: block1.left + window.pageXOffset,
+            max: block2.right + window.pageXOffset
+        };
+    }
+    return {
+        min: block1.top + window.pageYOffset,
+        max: block2.bottom + window.pageYOffset
+    };
+}
+exports.getBlockRange = getBlockRange;
+
+
+/***/ }),
+/* 105 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var html_1 = __webpack_require__(2);
+var types_1 = __webpack_require__(35);
 var nodeTimeout = new WeakMap();
 var containers = new Map();
 function onExpire(node, fromClick) {
@@ -11691,7 +12911,7 @@ function message(props) {
     }
     props.position = props.position || types_1.MessageContainerPosition.topRight;
     var messageBox = document.createElement("div");
-    messageBox.className = "dhx_message " + (props.css || "");
+    messageBox.className = "dhx_widget dhx_message " + (props.css || "");
     if (props.html) {
         messageBox.innerHTML = props.html;
     }
@@ -11742,20 +12962,20 @@ function createMessageContainer(parent, position) {
 
 
 /***/ }),
-/* 102 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
-var en_1 = __webpack_require__(34);
-var common_1 = __webpack_require__(59);
+var en_1 = __webpack_require__(36);
+var common_1 = __webpack_require__(61);
 function alert(props) {
     var apply = props.buttons && props.buttons[0] ? props.buttons[0] : en_1.default.apply;
     var unblock = common_1.blockScreen(props.blockerCss);
     return new Promise(function (res) {
         var alertBox = document.createElement("div");
-        alertBox.className = "dhx_alert " + (props.css || "");
+        alertBox.className = "dhx_widget dhx_alert " + (props.css || "");
         alertBox.innerHTML = "\n\t\t\t" + (props.header ? "<div class=\"dhx_alert__header\"> " + props.header + " </div>" : "") + "\n\t\t\t" + (props.text ? "<div class=\"dhx_alert__content\">" + props.text + "</div>" : "") + "\n\t\t\t<div class=\"dhx_alert__footer " + (props.buttonsAlignment ? ("dhx_alert__footer--" + props.buttonsAlignment) : "") + "\">\n\t\t\t\t<button class=\"dhx_alert__apply-button dhx_button dhx_button--view_flat dhx_button--color_primary dhx_button--size_medium\">" + apply + "</button>\n\t\t\t</div>";
         document.body.appendChild(alertBox);
         alertBox.querySelector(".dhx_alert__apply-button").focus();
@@ -11768,17 +12988,17 @@ function alert(props) {
 }
 exports.alert = alert;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(12)))
 
 /***/ }),
-/* 103 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
-var en_1 = __webpack_require__(34);
-var common_1 = __webpack_require__(59);
+var en_1 = __webpack_require__(36);
+var common_1 = __webpack_require__(61);
 function confirm(props) {
     var apply = props.buttons && props.buttons[0] ? props.buttons[0] : en_1.default.apply;
     var reject = props.buttons && props.buttons[1] ? props.buttons[1] : en_1.default.reject;
@@ -11791,7 +13011,7 @@ function confirm(props) {
             res(val);
         };
         var confirmBox = document.createElement("div");
-        confirmBox.className = "dhx_alert dhx_alert--confirm" + (props.css ? " " + props.css : "");
+        confirmBox.className = "dhx_widget dhx_alert dhx_alert--confirm" + (props.css ? " " + props.css : "");
         confirmBox.innerHTML = "\n\t\t" + (props.header ? "<div class=\"dhx_alert__header\"> " + props.header + " </div>" : "") + "\n\t\t" + (props.text ? "<div class=\"dhx_alert__content\">" + props.text + "</div>" : "") + "\n\t\t\t<div class=\"dhx_alert__footer " + (props.buttonsAlignment ? ("dhx_alert__footer--" + props.buttonsAlignment) : "") + "\">\n\t\t\t\t<button class=\"dhx_alert__confirm-aply dhx_button dhx_button--view_link dhx_button--color_primary dhx_button--size_medium\">" + apply + "</button>\n\t\t\t\t<button class=\"dhx_alert__confirm-reject dhx_button dhx_button--view_flat dhx_button--color_primary dhx_button--size_medium\">" + reject + "</button>\n\t\t\t</div>";
         document.body.appendChild(confirmBox);
         confirmBox.querySelector(".dhx_alert__confirm-reject").focus();
@@ -11805,10 +13025,10 @@ function confirm(props) {
 }
 exports.confirm = confirm;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(12)))
 
 /***/ }),
-/* 104 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11829,8 +13049,8 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var html_1 = __webpack_require__(3);
-var ts_navbar_1 = __webpack_require__(15);
+var html_1 = __webpack_require__(2);
+var ts_navbar_1 = __webpack_require__(17);
 var ts_message_1 = __webpack_require__(19);
 var Toolbar = /** @class */ (function (_super) {
     __extends(Toolbar, _super);
@@ -11918,6 +13138,7 @@ var Toolbar = /** @class */ (function (_super) {
                 ts_navbar_1.ItemType.title,
                 ts_navbar_1.ItemType.navItem,
                 ts_navbar_1.ItemType.menuItem,
+                ts_navbar_1.ItemType.customHTML,
             ],
             widgetName: "toolbar"
         });
@@ -11962,10 +13183,10 @@ var Toolbar = /** @class */ (function (_super) {
     Toolbar.prototype._getMode = function (item, root) {
         return item.id === root ? "bottom" : "right";
     };
-    Toolbar.prototype._close = function () {
+    Toolbar.prototype._close = function (e) {
         this._activePosition = null;
         this._currentRoot = null;
-        _super.prototype._close.call(this);
+        _super.prototype._close.call(this, e);
     };
     Toolbar.prototype._setRoot = function (id) {
         if (this.data.getParent(id) === this.data.getRoot()) {
@@ -11978,7 +13199,7 @@ exports.Toolbar = Toolbar;
 
 
 /***/ }),
-/* 105 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12010,12 +13231,12 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var Keymanager_1 = __webpack_require__(13);
 var view_1 = __webpack_require__(4);
 var ts_data_1 = __webpack_require__(7);
-var types_1 = __webpack_require__(22);
+var types_1 = __webpack_require__(23);
 var Navbar = /** @class */ (function (_super) {
     __extends(Navbar, _super);
     function Navbar(element, config) {
@@ -12037,10 +13258,10 @@ var Navbar = /** @class */ (function (_super) {
             _this.data = new ts_data_1.TreeCollection({}, _this.events);
         }
         _this._documentClick = function (e) {
-            if (html_1.locate(e, "dhx_widget_id") !== _this._uid && _this._documentHaveListener) {
+            if (_this._documentHaveListener) {
                 document.removeEventListener("click", _this._documentClick);
                 _this._documentHaveListener = false;
-                _this._close();
+                _this._close(e);
             }
         };
         _this._currentRoot = _this.data.getRoot();
@@ -12063,6 +13284,12 @@ var Navbar = /** @class */ (function (_super) {
     Navbar.prototype.enable = function (ids) {
         this._setProp(ids, "disabled", false);
     };
+    Navbar.prototype.isDisabled = function (id) {
+        var item = this.data.getItem(id);
+        if (item) {
+            return item.disabled || false;
+        }
+    };
     Navbar.prototype.show = function (ids) {
         this._setProp(ids, "hidden", false);
     };
@@ -12077,8 +13304,11 @@ var Navbar = /** @class */ (function (_super) {
     Navbar.prototype._customHandlers = function () {
         return {};
     };
-    Navbar.prototype._close = function () {
+    Navbar.prototype._close = function (e) {
         var _this = this;
+        if (!this._popupActive || !this.events.fire(types_1.NavigationBarEvents.beforeHide, [this._activeMenu, e])) {
+            return;
+        }
         if (this._activeParents) {
             this._activeParents.forEach(function (parentId) { return _this.data.exists(parentId) && _this.data.update(parentId, { $activeParent: false }); });
         }
@@ -12086,14 +13316,16 @@ var Navbar = /** @class */ (function (_super) {
             this._isActive = false;
         }
         clearTimeout(this._currentTimeout);
+        this._popupActive = false;
         this._activeMenu = null;
+        this.events.fire(types_1.NavigationBarEvents.afterHide, [e]);
         this.paint();
     };
     Navbar.prototype._init = function () {
         var _this = this;
         var render = function () { return dom_1.el("div", {
             dhx_widget_id: _this._uid,
-            class: "dhx_" + (_this._isContextMenu ? " dhx_context-menu" : ""),
+            class: (_this._isContextMenu ? " dhx_context-menu" : "") + " " + (_this.config.css ? _this.config.css.split(" ").map(function (i) { return i + "--context-menu"; }).join(" ") : ""),
             onmousemove: _this._handlers.onmousemove,
             onmouseleave: _this._handlers.onmouseleave,
             onclick: _this._handlers.onclick,
@@ -12123,16 +13355,27 @@ var Navbar = /** @class */ (function (_super) {
                 }
                 var id = elem.getAttribute("dhx_id");
                 if (_this._activeMenu !== id) {
-                    _this._activeMenu = id;
                     if (_this.data.haveItems(id)) {
                         var position = html_1.getRealPosition(elem);
                         _this.data.update(id, { $position: position }, false);
                     }
-                    _this._activeItemChange(id);
+                    _this._activeItemChange(id, e);
                 }
-            }, onmouseleave: function () {
+            }, onmouseleave: function (e) {
                 if (_this.config.navigationType !== types_1.NavigationType.click) { // maybe all time when mouse leave close menu
-                    _this._activeItemChange(null);
+                    if (_this._popupActive) {
+                        var element = html_1.locateNode(e, "dhx_id", "relatedTarget");
+                        if (element) {
+                            var id = element.getAttribute("dhx_id");
+                            if (!_this.data.getItem(id)) {
+                                _this._close(e);
+                            }
+                        }
+                        else {
+                            _this._close(e);
+                        }
+                    }
+                    _this._activeItemChange(null, e);
                 }
             }, onclick: function (e) {
                 var element = html_1.locateNode(e);
@@ -12146,17 +13389,15 @@ var Navbar = /** @class */ (function (_super) {
                 }
                 if (_this.data.haveItems(id)) {
                     if (id === _this._currentRoot) {
-                        _this._close();
                         return;
                     }
                     if (!_this._isActive) {
                         _this._isActive = true;
                     }
                     _this._setRoot(id);
-                    _this._activeMenu = id;
                     var position = html_1.getRealPosition(element);
                     _this.data.update(id, { $position: position }, false);
-                    _this._activeItemChange(id);
+                    _this._activeItemChange(id, e);
                 }
                 else {
                     switch (item.type) {
@@ -12177,7 +13418,7 @@ var Navbar = /** @class */ (function (_super) {
                             _this.events.fire(types_1.NavigationBarEvents.click, [id, e]);
                         // missed break for trigger close
                         default:
-                            _this._close();
+                            _this._close(e);
                     }
                 }
             }, onmousedown: function (e) {
@@ -12305,6 +13546,7 @@ var Navbar = /** @class */ (function (_super) {
                 return null;
             }
             var item = _this.data.getItem(itemId) || _this._rootItem; // for root item
+            _this._popupActive = true;
             return dom_1.el("ul", {
                 class: "dhx_widget dhx_menu" + (_this.config.menuCss ? " " + _this.config.menuCss : ""),
                 _key: itemId,
@@ -12342,9 +13584,9 @@ var Navbar = /** @class */ (function (_super) {
             this.data.update(item.id, { active: !item.active });
         }
         this.events.fire(types_1.NavigationBarEvents.click, [id, e]);
-        this._close();
+        this._close(e);
     };
-    Navbar.prototype._activeItemChange = function (id) {
+    Navbar.prototype._activeItemChange = function (id, e) {
         var _this = this;
         if (this._activeParents) {
             var parentIds_1 = this._getParents(id, this._currentRoot);
@@ -12358,13 +13600,14 @@ var Navbar = /** @class */ (function (_super) {
             this._listenOuterClick();
         }
         if (id && this.data.haveItems(id)) {
-            this.events.fire(types_1.NavigationBarEvents.openMenu, [id]);
+            if (this._activeMenu !== id || !this._popupActive) {
+                this.events.fire(types_1.NavigationBarEvents.openMenu, [id]);
+            }
             this._activeMenu = id;
             clearTimeout(this._currentTimeout);
             this.paint();
         }
         else {
-            this._activeMenu = id;
             clearTimeout(this._currentTimeout);
             this._currentTimeout = setTimeout(function () { return _this.paint(); }, 400);
         }
@@ -12379,8 +13622,8 @@ var Navbar = /** @class */ (function (_super) {
         });
     };
     Navbar.prototype._setProp = function (id, key, value) {
-        var _this = this;
         var _a;
+        var _this = this;
         if (Array.isArray(id)) {
             id.forEach(function (itemId) {
                 var _a;
@@ -12411,23 +13654,23 @@ function addInGroups(groups, item) {
 
 
 /***/ }),
-/* 106 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var button_1 = __webpack_require__(107);
-var navItem_1 = __webpack_require__(108);
-var customHTMLButton_1 = __webpack_require__(109);
-var imageButton_1 = __webpack_require__(110);
-var input_1 = __webpack_require__(111);
-var menuItem_1 = __webpack_require__(112);
-var separator_1 = __webpack_require__(113);
-var spacer_1 = __webpack_require__(114);
-var title_1 = __webpack_require__(115);
-var types_1 = __webpack_require__(22);
-var helpers_1 = __webpack_require__(23);
+var button_1 = __webpack_require__(111);
+var navItem_1 = __webpack_require__(112);
+var customHTMLButton_1 = __webpack_require__(113);
+var imageButton_1 = __webpack_require__(114);
+var input_1 = __webpack_require__(115);
+var menuItem_1 = __webpack_require__(116);
+var separator_1 = __webpack_require__(117);
+var spacer_1 = __webpack_require__(118);
+var title_1 = __webpack_require__(119);
+var types_1 = __webpack_require__(23);
+var helpers_1 = __webpack_require__(24);
 function itemfactory(item, events, widgetName, props) {
     switch (item.type) {
         case types_1.ItemType.navItem:
@@ -12448,7 +13691,7 @@ function itemfactory(item, events, widgetName, props) {
         case types_1.ItemType.menuItem:
             return menuItem_1.menuItem(item, widgetName, props.asMenuItem);
         case types_1.ItemType.customHTMLButton:
-            return customHTMLButton_1.customHTMLButton(item, widgetName);
+            return customHTMLButton_1.customHTMLButton(item, widgetName, props.asMenuItem);
         case types_1.ItemType.block:
         default:
             throw new Error("unknown item type " + item.type);
@@ -12467,7 +13710,7 @@ function createFactory(_a) {
             return null;
         }
         if (!item.type || item.type === "button" || item.type === "navItem" || item.type === "menuItem") {
-            if (!item.value && !item.icon) {
+            if (!item.value && !item.icon && !item.html) {
                 return null;
             }
         }
@@ -12478,13 +13721,18 @@ function createFactory(_a) {
         if (item.type === types_1.ItemType.imageButton && widgetName !== "ribbon") {
             item.active = false;
         }
-        if (asMenuItem && item.type !== types_1.ItemType.spacer && item.type !== types_1.ItemType.separator) {
+        if (asMenuItem &&
+            item.type !== types_1.ItemType.spacer &&
+            item.type !== types_1.ItemType.separator &&
+            item.type !== types_1.ItemType.customHTML) {
             item.type = types_1.ItemType.menuItem;
         }
         if (data.haveItems(item.id)) {
             normalizeOpenIcon(widgetName, item, data);
         }
-        return helpers_1.navbarComponentMixin(widgetName, item, asMenuItem, itemfactory(item, events, widgetName, { asMenuItem: asMenuItem, collapsed: widgetName !== "sidebar" || config.collapsed }));
+        var itemVNode = item.type !== types_1.ItemType.customHTML &&
+            itemfactory(item, events, widgetName, { asMenuItem: asMenuItem, collapsed: widgetName !== "sidebar" || config.collapsed });
+        return helpers_1.navbarComponentMixin(widgetName, item, asMenuItem, itemVNode);
     };
 }
 exports.createFactory = createFactory;
@@ -12523,24 +13771,27 @@ function normalizeOpenIcon(widgetName, item, data) {
 
 
 /***/ }),
-/* 107 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var helpers_1 = __webpack_require__(23);
+var helpers_1 = __webpack_require__(24);
 function button(item, widgetName) {
     var isIconButton = item.icon && !item.value;
     var counterClass = isIconButton ? " dhx_navbar-count--absolute" : " dhx_navbar-count--button-inline";
     return dom_1.el("button.dhx_button", {
         class: helpers_1.getNavbarButtonCSS(item, widgetName),
         dhx_id: item.id,
-        disabled: item.disabled
+        disabled: item.disabled,
+        type: "button"
     }, [
         item.icon ? helpers_1.getIcon(item.icon, "button") : null,
-        item.value && dom_1.el("span.dhx_button__text", item.value),
+        item.html ?
+            dom_1.el("div.dhx_button__text", { ".innerHTML": item.html }) :
+            item.value && dom_1.el("span.dhx_button__text", item.value),
         item.count > 0 && helpers_1.getCount(item, counterClass, isIconButton),
         item.value && item.$openIcon ? dom_1.el("span.dhx_button__icon.dhx_button__icon--menu.dxi.dxi-menu-right") : null,
         item.loading && dom_1.el("span.dhx_button__loading", [
@@ -12552,14 +13803,14 @@ exports.button = button;
 
 
 /***/ }),
-/* 108 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var helpers_1 = __webpack_require__(23);
+var helpers_1 = __webpack_require__(24);
 function navItem(item, widgetName, collapsed) {
     var baseClass = " dhx_" + widgetName + "-button";
     return dom_1.el("button", {
@@ -12572,16 +13823,21 @@ function navItem(item, widgetName, collapsed) {
             (!item.value && item.icon ? baseClass + "--icon" : "") +
             (item.css ? " " + item.css : ""),
         dhx_id: item.id,
-        disabled: item.disabled
+        disabled: item.disabled,
+        type: "button"
     }, [
         item.icon && dom_1.el("span", {
             class: item.icon + baseClass + "__icon"
         }),
-        item.value && dom_1.el("span", {
+        item.html && dom_1.el("div", {
+            "class": baseClass.trim() + "__html",
+            ".innerHTML": item.html
+        }),
+        !item.html && item.value && dom_1.el("span", {
             class: baseClass.trim() + "__text"
         }, item.value),
         item.count > 0 && helpers_1.getCount(item, baseClass + "__count", collapsed),
-        item.value && item.$openIcon && dom_1.el("span.dxi.dxi-menu-right", {
+        item.$openIcon && dom_1.el("span.dxi.dxi-menu-right", {
             class: baseClass + "__caret"
         })
     ]);
@@ -12590,16 +13846,19 @@ exports.navItem = navItem;
 
 
 /***/ }),
-/* 109 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-function customHTMLButton(item, widgetName) {
+function customHTMLButton(item, widgetName, asMenuItem) {
+    var baseClass = asMenuItem ? " dhx_button dhx_menu-button" : " dhx_button dhx_nav-menu-button";
     return dom_1.el("button", {
+        "class": "dhx_custom-button" + baseClass + (item.$activeParent ? baseClass + "--active" : ""),
         "dhx_id": item.id,
+        "type": "button",
         ".innerHTML": item.html
     }, item.html ? "" : item.value);
 }
@@ -12607,14 +13866,14 @@ exports.customHTMLButton = customHTMLButton;
 
 
 /***/ }),
-/* 110 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var helpers_1 = __webpack_require__(23);
+var helpers_1 = __webpack_require__(24);
 function imageButton(item, widgetName) {
     var baseClass = "dhx_" + widgetName + "-button-image";
     var isRibbon = widgetName === "ribbon";
@@ -12624,13 +13883,19 @@ function imageButton(item, widgetName) {
             (isRibbon && item.$openIcon ? " " + baseClass + "--select" : "") +
             (item.active ? " " + baseClass + "--active" : ""),
         dhx_id: item.id,
+        type: "button"
     }, [
         isRibbon && item.value && item.$openIcon && dom_1.el("span.dxi.dxi-menu-right", {
             class: baseClass + "__caret"
         }),
-        item.value && dom_1.el("span", {
-            class: baseClass + "__text",
-        }, item.value),
+        item.html ?
+            dom_1.el("div", {
+                "class": baseClass + "__text",
+                ".innerHTML": item.html
+            }) :
+            item.value && dom_1.el("span", {
+                class: baseClass + "__text",
+            }, item.value),
         item.src && dom_1.el("span", {
             class: baseClass + "__image",
             style: { backgroundImage: "url(" + item.src + ")" }
@@ -12642,14 +13907,14 @@ exports.imageButton = imageButton;
 
 
 /***/ }),
-/* 111 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(22);
+var types_1 = __webpack_require__(23);
 function onBlur(events, id) {
     events.fire(types_1.NavigationBarEvents.inputBlur, [id]);
 }
@@ -12663,7 +13928,7 @@ function input(item, events, widgetName) {
         },
     }, [
         dom_1.el("label.dhx_label", { for: item.id }, item.label),
-        dom_1.el(".dhx_input-wrapper", [
+        dom_1.el(".dhx_input__wrapper", [
             dom_1.el("input.dhx_input", {
                 placeholder: item.placeholder,
                 class: item.icon ? "dhx_input--icon-padding" : "",
@@ -12690,43 +13955,50 @@ exports.input = input;
 
 
 /***/ }),
-/* 112 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var helpers_1 = __webpack_require__(23);
+var helpers_1 = __webpack_require__(24);
 function menuItem(item, widgetName, asMenuItem) {
     var baseClass = asMenuItem ? " dhx_menu-button" : " dhx_nav-menu-button";
     return dom_1.el("button", {
         class: "dhx_button" + baseClass +
             (item.disabled ? baseClass + "--disabled" : "") +
-            (item.$activeParent ? baseClass + "--active" : ""),
+            (item.active || item.$activeParent ? baseClass + "--active" : ""),
         disabled: item.disabled,
         dhx_id: item.id,
+        type: "button"
     }, asMenuItem ? [
-        item.icon || item.value ? dom_1.el("span.dhx_menu-button__block.dhx_menu-button__block--left", [
+        item.icon || item.value || item.html ? dom_1.el("span.dhx_menu-button__block.dhx_menu-button__block--left", [
             item.icon && dom_1.el("span.dhx_menu-button__icon", {
                 class: item.icon
             }),
-            item.value && dom_1.el("span.dhx_menu-button__text", item.value),
+            item.html ?
+                dom_1.el("div.dhx_menu-button__text", { ".innerHTML": item.html }) :
+                item.value && dom_1.el("span.dhx_menu-button__text", item.value),
         ]) : null,
         (item.count > 0 || item.hotkey || item.items) ? dom_1.el("span.dhx_menu-button__block.dhx_menu-button__block--right", [
             item.count > 0 && helpers_1.getCount(item, " dhx_menu-button__count", false),
             item.hotkey && dom_1.el("span.dhx_menu-button__hotkey", item.hotkey),
             item.items && dom_1.el("span.dhx_menu-button__caret.dxi.dxi-menu-right"),
         ]) : null
-    ] : [
-        item.value && dom_1.el("span.dhx_nav-menu-button__text", item.value),
-    ]);
+    ] :
+        [
+            item.icon && dom_1.el("span.dhx_menu-button__icon", {
+                class: item.icon
+            }),
+            item.html ? dom_1.el("div.dhx_menu-button__text", { ".innerHTML": item.html }) : item.value && dom_1.el("span.dhx_nav-menu-button__text", item.value),
+        ]);
 }
 exports.menuItem = menuItem;
 
 
 /***/ }),
-/* 113 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12739,20 +14011,20 @@ exports.separator = separator;
 
 
 /***/ }),
-/* 114 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-function spacer(_item, widgetName) {
+function spacer(item, widgetName) {
     return null;
 }
 exports.spacer = spacer;
 
 
 /***/ }),
-/* 115 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12761,14 +14033,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
 function title(item, widgetName) {
     return dom_1.el("span", {
-        class: "dhx_navbar-title" + " dhx_navbar-title--" + widgetName,
-    }, item.value);
+        "class": "dhx_navbar-title" + " dhx_navbar-title--" + widgetName,
+        ".innerHTML": item.html
+    }, !item.html ? item.value : null);
 }
 exports.title = title;
 
 
 /***/ }),
-/* 116 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12799,13 +14072,13 @@ exports.layoutConfigWithoutTopbar = {
 
 
 /***/ }),
-/* 117 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var en_1 = __webpack_require__(35);
+var en_1 = __webpack_require__(37);
 var basis = [
     "byte",
     "kilobyte",
@@ -13037,7 +14310,7 @@ exports.isImage = isImage;
 
 
 /***/ }),
-/* 118 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13058,8 +14331,8 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
 var view_1 = __webpack_require__(4);
-var en_1 = __webpack_require__(35);
-var types_1 = __webpack_require__(26);
+var en_1 = __webpack_require__(37);
+var types_1 = __webpack_require__(27);
 var ProgressBar = /** @class */ (function (_super) {
     __extends(ProgressBar, _super);
     function ProgressBar(events, config) {
@@ -13109,7 +14382,7 @@ exports.ProgressBar = ProgressBar;
 
 
 /***/ }),
-/* 119 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13162,7 +14435,7 @@ exports.ReadStackPreview = ReadStackPreview;
 
 
 /***/ }),
-/* 120 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13195,24 +14468,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var ts_data_1 = __webpack_require__(7);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var Keymanager_1 = __webpack_require__(13);
-var types_1 = __webpack_require__(21);
+var types_1 = __webpack_require__(22);
 var view_1 = __webpack_require__(4);
-var Selection_1 = __webpack_require__(61);
-var html_1 = __webpack_require__(3);
-var types_2 = __webpack_require__(37);
-var editors_1 = __webpack_require__(121);
+var Selection_1 = __webpack_require__(63);
+var html_1 = __webpack_require__(2);
+var types_2 = __webpack_require__(39);
+var editors_1 = __webpack_require__(125);
+var helpers_1 = __webpack_require__(127);
 var List = /** @class */ (function (_super) {
     __extends(List, _super);
     function List(node, config) {
         if (config === void 0) { config = {}; }
         var _this = _super.call(this, node, core_1.extend({
-            itemHeight: config.virtual ? 34 : config.itemHeight || null,
+            itemHeight: config.virtual ? 37 : config.itemHeight || null,
             keyNavigation: false,
             multiselectionMode: config.multiselectionMode ? config.multiselectionMode : "click",
-            editing: false
+            editable: false
         }, config)) || this;
+        if (_this.config.multiselectionMode === "ctrlClick") {
+            _this.config.multiselection = "ctrlClick"; // TODO: remove sute_7.0
+        }
+        _this.config.editable = _this.config.editable || _this.config.editing; // TODO: remove sute_7.0
         if (Array.isArray(_this.config.data)) {
             _this.events = new events_1.EventSystem(_this);
             _this.data = new ts_data_1.DataCollection({}, _this.events);
@@ -13228,8 +14506,7 @@ var List = /** @class */ (function (_super) {
             _this.data = new ts_data_1.DataCollection({}, _this.events);
         }
         _this.selection = new Selection_1.Selection({
-            multiselection: _this.config.multiselection,
-            multiselectionMode: _this.config.multiselectionMode,
+            multiselection: _this.config.multiselection
         }, _this.data);
         _this._getHotkeys();
         var updater = function (updateObj) { return function (id, ids) {
@@ -13242,12 +14519,12 @@ var List = /** @class */ (function (_super) {
             }
         }; };
         _this.events.on(ts_data_1.DataEvents.change, function () {
-            if (_this.config.virtual) {
-                _this._updateVirtual(0);
-            }
             _this.paint();
         });
         _this.events.on(ts_data_1.DataEvents.load, function () {
+            if (_this.config.virtual) {
+                _this._updateVirtual(0);
+            }
             _this.data.map(function (item) {
                 if (item.$selected) {
                     _this.selection.add(item.id);
@@ -13261,14 +14538,14 @@ var List = /** @class */ (function (_super) {
         _this.events.on(ts_data_1.DragEvents.dragEnd, updater({ $dragtarget: undefined }));
         _this.events.on(types_2.ListEvents.afterEditEnd, function (value, id) {
             var item = _this.data.getItem(id);
-            _this.data.update(id, __assign({}, item, { value: value }));
+            _this.data.update(id, __assign(__assign({}, item), { value: value }));
             _this._edited = null;
             _this._getHotkeys();
             _this.paint();
         });
         _this.selection.events.on(types_1.SelectionEvents.afterSelect, function (id) {
             if (id) {
-                _this.setFocusIndex(_this.data.getIndex(id));
+                _this.setFocus(id);
             }
         });
         _this._handlers = {
@@ -13292,14 +14569,14 @@ var List = /** @class */ (function (_super) {
                 if (!id) {
                     return;
                 }
-                _this.events.fire(types_2.ListEvents.contextmenu, [id, e]);
+                _this.events.fire(types_2.ListEvents.itemRightClick, [id, e]);
+                _this.events.fire(types_2.ListEvents.contextmenu, [id, e]); // TODO: remove sute_7.0
             },
             onclick: function (e) {
                 var id = html_1.locate(e);
                 if (!id) {
                     return;
                 }
-                _this.setFocusIndex(_this.data.getIndex(id));
                 _this.selection.add(id, e.ctrlKey || e.metaKey, e.shiftKey);
                 _this.events.fire(types_2.ListEvents.click, [id, e]);
             },
@@ -13308,12 +14585,35 @@ var List = /** @class */ (function (_super) {
                 if (!id) {
                     return;
                 }
-                if (_this.config.editing) {
-                    _this.edit(id);
+                if (_this.config.editable) {
+                    _this.editItem(id);
                 }
                 _this.events.fire(types_2.ListEvents.doubleClick, [id, e]);
             },
-            onscroll: function (e) { return _this.config.virtual ? _this._updateVirtual(e.target.scrollTop) : null; }
+            onscroll: function (e) {
+                if (_this.config.virtual) {
+                    // [TODO] Hide loading data to render
+                    _this._lazyLoad(e);
+                    _this._updateVirtual(e.target.scrollTop);
+                }
+            },
+            onmouseover: function (e) {
+                var id = html_1.locate(e);
+                var element = html_1.locateNode(e, "dhx_id", "relatedTarget");
+                if (!element && id) {
+                    _this.events.fire(types_2.ListEvents.itemMouseOver, [id, e]);
+                    return;
+                }
+                else if (!element) {
+                    return;
+                }
+                var attr = element.getAttribute("dhx_id") ? element.getAttribute("dhx_id") : null;
+                var prevId = attr ? attr : "";
+                if (!id || id === prevId) {
+                    return;
+                }
+                _this.events.fire(types_2.ListEvents.itemMouseOver, [id, e]);
+            }
         };
         if (_this.config.dragMode) {
             ts_data_1.dragManager.setItem(_this._uid, _this);
@@ -13328,7 +14628,8 @@ var List = /** @class */ (function (_super) {
                 didMount: function (vm) {
                     if (!_this.config.height) {
                         var element = vm.node.el;
-                        _this.config.height = (element && element.parentNode && element.parentNode.offsetHeight) || 200;
+                        _this.config.height = (element && element.parentNode &&
+                            element.parentNode.offsetHeight) || "100%";
                     }
                     if (_this.config.virtual) {
                         _this._visibleHeight = _this.config.height;
@@ -13341,7 +14642,7 @@ var List = /** @class */ (function (_super) {
         _this.mount(node, view);
         return _this;
     }
-    List.prototype.edit = function (id) {
+    List.prototype.editItem = function (id) {
         this._edited = id;
         if (!this.data.getItem(this._edited) || !this.events.fire(types_2.ListEvents.beforeEditStart, [id])) {
             this._edited = null;
@@ -13351,45 +14652,18 @@ var List = /** @class */ (function (_super) {
         this.paint();
         this.events.fire(types_2.ListEvents.afterEditStart, [id]);
     };
-    List.prototype.setFocusIndex = function (index) {
-        if (index < 0 || index > this.data.getLength() - 1) {
-            return;
-        }
-        this._focusIndex = index;
-        var rootView = this.getRootView();
-        if (!rootView || !rootView.node || !rootView.node.el) {
-            return;
-        }
-        var listEl = this.getRootNode();
-        if (!listEl) {
-            return;
-        }
-        if (this.config.virtual) {
-            var position = index * this.config.itemHeight;
-            if (position >= this._visibleHeight + this._topOffset || position < this._topOffset) {
-                listEl.scrollTo(0, position);
-            }
-        }
-        else {
-            var listItem = listEl.children[index];
-            if (!listItem) {
-                return;
-            }
-            if (listItem.offsetTop >= listEl.scrollTop + listEl.clientHeight - listItem.clientHeight) {
-                listEl.scrollTop = listItem.offsetTop - listEl.clientHeight + listItem.clientHeight;
-            }
-            else if (listItem.offsetTop < listEl.scrollTop) {
-                listEl.scrollTop = listItem.offsetTop;
-            }
-        }
-        this.events.fire(types_2.ListEvents.focusChange, [this._focusIndex, this.data.getId(this._focusIndex)]);
-        this.paint();
-    };
     List.prototype.getFocusItem = function () {
-        return this.data.getId(this._focusIndex);
+        return this.data.getItem(this.data.getId(this._focusIndex));
     };
-    List.prototype.getFocusIndex = function () {
-        return this._focusIndex;
+    List.prototype.setFocus = function (id) {
+        var index = this.data.getIndex(id);
+        this._setFocusIndex(index);
+    };
+    List.prototype.getFocus = function () {
+        var id = this.data.getId(this._focusIndex);
+        if (id) {
+            return id;
+        }
     };
     List.prototype.destructor = function () {
         if (this._navigationDestructor) {
@@ -13399,6 +14673,18 @@ var List = /** @class */ (function (_super) {
             this._documentClickDestuctor();
         }
         this.unmount();
+    };
+    // TODO: remove sute_7.0
+    List.prototype.getFocusIndex = function () {
+        return this._focusIndex;
+    };
+    // TODO: remove sute_7.0
+    List.prototype.setFocusIndex = function (index) {
+        this._setFocusIndex(index);
+    };
+    // TODO: remove sute_7.0
+    List.prototype.edit = function (id) {
+        this.editItem(id);
     };
     List.prototype._renderItem = function (item, index) {
         var html = (this.config.template && this.config.template(item)) || item.html;
@@ -13451,41 +14737,80 @@ var List = /** @class */ (function (_super) {
         var _this = this;
         var kids = this.data.map(function (obj, index) { return _this._renderItem(obj, index); });
         return dom_1.el("ul.dhx_widget.dhx_list", __assign({ style: {
-                "max-height": this.config.height + "px",
+                "min-height": this.config.itemHeight,
+                "max-height": this.config.height,
                 "position": "relative"
-            }, class: this.config.css +
+            }, class: (this.config.css ? this.config.css : "") +
                 (this.config.multiselection && this.selection.getItem() ? " dhx_no-select--pointer" : ""), dhx_widget_id: this._uid }, this._handlers), kids);
     };
     List.prototype._renderVirtualList = function () {
         var _this = this;
-        var kids = this.data.mapRange(this._range[0], this._range[1], function (obj, index) { return _this._renderItem(obj, index); });
+        var kids = this.data.mapRange(this._range[0], this._range[1], function (obj, index) {
+            return _this._renderItem(obj, index);
+        });
         return dom_1.el(".dhx_widget.dhx_virtual-list-wrapper", __assign({ dhx_widget_id: this._uid, style: {
+                "min-height": this.config.itemHeight,
                 "max-height": this._visibleHeight
             } }, this._handlers), [
             dom_1.el("ul.dhx_list.dhx_list--virtual", {
-                class: this.config.css +
+                class: (this.config.css ? this.config.css : "") +
                     (this.config.multiselection && this.selection.getItem() ? " dhx_no-select--pointer" : ""),
                 style: {
-                    "height": this._getHeight() + "px",
-                    "padding-top": this._topOffset + "px"
+                    "height": this._getHeight() + helpers_1.defineUnit(this.config.itemHeight),
+                    "padding-top": this._topOffset
                 },
             }, kids)
         ]);
     };
+    List.prototype._setFocusIndex = function (index) {
+        if (index < 0 || index > this.data.getLength() - 1) {
+            return;
+        }
+        this._focusIndex = index;
+        var rootView = this.getRootView();
+        if (!rootView || !rootView.node || !rootView.node.el) {
+            return;
+        }
+        var listEl = this.getRootNode();
+        if (!listEl) {
+            return;
+        }
+        if (this.config.virtual) {
+            var position = index * helpers_1.defineValue(this.config.itemHeight);
+            if (position >= helpers_1.defineValue(this._visibleHeight) + this._topOffset || position < this._topOffset) {
+                listEl.scrollTo(0, position);
+            }
+        }
+        else {
+            var listItem = listEl.children[index];
+            if (!listItem) {
+                return;
+            }
+            if (listItem.offsetTop >= listEl.scrollTop + listEl.clientHeight - listItem.clientHeight) {
+                listEl.scrollTop = listItem.offsetTop - listEl.clientHeight + listItem.clientHeight;
+            }
+            else if (listItem.offsetTop < listEl.scrollTop) {
+                listEl.scrollTop = listItem.offsetTop;
+            }
+        }
+        this.events.fire(types_2.ListEvents.focusChange, [this._focusIndex, this.data.getId(this._focusIndex)]);
+        this.paint();
+    };
     List.prototype._updateVirtual = function (position) {
         var overscanCount = 5;
         var totalHeight = this._getHeight();
-        if (position > totalHeight - this._visibleHeight) {
-            position = totalHeight - this._visibleHeight;
+        if (position > totalHeight - helpers_1.defineValue(this._visibleHeight)) {
+            position = totalHeight - helpers_1.defineValue(this._visibleHeight);
         }
-        var count = Math.floor(this._visibleHeight / this.config.itemHeight) + overscanCount;
-        var index = Math.floor(position / this.config.itemHeight);
+        var count = Math.floor(helpers_1.defineValue(this._visibleHeight) / helpers_1.defineValue(this.config.itemHeight))
+            + overscanCount;
+        var index = Math.floor(position / helpers_1.defineValue(this.config.itemHeight));
         this._range = [index, count + index];
         this._topOffset = position;
         this.paint();
     };
     List.prototype._getHeight = function () {
-        return this.data.getLength() * this.config.itemHeight;
+        return this.data.getLength() * helpers_1.defineValue(this.config.itemHeight);
     };
     List.prototype._getHotkeys = function () {
         var _this = this;
@@ -13506,9 +14831,9 @@ var List = /** @class */ (function (_super) {
                     e.preventDefault();
                     fn();
                 }; };
-                this._navigationDestructor = Keymanager_1.addHotkeys({
-                    "arrowdown": preventEvent(function () { return _this.setFocusIndex(_this._focusIndex + 1); }),
-                    "arrowup": preventEvent(function () { return _this.setFocusIndex(_this._focusIndex - 1); }),
+                var handlers = {
+                    "arrowDown": preventEvent(function () { return _this.setFocusIndex(_this._focusIndex + 1); }),
+                    "arrowUp": preventEvent(function () { return _this.setFocusIndex(_this._focusIndex - 1); }),
                     "enter": function (e) {
                         var id = _this.data.getId(_this._focusIndex);
                         _this.selection.add(id);
@@ -13523,14 +14848,25 @@ var List = /** @class */ (function (_super) {
                         var id = _this.data.getId(_this._focusIndex);
                         _this.selection.add(id, true, false);
                         _this.events.fire(types_2.ListEvents.click, [id, e]);
-                    },
-                    "enter+meta": function (e) {
-                        var id = _this.data.getId(_this._focusIndex);
-                        _this.selection.add(id, true, false);
-                        _this.events.fire(types_2.ListEvents.click, [id, e]);
                     }
-                }, keyNavigation);
+                };
+                if (html_1.isIE()) {
+                    handlers = __assign({ up: handlers.arrowUp, down: handlers.arrowDown }, handlers);
+                    delete handlers.arrowUp;
+                    delete handlers.arrowDown;
+                }
+                this._navigationDestructor = Keymanager_1.addHotkeys(handlers, keyNavigation);
             }
+        }
+    };
+    List.prototype._lazyLoad = function (e) {
+        var y = e.target.scrollTop;
+        var from = Math.round(y / helpers_1.defineValue(this.config.itemHeight));
+        var onScreenCount = this.config.height / helpers_1.defineValue(this.config.itemHeight);
+        var proxy = this.data.dataProxy;
+        if (proxy && proxy.config && !this.data.isDataLoaded(from, onScreenCount + from + proxy.config.prepare)) {
+            proxy.updateUrl(null, { from: from, limit: proxy.config.limit });
+            this.data.load(proxy);
         }
     };
     return List;
@@ -13539,13 +14875,13 @@ exports.List = List;
 
 
 /***/ }),
-/* 121 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var InputEditor_1 = __webpack_require__(122);
+var InputEditor_1 = __webpack_require__(126);
 function getEditor(item, list) {
     return new InputEditor_1.InputEditor(item, list);
 }
@@ -13553,14 +14889,14 @@ exports.getEditor = getEditor;
 
 
 /***/ }),
-/* 122 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(37);
+var types_1 = __webpack_require__(39);
 var InputEditor = /** @class */ (function () {
     function InputEditor(item, list) {
         var _this = this;
@@ -13592,8 +14928,8 @@ var InputEditor = /** @class */ (function () {
     InputEditor.prototype.toHTML = function () {
         this._mode = true;
         var itemHeight = this._config.itemHeight;
-        return dom_1.el(".dhx_input-wrapper", {}, [
-            dom_1.el("div.dhx_input-container", {}, [
+        return dom_1.el(".dhx_input__wrapper", {}, [
+            dom_1.el("div.dhx_input__container", {}, [
                 dom_1.el("input.dhx_input", {
                     class: this._item.css ? " " + this._item.css : "",
                     style: {
@@ -13636,7 +14972,34 @@ exports.InputEditor = InputEditor;
 
 
 /***/ }),
-/* 123 */
+/* 127 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function defineValue(property) {
+    if (property) {
+        var prop = property.toString().trim();
+        if (prop.indexOf("calc") === -1) {
+            return parseInt(prop.split(/\D+/g)[0], null);
+        }
+    }
+}
+exports.defineValue = defineValue;
+function defineUnit(property) {
+    if (property) {
+        var prop = property.toString().trim();
+        if (prop.indexOf("calc") === -1) {
+            return prop.slice(prop.split(/\D+/g)[0].length);
+        }
+    }
+}
+exports.defineUnit = defineUnit;
+
+
+/***/ }),
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13665,17 +15028,24 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var view_1 = __webpack_require__(4);
-var ts_timepicker_1 = __webpack_require__(29);
-var DateHelper_1 = __webpack_require__(128);
-var DateFormatter_1 = __webpack_require__(38);
-var helper_1 = __webpack_require__(129);
-var en_1 = __webpack_require__(39);
-var types_1 = __webpack_require__(66);
+var ts_timepicker_1 = __webpack_require__(30);
+var DateHelper_1 = __webpack_require__(133);
+var DateFormatter_1 = __webpack_require__(41);
+var helper_1 = __webpack_require__(134);
+var en_1 = __webpack_require__(42);
+var types_1 = __webpack_require__(68);
 var Calendar = /** @class */ (function (_super) {
     __extends(Calendar, _super);
     function Calendar(container, config) {
@@ -13686,7 +15056,10 @@ var Calendar = /** @class */ (function (_super) {
             dateFormat: (window && window.dhx && window.dhx.dateFormat),
             width: "250px"
         }, config)) || this;
+        _this._selected = [];
         _this.events = new events_1.EventSystem();
+        _this.config.disabledDates = _this.config.disabledDates || _this.config.block; // TODO: remove sute_7.0
+        _this.config.mode = _this.config.mode || _this.config.view; // TODO: remove sute_7.0
         if (!_this.config.dateFormat) {
             if (_this.config.timePicker) {
                 if (_this.config.timeFormat === 12) {
@@ -13701,18 +15074,18 @@ var Calendar = /** @class */ (function (_super) {
             }
         }
         if (_this.config.value) {
-            _this._selected = DateHelper_1.DateHelper.toDateObject(_this.config.value, _this.config.dateFormat);
+            _this._setSelected(_this.config.value);
         }
         if (_this.config.date) {
             _this._currentDate = DateHelper_1.DateHelper.toDateObject(_this.config.date, _this.config.dateFormat);
         }
-        else if (_this._selected) {
-            _this._currentDate = new Date(_this._selected);
+        else if (_this._getSelected()) {
+            _this._currentDate = DateHelper_1.DateHelper.copy(_this._getSelected());
         }
         else {
             _this._currentDate = new Date();
         }
-        switch (_this.config.view) {
+        switch (_this.config.mode) {
             case types_1.ViewMode.months:
                 _this._currentViewMode = types_1.ViewMode.months;
                 break;
@@ -13720,64 +15093,75 @@ var Calendar = /** @class */ (function (_super) {
                 _this._currentViewMode = types_1.ViewMode.years;
                 break;
             default:
-                _this._currentViewMode = types_1.ViewMode.days;
+                _this._currentViewMode = types_1.ViewMode.calendar;
         }
         _this._initHandlers();
         if (_this.config.timePicker) {
-            _this._timepicker = new ts_timepicker_1.Timepicker(null, { timeFormat: _this.config.timeFormat, actions: true });
-            var initTime = _this._selected || new Date();
+            _this._timepicker = new ts_timepicker_1.Timepicker(null, { timeFormat: _this.config.timeFormat, controls: true });
+            var initTime = _this._getSelected() || new Date();
             _this._timepicker.setValue(initTime);
             _this._time = _this._timepicker.getValue();
-            _this._timepicker.events.on(ts_timepicker_1.TimepickerEvents.close, function () {
+            _this._timepicker.events.on(ts_timepicker_1.TimepickerEvents.afterClose, function () {
                 _this._timepicker.setValue(_this._time);
-                _this.showDate(null, types_1.ViewMode.days);
+                _this.showDate(null, types_1.ViewMode.calendar);
             });
-            _this._timepicker.events.on(ts_timepicker_1.TimepickerEvents.save, function () {
+            _this._timepicker.events.on(ts_timepicker_1.TimepickerEvents.apply, function () {
                 var _a = _this._timepicker.getValue(true), hour = _a.hour, minute = _a.minute, AM = _a.AM;
-                var oldDate = _this._selected;
-                var newDate = _this._selected = DateHelper_1.DateHelper.withHoursAndMinutes(_this._selected || new Date(), AM === false ? hour + 12 : hour, minute);
+                var oldDate = _this._getSelected();
+                var newDate = DateHelper_1.DateHelper.withHoursAndMinutes(_this._getSelected() || new Date(), hour, minute, AM);
                 if (_this.events.fire(types_1.CalendarEvents.beforeChange, [newDate, oldDate, true])) {
-                    _this._selected = newDate;
+                    _this._selected[_this._selected.length - 1] = newDate;
                     _this.events.fire(types_1.CalendarEvents.change, [newDate, oldDate, true]);
                 }
                 _this._time = _this._timepicker.getValue();
-                _this.showDate(null, types_1.ViewMode.days);
+                _this.showDate(null, types_1.ViewMode.calendar);
             });
         }
         var render = function () { return _this._draw(); };
         _this.mount(container, dom_1.create({ render: render }));
         return _this;
     }
-    Calendar.prototype.setValue = function (date) {
-        date = DateHelper_1.DateHelper.toDateObject(date, this.config.dateFormat);
-        var oldDate = DateHelper_1.DateHelper.copy(this._selected);
+    Calendar.prototype.setValue = function (value) {
+        if (!value || value instanceof Array && value.length === 0) {
+            return false;
+        }
+        this._selected = [];
+        var currentDate = value instanceof Array ? value[0] : value;
+        var date = DateHelper_1.DateHelper.toDateObject(currentDate, this.config.dateFormat);
+        var oldDate = DateHelper_1.DateHelper.copy(this._getSelected());
         if (!this.events.fire(types_1.CalendarEvents.beforeChange, [date, oldDate, false])) {
             return false;
         }
-        this._selected = date;
-        this._currentDate = DateHelper_1.DateHelper.copy(this._selected);
+        this._setSelected(value);
         if (this._timepicker) {
             this._timepicker.setValue(date);
             this._time = this._timepicker.getValue();
         }
+        this.showDate(this._getSelected());
         this.events.fire(types_1.CalendarEvents.change, [date, oldDate, false]);
         this.paint();
         return true;
     };
     Calendar.prototype.getValue = function (asDateObject) {
-        if (!this._selected) {
-            return null;
+        var _this = this;
+        if (!this._selected[0]) {
+            return "";
         }
-        if (asDateObject) {
-            return DateHelper_1.DateHelper.copy(this._selected);
+        if (this.config.range) {
+            return asDateObject
+                ? this._selected.map(function (date) { return DateHelper_1.DateHelper.copy(date); })
+                : this._selected.map(function (date) { return DateFormatter_1.getFormatedDate(_this.config.dateFormat, date); });
         }
-        else {
-            return DateFormatter_1.getFormatedDate(this.config.dateFormat, this._selected);
-        }
+        return asDateObject
+            ? DateHelper_1.DateHelper.copy(this._selected[0])
+            : DateFormatter_1.getFormatedDate(this.config.dateFormat, this._selected[0]);
+    };
+    Calendar.prototype.getCurrentMode = function () {
+        return this._currentViewMode;
     };
     Calendar.prototype.showDate = function (date, mode) {
         if (date) {
-            this._currentDate = date;
+            this._currentDate = DateHelper_1.DateHelper.copy(date);
         }
         if (mode) {
             this._currentViewMode = mode;
@@ -13793,15 +15177,23 @@ var Calendar = /** @class */ (function (_super) {
         }
         this.unmount();
     };
+    Calendar.prototype.clear = function () {
+        if (this.config.timePicker) {
+            this._timepicker.clear();
+            this._time = this._timepicker.getValue();
+        }
+        this._selected = [];
+        this.showDate(null, this.config.mode);
+    };
     Calendar.prototype.link = function (targetCalendar) {
         var _this = this;
         if (this._linkedCalendar) {
             this._unlink();
         }
         this._linkedCalendar = targetCalendar;
-        var rawLowerData = this.getValue(true);
+        var rawLowerDate = this.getValue(true);
         var rawUpperDate = targetCalendar.getValue(true);
-        var lowerDate = rawLowerData && DateHelper_1.DateHelper.dayStart(rawLowerData);
+        var lowerDate = rawLowerDate && DateHelper_1.DateHelper.dayStart(rawLowerDate);
         var upperDate = rawUpperDate && DateHelper_1.DateHelper.dayStart(rawUpperDate);
         var rangeMark = function (date) {
             if (lowerDate && upperDate) {
@@ -13821,13 +15213,16 @@ var Calendar = /** @class */ (function (_super) {
             }
             return positionInRange;
         };
-        if (!this.config.block || !this._linkedCalendar.config.block) {
-            this.config.block = function (date) {
+        if (!this.config.$rangeMark || !this._linkedCalendar.config.$rangeMark) {
+            this.config.$rangeMark = this._linkedCalendar.config.$rangeMark = rangeMark;
+        }
+        if (!this.config.disabledDates || !this._linkedCalendar.config.disabledDates) {
+            this.config.disabledDates = function (date) {
                 if (upperDate) {
                     return date > upperDate;
                 }
             };
-            this._linkedCalendar.config.block = function (date) {
+            this._linkedCalendar.config.disabledDates = function (date) {
                 if (lowerDate) {
                     return date < lowerDate;
                 }
@@ -13835,9 +15230,6 @@ var Calendar = /** @class */ (function (_super) {
         }
         this.config.thisMonthOnly = true;
         targetCalendar.config.thisMonthOnly = true;
-        if (!this.config.$rangeMark || !this._linkedCalendar.config.$rangeMark) {
-            this.config.$rangeMark = this._linkedCalendar.config.$rangeMark = rangeMark;
-        }
         this.events.on(types_1.CalendarEvents.change, function (date) {
             lowerDate = DateHelper_1.DateHelper.dayStart(date);
             _this._linkedCalendar.paint();
@@ -13852,7 +15244,7 @@ var Calendar = /** @class */ (function (_super) {
     Calendar.prototype._unlink = function () {
         if (this._linkedCalendar) {
             this.config.$rangeMark = this._linkedCalendar.config.$rangeMark = null;
-            this.config.block = this._linkedCalendar.config.block = null;
+            this.config.disabledDates = this._linkedCalendar.config.disabledDates = null;
             this.events.detach(types_1.CalendarEvents.change, "link");
             this._linkedCalendar.events.detach(types_1.CalendarEvents.change, "link");
             this._linkedCalendar.paint();
@@ -13860,15 +15252,44 @@ var Calendar = /** @class */ (function (_super) {
             this._linkedCalendar = null;
         }
     };
+    Calendar.prototype._setSelected = function (value) {
+        var _this = this;
+        var currentDate = value instanceof Array ? value[0] : value;
+        var date = DateHelper_1.DateHelper.toDateObject(currentDate, this.config.dateFormat);
+        if (value instanceof Array && this.config.range) {
+            var filterDate_1 = [];
+            value.forEach(function (element, index) {
+                if (index < 2) {
+                    filterDate_1.push(DateHelper_1.DateHelper.toDateObject(element, _this.config.dateFormat));
+                }
+            });
+            if (filterDate_1.length === 2 && filterDate_1[0] < filterDate_1[1]) {
+                filterDate_1.forEach(function (element) { return _this._selected.push(element); });
+            }
+            else {
+                this._selected[0] = filterDate_1[0];
+            }
+        }
+        else {
+            this._selected[0] = date;
+        }
+    };
+    Calendar.prototype._getSelected = function () {
+        return this._selected[this._selected.length - 1];
+    };
     Calendar.prototype._draw = function () {
         switch (this._currentViewMode) {
-            case types_1.ViewMode.days:
+            case types_1.ViewMode.calendar:
+                this.events.fire(types_1.CalendarEvents.modeChange, [types_1.ViewMode.calendar]);
                 return this._drawCalendar();
             case types_1.ViewMode.months:
+                this.events.fire(types_1.CalendarEvents.modeChange, [types_1.ViewMode.months]);
                 return this._drawMonthSelector();
             case types_1.ViewMode.years:
+                this.events.fire(types_1.CalendarEvents.modeChange, [types_1.ViewMode.years]);
                 return this._drawYearSelector();
             case types_1.ViewMode.timepicker:
+                this.events.fire(types_1.CalendarEvents.modeChange, [types_1.ViewMode.timepicker]);
                 return this._drawTimepicker();
         }
     };
@@ -13878,37 +15299,48 @@ var Calendar = /** @class */ (function (_super) {
             onclick: {
                 ".dhx_calendar-year, .dhx_calendar-month, .dhx_calendar-day": function (_e, vn) {
                     var date = vn.attrs._date;
-                    var oldDate = DateHelper_1.DateHelper.copy(_this._selected);
+                    var oldDate = DateHelper_1.DateHelper.copy(_this._getSelected());
                     switch (_this._currentViewMode) {
-                        case types_1.ViewMode.days:
-                            var mergedDate = _this.config.timePicker ? DateHelper_1.DateHelper.mergeHoursAndMinutes(date, _this._selected || _this._currentDate) : date;
+                        case types_1.ViewMode.calendar:
+                            var mergedDate = _this.config.timePicker
+                                ? DateHelper_1.DateHelper.mergeHoursAndMinutes(date, _this._getSelected() || _this._currentDate)
+                                : date;
                             if (!_this.events.fire(types_1.CalendarEvents.beforeChange, [mergedDate, oldDate, true])) {
                                 return;
                             }
-                            _this._selected = mergedDate;
-                            _this.showDate(date);
+                            if (_this.config.range && _this._selected.length === 1 && _this._selected[0] < mergedDate) {
+                                _this._selected.push(mergedDate);
+                            }
+                            else {
+                                _this._selected = [];
+                                _this._selected[0] = mergedDate;
+                            }
+                            _this.showDate(_this._getSelected());
                             _this.events.fire(types_1.CalendarEvents.change, [date, oldDate, true]);
                             break;
                         case types_1.ViewMode.months:
-                            if (_this.config.view !== types_1.ViewMode.months) {
+                            if (_this.config.mode !== types_1.ViewMode.months) {
                                 DateHelper_1.DateHelper.setMonth(_this._currentDate, date);
-                                _this.showDate(null, types_1.ViewMode.days);
+                                _this.showDate(null, types_1.ViewMode.calendar);
+                                _this.events.fire(types_1.CalendarEvents.monthSelected, [date]);
                             }
                             else {
-                                var newDate = DateHelper_1.DateHelper.fromYearAndMonth(_this._currentDate.getFullYear() || _this._selected.getFullYear(), date);
+                                var newDate = DateHelper_1.DateHelper.fromYearAndMonth(_this._currentDate.getFullYear() || _this._getSelected().getFullYear(), date);
                                 if (!_this.events.fire(types_1.CalendarEvents.beforeChange, [newDate, oldDate, true])) {
                                     return;
                                 }
                                 _this._currentDate = newDate;
-                                _this._selected = newDate;
-                                _this.events.fire(types_1.CalendarEvents.change, [_this._selected, oldDate, true]);
+                                _this._selected[0] = newDate;
+                                _this.events.fire(types_1.CalendarEvents.change, [_this._getSelected(), oldDate, true]);
+                                _this.events.fire(types_1.CalendarEvents.monthSelected, [date]);
                                 _this.paint();
                             }
                             break;
                         case types_1.ViewMode.years:
-                            if (_this.config.view !== types_1.ViewMode.years) {
+                            if (_this.config.mode !== types_1.ViewMode.years) {
                                 DateHelper_1.DateHelper.setYear(_this._currentDate, date);
                                 _this.showDate(null, types_1.ViewMode.months);
+                                _this.events.fire(types_1.CalendarEvents.yearSelected, [date]);
                             }
                             else {
                                 var newDate = DateHelper_1.DateHelper.fromYear(date);
@@ -13916,19 +15348,23 @@ var Calendar = /** @class */ (function (_super) {
                                     return;
                                 }
                                 _this._currentDate = newDate;
-                                _this._selected = newDate;
-                                _this.events.fire(types_1.CalendarEvents.change, [_this._selected, oldDate, true]);
+                                _this._selected[0] = newDate;
+                                _this.events.fire(types_1.CalendarEvents.change, [_this._getSelected(), oldDate, true]);
+                                _this.events.fire(types_1.CalendarEvents.yearSelected, [date]);
                                 _this.paint();
                             }
                     }
                 },
-                ".dhx_calendar-action__cancel": function () { return _this.showDate(_this._selected, types_1.ViewMode.days); },
+                ".dhx_calendar-action__cancel": function () {
+                    _this.showDate(_this._getSelected(), types_1.ViewMode.calendar);
+                    _this.events.fire(types_1.CalendarEvents.cancelClick, []);
+                },
                 ".dhx_calendar-action__show-month": function () { return _this.showDate(null, types_1.ViewMode.months); },
                 ".dhx_calendar-action__show-year": function () { return _this.showDate(null, types_1.ViewMode.years); },
                 ".dhx_calendar-action__next": function () {
                     var newDate;
                     switch (_this._currentViewMode) {
-                        case types_1.ViewMode.days:
+                        case types_1.ViewMode.calendar:
                             newDate = DateHelper_1.DateHelper.addMonth(_this._currentDate, 1);
                             break;
                         case types_1.ViewMode.months:
@@ -13942,7 +15378,7 @@ var Calendar = /** @class */ (function (_super) {
                 ".dhx_calendar-action__prev": function () {
                     var newDate;
                     switch (_this._currentViewMode) {
-                        case types_1.ViewMode.days:
+                        case types_1.ViewMode.calendar:
                             newDate = DateHelper_1.DateHelper.addMonth(_this._currentDate, -1);
                             break;
                         case types_1.ViewMode.months:
@@ -13959,13 +15395,17 @@ var Calendar = /** @class */ (function (_super) {
                 }
             },
             onmouseover: {
-                ".dhx_calendar-day": function (e, vn) { return _this.events.fire(types_1.CalendarEvents.dateHover, [e, new Date(vn.attrs._date)]); }
+                ".dhx_calendar-day": function (event, node) {
+                    _this.events.fire(types_1.CalendarEvents.dateMouseOver, [new Date(node.attrs._date), event]);
+                    _this.events.fire(types_1.CalendarEvents.dateHover, [new Date(node.attrs._date), event]); // TODO: remove sute_7.0
+                }
             }
         };
     };
-    Calendar.prototype._getData = function (d) {
+    Calendar.prototype._getData = function (date) {
+        var _this = this;
         var firstDay = this.config.weekStart === "monday" ? 1 : 0;
-        var first = DateHelper_1.DateHelper.weekStart(DateHelper_1.DateHelper.monthStart(d), firstDay);
+        var first = DateHelper_1.DateHelper.weekStart(DateHelper_1.DateHelper.monthStart(date), firstDay);
         var data = [];
         var weeksCount = 6;
         var currentDate = first;
@@ -13974,16 +15414,32 @@ var Calendar = /** @class */ (function (_super) {
             var disabledDays = 0;
             var daysCount = 7;
             var days = [];
-            while (daysCount--) {
+            var _loop_1 = function () {
                 var isDateWeekEnd = DateHelper_1.DateHelper.isWeekEnd(currentDate);
-                var isCurrentMonth = d.getMonth() === currentDate.getMonth();
-                var isBlocked = this.config.block && this.config.block(currentDate);
+                var isCurrentMonth = date.getMonth() === currentDate.getMonth();
+                var isBlocked = this_1.config.disabledDates && this_1.config.disabledDates(currentDate);
                 var css = [];
+                if (this_1.config.range && this_1._selected[0] && this_1._selected[1]) {
+                    var rangeMark = function () {
+                        if (_this._selected[0] && _this._selected[1]) {
+                            var firstDate = DateHelper_1.DateHelper.dayStart(_this._selected[0]);
+                            var lastDate = DateHelper_1.DateHelper.dayStart(_this._selected[1]);
+                            return currentDate >= firstDate && currentDate <= lastDate && getRangeClass_1();
+                        }
+                    };
+                    var getRangeClass_1 = function () {
+                        if (DateHelper_1.DateHelper.isSameDay(_this._selected[0], _this._selected[1])) {
+                            return null;
+                        }
+                        return "dhx_calendar-day--in-range";
+                    };
+                    this_1.config.$rangeMark = rangeMark;
+                }
                 if (isDateWeekEnd && isCurrentMonth) {
                     css.push("dhx_calendar-day--weekend");
                 }
                 if (!isCurrentMonth) {
-                    if (this.config.thisMonthOnly) {
+                    if (this_1.config.thisMonthOnly) {
                         disabledDays++;
                         css.push("dhx_calendar-day--hidden");
                     }
@@ -13991,14 +15447,14 @@ var Calendar = /** @class */ (function (_super) {
                         css.push("dhx_calendar-day--muffled");
                     }
                 }
-                if (this.config.mark) {
-                    var markedCss = this.config.mark(currentDate);
+                if (this_1.config.mark) {
+                    var markedCss = this_1.config.mark(currentDate);
                     if (markedCss) {
                         css.push(markedCss);
                     }
                 }
-                if (this.config.$rangeMark) {
-                    var rangeMark = this.config.$rangeMark(currentDate);
+                if (this_1.config.$rangeMark) {
+                    var rangeMark = this_1.config.$rangeMark(currentDate);
                     if (rangeMark) {
                         css.push(rangeMark);
                     }
@@ -14011,17 +15467,25 @@ var Calendar = /** @class */ (function (_super) {
                         css.push("dhx_calendar-day--disabled");
                     }
                 }
-                if (this._selected && currentDate.getDate() === this._selected.getDate()
-                    && currentDate.getMonth() === this._selected.getMonth()
-                    && this._selected.getFullYear() === currentDate.getFullYear()) {
-                    css.push("dhx_calendar-day--selected");
-                }
+                this_1._selected.forEach(function (selected, index) {
+                    if (selected && DateHelper_1.DateHelper.isSameDay(selected, currentDate)) {
+                        var dayCss = "dhx_calendar-day--selected";
+                        if (_this.config.range) {
+                            dayCss += " dhx_calendar-day--selected-" + (index === 0 ? "first " : "last");
+                        }
+                        css.push(dayCss);
+                    }
+                });
                 days.push({
                     date: currentDate,
                     day: currentDate.getDate(),
                     css: css.join(" ")
                 });
                 currentDate = DateHelper_1.DateHelper.addDay(currentDate);
+            };
+            var this_1 = this;
+            while (daysCount--) {
+                _loop_1();
             }
             data.push({
                 weekNumber: currentWeek,
@@ -14033,8 +15497,9 @@ var Calendar = /** @class */ (function (_super) {
     };
     Calendar.prototype._drawCalendar = function () {
         var date = this._currentDate;
-        var weekDays = this.config.weekStart === "monday"
-            ? en_1.default.daysShort.slice(1).concat([en_1.default.daysShort[0]]) : en_1.default.daysShort;
+        var _a = this.config, weekStart = _a.weekStart, thisMonthOnly = _a.thisMonthOnly, css = _a.css, timePicker = _a.timePicker, width = _a.width;
+        var weekDays = weekStart === "monday"
+            ? __spreadArrays(en_1.default.daysShort.slice(1), [en_1.default.daysShort[0]]) : en_1.default.daysShort;
         var weekDaysHeader = weekDays.map(function (day) { return dom_1.el(".dhx_calendar-weekday", day); });
         var data = this._getData(date);
         var content = [];
@@ -14047,7 +15512,7 @@ var Calendar = /** @class */ (function (_super) {
                 _date: item.date,
                 tabIndex: 1,
             }, item.day); });
-            if (this.config.weekNumbers && !(week.disabledWeekNumber && this.config.thisMonthOnly)) {
+            if (this.config.weekNumbers && !(week.disabledWeekNumber && thisMonthOnly)) {
                 weekNumbers.push(dom_1.el("div", {
                     class: "dhx_calendar-week-number"
                 }, week.weekNumber));
@@ -14058,10 +15523,10 @@ var Calendar = /** @class */ (function (_super) {
             weekNumbersWrapper = dom_1.el(".dhx_calendar__week-numbers", weekNumbers);
         }
         var widgetClass = "dhx_calendar dhx_widget" +
-            (this.config.css ? " " + this.config.css : "") +
-            (this.config.timePicker ? " dhx_calendar--with_timepicker" : "") +
+            (css ? " " + css : "") +
+            (timePicker ? " dhx_calendar--with_timepicker" : "") +
             (this.config.weekNumbers ? " dhx_calendar--with_week-numbers" : "");
-        return dom_1.el("div", __assign({ class: widgetClass, style: { width: this.config.weekNumbers ? "calc(" + this.config.width + " + 48px )" : this.config.width } }, this._handlers), [
+        return dom_1.el("div", __assign({ class: widgetClass, style: { width: this.config.weekNumbers ? "calc(" + width + " + 48px )" : width } }, this._handlers), [
             dom_1.el(".dhx_calendar__wrapper", [
                 this._drawHeader(dom_1.el("button.dhx_calendar-action__show-month.dhx_button.dhx_button--view_link.dhx_button--size_small.dhx_button--color_secondary.dhx_button--circle", en_1.default.months[date.getMonth()] + " " + date.getFullYear())),
                 this.config.weekNumbers && dom_1.el(".dhx_calendar__dates-wrapper", [
@@ -14071,7 +15536,7 @@ var Calendar = /** @class */ (function (_super) {
                 ]),
                 !this.config.weekNumbers && dom_1.el(".dhx_calendar__weekdays", weekDaysHeader),
                 !this.config.weekNumbers && dom_1.el(".dhx_calendar__days", content),
-                this.config.timePicker ?
+                timePicker ?
                     dom_1.el(".dhx_timepicker__actions", [
                         dom_1.el("button.dhx_calendar__timepicker-button." +
                             "dhx_button.dhx_button--view_link.dhx_button--size_small.dhx_button--color_secondary.dhx_button--width_full.dhx_button--circle.dhx_calendar-action__show-timepicker", [
@@ -14085,13 +15550,14 @@ var Calendar = /** @class */ (function (_super) {
     Calendar.prototype._drawMonthSelector = function () {
         var date = this._currentDate;
         var currentMonth = date.getMonth();
-        var currentYear = this._selected ? this._selected.getFullYear() : null;
+        var currentYear = this._getSelected() ? this._getSelected().getFullYear() : null;
+        var _a = this.config, css = _a.css, timePicker = _a.timePicker, weekNumbers = _a.weekNumbers, width = _a.width, mode = _a.mode;
         var widgetClass = "dhx_calendar dhx_widget" +
-            (this.config.css ? " " + this.config.css : "") +
-            (this.config.timePicker ? " dhx_calendar--with_timepicker" : "") +
-            (this.config.weekNumbers ? " dhx_calendar--with_week-numbers" : "");
+            (css ? " " + css : "") +
+            (timePicker ? " dhx_calendar--with_timepicker" : "") +
+            (weekNumbers ? " dhx_calendar--with_week-numbers" : "");
         return dom_1.el("div", __assign({ class: widgetClass, style: {
-                width: this.config.weekNumbers ? "calc(" + this.config.width + " + 48px)" : this.config.width,
+                width: weekNumbers ? "calc(" + width + " + 48px)" : width,
             } }, this._handlers), [
             dom_1.el(".dhx_calendar__wrapper", [
                 this._drawHeader(dom_1.el("button.dhx_calendar-action__show-year.dhx_button.dhx_button--view_link.dhx_button--size_small.dhx_button--color_secondary.dhx_button--circle", date.getFullYear())),
@@ -14100,7 +15566,7 @@ var Calendar = /** @class */ (function (_super) {
                     tabIndex: 1,
                     _date: i
                 }, item); })),
-                this.config.view !== types_1.ViewMode.months ? dom_1.el(".dhx_calendar__actions", [
+                mode !== types_1.ViewMode.months ? dom_1.el(".dhx_calendar__actions", [
                     dom_1.el("button.dhx_button.dhx_button--color_primary.dhx_button--view_link.dhx_button--size_small.dhx_button--width_full.dhx_button--circle.dhx_calendar-action__cancel", en_1.default.cancel)
                 ]) : null
             ])
@@ -14110,19 +15576,20 @@ var Calendar = /** @class */ (function (_super) {
         var _this = this;
         var date = this._currentDate;
         var yearsDiapason = DateHelper_1.DateHelper.getTwelweYears(date);
+        var _a = this.config, css = _a.css, timePicker = _a.timePicker, weekNumbers = _a.weekNumbers, width = _a.width, mode = _a.mode;
         var widgetClass = "dhx_calendar dhx_widget" +
-            (this.config.css ? " " + this.config.css : "") +
-            (this.config.timePicker ? " dhx_calendar--with_timepicker" : "") +
-            (this.config.weekNumbers ? " dhx_calendar--with_week-numbers" : "");
-        return dom_1.el("div", __assign({ class: widgetClass, style: { width: this.config.weekNumbers ? "calc(" + this.config.width + " + 48px)" : this.config.width } }, this._handlers), [
+            (css ? " " + css : "") +
+            (timePicker ? " dhx_calendar--with_timepicker" : "") +
+            (weekNumbers ? " dhx_calendar--with_week-numbers" : "");
+        return dom_1.el("div", __assign({ class: widgetClass, style: { width: weekNumbers ? "calc(" + width + " + 48px)" : width } }, this._handlers), [
             dom_1.el(".dhx_calendar__wrapper", [
                 this._drawHeader(dom_1.el("button.dhx_button.dhx_button--view_link.dhx_button--size_small.dhx_button--color_secondary.dhx_button--circle", yearsDiapason[0] + "-" + yearsDiapason[yearsDiapason.length - 1])),
                 dom_1.el(".dhx_calendar__years", yearsDiapason.map(function (item) { return dom_1.el("div", {
-                    class: "dhx_calendar-year" + (_this._selected && item === _this._selected.getFullYear() ? " dhx_calendar-year--selected" : ""),
+                    class: "dhx_calendar-year" + (_this._getSelected() && item === _this._getSelected().getFullYear() ? " dhx_calendar-year--selected" : ""),
                     _date: item,
                     tabIndex: 1,
                 }, item); })),
-                this.config.view !== types_1.ViewMode.years && this.config.view !== types_1.ViewMode.months ? dom_1.el(".dhx_calendar__actions", [
+                mode !== types_1.ViewMode.years && mode !== types_1.ViewMode.months ? dom_1.el(".dhx_calendar__actions", [
                     dom_1.el("button.dhx_button.dhx_button--color_primary.dhx_button--view_link.dhx_button--size_small.dhx_button--width_full.dhx_button--circle.dhx_calendar-action__cancel", en_1.default.cancel)
                 ]) : null
             ])
@@ -14140,9 +15607,10 @@ var Calendar = /** @class */ (function (_super) {
         ]);
     };
     Calendar.prototype._drawTimepicker = function () {
+        var _a = this.config, css = _a.css, weekNumbers = _a.weekNumbers, width = _a.width;
         return dom_1.el(".dhx_widget.dhx-calendar", {
-            class: (this.config.css ? " " + this.config.css : ""),
-            style: { width: this.config.weekNumbers ? "calc(" + this.config.width + " + 48px)" : this.config.width }
+            class: (css ? " " + css : ""),
+            style: { width: weekNumbers ? "calc(" + width + " + 48px)" : width }
         }, [
             dom_1.inject(this._timepicker.getRootView())
         ]);
@@ -14153,7 +15621,7 @@ exports.Calendar = Calendar;
 
 
 /***/ }),
-/* 124 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14185,37 +15653,39 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var view_1 = __webpack_require__(4);
-var ts_layout_1 = __webpack_require__(12);
-var ts_slider_1 = __webpack_require__(30);
-var en_1 = __webpack_require__(64);
-var helper_1 = __webpack_require__(127);
-var types_1 = __webpack_require__(65);
+var ts_layout_1 = __webpack_require__(14);
+var ts_slider_1 = __webpack_require__(40);
+var en_1 = __webpack_require__(66);
+var helper_1 = __webpack_require__(132);
+var types_1 = __webpack_require__(67);
 var Timepicker = /** @class */ (function (_super) {
     __extends(Timepicker, _super);
     function Timepicker(container, config) {
         if (config === void 0) { config = {}; }
         var _this = _super.call(this, container, core_1.extend({
             timeFormat: 24,
-            actions: false
+            controls: false,
+            actions: false // TODO: remove sute_7.0
         }, config)) || this;
         _this.events = new events_1.EventSystem(_this);
         _this._time = {
-            h: 0,
-            m: 0,
-            isAM: true
+            hour: 0,
+            minute: 0,
+            AM: true
         };
         if (_this.config.timeFormat === 12) {
-            _this._time.h = 12;
+            _this._time.hour = 12;
         }
+        _this.config.controls = _this.config.controls || _this.config.actions; // TODO: remove sute_7.0
         _this._initUI(container);
         _this._initHandlers();
         _this._initEvents();
         return _this;
     }
     Timepicker.prototype.getValue = function (asOBject) {
-        var _a = this._time, h = _a.h, m = _a.m, isAM = _a.isAM;
+        var _a = this._time, h = _a.hour, m = _a.minute, isAM = _a.AM;
         if (asOBject) {
             var obj = {
                 hour: h,
@@ -14262,9 +15732,17 @@ var Timepicker = /** @class */ (function (_super) {
         if (helper_1.isTimeCheck(value)) {
             this._hoursSlider.setValue(0);
             this._minutesSlider.setValue(m);
-            this._time.isAM = true;
+            this._time.AM = true;
         }
         this._inputsView.paint();
+    };
+    Timepicker.prototype.clear = function () {
+        if (this.config.timeFormat === 24) {
+            this.setValue("00:00");
+        }
+        else {
+            this.setValue("12:00AM");
+        }
     };
     Timepicker.prototype.destructor = function () {
         this._minutesSlider.destructor();
@@ -14279,9 +15757,9 @@ var Timepicker = /** @class */ (function (_super) {
         var _this = this;
         var layoutConfig = {
             gravity: false,
-            css: "dhx_timepicker " +
+            css: "dhx_widget dhx_timepicker " +
                 (this.config.css ? this.config.css : "") +
-                (this.config.actions ? " dhx_timepicker--with-actions" : ""),
+                (this.config.controls ? " dhx_timepicker--with-controls" : ""),
             rows: [
                 {
                     id: "timepicker",
@@ -14297,7 +15775,7 @@ var Timepicker = /** @class */ (function (_super) {
                 }
             ]
         };
-        if (this.config.actions) {
+        if (this.config.controls) {
             layoutConfig.rows.unshift({
                 id: "close-action",
                 css: "dhx_timepicker__close"
@@ -14316,22 +15794,22 @@ var Timepicker = /** @class */ (function (_super) {
             min: 0,
             max: 59,
             step: 1,
-            thumbLabel: false,
-            labelInline: false,
+            tooltip: false,
+            labelPosition: "top",
             label: en_1.default.minutes
         });
         var hSlider = this._hoursSlider = new ts_slider_1.Slider(null, {
             min: 0,
             max: 23,
             step: 1,
-            thumbLabel: false,
-            labelInline: false,
+            tooltip: false,
+            labelPosition: "top",
             label: en_1.default.hours
         });
-        layout.cell("timepicker").attach(inputsView);
-        layout.cell("hour-slider").attach(hSlider);
-        layout.cell("minute-slider").attach(mSlider);
-        if (this.config.actions) {
+        layout.getCell("timepicker").attach(inputsView);
+        layout.getCell("hour-slider").attach(hSlider);
+        layout.getCell("minute-slider").attach(mSlider);
+        if (this.config.controls) {
             var save = function () {
                 return dom_1.el("button.dhx_timepicker__button-save.dhx_button.dhx_button--view_flat.dhx_button--color_primary.dhx_button--size_medium.dhx_button--circle.dhx_button--width_full", { onclick: _this._outerHandlers.save }, en_1.default.save);
             };
@@ -14340,8 +15818,8 @@ var Timepicker = /** @class */ (function (_super) {
                     onclick: _this._outerHandlers.close
                 }, [dom_1.el("span.dhx_button__icon.dxi.dxi-close")]);
             };
-            layout.cell("save-action").attach(save);
-            layout.cell("close-action").attach(close_1);
+            layout.getCell("save-action").attach(save);
+            layout.getCell("close-action").attach(close_1);
         }
     };
     Timepicker.prototype._initHandlers = function () {
@@ -14361,8 +15839,17 @@ var Timepicker = /** @class */ (function (_super) {
             }
         };
         this._outerHandlers = {
-            close: function () { return _this.events.fire(types_1.TimepickerEvents.close); },
-            save: function () { return _this.events.fire(types_1.TimepickerEvents.save, [_this._time]); }
+            close: function () {
+                if (!_this.events.fire(types_1.TimepickerEvents.beforeClose, [])) {
+                    return;
+                }
+                _this.events.fire(types_1.TimepickerEvents.afterClose, []);
+                _this.events.fire(types_1.TimepickerEvents.close, []); // TODO: remove sute_7.0
+            },
+            save: function () {
+                _this.events.fire(types_1.TimepickerEvents.apply, [_this._time]);
+                _this.events.fire(types_1.TimepickerEvents.save, [_this._time]); // TODO: remove sute_7.0
+            }
         };
     };
     Timepicker.prototype._initEvents = function () {
@@ -14372,11 +15859,11 @@ var Timepicker = /** @class */ (function (_super) {
                 return;
             }
             if (_this.config.timeFormat === 12) {
-                _this._time.isAM = value < 12;
-                _this._time.h = value % 12 || 12;
+                _this._time.AM = value < 12;
+                _this._time.hour = value % 12 || 12;
             }
             else {
-                _this._time.h = value;
+                _this._time.hour = value;
             }
             _this.events.fire(types_1.TimepickerEvents.change, [_this.getValue()]);
             _this._inputsView.paint();
@@ -14385,7 +15872,7 @@ var Timepicker = /** @class */ (function (_super) {
             if (value < _this._minutesSlider.config.min || value > _this._minutesSlider.config.max) {
                 return;
             }
-            _this._time.m = value;
+            _this._time.minute = value;
             _this.events.fire(types_1.TimepickerEvents.change, [_this.getValue()]);
             _this._inputsView.paint();
         });
@@ -14394,14 +15881,14 @@ var Timepicker = /** @class */ (function (_super) {
         return dom_1.el(".dhx_timepicker-inputs", __assign({}, this._handlers), [
             dom_1.el("input.dhx_timepicker-input.dhx_timepicker-input--hour", {
                 _key: "hour",
-                value: this._time.h < 10 ? "0" + this._time.h : this._time.h
+                value: this._time.hour < 10 ? "0" + this._time.hour : this._time.hour
             }),
             dom_1.el("span.dhx_timepicker-delimer", ":"),
             dom_1.el("input.dhx_timepicker-input.dhx_timepicker-input--minutes", {
                 _key: "minute",
-                value: this._time.m < 10 ? "0" + this._time.m : this._time.m
+                value: this._time.minute < 10 ? "0" + this._time.minute : this._time.minute
             }),
-            this.config.timeFormat === 12 ? dom_1.el(".dhx_timepicker-ampm", this._time.isAM ? "AM" : "PM") : null
+            this.config.timeFormat === 12 ? dom_1.el(".dhx_timepicker-ampm", this._time.AM ? "AM" : "PM") : null
         ]);
     };
     return Timepicker;
@@ -14416,7 +15903,7 @@ function validate(value, max) {
 
 
 /***/ }),
-/* 125 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14437,11 +15924,11 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var Keymanager_1 = __webpack_require__(13);
 var view_1 = __webpack_require__(4);
-var ts_popup_1 = __webpack_require__(10);
-var types_1 = __webpack_require__(63);
+var ts_popup_1 = __webpack_require__(11);
+var types_1 = __webpack_require__(65);
 function normalizeValue(value, min, max) {
     if (value < min) {
         return min;
@@ -14477,8 +15964,16 @@ var Slider = /** @class */ (function (_super) {
             min: 0,
             max: 100,
             step: 1,
-            thumbLabel: true,
+            tooltip: true
         }, config)) || this;
+        _this._disabled = false;
+        _this.config.helpMessage = _this.config.helpMessage || _this.config.help; // TODO: remove sute_7.0
+        if (_this.config.thumbLabel !== undefined) {
+            _this.config.tooltip = _this.config.thumbLabel; // TODO: remove sute_7.0
+        }
+        if (_this.config.labelInline) {
+            _this.config.labelPosition = "left"; // TODO: remove sute_7.0
+        }
         _this.events = new events_1.EventSystem(_this);
         _this._axis = _this.config.mode === types_1.Direction.horizontal ? "clientX" : "clientY";
         _this._initStartPosition();
@@ -14501,6 +15996,9 @@ var Slider = /** @class */ (function (_super) {
     Slider.prototype.enable = function () {
         this._disabled = false;
         this.paint();
+    };
+    Slider.prototype.isDisabled = function () {
+        return this._disabled;
     };
     Slider.prototype.focus = function (extra) {
         this.getRootView().refs[extra ? "extraRunner" : "runner"].el.focus();
@@ -14607,9 +16105,13 @@ var Slider = /** @class */ (function (_super) {
         if (this.config.inverse) {
             value = -value;
         }
+        var _a = this.config, max = _a.max, min = _a.min;
         var oldValue = forExtra ? this._getValue(this._extraCurrentPosition) : this._getValue(this._currentPosition);
         var newValue = oldValue + value;
         this._setValue(oldValue + value, forExtra);
+        if (newValue > max || newValue < min) {
+            newValue = oldValue;
+        }
         this.events.fire(types_1.SliderEvents.change, [newValue, oldValue, forExtra]);
         this.paint();
     };
@@ -14694,9 +16196,9 @@ var Slider = /** @class */ (function (_super) {
             document.removeEventListener("mouseup", mouseUp);
             document.removeEventListener("mousemove", mouseMove);
         };
-        if (this.config.help) {
+        if (this.config.helpMessage) {
             this._helper = new ts_popup_1.Popup({ css: "dhx_tooltip dhx_tooltip--forced dhx_tooltip--light" });
-            this._helper.attachHTML(this.config.help);
+            this._helper.attachHTML(this.config.helpMessage);
         }
         this._handlers = {
             showHelper: function (e) {
@@ -14828,8 +16330,8 @@ var Slider = /** @class */ (function (_super) {
         this.events.fire(types_1.SliderEvents.change, [newValue, oldValue, extra]);
     };
     Slider.prototype._getRunnerStyle = function (forExtra) {
-        if (forExtra === void 0) { forExtra = false; }
         var _a;
+        if (forExtra === void 0) { forExtra = false; }
         var direction = this.config.mode === types_1.Direction.horizontal ? "left" : "top";
         var pos = forExtra ? this._extraCurrentPosition : this._currentPosition;
         return _a = {},
@@ -14849,33 +16351,35 @@ var Slider = /** @class */ (function (_super) {
             (this._isNullable(forExtra ? this._extraCurrentPosition : this._currentPosition) && !this.config.range ? " dhx_slider__thumb--nullable" : "");
     };
     Slider.prototype._draw = function () {
-        var width = this.config.labelInline && this.config.labelWidth ? this.config.labelWidth : "";
+        var _a = this.config, labelPosition = _a.labelPosition, labelWidth = _a.labelWidth, mode = _a.mode, label = _a.label, hiddenLabel = _a.hiddenLabel, tick = _a.tick, majorTick = _a.majorTick, css = _a.css, helpMessage = _a.helpMessage;
+        var width = labelPosition === "left" && labelWidth ? labelWidth : "";
         return dom_1.el("div", {
             class: "dhx_slider" +
-                " dhx_slider--mode_" + this.config.mode +
-                (this.config.label && this.config.labelInline ? " dhx_slider--label-inline" : "") +
-                (this.config.hiddenLabel ? " dhx_slider--label_sr" : "") +
-                (this.config.tick ? " dhx_slider--ticks" : "") +
-                (this.config.majorTick ? " dhx_slider--major-ticks" : "") +
-                (this.config.css ? " " + this.config.css : "")
+                " dhx_slider--mode_" + mode +
+                (label && labelPosition === "left" ? " dhx_slider--label-inline" : "") +
+                (hiddenLabel ? " dhx_slider--label_sr" : "") +
+                (tick ? " dhx_slider--ticks" : "") +
+                (majorTick ? " dhx_slider--major-ticks" : "") +
+                (css ? " " + css : "") +
+                (this._disabled ? " dhx_slider--disabled" : "")
         }, [
-            this.config.label ? dom_1.el("label.dhx_label.dhx_slider__label", {
+            label ? dom_1.el("label.dhx_label.dhx_slider__label", {
                 style: { minWidth: width, maxWidth: width },
-                class: this.config.help ? "dhx_label--with-help" : "",
+                class: helpMessage ? "dhx_label--with-help" : "",
                 onclick: this._handlers.onlabelClick,
-            }, this.config.help ? [
-                dom_1.el("span.dhx_label__holder", this.config.label),
+            }, helpMessage ? [
+                dom_1.el("span.dhx_label__holder", label),
                 dom_1.el("span.dhx_label-help.dxi.dxi-help-circle-outline", {
                     tabindex: "0",
                     role: "button",
                     onclick: this._handlers.showHelper
                 }),
-            ] : this.config.label) : null,
+            ] : label) : null,
             this._drawSlider()
         ]);
     };
     Slider.prototype._drawSlider = function () {
-        return dom_1.el(".dhx_slider__track-holder", 
+        return dom_1.el(".dhx_widget.dhx_slider__track-holder", 
         // (this.config.mode === Direction.vertical ? ".dhx_slider--vertical" : ".dhx_slider--horizontal"),
         {
             dhx_widget_id: this._uid,
@@ -14897,8 +16401,8 @@ var Slider = /** @class */ (function (_super) {
                     style: this._getRunnerStyle(),
                     tabindex: 0,
                 }),
-                this.config.thumbLabel && (this._mouseIn || this._focusIn || this._isMouseMoving) ? this._drawThumbLabel() : null,
-                this.config.thumbLabel && this.config.range && (this._mouseIn || this._focusIn || this._isMouseMoving) ? this._drawThumbLabel(true) : null,
+                this.config.tooltip && (this._mouseIn || this._focusIn || this._isMouseMoving) ? this._drawTooltip() : null,
+                this.config.tooltip && this.config.range && (this._mouseIn || this._focusIn || this._isMouseMoving) ? this._drawTooltip(true) : null,
                 this.config.range ? dom_1.el("div", {
                     _ref: "extraRunner",
                     class: this._getRunnerCss(true),
@@ -14945,9 +16449,9 @@ var Slider = /** @class */ (function (_super) {
                 _c)
         });
     };
-    Slider.prototype._drawThumbLabel = function (forExtra) {
-        if (forExtra === void 0) { forExtra = false; }
+    Slider.prototype._drawTooltip = function (forExtra) {
         var _a;
+        if (forExtra === void 0) { forExtra = false; }
         var pos = forExtra ? this._extraCurrentPosition : this._currentPosition;
         var direction = this.config.mode === types_1.Direction.horizontal ? "left" : "top";
         var classNameModifiers = this.config.mode === types_1.Direction.horizontal ? ".dhx_slider__thumb-label--horizontal" : ".dhx_slider__thumb-label--vertical";
@@ -15015,7 +16519,7 @@ exports.Slider = Slider;
 
 
 /***/ }),
-/* 126 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15047,10 +16551,10 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var view_1 = __webpack_require__(4);
-var types_1 = __webpack_require__(62);
+var types_1 = __webpack_require__(64);
 var Popup = /** @class */ (function (_super) {
     __extends(Popup, _super);
     function Popup(config) {
@@ -15086,10 +16590,10 @@ var Popup = /** @class */ (function (_super) {
         document.body.appendChild(this._popup);
         this._setPopupSize(node, config);
         this._isActive = true;
-        setTimeout(function () {
+        dom_1.awaitRedraw().then(function () {
             _this.events.fire(types_1.PopupEvents.afterShow, [node]);
             _this._outerClickDestructor = _this._detectOuterClick(node);
-        }, 100);
+        });
     };
     Popup.prototype.hide = function () {
         this._hide(false, null);
@@ -15176,7 +16680,7 @@ var Popup = /** @class */ (function (_super) {
             });
             return;
         }
-        var _b = html_1.fitPosition(node, __assign({ centering: true, mode: html_1.Position.bottom }, config, { width: width, height: height })), left = _b.left, top = _b.top;
+        var _b = html_1.fitPosition(node, __assign(__assign({ centering: true, mode: html_1.Position.bottom }, config), { width: width, height: height })), left = _b.left, top = _b.top;
         this._popup.style.left = left;
         this._popup.style.top = top;
         if (config.indent && config.indent !== 0) {
@@ -15237,7 +16741,7 @@ exports.Popup = Popup;
 
 
 /***/ }),
-/* 127 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15253,14 +16757,14 @@ exports.isTimeCheck = isTimeCheck;
 
 
 /***/ }),
-/* 128 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
-var DateFormatter_1 = __webpack_require__(38);
+var DateFormatter_1 = __webpack_require__(41);
 var DateHelper = /** @class */ (function () {
     function DateHelper() {
     }
@@ -15292,14 +16796,22 @@ var DateHelper = /** @class */ (function () {
     };
     DateHelper.addMonth = function (d, count) {
         if (count === void 0) { count = 1; }
-        return new Date(d.getFullYear(), d.getMonth() + count, 1);
+        return new Date(d.getFullYear(), d.getMonth() + count);
     };
     DateHelper.addYear = function (d, count) {
         if (count === void 0) { count = 1; }
-        return new Date(d.getFullYear() + count, d.getMonth(), 0);
+        return new Date(d.getFullYear() + count, d.getMonth());
     };
-    DateHelper.withHoursAndMinutes = function (d, hours, minutes) {
-        return new Date(d.getFullYear(), d.getMonth(), d.getDate(), hours, minutes);
+    DateHelper.withHoursAndMinutes = function (d, hours, minutes, dateFormat) {
+        if (dateFormat === undefined || !dateFormat && hours === 12 || dateFormat && hours !== 12) {
+            return new Date(d.getFullYear(), d.getMonth(), d.getDate(), hours, minutes);
+        }
+        else if (dateFormat && hours === 12) {
+            return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, minutes);
+        }
+        else {
+            return new Date(d.getFullYear(), d.getMonth(), d.getDate(), hours + 12, minutes);
+        }
     };
     DateHelper.setMonth = function (d, month) {
         d.setMonth(month);
@@ -15344,7 +16856,7 @@ exports.DateHelper = DateHelper;
 
 
 /***/ }),
-/* 129 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15354,7 +16866,7 @@ exports.linkButtonClasses = ".dhx_button.dhx_button--view_link.dhx_button--icon.
 
 
 /***/ }),
-/* 130 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15372,22 +16884,29 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var view_1 = __webpack_require__(4);
 var core_1 = __webpack_require__(1);
-var color_1 = __webpack_require__(40);
-var colors_1 = __webpack_require__(131);
-var en_1 = __webpack_require__(41);
-var types_1 = __webpack_require__(67);
+var color_1 = __webpack_require__(43);
+var colors_1 = __webpack_require__(136);
+var en_1 = __webpack_require__(44);
+var types_1 = __webpack_require__(69);
 // tslint:disable-next-line
-var tooltip_1 = __webpack_require__(60);
+var tooltip_1 = __webpack_require__(62);
 // tslint:disable-next-line
 var ts_message_1 = __webpack_require__(19);
-var picker_1 = __webpack_require__(132);
-var calculations_1 = __webpack_require__(133);
+var picker_1 = __webpack_require__(137);
+var calculations_1 = __webpack_require__(138);
 var Colorpicker = /** @class */ (function (_super) {
     __extends(Colorpicker, _super);
     function Colorpicker(container, config) {
@@ -15411,31 +16930,31 @@ var Colorpicker = /** @class */ (function (_super) {
         };
         _this._onColorClick = function (_e, node) {
             _this._selected = node.data.color.toUpperCase();
-            _this.events.fire(types_1.ColorpickerEvents.colorChange, [_this._selected]);
+            _this.events.fire(types_1.ColorpickerEvents.change, [_this._selected]);
+            _this.events.fire(types_1.ColorpickerEvents.colorChange, [_this._selected]); // TODO: remove sute_7.0
         };
         _this._container = container;
         _this.config = core_1.extend({
             css: "",
-            paletteOnly: false,
             grayShades: true,
             pickerOnly: false,
+            paletteOnly: false,
             customColors: [],
             palette: colors_1.palette,
-            width: "238px"
+            width: "238px",
+            mode: types_1.ViewsMode.palette
         }, _this.config);
-        // [dirty]
         if (!_this.config.palette) {
             _this.config.palette = colors_1.palette;
         }
         if (_this.config.customColors) {
             _this.config.customColors = _this.config.customColors.map(function (color) { return color.toUpperCase(); });
         }
-        _this.events = new events_1.EventSystem(_this);
         _this._pickerState = {
             hsv: { h: 0, s: 1, v: 1 },
-            currentView: types_1.ViewsTypes.palette,
             customHex: ""
         };
+        _this.events = new events_1.EventSystem(_this);
         _this._setHandlers();
         var view = dom_1.create({ render: function () { return _this._getContent(); } });
         _this.mount(_this._container, view);
@@ -15444,19 +16963,24 @@ var Colorpicker = /** @class */ (function (_super) {
     Colorpicker.prototype.destructor = function () {
         this.unmount();
     };
-    Colorpicker.prototype.focusValue = function (value) {
-        if (this._focusColor(value)) {
-            this.paint();
-        }
+    Colorpicker.prototype.clear = function () {
+        this._selected = "";
+        this.paint();
     };
     Colorpicker.prototype.setValue = function (value) {
         if (this._focusColor(value)) {
             this.paint();
-            this.events.fire(types_1.ColorpickerEvents.colorChange, [this._selected]);
+            this.events.fire(types_1.ColorpickerEvents.change, [this._selected]);
+            this.events.fire(types_1.ColorpickerEvents.colorChange, [this._selected]); // TODO: remove sute_7.0
+        }
+    };
+    Colorpicker.prototype.setFocus = function (value) {
+        if (this._focusColor(value)) {
+            this.paint();
         }
     };
     Colorpicker.prototype.getValue = function () {
-        return this._selected;
+        return this._selected || "";
     };
     Colorpicker.prototype.getCustomColors = function () {
         return this.config.customColors;
@@ -15465,15 +16989,28 @@ var Colorpicker = /** @class */ (function (_super) {
         this.config.customColors = customColors.map(function (color) { return color.toUpperCase(); });
         this.paint();
     };
-    Colorpicker.prototype.setView = function (view) {
-        if (types_1.ViewsTypes[view]) {
-            this._pickerState.currentView = view;
-            this.events.fire(types_1.ColorpickerEvents.viewChange, [view]);
+    Colorpicker.prototype.setCurrentMode = function (mode) {
+        if (types_1.ViewsMode[mode]) {
+            this.config.mode = mode;
+            this.events.fire(types_1.ColorpickerEvents.modeChange, [mode]);
+            this.events.fire(types_1.ColorpickerEvents.viewChange, [mode]); // TODO: remove sute_7.0
             this.paint();
         }
     };
+    Colorpicker.prototype.getCurrentMode = function () {
+        return this.config.mode;
+    };
+    // TODO: remove sute_7.0
     Colorpicker.prototype.getView = function () {
-        return this._pickerState.currentView;
+        return this.getCurrentMode();
+    };
+    // TODO: remove sute_7.0
+    Colorpicker.prototype.setView = function (mode) {
+        this.setCurrentMode(mode);
+    };
+    // TODO: remove sute_7.0
+    Colorpicker.prototype.focusValue = function (value) {
+        this.setFocus(value);
     };
     Colorpicker.prototype._setHandlers = function () {
         var _this = this;
@@ -15498,18 +17035,19 @@ var Colorpicker = /** @class */ (function (_super) {
                 _this.paint();
             },
             buttonsClick: function (button) {
-                _this.setView(types_1.ViewsTypes.palette);
+                _this.setCurrentMode(types_1.ViewsMode.palette);
                 if (button === "cancel") {
                     _this.events.fire(types_1.ColorpickerEvents.cancelClick, []);
                     return;
                 }
                 if (button === "apply" && _this.config.customColors.indexOf(_this._pickerState.background) === -1) {
                     _this.setValue(_this._pickerState.background);
-                    _this.events.fire(types_1.ColorpickerEvents.selectClick, []);
+                    _this.events.fire(types_1.ColorpickerEvents.apply, []);
+                    _this.events.fire(types_1.ColorpickerEvents.selectClick, []); // TODO: remove sute_7.0
                 }
             },
             customColorClick: function () {
-                _this.setView(types_1.ViewsTypes.picker);
+                _this.setView(types_1.ViewsMode.picker);
             },
             oninput: function (e) {
                 if (_this._inputTimeout) {
@@ -15557,11 +17095,18 @@ var Colorpicker = /** @class */ (function (_super) {
                 }
             }
         };
+        this.events.on(types_1.ColorpickerEvents.change, function () {
+            _this.paint();
+        });
+        // TODO: remove sute_7.0
         this.events.on(types_1.ColorpickerEvents.colorChange, function () {
             _this.paint();
         });
     };
     Colorpicker.prototype._focusColor = function (value) {
+        if (value === undefined || value.length < 4) {
+            return false;
+        }
         var hex = value.toUpperCase();
         if (!color_1.isHex(hex)) {
             return false;
@@ -15621,16 +17166,16 @@ var Colorpicker = /** @class */ (function (_super) {
             view = [picker_1.getPicker(this, this._pickerState, this._handlers)];
         }
         else {
-            view = this._pickerState.currentView === "palette" ? [
+            view = this.config.mode === "palette" ? __spreadArrays([
                 this.config.grayShades && this._getGrayShades()
-            ].concat((this._getPalette()), [
+            ], (this._getPalette()), [
                 !this.config.paletteOnly && dom_1.el(".dhx_colorpicker-custom-colors", {
                     onmouseover: this._handlers.mouseover
                 }, [
                     dom_1.el(".dhx_colorpicker-custom-colors__header", [
                         en_1.default.customColors
                     ]),
-                    dom_1.el(".dhx_palette--custom.dhx_palette__row", this._getCells(this.config.customColors, "dhx_custom-color__cell").concat([
+                    dom_1.el(".dhx_palette--custom.dhx_palette__row", __spreadArrays(this._getCells(this.config.customColors, "dhx_custom-color__cell"), [
                         dom_1.el(".dhx_colorpicker-custom-colors__picker", {
                             class: "dxi dxi-plus",
                             onclick: this._handlers.customColorClick,
@@ -15641,7 +17186,7 @@ var Colorpicker = /** @class */ (function (_super) {
             ]) :
                 [picker_1.getPicker(this, this._pickerState, this._handlers)];
         }
-        return dom_1.el(".dhx_colorpicker", { class: this.config.css, style: { width: this.config.width } }, [
+        return dom_1.el(".dhx_widget.dhx_colorpicker", { class: this.config.css, style: { width: this.config.width } }, [
             dom_1.el(".dhx_palette", {
                 onclick: this._handlers.click,
                 oncontextmenu: this._handlers.contextmenu
@@ -15654,7 +17199,7 @@ exports.Colorpicker = Colorpicker;
 
 
 /***/ }),
-/* 131 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15767,22 +17312,22 @@ exports.palette = [
 
 
 /***/ }),
-/* 132 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var color_1 = __webpack_require__(40);
+var color_1 = __webpack_require__(43);
 var dom_1 = __webpack_require__(0);
-var en_1 = __webpack_require__(41);
+var en_1 = __webpack_require__(44);
 function getPicker(colorpicker, pickerState, handlers) {
     var rgb = color_1.HSVtoRGB(pickerState.hsv);
     pickerState.background = color_1.RGBToHex(rgb);
     var currentBackground = color_1.RGBToHex(color_1.HSVtoRGB({ h: pickerState.hsv.h, s: 1, v: 1 }));
     var root = colorpicker.getRootView();
-    var box = root.refs ?
-        root.refs.picker_palette.el.getBoundingClientRect()
+    var box = root.refs
+        ? root.refs.picker_palette.el.getBoundingClientRect()
         : { height: 200, width: 218, x: 0, y: 0 };
     var height = box.height - 2;
     var width = box.width - 2;
@@ -15790,8 +17335,8 @@ function getPicker(colorpicker, pickerState, handlers) {
     var gripLeft = (pickerState.hsv.s * width) - 4;
     var rangeWidth = box.width - 6;
     var rangeGripLeft = rangeWidth - ((360 - pickerState.hsv.h) / 360) * rangeWidth;
-    var inputValue = pickerState.customHex ?
-        pickerState.customHex.replace("#", "")
+    var inputValue = color_1.isHex(pickerState.customHex)
+        ? pickerState.customHex.replace("#", "")
         : pickerState.background.replace("#", "");
     return dom_1.el(".dhx_colorpicker-picker", {}, [
         dom_1.el(".dhx_colorpicker-picker__palette", {
@@ -15821,7 +17366,7 @@ function getPicker(colorpicker, pickerState, handlers) {
         ]),
         dom_1.el(".dhx_colorpicker-value", [
             dom_1.el(".dhx_colorpicker-value__color", { style: { background: pickerState.background } }),
-            dom_1.el(".dhx_colorpicker-value__input-wrapper", [
+            dom_1.el(".dhx_colorpicker-value__input__wrapper", [
                 dom_1.el("input", {
                     class: "dhx_colorpicker-value__input",
                     value: inputValue,
@@ -15859,7 +17404,7 @@ exports.calculatePaletteGrip = calculatePaletteGrip;
 
 
 /***/ }),
-/* 133 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15890,7 +17435,7 @@ exports.calculateRangeGrip = calculateRangeGrip;
 
 
 /***/ }),
-/* 134 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15899,12 +17444,12 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(135));
+__export(__webpack_require__(140));
 __export(__webpack_require__(6));
 
 
 /***/ }),
-/* 135 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15935,16 +17480,17 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var view_1 = __webpack_require__(4);
 var ts_data_1 = __webpack_require__(7);
-var ComposeLayer_1 = __webpack_require__(136);
-var Legend_1 = __webpack_require__(138);
-var index_1 = __webpack_require__(140);
-var index_2 = __webpack_require__(144);
-var Stacker_1 = __webpack_require__(154);
-var Tooltip_1 = __webpack_require__(155);
+var ComposeLayer_1 = __webpack_require__(141);
+var Legend_1 = __webpack_require__(143);
+var Tooltip_1 = __webpack_require__(145);
 var types_1 = __webpack_require__(6);
+var index_1 = __webpack_require__(146);
+var index_2 = __webpack_require__(150);
+var Stacker_1 = __webpack_require__(160);
+var common_1 = __webpack_require__(5);
 var Chart = /** @class */ (function (_super) {
     __extends(Chart, _super);
     function Chart(node, config) {
@@ -15962,9 +17508,14 @@ var Chart = /** @class */ (function (_super) {
                 maxNum: config.maxPoints
             };
         }
-        if (config.data) {
+        if (Array.isArray(config.data)) {
+            _this.events = new events_1.EventSystem(_this);
+            _this.data = new ts_data_1.DataCollection(dataConfig, _this.events);
+            _this.data.parse(config.data);
+        }
+        else if (config.data && config.data.events) {
             _this.data = config.data;
-            _this.events = config.data.events;
+            _this.events = _this.data.events;
             _this.events.context = _this;
         }
         else {
@@ -16017,6 +17568,7 @@ var Chart = /** @class */ (function (_super) {
                 content.push(_this._layers.toVDOM(_this._width, _this._height));
             }
             return dom_1.el(".dhx_widget.dhx_chart", {
+                class: config.css ? config.css : "",
                 onmousemove: _this._globalHTMLHandlers.onmousemove,
                 onmouseleave: _this._globalHTMLHandlers.onmouseleave
             }, content);
@@ -16045,9 +17597,14 @@ var Chart = /** @class */ (function (_super) {
         this._layers.clear();
         this._series = {};
         this._scales = {};
+        var min;
+        // let baseLine;
         if (config.scales) {
             for (var key in config.scales) {
                 var scale = __assign({}, config.scales[key]);
+                if (config.scales[key].min !== undefined) {
+                    min = config.scales[key].min;
+                }
                 scale.type = scale.type || this._detectScaleType(scale, key);
                 if (config.scales.radial && key !== "radial") {
                     scale.hidden = true;
@@ -16058,6 +17615,9 @@ var Chart = /** @class */ (function (_super) {
         var stack = new Stacker_1.default();
         this._layers.add(stack);
         config.series.forEach(function (cfg) {
+            if (cfg.baseLine !== undefined && cfg.baseLine < min) {
+                cfg.baseLine = undefined;
+            }
             var serieConfig = __assign({}, cfg);
             serieConfig.type = serieConfig.type || config.type;
             var chartFactory = index_2.default[serieConfig.type];
@@ -16065,7 +17625,9 @@ var Chart = /** @class */ (function (_super) {
                 serieConfig.barWidth = serieConfig.barWidth || _this.config.barWidth;
             }
             var chart = new chartFactory(_this.data, serieConfig, _this.events);
-            var chartScales = serieConfig.scales || [types_1.ScaleType.bottom, types_1.ScaleType.left];
+            var scales = common_1.getScales(config.scales);
+            var chartScales = (scales.length > 1 && scales[0] !== "radial") ? scales :
+                scales[0] === "radial" ? scales : [types_1.ScaleType.bottom, types_1.ScaleType.left];
             chartScales.forEach(function (type) {
                 var scale = _this._scales[type];
                 if (!scale) {
@@ -16140,14 +17702,14 @@ exports.Chart = Chart;
 
 
 /***/ }),
-/* 136 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var Filters_1 = __webpack_require__(137);
+var Filters_1 = __webpack_require__(142);
 var ComposeLayer = /** @class */ (function () {
     function ComposeLayer() {
         this._data = [];
@@ -16186,9 +17748,16 @@ var ComposeLayer = /** @class */ (function () {
         this._sizes = sizes;
         var chartsContent = dom_1.sv("g", {
             transform: "translate(" + sizes.left + ", " + sizes.top + ")"
-        }, toPaint.map(function (item) {
-            return item.paint(width - (sizes.left + sizes.right), height - (sizes.top + sizes.bottom));
-        }));
+        }, [
+            dom_1.sv("rect.dhx_chart-graph_area", {
+                width: width - sizes.left - sizes.right,
+                height: height - sizes.top - sizes.bottom,
+                fill: "transparent"
+            }),
+            toPaint.map(function (item) {
+                return item.paint(width - (sizes.left + sizes.right), height - (sizes.top + sizes.bottom));
+            })
+        ]);
         var defs = dom_1.sv("defs", [Filters_1.dropShadow(), Filters_1.shadow()]);
         return dom_1.sv("svg", {
             width: width,
@@ -16201,7 +17770,7 @@ exports.ComposeLayer = ComposeLayer;
 
 
 /***/ }),
-/* 137 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16243,7 +17812,7 @@ exports.dropShadow = function () { return dom_1.sv("filter", {
 
 
 /***/ }),
-/* 138 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16263,7 +17832,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = __webpack_require__(6);
 var dom_1 = __webpack_require__(0);
 var common_1 = __webpack_require__(5);
-var legend_1 = __webpack_require__(139);
+var legend_1 = __webpack_require__(144);
 function getDefaultMargin(halign, valign) {
     switch (valign) {
         case types_1.VerticalPosition.middle: {
@@ -16293,7 +17862,7 @@ var Legend = /** @class */ (function () {
             halign: types_1.HorizontalPosition.right,
             valign: types_1.VerticalPosition.middle
         };
-        this.config = __assign({}, defaults, config);
+        this.config = __assign(__assign({}, defaults), config);
         this.config.margin = config.margin || getDefaultMargin(this.config.halign, this.config.valign);
         this._handlers = {
             onclick: function (id, pieLike) { return _this._events.fire(types_1.ChartEvents.toggleSeries, [id, pieLike]); }
@@ -16414,7 +17983,7 @@ exports.Legend = Legend;
 
 
 /***/ }),
-/* 139 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16460,25 +18029,7 @@ exports.legendShape = legendShape;
 
 
 /***/ }),
-/* 140 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var RadialScale_1 = __webpack_require__(141);
-var Scale_1 = __webpack_require__(42);
-var TextScale_1 = __webpack_require__(143);
-var scaleTypes = {
-    radial: RadialScale_1.RadialScale,
-    text: TextScale_1.TextScale,
-    numeric: Scale_1.Scale
-};
-exports.default = scaleTypes;
-
-
-/***/ }),
-/* 141 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16497,9 +18048,240 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var circle_1 = __webpack_require__(24);
+var dom_1 = __webpack_require__(0);
+var common_1 = __webpack_require__(5);
 var types_1 = __webpack_require__(6);
-var Scale_1 = __webpack_require__(42);
+var view_1 = __webpack_require__(4);
+var getAttrs = function (textWidth, x, y, type, chartType) {
+    var dy = chartType === types_1.ChartType.bar ? 5 : 0;
+    switch (type) {
+        case types_1.TooltipType.top: {
+            var h1 = (textWidth + 20 - 8 - 4) / 2;
+            var h2 = textWidth + 20 - 4;
+            var d = "M0 0 l4 -4 h" + h1 + " a2 2 0 0 0 2 -2 v-18 a2 2 0 0 0 -2 -2 h" + -h2 + " a2 2 0 0 0 -2 2 v18 a2 2 0 0 0 2 2 h" + h1 + " Z";
+            var textX = 0;
+            var textY = -15;
+            return {
+                d: d,
+                left: x,
+                top: y - 6 + dy,
+                textX: textX,
+                textY: textY
+            };
+        }
+        case types_1.TooltipType.bot: {
+            var h1 = (textWidth + 20 - 8 - 4) / 2;
+            var h2 = textWidth + 20 - 4;
+            var d = "M0 0 l4 4 h" + h1 + " a2 2 0 0 1 2 2 v18 a2 2 0 0 1 -2 2 h" + -h2 + " a2 2 0 0 1 -2 -2 v-18 a2 2 0 0 1 2 -2 h" + h1 + " Z";
+            var textX = 0;
+            var textY = 15;
+            return {
+                d: d,
+                left: x,
+                top: y + 6 - dy,
+                textX: textX,
+                textY: textY
+            };
+        }
+        case types_1.TooltipType.right: {
+            var h = textWidth + 20 - 4;
+            var d = "M0 0 l4 -4 v-5 a2 2 0 0 1 2 -2 h" + h + " a2 2 0 0 1 2 2 v18 a2 2 0 0 1 -2 2 h" + -h + " a2 2 0 0 1 -2 -2 v-5 Z";
+            var textX = h / 2 + 6;
+            var textY = 0;
+            return {
+                d: d,
+                left: x + 1,
+                top: y,
+                textX: textX,
+                textY: textY
+            };
+        }
+        case types_1.TooltipType.left: {
+            var h = textWidth + 20 - 4;
+            var d = "M0 0 l-4 -4 v-5 a2 2 0 0 0 -2 -2 h" + -h + " a2 2 0 0 0 -2 2 v18 a2 2 0 0 0 2 2 h" + h + " a2 2 0 0 0 2 -2 v-5 Z";
+            var textX = -h / 2 - 6;
+            var textY = 0;
+            return {
+                d: d,
+                left: x - 1,
+                top: y,
+                textX: textX,
+                textY: textY
+            };
+        }
+        case types_1.TooltipType.simple: {
+            var h = textWidth + 20 - 4;
+            var d = "M0 0 v-4 a2 2 0 0 1 2 -2 h" + h + " a2 2 0 0 1 2 2 v18 a2 2 0 0 1 -2 2 h" + -h + " a2 2 0 0 1 -2 -2 v-6 Z";
+            var textX = h / 2 + 2;
+            var textY = 6;
+            return {
+                d: d,
+                left: x - h / 2 - 2,
+                top: y - 5,
+                textX: textX,
+                textY: textY
+            };
+        }
+    }
+};
+var Tooltip = /** @class */ (function (_super) {
+    __extends(Tooltip, _super);
+    function Tooltip(container, config) {
+        var _this = _super.call(this, container, config) || this;
+        _this._chart = config.chart;
+        _this._state = {
+            leftOffset: 0,
+            topOffset: 0,
+            value: "",
+            x: 0,
+            y: 0,
+            type: null,
+            chartType: null,
+            isVisible: false
+        };
+        _this.mount(container, dom_1.create({ render: function () { return _this._draw(); } }));
+        _this._chart.events.on(types_1.ChartEvents.chartMouseMove, function (x, y, left, top) {
+            var closest = [Infinity, null, null, null, null]; // (dist, x, y, id, serieid)
+            _this._chart.eachSeries(function (serie) {
+                var serieClosest = serie.getClosest(x, y);
+                if (closest[0] > serieClosest[0]) {
+                    closest[0] = serieClosest[0];
+                    closest[1] = serieClosest[1];
+                    closest[2] = serieClosest[2];
+                    closest[3] = serieClosest[3];
+                    closest[4] = serie.id;
+                }
+            });
+            var tooltipSeries = _this._chart.getSeries(closest[4]);
+            if (tooltipSeries) {
+                var ref = common_1.calcPointRef(closest[3], closest[4]);
+                if (ref === _this._lastPointRef) {
+                    return;
+                }
+                var text = tooltipSeries.getTooltipText(closest[3]);
+                if (text) {
+                    var tooltipType = tooltipSeries.getTooltipType(closest[3], closest[1], closest[2]);
+                    _this._enableActivePoint(ref);
+                    _this._state.leftOffset = left;
+                    _this._state.topOffset = top;
+                    _this._state.value = text;
+                    _this._state.x = closest[1];
+                    _this._state.y = closest[2];
+                    _this._state.type = tooltipType;
+                    _this._state.chartType = tooltipSeries.config.type;
+                    _this._state.isVisible = true;
+                    _this.paint();
+                }
+            }
+        }, _this);
+        _this._chart.events.on(types_1.ChartEvents.chartMouseLeave, function () { return _this._hide(); }, _this);
+        return _this;
+    }
+    Tooltip.prototype.destructor = function () {
+        this._chart.events.detach(types_1.ChartEvents.chartMouseLeave, this);
+        this._chart.events.detach(types_1.ChartEvents.chartMouseMove, this);
+        this.unmount();
+    };
+    Tooltip.prototype._hide = function () {
+        this._disableLastActivePoint();
+        this._state.isVisible = false;
+        this.paint();
+    };
+    Tooltip.prototype._enableActivePoint = function (ref) {
+        var rootView = this._chart.getRootView();
+        var point = rootView && rootView.refs && rootView.refs[ref];
+        if (point) {
+            this._disableLastActivePoint();
+            this._lastPointRef = ref;
+            point.patch({ class: point.attrs.class + " active-figure" });
+        }
+    };
+    Tooltip.prototype._disableLastActivePoint = function () {
+        if (this._lastPointRef) {
+            var rootView = this._chart.getRootView();
+            var point = rootView && rootView.refs && rootView.refs[this._lastPointRef];
+            if (point) {
+                point.patch({ class: point.attrs.class.replace(" active-figure", "") });
+            }
+            this._lastPointRef = null;
+        }
+    };
+    Tooltip.prototype._draw = function () {
+        var _a = this._state, value = _a.value, x = _a.x, y = _a.y, type = _a.type, chartType = _a.chartType, isVisible = _a.isVisible;
+        var attrs;
+        if (isVisible && value !== "") {
+            var style = common_1.getFontStyle("tooltip-text");
+            var textWidth = common_1.getTextWidth(value, style);
+            attrs = getAttrs(textWidth, x, y, type || types_1.TooltipType.top, chartType);
+        }
+        else {
+            attrs = { textX: 0, textY: 0, d: null, left: 0, top: 0 };
+        }
+        return dom_1.el(".dhx_chart.tooltip-container", {
+            style: {
+                pointerEvents: "none",
+                width: 0,
+                height: 0,
+                visibility: isVisible ? "visible" : "hidden",
+                position: "absolute",
+                left: attrs.left + this._state.leftOffset + "px",
+                top: attrs.top + this._state.topOffset + "px"
+            }
+        }, isVisible ? [
+            dom_1.sv("svg", [
+                dom_1.sv("path", { d: attrs.d, class: "tooltip-form" }),
+                dom_1.sv("text", { x: attrs.textX, y: attrs.textY, class: "tooltip-text" }, [
+                    common_1.verticalCenteredText(value)
+                ])
+            ])
+        ] : null);
+    };
+    return Tooltip;
+}(view_1.View));
+exports.Tooltip = Tooltip;
+
+
+/***/ }),
+/* 146 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var RadialScale_1 = __webpack_require__(147);
+var Scale_1 = __webpack_require__(45);
+var TextScale_1 = __webpack_require__(149);
+var scaleTypes = {
+    radial: RadialScale_1.RadialScale,
+    text: TextScale_1.TextScale,
+    numeric: Scale_1.Scale
+};
+exports.default = scaleTypes;
+
+
+/***/ }),
+/* 147 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var circle_1 = __webpack_require__(26);
+var types_1 = __webpack_require__(6);
+var Scale_1 = __webpack_require__(45);
 var RadialScale = /** @class */ (function (_super) {
     __extends(RadialScale, _super);
     function RadialScale(_data, config) {
@@ -16527,7 +18309,7 @@ exports.RadialScale = RadialScale;
 
 
 /***/ }),
-/* 142 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16543,6 +18325,13 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var common_1 = __webpack_require__(5);
 var allowedBases = [1, 2, 3, 5, 10];
@@ -16555,7 +18344,7 @@ var AxisCreator = /** @class */ (function () {
             max: Math.max.apply(Math, this._data),
             maxTicks: this._data.length < 20 ? this._data.length : 20
         };
-        this.config = __assign({}, defaults, conf);
+        this.config = __assign(__assign({}, defaults), conf);
         if (this.config.padding) {
             this._addPadding();
         }
@@ -16581,7 +18370,7 @@ var AxisCreator = /** @class */ (function () {
         var exponent = Math.floor(common_1.log10(dif / ticks));
         var step = Math.pow(10, exponent);
         var rawBase = (dif / step) / ticks;
-        var nearestBase = allowedBases[allowedBases.concat([rawBase]).sort(function (a, b) { return a - b; }).indexOf(rawBase)];
+        var nearestBase = allowedBases[__spreadArrays(allowedBases, [rawBase]).sort(function (a, b) { return a - b; }).indexOf(rawBase)];
         return nearestBase * step;
     };
     AxisCreator.prototype._calculateSteps = function (step) {
@@ -16623,7 +18412,7 @@ exports.AxisCreator = AxisCreator;
 
 
 /***/ }),
-/* 143 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16654,8 +18443,8 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var common_1 = __webpack_require__(5);
-var Scale_1 = __webpack_require__(42);
-var SvgScales_1 = __webpack_require__(68);
+var Scale_1 = __webpack_require__(45);
+var SvgScales_1 = __webpack_require__(70);
 var renderScale = {
     left: SvgScales_1.left,
     right: SvgScales_1.right,
@@ -16727,7 +18516,7 @@ var TextScale = /** @class */ (function (_super) {
             showText: true
         };
         this.locator = common_1.locator(config.text);
-        this.config = __assign({}, defaults, config);
+        this.config = __assign(__assign({}, defaults), config);
     };
     TextScale.prototype._getAxisPoint = function (index) {
         var max = this._axis.max;
@@ -16747,23 +18536,23 @@ exports.TextScale = TextScale;
 
 
 /***/ }),
-/* 144 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Area_1 = __webpack_require__(69);
-var Bar_1 = __webpack_require__(70);
-var BarX_1 = __webpack_require__(146);
-var Donut_1 = __webpack_require__(147);
-var Line_1 = __webpack_require__(46);
-var Pie_1 = __webpack_require__(148);
-var Pie3D_1 = __webpack_require__(149);
-var Radar_1 = __webpack_require__(150);
-var Scatter_1 = __webpack_require__(151);
-var Spline_1 = __webpack_require__(152);
-var SplineArea_1 = __webpack_require__(153);
+var Area_1 = __webpack_require__(71);
+var Bar_1 = __webpack_require__(72);
+var BarX_1 = __webpack_require__(152);
+var Donut_1 = __webpack_require__(153);
+var Line_1 = __webpack_require__(49);
+var Pie_1 = __webpack_require__(154);
+var Pie3D_1 = __webpack_require__(155);
+var Radar_1 = __webpack_require__(156);
+var Scatter_1 = __webpack_require__(157);
+var Spline_1 = __webpack_require__(158);
+var SplineArea_1 = __webpack_require__(159);
 var seriesTypes = {
     line: Line_1.default, spline: Spline_1.default, area: Area_1.default, splineArea: SplineArea_1.default, scatter: Scatter_1.default, pie: Pie_1.default, pie3D: Pie3D_1.default, donut: Donut_1.default, radar: Radar_1.default, bar: Bar_1.default, xbar: BarX_1.default
 };
@@ -16771,7 +18560,7 @@ exports.default = seriesTypes;
 
 
 /***/ }),
-/* 145 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16885,7 +18674,7 @@ exports.getShadeHelper = getShadeHelper;
 
 
 /***/ }),
-/* 146 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16905,7 +18694,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = __webpack_require__(6);
-var Bar_1 = __webpack_require__(70);
+var Bar_1 = __webpack_require__(72);
 var BarX = /** @class */ (function (_super) {
     __extends(BarX, _super);
     function BarX() {
@@ -16957,11 +18746,14 @@ var BarX = /** @class */ (function (_super) {
         var baseLine = this.config.baseLine;
         return this._baseLinePosition = baseLine !== undefined ? this.yScale.point(baseLine) * height : 0;
     };
-    BarX.prototype._text = function (item, prev) {
+    BarX.prototype._text = function (item, prev, rotate) {
+        var x = (prev + item[1]) / 2;
+        var y = item[0];
+        var canRotate = rotate && !isNaN(rotate);
         return {
-            y: item[0],
-            x: (prev + item[1]) / 2,
-            class: "bar-text"
+            x: x, y: y,
+            class: "bar-text",
+            transform: canRotate ? "rotate(" + rotate + " " + x + " " + y + ")" : ""
         };
     };
     return BarX;
@@ -16970,7 +18762,7 @@ exports.default = BarX;
 
 
 /***/ }),
-/* 147 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16990,10 +18782,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var circle_1 = __webpack_require__(24);
+var circle_1 = __webpack_require__(26);
 var common_1 = __webpack_require__(5);
 var types_1 = __webpack_require__(6);
-var NoScaleSeria_1 = __webpack_require__(45);
+var NoScaleSeria_1 = __webpack_require__(48);
 var Donut = /** @class */ (function (_super) {
     __extends(Donut, _super);
     function Donut() {
@@ -17002,13 +18794,13 @@ var Donut = /** @class */ (function (_super) {
     Donut.prototype.paint = function (width, height) {
         var _this = this;
         var radius = height / 2;
-        var currentPercent = -.25; // 0 percent is (1, 0) point, -.25 is (0, -1) point
+        var currentPercent = -.25;
         var svg = [];
         var links = [];
         var tooltipData = [];
-        var err = this._points.length === 1 ? -.000001 : 0;
         this._points.forEach(function (item) {
             var percent = item[0], value = item[1], id = item[2], text = item[3], color = item[4];
+            var err = percent === 0 || percent === 1 ? -0.000001 : 0;
             var _a = circle_1.getCoordinates(currentPercent, radius, radius), startX = _a[0], startY = _a[1];
             var avPercent = currentPercent + percent / 2;
             currentPercent += percent + err;
@@ -17046,7 +18838,11 @@ var Donut = /** @class */ (function (_super) {
                     break;
                 }
                 case types_1.NoScaleSubType.percentOnly:
-                    var percentText = dom_1.sv("text", { x: middleLine[0] * 7 / 9, y: middleLine[1] * 7 / 9, class: "pie-inner-value" }, [
+                    var percentText = dom_1.sv("text", {
+                        x: middleLine[0] * 7 / 9,
+                        y: middleLine[1] * 7 / 9,
+                        class: "pie-inner-value"
+                    }, [
                         common_1.verticalCenteredText(Math.round(percent * 100) + "%")
                     ]);
                     links.push(percentText);
@@ -17058,6 +18854,7 @@ var Donut = /** @class */ (function (_super) {
                 _key: id,
                 fill: color,
                 class: "chart donut",
+                onclick: [_this._handlers.onclick, item[1], item[2]],
                 onmouseout: [circle_1.pieLikeHandlers.onmouseout],
                 onmouseover: [circle_1.pieLikeHandlers.onmouseover, shiftX, shiftY]
             });
@@ -17086,7 +18883,7 @@ exports.default = Donut;
 
 
 /***/ }),
-/* 148 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17118,10 +18915,10 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var circle_1 = __webpack_require__(24);
+var circle_1 = __webpack_require__(26);
 var common_1 = __webpack_require__(5);
 var types_1 = __webpack_require__(6);
-var NoScaleSeria_1 = __webpack_require__(45);
+var NoScaleSeria_1 = __webpack_require__(48);
 var Pie = /** @class */ (function (_super) {
     __extends(Pie, _super);
     function Pie() {
@@ -17129,7 +18926,7 @@ var Pie = /** @class */ (function (_super) {
     }
     Pie.prototype.paint = function (width, height) {
         var _this = this;
-        var _a = this.config, stroke = _a.stroke, strokeWidth = _a.strokeWidth, gradient = _a.gradient, useLines = _a.useLines, showText = _a.showText;
+        var _a = this.config, stroke = _a.stroke, strokeWidth = _a.strokeWidth, gradient = _a.gradient, useLines = _a.useLines, showText = _a.showText, showTextTemplate = _a.showTextTemplate, subType = _a.subType;
         var radius = height / 2;
         var currentPercent = -.25; // 0 percent is (1, 0) point, -.25 is (0, -1) point
         var tooltipData = [];
@@ -17138,9 +18935,9 @@ var Pie = /** @class */ (function (_super) {
         var links = [];
         var pie = [];
         var lines = [];
-        var err = this._points.length === 1 ? -.000001 : 0; // if move to start point it will be empty circle
         this._points.forEach(function (item) {
             var percent = item[0], value = item[1], id = item[2], text = item[3], color = item[4];
+            var err = percent === 0 || percent === 1 ? -0.000001 : 0;
             var fill = color;
             if (gradient) {
                 var grad = gradient(color);
@@ -17157,8 +18954,16 @@ var Pie = /** @class */ (function (_super) {
             var _c = [circle_1.getCoordinates(avPercent, radius + startPart, radius + startPart), circle_1.getCoordinates(avPercent, radius + endPart, radius + endPart)], linkStart = _c[0], linkEnd = _c[1];
             var className = avPercent > -0.25 && avPercent < 0.25 ? "pie-value start-text" : "pie-value end-text";
             if (useLines) {
-                links.push(dom_1.sv("path", { d: "M" + linkStart[0] + " " + linkStart[1] + " L" + linkEnd[0] + " " + linkEnd[1] + " h " + lineLength, class: "pie-value-connector" }));
-                var textSvg = dom_1.sv("text", { x: linkEnd[0], y: linkEnd[1], dx: lineLength / 2 + lineLength > 0 ? 10 : -10, class: className }, [
+                links.push(dom_1.sv("path", {
+                    d: "M" + linkStart[0] + " " + linkStart[1] + " L" + linkEnd[0] + " " + linkEnd[1] + " h " + lineLength,
+                    class: "pie-value-connector"
+                }));
+                var textSvg = dom_1.sv("text", {
+                    x: linkEnd[0],
+                    y: linkEnd[1],
+                    dx: lineLength / 2 + lineLength > 0 ? 10 : -10,
+                    class: className
+                }, [
                     common_1.verticalCenteredText(text.toString())
                 ]);
                 links.push(textSvg);
@@ -17171,14 +18976,22 @@ var Pie = /** @class */ (function (_super) {
                 ]);
                 links.push(textSvg);
             }
-            if (showText) {
-                var linkText = dom_1.sv("text", { x: middleLine[0] * .7, y: middleLine[1] * .7, class: "pie-inner-value" }, [
-                    common_1.verticalCenteredText(value.toString())
+            if (showText || showTextTemplate) {
+                var linkText = dom_1.sv("text", {
+                    x: middleLine[0] * .7,
+                    y: middleLine[1] * .7,
+                    class: "pie-inner-value"
+                }, [
+                    showTextTemplate ? common_1.verticalCenteredText(showTextTemplate(value.toString())) : common_1.verticalCenteredText(value.toString())
                 ]);
                 links.push(linkText);
             }
-            if (_this.config.subType === types_1.NoScaleSubType.percentOnly) {
-                var percentText = dom_1.sv("text", { x: middleLine[0] * 0.5, y: middleLine[1] * 0.5, class: "pie-inner-value" }, [
+            if (subType === types_1.NoScaleSubType.percentOnly) {
+                var percentText = dom_1.sv("text", {
+                    x: middleLine[0] * 0.5,
+                    y: middleLine[1] * 0.5,
+                    class: "pie-inner-value"
+                }, [
                     common_1.verticalCenteredText(Math.round(percent * 100) + "%")
                 ]);
                 links.push(percentText);
@@ -17193,6 +19006,7 @@ var Pie = /** @class */ (function (_super) {
                 class: "chart pie",
                 _key: id,
                 fill: fill,
+                onclick: [_this._handlers.onclick, item[1], item[2]],
                 onmouseover: [circle_1.pieLikeHandlers.onmouseover, shiftX, shiftY],
                 onmouseout: [circle_1.pieLikeHandlers.onmouseout]
             });
@@ -17226,7 +19040,7 @@ exports.default = Pie;
 
 
 /***/ }),
-/* 149 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17246,10 +19060,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var circle_1 = __webpack_require__(24);
+var circle_1 = __webpack_require__(26);
 var common_1 = __webpack_require__(5);
 var types_1 = __webpack_require__(6);
-var NoScaleSeria_1 = __webpack_require__(45);
+var NoScaleSeria_1 = __webpack_require__(48);
 var Pie = /** @class */ (function (_super) {
     __extends(Pie, _super);
     function Pie() {
@@ -17257,6 +19071,7 @@ var Pie = /** @class */ (function (_super) {
     }
     Pie.prototype.paint = function (width, height) {
         var _this = this;
+        var _a = this.config, subType = _a.subType, useLines = _a.useLines, showText = _a.showText, showTextTemplate = _a.showTextTemplate;
         var radiusX = height / 2;
         var radiusY = radiusX * .5;
         var connector = radiusX / 5;
@@ -17264,9 +19079,9 @@ var Pie = /** @class */ (function (_super) {
         var currentPercent = -.25;
         var svg = [];
         var links = [];
-        var err = this._points.length === 1 ? -.000001 : 0;
         this._points.forEach(function (item) {
             var percent = item[0], value = item[1], id = item[2], text = item[3], color = item[4];
+            var err = percent === 0 || percent === 1 ? -0.000001 : 0;
             var _a = circle_1.getCoordinates(currentPercent, radiusX, radiusY), startX = _a[0], startY = _a[1];
             var avPercent = currentPercent + percent / 2;
             var lineLength = avPercent < .25 ? 5 : -5;
@@ -17275,16 +19090,23 @@ var Pie = /** @class */ (function (_super) {
             if (avPercent > 0 && avPercent < 0.5) {
                 delta = connector * Math.sin(2 * Math.PI * avPercent);
             }
-            //
             var linkStart = circle_1.getCoordinates(avPercent, radiusX + 5 + delta, radiusY + 5 + delta);
             var linkEnd = circle_1.getCoordinates(avPercent, radiusX + 30 + delta, radiusY + 30 + delta);
             var nextPercent = currentPercent + percent + err;
             var _b = circle_1.getCoordinates(nextPercent, radiusX, radiusY), endX = _b[0], endY = _b[1];
             var largeArcFlag = percent > .5 ? 1 : 0;
             var className = avPercent > -0.25 && avPercent < 0.25 ? "pie-value start-text" : "pie-value end-text";
-            if (_this.config.useLines) {
-                links.push(dom_1.sv("path", { d: "M" + linkStart[0] + " " + linkStart[1] + " L" + linkEnd[0] + " " + linkEnd[1] + " h " + lineLength, class: "pie-value-connector" }));
-                var textSvg = dom_1.sv("text", { x: linkEnd[0], y: linkEnd[1], dx: lineLength / 2 + lineLength > 0 ? 10 : -10, class: className }, [
+            if (useLines) {
+                links.push(dom_1.sv("path", {
+                    d: "M" + linkStart[0] + " " + linkStart[1] + " L" + linkEnd[0] + " " + linkEnd[1] + " h " + lineLength,
+                    class: "pie-value-connector"
+                }));
+                var textSvg = dom_1.sv("text", {
+                    x: linkEnd[0],
+                    y: linkEnd[1],
+                    dx: lineLength / 2 + lineLength > 0 ? 10 : -10,
+                    class: className
+                }, [
                     common_1.verticalCenteredText(text.toString())
                 ]);
                 links.push(textSvg);
@@ -17297,14 +19119,18 @@ var Pie = /** @class */ (function (_super) {
                 ]);
                 links.push(textSvg);
             }
-            if (_this.config.showText) {
+            if (showText || showTextTemplate) {
                 var textSvg = dom_1.sv("text", { x: middleLine[0] * .7, y: middleLine[1] * .7, class: "pie-inner-value" }, [
-                    common_1.verticalCenteredText(value.toString())
+                    showTextTemplate ? common_1.verticalCenteredText(showTextTemplate(value)) : common_1.verticalCenteredText(value.toString())
                 ]);
                 links.push(textSvg);
             }
-            if (_this.config.subType === types_1.NoScaleSubType.percentOnly) {
-                var percentText = dom_1.sv("text", { x: middleLine[0] * 0.6, y: middleLine[1] * 0.6, class: "pie-inner-value" }, [
+            if (subType === types_1.NoScaleSubType.percentOnly) {
+                var percentText = dom_1.sv("text", {
+                    x: middleLine[0] * 0.6,
+                    y: middleLine[1] * 0.6,
+                    class: "pie-inner-value"
+                }, [
                     common_1.verticalCenteredText(Math.round(percent * 100) + "%")
                 ]);
                 links.push(percentText);
@@ -17324,7 +19150,15 @@ var Pie = /** @class */ (function (_super) {
                 addition = "M " + startX + " " + startY + " v " + connector + " A " + radiusX + " " + radiusY + " 0 0 1 " + endX + " " + (endY + connector) + " v " + -connector;
             }
             if (addition) {
-                var additionPath = dom_1.sv("path", { d: addition, fill: color, class: "chart pie3d addition", stroke: "none", filter: "url(#shadow)" });
+                var additionPath = dom_1.sv("path", {
+                    _key: id + "__shadow__",
+                    d: addition,
+                    fill: color,
+                    onclick: [_this._handlers.onclick, item[1], item[2]],
+                    class: "chart pie3d addition",
+                    stroke: "none",
+                    filter: "url(#shadow)"
+                });
                 svg.push(additionPath);
             }
             // end 3d block
@@ -17334,6 +19168,7 @@ var Pie = /** @class */ (function (_super) {
                 _key: id,
                 fill: color,
                 stroke: "none",
+                onclick: [_this._handlers.onclick, item[1], item[2]],
                 class: "chart pie3d"
             }));
             if (_this._points.length === 1) {
@@ -17355,7 +19190,7 @@ exports.default = Pie;
 
 
 /***/ }),
-/* 150 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17386,10 +19221,10 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var circle_1 = __webpack_require__(24);
+var circle_1 = __webpack_require__(26);
 var common_1 = __webpack_require__(5);
 var types_1 = __webpack_require__(6);
-var BaseSeria_1 = __webpack_require__(44);
+var BaseSeria_1 = __webpack_require__(47);
 var Radar = /** @class */ (function (_super) {
     __extends(Radar, _super);
     function Radar() {
@@ -17466,7 +19301,9 @@ var Radar = /** @class */ (function (_super) {
             item[1] = real[1] + height / 2;
         });
     };
-    Radar.prototype._defaultLocator = function (v) { return this._locator(v); };
+    Radar.prototype._defaultLocator = function (v) {
+        return this._locator(v);
+    };
     Radar.prototype._setDefaults = function (config) {
         var defaults = {
             strokeWidth: 2,
@@ -17479,7 +19316,7 @@ var Radar = /** @class */ (function (_super) {
         };
         this._locator = common_1.locator(config.value);
         config.scales = config.scales || [types_1.ScaleType.radial];
-        this.config = __assign({}, defaults, config);
+        this.config = __assign(__assign({}, defaults), config);
         if (this.config.pointType) {
             var color = this.config.pointColor || this.config.color;
             this._drawPointType = this._getPointType(this.config.pointType, color, this.config.tooltip);
@@ -17491,7 +19328,7 @@ exports.default = Radar;
 
 
 /***/ }),
-/* 151 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17522,7 +19359,7 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = __webpack_require__(6);
-var Line_1 = __webpack_require__(46);
+var Line_1 = __webpack_require__(49);
 var common_1 = __webpack_require__(5);
 var Scatter = /** @class */ (function (_super) {
     __extends(Scatter, _super);
@@ -17545,7 +19382,7 @@ var Scatter = /** @class */ (function (_super) {
             tooltip: true,
             pointType: types_1.PointType.rect
         };
-        this.config = __assign({}, defaults, config);
+        this.config = __assign(__assign({}, defaults), config);
         var showTooltip = this.config.tooltip;
         var point = this.config.pointType;
         var color = this.config.pointColor || this.config.color;
@@ -17559,7 +19396,7 @@ exports.default = Scatter;
 
 
 /***/ }),
-/* 152 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17579,8 +19416,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var spline_1 = __webpack_require__(71);
-var Line_1 = __webpack_require__(46);
+var spline_1 = __webpack_require__(73);
+var Line_1 = __webpack_require__(49);
 var Spline = /** @class */ (function (_super) {
     __extends(Spline, _super);
     function Spline() {
@@ -17605,7 +19442,7 @@ exports.default = Spline;
 
 
 /***/ }),
-/* 153 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17625,8 +19462,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var spline_1 = __webpack_require__(71);
-var Area_1 = __webpack_require__(69);
+var spline_1 = __webpack_require__(73);
+var Area_1 = __webpack_require__(71);
 var SplineArea = /** @class */ (function (_super) {
     __extends(SplineArea, _super);
     function SplineArea() {
@@ -17672,7 +19509,7 @@ exports.default = SplineArea;
 
 
 /***/ }),
-/* 154 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17726,7 +19563,7 @@ exports.default = Stacker;
 
 
 /***/ }),
-/* 155 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17744,225 +19581,28 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-Object.defineProperty(exports, "__esModule", { value: true });
-var dom_1 = __webpack_require__(0);
-var common_1 = __webpack_require__(5);
-var types_1 = __webpack_require__(6);
-var view_1 = __webpack_require__(4);
-var getAttrs = function (textWidth, x, y, type, chartType) {
-    var dy = chartType === types_1.ChartType.bar ? 5 : 0;
-    switch (type) {
-        case types_1.TooltipType.top: {
-            var h1 = (textWidth + 20 - 8 - 4) / 2;
-            var h2 = textWidth + 20 - 4;
-            var d = "M0 0 l4 -4 h" + h1 + " a2 2 0 0 0 2 -2 v-18 a2 2 0 0 0 -2 -2 h" + -h2 + " a2 2 0 0 0 -2 2 v18 a2 2 0 0 0 2 2 h" + h1 + " Z";
-            var textX = 0;
-            var textY = -15;
-            return {
-                d: d,
-                left: x,
-                top: y - 6 + dy,
-                textX: textX,
-                textY: textY
-            };
-        }
-        case types_1.TooltipType.bot: {
-            var h1 = (textWidth + 20 - 8 - 4) / 2;
-            var h2 = textWidth + 20 - 4;
-            var d = "M0 0 l4 4 h" + h1 + " a2 2 0 0 1 2 2 v18 a2 2 0 0 1 -2 2 h" + -h2 + " a2 2 0 0 1 -2 -2 v-18 a2 2 0 0 1 2 -2 h" + h1 + " Z";
-            var textX = 0;
-            var textY = 15;
-            return {
-                d: d,
-                left: x,
-                top: y + 6 - dy,
-                textX: textX,
-                textY: textY
-            };
-        }
-        case types_1.TooltipType.right: {
-            var h = textWidth + 20 - 4;
-            var d = "M0 0 l4 -4 v-5 a2 2 0 0 1 2 -2 h" + h + " a2 2 0 0 1 2 2 v18 a2 2 0 0 1 -2 2 h" + -h + " a2 2 0 0 1 -2 -2 v-5 Z";
-            var textX = h / 2 + 6;
-            var textY = 0;
-            return {
-                d: d,
-                left: x + 1,
-                top: y,
-                textX: textX,
-                textY: textY
-            };
-        }
-        case types_1.TooltipType.left: {
-            var h = textWidth + 20 - 4;
-            var d = "M0 0 l-4 -4 v-5 a2 2 0 0 0 -2 -2 h" + -h + " a2 2 0 0 0 -2 2 v18 a2 2 0 0 0 2 2 h" + h + " a2 2 0 0 0 2 -2 v-5 Z";
-            var textX = -h / 2 - 6;
-            var textY = 0;
-            return {
-                d: d,
-                left: x - 1,
-                top: y,
-                textX: textX,
-                textY: textY
-            };
-        }
-        case types_1.TooltipType.simple: {
-            var h = textWidth + 20 - 4;
-            var d = "M0 0 v-4 a2 2 0 0 1 2 -2 h" + h + " a2 2 0 0 1 2 2 v18 a2 2 0 0 1 -2 2 h" + -h + " a2 2 0 0 1 -2 -2 v-6 Z";
-            var textX = h / 2 + 2;
-            var textY = 6;
-            return {
-                d: d,
-                left: x - h / 2 - 2,
-                top: y - 5,
-                textX: textX,
-                textY: textY
-            };
-        }
-    }
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
 };
-var Tooltip = /** @class */ (function (_super) {
-    __extends(Tooltip, _super);
-    function Tooltip(container, config) {
-        var _this = _super.call(this, container, config) || this;
-        _this._chart = config.chart;
-        _this._state = { leftOffset: 0, topOffset: 0, value: "", x: 0, y: 0, type: null, chartType: null, isVisible: false };
-        _this.mount(container, dom_1.create({ render: function () { return _this._draw(); } }));
-        _this._chart.events.on(types_1.ChartEvents.chartMouseMove, function (x, y, left, top) {
-            var closest = [Infinity, null, null, null, null]; // (dist, x, y, id, serieid)
-            _this._chart.eachSeries(function (serie) {
-                var serieClosest = serie.getClosest(x, y);
-                if (closest[0] > serieClosest[0]) {
-                    closest[0] = serieClosest[0];
-                    closest[1] = serieClosest[1];
-                    closest[2] = serieClosest[2];
-                    closest[3] = serieClosest[3];
-                    closest[4] = serie.id;
-                }
-            });
-            var tooltipSeries = _this._chart.getSeries(closest[4]);
-            if (tooltipSeries) {
-                var ref = common_1.calcPointRef(closest[3], closest[4]);
-                if (ref === _this._lastPointRef) {
-                    return;
-                }
-                var text = tooltipSeries.getTooltipText(closest[3]);
-                if (text) {
-                    var tooltipType = tooltipSeries.getTooltipType(closest[3], closest[1], closest[2]);
-                    _this._enableActivePoint(ref);
-                    _this._state.leftOffset = left;
-                    _this._state.topOffset = top;
-                    _this._state.value = text;
-                    _this._state.x = closest[1];
-                    _this._state.y = closest[2];
-                    _this._state.type = tooltipType;
-                    _this._state.chartType = tooltipSeries.config.type;
-                    _this._state.isVisible = true;
-                    _this.paint();
-                }
-            }
-        }, _this);
-        _this._chart.events.on(types_1.ChartEvents.chartMouseLeave, function () { return _this._hide(); }, _this);
-        return _this;
-    }
-    Tooltip.prototype.destructor = function () {
-        this._chart.events.detach(types_1.ChartEvents.chartMouseLeave, this);
-        this._chart.events.detach(types_1.ChartEvents.chartMouseMove, this);
-        this.unmount();
-    };
-    Tooltip.prototype._hide = function () {
-        this._disableLastActivePoint();
-        this._state.isVisible = false;
-        this.paint();
-    };
-    Tooltip.prototype._enableActivePoint = function (ref) {
-        var rootView = this._chart.getRootView();
-        var point = rootView && rootView.refs && rootView.refs[ref];
-        if (point) {
-            this._disableLastActivePoint();
-            this._lastPointRef = ref;
-            point.patch({ class: point.attrs.class + " active-figure" });
-        }
-    };
-    Tooltip.prototype._disableLastActivePoint = function () {
-        if (this._lastPointRef) {
-            var rootView = this._chart.getRootView();
-            var point = rootView && rootView.refs && rootView.refs[this._lastPointRef];
-            if (point) {
-                point.patch({ class: point.attrs.class.replace(" active-figure", "") });
-            }
-            this._lastPointRef = null;
-        }
-    };
-    Tooltip.prototype._draw = function () {
-        var _a = this._state, value = _a.value, x = _a.x, y = _a.y, type = _a.type, chartType = _a.chartType, isVisible = _a.isVisible;
-        var attrs;
-        if (isVisible && value !== "") {
-            var style = common_1.getFontStyle("tooltip-text");
-            var textWidth = common_1.getTextWidth(value, style);
-            attrs = getAttrs(textWidth, x, y, type || types_1.TooltipType.top, chartType);
-        }
-        else {
-            attrs = { textX: 0, textY: 0, d: null, left: 0, top: 0 };
-        }
-        return dom_1.el(".dhx_chart.tooltip-container", {
-            style: {
-                pointerEvents: "none",
-                width: 0,
-                height: 0,
-                visibility: isVisible ? "visible" : "hidden",
-                position: "absolute",
-                left: attrs.left + this._state.leftOffset + "px",
-                top: attrs.top + this._state.topOffset + "px"
-            }
-        }, isVisible ? [
-            dom_1.sv("svg", [
-                dom_1.sv("path", { d: attrs.d, class: "tooltip-form" }),
-                dom_1.sv("text", { x: attrs.textX, y: attrs.textY, class: "tooltip-text" }, [
-                    common_1.verticalCenteredText(value)
-                ])
-            ])
-        ] : null);
-    };
-    return Tooltip;
-}(view_1.View));
-exports.Tooltip = Tooltip;
-
-
-/***/ }),
-/* 156 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
-var keycodes_1 = __webpack_require__(157);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
+var keycodes_1 = __webpack_require__(162);
 var view_1 = __webpack_require__(4);
 var ts_data_1 = __webpack_require__(7);
-var ts_layout_1 = __webpack_require__(12);
-var ts_list_1 = __webpack_require__(36);
-var ts_popup_1 = __webpack_require__(10);
-var keyListener_1 = __webpack_require__(158);
-var en_1 = __webpack_require__(48);
-var helper_1 = __webpack_require__(159);
-var types_1 = __webpack_require__(72);
+var ts_layout_1 = __webpack_require__(14);
+var ts_list_1 = __webpack_require__(38);
+var ts_popup_1 = __webpack_require__(11);
+var keyListener_1 = __webpack_require__(163);
+var en_1 = __webpack_require__(50);
+var helper_1 = __webpack_require__(164);
+var types_1 = __webpack_require__(74);
 var template = function (item) {
     if (item.icon) {
         return "<span class=\"" + item.icon + " dhx_combobox-options__icon\"></span> <span class=\"dhx_combobox-options__value\">" + item.value + "</span>";
@@ -17979,8 +19619,17 @@ var Combobox = /** @class */ (function (_super) {
             // selectAllButton: true
             template: template,
             listHeight: 224,
-            cellHeight: 32,
+            itemHeight: 32,
+            disabled: false
         }, config)) || this;
+        _this.config.itemsCount = _this.config.itemsCount || _this.config.showItemsCount; // TODO: remove sute_7.0
+        _this.config.helpMessage = _this.config.helpMessage || _this.config.help; // TODO: remove sute_7.0
+        if (_this.config.cellHeight && _this.config.itemHeight === 32) {
+            _this.config.itemHeight = _this.config.cellHeight; // TODO: remove sute_7.0
+        }
+        if (_this.config.labelInline) {
+            _this.config.labelPosition = "left"; // TODO: remove sute_7.0
+        }
         if (Array.isArray(_this.config.data)) {
             _this.events = new events_1.EventSystem(_this);
             _this.data = new ts_data_1.DataCollection({}, _this.events);
@@ -17996,12 +19645,23 @@ var Combobox = /** @class */ (function (_super) {
             _this.data = new ts_data_1.DataCollection({}, _this.events);
         }
         _this.popup = new ts_popup_1.Popup();
-        // this.popup.events.on(PopupEvents.beforeHide, () => true);
         _this.popup.events.on(ts_popup_1.PopupEvents.afterShow, function () {
             _this.paint();
         });
         _this.popup.events.on(ts_popup_1.PopupEvents.afterHide, function () {
+            if (_this.config.multiselection) {
+                _this._state.value = "";
+            }
             _this.paint();
+        });
+        _this.popup.events.on(ts_popup_1.PopupEvents.beforeHide, function (fromOuterClick) {
+            if (fromOuterClick) {
+                if (!_this.events.fire(types_1.ComboboxEvents.beforeClose)) {
+                    return;
+                }
+                _this.events.fire(types_1.ComboboxEvents.afterClose);
+                _this.events.fire(types_1.ComboboxEvents.close); // TODO: remove sute_7.0
+            }
         });
         if (_this.config.readonly) {
             _this._keyListener = new keyListener_1.KeyListener();
@@ -18031,20 +19691,6 @@ var Combobox = /** @class */ (function (_super) {
         _this.mount(element, vnode);
         return _this;
     }
-    Combobox.prototype.setState = function (state) {
-        switch (state) {
-            case "success":
-                this._state.currentState = types_1.ComboState.success;
-                break;
-            case "error":
-                this._state.currentState = types_1.ComboState.error;
-                break;
-            default:
-                this._state.currentState = types_1.ComboState.default;
-                break;
-        }
-        this.paint();
-    };
     Combobox.prototype.focus = function () {
         if (this.config.disabled) {
             return false;
@@ -18060,6 +19706,9 @@ var Combobox = /** @class */ (function (_super) {
         this.config.disabled = true;
         this.paint();
     };
+    Combobox.prototype.isDisabled = function () {
+        return this.config.disabled;
+    };
     Combobox.prototype.clear = function () {
         if (this.config.disabled) {
             return false;
@@ -18067,7 +19716,7 @@ var Combobox = /** @class */ (function (_super) {
         this.list.selection.remove();
         this._state.value = "";
         this._filter();
-        this._change();
+        this.paint();
     };
     Combobox.prototype.getValue = function (asArray) {
         var ids = this.list.selection.getId();
@@ -18098,7 +19747,7 @@ var Combobox = /** @class */ (function (_super) {
                 this._state.value = this._getItemText(item);
             }
         }
-        this._change();
+        this.paint();
     };
     Combobox.prototype.destructor = function () {
         this.popup.destructor();
@@ -18108,27 +19757,32 @@ var Combobox = /** @class */ (function (_super) {
         this._layout.destructor();
         this.unmount();
     };
+    // TODO: Remove from API
+    Combobox.prototype.setState = function (state) {
+        switch (state) {
+            case "success":
+                this._state.currentState = types_1.ComboState.success;
+                break;
+            case "error":
+                this._state.currentState = types_1.ComboState.error;
+                break;
+            default:
+                this._state.currentState = types_1.ComboState.default;
+                break;
+        }
+        this.paint();
+    };
     Combobox.prototype._createLayout = function () {
         var _this = this;
         var list = this.list = new ts_list_1.List(null, {
             template: this.config.template,
             virtual: this.config.virtual,
             keyNavigation: function () { return _this.popup.isVisible(); },
-            itemHeight: this.config.cellHeight,
+            multiselection: this.config.multiselection,
+            itemHeight: this.config.itemHeight,
             height: this.config.listHeight,
             data: this.data
         });
-        this.list.selection.events.on("change", function (e) {
-            if (!_this.config.multiselection) {
-                // dirty hack with load was really dearty
-                if (e && e !== "load") {
-                    _this._hideOptions();
-                }
-            }
-        });
-        if (this.config.multiselection) {
-            list.selection.config.multiselection = true;
-        }
         var layout = this._layout = new ts_layout_1.Layout(this.popup.getContainer(), {
             css: "dhx_combobox-options dhx_combobox__options",
             rows: [
@@ -18148,21 +19802,16 @@ var Combobox = /** @class */ (function (_super) {
                 }
             }
         });
-        layout.cell("list").attach(list);
+        layout.getCell("list").attach(list);
         if (this.config.multiselection && this.config.selectAllButton) {
-            layout.cell("select-unselect-all").attach(helper_1.selectAllView);
+            layout.getCell("select-unselect-all").attach(helper_1.selectAllView);
         }
-    };
-    Combobox.prototype._change = function () {
-        var ids = this.list.selection.getId();
-        this.events.fire(types_1.ComboboxEvents.change, [ids]);
-        this.paint();
     };
     Combobox.prototype._initHandlers = function () {
         var _this = this;
-        if (this.config.help) {
+        if (this.config.helpMessage) {
             this._helper = new ts_popup_1.Popup({ css: "dhx_tooltip dhx_tooltip--forced dhx_tooltip--light" });
-            this._helper.attachHTML(this.config.help);
+            this._helper.attachHTML(this.config.helpMessage);
         }
         this._handlers = {
             showHelper: function (e) {
@@ -18178,7 +19827,7 @@ var Combobox = /** @class */ (function (_super) {
                         _this.list.selection.remove(id);
                     });
                     if (_this.config.selectAllButton) {
-                        _this._layout.cell("select-unselect-all").attach(helper_1.selectAllView);
+                        _this._layout.getCell("select-unselect-all").attach(helper_1.selectAllView);
                         _this._state.unselectActive = false;
                     }
                 }
@@ -18186,46 +19835,43 @@ var Combobox = /** @class */ (function (_super) {
                     _this.data.filter();
                     _this.list.selection.add();
                     if (_this.config.selectAllButton) {
-                        _this._layout.cell("select-unselect-all").attach(helper_1.unselectAllView);
+                        _this._layout.getCell("select-unselect-all").attach(helper_1.unselectAllView);
                         _this._state.unselectActive = true;
                     }
                 }
-                _this._change();
+                _this.paint();
             },
             onkeydown: function (e) {
                 if (!_this.popup.isVisible() && e.which === keycodes_1.KEY_CODES.DOWN_ARROW) {
                     _this._showOptions();
                 }
-                if (_this.popup.isVisible() && e.which === keycodes_1.KEY_CODES.ENTER) {
-                    if (_this.config.multiselection) {
-                        var active = _this.list.getFocusItem();
-                        var item = _this.data.getItem(active);
-                        if (item) {
-                            if (item.$selected) {
-                                _this.list.selection.remove(active);
-                            }
-                            else {
-                                _this.list.selection.add(active);
-                            }
+                if (_this.popup.isVisible() && e.which === keycodes_1.KEY_CODES.RIGHT_ARROW) {
+                    if (_this.config.readonly && !_this.config.multiselection) {
+                        var focused = _this.list.getFocusIndex();
+                        if (focused >= 0 && focused <= _this.data.getLength()) {
+                            e.preventDefault();
+                            _this.list.setFocusIndex(focused + 1);
                         }
-                        _this._state.value = "";
-                        _this.data.filter();
-                        _this.paint();
                     }
-                    else {
-                        var id = _this.list.getFocusItem();
-                        _this.list.selection.add(id);
-                        _this._state.value = _this._getItemText(_this.data.getItem(id)) || "";
-                        _this._change();
-                        _this._hideOptions();
+                }
+                if (_this.popup.isVisible() && e.which === keycodes_1.KEY_CODES.LEFT_ARROW) {
+                    if (_this.config.readonly && !_this.config.multiselection) {
+                        var focused = _this.list.getFocusIndex();
+                        if (focused >= 0 && focused <= _this.data.getLength()) {
+                            e.preventDefault();
+                            _this.list.setFocusIndex(focused - 1);
+                        }
                     }
                 }
                 if (_this.popup.isVisible() && e.which === keycodes_1.KEY_CODES.ESC) {
                     _this._hideOptions();
                 }
+                if (_this.popup.isVisible() && e.which === keycodes_1.KEY_CODES.ENTER) {
+                    _this.setValue(_this.list.data.getId(_this.list.getFocusIndex()));
+                }
             },
             onkeyup: function (e) {
-                if (!_this.config.multiselection || _this.config.showItemsCount) {
+                if (!_this.config.multiselection || _this.config.itemsCount) {
                     return;
                 }
                 if (_this._state.ignoreNext) {
@@ -18236,7 +19882,7 @@ var Combobox = /** @class */ (function (_super) {
                     var selected = _this.list.selection.getId();
                     var id = selected[selected.length - 1];
                     _this.list.selection.remove(id);
-                    _this._change();
+                    _this.paint();
                     _this.paint();
                 }
             },
@@ -18246,6 +19892,7 @@ var Combobox = /** @class */ (function (_super) {
                 }
                 var input = e.target;
                 var value = input.value;
+                _this.events.fire(types_1.ComboboxEvents.input, [value]);
                 _this._state.value = value;
                 _this._filter();
                 if (!value.length) {
@@ -18257,7 +19904,7 @@ var Combobox = /** @class */ (function (_super) {
                 }
                 if (!_this.config.multiselection) {
                     _this.list.selection.remove();
-                    _this._change();
+                    _this.paint();
                 }
                 if (!_this.popup.isVisible()) {
                     _this._showOptions();
@@ -18274,13 +19921,13 @@ var Combobox = /** @class */ (function (_super) {
                         return;
                     }
                     _this.list.selection.remove(id);
-                    _this._change();
+                    _this.paint();
                     return;
                 }
                 if (e.target.classList.contains("dhx_combobox__action-clear-all")) {
                     _this.list.selection.getId().forEach(function (id) { return _this.list.selection.remove(id); });
                     if (_this.config.selectAllButton && _this._state.unselectActive) {
-                        _this._layout.cell("select-unselect-all").attach(helper_1.selectAllView);
+                        _this._layout.getCell("select-unselect-all").attach(helper_1.selectAllView);
                         _this._state.unselectActive = false;
                     }
                     _this.paint();
@@ -18306,39 +19953,24 @@ var Combobox = /** @class */ (function (_super) {
     };
     Combobox.prototype._initEvents = function () {
         var _this = this;
-        this.list.events.on(ts_list_1.ListEvents.click, function (id) {
-            if (_this.config.multiselection) {
-                var selected = _this.data.getItem(id).$selected;
-                if (selected) {
-                    if (_this.config.selectAllButton && !_this._state.unselectActive && _this.data.getLength() === _this.list.selection.getId().length) {
-                        _this._layout.cell("select-unselect-all").attach(helper_1.unselectAllView);
-                        _this._state.unselectActive = true;
-                    }
-                }
-                else {
-                    if (_this.config.selectAllButton && _this._state.unselectActive) {
-                        _this._layout.cell("select-unselect-all").attach(helper_1.selectAllView);
-                        _this._state.unselectActive = false;
-                    }
-                }
-                if (!_this._state.value.length) {
-                    _this._state.canDelete = true;
-                }
-                _this._change();
-                return;
+        this.list.events.on(ts_list_1.ListEvents.click, function () {
+            if (!_this.config.multiselection) {
+                _this._hideOptions();
             }
-            _this._state.value = _this._getItemText(_this.data.getItem(id)) || "";
-            _this._change();
-            _this._hideOptions();
+        });
+        this.data.events.on(ts_data_1.DataEvents.change, function (id, status, item) {
+            if (item && item.hasOwnProperty("$selected")) {
+                _this._updateSelectedItem(id);
+            }
         });
         if (this.config.readonly) {
             this.popup.events.on(ts_popup_1.PopupEvents.afterShow, function () {
                 if (_this._state.value) {
                     var id = _this.list.selection.getId();
-                    _this.list.setFocusIndex(_this.data.getIndex(id));
+                    _this.list.setFocus(id);
                 }
                 else {
-                    _this.list.setFocusIndex(0);
+                    _this.list.setFocus(_this.data.getId(0));
                 }
                 _this._keyListener.startNewListen(function (val) { return _this._findBest(val); });
             });
@@ -18358,22 +19990,28 @@ var Combobox = /** @class */ (function (_super) {
         if (!rootView || !rootView.refs || !rootView.refs.holder) {
             return false;
         }
-        var holderNode = rootView.refs.holder.el;
-        this.popup.getContainer().style.width = holderNode.offsetWidth + "px";
-        this.popup.show(holderNode, { mode: html_1.Position.bottom });
+        if (!this.popup.isVisible()) {
+            var holderNode = rootView.refs.holder.el;
+            this.popup.getContainer().style.width = holderNode.offsetWidth + "px";
+            this.popup.show(holderNode, { mode: html_1.Position.bottom });
+        }
         return true;
     };
     Combobox.prototype._hideOptions = function () {
+        if (!this.events.fire(types_1.ComboboxEvents.beforeClose)) {
+            return;
+        }
         if (this.config.readonly) {
             this._keyListener.endListen();
         }
-        this.list.setFocusIndex(0);
+        this.list.setFocus(this.data.getId(0));
         if (!this.config.multiselection && !this.config.readonly && !this.list.selection.contains()) {
             this._state.value = "";
         }
         this.popup.hide();
         this.paint();
-        this.events.fire(types_1.ComboboxEvents.close);
+        this.events.fire(types_1.ComboboxEvents.afterClose);
+        this.events.fire(types_1.ComboboxEvents.close); // TODO: remove sute_7.0
     };
     Combobox.prototype._filter = function () {
         var _this = this;
@@ -18384,27 +20022,27 @@ var Combobox = /** @class */ (function (_super) {
             ? _this.config.filter(item, _this._state.value)
             : core_1.isEqualString(_this._state.value, _this._getItemText(item)); });
         if (this.config.multiselection) {
-            this.list.setFocusIndex(0);
+            this.list.setFocus(this.data.getId(0));
         }
         else {
             var index = this.data.getIndex(this.list.selection.getId());
-            this.list.setFocusIndex(index > -1 ? index : 0);
+            this.list.setFocus(this.data.getId(index > -1 ? index : 0));
         }
         if (this.data.getLength() === 0) {
             if (this.config.multiselection && this.config.selectAllButton) {
-                this._layout.cell("select-unselect-all").hide();
+                this._layout.getCell("select-unselect-all").hide();
             }
-            this._layout.cell("list").hide();
-            this._layout.cell("not-found").attach(helper_1.emptyListView);
-            this._layout.cell("not-found").show();
+            this._layout.getCell("list").hide();
+            this._layout.getCell("not-found").attach(helper_1.emptyListView);
+            this._layout.getCell("not-found").show();
         }
         else {
             if (this.config.multiselection && this.config.selectAllButton) {
-                this._layout.cell("select-unselect-all").show();
+                this._layout.getCell("select-unselect-all").show();
             }
-            if (this._layout.cell("not-found").isVisible()) {
-                this._layout.cell("list").show();
-                this._layout.cell("not-found").hide();
+            if (this._layout.getCell("not-found").isVisible()) {
+                this._layout.getCell("list").show();
+                this._layout.getCell("not-found").hide();
             }
         }
     };
@@ -18417,40 +20055,41 @@ var Combobox = /** @class */ (function (_super) {
         if (this.list.selection.getId() === best.id) {
             return;
         }
-        this.list.setFocusIndex(this.data.getIndex(best.id));
+        this.list.setFocus(best.id);
         this.list.selection.add(best.id);
         this.paint();
     };
     Combobox.prototype._draw = function () {
-        var item = this.config.multiselection ? null : this.data.getItem(this.list.selection.getId());
+        var _a = this.config, multiselection = _a.multiselection, labelPosition = _a.labelPosition, labelWidth = _a.labelWidth, hiddenLabel = _a.hiddenLabel, required = _a.required, disabled = _a.disabled, css = _a.css, label = _a.label, helpMessage = _a.helpMessage, readonly = _a.readonly, placeholder = _a.placeholder;
+        var item = multiselection ? null : this.data.getItem(this.list.selection.getId());
         var showPlaceholder = !this.list.selection.getId() || this.list.selection.getId().length === 0;
-        var width = this.config.labelInline && this.config.labelWidth ? this.config.labelWidth : "";
-        var required = this.config.required;
+        var width = labelPosition === "left" && labelWidth ? labelWidth : "";
         return dom_1.el(".dhx_widget.dhx_combobox" +
-            (this.config.labelInline ? ".dhx_combobox--label-inline" : "") +
-            (this.config.hiddenLabel ? ".dhx_combobox--sr_only" : "") +
-            (this.config.required ? ".dhx_combobox--required" : "") +
-            (this.config.css ? "." + this.config.css : ""), {
+            (labelPosition === "left" ? ".dhx_combobox--label-inline" : "") +
+            (hiddenLabel ? ".dhx_combobox--sr_only" : "") +
+            (required ? ".dhx_combobox--required" : "") +
+            (disabled ? ".dhx_combobox--disabled" : "") +
+            (css ? "." + css : ""), {
             dhx_widget_id: this._uid,
             onkeydown: this._handlers.onkeydown,
             onkeyup: this._handlers.onkeyup
         }, [
-            this.config.label ? dom_1.el("label.dhx_label.dhx_combobox__label", {
+            label ? dom_1.el("label.dhx_label.dhx_combobox__label", {
                 style: { minWidth: width, maxWidth: width },
-                class: this.config.help ? "dhx_label--with-help" : "",
+                class: helpMessage ? "dhx_label--with-help" : "",
                 onclick: this._handlers.oninputclick
-            }, this.config.help ? [
-                dom_1.el("span.dhx_label__holder", this.config.label),
+            }, helpMessage ? [
+                dom_1.el("span.dhx_label__holder", label),
                 dom_1.el("span.dhx_label-help.dxi.dxi-help-circle-outline", {
                     tabindex: "0",
                     role: "button",
                     onclick: this._handlers.showHelper
                 }),
-            ] : this.config.label) : null,
+            ] : label) : null,
             dom_1.el("div.dhx_combobox-input-box" +
                 // (this.popup.isVisible() ? ".dhx_combobox-input-box" : "") +
-                (this.config.disabled ? ".dhx_combobox-input-box--disabled" : "") +
-                (this.config.readonly ? ".dhx_combobox-input-box--readonly" : "") +
+                (disabled ? ".dhx_combobox-input-box--disabled" : "") +
+                (readonly ? ".dhx_combobox-input-box--readonly" : "") +
                 (this._state.currentState === types_1.ComboState.error ? ".dhx_combobox-input-box--state_error" : "") +
                 (this._state.currentState === types_1.ComboState.success ? ".dhx_combobox-input-box--state_success" : ""), {
                 _ref: "holder"
@@ -18463,16 +20102,16 @@ var Combobox = /** @class */ (function (_super) {
                 dom_1.el("div.dhx_combobox-input-list-wrapper", {
                     onclick: this._handlers.oninputclick
                 }, [
-                    dom_1.el("ul.dhx_combobox-input-list", this._drawSelectedItems().concat([
+                    dom_1.el("ul.dhx_combobox-input-list", __spreadArrays(this._drawSelectedItems(), [
                         dom_1.el("li.dhx_combobox-input-list__item.dhx_combobox-input-list__item--input", [
                             dom_1.el("input.dhx_combobox-input", {
                                 oninput: this._handlers.oninput,
                                 _ref: "input",
                                 _key: this._uid,
                                 type: "text",
-                                placeHolder: showPlaceholder && this.config.placeholder ? this.config.placeholder : undefined,
-                                value: this.config.readonly && item ? this._getItemText(item) : this._state.value,
-                                readOnly: this.config.readonly || this.config.disabled,
+                                placeHolder: showPlaceholder && placeholder ? placeholder : undefined,
+                                value: readonly && item ? this._getItemText(item) : this._state.value,
+                                readOnly: readonly || disabled,
                                 required: required
                             })
                         ])
@@ -18486,11 +20125,11 @@ var Combobox = /** @class */ (function (_super) {
         if (!this.config.multiselection) {
             return [];
         }
-        if (this.config.showItemsCount) {
+        if (this.config.itemsCount) {
             var count = this.list.selection.getId().length;
             return count ? [
                 dom_1.el("li.dhx_combobox-input-list__item.dhx_combobox-tag", [
-                    dom_1.el("span.dhx_combobox-tag__value", itemsCountTemplate(count, this.config.showItemsCount)),
+                    dom_1.el("span.dhx_combobox-tag__value", itemsCountTemplate(count, this.config.itemsCount)),
                     dom_1.el("button.dhx_button.dhx_combobox-tag__action.dhx_combobox__action-clear-all", [
                         dom_1.el("span.dhx_button__icon.dxi.dxi-close-circle")
                     ])
@@ -18528,6 +20167,30 @@ var Combobox = /** @class */ (function (_super) {
         }
         return item.value;
     };
+    Combobox.prototype._updateSelectedItem = function (id) {
+        if (this.config.multiselection) {
+            var selected = this.data.getItem(id).$selected;
+            if (selected) {
+                if (this.config.selectAllButton && !this._state.unselectActive && this.data.getLength() === this.list.selection.getId().length) {
+                    this._layout.getCell("select-unselect-all").attach(helper_1.unselectAllView);
+                    this._state.unselectActive = true;
+                }
+            }
+            else {
+                if (this.config.selectAllButton && this._state.unselectActive) {
+                    this._layout.getCell("select-unselect-all").attach(helper_1.selectAllView);
+                    this._state.unselectActive = false;
+                }
+            }
+            if (!this._state.value.length) {
+                this._state.canDelete = true;
+            }
+            this.paint();
+            return;
+        }
+        this._state.value = this._getItemText(this.data.getItem(id)) || "";
+        this.paint();
+    };
     return Combobox;
 }(view_1.View));
 exports.Combobox = Combobox;
@@ -18542,7 +20205,7 @@ function itemsCountTemplate(count, templateFN) {
 
 
 /***/ }),
-/* 157 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18553,11 +20216,13 @@ exports.KEY_CODES = {
     ENTER: 13,
     ESC: 27,
     DOWN_ARROW: 40,
+    LEFT_ARROW: 37,
+    RIGHT_ARROW: 39
 };
 
 
 /***/ }),
-/* 158 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18616,14 +20281,14 @@ exports.KeyListener = KeyListener;
 
 
 /***/ }),
-/* 159 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var en_1 = __webpack_require__(48);
+var en_1 = __webpack_require__(50);
 function selectAllView() {
     return dom_1.el(".dhx_list-item.dhx_combobox-options__item.dhx_combobox-options__item--select-all.dhx_combobox__action-select-all", en_1.default.selectAll);
 }
@@ -18641,7 +20306,7 @@ exports.emptyListView = emptyListView;
 
 
 /***/ }),
-/* 160 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18650,12 +20315,12 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(161));
-__export(__webpack_require__(49));
+__export(__webpack_require__(166));
+__export(__webpack_require__(51));
 
 
 /***/ }),
-/* 161 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18688,14 +20353,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var Keymanager_1 = __webpack_require__(13);
-var ts_list_1 = __webpack_require__(36);
+var ts_list_1 = __webpack_require__(38);
 var view_1 = __webpack_require__(4);
 var ts_data_1 = __webpack_require__(7);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(21);
-var types_2 = __webpack_require__(49);
-var editors_1 = __webpack_require__(162);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
+var types_1 = __webpack_require__(22);
+var types_2 = __webpack_require__(51);
+var editors_1 = __webpack_require__(167);
 var DataView = /** @class */ (function (_super) {
     __extends(DataView, _super);
     function DataView(node, config) {
@@ -18705,8 +20370,12 @@ var DataView = /** @class */ (function (_super) {
             itemsInRow: 1,
             multiselectionMode: config.multiselectionMode ? config.multiselectionMode : "click",
             gap: "0px",
-            editing: false
+            editable: false
         }, config)) || this;
+        if (_this.config.multiselectionMode === "ctrlClick") {
+            _this.config.multiselection = "ctrlClick"; // TODO: remove sute_7.0
+        }
+        _this.config.editable = _this.config.editable || _this.config.editing; // TODO: remove sute_7.0
         if (Array.isArray(_this.config.data)) {
             _this.events = new events_1.EventSystem(_this);
             _this.data = new ts_data_1.DataCollection({}, _this.events);
@@ -18723,7 +20392,6 @@ var DataView = /** @class */ (function (_super) {
         }
         _this.selection = new ts_list_1.Selection({
             multiselection: _this.config.multiselection,
-            multiselectionMode: _this.config.multiselectionMode,
         }, _this.data);
         _this._getHotkeys();
         var updater = function (updateObj) { return function (id, ids) {
@@ -18744,13 +20412,13 @@ var DataView = /** @class */ (function (_super) {
         _this.events.on(ts_data_1.DragEvents.dragEnd, updater({ $dragtarget: undefined }));
         _this.events.on(types_2.DataViewEvents.afterEditEnd, function (value, id) {
             var item = _this.data.getItem(id);
-            _this.data.update(id, __assign({}, item, { value: value }));
+            _this.data.update(id, __assign(__assign({}, item), { value: value }));
             _this._edited = null;
             _this._getHotkeys();
             _this.paint();
         });
         _this.selection.events.on(types_1.SelectionEvents.afterSelect, function (id) {
-            _this.setFocusIndex(_this.data.getIndex(id));
+            _this.setFocus(id);
         });
         _this._handlers = {
             onmousedown: function (e) {
@@ -18773,15 +20441,16 @@ var DataView = /** @class */ (function (_super) {
                 if (!id) {
                     return;
                 }
-                _this.events.fire(types_2.DataViewEvents.contextmenu, [id, e]);
+                _this.events.fire(types_2.DataViewEvents.itemRightClick, [id, e]);
+                _this.events.fire(types_2.DataViewEvents.contextmenu, [id, e]); // TODO: remove sute_7.0
             },
             ondblclick: function (e) {
                 var id = html_1.locate(e);
                 if (!id) {
                     return;
                 }
-                if (_this.config.editing) {
-                    _this.edit(id);
+                if (_this.config.editable) {
+                    _this.editItem(id);
                 }
                 _this.events.fire(types_2.DataViewEvents.doubleClick, [id, e]);
             },
@@ -18790,10 +20459,27 @@ var DataView = /** @class */ (function (_super) {
                 if (!id) {
                     return;
                 }
-                _this.setFocusIndex(_this.data.getIndex(id));
+                _this.setFocus(id);
                 _this.selection.add(id, e.ctrlKey || e.metaKey, e.shiftKey);
                 _this.events.fire(types_2.DataViewEvents.click, [id, e]);
             },
+            onmouseover: function (e) {
+                var id = html_1.locate(e);
+                var element = html_1.locateNode(e, "dhx_id", "relatedTarget");
+                if (!element && id) {
+                    _this.events.fire(types_2.DataViewEvents.itemMouseOver, [id, e]);
+                    return;
+                }
+                else if (!element) {
+                    return;
+                }
+                var attr = element.getAttribute("dhx_id") ? element.getAttribute("dhx_id") : null;
+                var prevId = attr ? attr : "";
+                if (!id || id === prevId) {
+                    return;
+                }
+                _this.events.fire(types_2.DataViewEvents.itemMouseOver, [id, e]);
+            }
         };
         if (_this.config.dragMode) {
             ts_data_1.dragManager.setItem(_this._uid, _this);
@@ -18813,7 +20499,7 @@ var DataView = /** @class */ (function (_super) {
         _this.mount(node, view);
         return _this;
     }
-    DataView.prototype.edit = function (id) {
+    DataView.prototype.editItem = function (id) {
         this._edited = id;
         if (!this.data.getItem(this._edited) || !this.events.fire(types_2.DataViewEvents.beforeEditStart, [id])) {
             this._edited = null;
@@ -18823,16 +20509,50 @@ var DataView = /** @class */ (function (_super) {
         this.paint();
         this.events.fire(types_2.DataViewEvents.afterEditStart, [id]);
     };
+    DataView.prototype.getFocusItem = function () {
+        return this.data.getItem(this.data.getId(this._focusIndex));
+    };
+    DataView.prototype.setItemInRow = function (amount) {
+        this.config.itemsInRow = amount;
+        this.paint();
+    };
+    DataView.prototype.setFocus = function (id) {
+        var index = this.data.getIndex(id);
+        this._setFocusIndex(index);
+    };
+    DataView.prototype.getFocus = function () {
+        var item = this.data.getItem(this.data.getId(this._focusIndex));
+        if (item) {
+            return item.id;
+        }
+    };
+    DataView.prototype.destructor = function () {
+        this.events.clear();
+        if (this._navigationDestructor) {
+            this._navigationDestructor();
+        }
+        if (this._documentClickDestuctor) {
+            this._documentClickDestuctor();
+        }
+        this.unmount();
+    };
+    // TODO: remove sute_7.0
+    DataView.prototype.getFocusIndex = function () {
+        return this._focusIndex;
+    };
+    // TODO: remove sute_7.0
     DataView.prototype.setFocusIndex = function (index) {
-        if (index < 0) {
-            this._focusIndex = 0;
+        this._setFocusIndex(index);
+    };
+    // TODO: remove sute_7.0
+    DataView.prototype.edit = function (id) {
+        this.editItem(id);
+    };
+    DataView.prototype._setFocusIndex = function (index) {
+        if (index < 0 || index > this.data.getLength() - 1) {
+            return;
         }
-        else if (index > this.data.getLength() - 1) {
-            this._focusIndex = this.data.getLength() - 1;
-        }
-        else {
-            this._focusIndex = index;
-        }
+        this._focusIndex = index;
         var node = this.getRootNode();
         if (!node || !node.parentNode) {
             return;
@@ -18852,28 +20572,8 @@ var DataView = /** @class */ (function (_super) {
         this.paint();
         return;
     };
-    DataView.prototype.getFocusIndex = function () {
-        return this._focusIndex;
-    };
-    DataView.prototype.getFocusItem = function () {
-        return this.data.getItem(this.data.getId(this._focusIndex));
-    };
-    DataView.prototype.setItemInRow = function (amount) {
-        this.config.itemsInRow = amount;
-        this.paint();
-    };
-    DataView.prototype.destructor = function () {
-        this.events.clear();
-        if (this._navigationDestructor) {
-            this._navigationDestructor();
-        }
-        if (this._documentClickDestuctor) {
-            this._documentClickDestuctor();
-        }
-        this.unmount();
-    };
     DataView.prototype._renderItem = function (item, focus, isLastItemInRow) {
-        var _a = this.config, itemsInRow = _a.itemsInRow, gap = _a.gap, template = _a.template;
+        var _a = this.config, itemsInRow = _a.itemsInRow, gap = _a.gap, template = _a.template, itemHeight = _a.itemHeight;
         var html = template ? template(item) : item.htmlContent;
         var gapWithPx = function (gapSize) { return parseFloat(gapSize); };
         if (item.id === this._edited) {
@@ -18894,6 +20594,7 @@ var DataView = /** @class */ (function (_super) {
             style: {
                 "width": "calc(" + 100 / itemsInRow + "% - " + gapWithPx(gap) + " * " + (itemsInRow - 1) / itemsInRow + "px)",
                 "margin-right": isLastItemInRow ? "" : gap,
+                "height": template ? null : itemHeight
             },
             _key: item.id,
             dhx_id: item.id,
@@ -18914,8 +20615,10 @@ var DataView = /** @class */ (function (_super) {
             currentCounter = (currentCounter + 1) % itemsInRow;
             return items;
         }, []);
-        return dom_1.el("", __assign({}, this._handlers, { dhx_widget_id: this._uid, class: (css ? css : "") + " dhx_widget dhx_dataview" +
-                (this.config.multiselection && this.selection.getItem() ? " dhx_no-select--pointer" : "") }), rows.map(function (row) { return dom_1.el(".dhx_dataview-row", {
+        return dom_1.el("", __assign(__assign({}, this._handlers), { dhx_widget_id: this._uid, class: (css ? css : "") + " dhx_widget dhx_dataview" +
+                (this.config.multiselection && this.selection.getItem() ? " dhx_no-select--pointer" : ""), style: {
+                height: this.config.height
+            } }), rows.map(function (row) { return dom_1.el(".dhx_dataview-row", {
             style: { margin: gap },
         }, row); }));
     };
@@ -18938,11 +20641,11 @@ var DataView = /** @class */ (function (_super) {
                     e.preventDefault();
                     fn();
                 }; };
-                this._navigationDestructor = Keymanager_1.addHotkeys({
-                    "arrowdown": preventEvent(function () { return _this.setFocusIndex(_this._focusIndex + _this.config.itemsInRow); }),
-                    "arrowup": preventEvent(function () { return _this.setFocusIndex(_this._focusIndex - _this.config.itemsInRow); }),
-                    "arrowleft": preventEvent(function () { return _this.setFocusIndex(_this._focusIndex - 1); }),
-                    "arrowright": preventEvent(function () { return _this.setFocusIndex(_this._focusIndex + 1); }),
+                var handlers = {
+                    "arrowDown": preventEvent(function () { return _this.setFocusIndex(_this._focusIndex + _this.config.itemsInRow); }),
+                    "arrowUp": preventEvent(function () { return _this.setFocusIndex(_this._focusIndex - _this.config.itemsInRow); }),
+                    "arrowLeft": preventEvent(function () { return _this.setFocusIndex(_this._focusIndex - 1); }),
+                    "arrowRight": preventEvent(function () { return _this.setFocusIndex(_this._focusIndex + 1); }),
                     "enter": function (e) {
                         var id = _this.data.getId(_this._focusIndex);
                         _this.selection.add(id);
@@ -18957,13 +20660,16 @@ var DataView = /** @class */ (function (_super) {
                         var id = _this.data.getId(_this._focusIndex);
                         _this.selection.add(id, true, false);
                         _this.events.fire(types_2.DataViewEvents.click, [id, e]);
-                    },
-                    "enter+meta": function (e) {
-                        var id = _this.data.getId(_this._focusIndex);
-                        _this.selection.add(id, true, false);
-                        _this.events.fire(types_2.DataViewEvents.click, [id, e]);
-                    },
-                }, keyNavigation);
+                    }
+                };
+                if (html_1.isIE()) {
+                    handlers = __assign({ up: handlers.arrowUp, down: handlers.arrowDown, right: handlers.arrowRight, left: handlers.arrowLeft }, handlers);
+                    delete handlers.arrowUp;
+                    delete handlers.arrowDown;
+                    delete handlers.arrowRight;
+                    delete handlers.arrowLeft;
+                }
+                this._navigationDestructor = Keymanager_1.addHotkeys(handlers, keyNavigation);
             }
         }
     };
@@ -18973,13 +20679,13 @@ exports.DataView = DataView;
 
 
 /***/ }),
-/* 162 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var InputEditor_1 = __webpack_require__(163);
+var InputEditor_1 = __webpack_require__(168);
 function getEditor(item, dataView) {
     return new InputEditor_1.InputEditor(item, dataView);
 }
@@ -18987,14 +20693,14 @@ exports.getEditor = getEditor;
 
 
 /***/ }),
-/* 163 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(49);
+var types_1 = __webpack_require__(51);
 var InputEditor = /** @class */ (function () {
     function InputEditor(item, dataView) {
         var _this = this;
@@ -19027,14 +20733,14 @@ var InputEditor = /** @class */ (function () {
         this._mode = true;
         var _a = this._config, itemsInRow = _a.itemsInRow, gap = _a.gap;
         var gapWithPx = function (gapSize) { return parseFloat(gapSize); };
-        return dom_1.el(".dhx_input-wrapper", {
+        return dom_1.el(".dhx_input__wrapper", {
             style: {
                 width: "calc(" + 100 / itemsInRow + "% - " + gapWithPx(gap) + " * " + (itemsInRow - 1) / itemsInRow + "px)",
                 maxWidth: "calc(" + 100 / itemsInRow + "% - " + gapWithPx(gap) + " * " + (itemsInRow - 1) / itemsInRow + "px)",
                 marginRight: isLastItemInRow ? "" : gap,
             }
         }, [
-            dom_1.el("div.dhx_input-container", {
+            dom_1.el("div.dhx_input__container", {
                 style: {
                     height: "100%",
                 }
@@ -19082,7 +20788,7 @@ exports.InputEditor = InputEditor;
 
 
 /***/ }),
-/* 164 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19091,14 +20797,14 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(165));
+__export(__webpack_require__(170));
 __export(__webpack_require__(8));
 var types_1 = __webpack_require__(8);
 exports.FormEvents = types_1.FormEvents;
 
 
 /***/ }),
-/* 165 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19121,47 +20827,50 @@ var __rest = (this && this.__rest) || function (s, e) {
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
         t[p] = s[p];
     if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
-            t[p[i]] = s[p[i]];
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var ts_combobox_1 = __webpack_require__(47);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var view_1 = __webpack_require__(4);
-var ts_slider_1 = __webpack_require__(30);
-var ts_layout_1 = __webpack_require__(12);
-var ts_calendar_1 = __webpack_require__(28);
+var ts_layout_1 = __webpack_require__(14);
+var ts_calendar_1 = __webpack_require__(25);
 var core_1 = __webpack_require__(1);
-var ts_data_1 = __webpack_require__(7);
-var ts_timepicker_1 = __webpack_require__(29);
+var ts_timepicker_1 = __webpack_require__(30);
 var ts_colorpicker_1 = __webpack_require__(31);
-var dateInput_1 = __webpack_require__(166);
-var button_1 = __webpack_require__(167);
-var checkbox_1 = __webpack_require__(168);
-var input_1 = __webpack_require__(50);
-var radioGroup_1 = __webpack_require__(169);
-var select_1 = __webpack_require__(171);
-var textarea_1 = __webpack_require__(172);
-var textinput_1 = __webpack_require__(173);
-var combo_1 = __webpack_require__(174);
-var sliderform_1 = __webpack_require__(175);
+var dateInput_1 = __webpack_require__(171);
+var button_1 = __webpack_require__(172);
+var checkbox_1 = __webpack_require__(173);
+var input_1 = __webpack_require__(52);
+var radioGroup_1 = __webpack_require__(174);
+var select_1 = __webpack_require__(176);
+var textarea_1 = __webpack_require__(177);
+var textinput_1 = __webpack_require__(178);
+var combo_1 = __webpack_require__(179);
+var sliderform_1 = __webpack_require__(180);
 var helper_1 = __webpack_require__(9);
-var simplevault_1 = __webpack_require__(176);
+var simplevault_1 = __webpack_require__(181);
+var timeInput_1 = __webpack_require__(182);
+var colorpicker_1 = __webpack_require__(183);
 var types_1 = __webpack_require__(8);
-var timeInput_1 = __webpack_require__(177);
-var colorpicker_1 = __webpack_require__(178);
 var Form = /** @class */ (function (_super) {
     __extends(Form, _super);
     function Form(container, config) {
         var _this = _super.call(this, null, core_1.extend({
             labelWidth: "auto",
-            inputType: "text"
+            inputType: "text",
+            disabled: false
         }, config)) || this;
-        _this.events = new events_1.EventSystem(_this);
         _this._state = {};
+        _this.events = new events_1.EventSystem(_this);
         _this.container = container;
         _this._initUI(container);
+        if (_this.config.disabled) {
+            _this.disable();
+        }
         return _this;
     }
     Form.prototype.send = function (url, method, asFormData) {
@@ -19214,12 +20923,6 @@ var Form = /** @class */ (function (_super) {
             });
         }
     };
-    Form.prototype.setConfig = function (config) {
-        this.unmount();
-        this.config = config;
-        this._initUI(this.container);
-        this.paint();
-    };
     Form.prototype.clear = function (method) {
         switch (method) {
             case types_1.ClearMethod.value:
@@ -19239,8 +20942,8 @@ var Form = /** @class */ (function (_super) {
         for (var item in obj) {
             for (var key in this._attachments) {
                 if (typeof this._attachments[key].setValue === "function") {
-                    if (this._attachments[key].config.id === item) {
-                        this._attachments[key].setValue(obj[key]);
+                    if (this._attachments[key].config.name === item || this._attachments[key].config.id === item && !this._attachments[key].config.name) {
+                        this._attachments[key].setValue(obj[item]);
                     }
                 }
             }
@@ -19264,6 +20967,13 @@ var Form = /** @class */ (function (_super) {
         }
         return this._state;
     };
+    Form.prototype.getItem = function (id) {
+        for (var item in this._attachments) {
+            if (item === id) {
+                return this._attachments[item];
+            }
+        }
+    };
     Form.prototype.validate = function () {
         var attachments = this._attachments;
         var isValid = true;
@@ -19279,21 +20989,63 @@ var Form = /** @class */ (function (_super) {
     Form.prototype.getRootView = function () {
         return this.layout.getRootView();
     };
+    Form.prototype.disable = function () {
+        this.config.disabled = true;
+        for (var key in this._attachments) {
+            if (typeof this._attachments[key].disable === "function") {
+                this._attachments[key].disable();
+            }
+        }
+    };
+    Form.prototype.enable = function () {
+        this.config.disabled = false;
+        for (var key in this._attachments) {
+            if (typeof this._attachments[key].enable === "function") {
+                this._attachments[key].enable();
+            }
+        }
+    };
+    Form.prototype.isDisabled = function (id) {
+        if (!id) {
+            return this.config.disabled;
+        }
+        for (var key in this._attachments) {
+            if (key === id) {
+                return this._attachments[key].config.disabled;
+            }
+        }
+    };
+    Form.prototype.forEach = function (callback) {
+        var items = Object.values(this._attachments);
+        for (var index = 0; index < items.length; index++) {
+            callback.call(this, items[index], index, items);
+        }
+    };
     Form.prototype.destructor = function () {
         this.events.clear();
         this.unmount();
+    };
+    // TODO: remove sute_7.0
+    Form.prototype.setConfig = function (config) {
+        this._setConfig(config);
+    };
+    Form.prototype._setConfig = function (config) {
+        this.unmount();
+        this.config = config;
+        this._initUI(this.container);
+        this.paint();
     };
     Form.prototype._addLayoutItem = function (item) {
         var _this = this;
         item.id = item.id || core_1.uid();
         var id = item.id;
         var name = item.name || item.id;
-        var width = item.width, height = item.height, cellCss = item.cellCss, gravity = item.gravity, config = __rest(item, ["width", "height", "cellCss", "gravity"]);
+        var width = item.width, height = item.height, css = item.css, gravity = item.gravity, config = __rest(item, ["width", "height", "css", "gravity"]);
         var cell = {
             id: id,
             width: width,
             height: height,
-            css: cellCss,
+            css: css
         };
         if ("gravity" in item) {
             cell.gravity = item.gravity;
@@ -19302,7 +21054,16 @@ var Form = /** @class */ (function (_super) {
             case types_1.FormItemType.button:
                 var button = this._attachments[id] = new button_1.Button(null, config);
                 button.events.on(button_1.ButtonEvents.click, function (e) {
-                    !_this.validate() ? e.preventDefault() : _this.events.fire(types_1.FormEvents.buttonClick, [id, e]);
+                    e.preventDefault();
+                    if (config.submit) {
+                        if (_this.validate()) {
+                            _this.send(config.url);
+                            _this.events.fire(types_1.FormEvents.buttonClick, [id, e]);
+                        }
+                    }
+                    else {
+                        _this.events.fire(types_1.FormEvents.buttonClick, [id, e]);
+                    }
                 });
                 break;
             case types_1.FormItemType.datepicker:
@@ -19310,117 +21071,193 @@ var Form = /** @class */ (function (_super) {
                 this._state[name] = dateInput_2.getValue();
                 dateInput_2.calendar.events.on(ts_calendar_1.CalendarEvents.change, function () {
                     var value = dateInput_2.getValue();
-                    _this.events.fire(types_1.FormEvents.change, [name, value]);
                     _this._state[name] = value;
+                    _this.events.fire(types_1.FormEvents.change, [name, value]);
                 });
-                dateInput_2.events.on(dateInput_1.DateInputEvents.change, function () {
+                dateInput_2.events.on(types_1.BaseElementEvent.configUpdate, function (newConfig) {
                     var value = dateInput_2.getValue();
-                    _this.events.fire(types_1.FormEvents.change, [name, value]);
                     _this._state[name] = value;
+                    _this.layout.getCell(dateInput_2.config.id).config = _this._checkLayoutConfig(newConfig, {});
+                    dateInput_2.calendar.events.on(ts_calendar_1.CalendarEvents.change, function () {
+                        value = dateInput_2.getValue();
+                        _this._state[name] = value;
+                        _this.events.fire(types_1.FormEvents.change, [name, value]);
+                    });
                 });
                 break;
             case types_1.FormItemType.checkbox:
                 var checkbox_2 = this._attachments[id] = new checkbox_1.Checkbox(null, config);
                 this._state[name] = checkbox_2.getValue();
-                checkbox_2.events.on(checkbox_1.CheckboxEvents.change, function () {
+                checkbox_2.events.on(types_1.BaseElementEvent.change, function () {
                     var value = checkbox_2.getValue();
-                    _this.events.fire(types_1.FormEvents.change, [name, value]);
                     _this._state[name] = value;
+                    _this.events.fire(types_1.FormEvents.change, [name, value]);
+                });
+                checkbox_2.events.on(types_1.BaseElementEvent.configUpdate, function (newConfig) {
+                    var value = checkbox_2.getValue();
+                    _this._state[name] = value;
+                    _this.layout.getCell(checkbox_2.config.id).config = _this._checkLayoutConfig(newConfig, {});
                 });
                 break;
             case types_1.FormItemType.combo:
-                var combo_2 = this._attachments[id] = new combo_1.Combo(config);
+                var combo_2 = this._attachments[id] = new combo_1.Combo(null, config);
                 this._state[name] = combo_2.getValue();
-                combo_2.events.on(ts_combobox_1.ComboboxEvents.change, function (selected) {
+                combo_2.events.on(types_1.BaseElementEvent.change, function (selected) {
                     var value = combo_2.getValue();
-                    _this.events.fire(types_1.FormEvents.change, [name, selected]);
                     _this._state[name] = value;
+                    _this.events.fire(types_1.FormEvents.change, [name, selected]);
                 });
-                if (config.data) {
-                    combo_2.data.parse(config.data);
-                }
+                combo_2.events.on(types_1.BaseElementEvent.configUpdate, function (newConfig) {
+                    var value = combo_2.getValue();
+                    _this._state[name] = value;
+                    _this.layout.getCell(combo_2.config.id).config = _this._checkLayoutConfig(newConfig, {});
+                });
                 break;
             case types_1.FormItemType.input:
                 var input_2 = this._attachments[id] = new input_1.Input(null, config);
                 this._state[name] = input_2.getValue();
-                input_2.events.on(input_1.InputEvents.change, function () {
+                input_2.events.on(types_1.BaseElementEvent.change, function () {
                     var value = input_2.getValue();
-                    _this.events.fire(types_1.FormEvents.change, [name, value]);
                     _this._state[name] = value;
+                    _this.events.fire(types_1.FormEvents.change, [name, value]);
+                });
+                input_2.events.on(types_1.BaseElementEvent.configUpdate, function (newConfig) {
+                    var value = input_2.getValue();
+                    _this._state[name] = value;
+                    _this.layout.getCell(input_2.config.id).config = _this._checkLayoutConfig(newConfig, {});
                 });
                 break;
             case types_1.FormItemType.radioGroup:
                 var radioGroup_2 = this._attachments[id] = new radioGroup_1.RadioGroup(null, config);
                 this._state[name] = radioGroup_2.getValue();
-                radioGroup_2.events.on(radioGroup_1.RadioGroupEvents.change, function () {
+                radioGroup_2.events.on(types_1.BaseElementEvent.change, function () {
                     var value = radioGroup_2.getValue();
-                    _this.events.fire(types_1.FormEvents.change, [name, value]);
                     _this._state[name] = value;
+                    _this.events.fire(types_1.FormEvents.change, [name, value]);
+                });
+                radioGroup_2.events.on(types_1.BaseElementEvent.configUpdate, function (newConfig) {
+                    var value = radioGroup_2.getValue();
+                    _this._state[name] = value;
+                    _this.layout.getCell(radioGroup_2.config.id).config = _this._checkLayoutConfig(newConfig, {});
                 });
                 break;
             case types_1.FormItemType.select:
-                var select_2 = this._attachments[id] = new select_1.Select(config);
+                var select_2 = this._attachments[id] = new select_1.Select(null, config);
                 this._state[name] = select_2.getValue();
-                select_2.events.on(select_1.SelectEvents.change, function () {
+                select_2.events.on(types_1.BaseElementEvent.change, function () {
                     var value = select_2.getValue();
-                    _this.events.fire(types_1.FormEvents.change, [name, value]);
                     _this._state[name] = value;
+                    _this.events.fire(types_1.FormEvents.change, [name, value]);
+                });
+                select_2.events.on(types_1.BaseElementEvent.configUpdate, function (newConfig) {
+                    var value = select_2.getValue();
+                    _this._state[name] = value;
+                    _this.layout.getCell(select_2.config.id).config = _this._checkLayoutConfig(newConfig, {});
                 });
                 break;
             case types_1.FormItemType.simpleVault:
+                config.$vaultHeight = height;
                 var simpleVault_1 = this._attachments[id] = new simplevault_1.SimpleVault(null, config);
                 this._state[name] = simpleVault_1.getValue();
-                simpleVault_1.data.events.on(ts_data_1.DataEvents.change, function () {
+                simpleVault_1.events.on(types_1.BaseElementEvent.change, function () {
                     var value = simpleVault_1.getValue();
-                    _this.events.fire(types_1.FormEvents.change, [name, value]);
                     _this._state[name] = value;
+                    _this.events.fire(types_1.FormEvents.change, [name, value]);
+                });
+                simpleVault_1.events.on(types_1.BaseElementEvent.configUpdate, function (newConfig) {
+                    var value = simpleVault_1.getValue();
+                    _this._state[name] = value;
+                    _this.layout.getCell(simpleVault_1.config.id).config = _this._checkLayoutConfig(newConfig, {});
                 });
                 break;
             case types_1.FormItemType.slider:
-                var slider_1 = this._attachments[id] = new sliderform_1.SliderForm(config);
+                var slider_1 = this._attachments[id] = new sliderform_1.SliderForm(null, config);
                 this._state[name] = slider_1.getValue();
-                slider_1.events.on(ts_slider_1.SliderEvents.change, function () {
+                slider_1.events.on(types_1.BaseElementEvent.change, function () {
                     var value = slider_1.getValue();
-                    _this.events.fire(types_1.FormEvents.change, [name, value]);
                     _this._state[name] = value;
+                    _this.events.fire(types_1.FormEvents.change, [name, value]);
+                });
+                slider_1.events.on(types_1.BaseElementEvent.configUpdate, function (newConfig) {
+                    var value = slider_1.getValue();
+                    _this._state[name] = value;
+                    _this.layout.getCell(slider_1.config.id).config = _this._checkLayoutConfig(newConfig, {});
                 });
                 break;
             case types_1.FormItemType.textarea:
                 var textarea_2 = this._attachments[id] = new textarea_1.Textarea(null, config);
                 this._state[name] = textarea_2.getValue();
-                textarea_2.events.on(input_1.InputEvents.change, function () {
-                    _this._state[name] = textarea_2.getValue();
+                textarea_2.events.on(types_1.BaseElementEvent.change, function () {
+                    var value = textarea_2.getValue();
+                    _this._state[name] = value;
+                    _this.events.fire(types_1.FormEvents.change, [name, value]);
+                });
+                textarea_2.events.on(types_1.BaseElementEvent.configUpdate, function (newConfig) {
+                    var value = textarea_2.getValue();
+                    _this._state[name] = value;
+                    _this.layout.getCell(textarea_2.config.id).config = _this._checkLayoutConfig(newConfig, {});
                 });
                 break;
             case types_1.FormItemType.text:
-                this._attachments[id] = new textinput_1.Text(null, config);
+                var text_1 = this._attachments[id] = new textinput_1.Text(null, config);
+                text_1.events.on(types_1.BaseElementEvent.configUpdate, function (newConfig) {
+                    _this.layout.getCell(text_1.config.id).config = _this._checkLayoutConfig(newConfig, {});
+                });
                 break;
             case types_1.FormItemType.timepicker:
                 var timeInput_2 = this._attachments[id] = new timeInput_1.TimeInput(null, config);
                 this._state[name] = timeInput_2.getValue();
-                timeInput_2.timepicker.events.on(ts_timepicker_1.TimepickerEvents.change, function () {
+                if (timeInput_2.config.controls) {
+                    timeInput_2.timepicker.events.on(ts_timepicker_1.TimepickerEvents.apply, function () {
+                        var value = timeInput_2.getValue();
+                        _this._state[name] = value;
+                        _this.events.fire(types_1.FormEvents.change, [name, value]);
+                    });
+                }
+                else {
+                    timeInput_2.timepicker.events.on(ts_timepicker_1.TimepickerEvents.change, function () {
+                        var value = timeInput_2.getValue();
+                        _this._state[name] = value;
+                        _this.events.fire(types_1.FormEvents.change, [name, value]);
+                    });
+                }
+                timeInput_2.events.on(types_1.BaseElementEvent.configUpdate, function (newConfig) {
                     var value = timeInput_2.getValue();
-                    _this.events.fire(types_1.FormEvents.change, [name, value]);
                     _this._state[name] = value;
-                });
-                timeInput_2.events.on(timeInput_1.TimeInputEvents.change, function () {
-                    var value = timeInput_2.getValue();
-                    _this.events.fire(types_1.FormEvents.change, [name, value]);
-                    _this._state[name] = value;
+                    _this.layout.getCell(timeInput_2.config.id).config = _this._checkLayoutConfig(newConfig, {});
+                    if (timeInput_2.config.controls) {
+                        timeInput_2.timepicker.events.on(ts_timepicker_1.TimepickerEvents.apply, function () {
+                            value = timeInput_2.getValue();
+                            _this._state[name] = value;
+                            _this.events.fire(types_1.FormEvents.change, [name, value]);
+                        });
+                    }
+                    else {
+                        timeInput_2.timepicker.events.on(ts_timepicker_1.TimepickerEvents.change, function () {
+                            value = timeInput_2.getValue();
+                            _this._state[name] = value;
+                            _this.events.fire(types_1.FormEvents.change, [name, value]);
+                        });
+                    }
                 });
                 break;
             case types_1.FormItemType.colorpicker:
                 var colorpickerInput_1 = this._attachments[id] = new colorpicker_1.ColorpickerInput(null, config);
                 this._state[name] = colorpickerInput_1.getValue();
-                colorpickerInput_1.events.on(colorpicker_1.ColorpickerInputEvents.change, function () {
+                colorpickerInput_1.colorpicker.events.on(ts_colorpicker_1.ColorpickerEvents.change, function () {
                     var value = colorpickerInput_1.getValue();
-                    _this.events.fire(types_1.FormEvents.change, [name, value]);
                     _this._state[name] = value;
+                    _this.events.fire(types_1.FormEvents.change, [name, value]);
                 });
-                colorpickerInput_1.colorpicker.events.on(ts_colorpicker_1.ColorpickerEvents.colorChange, function () {
+                colorpickerInput_1.events.on(types_1.BaseElementEvent.configUpdate, function (newConfig) {
                     var value = colorpickerInput_1.getValue();
-                    _this.events.fire(types_1.FormEvents.change, [name, value]);
                     _this._state[name] = value;
+                    _this.layout.getCell(colorpickerInput_1.config.id).config = _this._checkLayoutConfig(newConfig, {});
+                    colorpickerInput_1.colorpicker.events.on(ts_colorpicker_1.ColorpickerEvents.change, function () {
+                        value = colorpickerInput_1.getValue();
+                        _this._state[name] = value;
+                        _this.events.fire(types_1.FormEvents.change, [name, value]);
+                    });
                 });
                 break;
         }
@@ -19441,9 +21278,9 @@ var Form = /** @class */ (function (_super) {
             return _this._addLayoutItem(item);
         });
     };
-    Form.prototype._createLayoutConfig = function (config, layoutConfig) {
-        if (core_1.isDefined(config.cellCss)) {
-            layoutConfig.css = config.cellCss;
+    Form.prototype._checkLayoutConfig = function (config, layoutConfig) {
+        if (core_1.isDefined(config.css)) {
+            layoutConfig.css = config.css;
         }
         if (core_1.isDefined(config.title)) {
             layoutConfig.header = config.title;
@@ -19463,6 +21300,10 @@ var Form = /** @class */ (function (_super) {
         if (core_1.isDefined(config.align)) {
             layoutConfig.align = config.align;
         }
+        return layoutConfig;
+    };
+    Form.prototype._createLayoutConfig = function (config, layoutConfig) {
+        layoutConfig = this._checkLayoutConfig(config, layoutConfig);
         if (core_1.isDefined(config.rows)) {
             layoutConfig.rows = this._addLayoutItems(config.rows, config.group, config.groupName);
         }
@@ -19473,10 +21314,11 @@ var Form = /** @class */ (function (_super) {
     Form.prototype._initUI = function (container) {
         var attachments = this._attachments = {};
         var layoutConfig = { padding: "8px" };
+        this.config.css = this.config.css || this.config.cellCss; // TODO: remove sute_7.0
         this._createLayoutConfig(this.config, layoutConfig);
         var layout = this.layout = new ts_layout_1.Layout(container, layoutConfig);
         for (var id in attachments) {
-            layout.cell(id).attach(attachments[id]);
+            layout.getCell(id).attach(attachments[id]);
         }
     };
     Form.prototype._clear = function () {
@@ -19500,10 +21342,10 @@ var Form = /** @class */ (function (_super) {
 }(view_1.View));
 exports.Form = Form;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(12)))
 
 /***/ }),
-/* 166 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19522,43 +21364,40 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var ts_calendar_1 = __webpack_require__(28);
-var events_1 = __webpack_require__(2);
+var ts_calendar_1 = __webpack_require__(25);
+var events_1 = __webpack_require__(3);
 var dom_1 = __webpack_require__(0);
-var label_1 = __webpack_require__(16);
-var ts_popup_1 = __webpack_require__(10);
+var label_1 = __webpack_require__(18);
+var ts_popup_1 = __webpack_require__(11);
 var types_1 = __webpack_require__(8);
 var helper_1 = __webpack_require__(9);
-var DateInputEvents;
-(function (DateInputEvents) {
-    DateInputEvents["change"] = "change";
-})(DateInputEvents = exports.DateInputEvents || (exports.DateInputEvents = {}));
 var DateInput = /** @class */ (function (_super) {
     __extends(DateInput, _super);
     function DateInput(container, config) {
         var _this = _super.call(this, null, config) || this;
         _this.events = new events_1.EventSystem();
-        _this._popup = new ts_popup_1.Popup({ css: "dhx_widget--border-shadow" });
-        _this.calendar = new ts_calendar_1.Calendar(null, config);
-        _this._popup.attach(_this.calendar);
+        _this._initView(config);
         var render = function () { return _this._draw(); };
         _this.mount(container, dom_1.create({ render: render }));
-        _this.calendar.events.on(ts_calendar_1.CalendarEvents.change, function () {
-            _this.config.value = _this.calendar.getValue();
-            _this._popup.hide();
-            _this.validate();
-        });
-        _this.events.on(DateInputEvents.change, function (value) {
-            _this.config.value = _this._inputValidate(value);
-            if (_this._inputValidate(value)) {
-                _this.calendar.setValue(value);
-            }
-            _this.validate();
-        });
         return _this;
     }
+    DateInput.prototype.disable = function () {
+        this.config.disabled = true;
+        this.paint();
+    };
+    DateInput.prototype.enable = function () {
+        this.config.disabled = false;
+        this.paint();
+    };
+    DateInput.prototype.isDisabled = function () {
+        return this.config.disabled;
+    };
     DateInput.prototype.validate = function () {
-        var isValid = !this.config.required || Boolean(this.config.value);
+        var _a = this.config, required = _a.required, value = _a.value, validation = _a.validation;
+        var isValid = true;
+        isValid = validation
+            ? this.config.validation(value)
+            : !required || Boolean(value);
         this.config.$validationStatus = isValid
             ? types_1.ValidationStatus.success
             : types_1.ValidationStatus.error;
@@ -19573,12 +21412,73 @@ var DateInput = /** @class */ (function (_super) {
         this.calendar.setValue(value);
         this.paint();
     };
-    DateInput.prototype.getValue = function () {
-        return this.config.value || "";
+    DateInput.prototype.getValue = function (asDateObject) {
+        var value = this.config.value;
+        if (asDateObject && value !== "" || this.config.valueFormat === "Date" && value !== "") {
+            return ts_calendar_1.stringToDate(value, this.calendar.config.dateFormat) || "";
+        }
+        return value || "";
     };
     DateInput.prototype.clear = function () {
         this.config.value = "";
         this.paint();
+    };
+    DateInput.prototype.getWidget = function () {
+        return this.calendar;
+    };
+    // TODO: remove sute_7.0
+    DateInput.prototype.setConfig = function (config) {
+        this._initView(config);
+    };
+    DateInput.prototype._initView = function (config) {
+        var _this = this;
+        if (helper_1.isEmptyObj(config)) {
+            return;
+        }
+        if (this.calendar) {
+            this.calendar.destructor();
+        }
+        if (this._popup) {
+            this._popup.destructor();
+        }
+        this.config = {
+            type: this.config.type,
+            id: this.config.id,
+            name: this.config.name,
+            disabled: false,
+            editable: false,
+            value: "",
+            valueFormat: "string"
+        };
+        for (var key in config) {
+            if (key !== "id" && key !== "type" && key !== "name") {
+                this.config[key] = config[key];
+            }
+        }
+        this.config.editable = this.config.editable || this.config.editing; // TODO: remove sute_7.0
+        this._popup = new ts_popup_1.Popup({ css: "dhx_widget--border-shadow" });
+        this.calendar = new ts_calendar_1.Calendar(null, config);
+        this._popup.attach(this.calendar);
+        if (this.config.value) {
+            this.calendar.setValue(this.config.value);
+            this.config.value = this.calendar.getValue();
+        }
+        this.calendar.events.on(ts_calendar_1.CalendarEvents.change, function () {
+            _this.config.value = _this.calendar.getValue();
+            _this._popup.hide();
+            _this.validate();
+        });
+        this.events.on(types_1.BaseElementEvent.change, function (value) {
+            _this.config.value = _this._inputValidate(value);
+            if (_this._inputValidate(value)) {
+                _this.calendar.setValue(value);
+            }
+            else {
+                _this.validate();
+            }
+        });
+        this.events.fire(types_1.BaseElementEvent.configUpdate, [this.config]);
+        this.clearValidate();
     };
     DateInput.prototype._getHandlers = function () {
         var _this = this;
@@ -19592,7 +21492,7 @@ var DateInput = /** @class */ (function (_super) {
             },
             onchange: function (e) {
                 var value = e.target.value;
-                _this.events.fire(DateInputEvents.change, [value]);
+                _this.events.fire(types_1.BaseElementEvent.change, [value]);
             },
             onkeyup: function (e) {
                 if (e.keyCode === 13) {
@@ -19610,13 +21510,13 @@ var DateInput = /** @class */ (function (_super) {
         return ts_calendar_1.stringToDate(value, dateFormat, true) ? value : "";
     };
     DateInput.prototype._draw = function () {
-        var _a = this.config, value = _a.value, icon = _a.icon, required = _a.required, disabled = _a.disabled, placeholder = _a.placeholder, name = _a.name, id = _a.id, validation = _a.validation, _b = _a.editing, editing = _b === void 0 ? false : _b;
+        var _a = this.config, value = _a.value, icon = _a.icon, required = _a.required, disabled = _a.disabled, placeholder = _a.placeholder, name = _a.name, id = _a.id, validation = _a.validation, editable = _a.editable;
         return dom_1.el("div.dhx_form-group", {
             class: helper_1.getFormItemCss(this.config, Boolean(required) || Boolean(validation)),
         }, [
             this._drawLabel(),
-            dom_1.el(".dhx_input-wrapper", [
-                dom_1.el("div.dhx_input-container", {}, [
+            dom_1.el(".dhx_input__wrapper", [
+                dom_1.el("div.dhx_input__container", {}, [
                     dom_1.el(".dhx_input__icon", {
                         class: icon || "dxi dxi-calendar-today"
                     }),
@@ -19634,10 +21534,10 @@ var DateInput = /** @class */ (function (_super) {
                         onchange: this._handlers.onchange,
                         onkeyup: this._handlers.onkeyup,
                         autocomplete: "off",
-                        readOnly: !editing
+                        readOnly: !editable
                     }),
                 ]),
-                helper_1.getValidationMessage(this.config) && dom_1.el("span.dhx_input-caption", {}, helper_1.getValidationMessage(this.config))
+                helper_1.getValidationMessage(this.config) && dom_1.el("span.dhx_input__caption", {}, helper_1.getValidationMessage(this.config))
             ]),
         ]);
     };
@@ -19647,7 +21547,7 @@ exports.DateInput = DateInput;
 
 
 /***/ }),
-/* 167 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19665,10 +21565,21 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
 var view_1 = __webpack_require__(4);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var ButtonEvents;
 (function (ButtonEvents) {
     ButtonEvents["click"] = "click";
@@ -19676,8 +21587,7 @@ var ButtonEvents;
 var Button = /** @class */ (function (_super) {
     __extends(Button, _super);
     function Button(container, config) {
-        if (config === void 0) { config = {}; }
-        var _this = _super.call(this, container, config) || this;
+        var _this = _super.call(this, container, __assign({ disabled: false }, config)) || this;
         _this.events = new events_1.EventSystem();
         _this._handlers = {
             onclick: function (e) { return _this.events.fire(ButtonEvents.click, [e]); }
@@ -19686,12 +21596,23 @@ var Button = /** @class */ (function (_super) {
         _this.mount(container, dom_1.create({ render: render }));
         return _this;
     }
+    Button.prototype.disable = function () {
+        this.config.disabled = true;
+        this.paint();
+    };
+    Button.prototype.enable = function () {
+        this.config.disabled = false;
+        this.paint();
+    };
+    Button.prototype.isDisabled = function () {
+        return this.config.disabled;
+    };
     Button.prototype.setValue = function (value) {
         this.config.value = value;
         this.paint();
     };
     Button.prototype._draw = function () {
-        var _a = this.config, color = _a.color, size = _a.size, view = _a.view, full = _a.full, loading = _a.loading, circle = _a.circle, icon = _a.icon, value = _a.value, disabled = _a.disabled, submit = _a.submit;
+        var _a = this.config, color = _a.color, size = _a.size, view = _a.view, full = _a.full, loading = _a.loading, circle = _a.circle, icon = _a.icon, value = _a.value, disabled = _a.disabled, submit = _a.submit, id = _a.id;
         var colorsCss = {
             danger: " dhx_button--color_danger",
             secondary: " dhx_button--color_secondary",
@@ -19712,6 +21633,7 @@ var Button = /** @class */ (function (_super) {
         var iconViewCss = icon && !value ? " dhx_button--icon" : "";
         return dom_1.el("button", {
             disabled: disabled,
+            id: id,
             onclick: this._handlers.onclick,
             type: submit ? "submit" : "button",
             class: "dhx_button" +
@@ -19738,7 +21660,7 @@ exports.Button = Button;
 
 
 /***/ }),
-/* 168 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19758,25 +21680,82 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var view_1 = __webpack_require__(4);
 var helper_1 = __webpack_require__(9);
-var ts_popup_1 = __webpack_require__(10);
+var ts_popup_1 = __webpack_require__(11);
 var types_1 = __webpack_require__(8);
-var CheckboxEvents;
-(function (CheckboxEvents) {
-    CheckboxEvents["change"] = "change";
-})(CheckboxEvents = exports.CheckboxEvents || (exports.CheckboxEvents = {}));
 var Checkbox = /** @class */ (function (_super) {
     __extends(Checkbox, _super);
     function Checkbox(container, config) {
         if (config === void 0) { config = {}; }
         var _this = _super.call(this, container, config) || this;
-        if (_this.config.help) {
-            _this._helper = new ts_popup_1.Popup({ css: "dhx_tooltip dhx_tooltip--forced dhx_tooltip--light" });
-            _this._helper.attachHTML(_this.config.help);
+        _this._initView(config);
+        var render = function () { return _this._draw(); };
+        _this.mount(container, dom_1.create({ render: render }));
+        return _this;
+    }
+    Checkbox.prototype.disable = function () {
+        this.config.disabled = true;
+        this.paint();
+    };
+    Checkbox.prototype.enable = function () {
+        this.config.disabled = false;
+        this.paint();
+    };
+    Checkbox.prototype.isDisabled = function () {
+        return this.config.disabled;
+    };
+    Checkbox.prototype.clear = function () {
+        this.config.checked = false;
+        this.paint();
+    };
+    Checkbox.prototype.clearValidate = function () {
+        this.config.$validationStatus = types_1.ValidationStatus.pre;
+        this.paint();
+    };
+    Checkbox.prototype.setValue = function (value) {
+        this.events.fire(types_1.BaseElementEvent.change, [value]);
+        this.config.checked = value;
+        this.paint();
+    };
+    Checkbox.prototype.getValue = function () {
+        return this.config.checked || false;
+    };
+    // TODO: remove sute_7.0
+    Checkbox.prototype.setConfig = function (config) {
+        this._initView(config);
+    };
+    Checkbox.prototype.validate = function () {
+        var isValid = !this.config.required || this.config.checked;
+        this.config.$validationStatus = isValid
+            ? types_1.ValidationStatus.success
+            : types_1.ValidationStatus.error;
+        this.paint();
+        return isValid;
+    };
+    Checkbox.prototype._initView = function (config) {
+        var _this = this;
+        if (helper_1.isEmptyObj(config)) {
+            return;
         }
-        _this._handlers = {
+        this.config = {
+            type: this.config.type,
+            id: this.config.id,
+            name: this.config.name,
+            disabled: false
+        };
+        for (var key in config) {
+            if (key !== "id" && key !== "type" && key !== "name") {
+                this.config[key] = config[key];
+            }
+        }
+        this.config.helpMessage = this.config.helpMessage || this.config.help; // TODO: remove sute_7.0
+        if (this.config.labelInline) {
+            this.config.labelPosition = "right"; // TODO: remove sute_7.0
+        }
+        this.events = new events_1.EventSystem();
+        this._handlers = {
             showHelper: function (e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -19787,77 +21766,56 @@ var Checkbox = /** @class */ (function (_super) {
             },
             onchange: function (e) {
                 _this.config.checked = e.target.checked;
-                _this.events.fire(CheckboxEvents.change, [e.target.checked]);
+                _this.events.fire(types_1.BaseElementEvent.change, [e.target.checked]);
                 _this.validate();
             }
         };
-        _this.events = new events_1.EventSystem();
-        _this.events.on(CheckboxEvents.change, function (value) {
+        this.events.on(types_1.BaseElementEvent.change, function (value) {
             _this.config.checked = value;
         });
-        var render = function () { return _this._draw(); };
-        _this.mount(container, dom_1.create({ render: render }));
-        return _this;
-    }
-    Checkbox.prototype.clear = function () {
-        this.config.checked = false;
-        this.paint();
-    };
-    Checkbox.prototype.clearValidate = function () {
-        this.config.$validationStatus = types_1.ValidationStatus.pre;
-        this.paint();
-    };
-    Checkbox.prototype.setValue = function (value) {
-        this.events.fire(CheckboxEvents.change, [value]);
-        this.config.checked = value;
-        this.paint();
-    };
-    Checkbox.prototype.getValue = function () {
-        return this.config.checked || false;
-    };
-    Checkbox.prototype.validate = function () {
-        var isValid = !this.config.required || this.config.checked;
-        this.config.$validationStatus = isValid
-            ? types_1.ValidationStatus.success
-            : types_1.ValidationStatus.error;
-        this.paint();
-        return isValid;
+        this.events.fire(types_1.BaseElementEvent.configUpdate, [this.config]);
+        this.clearValidate();
     };
     Checkbox.prototype._draw = function () {
-        var _a = this.config, id = _a.id, value = _a.value, label = _a.label, checked = _a.checked, disabled = _a.disabled, name = _a.name, help = _a.help, labelWidth = _a.labelWidth, labelInline = _a.labelInline, required = _a.required, hidden = _a.hidden;
+        if (this.config.helpMessage) {
+            if (this._helper) {
+                this._helper.attachHTML(this.config.helpMessage);
+            }
+            else {
+                this._helper = new ts_popup_1.Popup({ css: "dhx_tooltip dhx_tooltip--forced dhx_tooltip--light" });
+                this._helper.attachHTML(this.config.helpMessage);
+            }
+        }
+        var _a = this.config, id = _a.id, value = _a.value, label = _a.label, checked = _a.checked, disabled = _a.disabled, name = _a.name, helpMessage = _a.helpMessage, labelWidth = _a.labelWidth, labelPosition = _a.labelPosition, required = _a.required, hidden = _a.hidden;
         var visibility = hidden ? " dhx_form-group--hidden" : "";
-        return dom_1.el("label.dhx_form-group", {
-            class: visibility,
-            style: { "margin-left": "" + (labelWidth && labelInline ? "calc(" + labelWidth + " + 16px)" : "") }
+        return dom_1.el("label.dhx_checkbox.dhx_form-group", {
+            class: helper_1.getFormItemCss(this.config, Boolean(required)) + visibility,
+            style: { "margin-left": "" + (labelWidth && labelPosition === "right" ? "calc(" + labelWidth + " + 16px)" : "") }
         }, [
-            dom_1.el("div.dhx_checkbox", {
-                class: helper_1.getFormItemCss(this.config, Boolean(required)) + (help ? " dhx_label--with-help" : "")
-            }, [
-                dom_1.el("input.dhx_checkbox__input", {
-                    type: "checkbox",
-                    id: id,
-                    value: value || "",
-                    name: name || "",
-                    disabled: disabled,
-                    checked: checked,
-                    onchange: this._handlers.onchange,
-                    required: required
+            dom_1.el("input.dhx_checkbox__input", {
+                type: "checkbox",
+                id: id,
+                value: value || "",
+                name: name || "",
+                disabled: disabled,
+                checked: checked,
+                onchange: this._handlers.onchange,
+                required: required
+            }),
+            dom_1.el("span.dhx_checkbox__visual-input"),
+            dom_1.el("span.dhx_label", {
+                class: helpMessage ? "dhx_label--with-help" : ""
+            }, helpMessage ? [
+                dom_1.el("span.dhx_label__holder", label),
+                dom_1.el("span.dhx_label-help.dxi.dxi-help-circle-outline", {
+                    tabindex: "0",
+                    role: "button",
+                    onclick: this._handlers.showHelper
                 }),
-                dom_1.el("span.dhx_checkbox__visual-input"),
-                dom_1.el("span.dhx_label", {
-                    class: help ? "dhx_label--with-help" : ""
-                }, help ? [
-                    dom_1.el("span.dhx_label__holder", label),
-                    dom_1.el("span.dhx_label-help.dxi.dxi-help-circle-outline", {
-                        tabindex: "0",
-                        role: "button",
-                        onclick: this._handlers.showHelper
-                    }),
-                ] : label),
-                helper_1.getValidationMessage(this.config) && dom_1.el("span.dhx_input-caption", {
-                    onclick: this._handlers.cancelUnusefulClick,
-                }, helper_1.getValidationMessage(this.config))
-            ]),
+            ] : label),
+            helper_1.getValidationMessage(this.config) && dom_1.el("span.dhx_input-caption", {
+                onclick: this._handlers.cancelUnusefulClick,
+            }, helper_1.getValidationMessage(this.config))
         ]);
     };
     return Checkbox;
@@ -19866,7 +21824,7 @@ exports.Checkbox = Checkbox;
 
 
 /***/ }),
-/* 169 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19887,55 +21845,34 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var ts_layout_1 = __webpack_require__(12);
-var events_1 = __webpack_require__(2);
+var ts_layout_1 = __webpack_require__(14);
+var events_1 = __webpack_require__(3);
 var view_1 = __webpack_require__(4);
-var radiobutton_1 = __webpack_require__(170);
+var radiobutton_1 = __webpack_require__(175);
 var helper_1 = __webpack_require__(9);
 var types_1 = __webpack_require__(8);
-var RadioGroupEvents;
-(function (RadioGroupEvents) {
-    RadioGroupEvents["change"] = "change";
-})(RadioGroupEvents = exports.RadioGroupEvents || (exports.RadioGroupEvents = {}));
 var RadioGroup = /** @class */ (function (_super) {
     __extends(RadioGroup, _super);
     function RadioGroup(container, config) {
         var _this = _super.call(this, null, config) || this;
         _this.events = new events_1.EventSystem();
         _this._buttons = [];
-        var mapConfig = _this.config.options.rows || _this.config.options.cols;
-        var _a = _this.config, preMessage = _a.preMessage, errorMessage = _a.errorMessage, successMessage = _a.successMessage;
-        mapConfig.map(function (option) {
-            option.id = option.id || core_1.uid();
-        });
-        _this.layout = new ts_layout_1.Layout(null, config.options);
-        mapConfig.map(function (option) {
-            var radiobutton = new radiobutton_1.RadioButton(null, option);
-            radiobutton.config.disabled = _this.config.disabled;
-            radiobutton.config.name = _this.config.name;
-            radiobutton.config.required = _this.config.required;
-            radiobutton.config.css = _this.config.css;
-            if (preMessage || errorMessage || successMessage) {
-                radiobutton.config.preMessage = "";
-                radiobutton.config.errorMessage = "";
-                radiobutton.config.successMessage = "";
-            }
-            _this._buttons.push(radiobutton);
-            _this.layout.cell(option.id).attach(radiobutton);
-            radiobutton.events.on(radiobutton_1.RadioButtonEvents.change, function () {
-                _this._buttons.map(function (element) {
-                    if (element.config.id !== radiobutton.config.id) {
-                        element.setValue(false);
-                    }
-                });
-                _this.events.fire(radiobutton_1.RadioButtonEvents.change);
-                _this.validate();
-            });
-        });
+        _this._initView(config);
         var render = function () { return _this._draw(); };
         _this.mount(container, dom_1.create({ render: render }));
         return _this;
     }
+    RadioGroup.prototype.disable = function () {
+        this.config.disabled = true;
+        this.paint();
+    };
+    RadioGroup.prototype.enable = function () {
+        this.config.disabled = false;
+        this.paint();
+    };
+    RadioGroup.prototype.isDisabled = function () {
+        return this.config.disabled;
+    };
     RadioGroup.prototype.validate = function () {
         var _this = this;
         var isValid = false;
@@ -19969,13 +21906,13 @@ var RadioGroup = /** @class */ (function (_super) {
         this.paint();
     };
     RadioGroup.prototype.getValue = function () {
-        var value;
+        var _this = this;
         this._buttons.map(function (element) {
             if (element.getValue()) {
-                value = element.getValue();
+                _this.config.value = element.getValue() || "";
             }
         });
-        return value || "";
+        return this.config.value || "";
     };
     RadioGroup.prototype.setValue = function (value) {
         this._buttons.map(function (element) {
@@ -19983,21 +21920,85 @@ var RadioGroup = /** @class */ (function (_super) {
                 ? element.setValue(true)
                 : element.setValue(false);
         });
-        this.events.fire(radiobutton_1.RadioButtonEvents.change);
+        this.events.fire(types_1.BaseElementEvent.change);
         this.paint();
     };
+    // TODO: remove sute_7.0
+    RadioGroup.prototype.setConfig = function (config) {
+        this._initView(config);
+    };
+    RadioGroup.prototype._initView = function (config) {
+        var _this = this;
+        if (helper_1.isEmptyObj(config) || helper_1.isEmptyObj(config.options)) {
+            return;
+        }
+        if (this.layout) {
+            this.layout.destructor();
+        }
+        if (this._buttons.length !== 0) {
+            this._buttons.map(function (button) {
+                button.destructor();
+            });
+            this._buttons = [];
+        }
+        this.config = {
+            type: this.config.type,
+            id: this.config.id,
+            name: this.config.name,
+            disabled: false,
+            options: {}
+        };
+        for (var key in config) {
+            if (key !== "id" && key !== "type" && key !== "name") {
+                this.config[key] = config[key];
+            }
+        }
+        var radioButtonsConfig = this.config.options.rows || this.config.options.cols;
+        var _a = this.config, preMessage = _a.preMessage, errorMessage = _a.errorMessage, successMessage = _a.successMessage;
+        radioButtonsConfig.map(function (option) {
+            option.id = option.id || core_1.uid();
+        });
+        this.layout = new ts_layout_1.Layout(null, this.config.options);
+        radioButtonsConfig.map(function (option) {
+            var radiobutton = new radiobutton_1.RadioButton(null, option);
+            radiobutton.config.disabled = config.disabled;
+            radiobutton.config.name = config.name;
+            radiobutton.config.required = config.required;
+            radiobutton.config.css = config.css;
+            if (preMessage || errorMessage || successMessage) {
+                radiobutton.config.preMessage = "";
+                radiobutton.config.errorMessage = "";
+                radiobutton.config.successMessage = "";
+            }
+            _this._buttons.push(radiobutton);
+            _this.layout.getCell(option.id).attach(radiobutton);
+            radiobutton.events.on(radiobutton_1.RadioButtonEvents.change, function () {
+                _this._buttons.map(function (button) {
+                    if (button.config.id !== radiobutton.config.id) {
+                        button.setValue(false);
+                    }
+                });
+                _this.events.fire(types_1.BaseElementEvent.change, []);
+                _this.validate();
+            });
+        });
+        this.events.fire(types_1.BaseElementEvent.configUpdate, [this.config]);
+        this.clearValidate();
+    };
     RadioGroup.prototype._draw = function () {
-        var _a = this._buttons[0].config, labelWidth = _a.labelWidth, labelInline = _a.labelInline;
+        var _a = this._buttons[0].config, labelWidth = _a.labelWidth, labelPosition = _a.labelPosition;
         var hidden = this.config.hidden;
         var visibility = hidden ? " dhx_form-group--hidden" : "";
         return dom_1.el("div.dhx_form-group", {
             class: helper_1.getFormItemCss(this.config, Boolean(this.config.required)) + visibility,
         }, [
-            dom_1.inject(this.layout.getRootView()),
-            dom_1.el("div", {
-                style: { "margin-left": "" + (labelWidth && labelInline ? "calc(" + labelWidth + " + 16px)" : "") }
+            dom_1.el("div.dhx_radio-group--container", {}, [
+                dom_1.inject(this.layout.getRootView()),
+            ]),
+            dom_1.el("div.dhx_caption--container", {
+                style: { "margin-left": "" + (labelWidth && labelPosition === "right" ? "calc(" + labelWidth + " + 16px)" : "") }
             }, [
-                dom_1.el("span.dhx_input-caption", helper_1.getValidationMessage(this.config))
+                dom_1.el("span.dhx_input__caption", helper_1.getValidationMessage(this.config))
             ])
         ]);
     };
@@ -20007,7 +22008,7 @@ exports.RadioGroup = RadioGroup;
 
 
 /***/ }),
-/* 170 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20027,10 +22028,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var view_1 = __webpack_require__(4);
 var helper_1 = __webpack_require__(9);
-var ts_popup_1 = __webpack_require__(10);
+var ts_popup_1 = __webpack_require__(11);
 var types_1 = __webpack_require__(8);
 var RadioButtonEvents;
 (function (RadioButtonEvents) {
@@ -20041,9 +22042,13 @@ var RadioButton = /** @class */ (function (_super) {
     function RadioButton(container, config) {
         if (config === void 0) { config = {}; }
         var _this = _super.call(this, container, config) || this;
-        if (_this.config.help) {
+        _this.config.helpMessage = _this.config.helpMessage || _this.config.help; // TODO: remove sute_7.0
+        if (_this.config.helpMessage) {
             _this._helper = new ts_popup_1.Popup({ css: "dhx_tooltip dhx_tooltip--forced dhx_tooltip--light" });
-            _this._helper.attachHTML(_this.config.help);
+            _this._helper.attachHTML(_this.config.helpMessage);
+        }
+        if (_this.config.labelInline) {
+            _this.config.labelPosition = "right"; // TODO: remove sute_7.0
         }
         _this._handlers = {
             showHelper: function (e) {
@@ -20081,11 +22086,16 @@ var RadioButton = /** @class */ (function (_super) {
         this.config.checked = checked;
         this.paint();
     };
+    RadioButton.prototype.destructor = function () {
+        this._helper.destructor();
+        this.events.clear();
+        this.unmount();
+    };
     RadioButton.prototype._draw = function () {
-        var _a = this.config, id = _a.id, value = _a.value, label = _a.label, checked = _a.checked, disabled = _a.disabled, name = _a.name, help = _a.help, labelWidth = _a.labelWidth, labelInline = _a.labelInline, required = _a.required;
-        return dom_1.el("label.dhx_form-group.dhx_radiobutton", {
-            class: helper_1.getFormItemCss(this.config, Boolean(required)) + (help ? " dhx_label--with-help" : ""),
-            style: { "margin-left": "" + (labelWidth && labelInline ? "calc(" + labelWidth + " + 16px)" : "") }
+        var _a = this.config, id = _a.id, value = _a.value, label = _a.label, checked = _a.checked, disabled = _a.disabled, name = _a.name, helpMessage = _a.helpMessage, labelWidth = _a.labelWidth, labelPosition = _a.labelPosition, required = _a.required;
+        return dom_1.el("label.dhx_radiobutton.dhx_form-group", {
+            class: helper_1.getFormItemCss(this.config, Boolean(required)),
+            style: { "margin-left": "" + (labelWidth && labelPosition === "right" ? "calc(" + labelWidth + " + 16px)" : "") }
         }, [
             dom_1.el("input.dhx_radiobutton__input", {
                 type: "radio",
@@ -20099,15 +22109,15 @@ var RadioButton = /** @class */ (function (_super) {
             }),
             dom_1.el("span.dhx_radiobutton__visual-input"),
             dom_1.el("span.dhx_label", {
-                class: help ? "dhx_label--with-help" : ""
-            }, help ? [
+                class: helpMessage ? "dhx_label--with-help" : ""
+            }, helpMessage ? [
                 dom_1.el("span.dhx_label__holder", label),
                 dom_1.el("span.dhx_label-help.dxi.dxi-help-circle-outline", {
                     tabindex: "0",
                     role: "button",
                     onclick: this._handlers.showHelper
                 }),
-            ] : label), dom_1.el("span.dhx_input-caption", {
+            ] : label), dom_1.el("span.dhx_input__caption", {
                 onclick: this._handlers.cancelUnusefulClick,
             }, helper_1.getValidationMessage(this.config)),
         ]);
@@ -20118,7 +22128,7 @@ exports.RadioButton = RadioButton;
 
 
 /***/ }),
-/* 171 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20138,39 +22148,40 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var label_1 = __webpack_require__(16);
+var label_1 = __webpack_require__(18);
 var helper_1 = __webpack_require__(9);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var types_1 = __webpack_require__(8);
-var SelectEvents;
-(function (SelectEvents) {
-    SelectEvents["change"] = "change";
-})(SelectEvents = exports.SelectEvents || (exports.SelectEvents = {}));
 var Select = /** @class */ (function (_super) {
     __extends(Select, _super);
-    function Select(config) {
+    function Select(container, config) {
         var _this = _super.call(this, null, config) || this;
         _this.events = new events_1.EventSystem();
-        _this.config.value = _this.config.options[0].value || _this.config.value;
+        _this._initView(config);
         return _this;
     }
+    Select.prototype.disable = function () {
+        this.config.disabled = true;
+        this.paint();
+    };
+    Select.prototype.enable = function () {
+        this.config.disabled = false;
+        this.paint();
+    };
+    Select.prototype.isDisabled = function () {
+        return this.config.disabled;
+    };
     Select.prototype.validate = function () {
         var _a = this.config, required = _a.required, value = _a.value, validation = _a.validation;
-        if (validation) {
-            var isValid = this.config.validation(value);
-            isValid
-                ? this.config.$validationStatus = types_1.ValidationStatus.success
-                : this.config.$validationStatus = types_1.ValidationStatus.error;
-            this.paint();
-            return isValid;
-        }
-        else {
-            !required || Boolean(value)
-                ? this.config.$validationStatus = types_1.ValidationStatus.success
-                : this.config.$validationStatus = types_1.ValidationStatus.error;
-            this.paint();
-            return !required || Boolean(value);
-        }
+        var isValid = true;
+        isValid = validation
+            ? this.config.validation(value)
+            : !required || Boolean(value);
+        this.config.$validationStatus = isValid
+            ? types_1.ValidationStatus.success
+            : types_1.ValidationStatus.error;
+        this.paint();
+        return isValid;
     };
     Select.prototype.clearValidate = function () {
         this.config.$validationStatus = types_1.ValidationStatus.pre;
@@ -20182,11 +22193,35 @@ var Select = /** @class */ (function (_super) {
     };
     Select.prototype.setValue = function (value) {
         this.config.value = value;
-        this.events.fire(SelectEvents.change, [value]);
+        this.events.fire(types_1.BaseElementEvent.change, [value]);
         this.paint();
     };
     Select.prototype.getValue = function () {
         return this.config.value || "";
+    };
+    // TODO: remove sute_7.0
+    Select.prototype.setConfig = function (config) {
+        this._initView(config);
+    };
+    Select.prototype._initView = function (config) {
+        if (helper_1.isEmptyObj(config)) {
+            return;
+        }
+        this.config = {
+            type: this.config.type,
+            id: this.config.id,
+            name: this.config.name,
+            options: config.options,
+            disabled: false,
+            value: config.options[0].value
+        };
+        for (var key in config) {
+            if (key !== "id" && key !== "type" && key !== "name") {
+                this.config[key] = config[key];
+            }
+        }
+        this.events.fire(types_1.BaseElementEvent.configUpdate, [this.config]);
+        this.paint();
     };
     Select.prototype._getHandlers = function () {
         var _this = this;
@@ -20194,7 +22229,7 @@ var Select = /** @class */ (function (_super) {
             onchange: function (e) {
                 var value = e.target.value;
                 _this.config.value = value;
-                _this.events.fire(SelectEvents.change, []);
+                _this.events.fire(types_1.BaseElementEvent.change, [value]);
                 _this.validate();
             }
         };
@@ -20205,8 +22240,8 @@ var Select = /** @class */ (function (_super) {
             class: helper_1.getFormItemCss(this.config, Boolean(required) || Boolean(validation))
         }, [
             this._drawLabel(),
-            dom_1.el(".dhx_input-wrapper", {}, [
-                dom_1.el("div.dhx_input-container", {}, [
+            dom_1.el(".dhx_input__wrapper", {}, [
+                dom_1.el("div.dhx_input__container", {}, [
                     dom_1.el(".dhx_input__icon", {
                         class: icon ? icon : "dxi dxi-menu-down"
                     }),
@@ -20220,7 +22255,7 @@ var Select = /** @class */ (function (_super) {
                         selected: option.selected || value === option.value,
                     }, option.content); })),
                 ]),
-                helper_1.getValidationMessage(this.config) && dom_1.el("span.dhx_input-caption", helper_1.getValidationMessage(this.config))
+                helper_1.getValidationMessage(this.config) && dom_1.el("span.dhx_input__caption", helper_1.getValidationMessage(this.config))
             ]),
         ]);
     };
@@ -20230,7 +22265,7 @@ exports.Select = Select;
 
 
 /***/ }),
-/* 172 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20251,7 +22286,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
 var helper_1 = __webpack_require__(9);
-var input_1 = __webpack_require__(50);
+var input_1 = __webpack_require__(52);
 var core_1 = __webpack_require__(1);
 var Textarea = /** @class */ (function (_super) {
     __extends(Textarea, _super);
@@ -20264,7 +22299,7 @@ var Textarea = /** @class */ (function (_super) {
             class: helper_1.getFormItemCss(this.config, Boolean(required) || Boolean(validation))
         }, [
             this._drawLabel(),
-            dom_1.el(".dhx_input-wrapper", [
+            dom_1.el(".dhx_input__wrapper", [
                 dom_1.el("textarea.dhx_input.dhx_input--textarea", {
                     type: "text",
                     id: id,
@@ -20280,7 +22315,7 @@ var Textarea = /** @class */ (function (_super) {
                         resize: resizable ? "both" : "none",
                     }
                 }),
-                helper_1.getValidationMessage(this.config) && dom_1.el("span.dhx_input-caption", {}, helper_1.getValidationMessage(this.config))
+                helper_1.getValidationMessage(this.config) && dom_1.el("span.dhx_input__caption", {}, helper_1.getValidationMessage(this.config))
             ]),
         ]);
     };
@@ -20290,7 +22325,7 @@ exports.Textarea = Textarea;
 
 
 /***/ }),
-/* 173 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20312,7 +22347,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
 var helper_1 = __webpack_require__(9);
-var input_1 = __webpack_require__(50);
+var input_1 = __webpack_require__(52);
 var Text = /** @class */ (function (_super) {
     __extends(Text, _super);
     function Text() {
@@ -20324,7 +22359,7 @@ var Text = /** @class */ (function (_super) {
             class: helper_1.getFormItemCss(this.config)
         }, [
             this._drawLabel(),
-            dom_1.el(".dhx_input-wrapper", [
+            dom_1.el(".dhx_input__wrapper", [
                 dom_1.el("input.dhx_input.dhx_input--textinput", {
                     type: "text",
                     readOnly: true,
@@ -20341,7 +22376,7 @@ exports.Text = Text;
 
 
 /***/ }),
-/* 174 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20362,37 +22397,42 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
 var helper_1 = __webpack_require__(9);
-var ts_combobox_1 = __webpack_require__(47);
-var label_1 = __webpack_require__(16);
+var ts_combobox_1 = __webpack_require__(32);
+var events_1 = __webpack_require__(3);
+var label_1 = __webpack_require__(18);
 var types_1 = __webpack_require__(8);
 var Combo = /** @class */ (function (_super) {
     __extends(Combo, _super);
-    function Combo(config) {
+    function Combo(container, config) {
         var _this = _super.call(this, null, config) || this;
-        _this.combobox = new ts_combobox_1.Combobox(null, config);
-        _this.data = _this.combobox.data;
-        _this.events = _this.combobox.events;
-        _this.combobox.events.on("change", function (change) {
-            if (change !== "load") {
-                _this.validate();
-            }
-        });
-        setTimeout(function () {
-            _this.setValue(_this.config.value);
-        });
+        _this.events = new events_1.EventSystem();
+        _this._initView(config);
         return _this;
     }
+    Combo.prototype.disable = function () {
+        this.config.disabled = true;
+        this.combobox.disable();
+        this.paint();
+    };
+    Combo.prototype.enable = function () {
+        this.config.disabled = false;
+        this.combobox.enable();
+        this.paint();
+    };
+    Combo.prototype.isDisabled = function () {
+        return this.config.disabled;
+    };
     Combo.prototype.clear = function () {
         this.combobox.clear();
         this.paint();
     };
     Combo.prototype.getValue = function () {
-        if (this.combobox.getValue() !== undefined) {
-            if (this.combobox.getValue().length > 1) {
-                return this.combobox.getValue(true);
-            }
+        if (this.config.multiselection) {
+            return this.combobox.getValue(true);
         }
-        return this.combobox.getValue() || "";
+        else {
+            return this.combobox.getValue() || "";
+        }
     };
     Combo.prototype.setValue = function (value) {
         if (value) {
@@ -20430,6 +22470,53 @@ var Combo = /** @class */ (function (_super) {
         this._validationStatus();
         this.paint();
     };
+    Combo.prototype.getWidget = function () {
+        return this.combobox;
+    };
+    // TODO: remove sute_7.0
+    Combo.prototype.setConfig = function (config) {
+        this._initView(config);
+    };
+    Combo.prototype._initView = function (config) {
+        var _this = this;
+        if (helper_1.isEmptyObj(config)) {
+            return;
+        }
+        if (this.combobox) {
+            this.combobox.destructor();
+        }
+        this.config = {
+            type: this.config.type,
+            id: this.config.id,
+            name: this.config.name,
+            disabled: false,
+            value: ""
+        };
+        var comboConfig = {};
+        for (var key in config) {
+            if (key !== "id" && key !== "type" && key !== "name") {
+                this.config[key] = config[key];
+                if (key !== "validation") {
+                    comboConfig[key] = config[key];
+                }
+            }
+        }
+        if (this.config.labelInline) {
+            this.config.labelPosition = "left"; // TODO: remove sute_7.0
+        }
+        this.combobox = new ts_combobox_1.Combobox(null, comboConfig);
+        this.combobox.events.on(ts_combobox_1.ComboboxEvents.change, function (change) {
+            _this.events.fire(types_1.BaseElementEvent.change, [change]);
+        });
+        this.events.fire(types_1.BaseElementEvent.configUpdate, [this.config]);
+        this.setValue(this.config.value);
+        this.events.on(types_1.BaseElementEvent.change, function (change) {
+            if (change !== "load") {
+                _this.validate();
+            }
+        });
+        this.clearValidate();
+    };
     Combo.prototype._validationStatus = function () {
         switch (this.config.$validationStatus) {
             case types_1.ValidationStatus.pre:
@@ -20451,14 +22538,14 @@ var Combo = /** @class */ (function (_super) {
         return this.combobox.getRootView();
     };
     Combo.prototype._draw = function () {
-        var _a = this.config, labelWidth = _a.labelWidth, labelInline = _a.labelInline, $validationStatus = _a.$validationStatus;
+        var _a = this.config, labelWidth = _a.labelWidth, labelPosition = _a.labelPosition, $validationStatus = _a.$validationStatus;
         return dom_1.el(".dhx_form-group", {}, [
             dom_1.inject(this._getRootView()),
             dom_1.el("div", {
-                style: { "margin-left": "" + (labelWidth && labelInline ? "calc(" + labelWidth + " + 16px)" : "") },
+                style: { "margin-left": "" + (labelWidth && labelPosition === "left" ? "calc(" + labelWidth + " + 16px)" : "") },
                 class: $validationStatus === 1 ? "dhx_form-group--state_error" : $validationStatus === 2 ? "dhx_form-group--state_success" : "",
             }, [
-                dom_1.el("span.dhx_input-caption", helper_1.getValidationMessage(this.config))
+                dom_1.el("span.dhx_input__caption", helper_1.getValidationMessage(this.config))
             ]),
         ]);
     };
@@ -20468,67 +22555,7 @@ exports.Combo = Combo;
 
 
 /***/ }),
-/* 175 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var ts_slider_1 = __webpack_require__(30);
-var label_1 = __webpack_require__(16);
-var SliderForm = /** @class */ (function (_super) {
-    __extends(SliderForm, _super);
-    function SliderForm(config) {
-        var _this = _super.call(this, null, config) || this;
-        _this.slider = new ts_slider_1.Slider(null, config);
-        _this.events = _this.slider.events;
-        _this.config.value = _this.slider.getValue();
-        _this.slider.events.on("Change", function () {
-            _this.validate();
-            _this.config.value = _this.slider.getValue();
-        });
-        _this.disable(_this.config.disabled);
-        return _this;
-    }
-    SliderForm.prototype.clear = function () {
-        this.config.value = [0];
-        this.slider.setValue(this.config.value);
-    };
-    SliderForm.prototype.getValue = function () {
-        return this.config.value;
-    };
-    SliderForm.prototype.disable = function (disabled) {
-        disabled ? this.slider.disable() : this.slider.enable();
-    };
-    SliderForm.prototype.setValue = function (value) {
-        this.slider.setValue(value);
-    };
-    SliderForm.prototype.getRootView = function () {
-        return this.slider.getRootView();
-    };
-    SliderForm.prototype.validate = function () {
-        return true;
-    };
-    return SliderForm;
-}(label_1.Label));
-exports.SliderForm = SliderForm;
-
-
-/***/ }),
-/* 176 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20559,30 +22586,154 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
+var ts_slider_1 = __webpack_require__(40);
+var events_1 = __webpack_require__(3);
+var label_1 = __webpack_require__(18);
+var helper_1 = __webpack_require__(9);
+var types_1 = __webpack_require__(8);
+var SliderForm = /** @class */ (function (_super) {
+    __extends(SliderForm, _super);
+    function SliderForm(container, config) {
+        var _this = _super.call(this, null, config) || this;
+        _this.events = new events_1.EventSystem();
+        _this._initView(config);
+        var render = function () { return _this._drawSlider(); };
+        _this.mount(container, dom_1.create({ render: render }));
+        return _this;
+    }
+    SliderForm.prototype.disable = function () {
+        this.config.disabled = true;
+        this.slider.disable();
+        this.paint();
+    };
+    SliderForm.prototype.enable = function () {
+        this.config.disabled = false;
+        this.slider.enable();
+        this.paint();
+    };
+    SliderForm.prototype.isDisabled = function () {
+        return this.config.disabled;
+    };
+    SliderForm.prototype.clear = function () {
+        this.config.value = this.config.min;
+        this.slider.setValue(this.config.value);
+    };
+    SliderForm.prototype.getValue = function () {
+        return this.slider.getValue();
+    };
+    SliderForm.prototype.setValue = function (value) {
+        this.slider.setValue(value);
+    };
+    SliderForm.prototype.validate = function () {
+        return true;
+    };
+    SliderForm.prototype.getWidget = function () {
+        return this.slider;
+    };
+    // TODO: remove sute_7.0
+    SliderForm.prototype.setConfig = function (config) {
+        this._initView(config);
+    };
+    SliderForm.prototype._initView = function (config) {
+        var _this = this;
+        if (helper_1.isEmptyObj(config)) {
+            return;
+        }
+        if (this.slider) {
+            this.slider.destructor();
+        }
+        var sliderConfig = {
+            type: this.config.type,
+            id: this.config.id,
+            name: this.config.name,
+            mode: ts_slider_1.Direction.horizontal,
+            min: 0,
+            max: 100,
+            step: 1,
+            tooltip: true,
+            disabled: false
+        };
+        for (var key in config) {
+            if (key !== "id" && key !== "type" && key !== "name") {
+                sliderConfig[key] = config[key];
+            }
+        }
+        this.config = __assign({ type: this.config.type }, sliderConfig);
+        this.slider = new ts_slider_1.Slider(null, sliderConfig);
+        if (this.config.disabled) {
+            this.slider.disable();
+        }
+        this.config.value = this.slider.getValue();
+        this.slider.events.on(ts_slider_1.SliderEvents.change, function () {
+            _this.config.value = _this.slider.getValue();
+            _this.events.fire(types_1.BaseElementEvent.change, [_this.config.value]);
+            _this.validate();
+        });
+        this.events.fire(types_1.BaseElementEvent.configUpdate, [this.config]);
+    };
+    SliderForm.prototype._getRootView = function () {
+        this.slider.paint();
+        return this.slider.getRootView();
+    };
+    SliderForm.prototype._drawSlider = function () {
+        return dom_1.el("div.dhx_form-group", {}, [
+            dom_1.inject(this._getRootView())
+        ]);
+    };
+    return SliderForm;
+}(label_1.Label));
+exports.SliderForm = SliderForm;
+
+
+/***/ }),
+/* 181 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var dom_1 = __webpack_require__(0);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var view_1 = __webpack_require__(4);
 var ts_data_1 = __webpack_require__(7);
-var ts_vault_1 = __webpack_require__(53);
-var ts_popup_1 = __webpack_require__(10);
+var ts_vault_1 = __webpack_require__(55);
+var ts_popup_1 = __webpack_require__(11);
 var helper_1 = __webpack_require__(9);
-var en_1 = __webpack_require__(73);
+var en_1 = __webpack_require__(75);
 var types_1 = __webpack_require__(8);
 var SimpleVault = /** @class */ (function (_super) {
     __extends(SimpleVault, _super);
     function SimpleVault(container, config) {
         var _this = _super.call(this, container, config) || this;
-        if (_this.config.help) {
-            _this._helper = new ts_popup_1.Popup({ css: "dhx_tooltip dhx_tooltip--forced dhx_tooltip--light" });
-            _this._helper.attachHTML(_this.config.help);
-        }
         _this.events = new events_1.EventSystem(_this);
         _this.data = new ts_data_1.DataCollection({}, _this.events);
-        _this._uploader = new ts_vault_1.Uploader(__assign({}, config, { autosend: false }), _this.data, _this.events);
-        _this.data.events.on(ts_data_1.DataEvents.change, function () {
-            _this.validate();
-            _this.paint();
-        });
+        _this._uploader = new ts_vault_1.Uploader(__assign(__assign({}, config), { autosend: false }), _this.data, _this.events);
+        _this._initView(config);
         _this._handlers = {
             add: function (e) {
                 if (_this.config.disabled) {
@@ -20632,6 +22783,17 @@ var SimpleVault = /** @class */ (function (_super) {
         _this.mount(container, dom_1.create({ render: render }));
         return _this;
     }
+    SimpleVault.prototype.disable = function () {
+        this.config.disabled = true;
+        this.paint();
+    };
+    SimpleVault.prototype.enable = function () {
+        this.config.disabled = false;
+        this.paint();
+    };
+    SimpleVault.prototype.isDisabled = function () {
+        return this.config.disabled;
+    };
     SimpleVault.prototype.validate = function () {
         var isValid = !this.config.required || this.data.getLength() > 0;
         this.config.$validationStatus = isValid
@@ -20651,9 +22813,54 @@ var SimpleVault = /** @class */ (function (_super) {
     SimpleVault.prototype.getValue = function () {
         return this.data.map(function (data) { return (data.file); }) || [];
     };
+    SimpleVault.prototype.getWidget = function () {
+        return this._uploader;
+    };
+    // TODO: remove sute_7.0
+    SimpleVault.prototype.setConfig = function (config) {
+        this._initView(config);
+    };
+    SimpleVault.prototype._initView = function (config) {
+        var _this = this;
+        if (helper_1.isEmptyObj(config)) {
+            return;
+        }
+        this.config = {
+            type: this.config.type,
+            id: this.config.id,
+            name: this.config.name,
+            disabled: false
+        };
+        for (var key in config) {
+            if (key !== "id" && key !== "type" && key !== "name") {
+                this.config[key] = config[key];
+            }
+        }
+        if (this.config.labelInline) {
+            this.config.labelPosition = "left"; // TODO: remove sute_7.0
+        }
+        this.config.helpMessage = this.config.helpMessage || this.config.help; // TODO: remove sute_7.0
+        this.events.on(types_1.BaseElementEvent.change, function () {
+            _this.validate();
+            _this.paint();
+        });
+        this.events.fire(types_1.BaseElementEvent.configUpdate, [this.config]);
+        this.paint();
+    };
     SimpleVault.prototype._draw = function () {
         var _this = this;
-        var files = this.data.getLength() ? dom_1.el("ul.dhx_simplevault__files.dhx_simplevault-files", this.data.map(function (file) { return dom_1.el("li.dhx_simplevault-files__item", [
+        if (this.config.helpMessage) {
+            if (this._helper) {
+                this._helper.attachHTML(this.config.helpMessage);
+            }
+            else {
+                this._helper = new ts_popup_1.Popup({ css: "dhx_tooltip dhx_tooltip--forced dhx_tooltip--light" });
+                this._helper.attachHTML(this.config.helpMessage);
+            }
+        }
+        var files = this.data.getLength() ? dom_1.el("ul.dhx_simplevault__files.dhx_simplevault-files", {
+            class: this.config.$vaultHeight ? "" : "dhx_simplevault-files__fixed"
+        }, this.data.map(function (file) { return dom_1.el("li.dhx_simplevault-files__item", [
             dom_1.el("span.dhx_simplevault-files__item-name", file.file.name),
             dom_1.el(".dhx_button.dhx_simplevault-files__delete.dhx_button--icon.dhx_button--view_link.dhx_button--size_small.dhx_button--color_secondary.dhx_button--circle", {
                 dhx_id: file.id,
@@ -20662,16 +22869,17 @@ var SimpleVault = /** @class */ (function (_super) {
                 dom_1.el("span.dxi.dxi-delete-forever")
             ])
         ]); })) : null;
-        var _a = this.config, id = _a.id, labelInline = _a.labelInline, label = _a.label, labelWidth = _a.labelWidth, help = _a.help, disabled = _a.disabled, required = _a.required, validation = _a.validation;
-        var width = labelInline && labelWidth ? labelWidth : "";
+        var _a = this.config, id = _a.id, labelPosition = _a.labelPosition, label = _a.label, labelWidth = _a.labelWidth, helpMessage = _a.helpMessage, disabled = _a.disabled, required = _a.required, validation = _a.validation;
+        var width = labelPosition === "left" && labelWidth ? labelWidth : "";
         return dom_1.el(".dhx_form-group.dhx_form-group--simplevault", {
             class: helper_1.getFormItemCss(this.config, Boolean(required) || Boolean(validation))
         }, [
             dom_1.el("label.dhx_label", {
                 for: id || this._uid,
                 style: { minWidth: width, maxWidth: width },
-                class: help ? "dhx_label--with-help" : ""
-            }, help ? [
+                class: helpMessage ? "dhx_label--with-help" : "",
+                onclick: this._handlers.add,
+            }, helpMessage ? [
                 dom_1.el("span.dhx_label__holder", label),
                 dom_1.el("span.dhx_label-help.dxi.dxi-help-circle-outline", {
                     tabindex: "0",
@@ -20679,7 +22887,7 @@ var SimpleVault = /** @class */ (function (_super) {
                     onclick: this._handlers.showHelper
                 }),
             ] : label),
-            dom_1.el(".dhx_input-wrapper", [
+            dom_1.el(".dhx_input__wrapper", [
                 dom_1.el("div", {
                     _hooks: {
                         didInsert: function (node) {
@@ -20710,7 +22918,7 @@ var SimpleVault = /** @class */ (function (_super) {
                     ]),
                     files,
                 ]),
-                helper_1.getValidationMessage(this.config) && dom_1.el("span.dhx_input-caption", {}, helper_1.getValidationMessage(this.config))
+                helper_1.getValidationMessage(this.config) && dom_1.el("span.dhx_input__caption", {}, helper_1.getValidationMessage(this.config))
             ])
         ]);
     };
@@ -20720,7 +22928,7 @@ exports.SimpleVault = SimpleVault;
 
 
 /***/ }),
-/* 177 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20739,45 +22947,40 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var ts_timepicker_1 = __webpack_require__(29);
+var ts_timepicker_1 = __webpack_require__(30);
 var dom_1 = __webpack_require__(0);
-var label_1 = __webpack_require__(16);
-var ts_popup_1 = __webpack_require__(10);
-var events_1 = __webpack_require__(2);
+var label_1 = __webpack_require__(18);
+var ts_popup_1 = __webpack_require__(11);
+var events_1 = __webpack_require__(3);
 var types_1 = __webpack_require__(8);
 var helper_1 = __webpack_require__(9);
-var TimeInputEvents;
-(function (TimeInputEvents) {
-    TimeInputEvents["change"] = "change";
-})(TimeInputEvents = exports.TimeInputEvents || (exports.TimeInputEvents = {}));
 var TimeInput = /** @class */ (function (_super) {
     __extends(TimeInput, _super);
     function TimeInput(container, config) {
         var _this = _super.call(this, null, config) || this;
         _this.events = new events_1.EventSystem();
-        _this._popup = new ts_popup_1.Popup({ css: "dhx_widget--border-shadow" });
-        _this.timepicker = new ts_timepicker_1.Timepicker(null, config);
-        _this._popup.attach(_this.timepicker);
+        _this._initView(config);
         var render = function () { return _this._draw(); };
         _this.mount(container, dom_1.create({ render: render }));
-        _this.timepicker.events.on(ts_timepicker_1.TimepickerEvents.change, function () {
-            _this.config.value = _this.timepicker.getValue();
-            _this.validate();
-        });
-        _this.timepicker.events.on(ts_timepicker_1.TimepickerEvents.close, function () {
-            _this._popup.hide();
-        });
-        _this.timepicker.events.on(ts_timepicker_1.TimepickerEvents.save, function () {
-            _this._popup.hide();
-        });
-        _this.events.on(TimeInputEvents.change, function (value) {
-            _this.config.value = _this._inputValidate(value);
-            _this.validate();
-        });
         return _this;
     }
+    TimeInput.prototype.disable = function () {
+        this.config.disabled = true;
+        this.paint();
+    };
+    TimeInput.prototype.enable = function () {
+        this.config.disabled = false;
+        this.paint();
+    };
+    TimeInput.prototype.isDisabled = function () {
+        return this.config.disabled;
+    };
     TimeInput.prototype.validate = function () {
-        var isValid = !this.config.required || Boolean(this.config.value);
+        var _a = this.config, required = _a.required, value = _a.value, validation = _a.validation;
+        var isValid = true;
+        isValid = validation
+            ? this.config.validation(value)
+            : !required || Boolean(value);
         this.config.$validationStatus = isValid
             ? types_1.ValidationStatus.success
             : types_1.ValidationStatus.error;
@@ -20790,6 +22993,9 @@ var TimeInput = /** @class */ (function (_super) {
     };
     TimeInput.prototype.setValue = function (value) {
         this.timepicker.setValue(value);
+        if (this.config.controls) {
+            this.timepicker.events.fire(ts_timepicker_1.TimepickerEvents.apply, []);
+        }
         this.paint();
     };
     TimeInput.prototype.getValue = function () {
@@ -20799,6 +23005,90 @@ var TimeInput = /** @class */ (function (_super) {
         var timeFormat = this.config.timeFormat;
         timeFormat === 12 ? this.timepicker.setValue("12:00AM") : this.timepicker.setValue("00:00");
         this.config.value = "";
+    };
+    TimeInput.prototype.getWidget = function () {
+        return this.timepicker;
+    };
+    // TODO: remove sute_7.0
+    TimeInput.prototype.setConfig = function (config) {
+        this._initView(config);
+    };
+    TimeInput.prototype._initView = function (config) {
+        var _this = this;
+        if (helper_1.isEmptyObj(config)) {
+            return;
+        }
+        if (this.timepicker) {
+            this.timepicker.destructor();
+        }
+        if (this._popup) {
+            this._popup.destructor();
+        }
+        this.config = {
+            type: this.config.type,
+            id: this.config.id,
+            name: this.config.name,
+            disabled: false,
+            editable: false,
+            value: ""
+        };
+        for (var key in config) {
+            if (key !== "id" && key !== "type" && key !== "name") {
+                this.config[key] = config[key];
+            }
+        }
+        this.config.editable = this.config.editable || this.config.editing; // TODO: remove sute_7.0
+        this._popup = new ts_popup_1.Popup({ css: "dhx_widget--border-shadow" });
+        this.timepicker = new ts_timepicker_1.Timepicker(null, config);
+        this._popup.attach(this.timepicker);
+        if (this.config.value) {
+            this.timepicker.setValue(this.config.value);
+            this.config.value = this.timepicker.getValue();
+        }
+        if (this.config.controls) {
+            this.timepicker.events.on(ts_timepicker_1.TimepickerEvents.close, function () {
+                _this._popup.hide();
+            });
+            this.timepicker.events.on(ts_timepicker_1.TimepickerEvents.apply, function () {
+                _this.config.value = _this.timepicker.getValue();
+                _this.validate();
+                _this._popup.hide();
+            });
+            this._popup.events.on(ts_popup_1.PopupEvents.afterHide, function () {
+                var value = _this.config.value;
+                if (value && value !== _this.timepicker.getValue()) {
+                    _this.timepicker.setValue(value);
+                }
+                if (value === "") {
+                    _this.clear();
+                }
+                _this.paint();
+            });
+        }
+        else {
+            this.timepicker.events.on(ts_timepicker_1.TimepickerEvents.change, function () {
+                _this.config.value = _this.timepicker.getValue();
+                _this.validate();
+            });
+            this._popup.events.on(ts_popup_1.PopupEvents.afterHide, function () {
+                _this.paint();
+            });
+        }
+        this.events.on(types_1.BaseElementEvent.change, function (value) {
+            var timeFormat = _this.config.timeFormat;
+            var length = timeFormat === 12 ? 7 : 5;
+            if (value.length >= length) {
+                var validValue = _this._inputValidate(value);
+                if (_this._inputValidate(value)) {
+                    _this.timepicker.setValue(validValue);
+                }
+                else {
+                    _this.validate();
+                }
+            }
+        });
+        this.events.fire(types_1.BaseElementEvent.configUpdate, [this.config]);
+        this.clearValidate();
     };
     TimeInput.prototype._getHandlers = function () {
         var _this = this;
@@ -20810,17 +23100,17 @@ var TimeInput = /** @class */ (function (_super) {
                 var node = _this.getRootView().refs.input.el;
                 _this._popup.show(node);
             },
-            onchange: function (e) {
-                var value = e.target.value;
-                _this.events.fire(TimeInputEvents.change, [value]);
-            },
             onkeyup: function (e) {
-                if (e.keyCode === 13) {
+                var value = e.target.value.trim();
+                if (!_this.config.controls && e.keyCode === 13) {
                     if (_this._popup.isVisible()) {
                         _this._popup.hide();
                     }
                     var node = _this.getRootView().refs.input.el;
                     node.blur();
+                }
+                if ((e.which >= 48 && e.which <= 57) || (e.which >= 65 && e.which <= 90) || (e.which >= 96 && e.which <= 105)) {
+                    _this.events.fire(types_1.BaseElementEvent.change, [value]);
                 }
             }
         };
@@ -20828,19 +23118,18 @@ var TimeInput = /** @class */ (function (_super) {
     TimeInput.prototype._inputValidate = function (value) {
         var timeFormat = this.config.timeFormat;
         if (helper_1.isTimeFormat(value, timeFormat)) {
-            this.timepicker.setValue(value);
             return value;
         }
         return "";
     };
     TimeInput.prototype._draw = function () {
-        var _a = this.config, value = _a.value, required = _a.required, disabled = _a.disabled, placeholder = _a.placeholder, name = _a.name, id = _a.id, validation = _a.validation, _b = _a.editing, editing = _b === void 0 ? false : _b;
+        var _a = this.config, value = _a.value, required = _a.required, disabled = _a.disabled, placeholder = _a.placeholder, name = _a.name, id = _a.id, validation = _a.validation, editable = _a.editable;
         return dom_1.el("div.dhx_form-group", {
             class: helper_1.getFormItemCss(this.config, Boolean(required) || Boolean(validation)),
         }, [
             this._drawLabel(),
-            dom_1.el(".dhx_input-wrapper", [
-                dom_1.el("div.dhx_input-container", {}, [
+            dom_1.el(".dhx_input__wrapper", [
+                dom_1.el("div.dhx_input__container", {}, [
                     dom_1.el(".dhx_input__icon.dxi.dxi-clock-outline"),
                     dom_1.el("input.dhx_input.dhx_input--icon-padding", {
                         _key: this._uid,
@@ -20853,13 +23142,12 @@ var TimeInput = /** @class */ (function (_super) {
                         name: name || "",
                         id: id || this._uid,
                         onfocus: this._handlers.onfocus,
-                        onchange: this._handlers.onchange,
                         onkeyup: this._handlers.onkeyup,
                         autocomplete: "off",
-                        readOnly: !editing
+                        readOnly: !editable
                     }),
                 ]),
-                helper_1.getValidationMessage(this.config) && dom_1.el("span.dhx_input-caption", {}, helper_1.getValidationMessage(this.config))
+                helper_1.getValidationMessage(this.config) && dom_1.el("span.dhx_input__caption", {}, helper_1.getValidationMessage(this.config))
             ]),
         ]);
     };
@@ -20869,7 +23157,7 @@ exports.TimeInput = TimeInput;
 
 
 /***/ }),
-/* 178 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20889,40 +23177,39 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var ts_colorpicker_1 = __webpack_require__(31);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var dom_1 = __webpack_require__(0);
-var label_1 = __webpack_require__(16);
-var ts_popup_1 = __webpack_require__(10);
+var label_1 = __webpack_require__(18);
+var ts_popup_1 = __webpack_require__(11);
 var types_1 = __webpack_require__(8);
 var helper_1 = __webpack_require__(9);
-var ColorpickerInputEvents;
-(function (ColorpickerInputEvents) {
-    ColorpickerInputEvents["change"] = "change";
-})(ColorpickerInputEvents = exports.ColorpickerInputEvents || (exports.ColorpickerInputEvents = {}));
 var ColorpickerInput = /** @class */ (function (_super) {
     __extends(ColorpickerInput, _super);
     function ColorpickerInput(container, config) {
         var _this = _super.call(this, null, config) || this;
         _this.events = new events_1.EventSystem();
-        _this._popup = new ts_popup_1.Popup({ css: "dhx_widget--border-shadow" });
-        _this.colorpicker = new ts_colorpicker_1.Colorpicker(null, config);
-        _this._popup.attach(_this.colorpicker);
+        _this._initView(config);
         var render = function () { return _this._draw(); };
         _this.mount(container, dom_1.create({ render: render }));
-        _this.colorpicker.events.on(ts_colorpicker_1.ColorpickerEvents.colorChange, function () {
-            _this.config.value = _this.colorpicker.getValue();
-            _this._popup.hide();
-            _this.validate();
-        });
-        _this.events.on(ColorpickerInputEvents.change, function (value) {
-            var validValue = _this._inputValidate(value);
-            _this.setValue(validValue);
-            _this.validate();
-        });
         return _this;
     }
+    ColorpickerInput.prototype.disable = function () {
+        this.config.disabled = true;
+        this.paint();
+    };
+    ColorpickerInput.prototype.enable = function () {
+        this.config.disabled = false;
+        this.paint();
+    };
+    ColorpickerInput.prototype.isDisabled = function () {
+        return this.config.disabled;
+    };
     ColorpickerInput.prototype.validate = function () {
-        var isValid = !this.config.required || Boolean(this.config.value);
+        var _a = this.config, required = _a.required, value = _a.value, validation = _a.validation;
+        var isValid = true;
+        isValid = validation
+            ? this.config.validation(value)
+            : !required || Boolean(value);
         this.config.$validationStatus = isValid
             ? types_1.ValidationStatus.success
             : types_1.ValidationStatus.error;
@@ -20945,6 +23232,62 @@ var ColorpickerInput = /** @class */ (function (_super) {
         this.config.value = "";
         this.paint();
     };
+    ColorpickerInput.prototype.getWidget = function () {
+        return this.colorpicker;
+    };
+    // TODO: remove sute_7.0
+    ColorpickerInput.prototype.setConfig = function (config) {
+        this._initView(config);
+    };
+    ColorpickerInput.prototype._initView = function (config) {
+        var _this = this;
+        if (helper_1.isEmptyObj(config)) {
+            return;
+        }
+        if (this.colorpicker) {
+            this.colorpicker.destructor();
+        }
+        if (this._popup) {
+            this._popup.destructor();
+        }
+        this.config = {
+            type: this.config.type,
+            id: this.config.id,
+            name: this.config.name,
+            disabled: false,
+            editable: false,
+            value: ""
+        };
+        for (var key in config) {
+            if (key !== "id" && key !== "type" && key !== "name") {
+                this.config[key] = config[key];
+            }
+        }
+        this.config.editable = this.config.editable || this.config.editing; // TODO: remove sute_7.0
+        this._popup = new ts_popup_1.Popup({ css: "dhx_widget--border-shadow" });
+        this.colorpicker = new ts_colorpicker_1.Colorpicker(null, config);
+        this._popup.attach(this.colorpicker);
+        if (this.config.value) {
+            this.colorpicker.setValue(this.config.value);
+            this.config.value = this.colorpicker.getValue();
+        }
+        this.colorpicker.events.on(ts_colorpicker_1.ColorpickerEvents.change, function () {
+            _this.config.value = _this.colorpicker.getValue();
+            _this._popup.hide();
+            _this.validate();
+        });
+        this.events.on(types_1.BaseElementEvent.change, function (value) {
+            var validValue = _this._inputValidate(value);
+            if (_this._inputValidate(value)) {
+                _this.setValue(validValue);
+            }
+            else {
+                _this.validate();
+            }
+        });
+        this.events.fire(types_1.BaseElementEvent.configUpdate, [this.config]);
+        this.clearValidate();
+    };
     ColorpickerInput.prototype._getHandlers = function () {
         var _this = this;
         return {
@@ -20957,7 +23300,7 @@ var ColorpickerInput = /** @class */ (function (_super) {
             },
             onchange: function (e) {
                 var value = e.target.value;
-                _this.events.fire(ColorpickerInputEvents.change, [value]);
+                _this.events.fire(types_1.BaseElementEvent.change, [value]);
             },
             onkeyup: function (e) {
                 if (e.keyCode === 13) {
@@ -20974,13 +23317,13 @@ var ColorpickerInput = /** @class */ (function (_super) {
         return ts_colorpicker_1.isHex(value) ? value : "";
     };
     ColorpickerInput.prototype._draw = function () {
-        var _a = this.config, required = _a.required, value = _a.value, icon = _a.icon, disabled = _a.disabled, placeholder = _a.placeholder, name = _a.name, id = _a.id, _b = _a.editing, editing = _b === void 0 ? false : _b;
+        var _a = this.config, required = _a.required, value = _a.value, icon = _a.icon, disabled = _a.disabled, placeholder = _a.placeholder, name = _a.name, id = _a.id, editable = _a.editable;
         return dom_1.el("div.dhx_form-group", {
             class: helper_1.getFormItemCss(this.config, Boolean(required) || Boolean(this.config.validation)),
         }, [
             this._drawLabel(),
-            dom_1.el(".dhx_input-wrapper", [
-                dom_1.el("div.dhx_input-container", {}, [
+            dom_1.el(".dhx_input__wrapper", [
+                dom_1.el("div.dhx_input__container", {}, [
                     dom_1.el(".dhx_input__icon", {
                         class: icon || "dxi dxi-eyedropper-variant" +
                             (value ? " dhx_input__icon--color-selected" : ""),
@@ -21000,10 +23343,10 @@ var ColorpickerInput = /** @class */ (function (_super) {
                         onchange: this._handlers.onchange,
                         onkeyup: this._handlers.onkeyup,
                         autocomplete: "off",
-                        readOnly: !editing
+                        readOnly: !editable
                     }),
                 ]),
-                helper_1.getValidationMessage(this.config) && dom_1.el("span.dhx_input-caption", {}, helper_1.getValidationMessage(this.config))
+                helper_1.getValidationMessage(this.config) && dom_1.el("span.dhx_input__caption", {}, helper_1.getValidationMessage(this.config))
             ]),
         ]);
     };
@@ -21013,7 +23356,7 @@ exports.ColorpickerInput = ColorpickerInput;
 
 
 /***/ }),
-/* 179 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21022,15 +23365,15 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(180));
-__export(__webpack_require__(11));
-__export(__webpack_require__(52));
-__export(__webpack_require__(51));
+__export(__webpack_require__(185));
+__export(__webpack_require__(10));
+__export(__webpack_require__(54));
+__export(__webpack_require__(53));
 __export(__webpack_require__(20));
 
 
 /***/ }),
-/* 180 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21061,18 +23404,21 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var view_1 = __webpack_require__(4);
 var ts_data_1 = __webpack_require__(7);
-var Exporter_1 = __webpack_require__(181);
-var data_1 = __webpack_require__(51);
+var Exporter_1 = __webpack_require__(186);
+var data_1 = __webpack_require__(53);
 var main_1 = __webpack_require__(20);
-var Selection_1 = __webpack_require__(182);
-var types_1 = __webpack_require__(11);
-var render_1 = __webpack_require__(183);
+var Selection_1 = __webpack_require__(187);
+var Hotkey_1 = __webpack_require__(188);
+var types_1 = __webpack_require__(10);
+var render_1 = __webpack_require__(189);
 var core_1 = __webpack_require__(1);
-var content_1 = __webpack_require__(76);
+var ts_calendar_1 = __webpack_require__(25);
+var content_1 = __webpack_require__(78);
+var columnsResizer_1 = __webpack_require__(197);
 var Grid = /** @class */ (function (_super) {
     __extends(Grid, _super);
     function Grid(container, config) {
@@ -21081,31 +23427,55 @@ var Grid = /** @class */ (function (_super) {
             rowHeight: 40,
             headerRowHeight: 40,
             footerRowHeight: 40,
-            headerSort: true,
+            keyNavigation: true,
+            sortable: true,
             columns: [],
-            data: []
+            data: [],
+            // TODO: remove suite_7.0
+            headerSort: true
         }, config);
         _this.content = content_1.content;
         _this._scroll = {
             top: 0,
             left: 0
         };
+        // TODO: remove suite_7.0
+        _this.config.autoWidth = _this.config.autoWidth || _this.config.fitToContainer;
+        _this.config.adjust = _this.config.adjust || _this.config.columnsAutoWidth;
+        _this.config.editable = _this.config.editable || _this.config.editing;
+        if (!_this.config.sortable || !_this.config.headerSort) {
+            _this.config.sortable = false;
+        }
         var htmlEvents = {
             onclick: html_1.eventHandler(function (ev) { return html_1.locate(ev); }, {
                 "dhx_grid-header-cell": function (_ev, item) {
-                    if (_this.config.headerSort) {
+                    var isResizable = _ev.target.getAttribute("dhx_resized");
+                    var column = _this._getColumn(item);
+                    if (column && main_1.isSortable(_this.config, column) && !isResizable) {
                         _this.events.fire(types_1.GridEvents.sort, [item]);
                     }
                 },
-                "dhx_grid-expand-cell": function (_ev, item) { return _this.events.fire(types_1.GridEvents.expand, [item]); }
+                "dhx_grid-expand-cell": function (_ev, item) {
+                    if (_ev.target.classList.contains("dhx_grid-expand-cell-icon")) {
+                        _this.events.fire(types_1.GridEvents.expand, [item]);
+                    }
+                }
             }),
             onscroll: function (e) {
+                // [TODO] Hide loading data to render
+                _this._lazyLoad(e);
                 _this.events.fire(types_1.GridEvents.scroll, [{
                         y: e.target.scrollTop,
                         x: e.target.scrollLeft
                     }]);
             }
         };
+        if (_this.config.dragMode) {
+            ts_data_1.dragManager.setItem(_this._uid, _this);
+            if (!_this.config.dragItem) {
+                _this.config.dragItem = "row";
+            }
+        }
         _this._init();
         if (_this.config.columns) {
             _this._parseColumns();
@@ -21118,10 +23488,13 @@ var Grid = /** @class */ (function (_super) {
         }
         var view = dom_1.create({
             render: function (vm, obj) {
-                return render_1.render(vm, obj, _this._currentData, htmlEvents, _this.selection);
+                return render_1.render(vm, obj, _this._currentData, htmlEvents, _this.selection, _this._uid);
             }
         }, _this);
         _this.mount(container, view);
+        dom_1.awaitRedraw().then(function () {
+            Hotkey_1.initHotkeys(_this);
+        });
         if (config.autoEmptyRow && _this.data.getLength() === 0) {
             _this.data.add(_this.config.columns.reduce(function (total, col) {
                 total[col.id] = "";
@@ -21133,6 +23506,10 @@ var Grid = /** @class */ (function (_super) {
     }
     Grid.prototype.destructor = function () {
         this.unmount();
+        if (this.selection) {
+            this.selection.destructor();
+        }
+        this._destroyContent();
         this.events.events = {};
         this.events.context = null;
         this._currentData = this.data = this.config =
@@ -21147,8 +23524,7 @@ var Grid = /** @class */ (function (_super) {
         var styles = item.$css || "";
         if (!styles.match(new RegExp(css, "g"))) {
             item.$css = styles + (" " + css);
-            // [todo]
-            var index = core_1.findIndex(this._currentData, function (row) { return row.id === item.id; });
+            var index = this._getRowIndex(id);
             if (index >= 0) {
                 this._currentData[index].$css = item.$css;
             }
@@ -21184,6 +23560,28 @@ var Grid = /** @class */ (function (_super) {
             }
         }
     };
+    Grid.prototype.showColumn = function (colId) {
+        var column = this._getColumn(colId);
+        if (column && column.hidden) {
+            column.hidden = false;
+            this.config.$totalWidth += column.width;
+            this.paint();
+        }
+    };
+    Grid.prototype.hideColumn = function (colId) {
+        var column = this._getColumn(colId);
+        if (column && !column.hidden) {
+            column.hidden = true;
+            this.config.$totalWidth -= column.width;
+            this.paint();
+        }
+    };
+    Grid.prototype.isColumnHidden = function (colId) {
+        var column = this._getColumn(colId);
+        if (column) {
+            return !!column.hidden;
+        }
+    };
     Grid.prototype.getScrollState = function () {
         return {
             x: this._scroll.left,
@@ -21207,26 +23605,39 @@ var Grid = /** @class */ (function (_super) {
         var gridBottom = this.config.height + scrollState.y - (this.config.headerRowHeight * this.config.$headerLevel);
         var cellTop = y - scrollState.y - this.config.rowHeight;
         var cellLeft = x - scrollState.x - this.config.columns[colInd].width;
-        var cellBottom = y + (this.config.rowHeight * 2) + 17 - gridBottom;
-        var cellRight = x + (this.config.columns[colInd].width * 2) + 17 - gridRight;
+        var cellBottom = y + (this.config.rowHeight * 2) + 18 - gridBottom;
+        var cellRight = x + (this.config.columns[colInd].width * 2) + 18 - gridRight;
         var scrollTop = (cellTop > 0 && cellBottom < 0) ? 0 : cellTop < 0 ? cellTop : cellBottom;
         var scrollLeft = (cellLeft > 0 && cellRight < 0) ? 0 : cellLeft < 0 ? cellLeft : cellRight;
         this.scroll(scrollLeft + scrollState.x, scrollTop + scrollState.y);
     };
-    Grid.prototype.adjustColumnWidth = function (id) {
-        var index = core_1.findIndex(this.config.columns, function (с) { return с.id === id; });
+    Grid.prototype.adjustColumnWidth = function (id, adjust) {
+        var _this = this;
+        if (adjust === void 0) { adjust = true; }
+        var index = core_1.findIndex(this.config.columns, function (c) { return c.id === id; });
         var col = this.config.columns[index];
-        this.data.map(function (row) {
-            if (typeof row[col.id] === "string" || typeof row[col.id] === "number") {
-                col.maxWidth = col.maxWidth || col.width;
-                col.maxWidth = Math.max(main_1.getStrWidth(main_1.removeHTMLTags(row[col.id])) + 20, col.maxWidth);
-            }
-        });
-        this.config.$totalWidth = this.config.columns.reduce(function (t, column) {
-            column.width = column.maxWidth || column.width;
-            return t += column.width;
-        }, 0);
-        this.paint();
+        var widthArr = [];
+        if (adjust === "header" || adjust === true) {
+            col.header.forEach(function (item) {
+                widthArr.push(main_1.getStrWidth(main_1.removeHTMLTags(item.text)) + (main_1.isSortable(_this.config, col) ? 40 : 20));
+            });
+        }
+        if (adjust === "data" || adjust === true) {
+            this.data.map(function (row) {
+                if (typeof row[col.id] === "string" || typeof row[col.id] === "number") {
+                    widthArr.push(main_1.getStrWidth(main_1.removeHTMLTags(row[col.id])) + 20);
+                }
+            });
+        }
+        if (widthArr.length > 0) {
+            this.config.$totalWidth = this.config.columns.reduce(function (t, column, i) {
+                if (i === index) {
+                    column.width = Math.max.apply(Math, widthArr);
+                }
+                return t += column.hidden ? 0 : column.width;
+            }, 0);
+            this.paint();
+        }
     };
     Grid.prototype.getCellRect = function (row, col) {
         var colInd = core_1.findIndex(this.config.columns, function (obj) { return obj.id === col; });
@@ -21268,11 +23679,12 @@ var Grid = /** @class */ (function (_super) {
             this.config.spans.splice(index, 1);
         }
     };
-    Grid.prototype.edit = function (rowId, colId, editorType) {
+    Grid.prototype.editCell = function (rowId, colId, editorType) {
         if (editorType === void 0) { editorType = types_1.EditorType.input; }
         var row = this.data.getItem(rowId);
         var col = this.getColumn(colId);
         if (!row || row[colId] === undefined) {
+            ts_data_1.dhxWarning("item not found");
             return;
         }
         if (!this.events.fire(types_1.GridEvents.beforeEditStart, [row, col, editorType])) {
@@ -21281,13 +23693,35 @@ var Grid = /** @class */ (function (_super) {
         if (col.type === "date") {
             editorType = types_1.EditorType.datepicker;
         }
+        if (col.type === "boolean") {
+            editorType = types_1.EditorType.checkbox;
+        }
+        if (this.config.$editable && this.config.$editable.row === rowId && this.config.$editable.col === colId && this.config.$editable.editorType === editorType) {
+            return;
+        }
         this.config.$editable = {
             row: rowId,
             col: colId,
             editorType: editorType
         };
+        if (this.selection) {
+            this.selection.setCell(rowId.toString(), colId.toString());
+        }
         this.paint();
         this.events.fire(types_1.GridEvents.afterEditStart, [row, col, editorType]);
+    };
+    Grid.prototype.editEnd = function (withoutSave) {
+        if (this.config.$editable && this.config.$editable.editor) {
+            this.config.$editable.editor.endEdit(withoutSave);
+        }
+    };
+    Grid.prototype.getSortingState = function () {
+        return { dir: this._sortDir, by: this._sortBy };
+    };
+    // TODO: remove suite_7.0
+    Grid.prototype.edit = function (rowId, colId, editorType) {
+        if (editorType === void 0) { editorType = types_1.EditorType.input; }
+        this.editCell(rowId, colId, editorType);
     };
     Grid.prototype._parseColumns = function () {
         var columns = this.config.columns;
@@ -21310,43 +23744,40 @@ var Grid = /** @class */ (function (_super) {
         this._detectColsTypes();
     };
     Grid.prototype._createCollection = function (prep) {
-        this.data = new ts_data_1.DataCollection({
-            prep: prep
-        }, this.events);
+        this.data = new ts_data_1.DataCollection({ prep: prep }, this.events);
     };
     Grid.prototype._getRowIndex = function (rowId) {
         return this.data.getIndex(rowId);
     };
     Grid.prototype._setEventHandlers = function () {
         var _this = this;
+        var updater = function (updateObj) { return function (id, ids) {
+            if (ids && ids instanceof Array) {
+                ids.map(function (selectedId) { return _this.data.exists(selectedId) && _this.data.update(selectedId, updateObj); });
+                return;
+            }
+            if (_this.data.exists(id)) {
+                _this.data.update(id, updateObj);
+            }
+        }; };
         this.data.events.on(ts_data_1.DataEvents.load, function () {
             _this._parseData();
-            // [todo] need to check autoWidth after data load
-            _this.data.events.fire(ts_data_1.DataEvents.change);
         });
         this.data.events.on(ts_data_1.DataEvents.change, function (_id, status, obj) {
             // [dirty]
-            if (status === "remove" && obj.$empty) {
+            if (status === "remove" && obj.$emptyRow) {
                 return;
             }
             _this._currentData = _this.data.map(function (el) { return el; }) || [];
             _this._detectColsTypes();
             _this._checkMarks();
-            // set auto width to all columns
-            if (_this.config.columnsAutoWidth) {
-                if (typeof _this.config.columnsAutoWidth === "number") {
-                    _this._setAutoWidth(_this.config.columnsAutoWidth);
+            _this._adjustColumns();
+            if (_this.config.autoEmptyRow) {
+                var emptyRow = _this.data.find({ by: "$emptyRow", match: true });
+                if (emptyRow) {
+                    _this.data.move(emptyRow.id, _this.data.getLength() - 1);
                 }
                 else {
-                    _this._setAutoWidth();
-                }
-            }
-            if (_this.config.autoEmptyRow) {
-                var emptyRow = _this.data.find({ by: "$empty", match: true });
-                if (emptyRow && !(status === "add" && obj.$empty)) {
-                    _this.data.remove(emptyRow.id);
-                }
-                if (!(status === "add" && obj.$empty)) {
                     _this._addEmptyRow();
                 }
             }
@@ -21355,21 +23786,33 @@ var Grid = /** @class */ (function (_super) {
         this.data.events.on(ts_data_1.DataEvents.removeAll, function () {
             _this.config.columns.map(function (col) {
                 col.header.map(function (cell) {
-                    if (cell.content && cell.content === "selectFilter") {
+                    if (cell.content && (cell.content === "selectFilter" || cell.content === "comboFilter")) {
                         col.$uniqueData = [];
                     }
                 });
             });
         });
+        this.events.on(ts_data_1.DragEvents.canDrop, updater({ $drophere: true }));
+        this.events.on(ts_data_1.DragEvents.cancelDrop, updater({ $drophere: undefined }));
+        this.events.on(ts_data_1.DragEvents.dragStart, updater({ $dragtarget: true }));
+        this.events.on(ts_data_1.DragEvents.dragEnd, updater({ $dragtarget: undefined }));
         this.events.on(types_1.GridEvents.sort, function (id) {
             if (id) {
                 _this._sort(id);
             }
         });
+        this.events.on(types_1.GridEvents.cellMouseDown, function (row, col, e) {
+            if (_this.config.dragMode && _this.config.dragItem === "row" && !_this.config.$editable) {
+                var item = html_1.locateNode(e, "dhx_id");
+                var itemId = item && item.getAttribute("dhx_id");
+                return ts_data_1.dragManager.onMouseDown(e, [itemId], [item]);
+            }
+        });
+        // TODO: remove suite_7.0
         this.events.on(types_1.GridEvents.headerInput, function (val, colId, filter) {
             // [dirty]
             if (_this.config.autoEmptyRow) {
-                var emptyRow = _this.data.find({ by: "$empty", match: true });
+                var emptyRow = _this.data.find({ by: "$emptyRow", match: true });
                 if (emptyRow) {
                     _this.data.remove(emptyRow.id);
                 }
@@ -21382,26 +23825,61 @@ var Grid = /** @class */ (function (_super) {
                 multiple: true
             });
         });
+        this.events.on(types_1.GridEvents.filterChange, function (val, colId, filter) {
+            if (_this.config.autoEmptyRow) {
+                var emptyRow = _this.data.find({ by: "$emptyRow", match: true });
+                if (emptyRow) {
+                    _this.data.remove(emptyRow.id);
+                }
+            }
+            _this.data.filter({
+                by: colId,
+                match: val,
+                compare: _this.content[filter].match
+            }, { multiple: true });
+        });
         this.events.on(types_1.GridEvents.scroll, function (scrollState) {
             _this._scroll = { top: scrollState.y, left: scrollState.x };
             _this.paint();
         });
         this.events.on(types_1.GridEvents.cellDblClick, function (row, col) {
-            if (col.editing !== false && _this.config.editing || col.editing) {
-                _this.edit(row.id, col.id, col.editorType);
+            if (col.editable !== false && _this.config.editable || col.editable) {
+                _this.editCell(row.id, col.id, col.editorType);
             }
         });
-        this.events.on(types_1.GridEvents.afterEditEnd, function (value) {
+        this.events.on(types_1.GridEvents.afterEditEnd, function (value, eRow, eCol) {
             var _a;
-            var item = _this.data.getItem(_this.config.$editable.row);
-            // if item was an empty row
-            delete item.$empty;
-            if (value !== undefined && value !== null && value !== "") {
-                _this.data.update(_this.config.$editable.row, __assign({}, item, (_a = {}, _a[_this.config.$editable.col] = value, _a)));
+            var row;
+            var col;
+            if (!_this.config.$editable) {
+                row = eRow.id;
+                col = eCol.id;
+            }
+            else {
+                row = _this.config.$editable.row;
+                col = _this.config.$editable.col;
+            }
+            var item = _this.data.getItem(row);
+            delete item.$emptyRow;
+            if (value !== undefined) {
+                _this.data.update(row, __assign(__assign({}, item), (_a = {}, _a[col] = value, _a)));
             }
             _this.config.$editable = null;
             _this._checkFilters();
             _this.paint();
+        });
+        this.events.on(types_1.GridEvents.headerCellMouseDown, function (col, e) {
+            var resizedColumn = e.target.getAttribute("dhx_resized");
+            if (resizedColumn && _this.events.fire(types_1.GridEvents.beforeResizeStart, [col, e])) {
+                columnsResizer_1.startResize(_this, resizedColumn.toString(), e, function () {
+                    _this.paint();
+                    _this.config.$resizing = null;
+                    _this.events.fire(types_1.GridEvents.afterResizeEnd, [col, e]);
+                });
+            }
+            else {
+                return;
+            }
         });
     };
     Grid.prototype._addEmptyRow = function () {
@@ -21412,7 +23890,7 @@ var Grid = /** @class */ (function (_super) {
             this.data.add(this.config.columns.reduce(function (total, col) {
                 total[col.id] = "";
                 return total;
-            }, { $empty: true }));
+            }, { $emptyRow: true }));
         }
     };
     Grid.prototype._sort = function (by, dir) {
@@ -21433,8 +23911,9 @@ var Grid = /** @class */ (function (_super) {
             by: by,
             dir: this._sortDir,
             as: function (el) {
-                if (el && _this.getColumn(by).type === "date") {
-                    return "" + new Date(el).getTime();
+                var col = _this.getColumn(by);
+                if (el && col.type === "date") {
+                    return "" + ts_calendar_1.stringToDate(el, col.dateFormat).getTime();
                 }
                 return el ? "" + el : "";
             }
@@ -21517,29 +23996,13 @@ var Grid = /** @class */ (function (_super) {
             }
         });
     };
-    // [todo] use adjustColumnWidth
-    Grid.prototype._setAutoWidth = function (colsCount) {
+    Grid.prototype._adjustColumns = function () {
         var _this = this;
-        this.data.map(function (row) {
-            _this.config.columns.map(function (col, i) {
-                if (colsCount && colsCount <= i) {
-                    return col;
-                }
-                if (typeof row[col.id] === "string" || typeof row[col.id] === "number") {
-                    col.maxWidth = col.maxWidth || col.width;
-                    var paddings = 20;
-                    // [todo] move to treegrid
-                    if (_this.config.type === "tree" && i === 0) {
-                        paddings = _this.data.getMaxLevel() * 24 + 20;
-                    }
-                    col.maxWidth = Math.max(main_1.getStrWidth(main_1.removeHTMLTags(row[col.id])) + paddings, col.maxWidth);
-                }
-            });
+        this.config.columns.map(function (col, i) {
+            if (col.adjust !== false && _this.config.adjust || col.adjust) {
+                _this.adjustColumnWidth(col.id, col.adjust || _this.config.adjust);
+            }
         });
-        this.config.$totalWidth = this.config.columns.reduce(function (t, col) {
-            col.width = col.maxWidth || col.width;
-            return t += col.width;
-        }, 0);
     };
     // [todo] make more smart type detection
     Grid.prototype._detectColsTypes = function () {
@@ -21554,15 +24017,17 @@ var Grid = /** @class */ (function (_super) {
             var firstCell = firstRow ? firstRow[col.id] : "";
             var v = parseFloat(firstCell);
             var val = isNaN(v) ? firstCell : v;
-            col.type = typeof val;
-            return col;
+            if (val) {
+                col.type = typeof val;
+                return col;
+            }
         });
     };
     Grid.prototype._checkFilters = function () {
         var data = this._currentData;
         this.config.columns.map(function (col) {
             col.header.map(function (cell) {
-                if (cell.content && cell.content === "selectFilter") {
+                if (cell.content && (cell.content === "selectFilter" || cell.content === "comboFilter")) {
                     var unique = data_1.getUnique(data, col.id);
                     if (col.$uniqueData && col.$uniqueData.length > unique.length) {
                         unique.forEach(function (item) {
@@ -21578,8 +24043,27 @@ var Grid = /** @class */ (function (_super) {
             });
         });
     };
+    Grid.prototype._destroyContent = function () {
+        for (var contentName in this.content) {
+            if (contentName === "comboFilter") {
+                this.content[contentName].destroy();
+            }
+        }
+    };
     Grid.prototype._render = function () {
         this.paint();
+    };
+    Grid.prototype._lazyLoad = function (e) {
+        var y = e.target.scrollTop;
+        if (this.getScrollState().y !== y) {
+            var from = Math.round(y / this.config.rowHeight);
+            var onScreenCount = (this.config.height - this.config.headerRowHeight) / this.config.rowHeight;
+            var proxy = this.data.dataProxy;
+            if (proxy && proxy.config && !this.data.isDataLoaded(from, onScreenCount + from + proxy.config.prepare)) {
+                proxy.updateUrl(null, { from: from, limit: proxy.config.limit });
+                this.data.load(proxy);
+            }
+        }
     };
     return Grid;
 }(view_1.View));
@@ -21587,19 +24071,61 @@ exports.Grid = Grid;
 
 
 /***/ }),
-/* 181 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var main_1 = __webpack_require__(20);
+var ts_data_1 = __webpack_require__(7);
+var core_1 = __webpack_require__(1);
+function fillArray(arr, value) {
+    for (var i = 0; i < arr.length; i++) {
+        arr[i] = value;
+    }
+    return arr;
+}
 var Exporter = /** @class */ (function () {
     function Exporter(_view) {
         this._view = _view;
     }
     Exporter.prototype.xlsx = function (config) {
         return this._export(config);
+    };
+    Exporter.prototype.csv = function (config) {
+        if (config === void 0) { config = {}; }
+        config = __assign({ asFile: true, rowDelimiter: "\n", columnDelimiter: ",", skipHeader: 0 }, config);
+        var csv;
+        if ("getRoot" in this._view.data && config.flat) {
+            csv = this.getFlatCSV(config);
+        }
+        else {
+            csv = this._getCSV(config);
+        }
+        var name = config.name || "grid_export";
+        if (config.asFile) {
+            core_1.downloadFile(csv, name + ".csv", "text/csv");
+        }
+        return csv;
     };
     Exporter.prototype._export = function (config) {
         if (config === void 0) { config = {}; }
@@ -21634,7 +24160,6 @@ var Exporter = /** @class */ (function () {
                 var colStyleHash = colStyle
                     .split("")
                     .reduce(function (h, letter) {
-                    // tslint:disable-next-line:no-bitwise
                     var hh = ((h << 5) - h) + letter.charCodeAt(0);
                     return Math.abs(hh & hh);
                 }, 0).toString();
@@ -21646,7 +24171,7 @@ var Exporter = /** @class */ (function () {
                     }
                 }
                 if (uniqStyles[colStyleHash]) {
-                    cells.push([rowsIndexMap[key], col.id, colStyleHash]);
+                    cells.push([rowsIndexMap[key], configCols.indexOf(col), colStyleHash]);
                 }
             }
         }
@@ -21678,54 +24203,249 @@ var Exporter = /** @class */ (function () {
         }
         return exportData;
     };
+    Exporter.prototype.getFlatCSV = function (config) {
+        var treeData = this._view.data;
+        var root = treeData.getRoot();
+        var firstCol = this._view.config.columns[0];
+        var maxLevel = treeData.getMaxLevel();
+        var getParentsChain = function (item, data) {
+            var parents = [];
+            for (var i = 0; i <= maxLevel; i++) {
+                if (item && item[firstCol.id]) {
+                    parents[item.$level] = item[firstCol.id];
+                    var parent_1 = data.getParent(item.id, true);
+                    if (parent_1 && parent_1.id) {
+                        item = parent_1;
+                    }
+                    else {
+                        item = null;
+                    }
+                }
+                else {
+                    parents[i] = "";
+                }
+            }
+            return parents;
+        };
+        var total = "";
+        treeData.eachChild(root, function (item) {
+            var parents = getParentsChain(item, treeData).join(config.columnDelimiter);
+            total += parents + Object.keys(item).reduce(function (values, key, i) {
+                if (key !== "id" && key !== "parent" && key[0] !== "$" && i !== 0) {
+                    return values + config.columnDelimiter + (item[key] === null ? "" : item[key]);
+                }
+                return values;
+            }, "");
+            total += config.rowDelimiter;
+        });
+        var exportData = this._export(config);
+        // [dirty]
+        var emptyHeaders = fillArray(new Array(maxLevel + 1), "");
+        var headers = exportData.header.map(function (header) {
+            header.splice.apply(header, __spreadArrays([0, 1], emptyHeaders));
+            return header;
+        });
+        var head = new ts_data_1.CsvDriver(config).serialize(headers, true) + config.rowDelimiter;
+        return head + total;
+    };
+    Exporter.prototype._getCSV = function (config) {
+        var exportData = this._export(config);
+        var headers = exportData.header;
+        var driver = new ts_data_1.CsvDriver(config);
+        var head = driver.serialize(headers, true);
+        var readyData = driver.serialize(exportData.data, true);
+        return head + readyData;
+    };
     return Exporter;
 }());
 exports.Exporter = Exporter;
 
 
 /***/ }),
-/* 182 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(11);
+var core_1 = __webpack_require__(1);
+var types_1 = __webpack_require__(10);
 var ts_data_1 = __webpack_require__(7);
 var Selection = /** @class */ (function () {
     function Selection(grid) {
         this._grid = grid;
         var types = ["cell", "row", "complex"];
+        this._selectedCell = undefined;
+        this._oldSelectedCell = undefined;
+        this._selectedCells = [];
         this._type = types.indexOf(this._grid.config.selection) !== -1 ? this._grid.config.selection : "complex";
+        this._multiselection = grid.config.multiselection && this._type !== "complex";
         this._init();
     }
-    Selection.prototype.setCell = function (row, col) {
-        row = row.id ? row : this._grid.data.getItem(row);
-        if (!col) {
-            col = this._grid.config.columns[0];
+    Selection.prototype.destructor = function () {
+        document.removeEventListener("click", this._outerClick);
+    };
+    Selection.prototype.setCell = function (row, col, ctrlUp, shiftUp) {
+        var _this = this;
+        if (ctrlUp === void 0) { ctrlUp = false; }
+        if (shiftUp === void 0) { shiftUp = false; }
+        if (!this._grid.config.$editable) {
+            if (!row) {
+                this._selectedCell = undefined;
+                this._selectedCells = [];
+            }
+            else {
+                var oldSelectedCell = this._oldSelectedCell ? this._oldSelectedCell : undefined;
+                row = row.id ? row : this._grid.data.getItem(row);
+                if (!col) {
+                    col = this._grid.config.columns[0];
+                }
+                col = col.id ? col : this._grid.getColumn(col);
+                this._selectedCell = { row: row, column: col };
+                if (this._multiselection && shiftUp && oldSelectedCell) {
+                    this._oldSelectedCell = oldSelectedCell;
+                }
+                else {
+                    this._oldSelectedCell = this._selectedCell;
+                }
+                if (this._multiselection) {
+                    if (shiftUp && !ctrlUp && this._selectedCells.length > 0) {
+                        var startRowIndex = this._grid.data.getIndex(this._oldSelectedCell.row.id);
+                        var endRowIndex = this._grid.data.getIndex(row.id);
+                        if (startRowIndex > endRowIndex) {
+                            var temp = startRowIndex;
+                            startRowIndex = endRowIndex;
+                            endRowIndex = temp;
+                        }
+                        this._selectedCells = [this._oldSelectedCell];
+                        if (this._type === "cell") {
+                            var columnsIds = this._grid.config.columns.map(function (e) { return e.id; });
+                            var startColIndex = columnsIds.indexOf(oldSelectedCell.column.id);
+                            var endColIndex = columnsIds.indexOf(col.id);
+                            if (startColIndex !== -1 && endColIndex !== -1) {
+                                if (startColIndex > endColIndex) {
+                                    var temp = startColIndex;
+                                    startColIndex = endColIndex;
+                                    endColIndex = temp;
+                                }
+                                var columns_1 = this._grid.config.columns.slice(startColIndex, endColIndex + 1);
+                                this._grid.data.mapRange(startRowIndex, endRowIndex, function (item) {
+                                    columns_1.forEach(function (column) {
+                                        var cell = { row: item, column: column };
+                                        if (_this._findIndex(cell) === -1) {
+                                            _this._selectedCells.push(cell);
+                                        }
+                                    });
+                                });
+                            }
+                        }
+                        else {
+                            this._grid.data.mapRange(startRowIndex, endRowIndex, function (item) {
+                                var cell = { row: item, column: col };
+                                if (_this._findIndex(cell) === -1) {
+                                    _this._selectedCells.push({ row: item, column: col });
+                                }
+                            });
+                        }
+                    }
+                    else if (ctrlUp && !shiftUp) {
+                        var cellIndex = this._findIndex();
+                        if (cellIndex === -1) {
+                            this._selectedCells.push(this._selectedCell);
+                        }
+                        else {
+                            this._selectedCells.splice(cellIndex, 1);
+                        }
+                    }
+                    else {
+                        this._selectedCells = [this._selectedCell];
+                    }
+                }
+                else {
+                    this._selectedCells = [this._selectedCell];
+                }
+            }
+            dom_1.awaitRedraw().then(function () {
+                _this._grid.paint();
+            });
         }
-        col = col.id ? col : this._grid.getColumn(col);
-        this._selectedCell = { row: row, column: col };
-        this._grid.paint();
     };
     Selection.prototype.getCell = function () {
         return this._selectedCell;
     };
+    Selection.prototype.getCells = function () {
+        if (this._multiselection) {
+            return this._selectedCells;
+        }
+    };
     Selection.prototype.toHTML = function () {
-        if (!this._selectedCell.row || !this._selectedCell.column) {
+        var _this = this;
+        if (this._isUnselected()) {
             return;
         }
-        var fixedCols = this._grid.config.splitAt ?
-            this._grid.config.columns.slice(0, this._grid.config.splitAt) : [];
+        if (this._multiselection) {
+            var selection_1 = [];
+            this._selectedCells.forEach(function (cell, index, array) {
+                selection_1.push(_this._toHTML(cell.row, cell.column, (index === array.length - 1) || _this._type === "cell"));
+            });
+            return selection_1;
+        }
+        else {
+            return this._toHTML(this._selectedCell.row, this._selectedCell.column, true);
+        }
+    };
+    Selection.prototype._init = function () {
+        var _this = this;
+        this._grid.events.on(types_1.GridEvents.cellClick, function (row, col, e) {
+            _this.setCell(row, col, e.ctrlKey || e.metaKey, e.shiftKey);
+        });
+        this._grid.data.events.on(ts_data_1.DataEvents.beforeRemove, function (item) {
+            if (item && _this._selectedCell && _this._selectedCell.row) {
+                var index = _this._grid.data.getIndex(String(_this._selectedCell.row.id));
+                var id = _this._grid.data.getId(index + 1);
+                if (id) {
+                    _this.setCell(id);
+                }
+                else {
+                    var newId = _this._grid.data.getId(index - 1);
+                    if (newId) {
+                        _this.setCell(newId);
+                    }
+                }
+                _this._grid.paint();
+            }
+        });
+        this._outerClick = function (e) {
+            if (!_this._grid.config.$editable) {
+                var rootNode = _this._grid.getRootView().data.getRootNode();
+                var target = e.target;
+                var check = false;
+                while (target) {
+                    if (target === rootNode) {
+                        check = true;
+                        return;
+                    }
+                    target = target.parentNode;
+                }
+                if (!check && _this._selectedCell && _this._selectedCells) {
+                    _this.setCell();
+                }
+            }
+        };
+        document.addEventListener("click", this._outerClick);
+    };
+    Selection.prototype._toHTML = function (row, column, last) {
+        if (last === void 0) { last = false; }
+        var fixedCols = this._grid.config.splitAt ? this._grid.config.columns.slice(0, this._grid.config.splitAt) : [];
         var fixedColsIds = fixedCols.map(function (col) { return col.id; });
         var fixedCell;
-        var cellRect = this._grid.getCellRect(this._selectedCell.row.id, this._selectedCell.column.id);
-        if (fixedColsIds.indexOf(this._selectedCell.column.id) !== -1) {
+        var cellRect = this._grid.getCellRect(row.id, column.id);
+        if (fixedColsIds.indexOf(column.id) !== -1 && last) {
             var scrollState = this._grid.getScrollState();
             fixedCell = dom_1.el(".dhx_grid-selected-cell", {
                 style: {
-                    width: cellRect.width,
+                    width: (this._grid.config.splitAt === fixedColsIds.indexOf(column.id) + 1) ? cellRect.width - 1 : cellRect.width,
                     height: cellRect.height,
                     top: cellRect.y,
                     left: cellRect.x + scrollState.x,
@@ -21739,47 +24459,46 @@ var Selection = /** @class */ (function () {
             (this._type === "row" || this._type === "complex") && dom_1.el(".dhx_grid-selected-row", {
                 style: {
                     width: totalWidth,
-                    height: cellRect.height,
+                    height: cellRect.height - 1,
                     top: cellRect.y,
                     left: 0,
                     position: "absolute"
                 }
             }),
-            (this._type === "cell" || this._type === "complex") && dom_1.el(".dhx_grid-selected-cell", {
-                style: {
-                    width: cellRect.width,
-                    height: cellRect.height,
-                    top: cellRect.y,
-                    left: cellRect.x,
-                    position: "absolute"
-                }
-            }),
-            (this._type === "cell" || this._type === "complex") && fixedCell
+            ((this._type === "cell" || this._type === "complex") && fixedCell) ||
+                ((this._type === "cell" || this._type === "complex") && last && dom_1.el(".dhx_grid-selected-cell", {
+                    style: {
+                        width: cellRect.width - 1,
+                        height: cellRect.height - 1,
+                        top: cellRect.y,
+                        left: cellRect.x + 1,
+                        position: "absolute"
+                    }
+                }))
         ]);
     };
-    Selection.prototype._init = function () {
+    Selection.prototype._isUnselected = function () {
+        return !this._selectedCell || !this._selectedCell.row || !this._selectedCell.column || this._selectedCells.length === 0;
+    };
+    Selection.prototype._findIndex = function (cell) {
         var _this = this;
-        this._selectedCell = {
-            row: this._grid.data.getItem(this._grid.data.getId(0)),
-            column: this._grid.config.columns[0]
-        };
-        this._grid.events.on(types_1.GridEvents.cellClick, function (row, col) {
-            _this.setCell(row, col);
-        });
-        this._grid.data.events.on(ts_data_1.DataEvents.beforeRemove, function (item) {
-            if (item) {
-                var index = _this._grid.data.getIndex(String(_this._selectedCell.row.id));
-                var id = _this._grid.data.getId(index + 1);
-                if (id) {
-                    _this.setCell(id);
+        if (cell === void 0) { cell = this._selectedCell; }
+        var cellIndex = -1;
+        this._selectedCells.some(function (element, index) {
+            if (_this._type === "cell") {
+                if (core_1.compare(element.row, cell.row) && core_1.compare(element.column, cell.column)) {
+                    cellIndex = index;
+                    return true;
                 }
-                else {
-                    var newId = _this._grid.data.getId(index - 1);
-                    _this.setCell(newId);
+            }
+            else if (_this._type === "row") {
+                if (core_1.compare(element.row, cell.row)) {
+                    cellIndex = index;
+                    return true;
                 }
-                _this._grid.paint();
             }
         });
+        return cellIndex;
     };
     return Selection;
 }());
@@ -21787,7 +24506,278 @@ exports.Selection = Selection;
 
 
 /***/ }),
-/* 183 */
+/* 188 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var _this = this;
+Object.defineProperty(exports, "__esModule", { value: true });
+var Keymanager_1 = __webpack_require__(13);
+var types_1 = __webpack_require__(10);
+var html_1 = __webpack_require__(2);
+var focusHandler = {
+    focusedID: undefined,
+    isFocus: function (id) { return _this.focusedID === id; },
+    getFocusState: function () { return _this.focusedID; },
+    setFocusState: function (state) { return _this.focusedID = state; }
+};
+function initHotkeys(grid) {
+    var gridContainer = grid.getRootView().data.getRootNode();
+    var gridBody = grid.getRootView().refs.grid_body.el;
+    var gridId = gridContainer.getAttribute("dhx_widget_id");
+    focusHandler.setFocusState(gridId);
+    if (!grid.config.keyNavigation) {
+        return;
+    }
+    var variables = {
+        arrowLeft: html_1.isIE() ? "left" : "arrowLeft",
+        arrowRight: html_1.isIE() ? "right" : "arrowRight",
+        arrowUp: html_1.isIE() ? "up" : "arrowUp",
+        arrowDown: html_1.isIE() ? "down" : "arrowDown",
+        escape: html_1.isIE() ? "esc" : "escape",
+        space: html_1.isIE() ? "spacebar" : "space"
+    };
+    var focusableKeyManager = {
+        addHotKey: function (key, handler) {
+            Keymanager_1.keyManager.addHotKey(key, function (e) {
+                if (focusHandler.isFocus(gridId) && grid.events.fire(types_1.GridEvents.beforeKeyDown, [e])) {
+                    handler(e);
+                    grid.events.fire(types_1.GridEvents.afterKeyDown, [e]);
+                }
+            });
+        }
+    };
+    var isChild = function (parent, child) {
+        var node = child.parentNode;
+        while (node !== null) {
+            if (node === parent) {
+                return true;
+            }
+            node = node.parentNode;
+        }
+        return false;
+    };
+    document.addEventListener("mousedown", function (e) {
+        var target = e.target;
+        if (!focusHandler.isFocus(gridId) && (isChild(gridContainer, target) || target.isEqualNode(gridContainer))) {
+            focusHandler.setFocusState(gridId);
+        }
+        else if (!html_1.locateNode(e) && focusHandler.getFocusState() !== "null") {
+            focusHandler.setFocusState("null");
+        }
+    });
+    focusableKeyManager.addHotKey("enter", function () {
+        if (cellSelecting(grid.config.selection)) {
+            var selected = grid.selection.getCell();
+            if (selected && (selected.column.editable !== false && grid.config.editable || selected.column.editable)) {
+                if (!grid.config.$editable) {
+                    if (selected.column.type !== "boolean") {
+                        grid.edit(selected.row.id, selected.column.id, selected.column.editorType);
+                    }
+                    else {
+                        grid.events.fire(types_1.GridEvents.afterEditEnd, [!selected.row[selected.column.id], selected.row, selected.column]);
+                    }
+                }
+                else {
+                    grid.editEnd();
+                }
+            }
+        }
+    });
+    focusableKeyManager.addHotKey(variables.space, function (e) {
+        if (cellSelecting(grid.config.selection) && grid.config.editable && !grid.config.$editable) {
+            var selected = grid.selection.getCell();
+            if (selected && selected.column.type === "boolean") {
+                e.preventDefault();
+                grid.events.fire(types_1.GridEvents.afterEditEnd, [!selected.row[selected.column.id], selected.row, selected.column]);
+            }
+        }
+    });
+    focusableKeyManager.addHotKey(variables.escape, function () {
+        if (grid.config.$editable) {
+            grid.editEnd(true);
+        }
+    });
+    focusableKeyManager.addHotKey("pageUp", function (e) {
+        e.preventDefault();
+        gridBody.scrollTop -= gridBody.clientHeight;
+    });
+    focusableKeyManager.addHotKey("pageDown", function (e) {
+        e.preventDefault();
+        gridBody.scrollTop += gridBody.clientHeight;
+    });
+    focusableKeyManager.addHotKey("home", function (e) {
+        e.preventDefault();
+        gridBody.scrollTop = 0;
+    });
+    focusableKeyManager.addHotKey("end", function (e) {
+        e.preventDefault();
+        gridBody.scrollTop += gridBody.scrollHeight;
+    });
+    focusableKeyManager.addHotKey("tab", function (e) {
+        if (grid.config.$editable || !grid.config.selection) {
+            return;
+        }
+        if (e) {
+            e.preventDefault();
+        }
+        var selected = grid.selection.getCell();
+        if (selected) {
+            var index = grid.config.columns.indexOf(selected.column) + 1;
+            if (index >= 0 && index < grid.config.columns.length) {
+                grid.selection.setCell(selected.row.id, grid.config.columns[index].id);
+                grid.scrollTo(selected.row.id.toString(), grid.config.columns[index].id.toString());
+            }
+            else if (index >= 0) {
+                var newLineIndex = grid.data.getIndex(selected.row.id.toString()) + 1;
+                if (newLineIndex < grid.data.getLength()) {
+                    grid.selection.setCell(grid.data.getId(newLineIndex), grid.config.columns[0].id);
+                    grid.scrollTo(grid.data.getId(newLineIndex), grid.config.columns[0].id.toString());
+                }
+            }
+        }
+    });
+    focusableKeyManager.addHotKey("shift+tab", function (e) {
+        // selectionMove(e, grid, "horizontal", -1);
+        if (grid.config.$editable || !grid.config.selection) {
+            return;
+        }
+        if (e) {
+            e.preventDefault();
+        }
+        var selected = grid.selection.getCell();
+        if (selected) {
+            var index = grid.config.columns.indexOf(selected.column) - 1;
+            if (index >= 0 && index < grid.config.columns.length) {
+                grid.selection.setCell(selected.row.id, grid.config.columns[index].id);
+                grid.scrollTo(selected.row.id.toString(), grid.config.columns[index].id.toString());
+            }
+            else if (index < grid.data.getLength()) {
+                var newLineIndex = grid.data.getIndex(selected.row.id.toString()) - 1;
+                if (newLineIndex >= 0) {
+                    grid.selection.setCell(grid.data.getId(newLineIndex), grid.config.columns[grid.config.columns.length - 1].id);
+                    grid.scrollTo(grid.data.getId(newLineIndex), grid.config.columns[grid.config.columns.length - 1].id.toString());
+                }
+            }
+        }
+    });
+    focusableKeyManager.addHotKey(variables.arrowUp, function (e) {
+        selectionMove(e, grid, "vertical", -1);
+    });
+    focusableKeyManager.addHotKey("ctrl+" + variables.arrowUp, function (e) {
+        selectionMove(e, grid, "vertical", -1, true);
+    });
+    focusableKeyManager.addHotKey("shift+" + variables.arrowUp, function (e) {
+        if (grid.config.multiselection) {
+            selectionMove(e, grid, "vertical", -1, false, false, true);
+        }
+    });
+    focusableKeyManager.addHotKey("ctrl+shift+" + variables.arrowUp, function (e) {
+        if (grid.config.multiselection) {
+            selectionMove(e, grid, "vertical", -1, true, false, true);
+        }
+    });
+    focusableKeyManager.addHotKey(variables.arrowDown, function (e) {
+        selectionMove(e, grid, "vertical", 1);
+    });
+    focusableKeyManager.addHotKey("ctrl+" + variables.arrowDown, function (e) {
+        selectionMove(e, grid, "vertical", 1, true);
+    });
+    focusableKeyManager.addHotKey("shift+" + variables.arrowDown, function (e) {
+        if (grid.config.multiselection) {
+            selectionMove(e, grid, "vertical", 1, false, false, true);
+        }
+    });
+    focusableKeyManager.addHotKey("ctrl+shift+" + variables.arrowDown, function (e) {
+        if (grid.config.multiselection) {
+            selectionMove(e, grid, "vertical", 1, true, false, true);
+        }
+    });
+    focusableKeyManager.addHotKey(variables.arrowRight, function (e) {
+        selectionMove(e, grid, "horizontal", 1);
+    });
+    focusableKeyManager.addHotKey("ctrl+" + variables.arrowRight, function (e) {
+        selectionMove(e, grid, "horizontal", 1, true);
+    });
+    focusableKeyManager.addHotKey("shift+" + variables.arrowRight, function (e) {
+        if (grid.config.multiselection) {
+            selectionMove(e, grid, "horizontal", 1, false, false, true);
+        }
+    });
+    focusableKeyManager.addHotKey("ctrl+shift+" + variables.arrowRight, function (e) {
+        if (grid.config.multiselection) {
+            selectionMove(e, grid, "horizontal", 1, true, false, true);
+        }
+    });
+    focusableKeyManager.addHotKey(variables.arrowLeft, function (e) {
+        selectionMove(e, grid, "horizontal", -1);
+    });
+    focusableKeyManager.addHotKey("ctrl+" + variables.arrowLeft, function (e) {
+        selectionMove(e, grid, "horizontal", -1, true);
+    });
+    focusableKeyManager.addHotKey("shift+" + variables.arrowLeft, function (e) {
+        if (grid.config.multiselection) {
+            selectionMove(e, grid, "horizontal", -1, false, false, true);
+        }
+    });
+    focusableKeyManager.addHotKey("ctrl+shift+" + variables.arrowLeft, function (e) {
+        if (grid.config.multiselection) {
+            selectionMove(e, grid, "horizontal", -1, true, false, true);
+        }
+    });
+}
+exports.initHotkeys = initHotkeys;
+function cellSelecting(selection) {
+    return selection === "cell" || selection === "complex";
+}
+function selectionMove(e, grid, dir, range, toEnd, ctrlUp, shiftUp) {
+    if (toEnd === void 0) { toEnd = false; }
+    if (ctrlUp === void 0) { ctrlUp = false; }
+    if (shiftUp === void 0) { shiftUp = false; }
+    if (grid.config.$editable || !grid.config.selection) {
+        return;
+    }
+    if (e) {
+        e.preventDefault();
+    }
+    var selected = grid.selection.getCell();
+    if (selected) {
+        if (dir === "vertical") {
+            if (toEnd) {
+                var newItem = range === 1 ? grid.data.getItem(grid.data.getId(grid.data.getLength() - 1)) : grid.data.getItem(grid.data.getId(0));
+                grid.selection.setCell(newItem.id, selected.column.id, ctrlUp, shiftUp);
+                grid.scrollTo(newItem.id, selected.column.id.toString());
+            }
+            else {
+                var index = grid.data.getIndex(selected.row.id.toString());
+                if (index + range >= 0 && index + range < grid.data.getLength()) {
+                    var newItem = grid.data.getItem(grid.data.getId(index + range));
+                    grid.selection.setCell(newItem.id, selected.column.id, ctrlUp, shiftUp);
+                    grid.scrollTo(newItem.id, selected.column.id.toString());
+                }
+            }
+        }
+        else {
+            if (toEnd) {
+                var newItem = range === 1 ? grid.config.columns[grid.config.columns.length - 1] : grid.config.columns[0];
+                grid.selection.setCell(selected.row.id, newItem.id, ctrlUp, shiftUp);
+                grid.scrollTo(selected.row.id.toString(), newItem.id.toString());
+            }
+            else {
+                var index = grid.config.columns.indexOf(selected.column);
+                if (index + range >= 0 && index + range < grid.config.columns.length) {
+                    grid.selection.setCell(selected.row.id, grid.config.columns[index + range].id, ctrlUp, shiftUp);
+                    grid.scrollTo(selected.row.id.toString(), grid.config.columns[index + range].id.toString());
+                }
+            }
+        }
+    }
+}
+
+
+/***/ }),
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21805,17 +24795,18 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var html_1 = __webpack_require__(3);
-var data_1 = __webpack_require__(51);
+var html_1 = __webpack_require__(2);
+var data_1 = __webpack_require__(53);
 var main_1 = __webpack_require__(20);
-var Cells_1 = __webpack_require__(74);
-var FixedCols_1 = __webpack_require__(188);
-var FixedRows_1 = __webpack_require__(75);
+var Cells_1 = __webpack_require__(76);
+var FixedCols_1 = __webpack_require__(196);
+var FixedRows_1 = __webpack_require__(77);
+var core_1 = __webpack_require__(1);
 var BORDERS = 2;
 function getRenderConfig(obj, data, wrapperSizes) {
     var config = obj.config;
     var positions = data_1.calculatePositions(wrapperSizes.width, wrapperSizes.height, obj._scroll, config);
-    return __assign({}, config, { data: data, scroll: obj._scroll, $positions: positions, headerHeight: config.$headerLevel * config.headerRowHeight, footerHeight: config.$footerLevel * config.footerRowHeight, firstColId: config.columns[0].id, events: obj.events, currentColumns: config.columns.slice(positions.xStart, positions.xEnd), sortBy: obj._sortBy, sortDir: obj._sortDir });
+    return __assign(__assign({}, config), { data: data, scroll: obj._scroll, $positions: positions, headerHeight: config.$headerLevel * config.headerRowHeight, footerHeight: config.$footerLevel * config.footerRowHeight, firstColId: config.columns[0].id, events: obj.events, currentColumns: config.columns.slice(positions.xStart, positions.xEnd), sortBy: obj._sortBy, sortDir: obj._sortDir });
 }
 function getElementSizes(element) {
     if (!element) {
@@ -21832,7 +24823,7 @@ function getElementSizes(element) {
         height: element.clientHeight - paddingsByHeight
     };
 }
-function render(vm, obj, data, htmlEvents, selection) {
+function render(vm, obj, data, htmlEvents, selection, uid) {
     if (!obj._container) {
         obj.config.width = 1;
         obj.config.height = 1;
@@ -21845,25 +24836,53 @@ function render(vm, obj, data, htmlEvents, selection) {
         obj.config.height = parentSizes.height;
     }
     var config = obj.config;
+    // when grid is destructing and user try to repaint it
+    if (!config) {
+        return dom_1.el("div");
+    }
     if (!config.columns.length) {
         return dom_1.el(".dhx_grid");
     }
     if (!data || !obj.data) {
         data = [];
     }
-    config.$totalHeight = data.length * config.rowHeight;
+    if (config.columns.reduce(function (check, col) { return check = !col.hidden ? col.hidden : check; }, true)) {
+        config.$totalHeight = 0;
+    }
+    else {
+        config.$totalHeight = data.length * config.rowHeight;
+    }
     var sizes = getElementSizes(obj._container);
     var wrapperSizes = {
         width: config.width ? config.width : sizes.width,
         height: config.height ? config.height : sizes.height
     };
-    if (config.fitToContainer) {
-        var scrollbarY = config.$totalHeight > wrapperSizes.height ? html_1.getScrollbarWidth() : 0;
+    // TODO: Remove scroll
+    if (main_1.isAutoWidth(config)) {
+        var scrollbarY = config.$totalHeight >= wrapperSizes.height - config.headerRowHeight ? html_1.getScrollbarWidth() : 0;
         config.$totalWidth = wrapperSizes.width - BORDERS - scrollbarY;
-        var total = config.columns.reduce(function (width, col) { return width + col.width; }, 0);
+        var total = config.columns.reduce(function (width, col) { return col.hidden ? width : width + col.width; }, 0);
         var per_1 = config.$totalWidth / total;
+        var mTotal = config.columns.reduce(function (width, col) {
+            var estimatedWidth = (per_1 > 0 ? col.width * per_1 : 20);
+            var unchangeable = !main_1.isAutoWidth(config, col) ||
+                ((col.maxWidth && (col.maxWidth < (estimatedWidth))) || (col.minWidth && (col.minWidth > (estimatedWidth))));
+            return unchangeable ? width + col.width : width;
+        }, 0);
+        var newPer_1 = (config.$totalWidth - mTotal) / (total - mTotal);
+        config.$totalWidth = 0;
         config.columns.map(function (col) {
-            col.width = per_1 * col.width;
+            // TODO: dirty, must be more then 20
+            var estimatedWidth = (newPer_1 > 0 ? col.width * newPer_1 : 20);
+            var unchangeable = !main_1.isAutoWidth(config, col) ||
+                ((col.maxWidth && (col.maxWidth < (estimatedWidth))) || (col.minWidth && (col.minWidth > (estimatedWidth))));
+            if (!unchangeable) {
+                col.width = estimatedWidth;
+            }
+            else {
+                col.width = col.maxWidth || col.minWidth || col.width;
+            }
+            config.$totalWidth += col.hidden ? 0 : col.width;
         });
     }
     config.width = wrapperSizes.width;
@@ -21880,12 +24899,20 @@ function render(vm, obj, data, htmlEvents, selection) {
         shifts: shifts,
         gridBodyHeight: gridBodyHeight
     };
-    var header = FixedRows_1.getFixedRows(renderConfig, __assign({}, layoutState, { name: "header", position: "top" }));
-    var footer = renderConfig.$footer ? FixedRows_1.getFixedRows(renderConfig, __assign({}, layoutState, { name: "footer", position: "bottom" })) : null;
+    var header = FixedRows_1.getFixedRows(renderConfig, __assign(__assign({}, layoutState), { name: "header", position: "top" }));
+    var footer = renderConfig.$footer ? FixedRows_1.getFixedRows(renderConfig, __assign(__assign({}, layoutState), { name: "footer", position: "bottom" })) : null;
     var lessByWidth = renderConfig.$totalWidth + BORDERS < wrapperSizes.width ? "dhx_grid-less-width" : "";
     var lessByHeight = renderConfig.$totalHeight + BORDERS < wrapperSizes.height ? "dhx_grid-less-height" : "";
+    // dirty: but work. Change checking of rendering Grid
+    if (!vm.node) {
+        var _a = obj.getScrollState(), x_1 = _a.x, y_1 = _a.y;
+        dom_1.awaitRedraw().then(function () {
+            obj.scroll(x_1, y_1);
+        });
+    }
     return dom_1.el(".dhx_grid.dhx_widget", {
-        class: renderConfig.css
+        class: (renderConfig.css || "") + (!isSticky ? " dhx_grid_border" : "") + (config.multiselection ? " dhx_no-select--pointer" : ""),
+        dhx_widget_id: uid
     }, [
         dom_1.resizer(function () { return obj.paint(); }),
         dom_1.el(".dhx_grid-content", {
@@ -21915,8 +24942,21 @@ exports.render = render;
 function getGridData(renderConfig, shifts) {
     var content = Cells_1.getCells(renderConfig);
     var contentSpans = Cells_1.getSpans(renderConfig);
+    var resizedLine;
+    if (renderConfig.$resizing) {
+        var colIndex = core_1.findIndex(renderConfig.columns, function (col) { return col.id === renderConfig.$resizing; });
+        var firstCellLeft = renderConfig.columns.slice(0, colIndex).reduce(function (total, c) { return total += c.width; }, 0) + renderConfig.columns[colIndex].width;
+        resizedLine = dom_1.el(".dhx_grid-resize-line", {
+            style: {
+                top: 0,
+                left: firstCellLeft,
+                height: renderConfig.$totalHeight
+            }
+        });
+    }
     var selection = renderConfig.selection ? renderConfig.selection.toHTML() : null;
     selection = typeof selection === "string" ? dom_1.el("div.dhx_selection", { ".innerHTML": selection }) : selection;
+    var pos = renderConfig.$positions;
     return dom_1.el(".dhx_data-wrap", {
         style: {
             "height": renderConfig.$totalHeight,
@@ -21925,9 +24965,9 @@ function getGridData(renderConfig, shifts) {
             "padding-top": shifts.y,
         }
     }, [
-        dom_1.el(".dhx_grid_data", content),
+        dom_1.el(".dhx_grid_data", __assign({ _flags: dom_1.KEYED_LIST }, Cells_1.getHandlers(pos.yStart, pos.xStart, renderConfig)), content),
         dom_1.el(".dhx_span-spans", contentSpans),
-        dom_1.el(".dhx_grid_selection", { _ref: "selection" }, [selection])
+        dom_1.el(".dhx_grid_selection", { _ref: "selection" }, [selection, resizedLine])
     ]);
 }
 function getContentHeight(renderConfig, isSticky, wrapperSizes) {
@@ -21937,7 +24977,7 @@ function getContentHeight(renderConfig, isSticky, wrapperSizes) {
     // [dirty] refactoring needed
     var lessByHeight = renderConfig.$totalHeight + BORDERS < wrapperSizes.height;
     if (renderConfig.splitAt && lessByHeight) {
-        return renderConfig.$totalHeight + renderConfig.footerHeight + renderConfig.headerHeight + html_1.getScrollbarWidth();
+        return renderConfig.$totalHeight + (isFooter ? renderConfig.footerHeight : null) + renderConfig.headerHeight + html_1.getScrollbarWidth();
     }
     // [dirty]
     return contentHeight = isFooter ?
@@ -21947,16 +24987,18 @@ function getContentHeight(renderConfig, isSticky, wrapperSizes) {
 
 
 /***/ }),
-/* 184 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var types_1 = __webpack_require__(11);
-var InputEditor_1 = __webpack_require__(185);
-var SelectEditor_1 = __webpack_require__(186);
-var DateEditor_1 = __webpack_require__(187);
+var types_1 = __webpack_require__(10);
+var InputEditor_1 = __webpack_require__(191);
+var SelectEditor_1 = __webpack_require__(192);
+var DateEditor_1 = __webpack_require__(193);
+var CheckboxEditor_1 = __webpack_require__(194);
+var ComboboxEditor_1 = __webpack_require__(195);
 var lastEditor = {
     cell: {
         row: null,
@@ -21966,7 +25008,7 @@ var lastEditor = {
 };
 var editHandler;
 function getEditor(row, col, conf) {
-    var type = conf.$editable.editorType;
+    var type = col.type === "boolean" ? types_1.EditorType.checkbox : conf.$editable.editorType;
     if (lastEditor.cell.row === row.id && lastEditor.cell.col === col.id) {
         return lastEditor.editor;
     }
@@ -21993,6 +25035,10 @@ function getEditor(row, col, conf) {
             return lastEditor.editor = new SelectEditor_1.SelectEditor(row, col, conf);
         case types_1.EditorType.datepicker:
             return lastEditor.editor = new DateEditor_1.DateEditor(row, col, conf);
+        case types_1.EditorType.checkbox:
+            return lastEditor.editor = new CheckboxEditor_1.CheckboxEditor(row, col, conf);
+        case types_1.EditorType.combobox:
+            return lastEditor.editor = new ComboboxEditor_1.ComboboxEditor(row, col, conf);
         default:
             return lastEditor.editor = new InputEditor_1.InputEditor(row, col, conf);
     }
@@ -22001,14 +25047,14 @@ exports.getEditor = getEditor;
 
 
 /***/ }),
-/* 185 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(11);
+var types_1 = __webpack_require__(10);
 var core_1 = __webpack_require__(1);
 var InputEditor = /** @class */ (function () {
     function InputEditor(row, col, config) {
@@ -22016,13 +25062,16 @@ var InputEditor = /** @class */ (function () {
         this._cell = { row: row, col: col };
         this._initHandlers();
     }
-    InputEditor.prototype.endEdit = function () {
-        var value = this._input.value;
+    InputEditor.prototype.endEdit = function (withoutSave) {
+        var value;
+        if (!withoutSave) {
+            value = this._input.value;
+        }
         if (this._config.events.fire(types_1.GridEvents.beforeEditEnd, [value, this._cell.row, this._cell.col])) {
             this._input.removeEventListener("blur", this._handlers.onBlur);
             this._input.removeEventListener("change", this._handlers.onChange);
             this._handlers = {};
-            if (core_1.isNumeric(value)) {
+            if (this._cell.col.type !== "string" && core_1.isNumeric(value)) {
                 value = parseFloat(value);
             }
             this._config.events.fire(types_1.GridEvents.afterEditEnd, [value, this._cell.row, this._cell.col]);
@@ -22036,6 +25085,7 @@ var InputEditor = /** @class */ (function () {
         if (this._input) {
             content = this._input.value;
         }
+        this._config.$editable.editor = this;
         return dom_1.el("input.dhx_cell-editor.dhx_cell-editor__input", {
             _hooks: {
                 didInsert: this._handlers.didInsert
@@ -22058,7 +25108,7 @@ var InputEditor = /** @class */ (function () {
                 var input = node.el;
                 _this._input = input;
                 input.focus();
-                input.setSelectionRange(input.value.length, input.value.length);
+                input.setSelectionRange(0, input.value.length);
                 input.addEventListener("change", _this._handlers.onChange);
                 input.addEventListener("blur", _this._handlers.onBlur);
             }
@@ -22070,22 +25120,25 @@ exports.InputEditor = InputEditor;
 
 
 /***/ }),
-/* 186 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(11);
+var types_1 = __webpack_require__(10);
 var SelectEditor = /** @class */ (function () {
     function SelectEditor(row, col, config) {
         this._config = config;
         this._cell = { row: row, col: col };
         this._initHandlers();
     }
-    SelectEditor.prototype.endEdit = function () {
-        var value = this._input.value;
+    SelectEditor.prototype.endEdit = function (withoutSave) {
+        var value;
+        if (!withoutSave) {
+            value = this._input.value;
+        }
         if (this._config.events.fire(types_1.GridEvents.beforeEditEnd, [value, this._cell.row, this._cell.col])) {
             this._input.removeEventListener("blur", this._handlers.onBlur);
             this._handlers = {};
@@ -22106,7 +25159,8 @@ var SelectEditor = /** @class */ (function () {
                 selected: item === selected
             }, item);
         });
-        return dom_1.el("select.dhx_cell-editor.dhx_cell-editor__input", {
+        this._config.$editable.editor = this;
+        return dom_1.el("select.dhx_cell-editor.dhx_cell-editor__select", {
             _hooks: {
                 didInsert: this._handlers.didInsert,
             },
@@ -22134,17 +25188,17 @@ exports.SelectEditor = SelectEditor;
 
 
 /***/ }),
-/* 187 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(11);
-var ts_calendar_1 = __webpack_require__(28);
-var ts_popup_1 = __webpack_require__(10);
-var html_1 = __webpack_require__(3);
+var types_1 = __webpack_require__(10);
+var ts_calendar_1 = __webpack_require__(25);
+var ts_popup_1 = __webpack_require__(11);
+var html_1 = __webpack_require__(2);
 var DateEditor = /** @class */ (function () {
     function DateEditor(row, col, config) {
         var _this = this;
@@ -22152,54 +25206,68 @@ var DateEditor = /** @class */ (function () {
         this._cell = { row: row, col: col };
         this._calendar = new ts_calendar_1.Calendar(null, { dateFormat: col.dateFormat });
         var value = this._cell.row[this._cell.col.id];
-        if (value) {
+        var dateFormat = this._calendar.config.dateFormat;
+        if (ts_calendar_1.stringToDate(value, dateFormat, true) || value instanceof Date) {
             this._calendar.setValue(value);
+            this._value = this._calendar.getValue();
+            this._cell.row[this._cell.col.id] = this._value;
         }
         this._popup = new ts_popup_1.Popup({ css: "dhx_widget--bordered" });
         this._popup.attach(this._calendar);
         this._calendar.events.on(ts_calendar_1.CalendarEvents.change, function () {
-            _this.endEdit();
+            _this.endEdit(false, true);
         });
         this._popup.events.on(ts_popup_1.PopupEvents.afterHide, function () {
             _this.endEdit();
         });
         this._initHandlers();
     }
-    DateEditor.prototype.endEdit = function () {
-        // [todo]
+    DateEditor.prototype.endEdit = function (withoutSave, calendarChange) {
         if (!this._handlers) {
             return;
         }
-        var value = this._calendar.getValue();
-        if (this._config.events.fire(types_1.GridEvents.beforeEditEnd, [value, this._cell.row, this._cell.col])) {
-            this._input.removeEventListener("blur", this._handlers.onBlur);
-            this._handlers = null;
+        var dateFormat = this._calendar.config.dateFormat;
+        var value = this._cell.row[this._cell.col.id];
+        if (!withoutSave) {
+            if (value instanceof Date || calendarChange) {
+                this._value = this._calendar.getValue();
+                this._input.value = this._value;
+            }
+            else if (ts_calendar_1.stringToDate(this._input.value, dateFormat, true) && this._input.value.length === value.length) {
+                this._value = this._input.value;
+            }
+        }
+        if (this._config.events.fire(types_1.GridEvents.beforeEditEnd, [this._value, this._cell.row, this._cell.col])) {
+            this._input.removeEventListener("focus", this._handlers.onFocus);
+            this._input.removeEventListener("change", this._handlers.onChange);
+            this._handlers = {};
             this._popup.destructor();
             this._calendar.destructor();
-            this._config.events.fire(types_1.GridEvents.afterEditEnd, [value, this._cell.row, this._cell.col]);
+            this._config.events.fire(types_1.GridEvents.afterEditEnd, [this._value, this._cell.row, this._cell.col]);
         }
         else {
             this._input.focus();
         }
     };
     DateEditor.prototype.toHTML = function () {
-        var content = this._cell.row[this._cell.col.id];
+        var value = this._cell.row[this._cell.col.id];
+        this._config.$editable.editor = this;
         return dom_1.el("input.dhx_cell-editor.dhx_cell-editor__input.dhx_cell-editor__datepicker", {
             _hooks: {
-                didInsert: this._handlers.didInsert,
-                didRecycle: this._handlers.didRecycle,
-                didRemove: this._handlers.didRemove
+                didInsert: this._handlers.didInsert
             },
             _key: "cell_editor",
             dhx_id: "cell_editor",
-            value: content
+            value: value
         });
     };
     DateEditor.prototype._initHandlers = function () {
         var _this = this;
         this._handlers = {
-            onBlur: function () {
-                _this.endEdit();
+            onFocus: function () {
+                dom_1.awaitRedraw().then(function () {
+                    _this._popup.show(_this._input, { centering: true, mode: html_1.Position.bottom });
+                });
             },
             onChange: function () {
                 _this.endEdit();
@@ -22207,26 +25275,10 @@ var DateEditor = /** @class */ (function () {
             didInsert: function (node) {
                 var input = node.el;
                 _this._input = input;
-                _this._input.addEventListener("focus", function () {
-                    // [dirty]
-                    setTimeout(function () {
-                        _this._popup.show(_this._input, { centering: true, mode: html_1.Position.bottom });
-                    }, 100);
-                });
+                _this._input.addEventListener("focus", _this._handlers.onFocus);
+                _this._input.addEventListener("change", _this._handlers.onChange);
                 input.focus();
-                input.setAttribute("disabled", "true");
                 input.setSelectionRange(input.value.length, input.value.length);
-            },
-            didRecycle: function () {
-                if (_this._input) {
-                    _this._popup.show(_this._input, { centering: true, mode: html_1.Position.bottom });
-                }
-                else {
-                    _this.endEdit();
-                }
-            },
-            didRemove: function () {
-                _this.endEdit();
             }
         };
     };
@@ -22236,7 +25288,139 @@ exports.DateEditor = DateEditor;
 
 
 /***/ }),
-/* 188 */
+/* 194 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var dom_1 = __webpack_require__(0);
+var types_1 = __webpack_require__(10);
+var CheckboxEditor = /** @class */ (function () {
+    function CheckboxEditor(row, col, config) {
+        this._config = config;
+        this._cell = { row: row, col: col };
+        this._initHandlers();
+    }
+    CheckboxEditor.prototype.endEdit = function () {
+        var value = this._checked;
+        if (this._config.events.fire(types_1.GridEvents.beforeEditEnd, [value, this._cell.row, this._cell.col])) {
+            this._handlers = {};
+            this._config.events.fire(types_1.GridEvents.afterEditEnd, [value, this._cell.row, this._cell.col]);
+        }
+    };
+    CheckboxEditor.prototype.toHTML = function () {
+        if (this._checked === undefined) {
+            this._checked = this._cell.row[this._cell.col.id];
+        }
+        if (this._input) {
+            return;
+        }
+        return dom_1.el("label.dhx_checkbox.dhx_cell-editor__checkbox", [
+            dom_1.el("input.dhx_checkbox__input", {
+                type: "checkbox",
+                _hooks: {
+                    didInsert: this._handlers.didInsert
+                },
+                _key: "cell_editor",
+                dhx_id: "cell_editor",
+                checked: this._checked,
+                style: {
+                    userSelect: "none"
+                }
+            }),
+            dom_1.el("span.dhx_checkbox__visual-input")
+        ]);
+    };
+    CheckboxEditor.prototype._initHandlers = function () {
+        var _this = this;
+        this._handlers = {
+            onChange: function (e) {
+                _this._checked = e.target.checked;
+                _this.endEdit();
+            },
+            didInsert: function (node) {
+                _this._checkbox = node.el.parentNode.lastChild;
+                _this._input = node.el.parentNode.firstChild;
+                _this._input.addEventListener("change", _this._handlers.onChange);
+            }
+        };
+    };
+    return CheckboxEditor;
+}());
+exports.CheckboxEditor = CheckboxEditor;
+
+
+/***/ }),
+/* 195 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var dom_1 = __webpack_require__(0);
+var types_1 = __webpack_require__(10);
+var ts_combobox_1 = __webpack_require__(32);
+var ComboboxEditor = /** @class */ (function () {
+    function ComboboxEditor(row, col, config) {
+        this._config = config;
+        this._cell = { row: row, col: col };
+        this._initHandlers();
+    }
+    ComboboxEditor.prototype.endEdit = function (withoutSave) {
+        var value;
+        if (!withoutSave) {
+            value = this._input.getValue();
+        }
+        if (this._config.events.fire(types_1.GridEvents.beforeEditEnd, [value, this._cell.row, this._cell.col])) {
+            document.removeEventListener("click", this._handlers.onOuterClick);
+            this._handlers = {};
+            this._config.events.fire(types_1.GridEvents.afterEditEnd, [value, this._cell.row, this._cell.col]);
+        }
+        else {
+            this._input.focus();
+        }
+    };
+    ComboboxEditor.prototype.toHTML = function () {
+        var _this = this;
+        var content = this._cell.col.options.map(function (item) {
+            return { id: "" + item, value: item };
+        }) || [];
+        if (!this._input) {
+            this._input = new ts_combobox_1.Combobox(null, {
+                readonly: true,
+                cellHeight: 37,
+                css: "dhx_cell-editor__combobox"
+            });
+            this._input.data.parse(content);
+            this._input.setValue(this._cell.row[this._cell.col.id]);
+        }
+        document.addEventListener("click", this._handlers.onOuterClick);
+        this._config.$editable.editor = this;
+        dom_1.awaitRedraw().then(function () {
+            var holderNode = _this._input.getRootView().refs.holder.el;
+            _this._input.popup.getContainer().style.width = holderNode.offsetWidth + "px";
+            _this._input.popup.show(holderNode);
+        });
+        return dom_1.inject(this._input.getRootView());
+    };
+    ComboboxEditor.prototype._initHandlers = function () {
+        var _this = this;
+        this._handlers = {
+            onOuterClick: function (e) {
+                if (!(e.target instanceof Node && _this._input.getRootNode() && _this._input.getRootNode().contains(e.target))) {
+                    _this.endEdit();
+                }
+            }
+        };
+    };
+    return ComboboxEditor;
+}());
+exports.ComboboxEditor = ComboboxEditor;
+
+
+/***/ }),
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22254,11 +25438,17 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var html_1 = __webpack_require__(3);
-var Cells_1 = __webpack_require__(74);
-var FixedRows_1 = __webpack_require__(75);
+var html_1 = __webpack_require__(2);
+var Cells_1 = __webpack_require__(76);
+var FixedRows_1 = __webpack_require__(77);
 function getFixedCols(renderConfig, layout) {
+    var hiddenCheck = renderConfig.columns.reduce(function (check, col) {
+        return col.hidden ? check + 1 : check;
+    }, 0);
     if (typeof renderConfig.splitAt !== "number") {
+        return;
+    }
+    if (hiddenCheck === renderConfig.splitAt) {
         return;
     }
     var scrollBarWidth = renderConfig.$totalWidth <= layout.wrapper.width ? 0 : html_1.getScrollbarWidth();
@@ -22266,13 +25456,13 @@ function getFixedCols(renderConfig, layout) {
         layout.gridBodyHeight
         : layout.gridBodyHeight + renderConfig.headerHeight) - scrollBarWidth;
     var columns = renderConfig.columns.slice(0, renderConfig.splitAt);
-    renderConfig.fixedColumnsWidth = columns.reduce(function (total, item) { return total += item.width || 100; }, 0);
-    var fixedCols = Cells_1.getCells(__assign({}, renderConfig, { columns: columns, $positions: __assign({}, renderConfig.$positions, { xStart: 0, xEnd: renderConfig.splitAt }) }));
+    renderConfig.fixedColumnsWidth = columns.reduce(function (total, item) { return total += !item.hidden ? item.width || 100 : 0; }, 0);
+    var fixedCols = Cells_1.getCells(__assign(__assign({}, renderConfig), { columns: columns, $positions: __assign(__assign({}, renderConfig.$positions), { xStart: 0, xEnd: renderConfig.splitAt }) }));
     var isSticky = layout.sticky;
-    var headerRowsConfig = __assign({}, layout, { name: "header", position: "top" });
-    var footerRowsConfig = __assign({}, layout, { name: "footer", position: "bottom" });
-    var frozenHeaderCols = renderConfig.splitAt >= 0 && FixedRows_1.getRows(__assign({}, renderConfig, { currentColumns: renderConfig.columns.slice(0, renderConfig.splitAt), $positions: __assign({}, renderConfig.$positions, { xStart: 0, xEnd: renderConfig.splitAt }) }), __assign({}, layout, { name: "header", position: "top" }));
-    var frozenFooterCols = renderConfig.splitAt >= 0 && FixedRows_1.getRows(__assign({}, renderConfig, { currentColumns: renderConfig.columns.slice(0, renderConfig.splitAt), $positions: __assign({}, renderConfig.$positions, { xStart: 0, xEnd: renderConfig.splitAt }) }), __assign({}, layout, { name: "footer", position: "bottom" }));
+    var headerRowsConfig = __assign(__assign({}, layout), { name: "header", position: "top" });
+    var footerRowsConfig = __assign(__assign({}, layout), { name: "footer", position: "bottom" });
+    var frozenHeaderCols = renderConfig.splitAt >= 0 && FixedRows_1.getRows(__assign(__assign({}, renderConfig), { currentColumns: renderConfig.columns.slice(0, renderConfig.splitAt), $positions: __assign(__assign({}, renderConfig.$positions), { xStart: 0, xEnd: renderConfig.splitAt }) }), __assign(__assign({}, layout), { name: "header", position: "top" }));
+    var frozenFooterCols = renderConfig.splitAt >= 0 && FixedRows_1.getRows(__assign(__assign({}, renderConfig), { currentColumns: renderConfig.columns.slice(0, renderConfig.splitAt), $positions: __assign(__assign({}, renderConfig.$positions), { xStart: 0, xEnd: renderConfig.splitAt }) }), __assign(__assign({}, layout), { name: "footer", position: "bottom" }));
     var frozenHeader = frozenHeaderCols && dom_1.el(".dhx_" + headerRowsConfig.name + "-fixed-cols", {
         style: {
             position: "absolute",
@@ -22289,6 +25479,7 @@ function getFixedCols(renderConfig, layout) {
             zIndex: 999999,
         }
     }, frozenFooterCols)) : null;
+    var pos = renderConfig.$positions;
     return dom_1.el(".dhx_grid-fixed-cols-wrap", {
         style: {
             height: fixedColsHeight,
@@ -22298,14 +25489,12 @@ function getFixedCols(renderConfig, layout) {
         }
     }, [
         frozenHeader,
-        dom_1.el(".dhx_grid-fixed-cols", {
-            style: {
-                top: -renderConfig.scroll.top + renderConfig.headerHeight + "px",
+        dom_1.el(".dhx_grid-fixed-cols", __assign({ style: {
+                top: -renderConfig.scroll.top + renderConfig.headerHeight - 1 + "px",
                 paddingTop: layout.shifts.y,
                 height: renderConfig.$totalHeight,
                 position: "absolute"
-            }
-        }, fixedCols),
+            }, _flags: dom_1.KEYED_LIST }, Cells_1.getHandlers(pos.yStart, pos.xStart, renderConfig)), fixedCols),
         renderConfig.$footer && frozenFooter,
         dom_1.el(".dhx_frozen-cols-border")
     ]);
@@ -22314,7 +25503,71 @@ exports.getFixedCols = getFixedCols;
 
 
 /***/ }),
-/* 189 */
+/* 197 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(1);
+var types_1 = __webpack_require__(10);
+var html_1 = __webpack_require__(2);
+function startResize(grid, column, ev, cb) {
+    var initX = ev.clientX;
+    var initWidth = 0;
+    grid.config.$resizing = column;
+    var moveHandler = function (e) {
+        var i = core_1.findIndex(grid.config.columns, function (obj) {
+            return obj.id === column;
+        });
+        var containerLeft = e.clientX - grid.getRootNode().getBoundingClientRect().left;
+        var scrollbarY = grid.config.$totalHeight > grid.config.height ? html_1.getScrollbarWidth() : 0;
+        if ((grid.config.splitAt === i + 1) && (containerLeft >= grid.config.width - scrollbarY - 2)) {
+            return;
+        }
+        initWidth = initWidth || grid.config.columns[i].width;
+        var minWidth = grid.config.columns[i].minWidth || 20;
+        var maxWidth = grid.config.columns[i].maxWidth;
+        var move = e.clientX - initX;
+        var cols = __spreadArrays(grid.config.columns);
+        var size = initWidth + move;
+        var final;
+        if ((maxWidth && size >= maxWidth) || size <= minWidth) {
+            if (size <= minWidth) {
+                final = minWidth;
+            }
+            if (size >= maxWidth) {
+                final = maxWidth;
+            }
+        }
+        else {
+            final = size;
+        }
+        cols[i].width = final;
+        grid.events.fire(types_1.GridEvents.resize, [grid.config.columns[i], e]);
+        grid.paint();
+    };
+    var upHandler = function () {
+        document.removeEventListener("mousemove", moveHandler);
+        document.removeEventListener("mouseup", upHandler);
+        cb();
+    };
+    document.addEventListener("mousemove", moveHandler);
+    document.addEventListener("mouseup", upHandler);
+    grid.paint();
+}
+exports.startResize = startResize;
+
+
+/***/ }),
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22323,15 +25576,15 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(190));
-__export(__webpack_require__(191));
-var ts_navbar_1 = __webpack_require__(15);
+__export(__webpack_require__(199));
+__export(__webpack_require__(200));
+var ts_navbar_1 = __webpack_require__(17);
 exports.ItemType = ts_navbar_1.ItemType;
 exports.NavigationBarEvents = ts_navbar_1.NavigationBarEvents;
 
 
 /***/ }),
-/* 190 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22350,8 +25603,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var html_1 = __webpack_require__(3);
-var ts_navbar_1 = __webpack_require__(15);
+var html_1 = __webpack_require__(2);
+var ts_navbar_1 = __webpack_require__(17);
 var ContextMenu = /** @class */ (function (_super) {
     __extends(ContextMenu, _super);
     function ContextMenu() {
@@ -22378,12 +25631,19 @@ var ContextMenu = /** @class */ (function (_super) {
         return ts_navbar_1.createFactory({
             widget: this,
             defaultType: ts_navbar_1.ItemType.menuItem,
-            allowedTypes: [ts_navbar_1.ItemType.menuItem, ts_navbar_1.ItemType.separator, ts_navbar_1.ItemType.spacer],
+            allowedTypes: [
+                ts_navbar_1.ItemType.menuItem,
+                ts_navbar_1.ItemType.spacer,
+                ts_navbar_1.ItemType.separator,
+                ts_navbar_1.ItemType.customHTML,
+                // TODO: deprecated
+                ts_navbar_1.ItemType.customHTMLButton
+            ],
             widgetName: "context-menu"
         });
     };
-    ContextMenu.prototype._close = function () {
-        _super.prototype._close.call(this);
+    ContextMenu.prototype._close = function (e) {
+        _super.prototype._close.call(this, e);
         this._activeMenu = null;
         this._changeActivePosition(null, null);
     };
@@ -22402,7 +25662,7 @@ exports.ContextMenu = ContextMenu;
 
 
 /***/ }),
-/* 191 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22422,7 +25682,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var ts_navbar_1 = __webpack_require__(15);
+var ts_navbar_1 = __webpack_require__(17);
 var Menu = /** @class */ (function (_super) {
     __extends(Menu, _super);
     function Menu(element, config) {
@@ -22435,12 +25695,19 @@ var Menu = /** @class */ (function (_super) {
         return ts_navbar_1.createFactory({
             widget: this,
             defaultType: ts_navbar_1.ItemType.menuItem,
-            allowedTypes: [ts_navbar_1.ItemType.menuItem, ts_navbar_1.ItemType.separator, ts_navbar_1.ItemType.spacer],
+            allowedTypes: [
+                ts_navbar_1.ItemType.menuItem,
+                ts_navbar_1.ItemType.spacer,
+                ts_navbar_1.ItemType.separator,
+                ts_navbar_1.ItemType.customHTML,
+                // TODO: deprecated
+                ts_navbar_1.ItemType.customHTMLButton,
+            ],
             widgetName: "menu-nav"
         });
     };
     Menu.prototype._draw = function () {
-        return dom_1.el("ul", {
+        return dom_1.el("ul.dhx_widget", {
             dhx_widget_id: this._uid,
             onmousemove: this._handlers.onmousemove,
             onmouseleave: this._handlers.onmouseleave,
@@ -22455,7 +25722,7 @@ exports.Menu = Menu;
 
 
 /***/ }),
-/* 192 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22464,11 +25731,11 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(193));
+__export(__webpack_require__(202));
 
 
 /***/ }),
-/* 193 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22488,10 +25755,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var ts_toolbar_1 = __webpack_require__(27);
-var ts_navbar_1 = __webpack_require__(15);
+var ts_toolbar_1 = __webpack_require__(29);
+var ts_navbar_1 = __webpack_require__(17);
 var core_1 = __webpack_require__(1);
-var html_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var ts_message_1 = __webpack_require__(19);
 var Ribbon = /** @class */ (function (_super) {
     __extends(Ribbon, _super);
@@ -22569,6 +25836,7 @@ var Ribbon = /** @class */ (function (_super) {
                 ts_toolbar_1.ItemType.navItem,
                 ts_toolbar_1.ItemType.button,
                 ts_toolbar_1.ItemType.customHTMLButton,
+                ts_toolbar_1.ItemType.customHTML,
                 ts_toolbar_1.ItemType.imageButton,
                 ts_toolbar_1.ItemType.input,
                 ts_toolbar_1.ItemType.selectButton,
@@ -22582,10 +25850,10 @@ var Ribbon = /** @class */ (function (_super) {
     Ribbon.prototype._getMode = function (item, root) {
         return item.id === root ? "bottom" : "right";
     };
-    Ribbon.prototype._close = function () {
+    Ribbon.prototype._close = function (e) {
         this._activePosition = null;
         this._currentRoot = null;
-        _super.prototype._close.call(this);
+        _super.prototype._close.call(this, e);
     };
     Ribbon.prototype._draw = function () {
         var _this = this;
@@ -22665,7 +25933,7 @@ exports.Ribbon = Ribbon;
 
 
 /***/ }),
-/* 194 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22674,12 +25942,12 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(195));
-__export(__webpack_require__(77));
+__export(__webpack_require__(204));
+__export(__webpack_require__(79));
 
 
 /***/ }),
-/* 195 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22699,10 +25967,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var html_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(77);
+var html_1 = __webpack_require__(2);
+var types_1 = __webpack_require__(79);
 var ts_message_1 = __webpack_require__(19);
-var ts_navbar_1 = __webpack_require__(15);
+var ts_navbar_1 = __webpack_require__(17);
 var core_1 = __webpack_require__(1);
 var Sidebar = /** @class */ (function (_super) {
     __extends(Sidebar, _super);
@@ -22719,8 +25987,29 @@ var Sidebar = /** @class */ (function (_super) {
         return _this;
     }
     Sidebar.prototype.toggle = function () {
-        this.config.collapsed = !this.config.collapsed;
-        this.events.fire(types_1.SidebarEvents.toggle, [this.config.collapsed]);
+        if (this.config.collapsed) {
+            this.expand();
+        }
+        else {
+            this.collapse();
+        }
+        this.events.fire(types_1.SidebarEvents.toggle, [this.config.collapsed]); // TODO: remove sute_7.0
+        this.paint();
+    };
+    Sidebar.prototype.collapse = function () {
+        if (!this.events.fire(types_1.SidebarEvents.beforeCollapse, [])) {
+            return;
+        }
+        this.config.collapsed = true;
+        this.events.fire(types_1.SidebarEvents.afterCollapse, []);
+        this.paint();
+    };
+    Sidebar.prototype.expand = function () {
+        if (!this.events.fire(types_1.SidebarEvents.beforeExpand, [])) {
+            return;
+        }
+        this.config.collapsed = false;
+        this.events.fire(types_1.SidebarEvents.afterExpand, []);
         this.paint();
     };
     Sidebar.prototype.isCollapsed = function () {
@@ -22734,6 +26023,7 @@ var Sidebar = /** @class */ (function (_super) {
                 ts_navbar_1.ItemType.navItem,
                 ts_navbar_1.ItemType.menuItem,
                 ts_navbar_1.ItemType.customHTMLButton,
+                ts_navbar_1.ItemType.customHTML,
                 ts_navbar_1.ItemType.separator,
                 ts_navbar_1.ItemType.spacer,
                 ts_navbar_1.ItemType.title
@@ -22741,10 +26031,10 @@ var Sidebar = /** @class */ (function (_super) {
             widgetName: "sidebar"
         });
     };
-    Sidebar.prototype._close = function () {
+    Sidebar.prototype._close = function (e) {
         this._activePosition = null;
         this._currentRoot = null;
-        _super.prototype._close.call(this);
+        _super.prototype._close.call(this, e);
     };
     Sidebar.prototype._setRoot = function (id) {
         if (this.data.getParent(id) === this.data.getRoot()) {
@@ -22816,16 +26106,16 @@ var Sidebar = /** @class */ (function (_super) {
     };
     Sidebar.prototype._customInitEvents = function () {
         var _this = this;
-        this.events.on(ts_navbar_1.NavigationBarEvents.inputFocus, function () {
-            if (_this.config.collapsed) {
-                _this._waitRestore = true;
-                _this.toggle();
-            }
-        });
         this.events.on(ts_navbar_1.NavigationBarEvents.inputBlur, function () {
             if (_this._waitRestore) {
                 _this.toggle();
                 _this._waitRestore = false;
+            }
+        });
+        this.events.on(ts_navbar_1.NavigationBarEvents.inputFocus, function () {
+            if (_this.config.collapsed) {
+                _this._waitRestore = true;
+                _this.toggle();
             }
         });
     };
@@ -22835,7 +26125,7 @@ exports.Sidebar = Sidebar;
 
 
 /***/ }),
-/* 196 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22844,12 +26134,12 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(197));
-__export(__webpack_require__(78));
+__export(__webpack_require__(206));
+__export(__webpack_require__(80));
 
 
 /***/ }),
-/* 197 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22878,14 +26168,21 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var Keymanager_1 = __webpack_require__(13);
-var ts_layout_1 = __webpack_require__(12);
-var types_1 = __webpack_require__(78);
+var ts_layout_1 = __webpack_require__(14);
+var types_1 = __webpack_require__(80);
 var Tabbar = /** @class */ (function (_super) {
     __extends(Tabbar, _super);
     function Tabbar(container, config) {
@@ -22894,15 +26191,43 @@ var Tabbar = /** @class */ (function (_super) {
             tabWidth: 200,
             tabHeight: 45,
         }, config)) || this;
+        if (_this.config.disabled) {
+            var disabled = _this.config.disabled;
+            var exsistId_1 = _this._cells.map(function (tab) {
+                return tab.id;
+            });
+            if (Array.isArray(disabled)) {
+                disabled.forEach(function (tab) {
+                    if (exsistId_1.indexOf(tab) !== -1 && _this._disabled.indexOf(tab) === -1) {
+                        _this._disabled.push(tab);
+                    }
+                });
+            }
+            else if (exsistId_1.indexOf(disabled) !== -1 && _this._disabled.indexOf(disabled) === -1) {
+                _this._disabled.push(disabled);
+            }
+            _this.paint();
+        }
         _this.events = new events_1.EventSystem(_this);
         return _this;
     }
     Tabbar.prototype.toVDOM = function () {
         var activeView = null;
         if (!this.config.noContent) {
-            activeView = this.cell(this.config.activeView);
+            activeView = this.getCell(this.config.activeView);
             if (activeView) {
-                activeView.config.css = activeView.config.css || "";
+                var disabled = this._disabled.indexOf(this.config.activeView) !== -1 ? " dhx_tabbar-content--disabled" : "";
+                if (activeView.config.css) {
+                    if (activeView.config.css.indexOf("dhx_tabbar-content--disabled") !== -1) {
+                        activeView.config.css = activeView.config.css.replace("dhx_tabbar-content--disabled", "");
+                    }
+                    else {
+                        activeView.config.css = activeView.config.css + disabled;
+                    }
+                }
+                else {
+                    activeView.config.css = disabled;
+                }
             }
         }
         return dom_1.el("div", {
@@ -22918,11 +26243,36 @@ var Tabbar = /** @class */ (function (_super) {
         this._hotkeysDestructor();
         _super.prototype.destructor.call(this);
     };
-    Tabbar.prototype.removeCell = function (id) {
+    Tabbar.prototype.getWidget = function () {
         var _this = this;
+        var activeCell = this._cells.filter(function (cell) { return _this.getActive() === cell.id; });
+        return activeCell[0].getWidget();
+    };
+    Tabbar.prototype.setActive = function (id) {
+        var exsistId = this._cells.map(function (tab) {
+            return tab.id;
+        });
+        if (exsistId.indexOf(id) !== -1 && this._disabled.indexOf(id) === -1) {
+            var prev = this.config.activeView;
+            this.getCell(id).show();
+            this._focusTab(id);
+            this.events.fire(types_1.TabbarEvents.change, [id, prev]);
+        }
+    };
+    Tabbar.prototype.getActive = function () {
+        return this.config ? this.config.activeView : null;
+    };
+    Tabbar.prototype.addTab = function (config, index) {
+        this.addCell(config, index);
+    };
+    Tabbar.prototype.removeTab = function (id) {
+        var _this = this;
+        if (!this.events.fire(types_1.TabbarEvents.beforeClose, [id])) {
+            return;
+        }
         if (id === this.config.activeView) {
-            var cellLength = this._cells.length;
-            var index = core_1.findIndex(this._cells, function (cell) { return cell.id === _this.config.activeView; });
+            var cellLength = this._getEnableTabs().length;
+            var index = core_1.findIndex(this._getEnableTabs(), function (cell) { return cell.id === _this.config.activeView; });
             if (index < 0) {
                 return;
             }
@@ -22934,34 +26284,51 @@ var Tabbar = /** @class */ (function (_super) {
                 this.config.activeView = null;
             }
             else {
-                this.setActive(this._cells[index].id);
+                this.setActive(this._getEnableTabs()[index].id);
             }
         }
         else {
             _super.prototype.removeCell.call(this, id);
         }
-        this.events.fire(types_1.TabbarEvents.close, [id]);
+        this.events.fire(types_1.TabbarEvents.afterClose, [id]);
+        this.events.fire(types_1.TabbarEvents.close, [id]); // TODO: remove sute_7.0
     };
-    Tabbar.prototype.setActive = function (id) {
-        var prev = this.config.activeView;
-        this.cell(id).show();
-        this._focusTab(id);
-        this.events.fire(types_1.TabbarEvents.change, [id, prev]);
+    Tabbar.prototype.disableTab = function (id) {
+        var exsistId = this._cells.map(function (tab) {
+            return tab.id;
+        });
+        if (exsistId.indexOf(id) !== -1 && this._disabled.indexOf(id) === -1) {
+            this._disabled.push(id);
+            this.paint();
+            return true;
+        }
+        return false;
     };
-    Tabbar.prototype.getActive = function () {
-        return this.config ? this.config.activeView : null;
+    Tabbar.prototype.enableTab = function (id) {
+        if (this._disabled.indexOf(id) !== -1) {
+            var sort = this._disabled.filter(function (tab) { return tab !== id; });
+            this._disabled = __spreadArrays(sort);
+            this.paint();
+        }
+    };
+    Tabbar.prototype.isDisabled = function (id) {
+        return this._disabled.indexOf(id ? id : this.config.activeView) !== -1;
+    };
+    // TODO: remove sute_7.0
+    Tabbar.prototype.removeCell = function (id) {
+        this.removeTab(id);
     };
     Tabbar.prototype._initHandlers = function () {
         var _this = this;
         _super.prototype._initHandlers.call(this);
-        this._handlers = __assign({}, this._handlers, { onTabClick: function (e) {
+        this._handlers = __assign(__assign({}, this._handlers), { onTabClick: function (e) {
                 var tabId = html_1.locate(e, "dhx_tabid");
-                if (!tabId) {
+                if (!tabId || _this._disabled.indexOf(tabId) !== -1) {
                     return;
                 }
                 var prev = _this.config.activeView;
                 if (e.target.classList.contains("dhx_tabbar-tab__close")) {
-                    _this.removeCell(tabId);
+                    _this.removeTab(tabId);
                 }
                 else {
                     _this.config.activeView = tabId;
@@ -22971,16 +26338,17 @@ var Tabbar = /** @class */ (function (_super) {
             } });
         var activeNextTab = function (e) {
             e.preventDefault();
-            var activeIndex = core_1.findIndex(_this._cells, function (cell) { return cell.id === _this.config.activeView; });
+            var enableTabs = _this._getEnableTabs();
+            var activeIndex = core_1.findIndex(enableTabs, function (cell) { return cell.id === _this.config.activeView; });
             var prev = _this.config.activeView;
             if (activeIndex === -1) {
                 return;
             }
-            if (activeIndex === _this.config.views.length - 1) {
-                _this.config.activeView = _this._cells[0].id;
+            if (activeIndex === enableTabs.length - 1) {
+                _this.config.activeView = enableTabs[0].id;
             }
             else {
-                _this.config.activeView = _this._cells[activeIndex + 1].id;
+                _this.config.activeView = enableTabs[activeIndex + 1].id;
             }
             _this.events.fire(types_1.TabbarEvents.change, [_this.config.activeView, prev]);
             _this._focusTab(_this.config.activeView);
@@ -22988,16 +26356,17 @@ var Tabbar = /** @class */ (function (_super) {
         };
         var activePrevTab = function (e) {
             e.preventDefault();
-            var activeIndex = core_1.findIndex(_this._cells, function (cell) { return cell.id === _this.config.activeView; });
+            var enableTabs = _this._getEnableTabs();
+            var activeIndex = core_1.findIndex(enableTabs, function (cell) { return cell.id === _this.config.activeView; });
             var prev = _this.config.activeView;
             if (activeIndex === -1) {
                 return;
             }
             if (activeIndex === 0) {
-                _this.config.activeView = _this._cells[_this.config.views.length - 1].id;
+                _this.config.activeView = enableTabs[enableTabs.length - 1].id;
             }
             else {
-                _this.config.activeView = _this._cells[activeIndex - 1].id;
+                _this.config.activeView = enableTabs[activeIndex - 1].id;
             }
             _this.events.fire(types_1.TabbarEvents.change, [_this.config.activeView, prev]);
             _this._focusTab(_this.config.activeView);
@@ -23013,9 +26382,13 @@ var Tabbar = /** @class */ (function (_super) {
     };
     Tabbar.prototype._focusTab = function (id) {
         var _this = this;
-        setTimeout(function () {
+        dom_1.awaitRedraw().then(function () {
             _this.getRootView().refs[id].el.focus();
-        }, 10);
+        });
+    };
+    Tabbar.prototype._getEnableTabs = function () {
+        var _this = this;
+        return this._cells.filter(function (tab) { return _this._disabled.indexOf(tab.config.id) === -1; });
     };
     Tabbar.prototype._getIndicatorPosition = function () {
         var _this = this;
@@ -23057,21 +26430,28 @@ var Tabbar = /** @class */ (function (_super) {
                 tabs_id: this._uid,
                 class: "dhx_tabbar-header ",
                 onclick: this._handlers.onTabClick
-            }, this._cells.map(function (cell) {
+            }, __spreadArrays(this._cells.map(function (cell) {
+                var _a = _this.config, closable = _a.closable, closeButtons = _a.closeButtons, activeView = _a.activeView;
                 return dom_1.el("li", {
                     class: "dhx_tabbar-tab" + (cell.config.tabCss ? " " + cell.config.tabCss : ""),
                     dhx_tabid: cell.id,
                     role: "presentation",
                 }, [
-                    dom_1.el("button.dhx_button.dhx_tabbar-tab-button" + (_this.config.activeView === cell.id ? ".dhx_tabbar-tab-button--active" : ""), {
+                    dom_1.el("button.dhx_button.dhx_tabbar-tab-button"
+                        + (activeView === cell.id ? ".dhx_tabbar-tab-button--active" : "")
+                        + (_this._disabled.indexOf(cell.config.id) !== -1 ? ".dhx_tabbar-tab-button--disabled" : ""), {
                         "tabindex": "0",
                         "style": tabStyle,
                         "aria-controls": cell.id,
                         "id": "tab-content-" + cell.id,
-                        "aria-selected": "" + (_this.config.activeView === cell.id),
+                        "aria-selected": "" + (activeView === cell.id),
                         "_ref": cell.id,
-                    }, [dom_1.el("span.dhx_button__text", cell.config.tab)]),
-                    _this.config.closeButtons
+                    }, [
+                        dom_1.el("span.dhx_button__text", cell.config.tab)
+                    ]),
+                    Array.isArray(closable) && closable.indexOf(cell.config.id) !== -1 && _this._disabled.indexOf(cell.config.id) === -1 ||
+                        closable && typeof closable === "boolean" && _this._disabled.indexOf(cell.config.id) === -1 ||
+                        closeButtons && typeof closeButtons === "boolean" && _this._disabled.indexOf(cell.config.id) === -1
                         ? dom_1.el("div.dhx_tabbar-tab__close.dxi--small.dxi.dxi-close", {
                             "tabindex": 0,
                             "role": "button",
@@ -23079,7 +26459,7 @@ var Tabbar = /** @class */ (function (_super) {
                         })
                         : null
                 ]);
-            }).slice())
+            })))
         ]);
     };
     return Tabbar;
@@ -23088,7 +26468,7 @@ exports.Tabbar = Tabbar;
 
 
 /***/ }),
-/* 198 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23097,13 +26477,13 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(199));
-__export(__webpack_require__(79));
-__export(__webpack_require__(80));
+__export(__webpack_require__(208));
+__export(__webpack_require__(81));
+__export(__webpack_require__(82));
 
 
 /***/ }),
-/* 199 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23135,14 +26515,14 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(21);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
+var types_1 = __webpack_require__(22);
 var view_1 = __webpack_require__(4);
 var ts_data_1 = __webpack_require__(7);
-var Editor_1 = __webpack_require__(79);
-var KeyNavigation_1 = __webpack_require__(200);
-var types_2 = __webpack_require__(80);
+var Editor_1 = __webpack_require__(81);
+var KeyNavigation_1 = __webpack_require__(209);
+var types_2 = __webpack_require__(82);
 function getSelectionIndent(level) {
     return level * 20;
 }
@@ -23156,8 +26536,10 @@ var Tree = /** @class */ (function (_super) {
                 file: "dxi dxi-file-outline",
                 folder: "dxi dxi-folder",
                 openFolder: "dxi dxi-folder-open"
-            }
+            },
+            editable: false
         }, config)) || this;
+        _this.config.editable = _this.config.editable || _this.config.editing; // TODO: remove sute_7.0
         var init = function (item) {
             item.opened = item.opened;
             item.$mark = types_2.SelectStatus.unselected;
@@ -23202,7 +26584,7 @@ var Tree = /** @class */ (function (_super) {
         this._focusId = id;
         this.data.eachParent(id, function (item) {
             if (!item.opened) {
-                _this.open(item.id);
+                _this.expand(item.id);
             }
         });
         this.paint();
@@ -23233,26 +26615,6 @@ var Tree = /** @class */ (function (_super) {
         }, true);
         this.paint();
     };
-    Tree.prototype.close = function (id) {
-        this.data.update(id, { opened: false });
-    };
-    Tree.prototype.openAll = function () {
-        var _this = this;
-        this.data.eachChild(this._root, function (_a) {
-            var id = _a.id;
-            return _this.data.haveItems(id) && _this.data.update(id, { opened: true });
-        }, true);
-    };
-    Tree.prototype.closeAll = function () {
-        var _this = this;
-        this.data.eachChild(this._root, function (_a) {
-            var id = _a.id;
-            return _this.data.haveItems(id) && _this.data.update(id, { opened: false });
-        }, true);
-    };
-    Tree.prototype.open = function (id) {
-        this.data.update(id, { opened: true });
-    };
     Tree.prototype.toggle = function (id) {
         var item = this.data.getItem(id);
         if (item.$autoload) {
@@ -23263,7 +26625,12 @@ var Tree = /** @class */ (function (_super) {
             });
         }
         else {
-            this.data.update(id, { opened: !item.opened });
+            if (item.opened) {
+                this.collapse(id);
+            }
+            else {
+                this.expand(id);
+            }
         }
     };
     Tree.prototype.getChecked = function () {
@@ -23278,8 +26645,60 @@ var Tree = /** @class */ (function (_super) {
     Tree.prototype.checkItem = function (id) {
         this._updateItemCheck(id, types_2.SelectStatus.selected);
     };
-    Tree.prototype.unCheckItem = function (id) {
+    Tree.prototype.collapse = function (id) {
+        if (this.data.haveItems(id)) {
+            if (!this.events.fire(types_2.TreeEvents.beforeCollapse, [id])) {
+                return;
+            }
+            this.data.update(id, { opened: false });
+            this.events.fire(types_2.TreeEvents.afterCollapse, [id]);
+        }
+    };
+    Tree.prototype.collapseAll = function () {
+        var _this = this;
+        this.data.eachChild(this._root, function (_a) {
+            var id = _a.id;
+            return _this.collapse(id);
+        }, true);
+    };
+    Tree.prototype.expand = function (id) {
+        if (this.data.haveItems(id)) {
+            if (!this.events.fire(types_2.TreeEvents.beforeExpand, [id])) {
+                return;
+            }
+            this.data.update(id, { opened: true });
+            this.events.fire(types_2.TreeEvents.afterExpand, [id]);
+        }
+    };
+    Tree.prototype.expandAll = function () {
+        var _this = this;
+        this.data.eachChild(this._root, function (_a) {
+            var id = _a.id;
+            return _this.expand(id);
+        }, true);
+    };
+    Tree.prototype.uncheckItem = function (id) {
         this._updateItemCheck(id, types_2.SelectStatus.unselected);
+    };
+    // TODO: remove sute_7.0
+    Tree.prototype.close = function (id) {
+        this.collapse(id);
+    };
+    // TODO: remove sute_7.0
+    Tree.prototype.closeAll = function () {
+        this.collapseAll();
+    };
+    // TODO: remove sute_7.0
+    Tree.prototype.open = function (id) {
+        this.expand(id);
+    };
+    // TODO: remove sute_7.0
+    Tree.prototype.openAll = function () {
+        this.expandAll();
+    };
+    // TODO: remove sute_7.0
+    Tree.prototype.unCheckItem = function (id) {
+        this.uncheckItem(id);
     };
     Tree.prototype._draw = function () {
         var items = this._drawItems(this.data.getRoot());
@@ -23342,7 +26761,7 @@ var Tree = /** @class */ (function (_super) {
         });
         this.events.on(ts_data_1.DragEvents.dropComplete, function (id, pos) {
             if (_this.config.dropBehaviour === ts_data_1.DropBehaviour.child || (_this.config.dropBehaviour === ts_data_1.DropBehaviour.complex && pos === ts_data_1.DropPosition.in)) {
-                _this.open(id);
+                _this.expand(id);
             }
         });
         this.events.on(ts_data_1.DragEvents.dragStart, function () {
@@ -23354,7 +26773,7 @@ var Tree = /** @class */ (function (_super) {
             _this.paint();
         });
         this.events.on(types_1.SelectionEvents.afterSelect, function (id) { return _this._focusId = id; });
-        if (this.config.editing) {
+        if (this.config.editable) {
             this.events.on(types_2.TreeEvents.itemDblClick, function (id) { return _this.editItem(id); });
         }
     };
@@ -23379,7 +26798,7 @@ var Tree = /** @class */ (function (_super) {
                         _this.checkItem(id);
                     }
                     else {
-                        _this.unCheckItem(id);
+                        _this.uncheckItem(id);
                     }
                     return;
                 }
@@ -23405,7 +26824,8 @@ var Tree = /** @class */ (function (_super) {
                 if (!id) {
                     return;
                 }
-                _this.events.fire(types_2.TreeEvents.itemContextMenu, [id, e]);
+                _this.events.fire(types_2.TreeEvents.itemRightClick, [id, e]);
+                _this.events.fire(types_2.TreeEvents.itemContextMenu, [id, e]); // TODO: remove sute_7.0
             }
         };
     };
@@ -23552,14 +26972,14 @@ function getItemIconType(isFolder, isOpened) {
 
 
 /***/ }),
-/* 200 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
-var html_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var Keymanager_1 = __webpack_require__(13);
 var KeyNavigation = /** @class */ (function () {
     function KeyNavigation() {
@@ -23593,7 +27013,7 @@ var KeyNavigation = /** @class */ (function () {
             var focused = _this._getFocused();
             var parent = target.data.getParent(focused);
             if (target.data.getRoot() === parent) {
-                target.close(focused);
+                target.collapse(focused);
                 return;
             }
             var isClosed = !target.data.getItem(focused).opened;
@@ -23602,7 +27022,7 @@ var KeyNavigation = /** @class */ (function () {
             }
             else {
                 if (focused !== target.data.getRoot()) {
-                    target.close(focused);
+                    target.collapse(focused);
                 }
             }
         });
@@ -23617,7 +27037,7 @@ var KeyNavigation = /** @class */ (function () {
             }
             var focused = _this._getFocused();
             if (target.data.haveItems(focused)) {
-                target.open(focused);
+                target.expand(focused);
             }
         });
         this._keyManager.addHotKey("arrowup", function (e) {
@@ -23743,7 +27163,7 @@ exports.keyNavigation = new KeyNavigation();
 
 
 /***/ }),
-/* 201 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23752,11 +27172,11 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(202));
+__export(__webpack_require__(211));
 
 
 /***/ }),
-/* 202 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23764,12 +27184,12 @@ __export(__webpack_require__(202));
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var Keymanager_1 = __webpack_require__(13);
-var ts_layout_1 = __webpack_require__(12);
-var ts_toolbar_1 = __webpack_require__(27);
-var types_1 = __webpack_require__(203);
-var WindowController_1 = __webpack_require__(204);
+var ts_layout_1 = __webpack_require__(14);
+var ts_toolbar_1 = __webpack_require__(29);
+var types_1 = __webpack_require__(212);
+var WindowController_1 = __webpack_require__(213);
 function detectDrag(e) {
     return new Promise(function (res) {
         var timeout = setTimeout(function () {
@@ -23798,16 +27218,18 @@ var Window = /** @class */ (function () {
             movable: false,
             resizable: false,
             header: false,
-            closable: config.modal,
-            minWidth: 100,
-            minHeight: 100
+            closable: config.modal
         }, config);
+        if (this.config.node && typeof this.config.node === "string") {
+            this.config.node = document.getElementById(this.config.node);
+        }
+        else if (!this.config.node) {
+            this.config.node = document.body;
+        }
         this._uid = core_1.uid();
         this.events = new events_1.EventSystem(this);
         var popup = this._popup = document.createElement("div");
-        popup.className = "dhx_popup dhx_widget dhx_popup--window" + (this.config.modal ? " dhx_popup--window_modal" : "");
         popup.tabIndex = 1;
-        popup.style.position = "absolute";
         if (!this.config.modal) {
             WindowController_1.default.add(this._uid, this._popup);
         }
@@ -23821,7 +27243,7 @@ var Window = /** @class */ (function () {
     Window.prototype.paint = function () {
         this._layout.paint();
     };
-    Window.prototype.fullScreen = function () {
+    Window.prototype.setFullScreen = function () {
         this.setSize(window.innerWidth, window.innerHeight);
         this.setPosition(window.pageXOffset, window.pageYOffset);
     };
@@ -23835,10 +27257,10 @@ var Window = /** @class */ (function () {
             height: oldsize.height
         };
         if (core_1.isDefined(width)) {
-            size.width = width;
+            this.config.width = size.width = width;
         }
         if (core_1.isDefined(height)) {
-            size.height = height;
+            this.config.height = size.height = height;
         }
         this._popup.style.width = size.width + "px";
         this._popup.style.height = size.height + "px";
@@ -23889,17 +27311,20 @@ var Window = /** @class */ (function () {
         if (!this.events.fire(types_1.WindowEvents.beforeShow, [left, top])) {
             return;
         }
-        var height = this.config.height = this.config.height || this.config.minHeight || window.innerHeight / 2;
-        var width = this.config.width = this.config.width || this.config.minWidth || window.innerWidth / 2;
-        this.config.left = left = core_1.isDefined(left) ? left : (window.innerWidth - width) / 2 + window.pageXOffset;
-        this.config.top = top = core_1.isDefined(top) ? top : (window.innerHeight - height) / 2 + window.pageYOffset;
+        this._popup.className = "dhx_popup dhx_widget dhx_popup--window" + (this.config.modal ? " dhx_popup--window_modal" : "") + (this.config.css ? " " + this.config.css : "");
+        this._popup.style.position = this.config.modal ? "fixed" : "absolute";
+        var _a = this._getContainerParams(), containerInnerWidth = _a.containerInnerWidth, containerInnerHeight = _a.containerInnerHeight, containerXOffset = _a.containerXOffset, containerYOffset = _a.containerYOffset;
+        var width = this.config.width = this.config.width || this.config.minWidth || containerInnerWidth / 2;
+        var height = this.config.height = this.config.height || this.config.minHeight || containerInnerHeight / 2;
+        this.config.left = left = core_1.isDefined(left) ? left : (containerInnerWidth - width) / (this.config.modal ? 2 : 2 + containerXOffset);
+        this.config.top = top = core_1.isDefined(top) ? top : (containerInnerHeight - height) / (this.config.modal ? 2 : 2 + containerYOffset);
         if (this._isActive) {
             this._popup.style.left = left + "px";
             this._popup.style.top = top + "px";
             return;
         }
         if (this.config.viewportOverflow) {
-            WindowController_1.default.openFreeWindow();
+            WindowController_1.default.openFreeWindow(this.config.node);
         }
         if (this.config.modal) {
             this._blockScreen();
@@ -23908,7 +27333,7 @@ var Window = /** @class */ (function () {
         this._popup.style.height = height + "px";
         this._popup.style.left = left + "px";
         this._popup.style.top = top + "px";
-        document.body.appendChild(this._popup);
+        this.config.node.appendChild(this._popup);
         this._popup.focus();
         this._isActive = true;
         this.events.fire(types_1.WindowEvents.afterShow, []);
@@ -23918,27 +27343,33 @@ var Window = /** @class */ (function () {
             return;
         }
         if (this.config.viewportOverflow) {
-            WindowController_1.default.closeFreeWindow();
+            WindowController_1.default.closeFreeWindow(this.config.node);
         }
         if (this._blocker) {
-            document.body.removeChild(this._blocker);
+            this.config.node.removeChild(this._blocker);
             if (this.config.closable) {
                 Keymanager_1.keyManager.removeHotKey(null, this);
             }
             this._blocker = null;
         }
-        document.body.removeChild(this._popup);
+        this.config.node.removeChild(this._popup);
         this._isActive = false;
         this.events.fire(types_1.WindowEvents.afterHide, []);
     };
     Window.prototype.isVisible = function () {
         return this._isActive;
     };
+    Window.prototype.getWidget = function () {
+        return this._layout.getCell("content").getWidget();
+    };
+    Window.prototype.getContainer = function () {
+        return this.getRootView().data._container;
+    };
     Window.prototype.attach = function (name, config) {
-        this._layout.cell("content").attach(name, config);
+        this._layout.getCell("content").attach(name, config);
     };
     Window.prototype.attachHTML = function (html) {
-        this._layout.cell("content").attach(function () { return dom_1.el(".dhx_window__inner-html-content", {
+        this._layout.getCell("content").attach(function () { return dom_1.el(".dhx_window__inner-html-content", {
             ".innerHTML": html
         }); });
     };
@@ -23957,6 +27388,10 @@ var Window = /** @class */ (function () {
         }
         this._layout.destructor();
         this._popup = null;
+    };
+    // TODO: remove sute_7.0
+    Window.prototype.fullScreen = function () {
+        this.setFullScreen();
     };
     Window.prototype._initHandlers = function () {
         var _this = this;
@@ -24020,7 +27455,7 @@ var Window = /** @class */ (function () {
     Window.prototype._initUI = function () {
         var _this = this;
         var rows = [];
-        var isHeader = this.config.header || this.config.title || this.config.closable;
+        var isHeader = this.config.header || this.config.title || this.config.closable || this.config.movable;
         if (isHeader) {
             rows.push({
                 id: "header",
@@ -24040,7 +27475,7 @@ var Window = /** @class */ (function () {
             rows.push({ id: "resizers", gravity: false, css: "resizers" });
         }
         var layout = this._layout = new ts_layout_1.Layout(this._popup, {
-            css: "dhx_window" + (this.config.modal ? " dhx_window--modal" : "") + (this.config.css ? " " + this.config.css : ""),
+            css: "dhx_window" + (this.config.modal ? " dhx_window--modal" : ""),
             rows: rows,
             on: {
                 click: this._handlers.setActive
@@ -24074,14 +27509,14 @@ var Window = /** @class */ (function () {
                     }
                 });
             }
-            layout.cell("header").attach(header);
+            layout.getCell("header").attach(header);
         }
         if (this.config.footer) {
             var footer = this.footer = new ts_toolbar_1.Toolbar();
-            layout.cell("footer").attach(footer);
+            layout.getCell("footer").attach(footer);
         }
         if (this.config.resizable) {
-            layout.cell("resizers").attach(function () { return _this._drawResizers(); });
+            layout.getCell("resizers").attach(function () { return _this._drawResizers(); });
         }
     };
     Window.prototype._drawResizers = function () {
@@ -24100,7 +27535,7 @@ var Window = /** @class */ (function () {
     };
     Window.prototype._startDrag = function (x, y) {
         var _this = this;
-        document.body.classList.add("dhx_window--stop_selection");
+        this.config.node.classList.add("dhx_window--stop_selection");
         var deltaX = x - this._popup.offsetLeft;
         var deltaY = y - this._popup.offsetTop;
         var width = this._popup.offsetWidth;
@@ -24108,24 +27543,23 @@ var Window = /** @class */ (function () {
         var mousemove = function (e) {
             var oldposition = {
                 left: _this._popup.offsetLeft,
-                top: _this._popup.offsetTop,
+                top: _this._popup.offsetTop
             };
-            var initX = window.pageXOffset;
-            var initY = window.pageYOffset;
             var newX = e.pageX - deltaX;
             var newY = e.pageY - deltaY;
             if (!_this.config.viewportOverflow) {
-                if (newX < initX) {
-                    newX = initX;
+                var _a = _this._getContainerParams(), containerXOffset = _a.containerXOffset, containerYOffset = _a.containerYOffset, containerInnerWidth = _a.containerInnerWidth, containerInnerHeight = _a.containerInnerHeight;
+                if (newX < containerXOffset) {
+                    newX = containerXOffset;
                 }
-                else if (newX > initX + window.innerWidth - width) {
-                    newX = initX + window.innerWidth - width;
+                else if (newX > containerXOffset + containerInnerWidth - width) {
+                    newX = containerXOffset + containerInnerWidth - width;
                 }
-                if (newY < initY) {
-                    newY = initY;
+                if (newY < containerYOffset) {
+                    newY = containerYOffset;
                 }
-                else if (newY > initY + window.innerHeight - height) {
-                    newY = initY + window.innerHeight - height;
+                else if (newY > containerYOffset + containerInnerHeight - height) {
+                    newY = containerYOffset + containerInnerHeight - height;
                 }
             }
             _this.config.left = newX;
@@ -24142,15 +27576,15 @@ var Window = /** @class */ (function () {
         var mouseup = function () {
             document.removeEventListener("mouseup", mouseup);
             document.removeEventListener("mousemove", mousemove);
-            document.body.classList.remove("dhx_window--stop_selection");
+            _this.config.node.classList.remove("dhx_window--stop_selection");
         };
         document.addEventListener("mouseup", mouseup);
         document.addEventListener("mousemove", mousemove);
     };
     Window.prototype._startResize = function (resizeConfig) {
         var _this = this;
-        var minWidth = this.config.minWidth;
-        var minHeight = this.config.minHeight;
+        var minWidth = this.config.minWidth | 100;
+        var minHeight = this.config.minHeight | 100;
         var left = this._popup.offsetLeft;
         var top = this._popup.offsetTop;
         var width = this._popup.offsetWidth;
@@ -24182,21 +27616,22 @@ var Window = /** @class */ (function () {
                 resizeClassName = "dhx_window-body-pointer--right";
                 break;
         }
-        document.body.classList.add("dhx_window--stop_selection");
-        document.body.classList.add(resizeClassName);
+        this.config.node.classList.add("dhx_window--stop_selection");
+        this.config.node.classList.add(resizeClassName);
         var mousemove = function (e) {
+            var _a = _this._getContainerParams(), containerInnerWidth = _a.containerInnerWidth, containerInnerHeight = _a.containerInnerHeight, containerXOffset = _a.containerXOffset, containerYOffset = _a.containerYOffset;
             var size = {
-                width: e.pageX - left,
-                height: e.pageY - top,
-                left: e.pageX,
-                top: e.pageY
+                width: _this._notInNode() ? (e.pageX - left) : (e.pageX - _this.config.node.offsetLeft - left),
+                height: _this._notInNode() ? (e.pageY - top) : (e.pageY - _this.config.node.offsetTop - top),
+                left: _this._notInNode() ? e.pageX : e.pageX - _this.config.node.offsetLeft,
+                top: _this._notInNode() ? e.pageY : e.pageY - _this.config.node.offsetTop
             };
             if (resizeConfig.right) {
                 if (size.width < minWidth) {
                     size.width = minWidth;
                 }
-                else if (size.width > window.pageXOffset + window.innerWidth - left) {
-                    size.width = window.pageXOffset + window.innerWidth - left;
+                else if (size.width > containerXOffset + containerInnerWidth - left) {
+                    size.width = containerXOffset + containerInnerWidth - left;
                 }
                 _this._popup.style.width = size.width + "px";
             }
@@ -24204,8 +27639,8 @@ var Window = /** @class */ (function () {
                 if (size.height < minHeight) {
                     size.height = minHeight;
                 }
-                else if (size.height > window.pageYOffset + window.innerHeight - top) {
-                    size.height = window.pageYOffset + window.innerHeight - top;
+                else if (size.height > containerYOffset + containerInnerHeight - top) {
+                    size.height = containerYOffset + containerInnerHeight - top;
                 }
                 _this._popup.style.height = size.height + "px";
             }
@@ -24219,8 +27654,8 @@ var Window = /** @class */ (function () {
                 _this._popup.style.width = size.width + "px";
             }
             if (resizeConfig.top) {
-                if (size.top < window.pageYOffset) {
-                    size.top = window.pageYOffset;
+                if (size.top < containerYOffset) {
+                    size.top = containerYOffset;
                 }
                 else if (top + height - size.top < minHeight) {
                     size.top = top + height - minHeight;
@@ -24237,8 +27672,8 @@ var Window = /** @class */ (function () {
         var mouseup = function () {
             document.removeEventListener("mouseup", mouseup);
             document.removeEventListener("mousemove", mousemove);
-            document.body.classList.remove("dhx_window--stop_selection");
-            document.body.classList.remove(resizeClassName);
+            _this.config.node.classList.remove("dhx_window--stop_selection");
+            _this.config.node.classList.remove(resizeClassName);
         };
         document.addEventListener("mouseup", mouseup);
         document.addEventListener("mousemove", mousemove);
@@ -24247,21 +27682,33 @@ var Window = /** @class */ (function () {
         var _this = this;
         var blocker = document.createElement("div");
         blocker.className = "dhx_window__overlay";
-        document.body.appendChild(blocker);
+        this.config.node.appendChild(blocker);
         this._blocker = blocker;
         if (this.config.closable) {
             blocker.addEventListener("click", function () { return _this.hide(); });
             Keymanager_1.keyManager.addHotKey("escape", function () { return _this.hide(); }, this);
         }
     };
+    Window.prototype._notInNode = function () {
+        return this.config.node === document.body || this.config.modal;
+    };
+    Window.prototype._getContainerParams = function () {
+        var notInNode = this._notInNode();
+        return {
+            containerInnerWidth: notInNode ? window.innerWidth : this.config.node.offsetWidth,
+            containerInnerHeight: notInNode ? window.innerHeight : this.config.node.offsetHeight,
+            containerXOffset: notInNode ? window.pageXOffset : this.config.node.scrollLeft,
+            containerYOffset: notInNode ? window.pageYOffset : this.config.node.scrollTop
+        };
+    };
     return Window;
 }());
 exports.Window = Window;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(12)))
 
 /***/ }),
-/* 203 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24280,7 +27727,7 @@ var WindowEvents;
 
 
 /***/ }),
-/* 204 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24311,16 +27758,16 @@ exports.default = {
             popup.classList.add("dhx_popup--window_active");
         }
     },
-    openFreeWindow: function () {
+    openFreeWindow: function (node) {
         if (this.freeCount === 0) {
-            document.body.classList.add("dhx_window--no-scroll");
+            node.classList.add("dhx_window--no-scroll");
         }
         this.freeCount++;
     },
-    closeFreeWindow: function () {
+    closeFreeWindow: function (node) {
         this.freeCount--;
         if (this.freeCount === 0) {
-            document.body.classList.remove("dhx_window--no-scroll");
+            node.classList.remove("dhx_window--no-scroll");
         }
     }
 };

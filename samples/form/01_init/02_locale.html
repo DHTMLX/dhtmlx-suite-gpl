@@ -6,14 +6,16 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its initialization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">		
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/form.css?v=6.4.2">
+		
 		<!-- custom sample head -->
 		<style>
-			.dhx_sample-container { 
-				max-width: 600px;
-				min-height: auto;
+			.dhx_sample-container__widget {
+				padding: 0 50px;
+				height: 100%;
 			}
 		</style>
 	</head>
@@ -37,7 +39,9 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					Localization.
+					<div class="dhx_sample-header__content">
+						Localization.
+					</div>
 				</h1>
 			</div>
 </header>
@@ -45,19 +49,17 @@
 			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
 				<input type="radio" checked name="lang" id="english" class="dhx_radiobutton__input">
 				<span class="dhx_radiobutton__visual-input"></span>
-				<span class="dhx_label">English </span>
+				<span class="dhx_sample-label">English </span>
 			</label>
 			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
 				<input type="radio" name="lang" id="deutsch" class="dhx_radiobutton__input">
 				<span class="dhx_radiobutton__visual-input"></span>
-				<span class="dhx_label">Deutsch</span>
+				<span class="dhx_sample-label">Deutsch</span>
 			</label>
 		</section>
-	
 		<section class="dhx_sample-container">
-				<form class="dhx_sample-container__widget" id="form-sample" style="max-width: 400px;"></form>
+			<form class="dhx_sample-container__widget" id="form-sample"></form>
 		</section>
-		
 		<script>
 			var locale = {
 				en: {
@@ -88,23 +90,30 @@
 					simpleVaultLabel: "Suchen Sie Dateien durch",
 					send: "Sturen",
 				}
-			}
+			};
+
 			function getDate(currentLocale) {
 				return {
-					cellCss: "dhx_widget--bordered",
+					css: "dhx_widget--bordered",
 					title: locale[currentLocale].title,
 					rows: [
 						{
 							type: "input",
-							placeholder: locale[currentLocale].fname
+							gravity: false,
+							placeholder: locale[currentLocale].fname,
+							name: "firstname"
 						},
 						{
 							type: "input",
-							placeholder: locale[currentLocale].lname
+							gravity: false,
+							placeholder: locale[currentLocale].lname,
+							name: "lastname"
 						},
 						{
 							type: "combo",
+							gravity: false,
 							placeholder: locale[currentLocale].position,
+							name: "position",
 							data: [
 								{
 									value: locale[currentLocale].positionItems.front,
@@ -122,6 +131,8 @@
 						},
 						{
 							type: "simpleVault",
+							gravity: false,
+							name: "vault"
 						},
 						{
 							align: "end",
@@ -136,20 +147,20 @@
 						}
 					]
 				}
-			}
+			};
 
 			var form = new dhx.Form("form-sample", getDate("en"));
+
 			document.querySelector("#english").addEventListener("change", function(){
 				dhx.i18n.setLocale("form", locale["en"]);
-				currentLocale = "en"
+				currentLocale = "en";
 				form.setConfig(getDate("en"));
-			}) 
+			});
 			document.querySelector("#deutsch").addEventListener("change", function(){
 				dhx.i18n.setLocale("form", locale["de"]);
-				currentLocale = "de"
+				currentLocale = "de";
 				form.setConfig(getDate("de"));
-			}) 
+			});
 		</script>
-
 	</body>
 </html>

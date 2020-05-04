@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Localization - DHTMLX Combobox</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Combobox to explore its initialization and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/combobox.css?v=6.4.2">
+		<script type="text/javascript" src="../common/dataset.js?v=6.4.2"></script>
+		<!-- custom sample head -->
+	
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Combobox samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Initialization</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Localization</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Localization.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input checked type="radio" name="lang" id="english" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">English</span>
+			</label>
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input type="radio" name="lang" id="deutsch" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Deutsch</span>
+			</label>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="combobox"></div>
+		</section>
+		<script>
+			var locale = {
+				en: {
+					notFound: "Not found",
+					selectAll: "Select all",
+					unselectAll: "Unselect all",
+					selectedItems: "Selected items"
+				},
+				de: {
+					notFound: "Nicht gefunden",
+					selectAll: "Alle auswählen",
+					unselectAll: "Deaktivieren Sie Alle",
+					selectedItems: "Ausgewählte Elemente"
+				}
+			};
+			var config = {
+				multiselection: true,
+				selectAllButton: true,
+				itemsCount: true
+			};
+
+			dhx.i18n.setLocale("combobox", locale["en"]);
+			var combobox = new dhx.Combobox("combobox", config);
+			combobox.data.parse(part.slice(0, 10));
+
+			function setLocale(name) {
+				dhx.i18n.setLocale("combobox", locale[name]);
+				combobox.destructor();
+				combobox = new dhx.Combobox("combobox", config);
+				combobox.data.parse(part.slice(0, 10));
+
+				document.querySelector(".dhx_combobox-input").click();
+			}
+			document.querySelector("#english").addEventListener("change", function() {
+				setLocale("en");
+			});
+			document.querySelector("#deutsch").addEventListener("change", function() {
+				setLocale("de");
+			});
+		</script>
+	</body>
+</html>

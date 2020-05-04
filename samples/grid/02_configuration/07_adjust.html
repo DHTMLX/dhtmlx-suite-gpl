@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Adjust columns - DHTMLX Grid</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Grid to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/grid.css?v=6.4.2">
+		<script type="text/javascript" src="../common/dataset.js?v=6.4.2"></script>
+		<!-- custom sample head -->
+		<style>
+			.dhx_form-group {
+				max-width: 300px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Grid samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Adjust columns</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						You can configure columns&#x27; settings so that their width would automatically adjust to their content.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder" id="form-select">
+				<label for="adjust" class="dhx_label">Adjust by:</label>
+				<select name="adjust" class="dhx_select dhx_input" id="adjust">
+					<option value="true" selected>All</option>
+					<option value="header">Header</option>
+					<option value="data">Data</option>
+					<option value="false">Off</option>
+				</select>
+			</div>
+		</section>
+		<section class="dhx_sample-container" style="width:1000px;">
+			<div class="dhx_sample-container__widget" id="grid"></div>
+		</section>
+		<script>
+			var grid;
+			var config = {
+				columns: [
+					{ id: "country", header: [{ text: "Country" }] },
+					{ id: "population", header: [{ text: "Population" }] },
+					{ id: "yearlyChange", header: [{ text: "Yearly Change" }] },
+					{ id: "netChange", header: [{ text: "Net Change" }] },
+					{ id: "destiny", header: [{ text: "Density (P/Km²)" }] },
+					{ id: "area", header: [{ text: "Land Area (Km²)" }] },
+					{ id: "migrants", header: [{ text: "Migrants (net)" }] },
+					{ id: "fert", header: [{ text: "Fert. Rate" }] },
+					{ id: "age", header: [{ text: "Med. Age" }] },
+					{ id: "urban", header: [{ text: "Urban Pop" }] }
+				],
+				adjust: true,
+				data: dataset
+			};
+			initGrid();
+
+			function initGrid() {
+				if (grid) {
+					grid.destructor();
+				}
+				grid = new dhx.Grid("grid", JSON.parse(JSON.stringify(config)));
+			}
+
+			document.getElementById("form-select").addEventListener("change", function(e) {
+				if (e.target.value === ("true" || "false")) {
+					config.adjust = e.target.value === "true";
+				} else {
+					config.adjust = e.target.value;
+				}
+				initGrid();
+			});
+		</script>
+	</body>
+</html>

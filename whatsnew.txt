@@ -1,7 +1,326 @@
+Version 6.4.2 (March 3, 2020)
+----------------------------
+
+#### Fixes
+
+- The issue with virtualization behavior in Grid when interacting with Tabbar
+- The issue with clicking on a frozen column in Grid
+- The issue with export data from Grid to Excel
+- Issue with rendering of Chart at zero value
+- Status of an active element is added in Menu
+- The ability to check validation of values is added in Colorpicker
+- Styles for all inputs with invalid values are fixed for Firefox browser
+
+Version 6.4.1 (January 30, 2020)
+----------------------------
+
+#### Fixes
+
+- Behavior of lazy load in Grid
+- The issue with the template configuration option in a column of Grid
+- The issue with the headerIcon property of a layout cell
+- The issue with the height of layout cells when the layout has a header
+
+Version 6.4.0 (January 28, 2020)
+----------------------------
+
+### New functionality
+
+#### Calendar
+- The ability to clear the value set in the calendar using the clear method
+
+#### Chart
+- The serieClick event is added
+- The ability to rotate labels of data items on the scale using the scaleRotate property in the configuration of the scale
+- The ability to rotate text values of data items in Bar and X-Bar chart via the showTextRotate property in the configuration of the series
+
+#### ColorPicker
+- The possibility to specify the mode of displaying a colorpicker using the mode property
+- The ability to clear the value set in the colorpicker and remove focus via the clear method
+
+#### Combobox
+- The possibility to check whether a combobox is disabled on the page using the isDisabled method
+- The beforeClose and afterClose events are added
+- The ability to specify an array of data objects before initialization via the data configuration property
+- The possibility to define the position of a label of a combobox using the labelPosition property
+
+#### Dataview
+- The itemMouseOver event is added
+
+#### Form
+- The ability to check whether a form or a form control is disabled on the page via the isDisabled method
+- The possibility to disable a form on a page using the disable method
+- The possibility to enable a form on a page using the enable method
+- The possibility to make a form disabled using the disabled property
+- The ability to use methods for Button, DatePicker, Checkbox, ColorPicker, Combo, Input, RadioGroup, Select, SimpleVault, Slider, Text, Textarea, TimePicker Form controls: disable(), enable(), isDisabled()
+- The possibility to specify the maximum number of characters allowed in the input via the maxlength attribute of Input Form control
+- The ability to set the format of the value that will be returned while getting the current value of DatePicker control using the valueFormat property
+- The ability to define the position of a label for Button, DatePicker, Checkbox, ColorPicker, Combo, Input, RadioGroup, Select, SimpleVault, Slider, Text Textarea, TimePicker Form controls using the labelPosition attribute
+- The possibility to specify the url attribute to which form data will be sent to for Button Form control
+- The forEach method is added
+
+#### Grid
+- The ability to adjust the size of Grid columns to the size of Grid via the autoWidth configuration property
+- The possibility to adjust the width of columns to the width of their content automatically using the adjust configuration option
+- The ability to select multiple rows or cells of Grid using the multiselection property
+- The possibility to set selection to multiple cells/rows of Grid via the setCell() method of the selection object
+- New additional arrow keyboard shortcuts are added to Keyboard navigation
+- The ability to sort content of any Grid column by clicking on its header via the sortable property
+- The getSortingState method that allows getting the current state of sorting data in Grid is added
+- The possibility to check visibility of a column via the isColumnHidden method
+- The ability to enable dynamic loading of data in Grid
+- The AfterKeyDown and BeforeKeyDown events are added
+
+#### Layout
+- The AfterExpand and BeforeExpand events are added
+- The ability to collapse/expand a specified cell using the corresponding collapse and expand methods
+- The toggle method is added
+- The forEach method is added
+- The ability to set the height for a cell of a layout with a header via the headerHeight configuration property of a cell
+
+#### List
+- The itemMouseOver event is added
+- The ability to enable dynamic loading of data in List
+
+#### Menu, Toolbar, Sidebar, Ribbon
+- The isDisabled method is added into the Menu API
+- The isDisabled method is added into the Toolbar API
+- The isDisabled method is added into the Sidebar API
+- The isDisabled method is added into the Ribbon API
+
+#### Sidebar
+- The beforeCollapse, afterCollapse, beforeExpand, afterExpand events are added
+- The possibility to expand/collapse a sidebar using the corresponding expand and collapse methods
+
+#### Slider
+- The possibility to check if a slider is disabled via the isDisabled method
+- The possibility to define the position of a label of a slider using the labelPosition property
+
+#### Tabbar
+- The possibility to equip each Tabbar tab with a close button using the closable property
+- The beforeClose and afterClose events are added
+- The ability to make a tab or several tabs disabled using the disabled property
+- The ability to disable/enable a tab on a page via the corresponding disableTab and enableTab methods
+
+#### TimePicker
+- The ability to clear the value set in the timepicker using the clear method
+- The beforeClose and afterClose events are added
+
+#### Tree
+- The afterCollapse, afterExpand, beforeCollapse, beforeExpand events are added
+- The ability to set the icon property in the configuration of a tree item to render a tree item as a custom folder
+
+#### TreeGrid
+- The ability to check visibility of a column via the isColumnHidden
+- The AfterCollapse, BeforeCollapse, AfterExpand, BeforeExpand events are added
+- The possibility to adjust the size of TreeGrid columns to the size of TreeGrid via the autoWidth configuration property
+- The ability to adjust the width of columns to the width of their content automatically with the help of the adjust property
+- The ability to sort content of any TreeGrid column by clicking on its header using the sortable property
+- The getSortingState method that allows getting the current state of sorting data in TreeGrid is added
+
+#### Window
+- The possibility to place a window into a custom container using the node property
+
+#### Helpers
+- The possibility to load data dynamically using the LazyDataProxy helper
+
+#### Data Collection
+- The forEach method is added
+- The changeId method is added
+- The ability to check whether the specified data range is loaded from the server using the isDataLoaded method
+- The BeforeLazyLoad and AfterLazyLoad events are added
+
+#### Tree Collection
+- The forEach method is added
+
+### Updates
+
+- Now the multiselection configuration property allows setting the mode of multiselection in Dataview
+- Now the multiselection property allows setting the mode of multiselection in List
+- The getValue method of DatePicker Form control
+
+#### Fixes
+
+- The issue with ability to use all types of chart scales in any combinations
+- The issue with the setActive() method in Tabbar
+- The issue with styles when switching between modes in Colorpicker
+- The issue with the getValue() method in Calendar and Colorpicker
+- The issue with styles when Slider is disabled
+- The issue with styles when Combobox is disabled
+- Issues with the filter() method in Tree Collection
+
+Version 6.3.1 (December 18, 2019)
+----------------------------
+
+### Fixes
+
+- Add the possibility to set the css and data property in Chart
+- Issue with starting editing Grid columns with the help of the keynavigation when the editing: false property is set in the configuration of a column
+- Issue with the change event that fired before changes were applied in Form
+- Add the ability to set the name attribute in the setValue method of Form control as key
+- Issue with the combo control of For
+
+Version 6.3.0 (December 12, 2019)
+----------------------------
+
+### New functionality
+
+#### Calendar
+- The ability to get the current mode of displaying Calendar via the getCurrentMode() method
+- New cancelClick, modeChange, monthSelected, yearSelected events are added
+
+#### Chart
+- The ability to specify templates for showing values of data items in Bar, X-Bar, Pie and Pie 3D charts using the showTextTemplate property
+
+#### Grid
+- Keyboard navigation
+- The possibility to finish editing of a cell via the editEnd() method
+- The ability to add custom elements into Grid cells using the htmlEnable property
+
+#### TreeGrid
+- The collapse, collapseAll, expand, expandAll methods are added
+- The ability to add custom elements into TreeGrid cells using the htmlEnable property
+
+#### Menu/Ribbon/SideBar/Toolbar
+- The ability to add custom HTML items into Menu, Ribbon, Sidebar and Toolbar
+- The possibility to create Menu controls (MenuItem, NavItem) with custom HTML content using the html attribute of Menu controls
+- The possibility to create Ribbon controls (Block, Button, ImageButton, NavItem, SelectButton, Title) with custom HTML content using the html attribute of Ribbon controls
+- The possibility to create Sidebar controls (Button, NavItem, SelectButton, Title) with custom HTML content using the html attribute of Sidebar controls
+- The possibility to create Toolbar controls (Button, ImageButton, NavItem, SelectButton, Title) with custom HTML content using the html attribute of Toolbar controls
+
+#### Helper
+- The ability to exchange data with a web server using AJAX
+
+### Updates
+
+#### API
+-Some API methods and events of the DHTMLX library have been renamed. Their old variants will be available but is not recommended for use. Check the details in the Migration article.
+
+#### List/DataView
+-The ability to specify the height of a List item and height of a list either as a number or string value
+
+### Fixes
+
+- Issues with event system in Grid
+- Padding for content with header was removed in Layout
+- Add ability to set padding for cells with header in Layout
+- Issue with incorrect displaying resizers of Layout in IE
+- Add ability to change sizes of Window according to content size via the css property
+- Issue with the setSize method when Window is hidden
+- Issues with interaction between the HTML form and controls of Toolbar, Sidebar, Ribbon, Menu
+- Issue with the validation property of Form controls
+- Behavior of a TimePicker control of Form
+
+Version 6.2.3 (November 19, 2019)
+----------------------------
+
+###Fixes
+
+- Issue with setting the value in TimePicker of Form
+- Issue with getting the value while editing the DatePicker control of Form
+- Issue with getting values in validation mode of Form
+- Issue with the "movable" property in Window
+- Issue with Window fixation
+
+Version 6.2.2 (November 5, 2019)
+----------------------------
+
+###Fixes
+
+- Issues with selection in Grid
+- Issue with the height of a cell in Layout
+
+Version 6.2.1 (October 25, 2019)
+----------------------------
+
+###Fixes
+
+- Issue with the setValue() method in Calendar
+- Issue with the combo filters in Grid
+
+Version 6.2.0 (October 23, 2019)
+----------------------------
+
+### New functionality
+
+####Calendar
+- The ability to select a range of dates in one calendar
+
+####Form
+- The ability to manipulate Form controls via the getItem() method of Form
+- The ability to use clear(), clearValidate(), getValue(), setValue(), validate() methods for all Form controls
+- The possibility to update the configuration of DatePicker, Checkbox, ColorPicker, Combo, Input, RadioGroup, Select, SimpleVault, Slider, Text, Textarea, TimePicker Form controls via the setConfig() method
+- The ability to use methods of DHTMLX widgets via the getWidget() method of Datepicker, Colorpicker, Simplevault, Slider, Timepicker Form controls
+
+####Grid/TreeGrid
+- The possibility to show and hide a column in the Grid via the showColumn() and hideColumn() methods
+- A new comboFilter for the header/footer content of a Grid column
+- New checkbox and combobox editors for the cells of a Grid column
+- The ability to set min and max width to Grid columns
+- The possibility to change the width of columns via the resizable property
+- Drag-n-drop of rows between Grids via the dragMode property
+- Export to CSV format
+
+####Layout
+- New events
+
+### Updates
+
+- The sample with default icons of DHTMLX library to decorate an application without using icon fonts
+- A set of CSS classes for using them outside DHTMLX widgets
+- A set of CSS classes for changing the appearance of DHTMLX widgets via the css property of the widgets API
+
+####Calendar
+- The possibility to set the start and end dates for a calendar in the range mode via the setValue() method
+- The ability to get the start and end dates from the selected range of dates in the calendar via the getValue() method
+
+####Grid
+- Accelerating Grid speed to 2.5x
+
+### Fixes
+
+- Issues with months selection in Calendar
+- Issues with the setValue() method in Calendar
+- Issues with boolean type in a Grid cell
+- Issue with selection on frozen columns in Grid
+- Issues with animation in Charts
+- Issue with Timepicker Form control
+- Issue with Colorpicker Form control
+
+Version 6.1.7 (October 10, 2019)
+----------------------------
+
+### Fixes
+
+- Issue with custom validation in Form 
+- Issue with value property in Form
+- Issue with editor on a frozen columns in Grid
+
+Version 6.1.6 (September 26, 2019)
+----------------------------
+
+### Fixes
+
+- Issue with the Button events in Form 
+- Issue with the Uploader styles in Form
+- Issue with the header rowspans in Grid
+- Issues with the copy() and move() methods in Treecollection and Datacollection
+
+Version 6.1.5 (September 12, 2019)
+----------------------------
+
+### Fixes
+
+- Issues with the Submit button in Form
+- Issue with the baseline in Chart
+- Issue with Combobox popup
+- Issue with the height of uploader in Form
+
 Version 6.1.4 (September 5, 2019)
 ----------------------------
 
 ### Fixes
+
 - Issues with date sorting in Grid
 - Issue with filters in Grid
 - Issue with resizer in Layout
@@ -14,6 +333,7 @@ Version 6.1.3 (August 29, 2019)
 ----------------------------
 
 ### Fixes
+
 - Issues with scroll in DataView
 - Issues with styles in Chart
 - Issues with property "hidden" in Checkboxes and RadioGroup of Form
@@ -22,6 +342,7 @@ Version 6.1.2 (August 22, 2019)
 ----------------------------
 
 ### Fixes
+
 - Restore ability to send FormData in Form send() method
 - Issues with Form select
 - Issue with Datacollection add() method
@@ -30,6 +351,7 @@ Version 6.1.1 (August 16, 2019)
 ----------------------------
 
 ### Fixes
+
 - Issues with DnD in List and DataView
 - Issue with getValue() method in Form
 

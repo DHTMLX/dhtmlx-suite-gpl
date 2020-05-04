@@ -1,80 +1,73 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-	<!-- meta block -->
-	<title>Gravity - DHTMLX Layout</title>
-	<meta name="description" content="Check interactive samples of DHTMLX Layout to explore its configuration and other details.">
-	<!-- end meta block -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-	<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-	<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
-	<!-- custom sample head -->
-	<style>
-		.dhx_form-group--inline {
-			max-width: 200px;
-		}
-		.dhx_sample-container {
-			height: 600px;
-		}
-	</style>
-</head>
-
-<body>
-	<header class="dhx_sample-header">
-		<div class="dhx_sample-header__main">
-			<nav class="dhx_sample-header__breadcrumbs">
-				<ul class="dhx_sample-header-breadcrumbs">
+	<head>
+		<!-- meta block -->
+		<title>Gravity - DHTMLX Layout</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Layout to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/layout.css?v=6.4.2">
+		
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
 						<li class="dhx_sample-header-breadcrumbs__item">
 							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
 						</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Layout samples</a>
-					</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
-					</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<span class="dhx_sample-header-breadcrumbs__link">Gravity</span>
-					</li>
-				</ul>
-			</nav>
-			<h1 class="dhx_sample-header__title">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Layout samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Gravity</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
 						Gravity.
-			</h1>
-		</div>
+					</div>
+				</h1>
+			</div>
 </header>
-	<section>
-		<form class="dhx_sample-controls" id="form-controls">
-			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
-				<input type="radio" checked name="gravity" value="1" class="dhx_radiobutton__input">
-				<span class="dhx_radiobutton__visual-input"></span>
-				<span class="dhx_label">Gravity true(default)</span>
-			</label>
-			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
-				<input type="radio" name="gravity" value="0" class="dhx_radiobutton__input">
-				<span class="dhx_radiobutton__visual-input"></span>
-				<span class="dhx_label">Gravity false</span>
-			</label>
-		</form>
-	</section>
-	<section class="dhx_sample-container">
-		<div class="dhx_sample-container__widget" id="layout"></div>
-	</section>
+		<section>
+			<form class="dhx_sample-controls" id="form-controls">
+				<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+					<input type="radio" checked name="gravity" value="1" class="dhx_radiobutton__input">
+					<span class="dhx_radiobutton__visual-input"></span>
+					<span class="dhx_label">Gravity true(default)</span>
+				</label>
+				<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+					<input type="radio" name="gravity" value="0" class="dhx_radiobutton__input">
+					<span class="dhx_radiobutton__visual-input"></span>
+					<span class="dhx_label">Gravity false</span>
+				</label>
+			</form>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="layout"></div>
+		</section>
+		<script>
+			var gravity = true;
 
-	<script>
-		var gravity = true;
-
-		function getLayoutConfig(gravity) {
-			return {
-				css: "dhx_widget--bordered",
-				rows: [{
+			function getLayoutConfig(gravity) {
+				return {
+					css: "dhx_widget--bordered",
+					rows: [{
 						cols: [{
-								css: "dhx_layout-cell--border_left dhx_layout-cell--border_right",
-								gravity: gravity,
-								html: "Horizontal Align"
-							},
+							css: "dhx_layout-cell--border_left dhx_layout-cell--border_right",
+							gravity: gravity,
+							html: "Horizontal Align"
+						},
 							{
 								css: "dhx_layout-cell--border_left dhx_layout-cell--border_right",
 								gravity: gravity,
@@ -87,38 +80,37 @@
 							},
 						],
 					},
-					{
-						css: "dhx_layout-cell--border_top",
-						rows: [{
+						{
+							css: "dhx_layout-cell--border_top",
+							rows: [{
 								css: "dhx_layout-cell--border_top dhx_layout-cell--border_bottom",
 								gravity: gravity,
 								html: "Vertical Align"
 							},
-							{
-								css: "dhx_layout-cell--border_top dhx_layout-cell--border_bottom",
-								gravity: gravity,
-								html: "Vertical Align"
-							},
-							{
-								css: "dhx_layout-cell--border_top dhx_layout-cell--border_bottom",
-								gravity: gravity,
-								html: "Vertical Align"
-							}
-						]
-					}
-				]
+								{
+									css: "dhx_layout-cell--border_top dhx_layout-cell--border_bottom",
+									gravity: gravity,
+									html: "Vertical Align"
+								},
+								{
+									css: "dhx_layout-cell--border_top dhx_layout-cell--border_bottom",
+									gravity: gravity,
+									html: "Vertical Align"
+								}
+							]
+						}
+					]
+				}
 			}
-		}
-		var l = new dhx.Layout("layout", getLayoutConfig(gravity));
-		document.getElementById("form-controls").addEventListener("change", function (e) {
-			gravity = e.target.value === "1" ? true : false;
-			if (l) {
-				l.destructor()
-			}
-			l = new dhx.Layout("layout", getLayoutConfig(gravity));
-		});
-	</script>
 
-</body>
-
+			var layout = new dhx.Layout("layout", getLayoutConfig(gravity));
+			document.getElementById("form-controls").addEventListener("change", function (e) {
+				gravity = e.target.value === "1";
+				if (layout) {
+					layout.destructor()
+				}
+				layout = new dhx.Layout("layout", getLayoutConfig(gravity));
+			});
+		</script>
+	</body>
 </html>

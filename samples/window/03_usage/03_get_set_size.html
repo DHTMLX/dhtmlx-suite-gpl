@@ -6,9 +6,9 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Window to explore its usage and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
 		
 		
 		<!-- custom sample head -->
@@ -44,7 +44,7 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-							Set/get Window size.
+						Set/get Window size.
 					</div>
 				</h1>
 			</div>
@@ -74,8 +74,8 @@
 			dhxWindow.attachHTML(windowHTML);
 			function getSize() {
 				var size = dhxWindow.getSize();
-				heightEl.value = size.width;
-				widthEl.value = size.height;
+				heightEl.value = size.height;
+				widthEl.value = size.width;
 			}
 			function setSize() {
 				dhxWindow.setSize(parseInt(widthEl.value, 10), parseInt(heightEl.value, 10));

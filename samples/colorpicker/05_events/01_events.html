@@ -7,9 +7,11 @@
 	<meta name="description" content="Check interactive samples of DHTMLX Colorpicker to explore its events and other details.">
 	<!-- end meta block -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-	<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-	<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+	<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+	<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+	<link rel="stylesheet" href="../common/colorpicker.css?v=6.4.2">
+	
 	<!-- custom sample head -->
 </head>
 
@@ -33,30 +35,32 @@
 				</ul>
 			</nav>
 			<h1 class="dhx_sample-header__title">
-						Events.
+				<div class="dhx_sample-header__content">
+					Events.
+				</div>
 			</h1>
 		</div>
 </header>
 	<section class="dhx_sample-container">
-		<div class="dhx_sample-container__widget" style="display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center;">
+		<div class="dhx_sample-container__widget">
 			<div id="colorpicker"></div>
-			<div class="dhx_demo_helper" style="padding: 15px 0 7px 0;">
+			<div class="dhx_demo_helper">
 				You can change block color by colorpicker
 			</div>
-			<div class="dhx_color-sample" style="width: 200px;height: 200px;margin: 8px 0;"></div>
+			<div class="dhx_color-sample"></div>
 		</div>
-		  <div id="events" class="dhx_sample-container__sidebar"></div>
-	  </section>
+		<div id="events" class="dhx_sample-container__sidebar"></div>
+	</section>
 
 	<script>
 		var colorpicker = new dhx.Colorpicker("colorpicker");
 
 		var eventsContainer = document.querySelector("#events");
 		var events = [
-			"colorChange",
-			"selectClick",
+			"apply",
 			"cancelClick",
-			"viewChange"
+			"modeChange",
+			"change"
 		];
 		function eventHandler(event, arguments) {
 			var argsList = "";
@@ -81,7 +85,7 @@
 			});
 		});
 		var colorExample = document.querySelector(".dhx_color-sample");
-		colorpicker.events.on("colorChange", function (color) {
+		colorpicker.events.on("change", function (color) {
 			colorExample.style.backgroundColor = color;
 		});
 		colorpicker.setValue("#039be5");

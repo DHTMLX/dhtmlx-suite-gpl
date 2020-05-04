@@ -1,99 +1,93 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-	<!-- meta block -->
-	<title>Basic initialization - DHTMLX Layout</title>
-	<meta name="description" content="Check interactive samples of DHTMLX Layout to explore its initialization and other details.">
-	<!-- end meta block -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-	<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-	<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
-	<!-- custom sample head -->
-	<style>
-		.dhx_sample-container {
-			height: 600px;
-		}
-	</style>
-</head>
-
-<body>
-	<header class="dhx_sample-header">
-		<div class="dhx_sample-header__main">
-			<nav class="dhx_sample-header__breadcrumbs">
-				<ul class="dhx_sample-header-breadcrumbs">
+	<head>
+		<!-- meta block -->
+		<title>Basic initialization - DHTMLX Layout</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Layout to explore its initialization and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/layout.css?v=6.4.2">
+		
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
 						<li class="dhx_sample-header-breadcrumbs__item">
 							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
 						</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Layout samples</a>
-					</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Initialization</a>
-					</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<span class="dhx_sample-header-breadcrumbs__link">Basic initialization</span>
-					</li>
-				</ul>
-			</nav>
-			<h1 class="dhx_sample-header__title">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Layout samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Initialization</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Basic initialization</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
 						Basic initialization description.
-			</div></h1>
-		</div>
+					</div>
+				</h1>
+			</div>
 </header>
-	<section class="dhx_sample-container">
-		<div class="dhx_sample-container__widget" id="layout"></div>
-
-	</section>
-
-	<script>
-		var config = {
-			css: "dhx_layout-cell--bordered",
-			rows: [{
-				id: "toolbar",
-				html: "Header",
-				css: "dhx_layout-cell--border_bottom",
-				gravity: false,
-				height: "60px"
-			},
-				{
-					cols: [{
-						id: "sidebar",
-						html: "Sidebar",
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="layout"></div>
+		</section>
+		<script>
+			var config = {
+				css: "dhx_layout-cell--bordered",
+				rows: [
+					{
+						id: "toolbar",
+						html: "Header",
+						css: "dhx_layout-cell--border_bottom",
 						gravity: false,
-						css: "dhx_layout-cell--border_right",
-						width: "200px"
+						height: "60px"
 					},
-						{
-							rows: [{
-								id: "content",
-								css: "",
-								html: "Content"
-							}, ]
-						},
-						{
-							id: "rightbar",
-							html: "Aside",
-							gravity: false,
-							css: "dhx_layout-cell--border_left",
-							width: "200px"
-						},
-					]
-				},
-				{
-					id: "footer",
-					html: "Footer",
-					css: "dhx_layout-cell--border_top",
-					gravity: false,
-					height: "60px"
-				}
-			]
-		};
-		var layout = new dhx.Layout("layout", config);
-	</script>
-
-</body>
-
+					{
+						cols: [
+							{
+								id: "sidebar",
+								html: "Sidebar",
+								gravity: false,
+								css: "dhx_layout-cell--border_right",
+								width: "200px"
+							},
+							{
+								rows: [{
+									id: "content",
+									css: "",
+									html: "Content"
+								},]
+							},
+							{
+								id: "rightbar",
+								html: "Aside",
+								gravity: false,
+								css: "dhx_layout-cell--border_left",
+								width: "200px"
+							},
+						]
+					},
+					{
+						id: "footer",
+						html: "Footer",
+						css: "dhx_layout-cell--border_top",
+						gravity: false,
+						height: "60px"
+					}
+				]
+			};
+			var layout = new dhx.Layout("layout", config);
+		</script>
+	</body>
 </html>

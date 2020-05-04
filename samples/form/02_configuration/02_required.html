@@ -6,14 +6,16 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">	
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/form.css?v=6.4.2">
+		
 		<!-- custom sample head -->
 		<style>
-			.dhx_sample-container { 
-				max-width: 600px;
-				min-height: auto;
+			.dhx_sample-container__widget {
+				padding: 0 50px;
+				height: 100%;
 			}
 		</style>
 	</head>
@@ -37,41 +39,44 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-					Required.
+					<div class="dhx_sample-header__content">
+						Required.
+					</div>
 				</h1>
 			</div>
-		</header>
+</header>
 		<section class="dhx_sample-container">
 			<form class="dhx_sample-container__widget" id="form-sample"></form>
 		</section>
-	
 		<script>
 			var form = new dhx.Form("form-sample", {
-				cellCss: "dhx_widget--bordered",
+				css: "dhx_widget--bordered",
 				rows: [
 					{
 						type: "input",
+						gravity: false,
 						label: "Name",
 						placeholder: "John Doe",
 						required: true
 					},
 					{
 						type: "input",
+						gravity: false,
 						label: "Email",
 						placeholder: "jd@mail.name",
 						required: true
 					},
 					{	
 						type: "checkbox",
+						gravity: false,
 						label: "I agree",
-						name: "agree",
-						id: "agree",
-						labelInline: true,
+						labelPosition: "right",
 						value: "checkboxvalue",
 						required: true
 					},
 					{
 						type: "button",
+						gravity: false,
 						value: "Send",
 						submit: true,
 						size: "medium",

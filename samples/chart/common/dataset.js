@@ -11,15 +11,30 @@ var companiesData = [
     {month: "`11", "company A": 17, "company B": 40, "company C": 78, "company D": 55}
 ];
 
+var salesBarData = [
+    {month: "`01", "company A": 260, "company B": 520, "company C": 720, "company D": 34},
+    {month: "`02", "company A": 540, "company B": 330, "company C": 920, "company D": 55},
+    {month: "`03", "company A": 550, "company B": 300, "company C": 810, "company D": 66},
+    {month: "`04", "company A": 300, "company B": 110, "company C": 620, "company D": 22},
+    {month: "`05", "company A": 270, "company B": 140, "company C": 680, "company D": 70},
+    {month: "`06", "company A": 320, "company B": 310, "company C": 640, "company D": 50},
+    {month: "`07", "company A": 500, "company B": 220, "company C": 300, "company D": 80},
+    {month: "`08", "company A": 120, "company B": 190, "company C": 650, "company D": 48},
+    {month: "`09", "company A": 100, "company B": 240, "company C": 500, "company D": 66},
+    {month: "`10", "company A": 370, "company B": 310, "company C": 780, "company D": 55},
+    {month: "`11", "company A": 140, "company B": 240, "company C": 470, "company D": 55},
+    {month: "`12", "company A": 170, "company B": 480, "company C": 700, "company D": 55}
+];
+
 var salesData = [
-    {year: "\"01", "sales A": 20, "sales B": 12},
-    {year: "\"02", "sales A": 55, "sales B": 43},
-    {year: "\"03", "sales A": 40, "sales B": 12},
-    {year: "\"04", "sales A": 80, "sales B": 72},
-    {year: "\"05", "sales A": 60, "sales B": 19},
-    {year: "\"06", "sales A": 37, "sales B": 26},
-    {year: "\"07", "sales A": 80, "sales B": 82},
-    {year: "\"08", "sales A": 12, "sales B": 54}
+    {year: "2001", "sales A": 20, "sales B": 12},
+    {year: "2002", "sales A": 55, "sales B": 43},
+    {year: "2003", "sales A": 40, "sales B": 12},
+    {year: "2004", "sales A": 80, "sales B": 72},
+    {year: "2005", "sales A": 60, "sales B": 19},
+    {year: "2006", "sales A": 37, "sales B": 26},
+    {year: "2007", "sales A": 81, "sales B": 82},
+    {year: "2008", "sales A": 12, "sales B": 54}
 ];
 
 var pieData = [

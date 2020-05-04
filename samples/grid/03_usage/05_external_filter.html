@@ -6,17 +6,15 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Grid to explore its usage and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
-		<script type="text/javascript" src="../common/dataset.js?v=6.1.4"></script>
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/grid.css?v=6.4.2">
+		<script type="text/javascript" src="../common/dataset.js?v=6.4.2"></script>
 		<!-- custom sample head -->
 		<style>
-			.dhx_sample-container {
-				height: 600px;
-			}
-			.dhx_sample-controls {
-				height: 60px;
+			.dhx_form-group {
+				width: 250px;
 			}
 		</style>
 	</head>
@@ -41,7 +39,7 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-							You can filter grid data by the specified criteria with the help of the filter() method of data collection.
+						You can filter grid data by the specified criteria with the help of the filter() method of data collection.
 						<div class="dhx_sample-docs-links">
 							Check documentation:
 							<a href="https://docs.dhtmlx.com/suite/grid__usage.html#filteringdata" target="_blank" class="dhx_sample-header-link">Filtering data</a>
@@ -49,23 +47,31 @@
 					</div>
 				</h1>
 			</div>
-		</header>
+</header>
 		<section class="dhx_sample-controls">
-		<div class="filter" style="padding: 10px 20px;">
-				<label for="columns">Column:</label>
-				<select name="columns" id="columns" class="selectList" onchange="selectChange()">
-					<option value="country">Country</option>
-					<option value="population" selected>Population</option>
-					<option value="destiny">Destiny</option>
+			<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder" id="form-select">
+				<label for="columns" class="dhx_sample-label">Select column:</label>
+				<select name="columns" class="dhx_select dhx_sample-input" id="columns">
+					<option value="country" selected>Country</option>
+					<option value="population">Population</option>
+					<option value="yearlyChange">Yearly Change</option>
+					<option value="netChange">Net Change</option>
+					<option value="destiny">Density (P/Km²)</option>
+					<option value="area">Land Area (Km²)</option>
+					<option value="migrants">Migrants (net)</option>
+					<option value="fert">Fert. Rate</option>
+					<option value="age">Med. Age</option>
+					<option value="urban">Urban Pop</option>
 				</select>
-				<label for="value" style="margin:0 0 0 10px;">Value:</label>
-				<input id="filterInput" type="text" name="value" oninput="filter(this.value)" class="selectList">
+			</div>
+			<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder">
+				<label class="dhx_demo-switch__label dhx_label" for="filterInput">Value: </label>
+				<input id="filterInput" class="dhx_sample-input" oninput="filter(this.value)" type="text" />
 			</div>
 		</section>
 		<section class="dhx_sample-container">
 			<div class="dhx_sample-container__widget" id="grid"></div>
 		</section>
-
 		<script>
 			var grid = new dhx.Grid("grid", {
 				columns: [
@@ -99,6 +105,5 @@
 				grid.data.filter();
 			}
 		</script>
-
 	</body>
 </html>

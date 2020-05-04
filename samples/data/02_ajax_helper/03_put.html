@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Ajax PUT - DHTMLX Data</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Data to explore its ajax and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/data.css?v=6.4.2">
+		<script type="text/javascript" src="../common/index.js?v=6.4.2"></script>
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-result {
+				justify-content: space-between;
+			}
+
+			.dhx_sample-input {
+				margin-left: 10px;
+			}
+
+			.dhx_sample-label {
+				white-space: nowrap;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Data samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Ajax</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Ajax PUT</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Ajax PUT.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<div class="dhx_sample-form-group dhx_form-group dhx_form-group--inline">
+				<label for="data-id" class="dhx_sample-label">Post Id:
+					<input class="dhx_sample-input" id="data-id" placeholder="Id of the post e.g. '5'" value="4">
+				</label>
+			</div>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="load()" id="load-button">Load Post Data</button>
+			<div class="dhx_sample-form-group dhx_form-group dhx_form-group--inline" style="display: none;">
+				<label for="data-title" class="dhx_sample-label">Update Title:
+					<input class="dhx_sample-input" id="data-title" placeholder="Title of the post">
+				</label>
+			</div>
+			<div class="dhx_sample-form-group dhx_form-group dhx_form-group--inline" style="display: none;">
+				<label for="data-body" class="dhx_sample-label">Update Body:
+					<input class="dhx_sample-input" id="data-body" placeholder="Text of the post">
+				</label>
+			</div>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="update()" id="update-button" style="display: none;">Update Post</button>
+		</section>
+
+		<div class="dhx_sample-result">
+			<div class="dhx_sample_result_panel">
+				<h4>Loaded post:</h4>
+				<textarea id="loaded-data" readonly class="dhx_textarea"></textarea>
+			</div>
+			<div class="dhx_sample_result_panel">
+				<h4>Updated post:</h4>
+				<textarea id="updated-data" readonly class="dhx_textarea"></textarea>
+			</div>
+		</div>
+
+		<script>
+			function format(obj) {
+				return JSON.stringify(obj, null, 2);
+			}
+
+			var postsEndpoint = "https://docs.dhtmlx.com/suite/backend/posts";
+
+			var idInput = document.querySelector("#data-id");
+			var loadButton = document.querySelector("#load-button");
+
+			var titleInput = document.querySelector("#data-title");
+			var bodyInput = document.querySelector("#data-body");
+			var updateButton = document.querySelector("#update-button");
+
+			var loadedDataContainer = document.querySelector("#loaded-data");
+
+			var updatedDataContainer = document.querySelector("#updated-data");
+
+			var loadedPost;
+
+			function load() {
+				dhx.ajax.get(postsEndpoint + "/" + (idInput.value || "N/A"))
+					.then(function (data) {
+						loadedPost = data;
+
+						loadedDataContainer.textContent = format(data);
+
+						idInput.parentNode.parentNode.style.display = "none";
+						loadButton.style.display = "none";
+
+						titleInput.value = data.title;
+						bodyInput.value = data.body;
+
+						titleInput.parentNode.parentNode.style.display = "block";
+						bodyInput.parentNode.parentNode.style.display = "block";
+						updateButton.style.display = "block";
+					})
+					.catch(function (err) {
+						loadedDataContainer.textContent = err.status + " " + err.statusText;
+					});
+			}
+
+			function update() {
+				loadedPost.title = titleInput.value;
+				loadedPost.body = bodyInput.value;
+
+				dhx.ajax.put(postsEndpoint + "/" + loadedPost.id, loadedPost)
+					.then(function(data) { updatedDataContainer.textContent = format(data); })
+					.catch(function(err) {
+						updatedDataContainer.textContent = err.status + " " + err.statusText;
+					});
+			}
+		</script>
+	</body>
+</html>

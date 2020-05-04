@@ -1,68 +1,69 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<!-- meta block -->
+		<title>Basic initialization - DHTMLX Toolbar</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Toolbar to explore its initialization and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
 
-<head>
-	<!-- meta block -->
-	<title>Basic initilization - DHTMLX Toolbar</title>
-	<meta name="description" content="Check interactive samples of DHTMLX Toolbar to explore its initialization and other details.">
-	<!-- end meta block -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-	<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-	<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
-	<!-- custom sample head -->
-	<script src="../common/data.js?v=6.1.4"></script>
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/2.5.94/css/materialdesignicons.css?v=6.1.4" media="all" rel="stylesheet" type="text/css">
-	<style>
-		.dhx_sample-container {
-			-webkit-box-orient: vertical;
-			-webkit-box-direction: normal;
-			-webkit-flex-direction: column;
-			    -ms-flex-direction: column;
-			        flex-direction: column;
-		}
-	</style>
-</head>
-<body>
-	<header class="dhx_sample-header">
-		<div class="dhx_sample-header__main">
-			<nav class="dhx_sample-header__breadcrumbs">
-				<ul class="dhx_sample-header-breadcrumbs">
+
+		<!-- custom sample head -->
+		<script src="../common/data.js?v=6.4.2"></script>
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/4.4.95/css/materialdesignicons.css?v=6.4.2" media="all" rel="stylesheet" type="text/css">
+		<style>
+			.dhx_sample-container {
+				-webkit-box-orient: vertical;
+				-webkit-box-direction: normal;
+				-webkit-flex-direction: column;
+				-ms-flex-direction: column;
+				flex-direction: column;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
 						<li class="dhx_sample-header-breadcrumbs__item">
 							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
 						</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Toolbar samples</a>
-					</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Initialization</a>
-					</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<span class="dhx_sample-header-breadcrumbs__link">Basic initilization</span>
-					</li>
-				</ul>
-			</nav>
-			<h1 class="dhx_sample-header__title">
-						Basic initilization.
-			</h1>
-		</div>
-</header>
-	<section class="dhx_sample-container">
-		<div class="dhx_sample-container__widget" id="toolbar"></div>
-		<div class="dhx_sample-container__widget" id="toolbar2"></div>
-	</section>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Toolbar samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Initialization</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Basic initialization</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Basic initialization.
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="toolbar"></div>
+			<div class="dhx_sample-container__widget" id="toolbar2"></div>
+		</section>
+		<script>
+			var toolbar = new dhx.Toolbar("toolbar", {
+				css: "dhx_widget--bordered dhx_widget--bg_gray"
+			});
+			toolbar.data.parse(data);
 
-	<script>
-		var toolbar = new dhx.Toolbar("toolbar", {
-			css: "dhx_widget--bordered dhx_widget--bg_gray"
-		});
-		toolbar.data.parse(data);
-		var toolbar2 = new dhx.Toolbar("toolbar2", {
-			css: "dhx_widget--bordered dhx_widget--bg_gray"
-		});
-		toolbar2.data.load("../common/struct.json");
-	</script>
-
-</body>
-
+			var toolbar2 = new dhx.Toolbar("toolbar2", {
+				css: "dhx_widget--bordered dhx_widget--bg_gray"
+			});
+			toolbar2.data.load("../common/struct.json");
+		</script>
+	</body>
 </html>

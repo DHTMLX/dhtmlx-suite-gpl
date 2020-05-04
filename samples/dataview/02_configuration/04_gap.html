@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Configure gap size - DHTMLX Dataview</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Dataview to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/dataview.css?v=6.4.2">
+		<script type="text/javascript" src="../common/dataset.js?v=6.4.2"></script>
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Dataview samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Configure gap size</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Configure gap size.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<div class="dhx_sample-form-group dhx_form-group dhx_form-group--inline">
+				<label for="gap" class="dhx_sample-label">Gap size</label>
+				<input type="text" id="gap" class="dhx_sample-input" value="10px">
+			</div>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="dataview"></div>
+		</section>
+
+		<script>
+			function template(item) {
+				var template = "<div class='item_wrap'>";
+				template += "<img class='image' src=" + "../common/images/" + item.thumbnailName + " />";
+				template += "<h2 class='title'>" + item.value + "</h2>";
+				template += "<p class='description'>" + item.shortDescription + "</p>";
+				template += "</div>";
+				return template;
+			}
+			var dataview = new dhx.DataView("dataview", {
+				itemsInRow: 4,
+				gap: 10,
+				css: "dhx_widget--bordered",
+				template: template
+			});
+			dataview.data.load("../common/books.json");
+			document.getElementById("gap").addEventListener("input", function(e) {
+				dataview.config.gap = e.target.value;
+				dataview.paint();
+			});
+		</script>
+	</body>
+</html>

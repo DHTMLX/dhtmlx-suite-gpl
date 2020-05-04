@@ -6,16 +6,22 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Dataview to explore its customization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
-		<link rel="stylesheet" href="../common/dataview.css?v=6.1.4">
-		<script type="text/javascript" src="../common/dataset.js?v=6.1.4"></script>
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/dataview.css?v=6.4.2">
+		<script type="text/javascript" src="../common/dataset.js?v=6.4.2"></script>
 		<!-- custom sample head -->
-		<link rel="stylesheet" href="../common/dataview.css?v=6.1.4">
 		<style>
-			.dhx_sample-container__widget {
-				max-width: 1200px;
+			.custom-class {
+				background: -webkit-gradient(linear, left top, left bottom, from(rgba(202, 151, 250, 0.1)), to(rgba(202, 151, 250, 1)));
+				background: -webkit-linear-gradient(top, rgba(202, 151, 250, 0.1) 0%, rgba(202, 151, 250, 1) 100%);
+				background: linear-gradient(to bottom, rgba(202, 151, 250, 0.1) 0%, rgba(202, 151, 250, 1) 100%);
+				border: 2px solid rgba(202, 151, 250, 1);
+				box-shadow: 0px 0px 8px 8px rgba(202, 151, 250, 0.3);
+			}
+			.custom-class .dhx_dataview-item {
+				background: #fff;
 			}
 		</style>
 	</head>
@@ -40,44 +46,31 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-							Custom widget styles.
+						Custom widget styles.
 					</div>
 				</h1>
 			</div>
 </header>
 		<section class="dhx_sample-container">
-			<div class="dhx_sample-container__widget" id="dataview" style="height: 500px"></div>
-			
+			<div class="dhx_sample-container__widget" id="dataview"></div>
 		</section>
-
 		<script>
 			function template(item) {
 				var template = "<div class='item_wrap'>";
 				template += "<img class='image' src=" + "../common/images/" + item.thumbnailName + " />";
 				template += "<h2 class='title'>" + item.value + "</h2>";
 				template += "<p class='description'>" + item.shortDescription + "</p>";
-				template += "</div>"
+				template += "</div>";
 				return template;
 			}
+
 			var dataview = new dhx.DataView("dataview", {
 				itemsInRow: 4, 
 				gap: 10,
 				css: "custom-class dhx_widget--bordered",
-				template: template,
+				template: template
 			});
 			dataview.data.load("../common/books.json");
 		</script>
-		<style>
-			.custom-class {
-				background: -webkit-gradient(linear, left top, left bottom, from(rgba(202, 151, 250, 0.1)), to(rgba(202, 151, 250, 1)));
-				background: -webkit-linear-gradient(top, rgba(202, 151, 250, 0.1) 0%, rgba(202, 151, 250, 1) 100%);
-				background: linear-gradient(to bottom, rgba(202, 151, 250, 0.1) 0%, rgba(202, 151, 250, 1) 100%);
-				border: 2px solid rgba(202, 151, 250);
-				box-shadow: 0px 0px 8px 8px rgba(202, 151, 250, 0.3);
-			}
-			.custom-class .dhx_dataview-item {
-				background: #fff;
-			}
-		</style>
 	</body>
 </html>

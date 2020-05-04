@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Editable data - DHTMLX Grid</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Grid to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/grid.css?v=6.4.2">
+		<script type="text/javascript" src="../common/dataset.js?v=6.4.2"></script>
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Grid samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Editable data</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Editable data.
+						<div class="dhx_sample-docs-links">
+							Check documentation:
+							<a href="https://docs.dhtmlx.com/suite/grid__usage.html#editingdata" target="_blank" class="dhx_sample-header-link">Editable data</a>
+						</div>
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input type="radio" checked name="editable" id="true" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">On</span>
+			</label>
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input type="radio" name="editable" id="false" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Off</span>
+			</label>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="grid"></div>
+		</section>
+		<script>
+			var data = [
+				{
+					project: "Real Estate",
+					owner: "Louise Fisher",
+					start_date: "02/03/2018",
+					end_date: "06/05/2018",
+					status: "Done",
+					hours: 92,
+					cost: 3588,
+					budget: 11768,
+					balance: 8180,
+					paid: true,
+					renewals: "1-2 times"
+				},
+				{
+					project: "HR System",
+					owner: "Daniel Peterson",
+					start_date: "03/04/2018",
+					end_date: "02/07/2018",
+					status: "Done",
+					hours: 340,
+					cost: 15980,
+					budget: 18856,
+					balance: 2876,
+					paid: true,
+					renewals: "1 time"
+				},
+				{
+					project: "Inventory",
+					owner: "Fred Duncan",
+					start_date: "01/06/2018",
+					end_date: "01/09/2018",
+					status: "Done",
+					hours: 484,
+					cost: 21296,
+					budget: 14907,
+					balance: -6389,
+					paid: false,
+					renewals: "1 time"
+				},
+				{
+					project: "Trip planner",
+					owner: "Michael Rice",
+					start_date: "01/08/2018",
+					end_date: "06/11/2018",
+					status: "Done",
+					hours: 345,
+					cost: 14835,
+					budget: 70911,
+					balance: 56076,
+					paid: false,
+					renewals: "1-2 times"
+				},
+				{
+					project: "HR System",
+					owner: "Andrew Stewart",
+					start_date: "01/06/2018",
+					end_date: "02/09/2018",
+					status: "Done",
+					hours: 57,
+					cost: 2052,
+					budget: 5068,
+					balance: 3016,
+					paid: true,
+					renewals: "1-2 times"
+				},
+				{
+					project: "HR System",
+					owner: "Martin Thompson",
+					start_date: "06/02/2018",
+					end_date: "01/06/2018",
+					status: "Done",
+					hours: 211,
+					cost: 8229,
+					budget: 16540,
+					balance: 8311,
+					paid: false,
+					renewals: "more than 5 times"
+				},
+				{
+					project: "Ticket System",
+					owner: "Martin Thompson",
+					start_date: "06/05/2019",
+					end_date: "03/07/2019",
+					status: "In Progress",
+					hours: 3,
+					cost: 144,
+					budget: 122,
+					balance: -22,
+					paid: true,
+					renewals: "1 time"
+				},
+				{
+					project: "Education System",
+					owner: "Mark Harper",
+					start_date: "02/04/2019",
+					end_date: "03/08/2019",
+					status: "In Progress",
+					hours: 76,
+					cost: 3496,
+					budget: 12515,
+					balance: 9019,
+					paid: true,
+					renewals: "more than 5 times"
+				}
+			];
+
+			var grid;
+			var config = {
+				columns: [
+					{ width: 160, id: "project", header: [{ text: "Project" }, { content: "comboFilter" }] },
+					{ width: 160, id: "status", header: [{ text: "Status" }, { content: "selectFilter" }], editorType: "select", options: ["Done", "In Progress", "Not Started"] },
+					{ width: 160, id: "paid", header: [{ text: "Paid", rowspan: 2 }], type: "boolean" },
+					{ width: 160, id: "owner", header: [{ text: "Owner" }, { content: "inputFilter" }] },
+					{ width: 160, id: "hours", header: [{ text: "Number of hours" }, { content: "inputFilter" }] },
+					{ width: 160, id: "renewals", header: [{ text: "Number of renewals" }, { content: "comboFilter" }], type: "string", editorType: "combobox", options: ["1 time", "1-2 times", "more than 5 times"] },
+					{ width: 160, id: "start_date", header: [{ text: "Calendar", colspan: 2 }, { text: "Start date" }], type: "date", dateFormat: "%d/%m/%Y" },
+					{ width: 160, id: "end_date", header: ["", { text: "End date" }], type: "date", dateFormat: "%d/%m/%Y" },
+					{ width: 160, id: "cost", header: [{ text: "Cost" }, { content: "inputFilter" }] },
+					{ width: 160, id: "budget", header: [{ text: "Budget" }, { content: "inputFilter" }] },
+					{ width: 160, id: "balance", header: [{ text: "Balance" }, { content: "inputFilter" }] },
+				],
+				data: data,
+				editable: true
+			};
+
+			function createGrid() {
+				if (grid) {
+					grid.destructor();
+				}
+				grid = new dhx.Grid("grid", config);
+			}
+
+			var selector = document.querySelectorAll("[name=editable]");
+			for (var index = 0; index < selector.length; index++) {
+				selector[index].addEventListener("change", function (e) {
+					config.editable = (e.target.id === "true");
+					createGrid();
+				});
+			}
+
+			createGrid();
+		</script>
+	</body>
+</html>

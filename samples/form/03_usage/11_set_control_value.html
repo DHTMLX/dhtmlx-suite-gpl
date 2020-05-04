@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Set control value - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/form.css?v=6.4.2">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_form-group--inline {
+				max-width: 200px;
+			}
+			.dhx_sample-container__widget {
+				padding: 0 50px;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Set control value</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Set control value.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<button id="set_value" class="dhx_sample-btn dhx_sample-btn--flat">Set value</button>
+			<div class="dhx_sample-form-group dhx_form-group dhx_form-group--inline dhx_form-group--label_sr">
+				<label for="value" class="dhx_label"></label>
+				<input type="text" id="value" class="dhx_sample-input" value="">
+			</div>
+		</section>
+		<section class="dhx_sample-container">
+			<form class="dhx_sample-container__widget" id="form-sample"></form>
+		</section>
+		<script>
+			var form = new dhx.Form("form-sample", {
+				css: "dhx_layout-cell--bordered",
+				rows: [
+					{
+						type: "input",
+						label: "Name",
+						id: "name",
+						value: "John Doe",
+						placeholder: "John Doe"
+					}
+				]
+			});
+			document.querySelector("#set_value").addEventListener("click", function() {
+				var value = document.querySelector("#value").value;
+				form.getItem("name").setValue(value);
+			});
+		</script>
+	</body>
+</html>

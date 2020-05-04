@@ -6,9 +6,11 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Toolbar to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		
+		
 		<!-- custom sample head -->
 	</head>
 	<body>
@@ -31,40 +33,42 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
 							Separator.
+					</div>
 				</h1>
 			</div>
-</header>
+		</header>
 		<section class="dhx_sample-container">
 			<div class="dhx_sample-container__widget" id="toolbar"></div>
-			
 		</section>
-
 		<script>
-			var data=[
+			var data = [
 				{
-					type:"text",
+					type: "text",
 					value: "first group"
 				},
 				{
-					type:"text",
+					type: "text",
 					value: "of elemetns"
 				},
 				{
 					type: "separator"
 				},
-				{	
+				{
 					type: "text",
 					value: "second group"
 				},
 				{
-					type:"text",
+					type: "text",
 					value: "of elements"
 				},
-			]
-			var toolbar = new dhx.Toolbar("toolbar", {css:"dhx_widget--bordered"});
+			];
+
+			var toolbar = new dhx.Toolbar("toolbar", {
+				css: "dhx_widget--bordered"
+			});
 			toolbar.data.parse(data);
 		</script>
-
 	</body>
 </html>

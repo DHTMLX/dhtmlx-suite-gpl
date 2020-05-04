@@ -76,7 +76,7 @@ var menuStruct = [
             },
             {type: "separator"},
             {
-                id: "align", value: "Align", items: [
+                id: "align", value: "Align", "icon": "dxi dxi-empty", items: [
                     {
                         id: "align-left",
                         value: "Left",

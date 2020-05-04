@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Clear control validate - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/form.css?v=6.4.2">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_form-group--inline {
+				max-width: 200px;
+			}
+			.dhx_sample-container__widget {
+				padding: 0 50px;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Clear control validate</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Clear control validate.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<button id="clear_validate" class="dhx_sample-btn dhx_sample-btn--flat">Clear name validate</button>
+		</section>
+		<section class="dhx_sample-container">
+			<form class="dhx_sample-container__widget" id="form-sample"></form>
+		</section>
+		<script>
+			var form = new dhx.Form("form-sample", {
+				css: "dhx_layout-cell--bordered",
+				rows: [
+					{
+						id: "name",
+						type: "input",
+						label: "Name",
+						value: "John Doe",
+						placeholder: "John Doe",
+						validation: function(value) {
+							return value && value.length >= 4;
+						},
+						errorMessage: "Too short",
+						successMessage: "Correctly",
+						preMessage: "At least 4 characters"
+					},
+					{
+						type: "input",
+						label: "Email",
+						placeholder: "jd@mail.name",
+						errorMessage: "Invalid email",
+						successMessage: "Valid Email",
+						validation: "email",
+					},
+					{
+						type: "button",
+						value: "Send",
+						size: "medium",
+						submit: true,
+						view: "flat",
+						color: "primary"
+					},
+				]
+			});
+			form.validate();
+			document.querySelector("#clear_validate").addEventListener("click", function () {
+				form.getItem("name").clearValidate();
+			});
+		</script>
+	</body>
+</html>

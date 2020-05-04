@@ -6,9 +6,9 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Message to explore its configuration and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
 		<!-- custom sample head -->
 		<style>
 			.dhx_form {
@@ -29,14 +29,14 @@
 				-webkit-align-items: center;
 				    -ms-flex-align: center;
 				        align-items: center;
-				max-width: 600px;
+			}
+			.dhx_form-group {
+				max-width: 250px;
 			}
 			.dhx_sample-message_box {
 				width: 600px;
 				height: 400px;
 				margin-top: 20px;
-				margin-right: auto;
-				margin-left: auto;
 				border: 1px solid #a6a6a6;
 				position: relative;
 				text-align: center;
@@ -88,10 +88,12 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-							Message container.
+					<div class="dhx_sample-header__content">
+						Message container.
+					</div>
 				</h1>
 			</div>
-</header>
+		</header>
 		<section class="dhx_sample-controls">
 			<form id="form-controls" class="dhx_form">
 				<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder">
@@ -121,14 +123,11 @@
 			var config = {
 				position: "top-right"
 			};
-			var node = document.querySelector("#node");
 			document.getElementById("form-controls").addEventListener("change", function(e) {
 				config[e.target.id] = e.target.value;
 			});
 			document.getElementById("show").addEventListener("click", function() {
-				var text = (config.node || "global") + " " + config.position;
 				config.text = "dhtmlxMessage";
-				console.log('config', config, node);
 				dhx.message(config);
 			});
 		</script>

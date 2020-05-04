@@ -1,0 +1,48 @@
+.dhx_sample-container {
+    height: 600px;
+}
+.max_cell {
+    background: #f44336;
+    color: #FFF;
+}
+
+.min_cell {
+    background: #4CAF50;
+    color: #FFF
+}
+
+.my_custom_mark {
+    background: lightcoral;
+}
+
+.total_col {
+    background: #f2f2f2;
+}
+
+.dhx_sample-container__widget .myCustomColspan {
+    background: #f2f2f2;
+    text-align: center;
+}
+
+.my_custom_row {
+    background: coral;
+}
+
+.myCustomClass{
+    background:greenyellow;
+}
+
+.title {
+    font-size: 1.2em;
+    color: tomato;
+}
+
+.custom_footer {
+    font-size: 18px;
+    text-decoration: underline;
+}
+
+.myGridCss .dhx_grid-cell {
+    background: #f2f2f2;
+    border-color: #FFF;
+}

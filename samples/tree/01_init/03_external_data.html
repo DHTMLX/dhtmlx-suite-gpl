@@ -6,12 +6,20 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Tree to explore its initialization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
-		<link rel="stylesheet" href="../common/tree.css?v=6.1.4">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/tree.css?v=6.4.2">
 		
 		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container {
+				max-width: 600px;
+			}
+			.dhx_sample-container__widget  {
+				width: 300px;
+			}
+		</style>
 	</head>
 	<body>
 		<header class="dhx_sample-header">
@@ -34,17 +42,25 @@
 				</nav>
 				<h1 class="dhx_sample-header__title">
 					<div class="dhx_sample-header__content">
-							Init with external data.
+						Init with external data.
 					</div>
 				</h1>
-			</div>		</header>
-		<section class="dhx_sample-container">
-			<div class="dhx_sample-container__widget" id="tree"></div>
-			
-		</section>
+			</div>
+</header>
+
+		<main class="dhx_sample-container">
+			<section class="dhx_sample-container--wrapper">
+				<h4>External Data:</h4>
+				<div class="dhx_sample-container__widget" id="ex-tree"></div>
+			</section>
+		</main>
 
 		<script>
-			//var tree = new dhx.Tree("tree");
+			var data = new dhx.TreeCollection();
+			data.load("../common/treedata.json");
+			var treeEx = new dhx.Tree("ex-tree", {
+				data: data
+			});
 		</script>
 
 	</body>

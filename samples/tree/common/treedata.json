@@ -13,16 +13,31 @@
                         "value": "Bestsellers",
                         "id": "Bestsellers",
                         "opened": true,
+                        "icon": {
+                            "folder": "fas fa-book",
+                            "openFolder": "fas fa-book-open",
+                            "file": "fas fa-file"
+                        },
                         "items": [
                             {
                                 "value": "Lawrence Block",
-                                "id": "Lawrence Block"
+                                "id": "Lawrence Block",
+                                "icon": {
+                                    "folder": "fas fa-book",
+                                    "openFolder": "fas fa-book-open",
+                                    "file": "fas fa-file"
+                                }
                             }
                         ]
                     },
                     {
                         "value": "Robert Crais",
-                        "id": "Robert Crais"
+                        "id": "Robert Crais",
+                        "icon": {
+                            "folder": "fas fa-book",
+                            "openFolder": "fas fa-book-open",
+                            "file": "fas fa-file"
+                        }
                     },
                     {
                         "value": "Ian Rankin",

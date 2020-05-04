@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<!-- meta block -->
+		<title>Ajax GET - DHTMLX Data</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Data to explore its ajax and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/data.css?v=6.4.2">
+		<script type="text/javascript" src="../common/index.js?v=6.4.2"></script>
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-input{
+				margin-left: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Data samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Ajax</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Ajax GET</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Ajax GET.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder">
+				<label for="endpoint-name" class="dhx_sample-label dhx_label">Endpoint name:</label>
+				<select class="dhx_select dhx_sample-input" id="endpoint-name">
+					<option value="posts">Posts</option>
+					<option value="comments">Comments</option>
+					<option value="albums">Albums</option>
+					<option value="photos">Photos</option>
+					<option value="users">Users</option>
+					<option value="todos">Todos</option>
+				</select>
+            </div>
+			<div class="dhx_sample-form-group dhx_form-group">
+				<label for="data-input" class="dhx_sample-label">
+					Id:
+					<input class="dhx_sample-input dhx_input" id="data-input" placeholder="all" />
+				</label>
+            </div>
+
+            <button class="dhx_sample-btn dhx_sample-btn--flat" onclick="load()">Load</button>
+		</section>
+		<div class="dhx_sample-result">
+			<div>
+				<h4>Loaded data:</h4>
+				<textarea id="data" readonly class="dhx_textarea"></textarea>
+			</div>
+		</div>
+
+		<script>
+			function format(obj) {
+				return JSON.stringify(obj, null, 2);
+			}
+
+			var urlBase = "https://docs.dhtmlx.com/suite/backend/";
+
+			var endpointInput = document.querySelector("#endpoint-name");
+			var idInput = document.querySelector("#data-input");
+			var dataContainer = document.querySelector("#data");
+
+			dhx.ajax.get(urlBase + "posts").then(function (data) {
+				dataContainer.textContent = format(data);
+			});
+
+			function load() {
+				var url = urlBase + endpointInput.value + (idInput.value ? "/" + idInput.value : "");
+
+				dhx.ajax.get(url).then(function (data) {
+					dataContainer.textContent = format(data);
+				}).catch(function (err) {
+					dataContainer.textContent = err.status + " " + err.statusText;
+				});
+			}
+		</script>
+	</body>
+</html>

@@ -1,68 +1,79 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-	<!-- meta block -->
-	<title>Colorpicker inside popup - DHTMLX Colorpicker</title>
-	<meta name="description" content="Check interactive samples of DHTMLX Colorpicker to explore its initialization and other details.">
-	<!-- end meta block -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-	<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-	<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
-	<!-- custom sample head -->
-</head>
-
-<body>
-	<header class="dhx_sample-header">
-		<div class="dhx_sample-header__main">
-			<nav class="dhx_sample-header__breadcrumbs">
-				<ul class="dhx_sample-header-breadcrumbs">
+	<head>
+		<!-- meta block -->
+		<title>Colorpicker inside popup - DHTMLX Colorpicker</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Colorpicker to explore its initialization and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/colorpicker.css?v=6.4.2">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container__widget {
+				display: flex;
+				justify-content: center;
+				flex-direction: column;
+				align-items: center;
+			}
+			.dhx_color-sample {
+				width: 200px;
+				height: 200px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
 						<li class="dhx_sample-header-breadcrumbs__item">
 							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
 						</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Colorpicker samples</a>
-					</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Initialization</a>
-					</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<span class="dhx_sample-header-breadcrumbs__link">Colorpicker inside popup</span>
-					</li>
-				</ul>
-			</nav>
-			<h1 class="dhx_sample-header__title">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Colorpicker samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Initialization</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Colorpicker inside popup</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
 						Colorpicker inside popup.
-			</h1>
-		</div>
-</header>
-	<section class="dhx_sample-container">
-		<div class="dhx_sample-container__widget" style="display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;-webkit-box-align:center;-webkit-align-items:center;-ms-flex-align:center;align-items:center;">
-			<button class="dhx_sample-btn dhx_sample-btn--flat" id="showButton" onclick="popup.show(&apos;showButton&apos;)">Show
-				colorpicker
-			</button>
-			<div class="dhx_demo_helper" style="padding: 15px 0 7px 0;">
-				You can change block color by colorpicker
+					</div>
+				</h1>
 			</div>
-			<div class="dhx_color-sample" style="width: 200px;height: 200px;margin: 8px 0;"></div>
-		</div>
-	</section>
+</header>
+		<section class="dhx_sample-controls">
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="showColorpicker(this)">Show colorpicker</button>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget">
+				<div class="dhx_color-sample"></div>
+			</div>
+		</section>
 
-	<script>
-		var colorpicker = new dhx.Colorpicker(null, { css: "dhx_widget--bordered", customColorsList: ["#f2f2f2"] });
-		var popup = new dhx.Popup();
-		popup.attach(colorpicker);
-		popup.hide();
-
-		var colorExample = document.querySelector(".dhx_color-sample");
-		colorpicker.events.on("colorChange", function (color) {
-			colorExample.style.backgroundColor = color;
+		<script>
+			var colorpicker = new dhx.Colorpicker(null, { css: "dhx_widget--bordered", customColorsList: ["#f2f2f2"] });
+			var popup = new dhx.Popup();
+			popup.attach(colorpicker);
 			popup.hide();
-		});
-		colorpicker.setValue("#039be5");
-	</script>
-
-</body>
-
+			var colorExample = document.querySelector(".dhx_color-sample");
+			function showColorpicker(container) {
+				popup.show(container);
+			}
+			colorpicker.events.on("change", function (color) {
+				colorExample.style.backgroundColor = color;
+				popup.hide();
+			});
+			colorpicker.setValue("#039be5");
+		</script>
+	</body>
 </html>

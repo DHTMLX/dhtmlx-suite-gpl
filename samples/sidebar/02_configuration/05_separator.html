@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Separator - DHTMLX Sidebar</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Sidebar to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/sidebar.css?v=6.4.2">
+		
+		<!-- custom sample head -->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/4.4.95/css/materialdesignicons.css?v=6.4.2" media="all" rel="stylesheet" type="text/css">
+		<style>
+			.dhx_sample_controls {
+				margin-top: 20px;
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: -ms-flexbox;
+				display: flex;
+				width: 600px;
+				-webkit-transform: translate(-50%, 0);
+				-ms-transform: translate(-50%, 0);
+				transform: translate(-50%, 0);
+				left: 50%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Sidebar samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Separator</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Separator.
+					</div>
+				</h1>
+			</div>
+</header>
+		<div class="dhx_sample_controls">
+			<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder">
+				<label for="pos" class="dhx_label">Add separator after</label>
+				<select class="dhx_select dhx_input" id="pos"></select>
+			</div>
+			<button type="button" id="add" onclick="add()" class="dhx_sample-btn dhx_sample-btn--flat">Add</button>
+		</div>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="sidebar"></div>
+		</section>
+		<script>
+			var sidebar = new dhx.Sidebar("sidebar", {
+				css: "dhx_widget--border_right"
+			});
+			sidebar.data.load("../common/struct.json").then(function () {
+				var select = document.getElementById("pos");
+				sidebar.data.map(function (item) {
+					var option = document.createElement("option");
+					if (item.value || item.type === "spacer") {
+						option.value = item.id;
+						option.textContent = item.value || item.type[0].toUpperCase() + item.type.slice(1);
+						select.appendChild(option);
+					}
+				}, sidebar.data.getRoot(), false);
+			});
+
+			function add() {
+				var id = document.getElementById("pos").value;
+				var parent = sidebar.data.getParent(id);
+				sidebar.data.add({type: "separator"}, sidebar.data.getIndex(id) + 1, parent);
+			}
+		</script>
+	</body>
+</html>

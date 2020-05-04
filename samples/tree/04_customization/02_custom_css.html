@@ -7,13 +7,25 @@
 	<meta name="description" content="Check interactive samples of DHTMLX Tree to explore its customization and other details.">
 	<!-- end meta block -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-	<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-	<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+	<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+	<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+	
+	
 	<!-- custom sample head -->
 	<style>
 		.dhx_sample-container {
 			max-width: 400px;
+		}
+		.custom-class {
+			padding: 20px;
+			border: 1px solid green;
+		}
+		.custom-class .dhx_tree-list-item__text {
+			color: #0ab169;
+		}
+		.custom-class .dhx_tree-folder .dhx_tree-list-item__text {
+			color: #0288d1;
 		}
 	</style>
 </head>
@@ -47,7 +59,7 @@
 				</div>
 			</h1>
 		</div>
-	</header>
+</header>
 	<section class="dhx_sample-container">
 		<div class="dhx_sample-container__widget" id="tree"></div>
 	</section>
@@ -58,19 +70,6 @@
 		});
 		tree.data.load("../common/treedata.json");
 	</script>
-
-	<style>
-		.custom-class {
-			padding: 20px;
-			border: 1px solid green;
-		}
-		.custom-class .dhx_tree-list-item__text {
-			color: #0ab169;
-		}
-		.custom-class .dhx_tree-folder .dhx_tree-list-item__text {
-			color: #0288d1;
-		}
-	</style>
 </body>
 
 </html>

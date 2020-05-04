@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Setup drag mode - DHTMLX Grid</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Grid to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/grid.css?v=6.4.2">
+		<script type="text/javascript" src="../common/dataset.js?v=6.4.2"></script>
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Grid samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Setup drag mode</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Setup drag mode.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="reset()">RESET</button>
+		</section>
+		<section class="dhx_sample-container">
+			<div>
+				<h3>Source:</h3>
+				<div class="dhx_sample-container__widget" id="grid_source" style="width: 400px; height: 600px; margin-right: 20px;"></div>
+			</div>
+			<div>
+				<h3>Both:</h3>
+				<div class="dhx_sample-container__widget" id="grid_both" style="width: 400px; height: 600px; margin-right: 20px;"></div>
+			</div>
+			<div>
+				<h3>Target:</h3>
+				<div class="dhx_sample-container__widget" id="grid_target" style="width: 400px; height: 600px; margin-right: 20px;"></div>
+			</div>
+		</section>
+		<script>
+			var gridSource = new dhx.Grid("grid_source", {
+				columns: [
+					{ id: "country", header: [{ text: "Country" }] },
+					{ id: "population", header: [{ text: "Population" }] }
+				],
+				data: dataset,
+				dragMode: "source",
+				fitToContainer: true
+			});
+
+			var gridBoth = new dhx.Grid("grid_both", {
+				columns: [
+					{ id: "country", header: [{ text: "Country" }] },
+					{ id: "population", header: [{ text: "Population" }] }
+				],
+				data: dataset,
+				dragMode: "both",
+				fitToContainer: true
+			});
+
+			var gridTarget = new dhx.Grid("grid_target", {
+				columns: [
+					{ id: "country", header: [{ text: "Country" }] },
+					{ id: "population", header: [{ text: "Population" }] }
+				],
+				dragMode: "target",
+				fitToContainer: true
+			});
+
+			function reset() {
+				gridSource.data.parse(dataset);
+				gridBoth.data.parse(dataset);
+				gridTarget.data.removeAll();
+			}
+		</script>
+	</body>
+</html>

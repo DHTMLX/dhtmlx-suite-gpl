@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Basic initialization - DHTMLX List</title>
+		<meta name="description" content="Check interactive samples of DHTMLX List to explore its initialization and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+
+
+		<!-- custom sample head -->
+		<script type="text/javascript" src="../common/listdata.js?v=6.4.2"></script>
+		<script type="text/javascript" src="../common/data.js?v=6.4.2"></script>
+		<script type="text/javascript" src="../common/data/data.min.js?v=6.4.2"></script>
+		<style>
+			.dhx_sample-container > div {
+				width: 50%;
+			}
+			.dhx_sample-container div:first-child {
+				margin-right: 20px;
+			}
+			.dhx_sample-container__widget {
+				height: 600px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">List samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Initialization</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Basic initialization</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Basic initialization.
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-container">
+			<div>
+				<h3>Data load:</h3>
+				<div class="dhx_sample-container__widget" id="list-load"></div>
+			</div>
+		</section>
+
+		<script>
+			var list = new dhx.List("list-load", {
+				virtual: true,
+				template: function (item) {
+					return item.country;
+				}
+			});
+
+			var lazyDataProxy = new dhx.LazyDataProxy("http://192.168.3.135:3000/lazyload/", {
+				from: 0,
+				limit: 30,
+				prepare: 5,
+				delay: 150
+			});
+
+			list.data.load(lazyDataProxy);
+		</script>
+
+	</body>
+</html>

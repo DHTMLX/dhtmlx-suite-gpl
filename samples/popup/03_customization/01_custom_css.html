@@ -6,12 +6,37 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Popup to explore its customization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
 		<!-- custom sample head -->
 		<style>
-			
+			.custom-class {
+				margin-top: 25px;
+				color: #fff;
+				font-size: 25px;
+				line-height: 1.5;
+				background-color: #0288d1;
+				box-shadow: 5px 5px 55px -15px rgba(2,136,209,1);
+				-webkit-animation: opacity .4s ease-in-out forwards;
+						animation: opacity .4s ease-in-out forwards;
+			} 
+			@-webkit-keyframes opacity {
+				0%{
+					opacity: 0;
+				}
+				100%{
+					opacity: 1;
+				}
+			} 
+			@keyframes opacity {
+				0%{
+					opacity: 0;
+				}
+				100%{
+					opacity: 1;
+				}
+			}
 		</style>
 	</head>
 	<body>
@@ -34,51 +59,23 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-							Custom css.
+					<div class="dhx_sample-header__content">
+						Custom css.
+					</div>
 				</h1>
 			</div>
-</header>
-	<section class="dhx_sample-controls">
+		</header>
+		<section class="dhx_sample-controls">
 			<button id="show" class="dhx_sample-btn dhx_sample-btn--flat">Show popup</button>
 		</section>
-	
 		<script>
 			var popup = new dhx.Popup({
 				css: "dhx_widget--border-shadow custom-class"
 			});
-	
 			popup.attachHTML("<div style='padding: 16px; text-align: center'>Hi there, <br/> welcome to DHTMLX popup samples</div>");
-			document.querySelector("#show").addEventListener("click", function (){
+			document.querySelector("#show").addEventListener("click", function () {
 				popup.show("show");
-			})
+			});
 		</script>
-		<style>
-			.custom-class {
-				margin-top: 25px;
-				color: #fff;
-				font-size: 25px;
-				line-height: 1.5;
-				background-color: #0288d1;
-				box-shadow: 5px 5px 55px -15px rgba(2,136,209,1);
-				-webkit-animation: opacity .4s ease-in-out forwards;
-				        animation: opacity .4s ease-in-out forwards;
-			} 
-			@-webkit-keyframes opacity {
-				0%{
-					opacity: 0;
-				}
-				100%{
-					opacity: 1;
-				}
-			} 
-			@keyframes opacity {
-				0%{
-					opacity: 0;
-				}
-				100%{
-					opacity: 1;
-				}
-			}
-		</style>
 	</body>
 </html>

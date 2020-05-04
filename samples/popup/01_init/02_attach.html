@@ -6,12 +6,12 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Popup to explore its initialization and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
 		<!-- custom sample head -->
-		<script type="text/javascript" src="../common/timepicker/timepicker.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../common/timepicker/timepicker.css?v=6.1.4">
+		<script type="text/javascript" src="../common/timepicker/timepicker.min.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../common/timepicker/timepicker.min.css?v=6.4.2">
 		<style>
 			.dhx_sample-controls button:not(:last-child) {
 					margin-right: 0;
@@ -42,13 +42,15 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
-							Attach timepicker.
+					<div class="dhx_sample-header__content">
+						Attach timepicker.
+					</div>
 				</h1>
 			</div>
-</header>
+		</header>
 		<section class="dhx_sample-controls">
 			<button id="show" class="dhx_sample-btn dhx_sample-btn--flat">Show popup</button>
-			<input type="text" id="result" class="dhx_input dhx_sample-input">
+			<input type="text" id="result" class="dhx_input dhx_sample-input" readonly>
 		</section>
 	
 		<script>
@@ -63,7 +65,7 @@
 			popup.attach(timepicker);
 			document.querySelector("#show").addEventListener("click", function (){
 				popup.show("show");
-			})
+			});
 		</script>
 
 	</body>

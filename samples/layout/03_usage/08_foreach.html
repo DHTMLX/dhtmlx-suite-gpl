@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>ForEach - DHTMLX Layout</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Layout to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/layout.css?v=6.4.2">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_form-group--inline {
+				max-width: 400px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Layout samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">ForEach</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						ForEach.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder" id="form-select">
+				<label for="id" class="dhx_label">From:</label>
+				<select name="id" class="dhx_select dhx_input" id="id">
+					<option value="">All</option>
+					<option value="center">Center</option>
+					<option value="content" selected>Content</option>
+				</select>
+				<label for="level" class="dhx_label">Level:</label>
+				<input type="number" class="dhx_input" id="level" value="">
+			</div>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="eachCell()">Change</button>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="init()">Reset</button>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="layout"></div>
+		</section>
+		<script>
+			var layout;
+			var config = {
+				header: "All",
+				css: "dhx_layout-cell--bordered",
+				rows: [
+					{
+						id: "toolbar",
+						html: "Header",
+						css: "dhx_layout-cell--border_bottom",
+						gravity: false,
+						height: "60px"
+					},
+					{
+						header: "Center",
+						id: "center",
+						cols: [
+							{
+								id: "sidebar",
+								html: "Sidebar",
+								gravity: false,
+								css: "dhx_layout-cell--border_right",
+								width: "200px"
+							},
+							{
+								header: "Content",
+								id: "content",
+								collapsable: true,
+								rows: [
+									{
+										id: "top",
+										html: "Top",
+										css: "dhx_layout-cell--border_bottom"
+									},
+									{
+										id: "middle",
+										html: "Middle",
+										css: "dhx_layout-cell--border_bottom"
+									},
+									{
+										id: "bottom",
+										html: "Bottom"
+									}
+								]
+							},
+							{
+								id: "rightbar",
+								html: "Aside",
+								gravity: false,
+								css: "dhx_layout-cell--border_left",
+								width: "200px"
+							},
+						]
+					},
+					{
+						id: "footer",
+						html: "Footer",
+						css: "dhx_layout-cell--border_top",
+						gravity: false,
+						height: "60px"
+					}
+				]
+			};
+
+			init();
+
+			var params = {
+				id: "content",
+				level: ""
+			};
+
+			document.getElementById("form-select").addEventListener("change", function(e) {
+				params[e.target.id] = e.target.value;
+			});
+
+			function eachCell() {
+				layout.forEach(function (cell, index) {
+					if (index === 2) {
+						cell.attachHTML("This Cell with index 2");
+					}
+				}, params.id, parseInt(params.level));
+			}
+
+			function init() {
+				if (layout) {
+					layout.destructor();
+				}
+				layout = new dhx.Layout("layout", config);
+			}
+		</script>
+	</body>
+</html>

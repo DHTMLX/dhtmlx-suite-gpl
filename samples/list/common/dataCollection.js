@@ -6,7 +6,7 @@ undefined v.6.0.1 Professional
 This software is covered by DHTMLX Commercial License.
 Usage without proper license is prohibited.
 
-(c) Dinamenta, UAB.
+(c) XB Software.
 
 */
 if (window.dhx){ window.dhx_legacy = dhx; delete window.dhx; }(function webpackUniversalModuleDefinition(root, factory) {

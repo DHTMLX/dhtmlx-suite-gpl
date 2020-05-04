@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Setup dataview item height - DHTMLX Dataview</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Dataview to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/dataview.css?v=6.4.2">
+		
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Dataview samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Setup dataview item height</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Setup dataview item height.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<div class="dhx_sample-input__wrapper">
+				<label for="value" class="dhx_sample-label">Item height</label>
+				<input id="value" value="72" class="dhx_sample-input" onchange="handleSetHeight(this.value)" type="number">
+			</div>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="dataview"></div>
+		</section>
+		<script>
+			var dataview;
+			function handleSetHeight(value) {
+				if (dataview) {
+					dataview.destructor();
+				}
+				dataview = new dhx.DataView("dataview", {
+					itemsInRow: 3,
+					gap: 5,
+					css: "dhx_widget--bordered",
+					itemHeight: value
+				});
+				dataview.data.load("../common/books.json");
+			}
+			handleSetHeight(72);
+		</script>
+	</body>
+</html>

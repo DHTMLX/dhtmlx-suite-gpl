@@ -6,12 +6,15 @@
 		<meta name="description" content="Check interactive samples of DHTMLX Toolbar to explore its usage and other details.">
 		<!-- end meta block -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-		<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		
+		
 		<!-- custom sample head -->
-		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-		<script type="text/javascript" src="../common/form/form.js?v=6.1.4"></script>
-		<link rel="stylesheet" href="../common/form/form.css?v=6.1.4">
+		<link rel="stylesheet" href="../../codebase/toolbar.css?v=6.4.2">
+		<script type="text/javascript" src="../common/form/form.min.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../common/form/form.min.css?v=6.4.2">
 		<style>
 			.toolbar-controls{
 				padding: 0 20px;
@@ -22,7 +25,7 @@
 				overflow: auto;
 			}
 		</style>
-		<link href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css?v=6.1.4" media="all" rel="stylesheet" type="text/css">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/4.4.95/css/materialdesignicons.css?v=6.4.2" media="all" rel="stylesheet" type="text/css">
 	</head>
 	<body>
 		<header class="dhx_sample-header">
@@ -44,25 +47,28 @@
 					</ul>
 				</nav>
 				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
 							Update.
+					</div>
 				</h1>
 			</div>
-</header>
+		</header>
 		<section class="dhx_sample-container">
 			<div class="dhx_sample-container__widget" id="toolbar"></div>
 			<div>
 				<form class="dhx_sample-container__widget" id="form"></form>
 			</div>
 		</section>
-
 		<script>
-			var toolbar = new dhx.Toolbar("toolbar", {css:"dhx_widget--bordered"});
+			var toolbar = new dhx.Toolbar("toolbar", {
+				css:"dhx_widget--bordered"
+			});
 			toolbar.data.load("../common/struct.json").then(function() {
 				toolbar.data.update("edit", {icon: "mdi mdi-pencil", value: undefined});
 			});
 
 			var form = new dhx.Form("form", {
-				cellCss: "dhx_widget--bordered",
+				css: "dhx_widget--bordered",
 				rows: [
 					{
 						id: "value",
@@ -77,9 +83,14 @@
 						value: "mdi mdi-update"
 					},
 					{
-						id: "update",
-						type: "button",
-						value: "UPDATE"
+						padding: 5,
+						cols: [
+							{
+								id: "update",
+								type: "button",
+								value: "UPDATE"
+							}
+						]
 					}
 				]
 			});
@@ -88,6 +99,5 @@
 				toolbar.data.update("edit", JSON.parse(JSON.stringify(form.getValue())));
 			});
 		</script>
-
 	</body>
 </html>

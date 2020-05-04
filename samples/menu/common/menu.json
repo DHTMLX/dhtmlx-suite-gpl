@@ -133,6 +133,7 @@
       {
         "id": "align",
         "value": "Align",
+        "icon": "dxi dxi-empty",
         "items": [
           {
             "id": "align-left",

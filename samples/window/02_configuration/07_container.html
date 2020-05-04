@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Window container - DHTMLX Window</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Window to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container__widget {
+				height: 400px;
+				outline: 1px solid #a6a6a6;
+				position: relative;
+				text-align: center;
+				line-height: 398px;
+			}
+			.dhx_form-group {
+				max-width: 420px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Window samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Window container</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Window container.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder">
+				<label for="node" class="dhx_label">Show window in</label>
+				<select name="node" class="dhx_select dhx_input" id="node">
+					<option value>body</option>
+					<option value="dom-node">DOM node</option>
+				</select>
+			</div>
+			<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder">
+				<label class="dhx_form-group dhx_checkbox dhx_form-group--inline dhx_form-group--no-message-holder">
+					<input type="checkbox" checked name="viewportOverflow" id="viewportOverflow" class="dhx_checkbox__input">
+					<span class="dhx_checkbox__visual-input"></span>
+					<span class="dhx_sample-label">Viewport Overflow</span>
+				</label>
+			</div>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="dom-node">DOM node</div>
+		</section>
+		<script>
+			var windowHtml = "<img style='display: block; width: 200px; height: 200px; margin-top: 20px; margin-left: auto; margin-right: auto' src='../common/developer.svg'>";
+			var config = {
+				width: 500,
+				height: 340,
+				movable: true,
+				viewportOverflow: true
+			};
+
+			var dhxWindow;
+			initWindow();
+
+			document.querySelector("[name=node]").addEventListener("change", function(e) {
+				config[e.target.id] = e.target.value;
+				initWindow();
+			});
+
+			document.querySelector("[name=viewportOverflow]").addEventListener("change", function (e) {
+				config.viewportOverflow = e.target.checked;
+				initWindow()
+			});
+
+			function initWindow() {
+				if (dhxWindow) {
+					dhxWindow.destructor();
+				}
+				dhxWindow = new dhx.Window(config);
+				dhxWindow.attachHTML(windowHtml);
+				dhxWindow.show();
+			}
+		</script>
+	</body>
+</html>

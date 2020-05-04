@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Get item - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/form.css?v=6.4.2">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_button {
+				margin: 0 10px;
+			}
+			.dhx_sample-container__widget {
+				padding: 0 50px;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Get item</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Get item.
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="form"></div>
+		</section>
+		<script>
+			var config = {
+				css: "dhx_widget--bordered",
+				padding: "30",
+				rows: [
+					{
+						type: "text",
+						label: "Colorpicker color:",
+						labelPosition: "right",
+						labelWidth: "130px",
+						width: "500px",
+						id: "text_id",
+						gravity: false
+					},
+					{
+						labelPosition: "right",
+						label: "Choose your color:",
+						labelWidth: "130px",
+						width: "500px",
+						type: "colorpicker",
+						id: "colorpicker_id",
+						height: "100px",
+						gravity: false
+					},
+					{
+						align: "center",
+						cols: [
+							{
+								type: "button",
+								value: "Set value",
+								size: "medium",
+								view: "flat",
+								color: "primary",
+								id: "set_value",
+								gravity: false
+							},
+							{
+								type: "button",
+								value: "Get value",
+								size: "medium",
+								view: "flat",
+								color: "primary",
+								id: "get_value",
+								gravity: false
+							},
+							{
+								type: "button",
+								value: "Clear",
+								size: "medium",
+								view: "flat",
+								color: "primary",
+								id: "clear",
+								gravity: false,
+							},
+						]
+					}
+				]
+            };
+			var form = new dhx.Form("form", config);
+
+			form.events.on("ButtonClick", function (id) {
+				switch (id) {
+					case "set_value":
+						form.getItem("colorpicker_id").setValue("#02F7C6");
+						break;
+					case "get_value":
+						const value = form.getItem("colorpicker_id").getValue();
+						form.setValue({"text_id": value});
+						break;
+					case "clear":
+						form.getItem("colorpicker_id").clear();
+						break;
+				};
+			});
+		</script>
+	</body>
+</html>

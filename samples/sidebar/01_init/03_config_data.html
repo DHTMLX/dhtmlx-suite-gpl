@@ -1,179 +1,177 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-	<!-- meta block -->
-	<title>Config data - DHTMLX Sidebar</title>
-	<meta name="description"
-		content="Check interactive samples of DHTMLX Sidebar to explore its initialization and other details.">
-	<!-- end meta block -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-	<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-	<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
-	<!-- custom sample head -->
-	<script src="../common/common.js?v=6.1.4"></script>
-	<link href="https://cdn.materialdesignicons.com/3.6.95/css/materialdesignicons.min.css?v=6.1.4" media="all" rel="stylesheet"
-		type="text/css">
-</head>
-
-<body>
-	<header class="dhx_sample-header">
-		<div class="dhx_sample-header__main">
-			<nav class="dhx_sample-header__breadcrumbs">
-				<ul class="dhx_sample-header-breadcrumbs">
+	<head>
+		<!-- meta block -->
+		<title>Config data - DHTMLX Sidebar</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Sidebar to explore its initialization and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/sidebar.css?v=6.4.2">
+		
+		<!-- custom sample head -->
+		<script src="../common/common.js?v=6.4.2"></script>
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/4.4.95/css/materialdesignicons.css?v=6.4.2" media="all" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
 						<li class="dhx_sample-header-breadcrumbs__item">
 							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
 						</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Sidebar samples</a>
-					</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Initialization</a>
-					</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<span class="dhx_sample-header-breadcrumbs__link">Config data</span>
-					</li>
-				</ul>
-			</nav>
-			<h1 class="dhx_sample-header__title">
-				Config data.
-			</h1>
-		</div>
-	</header>
-	<section class="dhx_sample-container"
-		style="margin-top: 0; border-left: 1px solid gray; border-right: 1px solid gray">
-		<div class="dhx_sample-container__widget" style="height: calc(100vh - 61px);" id="sidebar"></div>
-	</section>
-	<script>
-		var sidebar = new dhx.Sidebar("sidebar", {
-			css: "dhx_widget--border_right",
-			data: [{
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Sidebar samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Initialization</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Config data</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Config data.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="sidebar"></div>
+		</section>
+		<script>
+			var sidebar = new dhx.Sidebar("sidebar", {
+				css: "dhx_widget--border_right",
+				data: [{
 					"id": "dashboard",
 					"value": "Dashboard",
 					"icon": "mdi mdi-view-dashboard"
 				},
-				{
-					"id": "statistics",
-					"value": "Statistics",
-					"icon": "mdi mdi-chart-line"
-				},
-				{
-					"id": "reports",
-					"value": "Reports",
-					"icon": "mdi mdi-file-chart"
-				},
-				{
-					"type": "separator"
-				},
-				{
-					"id": "posts",
-					"value": "Posts",
-					"icon": "mdi mdi-square-edit-outline",
-					"items": [{
+					{
+						"id": "statistics",
+						"value": "Statistics",
+						"icon": "mdi mdi-chart-line"
+					},
+					{
+						"id": "reports",
+						"value": "Reports",
+						"icon": "mdi mdi-file-chart"
+					},
+					{
+						"type": "separator"
+					},
+					{
+						"id": "posts",
+						"value": "Posts",
+						"icon": "mdi mdi-square-edit-outline",
+						"items": [{
 							"id": "addPost",
 							"value": "New Post",
 							"icon": "mdi mdi-plus"
 						},
-						{
-							"id": "allPost",
-							"value": "Posts",
-							"icon": "mdi mdi-view-list"
-						},
-						{
-							"id": "categoryPost",
-							"value": "Category",
-							"icon": "mdi mdi-tag"
-						}
-					]
-				},
-				{
-					"id": "pages",
-					"value": "Pages",
-					"icon": "mdi mdi-file-outline",
-					"items": [{
+							{
+								"id": "allPost",
+								"value": "Posts",
+								"icon": "mdi mdi-view-list"
+							},
+							{
+								"id": "categoryPost",
+								"value": "Category",
+								"icon": "mdi mdi-tag"
+							}
+						]
+					},
+					{
+						"id": "pages",
+						"value": "Pages",
+						"icon": "mdi mdi-file-outline",
+						"items": [{
 							"id": "addPage",
 							"value": "New Page",
 							"icon": "mdi mdi-plus"
 						},
-						{
-							"id": "allPage",
-							"value": "Pages",
-							"icon": "mdi mdi-view-list"
-						},
-						{
-							"id": "categoryPages",
-							"value": "Category",
-							"icon": "mdi mdi-tag"
-						}
-					]
-				},
-				{
-					"id": "messages",
-					"value": "Messages",
-					"count": 18,
-					"icon": "mdi mdi-email-mark-as-unread"
-				},
-				{
-					"id": "media",
-					"value": "Media",
-					"icon": "mdi mdi-folder-multiple-image"
-				},
-				{
-					"id": "links",
-					"value": "Links",
-					"icon": "mdi mdi-link"
-				},
-				{
-					"id": "comments",
-					"value": "Comments",
-					"icon": "mdi mdi-comment-multiple-outline",
-					"count": "118",
-					"countColor": "primary",
-					"items": [{
+							{
+								"id": "allPage",
+								"value": "Pages",
+								"icon": "mdi mdi-view-list"
+							},
+							{
+								"id": "categoryPages",
+								"value": "Category",
+								"icon": "mdi mdi-tag"
+							}
+						]
+					},
+					{
+						"id": "messages",
+						"value": "Messages",
+						"count": 18,
+						"icon": "mdi mdi-email-mark-as-unread"
+					},
+					{
+						"id": "media",
+						"value": "Media",
+						"icon": "mdi mdi-folder-multiple-image"
+					},
+					{
+						"id": "links",
+						"value": "Links",
+						"icon": "mdi mdi-link"
+					},
+					{
+						"id": "comments",
+						"value": "Comments",
+						"icon": "mdi mdi-comment-multiple-outline",
+						"count": "118",
+						"countColor": "primary",
+						"items": [{
 							"id": "myComments",
 							"value": "My Comments",
 							"count": 15,
 							"icon": "mdi mdi-account"
 						},
-						{
-							"id": "allComments",
-							"value": "All Comments",
-							"count": 103,
-							"countColor": "primary",
-							"icon": "mdi mdi-comment-multiple-outline"
-						}
-					]
-				},
-				{
-					"type": "spacer"
-				},
-				{
-					"id": "notification",
-					"value": "Notification",
-					"count": 25,
-					"icon": "mdi mdi-bell",
-					"countColor": "primary"
-				},
-				{
-					"id": "configuration",
-					"value": "Configuration",
-					"icon": "mdi mdi-settings",
-					"items": [{
+							{
+								"id": "allComments",
+								"value": "All Comments",
+								"count": 103,
+								"countColor": "primary",
+								"icon": "mdi mdi-comment-multiple-outline"
+							}
+						]
+					},
+					{
+						"type": "spacer"
+					},
+					{
+						"id": "notification",
+						"value": "Notification",
+						"count": 25,
+						"icon": "mdi mdi-bell",
+						"countColor": "primary"
+					},
+					{
+						"id": "configuration",
+						"value": "Configuration",
+						"icon": "mdi mdi-settings",
+						"items": [{
 							"id": "myAccount",
 							"value": "My Account",
 							"icon": "mdi mdi-account-settings"
 						},
-						{
-							"id": "general",
-							"value": "General Configuration",
-							"icon": "mdi mdi-tune"
-						}
-					]
-				}
-			]
-		});
-	</script>
-</body>
-
+							{
+								"id": "general",
+								"value": "General Configuration",
+								"icon": "mdi mdi-tune"
+							}
+						]
+					}
+				]
+			});
+		</script>
+	</body>
 </html>

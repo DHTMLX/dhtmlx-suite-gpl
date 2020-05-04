@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Base initialization - DHTMLX Helpers</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Helpers to explore its await redraw and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/helpers.css?v=6.4.2">
+		<script type="text/javascript" src="../common/dataset.js?v=6.4.2"></script>
+		<!-- custom sample head -->
+		<style>
+			.image {
+				width: 100px;
+				height: 100px;
+				float: left;
+				margin-right: 12px;
+			}
+			.item-wrap {
+				width: 330px;
+				height: 108px;
+				padding-top: 4px;
+				padding-left: 4px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Helpers samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Await Redraw</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Base initialization</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Base initialization.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls" id="popup-container">
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="create()">Create Widget</button>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="destroy()">Destroy Widget</button>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="helpers"></div>
+			<div class="dhx_sample-container__sidebar" id="sidebar"></div>
+		</section>
+		<script>
+			var widget;
+			var layout = new dhx.Layout("helpers", layoutConfig);
+			var sidebar = document.querySelector('#sidebar');
+
+			function create() {
+				if (!widget) {
+					widget = new dhx.DataView(null, {
+						template: function (item) {
+							item.value = item.short;
+							var template = "<div class='item_wrap'>";
+							template += "<img class='image' src='../common/" + item.img + "' />";
+							template += "<div class='title'>" + item.title + "</div>";
+							template += "<div>" + item.value + "</div>";
+							template += "</div>";
+							return template;
+						},
+						itemsInRow: 2,
+						gap: 10,
+						data: dataViewData
+					});
+					layout.getCell("content").attach(widget);
+
+					dhx.awaitRedraw().then(function () {
+						sidebar.insertAdjacentHTML("afterbegin", "<div class='dhx_sample-event'>Promise has returned after created DataView</div>");
+					});
+				}
+			}
+
+			function destroy() {
+				if (widget) {
+					layout.getCell("content").attach(null);
+					widget.destructor();
+					widget = null;
+
+					dhx.awaitRedraw().then(function () {
+						sidebar.insertAdjacentHTML("afterbegin", "<div class='dhx_sample-event'>Promise has returned after destroyed DataView</div>");
+					});
+				}
+			}
+		</script>
+	</body>
+</html>

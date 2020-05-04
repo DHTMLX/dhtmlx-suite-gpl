@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Drag&#x27;n&#x27;drop - DHTMLX Dataview</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Dataview to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/dataview.css?v=6.4.2">
+		<script type="text/javascript" src="../common/dataset.js?v=6.4.2"></script>
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container__widget:not(:last-child) {
+				margin-right: 20px;
+			}
+			.dhx_sample-container__widget {
+				width: 400px;
+				height: 600px;
+			}
+			.item_wrap {
+				max-height: 270px;
+				text-align: center;
+			}
+			.item_wrap .image {
+				float: none;
+				margin-right: 0;
+				margin-bottom: 4px;
+			}
+			.item_wrap .title {
+				padding-bottom: 12px;
+				padding-top: 4px;
+				text-align: center;
+				min-height: 56px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Dataview samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Drag&#x27;n&#x27;drop</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Drag&#x27;n&#x27;drop.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<h4>Drag&apos;n&apos;drop to target or both</h4>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_widget">
+				<h3>Source:</h3>
+				<div class="dhx_sample-container__widget" id="dataview_source"></div>
+			</div>
+			<div class="dhx_widget">
+				<h3>Both:</h3>
+				<div class="dhx_sample-container__widget" id="dataview_both"></div>
+			</div>
+			<div class="dhx_widget">
+				<h3>Target:</h3>
+				<div class="dhx_sample-container__widget" id="dataview_target"></div>
+			</div>
+		</section>
+
+		<script>
+			function template(item) {
+				var template = "<div class='item_wrap'>";
+				template += "<img class='image' src=" + "../common/images/" + item.thumbnailName + " />";
+				template += "<h2 class='title'>" + item.value + "</h2>";
+				template += "<p class='description'>" + item.shortDescription + "</p>";
+				template += "</div>";
+				return template;
+			}
+			var dataviewSource = new dhx.DataView("dataview_source", {
+				itemsInRow: 2,
+				dragMode: "source",
+				css: "dhx_widget--bordered",
+				template: template,
+				multiselection: true
+			});
+			dataviewSource.data.load("../common/books.json");
+			var dataviewBoth = new dhx.DataView("dataview_both", {
+				itemsInRow: 2,
+				dragMode: "both",
+				css: "dhx_widget--bordered",
+				template: template,
+				multiselection: true
+			});
+			dataviewBoth.data.load("../common/books.json");
+			var dataviewTarget = new dhx.DataView("dataview_target", {
+				itemsInRow: 2,
+				dragMode: "target",
+				css: "dhx_widget--bordered",
+				template: template,
+				multiselection: true
+			});
+		</script>
+	</body>
+</html>

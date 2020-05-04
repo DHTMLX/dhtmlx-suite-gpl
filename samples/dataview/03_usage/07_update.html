@@ -1,161 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<!-- meta block -->
-	<title>Update - DHTMLX Dataview</title>
-	<meta name="description" content="Check interactive samples of DHTMLX Dataview to explore its usage and other details.">
-	<!-- end meta block -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-	<!-- style -->
-	<link rel="stylesheet" href="../../../codebase/suite.css?v=6.1.4">
-	<link rel="stylesheet" href="../../common/index.css?v=6.1.4">
-	<link rel="stylesheet" href="../common/dataview.css?v=6.1.4">
-	<link rel="stylesheet" href="../common/form.css?v=6.1.4">
-	<!-- javascript -->
-	<script type="text/javascript" src="../common/dataset.js?v=6.1.4"></script>
-	<script type="text/javascript" src="../../../codebase/suite.js?v=6.1.4"></script>
-	<script type="text/javascript" src="../common/form.js?v=6.1.4"></script>
-	<!-- custom sample head -->
-	<style>
-		.dhx_sample-container {
-			max-width: 1200px;
-			height: 600px;
-		}
-
-		.dhx_sample-container__widget {
-			max-width: 400px;
-		}
-
-		.dhx_sample-container__widget-dataview {
-			padding-left: 50px;
-			max-width: 700px;
-			width: 700px;
-		}
-
-		.dhx_layout-cell--gravity {
-			flex-grow: 0;
-			flex-shrink: 0;
-		}
-
-		#description_id {
-			height: 120px;
-		}
-	</style>
-</head>
-<body>
-	<header class="dhx_sample-header">
-		<div class="dhx_sample-header__main">
-			<nav class="dhx_sample-header__breadcrumbs">
-				<ul class="dhx_sample-header-breadcrumbs">
+	<head>
+		<!-- meta block -->
+		<title>Update - DHTMLX Dataview</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Dataview to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.4.2"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.4.2">
+		<link rel="stylesheet" href="../../common/index.css?v=6.4.2">
+		<link rel="stylesheet" href="../common/dataview.css?v=6.4.2">
+		<script type="text/javascript" src="../common/dataset.js?v=6.4.2"></script>
+		<!-- custom sample head -->
+		<link rel="stylesheet" href="../common/form/form.min.css?v=6.4.2">
+		<script type="text/javascript" src="../common/form/form.min.js?v=6.4.2"></script>
+		<style>
+			.dhx_sample-container__widget:not(:last-child) {
+				max-width: 400px;
+				margin-right: 50px;
+			}
+			.dhx_sample-container__widget:last-child {
+				max-width: 700px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
 						<li class="dhx_sample-header-breadcrumbs__item">
 							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
 						</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Dataview samples</a>
-					</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
-					</li>
-					<li class="dhx_sample-header-breadcrumbs__item">
-						<span class="dhx_sample-header-breadcrumbs__link">Update</span>
-					</li>
-				</ul>
-			</nav>
-			<h1 class="dhx_sample-header__title">
-				<div class="dhx_sample-header__content">
-					Update.
-				</div>
-			</h1>
-		</div>
-	</header>
-	<section class="dhx_sample-container">
-		<div class="dhx_sample-container__widget" id="form"></div>
-		<div class="dhx_sample-container__widget dhx_sample-container__widget-dataview" id="dataview"></div>
-	</section>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Dataview samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Update</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Update.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="form"></div>
+			<div class="dhx_sample-container__widget" id="dataview"></div>
+		</section>
 
-	<script>
-	var config = {
-			cellCss: "dhx_widget--bordered",
-			padding: "30",
-			rows: [
-				{
-					type: "input",
-					name: "name",
-					label: "Animal name",
-					labelInline: false,
-					icon: "dxi-magnify",
-					labelWidth: "60px",
-					placeholder: "Edit animal name",
-					height: "80px",
-					id: "animal_name_id"
-				},
-				{
-					type: "textarea",
-					name: "description",
-					label: "Description",
-					labelInline: false,
-					icon: "dxi-magnify",
-					labelWidth: "60px",
-					placeholder: "Edit description",
-					height: "180px",
-					id: "description_id"
-				},
-				{
-					align: "center",
-					cols: [
-						{
-							gravity: false,
-							submit: true,
-							type: "button",
-							value: "Edit item",
-							size: "medium",
-							view: "flat",
-							color: "primary"
-						}
-					]
-				}
-			]
-		};
-
-		var form = new dhx.Form("form", config);
-
-		function template(item) {
-			var template = "<div class='item_wrap'>";
-			template += "<img class='image' src=" + "../common/images/" + item.thumbnailName + " />";
-			template += "<h2 class='title'>" + item.value + "</h2>";
-			template += "<p class='description'>" + item.shortDescription + "</p>";
-			template += "</div>"
-			return template;
-		};
-
-		var dataview = new dhx.DataView("dataview", {
-			css: "dhx_widget--bordered",
-			template: template,
-			itemsInRow: 2,
-			gap: 5
-		});
-
-		dataview.data.load("../common/books.json");
-
-		dataview.events.on("Click", function(id) {
-			var item = dataview.data.getItem(id);
-			form.setValue({
-				"animal_name_id": item.value,
-				"description_id": item.shortDescription,
-			});
-		});
-
-		form.events.on("ButtonClick", function() {
-			var data = form.getValue();
-			var id = dataview.selection.getId();
-			var item = dataview.data.getItem(id);
-			if (item) {
-				dataview.data.update(id, {
-					value: data.name ? data.name : item.value,
-					shortDescription: data.description ? data.description : item.shortDescription,
-				});
+		<script>
+			var config = {
+				css: "dhx_widget--bordered",
+				padding: "30",
+				rows: [
+					{
+						type: "input",
+						name: "name",
+						label: "Animal name",
+						labelPosition: "top",
+						icon: "dxi-magnify",
+						labelWidth: "60px",
+						placeholder: "Edit animal name",
+						height: "80px",
+						gravity: false,
+						id: "animal_name_id"
+					},
+					{
+						type: "textarea",
+						name: "description",
+						label: "Description",
+						labelPosition: "top",
+						icon: "dxi-magnify",
+						labelWidth: "60px",
+						placeholder: "Edit description",
+						height: "180px",
+						gravity: false,
+						id: "description_id"
+					},
+					{
+						align: "center",
+						cols: [
+							{
+								gravity: false,
+								submit: true,
+								type: "button",
+								value: "Edit item",
+								size: "medium",
+								view: "flat",
+								color: "primary"
+							}
+						]
+					}
+				]
 			};
-		});
-	</script>
-</body>
+			var form = new dhx.Form("form", config);
+
+			function template(item) {
+				var template = "<div class='item_wrap'>";
+				template += "<img class='image' src=" + "../common/images/" + item.thumbnailName + " />";
+				template += "<h2 class='title'>" + item.value + "</h2>";
+				template += "<p class='description'>" + item.shortDescription + "</p>";
+				template += "</div>";
+				return template;
+			}
+			var dataview = new dhx.DataView("dataview", {
+				css: "dhx_widget--bordered",
+				template: template,
+				itemsInRow: 2,
+				gap: 5
+			});
+			dataview.data.load("../common/books.json");
+			dataview.events.on("Click", function(id) {
+				var item = dataview.data.getItem(id);
+				form.setValue({
+					"animal_name_id": item.value,
+					"description_id": item.shortDescription,
+				});
+			});
+			form.events.on("ButtonClick", function() {
+				var data = form.getValue();
+				var id = dataview.selection.getId();
+				var item = dataview.data.getItem(id);
+				if (item) {
+					dataview.data.update(id, {
+						value: data.name ? data.name : item.value,
+						shortDescription: data.description ? data.description : item.shortDescription,
+					});
+				};
+			});
+		</script>
+	</body>
 </html>
