@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<!-- meta block -->
+	<title>Tab align - DHTMLX Tabbar</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+
+	<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+	<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+	<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+	<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+	<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+	<!-- end meta block -->
+	<script type="text/javascript" src="../../codebase/suite.js"></script>
+	<link rel="stylesheet" href="../../codebase/suite.css">
+
+	<link rel="stylesheet" href="../common/index.css">
+	<!-- custom sample head -->
+	<style>
+		.dhx_form-group--inline {
+			max-width: 220px;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="dhx_sample-header">
+		<div class="dhx_sample-header__main">
+			<nav class="dhx_sample-header__breadcrumbs">
+				<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+			</nav>
+			<h1 class="dhx_sample-header__title">
+				<div class="dhx_sample-header__content">
+					Tab align
+				</div>
+			</h1>
+		</div>
+	</header>
+	<section class="dhx_sample-controls">
+		<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder">
+			<label for="mode" class="dhx_sample-label">Select Tabbar mode:</label>
+			<select name="mode" class="dhx_select dhx_sample-input" id="mode">
+				<option value="top" selected>Top</option>
+				<option value="left">Left</option>
+				<option value="right">Right</option>
+				<option value="bottom">Bottom</option>
+			</select>
+		</div>
+		<fieldset class="dhx_sample-fieldset">
+			<legend>Choose variant</legend>
+			<label
+				class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input class="dhx_radiobutton__input" name="align" id="left" value="left"
+					onchange="createTabbar(this.value)" type="radio" checked>
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Left / Start</span>
+			</label>
+			<label
+				class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input class="dhx_radiobutton__input" name="align" id="center" value="center"
+					onchange="createTabbar(this.value)" type="radio">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Center / Middle</span>
+			</label>
+			<label
+				class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input class="dhx_radiobutton__input" name="align" id="right" value="right"
+					onchange="createTabbar(this.value)" type="radio">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Right / End</span>
+			</label>
+		</fieldset>
+	</section>
+	<section class="dhx_sample-container">
+		<div id="tabbar" style="width: 800px; height:400px; margin: 0 20px;"></div>
+	</section>
+	<script>
+		let tabbar;
+		let mode = "top";
+		let tabAlign = "left";
+
+		function createTabbar(align) {
+			if (tabbar) {
+				tabbar.destructor();
+			}
+			if (align) {
+				tabAlign = align;
+			}
+			tabbar = new dhx.Tabbar("tabbar", {
+				css: "dhx_widget--bordered",
+				tabAlign: tabAlign,
+				mode: mode,
+				views: [
+					{ tab: "Vilnius", html: "<div><p style='font-size: 18px; line-height: 1.6; padding-left: 20px; padding-right: 20px'><strong>Vilnius(Lithuanian pronunciation: [ˈvʲɪlʲnʲʊs]</strong> , see also other names) is the capital of Lithuania and its largest city, with a population of 574,147 as of 2018. Vilnius is in the southeast part of Lithuania and is the second largest city in the Baltic states. Vilnius is the seat of the main government institutions of Lithuania and the Vilnius District Municipality.</p></div>" },
+					{ tab: "Paris", html: "<div><p style='font-size: 18px; line-height: 1.6; padding-left: 20px; padding-right: 20px'><strong>Paris (French pronunciation: ​[paʁi]</strong> is the capital and most populous city of France, with an area of 105 square kilometres (41 square miles) and an official estimated population of 2,140,526 residents as of 1 January 2019. Since the 17th century, Paris has been one of Europe's major centres of finance, diplomacy, commerce, fashion, science, as well as the arts. The City of Paris is the centre and seat of government of the Île-de-France, or Paris Region, which has an estimated official 2019 population of 12,213,364, or about 18 percent of the population of France.</p></div>" },
+					{ tab: "London", html: "<div><p style='font-size: 18px; line-height: 1.6; padding-left: 20px; padding-right: 20px'><strong>London</strong> is the capital and largest city of both England and the United Kingdom, as well as the largest city within the European Union. Standing on the River Thames in the south-east of England, at the head of its 50-mile (80 km) estuary leading to the North Sea, London has been a major settlement for two millennia. Londinium was founded by the Romans</p></div>" },
+					{ tab: "Rome", html: "<div><p style='font-size: 18px; line-height: 1.6; padding-left: 20px; padding-right: 20px'><storng>Rome (Latin and Italian: Roma [ˈroːma]</storng> is the capital city and a special comune of Italy (named Comune di Roma Capitale). Rome also serves as the capital of the Lazio region. With 2,872,800 residents in 1,285 km2 (496.1 sq mi), it is also the country's most populated comune. It is the fourth most populous city in the European Union by population within city limits. It is the centre of the Metropolitan City of Rome, which has a population of 4,355,725 residents, thus making it the most populous metropolitan city in Italy.</p></div>" }
+				]
+			});
+		}
+
+		document.getElementById("mode").addEventListener("change", function (e) {
+			mode = e.target.value;
+			createTabbar();
+		});
+
+		createTabbar();
+	</script>
+</body>
+
+</html>

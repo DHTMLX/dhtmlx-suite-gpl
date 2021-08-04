@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<!-- meta block -->
+		<title>All Form controls - DHTMLX Form</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		
+		<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+		<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+		<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+		<!-- end meta block -->
+		<script type="text/javascript" src="../../codebase/suite.js"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css">
+		
+		<link rel="stylesheet" href="../common/index.css">
+		<!-- custom sample head -->
+		<script src="./common/data.js"></script>
+
+		<!-- custom styles -->
+		<style>
+			.social-networks {
+				font-size: 0;
+				line-height: 0;
+				text-align: center;
+				width: 100%;
+				display: inline-block;
+				box-sizing: border-box;
+			}
+		
+			.social-network {
+				display: inline-block;
+				vertical-align: middle;
+				line-height: 0;
+				margin-left: 13px;
+			}
+		
+			.social-network__icon {
+				height: 28px;
+				width: 28px;
+			}
+		
+			.social-network__icon.line {
+				fill: #0288d1;
+			}
+		
+			.social-network__icon.white-line {
+				fill: #fff;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						All Form controls
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-container">
+			<div id="form"></div>
+		</section>
+		<script>
+
+
+			const form = new dhx.Form("form", {
+				css: "dhx_widget--bordered",
+				padding: 40,
+				width: 600,
+				rows: [
+					{
+						name: "input",
+						type: "input",
+						label: "Input",
+						icon: "dxi dxi-magnify",
+						labelWidth: 140,
+						required: true,
+						placeholder: "Input placeholder",
+					},
+					{
+						name: "combo",
+						type: "combo",
+						label: "Combo",
+						required: true,
+						helpMessage: "Help information",
+						labelWidth: 140,
+						multiselection: true,
+						value: ["1", "4"],
+						data: [
+							{ value: "1", id: "1" },
+							{ value: "2", id: "2" },
+							{ value: "3", id: "3" },
+							{ value: "4", id: "4" },
+							{ value: "5", id: "5" },
+						]
+					},
+					{
+						name: "slider",
+						type: "slider",
+						label: "Slider",
+						helpMessage: " Help information",
+						labelWidth: 140,
+						min: 0,
+						max: 100,
+						value: 10,
+					},
+					{
+						name: "datepicker",
+						type: "datepicker",
+						label: "Date Picker",
+						required: true,
+						labelWidth: 140,
+					},
+					{
+						name: "timepicker",
+						type: "timepicker",
+						label: "Time Picker",
+						required: true,
+						labelWidth: 140,
+						controls: true
+					},
+					{
+						name: "colorpicker",
+						type: "colorpicker",
+						label: "Color Picker",
+						required: true,
+						labelWidth: 140,
+					},
+					{
+						name: "select",
+						type: "select",
+						label: "Select",
+						labelWidth: 140,
+						value: "2",
+						required: true,
+						options: [
+							{
+								value: "",
+								content: ""
+							},
+							{
+								value: "1",
+								content: "1"
+							},
+							{
+								value: "2",
+								content: "2"
+							},
+							{
+								value: "3",
+								content: "3"
+							},
+							{
+								value: "4",
+								content: "4"
+							}
+						]
+					},
+					{
+						name: "textarea",
+						type: "textarea",
+						label: "Textarea",
+						helpMessage: "Help information",
+						required: true,
+						labelWidth: 140,
+						value: "I am textarea!",
+					},
+					{
+						name: "simplevault",
+						type: "simpleVault",
+						helpMessage: "Help information",
+						required: true,
+						label: "Simple Vault",
+						labelWidth: 140,
+						target: "https://docs.dhtmlx.com/suite/backend/upload",
+						value: [
+							{
+								id: "image",
+								name: "image.png",
+								link: "/backend/upload/files/image.png",
+								status: "uploaded",
+
+							}
+						]
+					},
+					{
+						name: "text",
+						type: "text",
+						label: "Text",
+						labelWidth: 140,
+						value: "I am textinput!",
+					},
+					{
+						name: "radiogroup",
+						type: "radioGroup",
+						required: true,
+						label: "Radio Group",
+						labelWidth: 140,
+						helpMessage: " Help information",
+						value: "1",
+						options: {
+							rows: [
+								{
+									type: "radioButton",
+									text: "Select 1",
+									value: "1",
+								},
+								{
+									type: "radioButton",
+									text: "Select 2",
+									value: "2"
+								},
+							]
+						},
+					},
+					{
+						name: "checkboxGroup",
+						type: "checkboxGroup",
+						name: "checkboxGroup",
+						required: true,
+						label: "Checkbox Group",
+						labelWidth: 140,
+						helpMessage: "Help information",
+						value: {
+							first: true,
+						},
+						options: {
+							rows: [
+								{
+									id: "first",
+									type: "checkbox",
+									text: "Select 1",
+								},
+								{
+									id: "second",
+									type: "checkbox",
+									text: "Select 2",
+									checked: true
+								},
+							]
+						}
+					},
+					{
+						name: "checkbox",
+						type: "checkbox",
+						text: "I agree",
+						label: "Checkbox",
+						labelWidth: 140,
+						helpMessage: "Help information",
+						required: true,
+						value: "checkboxvalue",
+					},
+					{
+						type: "container",
+						name: "grid",
+						padding: "12px 0px",
+						height: "400px"
+					},
+					{
+						type: "container",
+						padding: "20px",
+						html: `
+							<div class="social-networks">
+								<a href="//github.com/DHTMLX" title="" class="social-network" target="_blank">
+									<svg class="social-network__icon" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+										<path class="social-network__icon line" d="M14 0C6.26485 0 0 6.36039 0 14.2135C0 20.8932 4.51455 26.4371 10.6054 28C10.5351 27.8222 10.5006 27.573 10.5006 27.325V24.9081H8.7503C7.80545 24.9081 6.9297 24.4823 6.54485 23.6997C6.0897 22.8468 6.0194 21.5319 4.86485 20.7142C4.51455 20.4299 4.79455 20.1457 5.1794 20.1808C5.91455 20.3937 6.50911 20.892 7.06911 21.6372C7.62911 22.3835 7.87455 22.5614 8.92426 22.5614C9.41396 22.5614 10.1837 22.5263 10.8843 22.4186C11.2691 21.4231 11.934 20.5352 12.7394 20.1094C8.0497 19.5408 5.8097 17.1953 5.8097 13.997C5.8097 12.6107 6.40426 11.2958 7.38485 10.1587C7.0703 9.05672 6.6497 6.78256 7.52545 5.89467C9.62604 5.89467 10.8854 7.28094 11.2 7.63537C12.2497 7.27973 13.4054 7.06683 14.5946 7.06683C15.8194 7.06683 16.9394 7.27973 17.9891 7.63537C18.3037 7.27973 19.5643 5.89467 21.6637 5.89467C22.5037 6.74748 22.1188 9.05672 21.7685 10.1587C22.7491 11.2607 23.3091 12.6107 23.3091 13.997C23.3091 17.1953 21.1037 19.5408 16.4497 20.038C17.7449 20.713 18.6551 22.6315 18.6551 24.0529V27.2899C18.6551 27.3964 18.6206 27.5028 18.6206 27.6093C24.08 25.6908 28 20.4324 28 14.2135C28 6.36039 21.7351 0 14 0Z"></path>
+									</svg>
+								</a>
+								<a href="//twitter.com/dhtmlx" title="" class="social-network" target="_blank">
+									<svg class="social-network__icon" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+										<path class="social-network__icon line" d="M14,0c7.7,0,14,6.3,14,14s-6.3,14-14,14S0,21.7,0,14S6.3,0,14,0z M23,8.7c-0.7,0.3-1.4,0.5-2.1,0.6c0.8-0.5,1.3-1.2,1.6-2C21.8,7.7,21,8,20.2,8.2C19.5,7.4,18.5,7,17.5,7c-2,0-3.7,1.7-3.7,3.7c0,0.3,0,0.6,0.1,0.8c-3.1-0.2-5.8-1.6-7.6-3.9C5.9,8.2,5.8,8.9,5.8,9.5c0,1.3,0.7,2.4,1.6,3.1c-0.6,0-1.2-0.2-1.7-0.5c0,0,0,0,0,0c0,1.8,1.3,3.3,3,3.6c-0.3,0.1-0.6,0.1-1,0.1c-0.2,0-0.5,0-0.7-0.1c0.5,1.5,1.8,2.5,3.4,2.6c-1.3,1-2.9,1.6-4.6,1.6C5.6,20,5.3,20,5,20c1.6,1,3.6,1.7,5.7,1.7c6.8,0,10.5-5.6,10.5-10.5c0-0.2,0-0.3,0-0.5C21.9,10.1,22.5,9.5,23,8.7z"></path>
+									</svg>
+								</a>
+								<a href="//dhtmlx.com/blog/feed/" title="" class="social-network" target="_blank">
+									<svg class="social-network__icon" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+										<circle cx="14" cy="14" r="14" class="social-network__icon line"></circle>
+										<path class="social-network__icon white-line" fill-rule="evenodd" clip-rule="evenodd" d="M7 9.8V7C15.2 7 21.9 13.6 21.9 21.8H19C19 15.2 13.6 9.8 7 9.8ZM7 14.9V12C12.4 12 16.8 16.4 16.8 21.8H13.9C13.9 20 13.2 18.2 11.9 16.9C10.6 15.6 8.9 14.9 7 14.9ZM7 19.9C7 18.8 7.9 17.9 9 17.9C10.1 17.9 11 18.8 11 19.9C11 21 10.1 21.9 9 21.9C7.9 21.9 7 21 7 19.9Z"></path>
+									</svg>
+								</a>
+								<a href="//www.linkedin.com/groups/3345009/" title="" class="social-network" target="_blank">
+									<svg class="social-network__icon" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+										<circle cx="14" cy="14" r="14" class="social-network__icon line"></circle>
+										<path class="social-network__icon white-line" d="M10.3945 22H7.29765V12H10.3945V22ZM8.83131 10.6904C7.81992 10.6904 7 9.86422 7 8.84523C7 7.82613 7.82003 7 8.83131 7C9.8426 7 10.6625 7.82613 10.6625 8.84523C10.6626 9.86428 9.84266 10.6904 8.83131 10.6904ZM21.9999 22H18.9181V16.7508C18.9181 15.3111 18.371 14.5075 17.232 14.5075C15.9924 14.5075 15.3448 15.3445 15.3448 16.7508V22H12.3746V12H15.3448V13.3468C15.3448 13.3468 16.2383 11.695 18.3597 11.695C20.4813 11.695 22 12.9897 22 15.6681L21.9999 22Z"></path>
+									</svg>
+								</a>
+								<a href="//www.youtube.com/user/dhtmlx" title="" class="social-network" target="_blank">
+									<svg class="social-network__icon" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+										<circle cx="14" cy="14" r="14" class="social-network__icon line"></circle>
+										<path class="social-network__icon white-line" fill-rule="evenodd" clip-rule="evenodd" d="M20.2602 8.34267C20.9456 8.52718 21.4859 9.06754 21.6704 9.75288C22.0131 11.0049 21.9999 13.6145 21.9999 13.6145C21.9999 13.6145 21.9999 16.2108 21.6704 17.4629C21.4859 18.1482 20.9456 18.6886 20.2602 18.8731C19.0082 19.2026 14 19.2026 14 19.2026C14 19.2026 9.00493 19.2026 7.7397 18.8599C7.05436 18.6754 6.514 18.135 6.32949 17.4497C6 16.2108 6 13.6013 6 13.6013C6 13.6013 6 11.0049 6.32949 9.75288C6.514 9.06754 7.06754 8.514 7.7397 8.32949C8.99175 8 14 8 14 8C14 8 19.0082 8 20.2602 8.34267ZM16.57 13.6013L12.4053 16V11.2027L16.57 13.6013Z"></path>
+									</svg>
+								</a>
+								<a href="//www.facebook.com/dhtmlx" title="" class="social-network" target="_blank">
+									<svg class="social-network__icon" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+										<circle cx="14" cy="14" r="14" class="social-network__icon line"></circle>
+										<path class="social-network__icon white-line" d="M17.048 7C17.048 7 15.6072 7 14.6508 7C13.2281 7 11.6458 7.59834 11.6458 9.66049C11.6527 10.379 11.6458 11.0672 11.6458 11.8416H10V14.4606H11.6967V22H14.8145V14.4108H16.8724L17.0586 11.8343H14.7608C14.7608 11.8343 14.7659 10.6881 14.7608 10.3553C14.7608 9.54037 15.6087 9.58703 15.6597 9.58703C16.0632 9.58703 16.8478 9.58821 17.0492 9.58703V7H17.048Z"></path>
+									</svg>
+								</a>
+								<a href="//dhtmlx.medium.com/" title="" class="social-network" target="_blank">
+									<svg class="social-network__icon" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+										<path class="social-network__icon line" d="M14 28C21.7319 28 28 21.732 28 14C28 6.26801 21.732 1.05974e-05 14 4.02768e-05C6.26804 6.99561e-05 0 6.26807 0 14C0 21.732 6.26802 27.9999 14 28Z"></path>
+										<path class="social-network__icon white-line" d="M8.64987 17.1404C8.64987 17.5019 8.63194 17.5858 8.45858 17.8053L7 19.7418V20H11.1665V19.7418L9.69001 17.8053C9.51665 17.5858 9.48676 17.4825 9.48676 17.1404V11.3631L13.1512 19.9871H13.5756L16.7199 11.3631V18.2313C16.7199 18.425 16.7199 18.4572 16.6063 18.5734L15.5004 19.7353V19.9935H21V19.7353L19.9061 18.5734C19.7985 18.4572 19.7865 18.4185 19.7865 18.2313V9.76224C19.7865 9.56859 19.7985 9.53631 19.9061 9.42012L20.994 8.2582V8H17.1264L14.3646 15.4556L11.2562 8.00646H7.19129V8.26466L8.47652 9.96235C8.61998 10.156 8.64987 10.2012 8.64987 10.4594V17.1404Z"></path>
+									</svg>
+								</a>
+							</div>
+						`
+					},
+					{
+						type: "spacer",
+					},
+					{
+						align: "end",
+						cols: [
+							{
+								name: "button",
+								type: "button",
+								submit: true,
+								text: "Send",
+								size: "medium",
+								view: "flat",
+								color: "primary",
+								url: "https://docs.dhtmlx.com/suite/backend/formData/",
+							}
+						]
+					}
+				]
+			});
+
+			const grid = new dhx.Grid(null, {
+				columns: [
+					{ width: 200, id: "country", header: [{ text: "Country" }] },
+					{ width: 150, id: "population", header: [{ text: "Population" }] },
+					{ width: 150, id: "yearlyChange", header: [{ text: "Yearly Change" }] },
+					{ width: 150, id: "netChange", header: [{ text: "Net Change" }] },
+					{ width: 150, id: "density", header: [{ text: "Density (P/Km²)" }] },
+					{ width: 150, id: "area", header: [{ text: "Land Area (Km²)" }] },
+					{ width: 150, id: "migrants", header: [{ text: "Migrants (net)" }] },
+					{ width: 150, id: "fert", header: [{ text: "Fert. Rate" }] },
+					{ width: 150, id: "age", header: [{ text: "Med. Age" }] },
+					{ width: 150, id: "urban", header: [{ text: "Urban Pop" }] }
+				],
+				data: dataset
+			});
+
+			form.getItem("grid").attach(grid);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<!-- meta block -->
+		<title>Pie chart - DHTMLX Chart</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		
+		<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+		<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+		<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+		<!-- end meta block -->
+		<script type="text/javascript" src="../../codebase/suite.js"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css">
+		
+		<link rel="stylesheet" href="../common/index.css">
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Pie chart
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-container">
+			<div id="chart" style="width: 100%; padding: 20px"></div>
+		</section>
+		<script>
+			const pieData = [
+				{ id: "Jan", value: 44.33, color: "#394E79", month: "Jan" },
+				{ id: "Feb", value: 22.12, color: "#5E83BA", month: "Feb" },
+				{ id: "Mar", value: 53.21, color: "#C2D2E9", month: "Mar" },
+				{ id: "Apr", value: 34.25, color: "#9A8BA5", month: "Apr" },
+				{ id: "May", value: 24.65, color: "#E3C5D5", month: "May" }
+			];
+			const config = {
+				type: "pie",
+				css: "dhx_widget--bg_white dhx_widget--bordered",
+				series: [
+					{
+						value: "value",
+						color: "color",
+						text: "month",
+						stroke: "#FFFFFF",
+						strokeWidth: 2
+					}
+				],
+				legend: {
+					values: {
+						id: "value",
+						text: "id",
+						color: "color"
+					},
+					halign: "right",
+					valign: "top"
+				}
+			};
+			const chart = new dhx.Chart("chart", config);
+			chart.data.parse(pieData);
+		</script>
+	</body>
+</html>

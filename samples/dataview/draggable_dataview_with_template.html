@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<!-- meta block -->
+	<title>Draggable Dataview with template - DHTMLX Dataview</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+
+	<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+	<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+	<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+	<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+	<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+	<!-- end meta block -->
+	<script type="text/javascript" src="../../codebase/suite.js"></script>
+	<link rel="stylesheet" href="../../codebase/suite.css">
+
+	<link rel="stylesheet" href="../common/index.css">
+	<!-- custom sample head -->
+	<script src="./common/data.js"></script>
+</head>
+
+<body>
+	<header class="dhx_sample-header">
+		<div class="dhx_sample-header__main">
+			<nav class="dhx_sample-header__breadcrumbs">
+				<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+			</nav>
+			<h1 class="dhx_sample-header__title">
+				<div class="dhx_sample-header__content">
+					Draggable Dataview with template
+				</div>
+			</h1>
+		</div>
+	</header>
+	<section class="dhx_sample-controls">
+		Drop to target or both
+	</section>
+	<section class="dhx_sample-container">
+		<div class="dhx_widget">
+			<h2 style="margin: 0 5px;">Source:</h2>
+			<div id="dataview_source" style="height: 600px; width: 350px; margin: 20px 5px;"></div>
+		</div>
+		<div class="dhx_widget">
+			<h2 style="margin: 0 10px;">Both:</h2>
+			<div id="dataview_both" style="height: 600px; width: 350px; margin: 20px 10px;"></div>
+		</div>
+		<div class="dhx_widget">
+			<h2 style="margin: 0 5px;">Target:</h2>
+			<div id="dataview_target" style="height: 600px; width: 350px; margin: 20px 5px;"></div>
+		</div>
+	</section>
+	<script>
+		function template(item) {
+			let template = "<div>";
+			template += "<img src='" + item.thumbnailName + "'style='width: 100px; margin: 0 auto 10px; display: block'/>";
+			template += "<h3 style='margin: 0; text-align: center;'>" + item.name + "</h3>";
+			template += "<p style='margin: 4px'>" + item.value + "</p>";
+			template += "</div>";
+			return template;
+		}
+
+		const dataviewSource = new dhx.DataView("dataview_source", {
+			itemsInRow: 2,
+			dragMode: "source",
+			css: "dhx_widget--bordered",
+			template: template,
+			multiselection: true,
+			data: dataset,
+		});
+
+		const dataviewBoth = new dhx.DataView("dataview_both", {
+			itemsInRow: 2,
+			dragMode: "both",
+			css: "dhx_widget--bordered",
+			template: template,
+			multiselection: true,
+			data: dataset,
+		});
+
+		const dataviewTarget = new dhx.DataView("dataview_target", {
+			itemsInRow: 2,
+			dragMode: "target",
+			css: "dhx_widget--bordered",
+			template: template,
+			multiselection: true,
+		});
+	</script>
+</body>
+
+</html>

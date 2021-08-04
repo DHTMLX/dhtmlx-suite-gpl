@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<!-- meta block -->
+		<title>Two windows - DHTMLX Window</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		
+		<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+		<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+		<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+		<!-- end meta block -->
+		<script type="text/javascript" src="../../codebase/suite.js"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css">
+		
+		<link rel="stylesheet" href="../common/index.css">
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Two windows
+					</div>
+				</h1>
+			</div>
+		</header>
+		<script>
+			const dataset = [
+				{ text: "1. dhtmlxCalendar" },
+				{ text: "2. dhtmlxChart" },
+				{ text: "3. dhtmlxColorPicker" },
+				{ text: "4. dhtmlxCombo" },
+				{ text: "5. dhtmlxContextMenu (new)" },
+				{ text: "6. dhtmlxDataView" },
+				{ text: "7. dhtmlxForm" },
+				{ text: "8. dhtmlxGrid" },
+				{ text: "9. dhtmlxLayout" },
+				{ text: "10. dhtmlxList" },
+				{ text: "11. dhtmlxMenu" },
+				{ text: "12. dhtmlxMessage" },
+				{ text: "13. dhtmlxPopup" },
+				{ text: "14. dhtmlxRibbon" },
+				{ text: "15. dhtmlxSidebar" },
+				{ text: "16. dhtmlxSlider" },
+				{ text: "17. dhtmlxTabbar" },
+				{ text: "18. dhtmlxTimePicker" },
+				{ text: "19. dhtmlxToolbar" },
+				{ text: "20. dhtmlxTooltip" },
+				{ text: "21. dhtmlxTree" },
+				{ text: "22. dhtmlxWindow" }
+			];
+
+			const firstWindowHtml = "<p>JavaScript windows may overlap each other. Click the second window to bring it to the front.</p><img style='display: block; width: 200px; height: 200px; margin-top: 20px; margin-left: auto; margin-right: auto' src='https://snippet.dhtmlx.com/codebase/data/common/img/01/developer-01.svg'>"; const dhxSecondWindow = new dhx.Window({ width: 400, height: 430, title: "Second Window", movable: true });
+			const dhxFirstWindow = new dhx.Window({
+				width: 400,
+				height: 430,
+				title: "First Window",
+				movable: true
+			});
+
+			dhxFirstWindow.attachHTML(firstWindowHtml);
+
+			const list = new dhx.List(null, {
+				css: "dhx_widget--bordered"
+			});
+
+			list.data.parse(dataset);
+			dhxSecondWindow.attach(list);
+
+			dhxFirstWindow.show((window.innerWidth / 2) - 450);
+			dhxSecondWindow.show((window.innerWidth / 2) + 50);
+		</script>
+	</body>
+</html>

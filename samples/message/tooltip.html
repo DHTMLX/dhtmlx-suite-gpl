@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<!-- meta block -->
+	<title>Tooltip - DHTMLX Message</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+
+	<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+	<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+	<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+	<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+	<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+	<!-- end meta block -->
+	<script type="text/javascript" src="../../codebase/suite.js"></script>
+	<link rel="stylesheet" href="../../codebase/suite.css">
+
+	<link rel="stylesheet" href="../common/index.css">
+	<!-- custom sample head -->
+	<style>
+		.dhx_tooltip-rect {
+			width: 240px;
+			height: 100px;
+			line-height: 100px;
+			border: 1px solid #a6a6a6;
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="dhx_sample-header">
+		<div class="dhx_sample-header__main">
+			<nav class="dhx_sample-header__breadcrumbs">
+				<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+			</nav>
+			<h1 class="dhx_sample-header__title">
+				<div class="dhx_sample-header__content">
+					Tooltip
+				</div>
+			</h1>
+		</div>
+	</header>
+	<section class="dhx_sample-controls" id="form-controls">
+		<fieldset class="dhx_sample-fieldset">
+			<legend>Choose variant</legend>
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder">
+				<input type="radio" checked id="dark" name="theme" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Dark</span>
+			</label>
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder">
+				<input type="radio" id="light" name="theme" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Light</span>
+			</label>
+		</fieldset>
+
+	</section>
+
+	<section class="dhx_sample-container">
+		<div class="dhx_tooltip-rect" onfocus="show(this)" onmouseover="show(this)" id="tooltip">Hover me to see the
+			tooltip</div>
+	</section>
+	<script>
+		let theme = "dark";
+
+		document.querySelector("#form-controls").addEventListener("change", function (e) {
+			theme = e.target.id;
+		});
+
+		function show(node) {
+			dhx.tooltip("dhtmlxTooltip in a" + theme + " mode", { node: node, position: "bottom", force: true, css: "dhx_tooltip--" + theme });
+		}
+	</script>
+</body>
+
+</html>

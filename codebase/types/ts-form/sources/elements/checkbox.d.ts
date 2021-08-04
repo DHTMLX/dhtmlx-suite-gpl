@@ -1,0 +1,35 @@
+import { IEventSystem } from "../../../ts-common/events";
+import { Popup } from "../../../ts-popup";
+import { ICheckboxConfig, ItemEvent, ICheckboxEventHandlersMap, ICheckbox, ICheckboxProps } from "../types";
+import { Label } from "./helper/label";
+export declare class Checkbox extends Label implements ICheckbox {
+    config: ICheckboxConfig;
+    events: IEventSystem<ItemEvent, ICheckboxEventHandlersMap>;
+    protected _handlers: any;
+    protected _helper: Popup;
+    private _inGroup;
+    private _isValid;
+    private _propsItem;
+    private _props;
+    constructor(container: HTMLElement | string, config?: {});
+    setProperties(propertyConfig: ICheckboxProps, silent?: boolean): void;
+    getProperties(): ICheckboxProps;
+    show(): void;
+    hide(init?: boolean): void;
+    isVisible(): boolean;
+    disable(): void;
+    enable(): void;
+    isDisabled(): boolean;
+    validate(silent?: boolean): boolean;
+    clearValidate(): void;
+    setValue(checked: boolean, silent?: boolean): void;
+    getValue(): string | boolean;
+    clear(silent?: boolean): void;
+    destructor(): void;
+    focus(): void;
+    blur(): void;
+    isChecked(): boolean;
+    private _initView;
+    protected _initHandlers(): void;
+    protected _draw(): any;
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<!-- meta block -->
+	<title>Slider with a scale - DHTMLX Slider</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+	
+	<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+	<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+	<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+	<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+	<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+	<!-- end meta block -->
+	<script type="text/javascript" src="../../codebase/suite.js"></script>
+	<link rel="stylesheet" href="../../codebase/suite.css">
+	
+	<link rel="stylesheet" href="../common/index.css">
+	<!-- custom sample head -->
+</head>
+
+<body>
+	<header class="dhx_sample-header">
+		<div class="dhx_sample-header__main">
+			<nav class="dhx_sample-header__breadcrumbs">
+				<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+			</nav>
+			<h1 class="dhx_sample-header__title">
+				<div class="dhx_sample-header__content">
+					Slider with a scale
+				</div>
+			</h1>
+		</div>
+</header>
+	<section class="dhx_sample-controls">
+		<div class="dhx_sample-input__wrapper">
+			<label for="ticks" class="dhx_sample-label">Ticks</label>
+			<input id="ticks" value="5" class="dhx_sample-input" min="0" type="number">
+		</div>
+		<div class="dhx_sample-input__wrapper">
+			<label for="major-ticks" class="dhx_sample-label">Major Ticks</label>
+			<input id="major-ticks" value="10" type="number" min="0" class="dhx_sample-input">
+		</div>
+		<button id="add" class="dhx_sample-btn dhx_sample-btn--flat">Add Ticks</button>
+	</section>
+	<div style="padding: 80px;" id="slider"></div>
+	<script>
+		function tickTemplate(v) {
+			return v;
+		}
+
+		let slider = new dhx.Slider("slider", {
+			min: 0,
+			max: 100,
+			step: 1,
+			tick: 5,
+			majorTick: 10,
+			tickTemplate: tickTemplate
+		});
+
+		const add = document.getElementById("add");
+		const ticks = document.getElementById("ticks");
+		const majorTicks = document.getElementById("major-ticks");
+
+		add.addEventListener("click", function () {
+			const tickRange = ticks.value > 0 ? ticks.value : 0;
+			const majorTickRange = majorTicks.value > 0 ? majorTicks.value : 0;
+			slider.destructor();
+
+			slider = new dhx.Slider("slider", {
+				tick: tickRange,
+				majorTick: majorTickRange,
+				min: 0,
+				max: 100,
+				step: 1,
+				tickTemplate: tickTemplate
+			});
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<!-- meta block -->
+	<title>Grid with rich configuration - DHTMLX Grid</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+	
+	<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+	<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+	<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+	<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+	<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+	<!-- end meta block -->
+	<script type="text/javascript" src="../../codebase/suite.js"></script>
+	<link rel="stylesheet" href="../../codebase/suite.css">
+	
+	<link rel="stylesheet" href="../common/index.css">
+	<!-- custom sample head -->
+	<script src="./common/data.js"></script>
+
+	<!-- custom styles -->
+	<style>
+		.demo_grid-user {
+			display: flex;
+		}
+
+		.demo_grid-user-photo {
+			border-radius: 50%;
+			width: 24px;
+			height: 24px;
+			background: #61C874;
+			text-align: center;
+			line-height: 23px;
+			border: solid 1px #FFF;
+			color: white;
+			font-weight: 500;
+			margin-right: -3px;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="dhx_sample-header">
+		<div class="dhx_sample-header__main">
+			<nav class="dhx_sample-header__breadcrumbs">
+				<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+			</nav>
+			<h1 class="dhx_sample-header__title">
+				<div class="dhx_sample-header__content">
+					Grid with rich configuration
+				</div>
+			</h1>
+		</div>
+</header>
+	<section class="dhx_sample-container" style="min-height: 400px; height: 400px">
+		<div style="height: 100%; width: 100%" id="grid"></div>
+
+	</section>
+	<script>
+		const srcPhoto = "https://snippet.dhtmlx.com/codebase/data/common/img/02/avatar_";
+
+		const grid = new dhx.Grid("grid", {
+			columns: [
+				{
+					width: 60,
+					id: "paid",
+					header: [{ text: "Paid", rowspan: 2 }],
+					type: "boolean"
+				},
+				{
+					minWidth: 150,
+					id: "project",
+					header: [{ text: "Project" }, { content: "comboFilter" }],
+					footer: [{ text: "Total" }],
+					resizable: true
+				},
+				{
+					width: 130,
+					id: "access",
+					header: [{ text: "Access", rowspan: 2 }],
+					editable: false,
+					template: accessTemplate,
+					tooltip: false,
+					htmlEnable: true
+				},
+				{
+					width: 100,
+					id: "status",
+					header: [{ text: "Status" }, { content: "selectFilter" }],
+					editorType: "combobox",
+					options: ["Done", "In Progress", "Not Started"]
+				},
+				{
+					width: 150,
+					id: "owner",
+					header: [{ text: "Owner" }, { content: "inputFilter" }],
+				},
+				{
+					width: 130,
+					id: "balance",
+					header: [{ text: "Balance" }, { content: "inputFilter" }],
+					footer: [{ content: "sum" }],
+					template: value => value > 0
+						? `<div style='color:green'>⬆ $${value}</div>`
+						: `<div style='color:red'>⬇ $${value}</div>`,
+					htmlEnable: true,
+					format: "#.0",
+					tooltip: false
+				},
+				{
+					width: 130,
+					id: "hours",
+					header: [{ text: "Number of hours" }, { content: "inputFilter" }],
+					footer: [{ content: "sum" }],
+					format: "#"
+				},
+				{
+					width: 150,
+					id: "renewals",
+					header: [{ text: "Number of renewals" }, { content: "comboFilter" }],
+					type: "string",
+					editorType: "combobox",
+					options: ["1 time", "1-2 times", "more than 5 times"]
+				},
+				{
+					width: 130,
+					id: "start_date",
+					header: [{ text: "Calendar", colspan: 2, align: "center" }, { text: "Start date", align: "center" }],
+					type: "date",
+					dateFormat: "%d/%m/%Y",
+					align: "center"
+				},
+				{
+					width: 130,
+					id: "end_date",
+					header: ["", { text: "End date", align: "center" }],
+					type: "date",
+					dateFormat: "%d/%M/%Y",
+					align: "center"
+				},
+				{
+					width: 130,
+					id: "cost",
+					header: [{ text: "Cost" }, { content: "inputFilter" }],
+					footer: [{ content: "sum" }],
+					template: (value) => `$${value}`,
+					format: "#.0",
+				},
+				{
+					width: 130,
+					id: "budget",
+					header: [{ text: "Budget" }, { content: "inputFilter" }],
+					footer: [{ content: "sum" }],
+					template: (value) => `$${value}`,
+					format: "#.0",
+				}
+			],
+			leftSplit: 2,
+			data: data,
+			editable: true,
+			dragItem: "both",
+			keyNavigation: true,
+			selection: "row"
+		});
+
+		function accessTemplate(value) {
+			if (!value) return;
+			const photos = value.reduce((total, user) => {
+				return total + (user.ava
+					? `<img src=${srcPhoto + user.ava} class="demo_grid-user-photo"/>`
+					: `<div class="demo_grid-user-photo" style="background:${user.color};">${user.name[0]}</div>`)
+			}, "");
+			return `<div class="demo_grid-user">${photos}</div>`;
+		}
+	</script>
+</body>
+
+</html>

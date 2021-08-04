@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<!-- meta block -->
+		<title>Two state button and tooltips - DHTMLX Toolbar</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		
+		<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+		<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+		<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+		<!-- end meta block -->
+		<script type="text/javascript" src="../../codebase/suite.js"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css">
+		
+		<link rel="stylesheet" href="../common/index.css">
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Two state button and tooltips
+					</div>
+				</h1>
+			</div>
+		</header>
+		<div style="margin: 20px auto; width: 800px;" id="toolbar"></div>
+		<script>
+			const data = [
+				{
+					type: "navItem",
+					icon: "dxi dxi-format-bold",
+					tooltip: "bold text", //tooltip
+					twoState: true, //two state button
+					active: false
+				},
+				{
+					type: "navItem",
+					icon: "dxi dxi-format-italic",
+					tooltip: "italic text", //tooltip
+					twoState: true, //two state button
+					active: false
+				},
+				{
+					type: "navItem",
+					icon: "dxi dxi-format-underline",
+					tooltip: "underline text", //tooltip
+					twoState: true, //two state button
+					active: false
+				},
+				{
+					type: "spacer",
+				},
+				{
+					type: "navItem",
+					icon: "dxi dxi-plus",
+					value: "new",
+					tooltip: "create new item" //tooltip
+				},
+				{
+					type: "navItem",
+					icon: "dxi dxi-folder-open",
+					value: "open",
+					tooltip: "open the file" //tooltip
+				},
+				{
+					type: "navItem",
+					icon: "dxi dxi-vault",
+					value: "save",
+					tooltip: "save the changes", //tooltip
+					count: 15
+				},
+				{
+					type: "navItem",
+					icon: "dxi dxi-delete",
+					value: "delete",
+					tooltip: "delete the item" //tooltip
+				},
+			];
+
+			const toolbar = new dhx.Toolbar("toolbar", {
+				css: "dhx_widget--bordered"
+			});
+
+			toolbar.data.parse(data);
+		</script>
+	</body>
+</html>

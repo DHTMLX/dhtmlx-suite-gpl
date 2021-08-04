@@ -1,0 +1,112 @@
+[
+	{
+		"type": "block",
+		"id": "fileBlock",
+		"title": "File",
+		"items": [
+			{
+				"type": "block",
+				"direction": "col",
+				"items": [
+					{
+						"value": "File",
+						"id": "file",
+						"icon": "mdi mdi-file-outline",
+						"size": "small",
+						"ribbonHeight": "auto"
+					},
+					{
+						"type": "block",
+						"items": [
+							{
+								"id": "folder",
+								"icon": "mdi mdi-folder-outline"
+							},
+							{
+								"id": "cloud",
+								"icon": "mdi mdi-weather-cloudy"
+							}
+						]
+					}
+				]
+			},
+			{
+				"id": "save",
+				"value": "Save",
+				"icon": "mdi mdi-content-save",
+				"size": "auto"
+			}
+		]
+	},
+	{
+		"type": "block",
+		"title": "Action",
+		"direction": "col",
+		"items": [
+			{
+				"id": "copy",
+				"icon": "mdi mdi-content-copy",
+				"value": "Copy"
+			},
+			{
+				"id": "cut",
+				"icon": "mdi mdi-content-cut",
+				"value": "Cut"
+			}
+		]
+	},
+	{
+		"type": "block",
+		"title": "Text",
+		"items": [
+			{
+				"type": "block",
+				"direction": "col",
+				"items": [
+					{
+						"id": "left",
+						"value": "Left",
+						"group": "align",
+						"icon": "mdi mdi-format-align-left"
+					},
+					{
+						"id": "center",
+						"value": "Center",
+						"group": "align",
+						"icon": "mdi mdi-format-align-center"
+					}
+				]
+			},
+			{
+				"type": "block",
+				"direction": "col",
+				"items": [
+					{
+						"id": "right",
+						"value": "Right",
+						"group": "align",
+						"icon": "mdi mdi-format-align-right"
+					},
+					{
+						"id": "justify",
+						"value": "Justify",
+						"group": "align",
+						"icon": "mdi mdi-format-align-justify"
+					}
+				]
+			}
+		]
+	},
+	{
+		"type": "block",
+		"title": "Output",
+		"items": [
+			{
+				"id": "print",
+				"value": "Print",
+				"icon": "mdi mdi-printer",
+				"size": "auto"
+			}
+		]
+	}
+]

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<!-- meta block -->
+		<title>Base icons - DHTMLX Helpers</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		
+		<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+		<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+		<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+		<!-- end meta block -->
+		<script type="text/javascript" src="../../codebase/suite.js"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css">
+		
+		<link rel="stylesheet" href="../common/index.css">
+		<!-- custom sample head -->
+		<link rel="stylesheet" href="../common/dhxicons.css">
+		<script src="https://docs.dhtmlx.com/suite/samples/helpers/common/clipboard.min.js?v=6.4.2"></script>
+		<style>
+			.dhx_sample-icon-container {
+				display: block;
+				background: #fff;
+				height: auto;
+				min-height: 600px;
+				max-width: 1200px;
+				padding: 50px;
+				column-count: 3;
+				margin: 0;
+			}
+			.dhx_sample-icon-container .icon-card {
+				flex: 1 1 auto;
+				text-align: center;
+				display: flex;
+				justify-content: center;
+				margin-bottom: 1rem;
+			}
+			.dxi {
+				display: inline-block;
+				margin-right: 0.75rem;
+				pointer-events: none;
+				transition: transform 0.3s ease-in-out;
+				will-change: transform;
+			}
+			.dxi:before {
+				font-size: 28px;
+				line-height: 28px;
+			}
+			.icon-caption {
+				pointer-events: none;
+				line-height: 28px;
+				transition: color 0.2s ease;
+			}
+			button {
+				overflow: visible;
+				position: relative;
+				text-decoration: none;
+				font-size: 16px;
+		
+				background-image: none;
+				background-color: #fff;
+				border: 0;
+				touch-action: manipulation;
+				-webkit-appearance: none;
+				user-select: auto;
+				cursor: pointer;
+				margin-bottom: 0.5rem;
+			}
+			button:hover .icon-caption {
+				color: #03a9f4;
+			}
+			button:hover .dxi {
+				transform: scale(1.2, 1.2)
+			}
+			button:focus,
+			button:active {
+				outline: none;
+			}
+			.custom-message {
+				flex-flow: row-reverse;
+				align-items: center;
+				justify-content: flex-end;
+			}
+			.custom-message .dhx_message__icon {
+				margin-bottom: 0;
+			}
+			.custom-message .dhx_message__text {
+				font-size: 16px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Base icons
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section id="dhx-icon-samples" class="dhx_sample-icon-container" style="margin: 0 auto;">
+			<!--ICONS-->
+			<button data-clipboard-text="dxi dxi-alert-circle" class="icon-card">
+			                            <i class="dxi dxi-alert-circle"> </i>
+			                            <span class="icon-caption">dxi dxi-alert-circle</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-arrow-collapse" class="icon-card">
+			                            <i class="dxi dxi-arrow-collapse"> </i>
+			                            <span class="icon-caption">dxi dxi-arrow-collapse</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-arrow-down" class="icon-card">
+			                            <i class="dxi dxi-arrow-down"> </i>
+			                            <span class="icon-caption">dxi dxi-arrow-down</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-arrow-expand" class="icon-card">
+			                            <i class="dxi dxi-arrow-expand"> </i>
+			                            <span class="icon-caption">dxi dxi-arrow-expand</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-arrow-left" class="icon-card">
+			                            <i class="dxi dxi-arrow-left"> </i>
+			                            <span class="icon-caption">dxi dxi-arrow-left</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-arrow-right" class="icon-card">
+			                            <i class="dxi dxi-arrow-right"> </i>
+			                            <span class="icon-caption">dxi dxi-arrow-right</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-arrow-up" class="icon-card">
+			                            <i class="dxi dxi-arrow-up"> </i>
+			                            <span class="icon-caption">dxi dxi-arrow-up</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-blur-off" class="icon-card">
+			                            <i class="dxi dxi-blur-off"> </i>
+			                            <span class="icon-caption">dxi dxi-blur-off</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-blur" class="icon-card">
+			                            <i class="dxi dxi-blur"> </i>
+			                            <span class="icon-caption">dxi dxi-blur</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-calendar-today" class="icon-card">
+			                            <i class="dxi dxi-calendar-today"> </i>
+			                            <span class="icon-caption">dxi dxi-calendar-today</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-check" class="icon-card">
+			                            <i class="dxi dxi-check"> </i>
+			                            <span class="icon-caption">dxi dxi-check</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-checkbox-blank-outline" class="icon-card">
+			                            <i class="dxi dxi-checkbox-blank-outline"> </i>
+			                            <span class="icon-caption">dxi dxi-checkbox-blank-outline</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-checkbox-marked-circle" class="icon-card">
+			                            <i class="dxi dxi-checkbox-marked-circle"> </i>
+			                            <span class="icon-caption">dxi dxi-checkbox-marked-circle</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-checkbox-marked" class="icon-card">
+			                            <i class="dxi dxi-checkbox-marked"> </i>
+			                            <span class="icon-caption">dxi dxi-checkbox-marked</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-chevron-double-down" class="icon-card">
+			                            <i class="dxi dxi-chevron-double-down"> </i>
+			                            <span class="icon-caption">dxi dxi-chevron-double-down</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-chevron-double-left" class="icon-card">
+			                            <i class="dxi dxi-chevron-double-left"> </i>
+			                            <span class="icon-caption">dxi dxi-chevron-double-left</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-chevron-double-right" class="icon-card">
+			                            <i class="dxi dxi-chevron-double-right"> </i>
+			                            <span class="icon-caption">dxi dxi-chevron-double-right</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-chevron-double-up" class="icon-card">
+			                            <i class="dxi dxi-chevron-double-up"> </i>
+			                            <span class="icon-caption">dxi dxi-chevron-double-up</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-chevron-down" class="icon-card">
+			                            <i class="dxi dxi-chevron-down"> </i>
+			                            <span class="icon-caption">dxi dxi-chevron-down</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-chevron-left" class="icon-card">
+			                            <i class="dxi dxi-chevron-left"> </i>
+			                            <span class="icon-caption">dxi dxi-chevron-left</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-chevron-right" class="icon-card">
+			                            <i class="dxi dxi-chevron-right"> </i>
+			                            <span class="icon-caption">dxi dxi-chevron-right</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-chevron-up" class="icon-card">
+			                            <i class="dxi dxi-chevron-up"> </i>
+			                            <span class="icon-caption">dxi dxi-chevron-up</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-clock-outline" class="icon-card">
+			                            <i class="dxi dxi-clock-outline"> </i>
+			                            <span class="icon-caption">dxi dxi-clock-outline</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-clock" class="icon-card">
+			                            <i class="dxi dxi-clock"> </i>
+			                            <span class="icon-caption">dxi dxi-clock</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-close-circle" class="icon-card">
+			                            <i class="dxi dxi-close-circle"> </i>
+			                            <span class="icon-caption">dxi dxi-close-circle</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-close" class="icon-card">
+			                            <i class="dxi dxi-close"> </i>
+			                            <span class="icon-caption">dxi dxi-close</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-content-save" class="icon-card">
+			                            <i class="dxi dxi-content-save"> </i>
+			                            <span class="icon-caption">dxi dxi-content-save</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-delete-forever" class="icon-card">
+			                            <i class="dxi dxi-delete-forever"> </i>
+			                            <span class="icon-caption">dxi dxi-delete-forever</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-delete" class="icon-card">
+			                            <i class="dxi dxi-delete"> </i>
+			                            <span class="icon-caption">dxi dxi-delete</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-dots-horizontal" class="icon-card">
+			                            <i class="dxi dxi-dots-horizontal"> </i>
+			                            <span class="icon-caption">dxi dxi-dots-horizontal</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-dots-vertical" class="icon-card">
+			                            <i class="dxi dxi-dots-vertical"> </i>
+			                            <span class="icon-caption">dxi dxi-dots-vertical</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-download" class="icon-card">
+			                            <i class="dxi dxi-download"> </i>
+			                            <span class="icon-caption">dxi dxi-download</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-empty" class="icon-card">
+			                            <i class="dxi dxi-empty"> </i>
+			                            <span class="icon-caption">dxi dxi-empty</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-eraser" class="icon-card">
+			                            <i class="dxi dxi-eraser"> </i>
+			                            <span class="icon-caption">dxi dxi-eraser</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-eye-off" class="icon-card">
+			                            <i class="dxi dxi-eye-off"> </i>
+			                            <span class="icon-caption">dxi dxi-eye-off</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-eye" class="icon-card">
+			                            <i class="dxi dxi-eye"> </i>
+			                            <span class="icon-caption">dxi dxi-eye</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-eyedropper-variant" class="icon-card">
+			                            <i class="dxi dxi-eyedropper-variant"> </i>
+			                            <span class="icon-caption">dxi dxi-eyedropper-variant</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-file-excel" class="icon-card">
+			                            <i class="dxi dxi-file-excel"> </i>
+			                            <span class="icon-caption">dxi dxi-file-excel</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-file-export" class="icon-card">
+			                            <i class="dxi dxi-file-export"> </i>
+			                            <span class="icon-caption">dxi dxi-file-export</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-file-import" class="icon-card">
+			                            <i class="dxi dxi-file-import"> </i>
+			                            <span class="icon-caption">dxi dxi-file-import</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-file-outline" class="icon-card">
+			                            <i class="dxi dxi-file-outline"> </i>
+			                            <span class="icon-caption">dxi dxi-file-outline</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-filter-variant" class="icon-card">
+			                            <i class="dxi dxi-filter-variant"> </i>
+			                            <span class="icon-caption">dxi dxi-filter-variant</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-folder-open" class="icon-card">
+			                            <i class="dxi dxi-folder-open"> </i>
+			                            <span class="icon-caption">dxi dxi-folder-open</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-folder" class="icon-card">
+			                            <i class="dxi dxi-folder"> </i>
+			                            <span class="icon-caption">dxi dxi-folder</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-align-center" class="icon-card">
+			                            <i class="dxi dxi-format-align-center"> </i>
+			                            <span class="icon-caption">dxi dxi-format-align-center</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-align-left" class="icon-card">
+			                            <i class="dxi dxi-format-align-left"> </i>
+			                            <span class="icon-caption">dxi dxi-format-align-left</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-align-right" class="icon-card">
+			                            <i class="dxi dxi-format-align-right"> </i>
+			                            <span class="icon-caption">dxi dxi-format-align-right</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-bold" class="icon-card">
+			                            <i class="dxi dxi-format-bold"> </i>
+			                            <span class="icon-caption">dxi dxi-format-bold</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-color-fill" class="icon-card">
+			                            <i class="dxi dxi-format-color-fill"> </i>
+			                            <span class="icon-caption">dxi dxi-format-color-fill</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-color-text" class="icon-card">
+			                            <i class="dxi dxi-format-color-text"> </i>
+			                            <span class="icon-caption">dxi dxi-format-color-text</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-italic" class="icon-card">
+			                            <i class="dxi dxi-format-italic"> </i>
+			                            <span class="icon-caption">dxi dxi-format-italic</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-line-spacing" class="icon-card">
+			                            <i class="dxi dxi-format-line-spacing"> </i>
+			                            <span class="icon-caption">dxi dxi-format-line-spacing</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-quote-close" class="icon-card">
+			                            <i class="dxi dxi-format-quote-close"> </i>
+			                            <span class="icon-caption">dxi dxi-format-quote-close</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-quote-open" class="icon-card">
+			                            <i class="dxi dxi-format-quote-open"> </i>
+			                            <span class="icon-caption">dxi dxi-format-quote-open</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-strikethrough" class="icon-card">
+			                            <i class="dxi dxi-format-strikethrough"> </i>
+			                            <span class="icon-caption">dxi dxi-format-strikethrough</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-underline" class="icon-card">
+			                            <i class="dxi dxi-format-underline"> </i>
+			                            <span class="icon-caption">dxi dxi-format-underline</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-vertical-align-bottom" class="icon-card">
+			                            <i class="dxi dxi-format-vertical-align-bottom"> </i>
+			                            <span class="icon-caption">dxi dxi-format-vertical-align-bottom</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-vertical-align-center" class="icon-card">
+			                            <i class="dxi dxi-format-vertical-align-center"> </i>
+			                            <span class="icon-caption">dxi dxi-format-vertical-align-center</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-vertical-align-top" class="icon-card">
+			                            <i class="dxi dxi-format-vertical-align-top"> </i>
+			                            <span class="icon-caption">dxi dxi-format-vertical-align-top</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-function-variant" class="icon-card">
+			                            <i class="dxi dxi-function-variant"> </i>
+			                            <span class="icon-caption">dxi dxi-function-variant</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-grid-step" class="icon-card">
+			                            <i class="dxi dxi-grid-step"> </i>
+			                            <span class="icon-caption">dxi dxi-grid-step</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-help-circle-outline" class="icon-card">
+			                            <i class="dxi dxi-help-circle-outline"> </i>
+			                            <span class="icon-caption">dxi dxi-help-circle-outline</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-information-outline" class="icon-card">
+			                            <i class="dxi dxi-information-outline"> </i>
+			                            <span class="icon-caption">dxi dxi-information-outline</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-key" class="icon-card">
+			                            <i class="dxi dxi-key"> </i>
+			                            <span class="icon-caption">dxi dxi-key</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-link-variant-off" class="icon-card">
+			                            <i class="dxi dxi-link-variant-off"> </i>
+			                            <span class="icon-caption">dxi dxi-link-variant-off</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-link-variant" class="icon-card">
+			                            <i class="dxi dxi-link-variant"> </i>
+			                            <span class="icon-caption">dxi dxi-link-variant</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-loading" class="icon-card">
+			                            <i class="dxi dxi-loading"> </i>
+			                            <span class="icon-caption">dxi dxi-loading</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-magnify" class="icon-card">
+			                            <i class="dxi dxi-magnify"> </i>
+			                            <span class="icon-caption">dxi dxi-magnify</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-menu-down" class="icon-card">
+			                            <i class="dxi dxi-menu-down"> </i>
+			                            <span class="icon-caption">dxi dxi-menu-down</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-menu-left" class="icon-card">
+			                            <i class="dxi dxi-menu-left"> </i>
+			                            <span class="icon-caption">dxi dxi-menu-left</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-menu-right" class="icon-card">
+			                            <i class="dxi dxi-menu-right"> </i>
+			                            <span class="icon-caption">dxi dxi-menu-right</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-menu-up" class="icon-card">
+			                            <i class="dxi dxi-menu-up"> </i>
+			                            <span class="icon-caption">dxi dxi-menu-up</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-minus-box" class="icon-card">
+			                            <i class="dxi dxi-minus-box"> </i>
+			                            <span class="icon-caption">dxi dxi-minus-box</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-minus" class="icon-card">
+			                            <i class="dxi dxi-minus"> </i>
+			                            <span class="icon-caption">dxi dxi-minus</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-numeric" class="icon-card">
+			                            <i class="dxi dxi-numeric"> </i>
+			                            <span class="icon-caption">dxi dxi-numeric</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-pencil" class="icon-card">
+			                            <i class="dxi dxi-pencil"> </i>
+			                            <span class="icon-caption">dxi dxi-pencil</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-plus-circle" class="icon-card">
+			                            <i class="dxi dxi-plus-circle"> </i>
+			                            <span class="icon-caption">dxi dxi-plus-circle</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-plus" class="icon-card">
+			                            <i class="dxi dxi-plus"> </i>
+			                            <span class="icon-caption">dxi dxi-plus</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-printer" class="icon-card">
+			                            <i class="dxi dxi-printer"> </i>
+			                            <span class="icon-caption">dxi dxi-printer</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-redo" class="icon-card">
+			                            <i class="dxi dxi-redo"> </i>
+			                            <span class="icon-caption">dxi dxi-redo</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-rotate-right" class="icon-card">
+			                            <i class="dxi dxi-rotate-right"> </i>
+			                            <span class="icon-caption">dxi dxi-rotate-right</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-select-all" class="icon-card">
+			                            <i class="dxi dxi-select-all"> </i>
+			                            <span class="icon-caption">dxi dxi-select-all</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-sort-variant" class="icon-card">
+			                            <i class="dxi dxi-sort-variant"> </i>
+			                            <span class="icon-caption">dxi dxi-sort-variant</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-table-column-plus-after" class="icon-card">
+			                            <i class="dxi dxi-table-column-plus-after"> </i>
+			                            <span class="icon-caption">dxi dxi-table-column-plus-after</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-table-column-plus-before" class="icon-card">
+			                            <i class="dxi dxi-table-column-plus-before"> </i>
+			                            <span class="icon-caption">dxi dxi-table-column-plus-before</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-table-column-remove-after" class="icon-card">
+			                            <i class="dxi dxi-table-column-remove-after"> </i>
+			                            <span class="icon-caption">dxi dxi-table-column-remove-after</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-table-column-remove" class="icon-card">
+			                            <i class="dxi dxi-table-column-remove"> </i>
+			                            <span class="icon-caption">dxi dxi-table-column-remove</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-table-column" class="icon-card">
+			                            <i class="dxi dxi-table-column"> </i>
+			                            <span class="icon-caption">dxi dxi-table-column</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-table-row-plus-after" class="icon-card">
+			                            <i class="dxi dxi-table-row-plus-after"> </i>
+			                            <span class="icon-caption">dxi dxi-table-row-plus-after</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-table-row-plus-before" class="icon-card">
+			                            <i class="dxi dxi-table-row-plus-before"> </i>
+			                            <span class="icon-caption">dxi dxi-table-row-plus-before</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-table-row-remove-after" class="icon-card">
+			                            <i class="dxi dxi-table-row-remove-after"> </i>
+			                            <span class="icon-caption">dxi dxi-table-row-remove-after</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-table-row-remove" class="icon-card">
+			                            <i class="dxi dxi-table-row-remove"> </i>
+			                            <span class="icon-caption">dxi dxi-table-row-remove</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-table-row" class="icon-card">
+			                            <i class="dxi dxi-table-row"> </i>
+			                            <span class="icon-caption">dxi dxi-table-row</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-undo" class="icon-card">
+			                            <i class="dxi dxi-undo"> </i>
+			                            <span class="icon-caption">dxi dxi-undo</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-unfold-more-horizontal" class="icon-card">
+			                            <i class="dxi dxi-unfold-more-horizontal"> </i>
+			                            <span class="icon-caption">dxi dxi-unfold-more-horizontal</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-vault" class="icon-card">
+			                            <i class="dxi dxi-vault"> </i>
+			                            <span class="icon-caption">dxi dxi-vault</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-view-grid" class="icon-card">
+			                            <i class="dxi dxi-view-grid"> </i>
+			                            <span class="icon-caption">dxi dxi-view-grid</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-view-sequential" class="icon-card">
+			                            <i class="dxi dxi-view-sequential"> </i>
+			                            <span class="icon-caption">dxi dxi-view-sequential</span>
+			                        </button>
+<!--/ICONS-->
+		</section>	
+		<script>
+			const clipboard = new ClipboardJS('.icon-card');
+			clipboard.on('success', function (e) {
+				dhx.message({
+					text: "Copied to clipboard!",
+					expire: 1500,
+					icon: e.text,
+					css: "dhx_message--success custom-message"
+				});
+				e.clearSelection();
+			});
+
+			const showTooltip = function () {
+				dhx.tooltip("Click to copy", { node: this, position: "right" })
+			};
+
+			const iconButtons = document.getElementsByClassName("icon-card");
+
+			for (let i = 0; i < iconButtons.length; i++) {
+				showTooltip.bind(iconButtons[i]);
+				iconButtons[i].addEventListener("mouseover", showTooltip);
+			};
+		</script>
+	</body>
+</html>

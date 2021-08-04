@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<!-- meta block -->
+		<title>Get state - DHTMLX Ribbon</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		
+		<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+		<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+		<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+		<!-- end meta block -->
+		<script type="text/javascript" src="../../codebase/suite.js"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css">
+		
+		<link rel="stylesheet" href="../common/index.css">
+		<!-- custom sample head -->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/4.4.95/css/materialdesignicons.css?v=6.4.2" media="all" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Get state
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-controls">
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="getState()">Get state</button>
+		</section>
+		<div id="ribbon" style="width: 800px; padding: 20px; margin: 0 auto;"></div>
+		<div class="dhx_sample-container__sidebar" id="dhx_result" style="margin: 0 auto; height: 400px; background: #fff;"></div>
+		<script>
+			const dataset = [
+				{
+					type: "block",
+					direction: "col",
+					"items": [
+						{
+							id: "two-state",
+							icon: "mdi mdi-eye",
+							size: "auto",
+							twoState: true,
+							active: true
+						}
+					]
+				},
+				{
+					type: "block",
+					direction: "col",
+					"items": [
+						{
+							id: "input",
+							type: "input",
+							placeholder: "File Name",
+							value: "New File",
+							label: "File Name",
+							icon: "mdi mdi-file-outline",
+						},
+						{
+							id: "file_extension",
+							type: "selectButton",
+							value: "jpeg",
+							size: "small",
+							items: [
+								{
+									value: "jpeg",
+									hotkey: "alt+1"
+								},
+								{
+									value: "pdf",
+									hotkey: "alt+2"
+								},
+								{
+									value: "png",
+									hotkey: "alt+3"
+								}
+							]
+						},
+						{
+							type: "block",
+							items: [
+								{
+									id: "align left",
+									icon: "mdi mdi-format-align-left",
+									group: "align",
+									twoState: true,
+									active: true
+								},
+								{
+									icon: "mdi mdi-format-align-center",
+									id: "align center",
+									group: "align",
+									twoState: true,
+									active: false
+								},
+								{
+									icon: "mdi mdi-format-align-right",
+									id: "align right",
+									group: "align",
+									twoState: true,
+									active: false
+								}
+							]
+						}
+					]
+				}
+			];
+
+			const ribbon = new dhx.Ribbon("ribbon", {
+				css: "dhx_widget--bordered dhx_widget--bg_white"
+			});
+			ribbon.data.parse(dataset);
+
+			function getState() {
+				const textarea = document.querySelector("#dhx_result");
+				const value = ribbon.getState();
+				let result = ""
+				for (let key in value) {
+					result += key + " : " + value[key] + "<br/>"
+				}
+				textarea.innerHTML = result;
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,33 @@
+import { View } from "../../ts-common/view";
+import { DataCollection } from "../../ts-data";
+import { Toolbar } from "../../ts-toolbar";
+import { IFileWrapper, IUploader, IVault, IVaultConfig, IVaultEventSystem } from "./types";
+export declare class Vault extends View implements IVault {
+    config: IVaultConfig;
+    data: DataCollection<IFileWrapper>;
+    events: IVaultEventSystem;
+    uploader: IUploader;
+    toolbar: Toolbar;
+    private _layout;
+    private _handlers;
+    private _progressBar;
+    private _vaultView;
+    private _readStack;
+    private _canDrop;
+    private _scrollView;
+    constructor(container: HTMLElement | string, config?: IVaultConfig);
+    destructor(): void;
+    getRootView(): any;
+    private _initUI;
+    private _initHandlers;
+    private _getDragEvents;
+    private _hideUploadAndDeleteButtons;
+    private _showUploadAndDeleteButtons;
+    private _initEvents;
+    private _draw;
+    private _getFileActions;
+    private _drawList;
+    private _drawDropableArea;
+    private _drawGrid;
+    private _drawCircle;
+}

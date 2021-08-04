@@ -1,129 +1,616 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
+	<head>
+		<meta name="author" content="XB Software" />
+		<meta name="publisher" content="XB Software" />
+		<meta name="copyright" content="XB Software" />
+		<meta name="REVISIT-AFTER" content="10 days" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta charset="UTF-8" />
+		<meta name="language" content="English" />
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1" />
+		<meta name="format-detection" content="telephone=no" />
 
-<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
-	<link rel="stylesheet" href="./common/index.css?v=6.1.4">
-	<title>DHTMLX Suite</title>
-</head>
+		<link rel="shortcut icon" href="./common/favicon/favicon.ico" type="image/x-icon" />
 
-<body>
-	<header class='dhx_sample-header'>
-		<div class="dhx_sample-header__main">
-			<nav class="dhx_sample-header__breadcrumbs">
-				<ul class="dhx_sample-header-breadcrumbs">
-					
-				</ul>
-			</nav>
-			<h1 class="dhx_sample-header__title">
-				DHTMLX   Samples
-			</h1>
+		<link rel="icon" href="./common/favicon/icon-16.png" sizes="16x16" />
+		<link rel="icon" href="./common/favicon/icon-32.png" sizes="32x32" />
+		<link rel="icon" href="./common/favicon/icon-48.png" sizes="48x48" />
+		<link rel="icon" href="./common/favicon/icon-96.png" sizes="96x96" />
+		<link rel="icon" href="./common/favicon/icon-144.png" sizes="144x144" />
+
+		<title>Suite Offline and Online Samples</title>
+		<!-- fonts -->
+		<script>function loadFont(a,b,c,d){function e(){if(!window.FontFace)return!1;var a=new FontFace("t",'url("data:application/font-woff2,") format("woff2")',{}),b=a.load();try{b.then(null,function(){})}catch(c){}return"loading"===a.status}var f=navigator.userAgent,g=!window.addEventListener||f.match(/(Android (2|3|4.0|4.1|4.2|4.3))|(Opera (Mini|Mobi))/)&&!f.match(/Chrome/);if(!g){var h={};try{h=localStorage||{}}catch(i){}var j="x-font-"+a,k=j+"url",l=j+"css",m=h[k],n=h[l],o=document.createElement("style");if(o.rel="stylesheet",document.head.appendChild(o),!n||m!==b&&m!==c){var p=c&&e()?c:b,q=new XMLHttpRequest;q.open("GET",p),q.onload=function(){q.status>=200&&q.status<400&&(h[k]=p,h[l]=q.responseText,d||(o.textContent=q.responseText))},q.send()}else o.textContent=n}}</script>
+		<script>loadFont('robotoFont', './common/fonts/fonts-woff.css?ver=1', './common/fonts/fonts-woff2.css?ver=1')</script>
+		<!-- css -->
+		<link rel="stylesheet" type="text/css" href="./common/cover.css">
+	</head>
+
+	<body>
+		<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svg">
+			<symbol viewBox="0 0 16 16" id="anchor">
+				<path d="M7.06005 8.93998C7.33338 9.19999 7.33338 9.62665 7.06005 9.88665C6.80005 10.1467 6.37338 10.1467 6.11338 9.88665C4.81338 8.58665 4.81338 6.47332 6.11338 5.17332L8.47338 2.81332C9.77338 1.51332 11.8867 1.51332 13.1867 2.81332C14.4867 4.11332 14.4867 6.22665 13.1867 7.52665L12.1934 8.51998C12.2 7.97332 12.1134 7.42665 11.9267 6.90665L12.24 6.58665C13.0267 5.80665 13.0267 4.53998 12.24 3.75998C11.46 2.97332 10.1934 2.97332 9.41338 3.75998L7.06005 6.11332C6.27338 6.89332 6.27338 8.15999 7.06005 8.93998ZM8.94005 6.11332C9.20005 5.85332 9.62671 5.85332 9.88671 6.11332C11.1867 7.41332 11.1867 9.52665 9.88671 10.8267L7.52671 13.1867C6.22671 14.4867 4.11338 14.4867 2.81338 13.1867C1.51338 11.8867 1.51338 9.77332 2.81338 8.47332L3.80671 7.47999C3.80005 8.02665 3.88671 8.57332 4.07338 9.09998L3.76005 9.41332C2.97338 10.1933 2.97338 11.46 3.76005 12.24C4.54005 13.0267 5.80671 13.0267 6.58671 12.24L8.94005 9.88665C9.72671 9.10665 9.72671 7.83998 8.94005 7.05999C8.66671 6.79998 8.66671 6.37332 8.94005 6.11332Z"></path>
+			</symbol>
+		</svg>
+		<div class="global-container">
+			<div class="page-container">
+				<div class="dhx-block">
+					<h1 class="main-title">Suite Offline and Online Samples</h1>
+					<div class="samples-container">
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Calendar</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/calendar/calendar_with_timepicker.html" title="" class="samples-link">Calendar with timepicker</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/calendar/calendar_with_date_range.html" title="" class="samples-link">Calendar with date range</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23calendar" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 25 online Calendar samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Chart</div>
+								<div class="samples-list">
+									<div class="samples-list__row samples-list__row--w3">
+										<a href="../samples/chart/bar_chart.html" title="" class="samples-link">Bar chart</a>
+									</div>
+									<div class="samples-list__row samples-list__row--w3">
+										<a href="../samples/chart/area_chart.html" title="" class="samples-link">Area chart</a>
+									</div>
+									<div class="samples-list__row samples-list__row--w3">
+										<a href="../samples/chart/pie_chart.html" title="" class="samples-link">Pie chart</a>
+									</div>
+									<div class="samples-list__row samples-list__row--w3">
+										<a href="../samples/chart/donut_chart.html" title="" class="samples-link">Donut chart</a>
+									</div>
+									<div class="samples-list__row samples-list__row--w3">
+										<a href="../samples/chart/scatter_chart.html" title="" class="samples-link">Scatter chart</a>
+									</div>
+									<div class="samples-list__row samples-list__row--w3">
+										<a href="../samples/chart/radar_chart.html" title="" class="samples-link">Radar chart</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23chart" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 35 online Chart samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Colorpicker</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/colorpicker/basic_colorpicker.html" title="" class="samples-link">Basic Colorpicker</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/colorpicker/custom_pallete_and_custom_colors.html" title="" class="samples-link">Custom palette and custom colors</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23colorpicker" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 15 online Colorpicker samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Combobox</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/combobox/combobox_with_initial_value.html" title="" class="samples-link">Combobox with initial value</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/combobox/combobox_with_items_count.html" title="" class="samples-link">Combobox with items count</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23combobox" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 25 online Combobox samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Data</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/data/data_update.html" title="" class="samples-link">Update</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/data/data_filter.html" title="" class="samples-link">Filter</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23data" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 25 online Data samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Dataview</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/dataview/editable_dataview_with_simple_configuration.html" title="" class="samples-link">Editable Dataview with simple configuration</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/dataview/draggable_dataview_with_template.html" title="" class="samples-link">Draggable Dataview with template</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23dataview" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check 30 online Dataview samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Form</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/form/all_form_controls.html" title="" class="samples-link">All Form controls</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/form/form_validation.html" title="" class="samples-link">Form validation</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23form" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 40 online Form samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Grid</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/grid/grid_initialization.html" title="" class="samples-link">Initialization with config.data</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/grid/grid_with_rich_configuration.html" title="" class="samples-link">Grid with rich configuration</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23grid" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 55 online Grid samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Helpers</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/helpers/base_icons.html" title="" class="samples-link">Base icons</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/helpers/resizehandler.html" title="" class="samples-link">ResizeHandler</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23helper" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check online Helper samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Layout</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/layout/collapsable_and_resizable_layout.html" title="" class="samples-link">Collapsable and resizable Layout</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/layout/layout_types.html" title="" class="samples-link">Layout types</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23layout" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 20 online Layout samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">List</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/list/editable_list_with_simple_configuration.html" title="" class="samples-link">Editable List with simple configuration</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/list/list_with_drag_n_drop.html" title="" class="samples-link">List with drag-n-drop</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23list" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 30 online List samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Menu</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/menu/menu_initialization.html" title="" class="samples-link">Menu. Initialization with config.data</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/menu/context_menu_initialization.html" title="" class="samples-link">Context menu. Initialization with config.data</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23menu" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 15 online Menu samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Message</div>
+								<div class="samples-list">
+									<div class="samples-list__row samples-list__row--w2">
+										<a href="../samples/message/message.html" title="" class="samples-link">Message</a>
+									</div>
+									<div class="samples-list__row samples-list__row--w2">
+										<a href="../samples/message/confirm.html" title="" class="samples-link">Confirm</a>
+									</div>
+									<div class="samples-list__row samples-list__row--w2">
+										<a href="../samples/message/alert.html" title="" class="samples-link">Alert</a>
+									</div>
+									<div class="samples-list__row samples-list__row--w2">
+										<a href="../samples/message/tooltip.html" title="" class="samples-link">Tooltip</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23message" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 15 online Message samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Pagination</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/pagination/pagination_with_grid.html" title="" class="samples-link">Pagination with Grid</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/pagination/pagination_align.html" title="" class="samples-link">Pagination align</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23pagination" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 10 online Pagination samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Popup</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/popup/popup_auto_positioning.html" title="" class="samples-link">Popup and auto positioning</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/popup/popup_with_custom_css.html" title="" class="samples-link">Popup with custom css</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23popup" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 10 online Popup samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Ribbon</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/ribbon/ribbon_initialization.html" title="" class="samples-link">Initialization with config.data</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/ribbon/ribbon_get_state.html" title="" class="samples-link">Get state</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23ribbon" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 25 online Ribbon samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Sidebar</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/sidebar/disable_all_or_several_items.html" title="" class="samples-link">Disable all or several items</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/sidebar/toggled_sidebar_and_custom_html.html" title="" class="samples-link">Toggled Sidebar and custom HTML</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23sidebar" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 20 online Sidebar samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Slider</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/slider/slider_range_mode.html" title="" class="samples-link">Range mode</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/slider/slider_with_a_scale.html" title="" class="samples-link">Slider with a scale</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23slider" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 15 online Slider samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Tabbar</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/tabbar/tabbar_rich_configuration.html" title="" class="samples-link">Rich configuration (сlose, disable, overflow)</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/tabbar/tabbar_tab_align.html" title="" class="samples-link">Tab align</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23tabbar" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 20 online Tabbar samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Timepicker</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/timepicker/timepicker_with_current_time_and_button.html" title="" class="samples-link">Timepicker with current time and button</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/timepicker/twelve_hour_format_in_timepicker.html" title="" class="samples-link">12 hour format in Timepicker</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23timepicker" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 10 online Timepicker samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Toolbar</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/toolbar/toolbar_initialization.html" title="" class="samples-link">Initialization with config.data</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/toolbar/toolbar_two_state_button_and_tooltips.html" title="" class="samples-link">Two state button and tooltips</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23toolbar" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 35 online Toolbar samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Tree</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/tree/with_editing_drag_and_drop_and_checkboxes.html" title="" class="samples-link">With editing, drag-and-drop and checkboxes</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/tree/with_custom_template_and_event_handlers.html" title="" class="samples-link">With custom template and event handlers</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23tree" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 15 online Tree samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Treegrid</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/treegrid/treegrid_initialization.html" title="" class="samples-link">Initialization with config.data</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/treegrid/treegrid_with_rich_configuration.html" title="" class="samples-link">TreeGrid with rich configuration</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23treegrid" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 50 online Treegrid samples
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="samples-container__col">
+							<div>
+								<div class="samples-title">Window</div>
+								<div class="samples-list">
+									<div class="samples-list__row">
+										<a href="../samples/window/window_closable_and_movable.html" title="" class="samples-link">Closable and movable</a>
+									</div>
+									<div class="samples-list__row">
+										<a href="../samples/window/window_two_windows.html" title="" class="samples-link">Two windows</a>
+									</div>
+								</div>
+								<div class="samples-list-footer">
+									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23window" title="" class="samples-icon-link" target="_blank">
+										<span class="samples-icon-link__icon">
+											<svg viewBox="0 0 16 16" class="anchor-icon">
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
+											</svg>
+										</span>
+										Check over 20 online Window samples
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	</header>
-	<nav class="dhx_sample-nav"> 
-		<ol>
-			<li>
-				<a href="./calendar/index.html">
-					Calendar
-				</a>
-			</li>
-			<li>
-				<a href="./chart/index.html">
-					Chart
-				</a>
-			</li>
-			<li>
-				<a href="./colorpicker/index.html">
-					Colorpicker
-				</a>
-			</li>
-			<li>
-				<a href="./combobox/index.html">
-					Combobox
-				</a>
-			</li>
-			<li>
-				<a href="./dataview/index.html">
-					Dataview
-				</a>
-			</li>
-			<li>
-				<a href="./form/index.html">
-					Form
-				</a>
-			</li>
-			<li>
-				<a href="./grid/index.html">
-					Grid
-				</a>
-			</li>
-			<li>
-				<a href="./layout/index.html">
-					Layout
-				</a>
-			</li>
-			<li>
-				<a href="./list/index.html">
-					List
-				</a>
-			</li>
-			<li>
-				<a href="./menu/index.html">
-					Menu
-				</a>
-			</li>
-			<li>
-				<a href="./message/index.html">
-					Message
-				</a>
-			</li>
-			<li>
-				<a href="./popup/index.html">
-					Popup
-				</a>
-			</li>
-			<li>
-				<a href="./ribbon/index.html">
-					Ribbon
-				</a>
-			</li>
-			<li>
-				<a href="./sidebar/index.html">
-					Sidebar
-				</a>
-			</li>
-			<li>
-				<a href="./slider/index.html">
-					Slider
-				</a>
-			</li>
-			<li>
-				<a href="./tabbar/index.html">
-					Tabbar
-				</a>
-			</li>
-			<li>
-				<a href="./timepicker/index.html">
-					Timepicker
-				</a>
-			</li>
-			<li>
-				<a href="./toolbar/index.html">
-					Toolbar
-				</a>
-			</li>
-			<li>
-				<a href="./tree/index.html">
-					Tree
-				</a>
-			</li>
-			<li>
-				<a href="./window/index.html">
-					Window
-				</a>
-			</li>
-		</ol>
-	</nav>
-</body>
-</html>	
+	</body>
+</html>

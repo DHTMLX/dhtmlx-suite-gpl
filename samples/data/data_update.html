@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<!-- meta block -->
+	<title>Update - DHTMLX Data</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+	
+	<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+	<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+	<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+	<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+	<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+	<!-- end meta block -->
+	<script type="text/javascript" src="../../codebase/suite.js"></script>
+	<link rel="stylesheet" href="../../codebase/suite.css">
+	
+	<link rel="stylesheet" href="../common/index.css">
+	<!-- custom sample head -->
+</head>
+
+<body>
+	<header class="dhx_sample-header">
+		<div class="dhx_sample-header__main">
+			<nav class="dhx_sample-header__breadcrumbs">
+				<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+			</nav>
+			<h1 class="dhx_sample-header__title">
+				<div class="dhx_sample-header__content">
+					Update
+				</div>
+			</h1>
+		</div>
+</header>
+	<section class="dhx_sample-controls">
+		<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="update()">Update item</button>
+		<label class="dhx_sample-label dhx_label" for="data-id">Data id: </label>
+		<input class="dhx_sample-input" value="1" id="data-id" placeholder="Item Id">
+		<label for="data-input" class="dhx_sample-label dhx_label" >Value: </label>
+		<input class="dhx_sample-input" value="Riga" id="data-input" placeholder="Item Value">
+	</section>
+
+	<div class="dhx_sample-container">
+		<div>
+			<label for="data" class="dhx_sample-label dhx_label" style="font-size: 18px; margin-bottom: 15px;">Parsed data:</label>
+			<textarea id="data" readonly class="dhx_sample-textarea"></textarea>
+		</div>
+	</div>
+	<script>
+		const datacollection = new dhx.DataCollection();
+		function printData(datacollection, id) {
+			document.getElementById(id).value = JSON.stringify(datacollection.serialize(), null, 4);
+		}
+
+		datacollection.parse([
+			{ value: "Vilnius", id: "1" },
+			{ value: "Paris", id: "2" },
+			{ value: "London", id: "3" },
+			{ value: "Rome", id: "4" }
+		]);
+
+		printData(datacollection, "data");
+
+		function update() {
+			datacollection.update(document.querySelector("#data-id").value, { value: document.querySelector("#data-input").value });
+			printData(datacollection, "data");
+		}
+	</script>
+</body>
+
+</html>

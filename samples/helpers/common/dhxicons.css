@@ -1,0 +1,311 @@
+@font-face {
+    font-family: "dhxicons";
+    src: url("./dhxicons.woff2?bd004c128d023e1e9480c16e7f202989") format("woff2"),
+url("./dhxicons.woff?bd004c128d023e1e9480c16e7f202989") format("woff");
+}
+
+.dxi:before {
+    font-family: dhxicons !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.dxi.dxi-alert-circle:before {
+    content: "\f101";
+}
+.dxi.dxi-arrow-collapse:before {
+    content: "\f102";
+}
+.dxi.dxi-arrow-down:before {
+    content: "\f103";
+}
+.dxi.dxi-arrow-expand:before {
+    content: "\f104";
+}
+.dxi.dxi-arrow-left:before {
+    content: "\f105";
+}
+.dxi.dxi-arrow-right:before {
+    content: "\f106";
+}
+.dxi.dxi-arrow-up:before {
+    content: "\f107";
+}
+.dxi.dxi-blur-off:before {
+    content: "\f108";
+}
+.dxi.dxi-blur:before {
+    content: "\f109";
+}
+.dxi.dxi-calendar-today:before {
+    content: "\f10a";
+}
+.dxi.dxi-check:before {
+    content: "\f10b";
+}
+.dxi.dxi-checkbox-blank-outline:before {
+    content: "\f10c";
+}
+.dxi.dxi-checkbox-marked-circle:before {
+    content: "\f10d";
+}
+.dxi.dxi-checkbox-marked:before {
+    content: "\f10e";
+}
+.dxi.dxi-chevron-double-down:before {
+    content: "\f10f";
+}
+.dxi.dxi-chevron-double-left:before {
+    content: "\f110";
+}
+.dxi.dxi-chevron-double-right:before {
+    content: "\f111";
+}
+.dxi.dxi-chevron-double-up:before {
+    content: "\f112";
+}
+.dxi.dxi-chevron-down:before {
+    content: "\f113";
+}
+.dxi.dxi-chevron-left:before {
+    content: "\f114";
+}
+.dxi.dxi-chevron-right:before {
+    content: "\f115";
+}
+.dxi.dxi-chevron-up:before {
+    content: "\f116";
+}
+.dxi.dxi-clock-outline:before {
+    content: "\f117";
+}
+.dxi.dxi-clock:before {
+    content: "\f118";
+}
+.dxi.dxi-close-circle:before {
+    content: "\f119";
+}
+.dxi.dxi-close:before {
+    content: "\f11a";
+}
+.dxi.dxi-content-save:before {
+    content: "\f11b";
+}
+.dxi.dxi-delete-forever:before {
+    content: "\f11c";
+}
+.dxi.dxi-delete:before {
+    content: "\f11d";
+}
+.dxi.dxi-dots-horizontal:before {
+    content: "\f11e";
+}
+.dxi.dxi-dots-vertical:before {
+    content: "\f11f";
+}
+.dxi.dxi-download:before {
+    content: "\f120";
+}
+.dxi.dxi-empty:before {
+    content: "\f121";
+}
+.dxi.dxi-eraser:before {
+    content: "\f122";
+}
+.dxi.dxi-eye-off:before {
+    content: "\f123";
+}
+.dxi.dxi-eye:before {
+    content: "\f124";
+}
+.dxi.dxi-eyedropper-variant:before {
+    content: "\f125";
+}
+.dxi.dxi-file-excel:before {
+    content: "\f126";
+}
+.dxi.dxi-file-export:before {
+    content: "\f127";
+}
+.dxi.dxi-file-import:before {
+    content: "\f128";
+}
+.dxi.dxi-file-outline:before {
+    content: "\f129";
+}
+.dxi.dxi-filter-variant:before {
+    content: "\f12a";
+}
+.dxi.dxi-folder-open:before {
+    content: "\f12b";
+}
+.dxi.dxi-folder:before {
+    content: "\f12c";
+}
+.dxi.dxi-format-align-center:before {
+    content: "\f12d";
+}
+.dxi.dxi-format-align-left:before {
+    content: "\f12e";
+}
+.dxi.dxi-format-align-right:before {
+    content: "\f12f";
+}
+.dxi.dxi-format-bold:before {
+    content: "\f130";
+}
+.dxi.dxi-format-color-fill:before {
+    content: "\f131";
+}
+.dxi.dxi-format-color-text:before {
+    content: "\f132";
+}
+.dxi.dxi-format-italic:before {
+    content: "\f133";
+}
+.dxi.dxi-format-line-spacing:before {
+    content: "\f134";
+}
+.dxi.dxi-format-quote-close:before {
+    content: "\f135";
+}
+.dxi.dxi-format-quote-open:before {
+    content: "\f136";
+}
+.dxi.dxi-format-strikethrough:before {
+    content: "\f137";
+}
+.dxi.dxi-format-underline:before {
+    content: "\f138";
+}
+.dxi.dxi-format-vertical-align-bottom:before {
+    content: "\f139";
+}
+.dxi.dxi-format-vertical-align-center:before {
+    content: "\f13a";
+}
+.dxi.dxi-format-vertical-align-top:before {
+    content: "\f13b";
+}
+.dxi.dxi-function-variant:before {
+    content: "\f13c";
+}
+.dxi.dxi-grid-step:before {
+    content: "\f13d";
+}
+.dxi.dxi-help-circle-outline:before {
+    content: "\f13e";
+}
+.dxi.dxi-information-outline:before {
+    content: "\f13f";
+}
+.dxi.dxi-key:before {
+    content: "\f140";
+}
+.dxi.dxi-link-variant-off:before {
+    content: "\f141";
+}
+.dxi.dxi-link-variant:before {
+    content: "\f142";
+}
+.dxi.dxi-loading:before {
+    content: "\f143";
+}
+.dxi.dxi-magnify:before {
+    content: "\f144";
+}
+.dxi.dxi-menu-down:before {
+    content: "\f145";
+}
+.dxi.dxi-menu-left:before {
+    content: "\f146";
+}
+.dxi.dxi-menu-right:before {
+    content: "\f147";
+}
+.dxi.dxi-menu-up:before {
+    content: "\f148";
+}
+.dxi.dxi-minus-box:before {
+    content: "\f149";
+}
+.dxi.dxi-minus:before {
+    content: "\f14a";
+}
+.dxi.dxi-numeric:before {
+    content: "\f14b";
+}
+.dxi.dxi-pencil:before {
+    content: "\f14c";
+}
+.dxi.dxi-plus-circle:before {
+    content: "\f14d";
+}
+.dxi.dxi-plus:before {
+    content: "\f14e";
+}
+.dxi.dxi-printer:before {
+    content: "\f14f";
+}
+.dxi.dxi-redo:before {
+    content: "\f150";
+}
+.dxi.dxi-rotate-right:before {
+    content: "\f151";
+}
+.dxi.dxi-select-all:before {
+    content: "\f152";
+}
+.dxi.dxi-sort-variant:before {
+    content: "\f153";
+}
+.dxi.dxi-table-column-plus-after:before {
+    content: "\f154";
+}
+.dxi.dxi-table-column-plus-before:before {
+    content: "\f155";
+}
+.dxi.dxi-table-column-remove-after:before {
+    content: "\f156";
+}
+.dxi.dxi-table-column-remove:before {
+    content: "\f157";
+}
+.dxi.dxi-table-column:before {
+    content: "\f158";
+}
+.dxi.dxi-table-row-plus-after:before {
+    content: "\f159";
+}
+.dxi.dxi-table-row-plus-before:before {
+    content: "\f15a";
+}
+.dxi.dxi-table-row-remove-after:before {
+    content: "\f15b";
+}
+.dxi.dxi-table-row-remove:before {
+    content: "\f15c";
+}
+.dxi.dxi-table-row:before {
+    content: "\f15d";
+}
+.dxi.dxi-undo:before {
+    content: "\f15e";
+}
+.dxi.dxi-unfold-more-horizontal:before {
+    content: "\f15f";
+}
+.dxi.dxi-vault:before {
+    content: "\f160";
+}
+.dxi.dxi-view-grid:before {
+    content: "\f161";
+}
+.dxi.dxi-view-sequential:before {
+    content: "\f162";
+}

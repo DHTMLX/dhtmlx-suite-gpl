@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<!-- meta block -->
+	<title>Initialization with config.data - DHTMLX Grid</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+	
+	<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+	<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+	<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+	<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+	<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+	<!-- end meta block -->
+	<script type="text/javascript" src="../../codebase/suite.js"></script>
+	<link rel="stylesheet" href="../../codebase/suite.css">
+	
+	<link rel="stylesheet" href="../common/index.css">
+	<!-- custom sample head -->
+	<script src="./common/data.js"></script>
+</head>
+
+<body>
+	<header class="dhx_sample-header">
+		<div class="dhx_sample-header__main">
+			<nav class="dhx_sample-header__breadcrumbs">
+				<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+			</nav>
+			<h1 class="dhx_sample-header__title">
+				<div class="dhx_sample-header__content">
+					Initialization with config.data
+				</div>
+			</h1>
+		</div>
+</header>
+	<section class="dhx_sample-container" style="height: 80%">
+		<div style="height: 100%; width: 100%" id="grid"></div>
+	</section>
+	<script>
+		const grid = new dhx.Grid("grid", {
+			columns: [
+				{ width: 150, id: "country", header: [{ text: "Country" }] },
+				{ width: 150, id: "population", header: [{ text: "Population" }] },
+				{ width: 150, id: "yearlyChange", header: [{ text: "Yearly Change" }] },
+				{ width: 150, id: "netChange", header: [{ text: "Net Change" }] },
+				{ width: 150, id: "destiny", header: [{ text: "Density (P/Km²)" }] },
+				{ width: 150, id: "area", header: [{ text: "Land Area (Km²)" }] },
+				{ width: 150, id: "migrants", header: [{ text: "Migrants (net)" }] },
+				{ width: 150, id: "fert", header: [{ text: "Fert. Rate" }] },
+				{ width: 150, id: "age", header: [{ text: "Med. Age" }] },
+				{ width: 150, id: "urban", header: [{ text: "Urban Pop" }] }
+			],
+			data: dataset
+		});
+	</script>
+</body>
+
+</html>

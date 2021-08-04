@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<!-- meta block -->
+		<title>Scatter chart - DHTMLX Chart</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		
+		<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+		<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+		<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+		<!-- end meta block -->
+		<script type="text/javascript" src="../../codebase/suite.js"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css">
+		
+		<link rel="stylesheet" href="../common/index.css">
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Scatter chart
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-container">
+			<div id="chart" style="width: 100%; padding: 20px"></div>
+		</section>
+		<script>
+			const scatterData = [
+				{ month: "01", "value A": 25, "value B": 50, "value C": 30 },
+				{ month: "02", "value A": 20, "value B": 52, "value C": 28 },
+				{ month: "03", "value A": 5, "value B": 33, "value C": 15 },
+				{ month: "04", "value A": 55, "value B": 30, "value C": 75 },
+				{ month: "05", "value A": 30, "value B": 11, "value C": 20 },
+				{ month: "06", "value A": 27, "value B": 14, "value C": 19 },
+				{ month: "07", "value A": 32, "value B": 31, "value C": 11 },
+				{ month: "08", "value A": 50, "value B": 22, "value C": 43 },
+				{ month: "09", "value A": 12, "value B": 19, "value C": 20 },
+				{ month: "10", "value A": 10, "value B": 24, "value C": 4 },
+				{ month: "11", "value A": 17, "value B": 40, "value C": 20 },
+				{ month: "12", "value A": 40, "value B": 60, "value C": 10 }
+			];
+			const config = {
+				css: "dhx_widget--bg_white dhx_widget--bordered",
+				scales: {
+					bottom: {
+						title: "value B",
+						min: 0,
+						max: 100,
+						scalePadding: 25
+					},
+					left: {
+						maxTicks: 10,
+						title: "value A",
+						max: 100
+					}
+				},
+				series: [
+					{
+						id: "A_B",
+						type: "scatter",
+						value: "value A",
+						valueY: "value B",
+						color: "#81C4E8",
+						pointType: "circle"
+					},
+					{
+						id: "B_A",
+						type: "scatter",
+						value: "value B",
+						valueY: "value A",
+						color: "#74A2E7",
+						pointType: "circle"
+					}
+				],
+				legend: {
+					series: ["A_B", "B_A"],
+					halign: "right",
+					valign: "top"
+				}
+			};
+			const chart = new dhx.Chart("chart", config);
+			chart.data.parse(scatterData);
+		</script>
+	</body>
+</html>

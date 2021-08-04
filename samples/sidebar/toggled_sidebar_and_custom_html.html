@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<!-- meta block -->
+	<title>Toggled Sidebar and custom HTML - DHTMLX Sidebar</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+
+	<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+	<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+	<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+	<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+	<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+	<!-- end meta block -->
+	<script type="text/javascript" src="../../codebase/suite.js"></script>
+	<link rel="stylesheet" href="../../codebase/suite.css">
+
+	<link rel="stylesheet" href="../common/index.css">
+	<!-- custom sample head -->
+	<link
+		href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/4.4.95/css/materialdesignicons.css?v=6.4.2"
+		media="all" rel="stylesheet" type="text/css">
+	<style>
+		.dhx_navbar--vertical {
+			overflow: hidden;
+		}
+
+		.user-info_container {
+			padding-top: 8px;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+		}
+
+		.user-info_avatar {
+			height: 40px;
+			width: 40px;
+			border-radius: 100%;
+		}
+
+		.user-info_title {
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 24px;
+			margin-top: 8px;
+		}
+
+		.user-info_contact {
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 20px;
+			margin-bottom: 28px;
+			color: rgba(0, 0, 0, 0.5);
+		}
+
+		.dhx_sidebar--minimized .user-info_avatar {
+			height: 30px;
+			width: 30px;
+		}
+
+		.dhx_sidebar--minimized .user-info_title,
+		.dhx_sidebar--minimized .user-info_contact {
+			visibility: hidden;
+		}
+
+		.dhx_sample-container,
+		.dhx_sample-container__widget {
+			height: 100%;
+		}
+	</style>
+</head>
+
+<body>
+	<header class="dhx_sample-header">
+		<div class="dhx_sample-header__main">
+			<nav class="dhx_sample-header__breadcrumbs">
+				<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+			</nav>
+			<h1 class="dhx_sample-header__title">
+				<div class="dhx_sample-header__content">
+					Toggled Sidebar and custom HTML
+				</div>
+			</h1>
+		</div>
+	</header>
+	<section id="sidebar" style="margin: 20px auto; width: 200px;"></section>
+	<script>
+		const sidebar = new dhx.Sidebar("sidebar", {
+			css: "dhx_widget--border_right"
+		});
+
+		sidebar.data.load("./common/data.json")
+			.then(function () {
+				sidebar.data.add({
+					id: "toggle",
+					css: "toggle-button",
+					icon: "mdi mdi-backburger",
+				}, sidebar.data.getIndex("dashboard"));
+
+				sidebar.data.add({
+					type: "customHTML",
+					id: "userInfo",
+					css: "user-info_item",
+					html: "<div class='user-info_container'>" +
+						"<img class='user-info_avatar' alt='' src='https://snippet.dhtmlx.com/codebase/data/common/img/02/avatar_62.jpg'/>" +
+						"<div class='user-info_title'>" +
+						"Gloria McKinney" +
+						"</div>" +
+						"<div class='user-info_contact'>" +
+						"@gmckinney" +
+						"</div>" +
+						"</div>",
+				}, sidebar.data.getIndex("dashboard"));
+			}
+			);
+
+		sidebar.events.on("click", function (id) {
+			if (id === "toggle") {
+				const toggleItem = sidebar.data.getItem("toggle");
+				sidebar.toggle();
+
+				if (sidebar.config.collapsed) {
+					toggleItem.icon = "mdi mdi-menu";
+				} else {
+					toggleItem.icon = "mdi mdi-backburger";
+				}
+			}
+		});
+	</script>
+</body>
+
+</html>

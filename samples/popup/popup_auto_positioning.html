@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<!-- meta block -->
+		<title>Popup and auto positioning - DHTMLX Popup</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		
+		<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+		<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+		<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+		<!-- end meta block -->
+		<script type="text/javascript" src="../../codebase/suite.js"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css">
+		
+		<link rel="stylesheet" href="../common/index.css">
+		<!-- custom sample head -->
+		<style>
+			.box {
+				width: 200px;
+				height: 200px;
+				border: 1px solid #dedede;
+				display: inline-block;
+				text-align: center;
+				line-height: 200px;
+			}
+			.box--center {
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+			}
+			.dhx_sample-container {
+				position: relative;
+				margin: 0;
+				display: flex;
+				flex-direction: column;
+				min-width: 100%;
+			}
+			.container-top,
+			.container-bottom {
+				flex: 1 1 auto;
+				display: flex;
+				justify-content: space-between;
+			}
+			.container-bottom {
+				align-items: flex-end;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Popup and auto positioning
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-controls" id="form-controls">
+			<div class="dhx_form-group dhx_sample-input__wrapper">
+				<label for="mode" class="dhx_sample-label">Select position:</label>
+				<select name="mode" class="dhx_select dhx_sample-input" id="mode">
+					<option value="bottom" selected>Bottom</option>
+					<option value="top">Top</option>
+					<option value="right">Right</option>
+					<option value="left">Left</option>
+				</select>
+			</div>
+			<label class="dhx_checkbox dhx_form-group--inline dhx_form-group--no-message-holder">
+				<input type="checkbox" checked id="centering" name="centering" class="dhx_checkbox__input">
+				<span class="dhx_checkbox__visual-input"></span>
+				<span class="dhx_sample-label">Centered</span>
+			</label>
+			<button id="show" type="button" class="dhx_sample-btn dhx_sample-btn--flat" style="margin-left: 12px;">show</button>
+		</section>
+		
+		<section class="dhx_sample-container">
+			<div class="container-top">
+				<div id="popup-box-top-left" class="box box--top-left">DOM node for popup with</div>
+				<div id="popup-box-top-right" class="box box--top-right">DOM node for popup</div>
+			</div>
+			<div class="container-bottom">
+				<div id="popup-box-bottom-left" class="box box--bottom-left">DOM node for popup</div>
+				<div id="popup-box-bottom-right" class="box box--bottom-right">DOM node for popup</div>
+			</div>
+			<div id="popup-box-center" class="box box--center">DOM node for popup</div>
+		</section>
+		<script>
+			const html = "<div style='padding: 16px; text-align: center'>Hi there, <br/> welcome to DHTMLX popup samples</div>";
+
+			const popup = new dhx.Popup({
+				css: "dhx_widget--border-shadow"
+			});
+			popup.attachHTML(html);
+
+			const popup1 = new dhx.Popup({
+				css: "dhx_widget--border-shadow"
+			});
+			popup1.attachHTML(html);
+
+			const popup2 = new dhx.Popup({
+				css: "dhx_widget--border-shadow"
+			});
+			popup2.attachHTML(html);
+
+			const popup3 = new dhx.Popup({
+				css: "dhx_widget--border-shadow"
+			});
+			popup3.attachHTML(html);
+
+			const popup4 = new dhx.Popup({
+				css: "dhx_widget--border-shadow"
+			});
+			popup4.attachHTML(html);
+
+			const config = {
+				centering: true,
+				mode: "bottom"
+			};
+
+			document.getElementById("form-controls").addEventListener("change", function (e) {
+				if (e.target.id === "centering") {
+					config.centering = e.target.checked;
+				} else {
+					config[e.target.id] = e.target.value;
+				}
+			});
+
+			const targetNodes = document.querySelectorAll(".box");
+			function show() {
+				popup.show(targetNodes[0], config);
+				popup1.show(targetNodes[1], config);
+				popup2.show(targetNodes[2], config);
+				popup3.show(targetNodes[3], config);
+				popup4.show(targetNodes[4], config);
+			}
+
+			document.getElementById("show").addEventListener("click", show);
+		</script>
+	</body>
+</html>

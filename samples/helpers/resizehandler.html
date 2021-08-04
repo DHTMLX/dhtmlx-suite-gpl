@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<!-- meta block -->
+		<title>ResizeHandler - DHTMLX Helpers</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		
+		<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+		<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+		<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+		<!-- end meta block -->
+		<script type="text/javascript" src="../../codebase/suite.js"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css">
+		
+		<link rel="stylesheet" href="../common/index.css">
+		<!-- custom sample head -->
+		<script src="./common/data.js"></script>
+		<style>
+			body {
+				height: 100%;
+			}
+			.left {
+				background: #0080004d;
+			}
+			.center {
+				background: #ff000033;
+			}
+			.right {
+				background: #87ceeb4d;
+			}
+			.toolbar {
+				background: #ffff004d;
+			}
+			.dhx_layout-cell-content {
+				padding: 12px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						ResizeHandler
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section style="text-align:center; padding: 22px 0;">
+			<h4 style="margin: 0;">Make window width less then 800px and height less then 400px</h4>
+		</section>
+		<div id="layout" style="width: 100%; height: calc(100% - 130px); margin: 0;"></div>
+		<script>
+			let layout;
+
+			dhx.resizeHandler(document.body, function (wight, height) {
+				if (wight > 800) {
+					if (layout) {
+						if (height > 400) {
+							initLayout(biggestConf, "biggest");
+						} else {
+							initLayout(bigConf, "big")
+						}
+					} else {
+						if (height > 400) {
+							initLayout(biggestConf);
+						} else {
+							initLayout(bigConf);
+						}
+					}
+				} else {
+					if (layout) {
+						if (height > 400) {
+							initLayout(smallConf, "small");
+						} else {
+							initLayout(smallestConf, "smallest")
+						}
+					} else {
+						if (height > 400) {
+							initLayout(smallConf);
+						} else {
+							initLayout(smallestConf);
+						}
+					}
+				}
+			})
+
+			function initLayout(config, type = null) {
+				if (type) {
+					if (layout.config.customType !== type) {
+						layout.destructor();
+						initLayout(config);
+					}
+				} else {
+					layout = new dhx.Layout("layout", config);
+				}
+			}
+		</script>
+	</body>
+</html>
