@@ -1,4 +1,4 @@
-dhtmlxSuite v.7.2.0 Standard edition
+dhtmlxSuite v.7.3.0 Standard edition
 ============
 
 ### Official site

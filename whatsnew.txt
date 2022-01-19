@@ -1,3 +1,148 @@
+Version 7.3 (January 19, 2022)
+
+### New functionality
+
+#### Chart
+
+- New Treemap chart
+- The ability to arrange legend items vertically or horizontally via the direction property of the legend
+
+#### Combobox
+
+- The ability to disable rendering of HTML content in Combobox options via the htmlEnable property
+- The ability to allow users to add new items into the list of options from UI via the newOptions property
+- New addOption() method
+- New "createItem" locale option added
+
+#### Form. Combo control
+
+- The ability to allow users to add new values into the list of combobox options from UI via the newOptions property
+- The ability to add a new item into the Combo control via the addOption() method of Combobox: form.getItem("combo").getWidget().addOption("new_value");
+
+#### Grid
+
+- The ability to add custom logic to the header/footer filters of the column via the customFilter attribute
+- The ability to allow users to add new values into the list of options from UI via the newOptions attribute of the editorConfig property of a column
+
+#### List
+
+- The ability to disable rendering of HTML content in List options via the htmlEnable property
+
+#### Message
+
+- The ability to disable displaying HTML content in the Alert box, Confirm box, and Tooltip via the htmlEnable property
+
+#### Tabbar
+
+- New beforeChange event
+
+#### TreeGrid
+
+- The ability to add custom logic to the header/footer filters of the column via the customFilter attribute
+- The ability to allow users to add new items into the list of options from UI via the newOptions attribute of the editorConfig property of a column
+
+### Fixes
+
+- Chart. Fix the incorrect display of Radar chart if the values in the data set are the same
+- Chart. Fix the issue with displaying an empty tooltip in Line chart
+- Chart. Fix the issue with the type of the value property in a data set
+- Custom Scroll. Fix the incorrect position of scroll after scrolling the grid attached to the tabbar and changing the tabs
+- Form. Fix the issue with enabling the disabled RadioGroup control
+- Form. Fix the issue with the Textarea control. Now the required property doesn't take value: null as a valid
+- Form. Input control. Fix the issue with display of excess whitespace in the output value of the Input event
+- Grid, Pagination. Fix the incorrect work of Pagination if the first column of the grid is hidden
+- Grid. Fix the incorrect display of actual values specified in the "select", "combobox", or "multiselect" editor when opening the editor
+- Grid. Fix the incorrect loading of string values from XML file
+- Grid. Fix the incorrect work of selectFilter with boolean values
+- Grid. Fix the issue that caused the adjust property to ignore the template specified for a column
+- Grid. Fix the issue which caused key navigation to stop working in Grid attached into Tabbar which is attached into Window
+- Grid. Fix the issue which caused autoWidth not to work if the width wasn't specified for only one of the grid columns
+- Grid. Fix the issue with number formatting which caused minus numbers from -1 to 0 to be displayed like positive numbers
+- Grid. Fix the issue with drag-and-drop of the first row
+- Grid. Fix the issue with the canRowDrop event
+- Layout. Fix the issue which caused the cells without the height/width specified initially cannot be reverted to the original state after they've been resized and collapsed several times
+- Layout. Fix the issue with collapsing and resizing a cell after it has been resized
+- LazyDataProxy in Grid. Fix the issue with the loadError event
+- Menu. ContextMenu. Fix the issue with the self-generated "–context-menu" postfix for the name of the custom CSS class
+- Menu. Fix the issue which caused the menu to close after hovering over the first item which is disabled
+- Ribbon. Fix the issue with calculation of the widget's height when some items are hidden
+- Toolbar. Datepicker control. Fix the issue which caused the same date to be shown in different Datepickers (two or more)
+- Toolbar. SelectButton control. Fix the issue that caused an icon of the selected value not being displayed initially or after applying the setState() method
+- TreeGrid. Fix the incorrect work of filtering when multiselection is enabled for comboFilter and multiple options are selected
+- TreeGrid. Fix the issue with exporting a grouped treegrid to CSV
+- TreeGrid. Fix the issue with render of data items when they are parsed in reverse order
+
+Version 7.2.5 (October 28, 2021)
+
+### Fixes
+
+- Form. Timepicker control. Fix the issue with setting the time in the timepicker using the keyboard
+- Grid. TreeGrid. Now the value of the option will be displayed both in the editor and a cell if the options of the "combobox" and "select" editors are set as an array of objects with the id-value combinations
+- Grid. TreeGrid. Now the width of the column is calculated depending on the following properties: minWidth/ maxWidth, adjust, and autoWidth
+- Grid. TreeGrid. Now there is the ability to set the options of the "select" editor of a cell as an array of objects with the id-value combinations
+- Grid. Fix the issue which caused the method of dragging a column to be called after clicking the in-header filter of a column (in Firefox only)
+- Grid. Fix the issue with key navigation when working with several grids
+- Grid. Fix the issue with the autoWidth property which caused the minimal width of the column not being taken into account when calculating the column's width
+- Grid. TreeGrid. Fix the issue which caused data of the treegrid to be changed after filtering and dragging a column/row
+
+
+Version 7.2.4 (October 13, 2021)
+
+### Fixes
+
+- DataCollection. Now the save() method of DataCollection sends PUT request to the backend after adding new data to the component, and POST one after editing the data
+- Form. Combo control. Fix the issue which caused errors to appear in the console after calling the setProperties() method of the control
+- Form. Fix the issue which caused the send() method to accept only one success HTTP status code which is 200. Now the method can accept other 2xx codes.
+- Form. TimePicker control. Fix the issue which caused the value of the control not being updated after the value is selected in the timepicker when working in Firefox
+- Grid. Fix issues with touch events for the in-header filters of the Grid columns
+- Grid. Fix the incorrect work of key navigation in the components when they are attached into the grid which is attached into a layout cell
+- Grid. Fix the issue which caused key navigation to be broken after the setColumns() method is called in the grid with empty columns
+- Grid. Fix the issue which caused the width of the columns not being updated when using the setColumns() method
+- Grid. Fix the issue with filtering the grid via the combo filter when the autoEmptyRow configuration property of Grid is set to true
+- TreeGrid. Fix the incorrect display of an icon of a treegrid row after adding a child row and then deleting it. Now the $items property of the TreeGridCollection object is updated after deleting all child items
+
+
+Version 7.2.3 (September 27, 2021)
+
+### Fixes
+
+- Chart. Fix the issue which caused the labels to overlap each other in Donut, Pie, Pie3D charts when `subType:"basic"` option is set
+- Chart. Fix the issue which caused the long content of the legend to go beyond the chart container
+- Combobox. Fix the incorrect work of the combobox which caused the selected values to be cleared after deleting options in the input when the `multiselection` property is enabled
+- Grid, TreeGrid. Fix the issue with editing empty cells
+- Grid. Fix the incorrect calculation of the line height for the multiline content of cells if the `htmlEnable` property of the column is enabled
+- Grid. Fix the incorrect work of key navigation after editing cells with the "combobox" and "multiselect" editor types
+- Grid. Fix the issue which caused key navigation to stop working after initializing the second grid. Now it is possible to set focus to the grid using `grid.selection.setCell()`
+- Grid. Now the content of the grid is filtered strictly by the values selected in the combo filter
+- Toolbar. Fix the issue with render of data when recreating the toolbar after removing it via the `destructor()` method
+
+
+Version 7.2.2 (September 13, 2021)
+
+### Fixes
+
+- Grid. Fix the issue with the render of the grid, which is placed into the tabbar, after applying the setColumns() method of Grid and switching between the tabs of the tabbar
+- Layout. Fix the script error thrown when trying to resize a cell when the next cell is hidden
+- List. Fix the issue which caused new items not to be added into an empty data collection after applying the filter() method to the data collection
+- TreeGrid. Fix the issue with selection of the child rows and its cells
+
+
+Version 7.2.1 (August 26, 2021)
+
+### Fixes
+
+- Calendar. Fix the issue which caused sending of the form after clicking the buttons of the calendar if the calendar is placed into the HTML form
+- Combobox. Fix the issue with the `Change` event which caused the event to fire twice after selecting a new option
+- Form. Textarea control. Fix the issue which caused the text cursor not to move to a new line after pressing "Enter"
+- Grid. Fix the incorrect work of selection after filtering the grid
+- Grid. Fix the issue which caused the parent container for Grid, which is attached to the layout, to reset when calling the `setColumns()` method after initialization of Grid
+- Grid. Fix the issue with filtering the content of the grid when multiple options are chosen in the combo filter
+- Grid. Fix the issue with resizing of the columns if the in-header filters are specified for the columns
+- Grid. Fix the script error thrown after scrolling the grid horizontally several times
+- Layout. Fix the issue with the `collapse()` method of a layout cell
+- List. Fix the issue which caused the list not to be scrolled to the item selected via the `setFocus()` method
+- TreeGrid. Now it is possible to filter the content of the treegrid by multiple header filters
+
 Version 7.2.0 (August 4, 2021)
 ----------------------------
 
