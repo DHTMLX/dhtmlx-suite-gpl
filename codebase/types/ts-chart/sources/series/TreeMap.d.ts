@@ -1,0 +1,30 @@
+import { IFitPosition } from "../../../ts-common/html";
+import { TreeCollection } from "../../../ts-data";
+import { ITreeMapConfig, PointData, SvgElement } from "../types";
+import BaseSeria from "./BaseSeria";
+export default class TreeMap extends BaseSeria {
+    config: ITreeMapConfig;
+    protected _data: TreeCollection;
+    private _sum;
+    private _maxLevel;
+    private _aspectRatio;
+    private _layout;
+    private _headerHeight;
+    private _textLocator;
+    private _valueLocator;
+    scaleReady(sizes: IFitPosition): IFitPosition;
+    toggle(id?: string): void;
+    dataReady(): PointData[];
+    paint(width: number, height: number): SvgElement;
+    private _drawBar;
+    private _getBar;
+    protected _setDefaults(config: ITreeMapConfig): void;
+    protected _defaultLocator(v: any): any[];
+    private _getSerie;
+    private _getDataLevel;
+    private _getMaxLevel;
+    private _getDeepParent;
+    private _getLayoutObj;
+    private _recountParentArea;
+    private _toggleGroup;
+}

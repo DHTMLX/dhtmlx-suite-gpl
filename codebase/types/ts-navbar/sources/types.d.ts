@@ -21,6 +21,7 @@ export interface INavbarConfig {
     css?: string;
     menuCss?: string;
     data?: any[] | TreeCollection<any>;
+    rootId?: string;
 }
 export interface INavbar {
     data: TreeCollection;

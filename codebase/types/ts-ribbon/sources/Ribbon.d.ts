@@ -37,7 +37,7 @@ export declare class Ribbon extends Navbar<IRibbonElement> implements IRibbon {
     protected _draw(): any;
     protected _setRoot(id: Id): void;
     protected _drawBlock(block: IBlock, isFirst?: boolean): any;
-    protected _getBlockHeight(block: any): 36 | 72;
+    protected _getBlockHeight(block: any): 0 | 36 | 72;
     protected _heightCalculate(data?: TreeCollection<IRibbonElement>): void;
 }
 export {};

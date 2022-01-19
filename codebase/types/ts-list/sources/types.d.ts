@@ -19,6 +19,7 @@ export interface IListConfig extends IDragConfig {
     eventHandlers?: {
         [key: string]: any;
     };
+    htmlEnable?: boolean;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     editing?: boolean;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */

@@ -9,6 +9,7 @@ import radar from "./Radar";
 import scatter from "./Scatter";
 import spline from "./Spline";
 import splineArea from "./SplineArea";
+import treeMap from "./TreeMap";
 declare const seriesTypes: {
     line: typeof line;
     spline: typeof spline;
@@ -21,5 +22,6 @@ declare const seriesTypes: {
     radar: typeof radar;
     bar: typeof bar;
     xbar: typeof xbar;
+    treeMap: typeof treeMap;
 };
 export default seriesTypes;

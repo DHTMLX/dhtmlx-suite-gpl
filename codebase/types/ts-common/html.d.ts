@@ -42,6 +42,7 @@ export declare type Position = "left" | "right" | "bottom" | "top";
 export declare type FlexDirection = "start" | "center" | "end" | "between" | "around" | "evenly";
 export declare function isIE(): boolean;
 export declare function isSafari(): any;
+export declare function isFirefox(): any;
 export declare function getRealPosition(node: HTMLElement): IFitPosition;
 export declare function calculatePosition(pos: IFitPosition, config: IFitPositionConfig): {
     left: string;

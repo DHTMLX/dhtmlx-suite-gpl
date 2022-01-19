@@ -1,9 +1,9 @@
 import { IEventSystem } from "../../ts-common/events";
 import { IKeyManager } from "../../ts-common/KeyManager";
 import { IAlign } from "../../ts-common/html";
-import { IDataCollection, IDragConfig, ICsvDriverConfig, IDataItem, IDragInfo } from "../../ts-data";
+import { IDataCollection, IDragConfig, ICsvDriverConfig, IDataItem, IDragInfo, DataCollection } from "../../ts-data";
 import { Exporter } from "./Exporter";
-import { IComboFilterConfig, Combobox } from "../../ts-combobox";
+import { Combobox } from "../../ts-combobox";
 import { IHandlers, Id } from "../../ts-common/types";
 import { ScrollView } from "../../ts-common/ScrollView";
 export interface IGridConfig extends IDragConfig {
@@ -135,6 +135,9 @@ export interface IProGrid extends IGrid {
     scrollView: ScrollView;
 }
 export declare type EditorType = "input" | "select" | "datePicker" | "checkbox" | "combobox" | "multiselect" | "textarea";
+export interface IComboEditorConfig {
+    newOptions?: boolean;
+}
 export interface ICellRect extends ICoords, ISizes {
 }
 export declare type colType = "string" | "number" | "boolean" | "date" | "percent" | any;
@@ -148,6 +151,7 @@ export interface ICol {
     mark?: IMark | MarkFunction;
     type?: colType;
     editorType?: EditorType;
+    editorConfig?: IComboEditorConfig;
     editable?: boolean;
     resizable?: boolean;
     sortable?: boolean;
@@ -189,9 +193,19 @@ export interface IHeader {
     css?: any;
     content?: fixedRowContent | footerMethods;
     filterConfig?: IComboFilterConfig;
+    customFilter?: (item: any, input: string) => boolean;
     align?: IAlign;
     headerSort?: boolean;
     sortAs?: SortFunction;
+}
+export interface IComboFilterConfig {
+    data?: DataCollection<any> | any[];
+    readonly?: boolean;
+    template?: (item: any) => string;
+    filter?: (item: any, input: string) => boolean;
+    placeholder?: string;
+    virtual?: boolean;
+    multiselection?: boolean;
 }
 export declare type SortFunction = (cellValue: any) => string | number;
 export interface IFooter {
@@ -295,9 +309,7 @@ export declare enum GridEvents {
     beforeRowResize = "beforeRowResize",
     afterRowResize = "afterRowResize",
     beforeSort = "beforeSort",
-    afterSort = "afterSort",
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
-    headerInput = "headerInput"
+    afterSort = "afterSort"
 }
 export interface IEventHandlersMap {
     [key: string]: (...args: any[]) => any;
@@ -357,7 +369,6 @@ export interface IEventHandlersMap {
     [GridEvents.afterColumnDrag]: (data: IDragInfo, events: MouseEvent) => void;
     [GridEvents.beforeRowResize]: (row: IRow, events: Event, currentHeight: number) => boolean;
     [GridEvents.afterRowResize]: (row: IRow, events: Event, currentHeight: number) => void;
-    [GridEvents.headerInput]: (value: string, colId: Id, filterId: fixedRowContent) => void;
     [GridEvents.expand]: (rowId: Id) => void;
 }
 export declare enum GridSystemEvents {
@@ -376,7 +387,7 @@ export interface ISystemEventHandlersMap {
 export interface ICellContent {
     element?: any;
     toHtml: (column: ICol, config: IRendererConfig) => any;
-    match?: (obj: any, value: any) => boolean;
+    match?: (obj: any, value: any, item?: any, multi?: boolean) => boolean;
     destroy?: () => void;
     calculate?: (col: any[], roots: any[]) => string | number;
     validate?: (colId: Id, data: any[]) => any[];

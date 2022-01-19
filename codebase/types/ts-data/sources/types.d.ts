@@ -28,7 +28,11 @@ export declare type IFilterCallback = (obj: any) => boolean;
 export interface IFilterMode {
     by?: Id;
     match?: string | number | boolean;
-    compare?: (value: any, match: any, obj: any) => boolean;
+    compare?: (value: any, match: any, obj: any, multi?: boolean) => boolean;
+    multi?: any;
+}
+export interface IFilterComplexMode {
+    [key: string]: IFilterMode;
 }
 export interface IFilterConfig {
     add?: boolean;
@@ -91,7 +95,6 @@ export interface IDataCollection<T extends IDataItem = IDataItem> {
     save(url: IDataProxy | string): void;
     isSaved(): boolean;
     getRawData(from: number, to: number, order?: T[], mode?: number): T[];
-    getInitOrder(): IDataItem[];
 }
 export interface IDataChangeStack {
     order: IDataChange[];
@@ -197,6 +200,7 @@ export interface IDragConfig {
 export interface ICopyObject {
     id: Id;
     component: IObjWithData;
+    newId?: Id;
 }
 export declare enum DataEvents {
     afterAdd = "afteradd",

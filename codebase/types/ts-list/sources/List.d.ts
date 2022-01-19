@@ -20,6 +20,7 @@ export declare class List extends View implements IList {
     private _topOffset;
     private _visibleHeight;
     private _touch;
+    protected _changed: boolean;
     constructor(node: HTMLElement | string, config?: IListConfig);
     protected _didRedraw(vm: any): void;
     private _dblClick;

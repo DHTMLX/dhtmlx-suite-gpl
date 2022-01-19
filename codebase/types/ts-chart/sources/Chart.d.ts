@@ -1,9 +1,9 @@
 import { IEventSystem } from "../../ts-common/events";
 import { View } from "../../ts-common/view";
-import { DataCollection, DataEvents } from "../../ts-data";
+import { DataCollection, DataEvents, TreeCollection } from "../../ts-data";
 import { ChartEvents, IChart, IChartConfig, ISeria } from "./types";
 export declare class Chart extends View implements IChart {
-    data: DataCollection;
+    data: DataCollection | TreeCollection;
     events: IEventSystem<DataEvents | ChartEvents>;
     config: IChartConfig;
     private _layers;

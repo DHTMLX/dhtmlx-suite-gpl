@@ -5,6 +5,7 @@ export interface IBaseProps {
     css?: string;
     buttonsAlignment?: IAlign;
     blockerCss?: string;
+    htmlEnable?: boolean;
 }
 export interface IAlertProps extends IBaseProps {
     buttons?: [string];

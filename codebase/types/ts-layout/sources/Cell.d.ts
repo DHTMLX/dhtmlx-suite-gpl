@@ -22,6 +22,7 @@ export declare class Cell extends View implements ICell {
     expand(): void;
     collapse(): void;
     toggle(): void;
+    protected _checkNextSize(cell?: ICell): any;
     getParent(): ILayout;
     destructor(): void;
     getWidget(): IViewLike;
@@ -31,9 +32,11 @@ export declare class Cell extends View implements ICell {
     toVDOM(nodes?: any[]): any;
     protected _getCss(_content?: boolean): string;
     protected _initHandlers(): void;
+    protected _getCollapsedSize(cell: ICell, nextCell: ICell): number;
     protected _getCollapseIcon(): "dxi dxi-chevron-right" | "dxi dxi-chevron-left" | "dxi dxi-chevron-up" | "dxi dxi-chevron-down";
     protected _isLastCell(): boolean;
     protected _getNextCell(): any;
+    protected _getAnyFlexCell(): any;
     protected _getResizerView(): any;
     protected _isXDirection(): any;
     protected _calculateStyle(): any;

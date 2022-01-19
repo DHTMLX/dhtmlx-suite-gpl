@@ -33,6 +33,8 @@ export interface ICellConfig {
     full?: boolean;
     init?: (c: ICell, cfg: ICellConfig | IView) => void;
     $fixed?: boolean;
+    $autoWidth?: boolean;
+    $autoHeight?: boolean;
 }
 export interface ILayoutConfig extends ICellConfig {
     rows?: ICellConfig[] | ILayoutConfig[];
@@ -113,15 +115,6 @@ export interface ILayoutEventHandlersMap {
     [LayoutEvents.afterCollapse]: (id: string) => void;
     [LayoutEvents.beforeExpand]: (id: string) => boolean | void;
     [LayoutEvents.afterExpand]: (id: string) => void;
-}
-export declare enum resizeMode {
-    unknown = 0,
-    percents = 1,
-    pixels = 2,
-    mixedpx1 = 3,
-    mixedpx2 = 4,
-    mixedperc1 = 5,
-    mixedperc2 = 6
 }
 export declare type LayoutCallback = (cell: ICell, index: number, array: any) => any;
 export declare type IFillSpace = boolean | "x" | "y";

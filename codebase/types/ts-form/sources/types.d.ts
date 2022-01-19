@@ -316,6 +316,7 @@ export interface IComboProps extends IBaseLayoutItem {
     itemHeight?: number | string;
     virtual?: boolean;
     listHeight?: number | string;
+    newOptions?: boolean;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     readonly?: boolean;
 }

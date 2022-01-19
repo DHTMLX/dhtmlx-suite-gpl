@@ -1,6 +1,6 @@
 import { IEventSystem } from "../../ts-common/events";
 import { DataCollection } from "./datacollection";
-import { DataCallback, DataEvents, IDataCollection, IDataItem, ITreeCollection, IFilterCallback, IFilterMode, ITreeFilterConfig, DataDriver, ISortMode, IDataDriver } from "./types";
+import { DataCallback, DataEvents, IDataCollection, IDataItem, ITreeCollection, IFilterCallback, IFilterMode, IFilterComplexMode, ITreeFilterConfig, DataDriver, ISortMode, IDataDriver } from "./types";
 import { Id } from "../../ts-common/types";
 export declare class TreeCollection<T extends IDataItem = IDataItem> extends DataCollection<T> implements ITreeCollection<T> {
     protected _childs: {
@@ -8,10 +8,8 @@ export declare class TreeCollection<T extends IDataItem = IDataItem> extends Dat
     };
     protected _root: Id;
     protected _filters: {
-        [id: string]: {
-            rule: IFilterMode | IFilterCallback;
-            config: ITreeFilterConfig;
-        };
+        filters: IFilterComplexMode | IFilterCallback;
+        config: ITreeFilterConfig;
     };
     private _initChilds;
     constructor(config?: any, events?: IEventSystem<DataEvents>);
@@ -24,7 +22,7 @@ export declare class TreeCollection<T extends IDataItem = IDataItem> extends Dat
     removeAll(id?: Id): void;
     getIndex(id: Id): number;
     sort(rule?: ISortMode): void;
-    filter(rule?: IFilterMode | IFilterCallback, config?: ITreeFilterConfig): void;
+    filter(rule?: IFilterMode | IFilterComplexMode | IFilterCallback, config?: ITreeFilterConfig): void;
     restoreOrder(): void;
     copy(id: Id, index: number, target?: IDataCollection | ITreeCollection, targetId?: Id): Id;
     copy(id: Id[], index: number, target?: IDataCollection | ITreeCollection, targetId?: Id): Id[];

@@ -21,7 +21,7 @@ export declare class Grid extends View implements IGrid {
     private _sortDir;
     private _sortBy;
     private _filterData;
-    private _activeFilters;
+    protected _activeFilters: {};
     private _hiddenFilters;
     constructor(container: HTMLElement | string, config?: IGridConfig);
     destructor(): void;
@@ -52,7 +52,7 @@ export declare class Grid extends View implements IGrid {
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     edit(rowId: Id, colId: Id, editorType?: EditorType): void;
     protected _createView(): any;
-    protected _parseColumns(): void;
+    protected _parseColumns(configChanged?: boolean): void;
     protected _parseData(): void;
     protected _createCollection(prep: (data: any[]) => any[]): void;
     protected _getRowIndex(rowId: Id): number;

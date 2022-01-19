@@ -5,12 +5,13 @@ export declare class Selection implements ISelection {
     events: IEventSystem<GridSelectionEvents, IGridSelectionEventsHandlersMap>;
     config: ISelectionConfig;
     protected _grid: IGrid;
+    private _gridId;
     protected _selectedCell: ICell;
     protected _oldSelectedCell: ICell;
     protected _selectedCells: ICell[];
     protected _type: ISelectionType;
     protected _multiselection: boolean;
-    constructor(grid: IGrid, config?: ISelectionConfig, events?: IEventSystem<any>);
+    constructor(grid: IGrid, config?: ISelectionConfig, events?: IEventSystem<any>, gridId?: Id);
     setCell(row?: any, col?: any, ctrlUp?: boolean, shiftUp?: boolean): void;
     getCell(): ICell;
     getCells(): ICell[];

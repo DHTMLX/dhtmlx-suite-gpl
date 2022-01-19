@@ -22,6 +22,8 @@ export interface IComboboxConfig {
     hiddenLabel?: boolean;
     css?: string;
     value?: string | string[];
+    newOptions?: boolean;
+    htmlEnable?: boolean;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     cellHeight?: number;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
@@ -32,15 +34,6 @@ export interface IComboboxConfig {
     labelInline?: boolean;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     readonly?: boolean;
-}
-export interface IComboFilterConfig {
-    data?: DataCollection<any> | any[];
-    readonly?: boolean;
-    template?: (item: any) => string;
-    filter?: (item: any, input: string) => boolean;
-    placeholder?: string;
-    virtual?: boolean;
-    multiselection?: boolean;
 }
 export declare enum ComboboxEvents {
     change = "change",
@@ -82,6 +75,7 @@ export interface ICombobox {
     blur(): void;
     getValue(asArray?: boolean): Id[] | string;
     setValue(ids: Id[] | Id): void;
+    addOption(value: string): void;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     setState(state: State): void;
 }

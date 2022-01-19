@@ -19,7 +19,7 @@ export interface IChartConfig {
     maxPoints?: number;
     data?: DataCollection<any> | any[];
 }
-export declare type ChartType = "bar" | "line" | "spline" | "scatter" | "area" | "donut" | "pie" | "pie3D" | "radar" | "xbar" | "splineArea";
+export declare type ChartType = "bar" | "line" | "spline" | "scatter" | "area" | "donut" | "pie" | "pie3D" | "radar" | "xbar" | "splineArea" | "treeMap";
 export declare enum ChartEvents {
     toggleSeries = "toggleSeries",
     chartMouseMove = "chartMouseMove",
@@ -53,6 +53,7 @@ export interface ISeria extends ILikeSeria {
     getClosest(x: number, y: number): [number, number, number, string];
     getClosestVertical(x: number): [number, number, number, string, number];
 }
+export declare type TreeDirectionType = "asc" | "desc";
 export interface ISeriaConfig {
     id?: string;
     type?: ChartType;
@@ -60,6 +61,7 @@ export interface ISeriaConfig {
     pointColor?: string;
     dashed?: boolean;
     scales?: ScaleType[];
+    stroke?: string;
     strokeWidth?: number;
     value?: string;
     name?: string;
@@ -79,6 +81,9 @@ export interface ISeriaConfig {
     baseLine?: number;
     tooltipType?: TooltipType;
     stacked?: boolean;
+    direction?: TreeDirectionType;
+    treeSeries?: ITreeSeries[];
+    legendType?: LegendType;
 }
 export declare type SeriaConfig = ISeriaConfig | INoScaleConfig;
 export interface IScale extends IComposable {
@@ -129,12 +134,26 @@ export interface ILegendConfig {
     };
     size?: number;
     form?: Shape;
+    type?: LegendType;
     itemPadding?: number;
     halign?: HorizontalPosition;
     valign?: VerticalPosition;
     series?: string[];
+    treeSeries?: ITreeSeries[];
     margin?: number;
+    direction?: LegendDirection;
     $seriesInfo?: ISeria[];
+    $sizes?: LegendSizes;
+}
+export interface ITreeSeries {
+    less?: number | string;
+    from?: number | string;
+    to?: number | string;
+    greater?: number | string;
+    color?: string;
+    active?: boolean;
+    id?: string;
+    name?: string;
 }
 export interface ILegendDrawData {
     id: string;
@@ -155,7 +174,7 @@ export interface IComposeLayer {
     add(obj: any): void;
     clear(): void;
     getSizes(): IFitPosition;
-    toVDOM(width: number, height: number, events: IEventSystem<DataEvents | ChartEvents>): void;
+    toVDOM(width: number, height: number): void;
 }
 export interface IRadarConfig extends ISeriaConfig {
     radius?: number;
@@ -174,12 +193,17 @@ export interface IRadarScaleDrawData {
     zebra: boolean;
     attribute: string;
 }
+export interface ITreeMapConfig extends ISeriaConfig {
+    paddings?: number;
+    text?: string;
+}
 export interface IAxisCreatorConfig {
     max?: number;
     min?: number;
     log?: boolean;
     padding?: number;
     maxTicks?: number;
+    type?: string;
 }
 export interface IAxisScale {
     min: number;
@@ -211,6 +235,12 @@ export declare type SvgElement = any;
 export declare type Shape = "rect" | "circle";
 export declare type HorizontalPosition = "left" | "center" | "right";
 export declare type VerticalPosition = "top" | "middle" | "bottom";
+export declare type LegendDirection = "row" | "column";
+export declare type LegendType = "groupName" | "range";
+export declare type LegendSizes = {
+    width: number;
+    height: number;
+};
 export interface ILikeSeria extends IComposable {
     getPoints(): PointData[];
     seriesShift?(size?: number): number;
@@ -225,7 +255,10 @@ export declare type SmartLocator = Locator | string;
 export interface IStacker extends IComposable, ILikeSeria {
     add(seria: ISeria): void;
 }
-export declare type PointData = [number, number, string, number, number];
+export declare type PointData = [number, number, string, number | string, number, TreePointData?];
+export declare type TreePointData = {
+    items: PointData[];
+};
 export interface IGridRenderConfig {
     targetLine?: number;
     dashed: boolean;

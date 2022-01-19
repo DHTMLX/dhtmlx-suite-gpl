@@ -26,6 +26,7 @@ export interface ITabConfig extends ICellConfig {
     tabHeight?: number | string;
 }
 export declare enum TabbarEvents {
+    beforeChange = "beforeChange",
     change = "change",
     beforeClose = "beforeClose",
     afterClose = "afterClose",
@@ -55,6 +56,7 @@ export interface ITabbar {
 }
 export interface ITabbarEventHandlersMap {
     [key: string]: (...args: any[]) => any;
+    [TabbarEvents.beforeChange]: (id: string, prev: string) => boolean | void;
     [TabbarEvents.change]: (id: string, prev: string) => void;
     [TabbarEvents.beforeClose]: (id: string) => boolean | void;
     [TabbarEvents.afterClose]: (id: string) => void;

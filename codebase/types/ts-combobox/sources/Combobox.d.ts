@@ -27,6 +27,7 @@ export declare class Combobox extends View implements ICombobox {
     clear(): void | boolean;
     getValue<T extends boolean = false>(asArray?: T): T extends true ? string[] : string;
     setValue(ids: Id[] | Id): void | boolean;
+    addOption(value: string): void;
     destructor(): void;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     setState(state: State): void;

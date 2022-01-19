@@ -19,8 +19,8 @@ export declare class DataCollection<T extends IDataItem = IDataItem> implements 
     protected _meta: any;
     protected _range: [number, number];
     protected _loaded: boolean;
+    protected _initOrder: T[];
     private _changes;
-    private _initOrder;
     private _loader;
     constructor(config?: any, events?: IEventSystem<any>);
     protected _reset(): void;
@@ -41,7 +41,7 @@ export declare class DataCollection<T extends IDataItem = IDataItem> implements 
     findAll(conf: IFilterMode | DataCallback<T>): any[];
     sort(rule?: ISortMode, config?: ISortConfig): void;
     copy(id: Id | Id[], index: number, target?: IDataCollection | ITreeCollection, targetId?: Id): Id | Id[];
-    move(id: Id | Id[], index: number, target?: DataCollection | TreeCollection, targetId?: Id): Id | Id[];
+    move(id: Id | Id[], index: number, target?: DataCollection | TreeCollection, targetId?: Id, newId?: Id): Id | Id[];
     forEach(callback: DataCallback<T>): void;
     load(url: IDataProxy | string, driver?: IDataDriver | DataDriver): Promise<any>;
     parse(data: T[], driver?: DataDriver | IDataDriver): any;
@@ -59,11 +59,10 @@ export declare class DataCollection<T extends IDataItem = IDataItem> implements 
     getMetaMap(obj: T): any;
     setRange(from: number, to: number): void;
     getRawData(from: number, to: number, order?: T[], mode?: number): T[];
-    getInitOrder(): T[];
     protected _add(newItem: IDataItem, index: number): Id;
     protected _remove(id: Id): void;
     protected _copy(id: Id, index: number, target?: IDataCollection | ITreeCollection, targetId?: Id, key?: number): Id;
-    protected _move(id: Id, index: number, target?: IDataCollection | ITreeCollection, targetId?: Id, key?: number): Id;
+    protected _move(id: Id, index: number, target?: IDataCollection | ITreeCollection, targetId?: Id, key?: number, newId?: Id): Id;
     protected _addCore(obj: IDataItem, index: number): Id;
     protected _removeCore(id: Id): void;
     protected _parse_data(data: any[]): void;
