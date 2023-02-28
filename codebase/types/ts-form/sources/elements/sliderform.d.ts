@@ -27,6 +27,5 @@ export declare class SliderForm extends Label implements ISliderForm {
     blur(): void;
     protected _initView(config: ISliderFormConfig): void;
     protected _initHandlers(): void;
-    protected _getRootView(): any;
     protected _drawSlider(): any;
 }

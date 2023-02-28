@@ -43,4 +43,5 @@ export declare class TimePicker extends Label implements ITimePicker {
     private _clear;
     private _afterApply;
     private _applyTab;
+    private _isTimeObject;
 }

@@ -13,4 +13,5 @@ export declare class Loader {
     private _addToChain;
     private _findPrevState;
     private _removeFromOrder;
+    private _getUniqueOrder;
 }

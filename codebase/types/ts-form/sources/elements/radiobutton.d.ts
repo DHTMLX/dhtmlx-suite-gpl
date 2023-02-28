@@ -2,10 +2,15 @@ import { IEventSystem } from "../../../ts-common/events";
 import { View } from "../../../ts-common/view";
 import { IRadioButtonConfig } from "../types";
 export declare enum RadioButtonEvents {
+    beforeChange = "beforeChange",
     change = "change",
     focus = "focus",
     blur = "blur",
-    keydown = "keydown"
+    keydown = "keydown",
+    beforeHide = "beforeHide",
+    afterHide = "afterHide",
+    beforeShow = "beforeShow",
+    afterShow = "afterShow"
 }
 export declare class RadioButton extends View {
     config: IRadioButtonConfig;
@@ -19,6 +24,9 @@ export declare class RadioButton extends View {
     getProperties(): {};
     getValue(): string | void;
     setValue(checked: boolean): void;
+    show(): void;
+    hide(): void;
+    isVisible(): boolean;
     focus(): void;
     blur(): void;
     disable(): void;

@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<!-- meta block -->
+	<title>Suite theme configurator - DHTMLX Theme</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+	
+	<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+	<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+	<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+	<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+	<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+	<!-- end meta block -->
+	<script type="text/javascript" src="../../codebase/suite.js"></script>
+	<link rel="stylesheet" href="../../codebase/suite.css">
+
+	<link rel="stylesheet" href="../common/index.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.0.96/css/materialdesignicons.css"
+		media="all" rel="stylesheet" type="text/css">
+	<!-- custom sample head -->
+	<script src="./common/data.js"></script>
+	<style>
+		body {
+			margin: 0;
+			overflow: hidden;
+		}
+		.dhx_sample-header {
+			border-bottom: none;
+		}
+		:root {
+			--theme-control-border: 1px solid rgba(0, 0, 0, 0.15);
+		}
+
+		/* Grid styling */
+		.contact_email {
+			color: var(--dhx-color-primary);
+		}
+		.grid .dhx_grid-content {
+			border: none;
+		}
+
+		/* Tickets dataview styling */
+		.dhx_dataview_template_a {
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-flex-direction: column;
+			-ms-flex-direction: column;
+			flex-direction: column;
+			-webkit-justify-content: space-between;
+			-ms-flex-pack: justify;
+			justify-content: space-between;
+			height: 100%;
+		}
+		.dhx_dataview_template_a_box {
+			background-color: var(--dhx-background-secondary);
+		}
+		.dhx_dataview_template_a_box .dhx_dataview-item__inner-html {
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-box-orient: vertical;
+			-webkit-box-direction: normal;
+			-ms-flex-direction: column;
+			flex-direction: column;
+			-webkit-box-pack: justify;
+			-ms-flex-pack: justify;
+			justify-content: space-between;
+			height: 100%;
+		}
+		.dhx_dataview_template_a_box .dhx_dataview-item {
+			padding: 20px;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+			background-color: var(--dhx-background-primary);
+			border: var(--dhx-border) !important;
+			margin-bottom: 8px !important;
+			margin-left: 8px !important;
+		}
+		.dhx_dataview_template_a_box .dhx_dataview-item:first-child {
+			margin-left: 0 !important;
+		}
+		.dhx_dataview_template_a__head {
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+		}
+		.dhx_dataview_template_a__type {
+			color: var(--dhx-font-color-contrast);
+			text-align: center;
+			text-transform: capitalize;
+			width: 55px;
+			height: 20px;
+			border-radius: 2px;
+		}
+		.dhx_dataview_template_a__type--major {
+			background-color: var(--dhx-color-danger);
+		}
+		.dhx_dataview_template_a__type--minor {
+			background-color: var(--dhx-color-success);
+		}
+		.dhx_dataview_template_a__type--normal {
+			background-color: var(--dhx-color-primary);
+		}
+		.dhx_dataview_template_a__content {
+			padding-left: 16px;
+			width: 80%;
+		}
+		.dhx_dataview_template_a__title {
+			font-family: var(--dhx-font-family);
+			font-size: var(--dhx-font-size-large);
+			line-height: var(--dhx-line-height-large);
+			font-weight: var(--dhx-font-weight-medium);
+			padding-bottom: 8px;
+		}
+		.dhx_dataview_template_a__comment {
+			display: -webkit-box;
+			max-height: 40px;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+		}
+		.dhx_dataview_template_a__body {
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-box-pack: justify;
+			-ms-flex-pack: justify;
+			justify-content: space-between;
+			margin-top: 20px;
+		}
+		.dhx_dataview_template_a__person {
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+		}
+		.dhx_dataview_template_a__avatar {
+			width: 40px;
+			height: 40px;
+			margin-left: 15px;
+			margin-right: 16px;
+			border-radius: 20px;
+			background: center center/cover no-repeat #f7f7f7;
+		}
+		.dhx_dataview_template_a__name {
+			color: var(--dhx-font-color-secondary);
+		}
+		.dhx_dataview_template_a__comments {
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-box-align: end;
+			-ms-flex-align: end;
+			align-items: flex-end;
+			line-height: 20px;
+		}
+		.dhx_dataview_template_a__comments .mdi:before {
+			position: relative;
+			top: 4px;
+			color: var(--dhx-font-color-secondary);
+			font-size: 20px;
+			margin-left: 6px;
+		}
+
+		/* Message dataview styling */
+		.dhx_dataview_template_b_box {
+			background-color: var(--dhx-background-secondary);
+		}
+		.dhx_dataview_template_b_box .dhx_dataview-item {
+			padding: 0;
+			border: var(--dhx-border) !important;
+			border-radius: 6px;
+			overflow: hidden;
+			background-color: var(--dhx-background-primary);
+			margin-bottom: 8px !important;
+			margin-left: 8px !important;
+		}
+		.dhx_dataview_template_b_box .dhx_dataview-item:first-child {
+			margin-left: 0 !important;
+		}
+		.dhx_dataview_template_b {
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-box-orient: vertical;
+			-webkit-box-direction: normal;
+			-ms-flex-direction: column;
+			flex-direction: column;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
+			align-items: center;
+			width: 100%;
+			height: 200px;
+		}
+		.dhx_dataview_template_b__avatar {
+			position: relative;
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+			margin-top: 16px;
+			width: 80px;
+			height: 80px;
+			border-radius: 50%;
+			background-size: 80px 80px;
+		}
+		.dhx_dataview_template_b__status {
+			position: absolute;
+			bottom: 1px;
+			right: 9px;
+			width: 12px;
+			height: 12px;
+			border-radius: 50%;
+			border: 1px solid var(--dhx-color-white);
+			background-color: var(--dhx-color-success);
+		}
+		.dhx_dataview_template_b__status.dhx_dataview_template_b__status--offline {
+			display: none;
+		}
+		.dhx_dataview_template_b__title,
+		.dhx_dataview_template_b__name,
+		.dhx_dataview_template_b__message-label {
+			font: var(--dhx-font-family);
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.dhx_dataview_template_b__title {
+			font-weight: var(--dhx-font-weight-medium);
+			margin-top: 8px;
+		}
+		.dhx_dataview_template_b__message {
+			border-top: 1px solid var(--dhx-border-color);
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+			height: 44px;
+			width: 100%;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
+			align-items: center;
+			-webkit-box-pack: center;
+			-ms-flex-pack: center;
+			justify-content: center;
+			text-decoration: none;
+			position: absolute;
+			left: 0;
+			bottom: 0;
+		}
+		.dhx_dataview_template_b__message-icon {
+			margin-right: 4px;
+			font-size: 16px;
+			color: var(--dhx-color-primary);
+		}
+		.dhx_dataview_template_b__message-label {
+			color: var(--dhx-color-primary);
+			font-weight: 500;
+		}
+
+		/* Layout cell styling  */
+		.dhx_layout_cell--overflow-auto {
+			overflow: auto;
+		}
+		.dhx_layout_cell--border-none {
+			border: none !important;
+		}
+		.dhx_layout_cell-align_content--center {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		/* Colorpicker cell styling */
+		.dhx_layout_colorpicker_cell {
+			display: flex;
+			justify-content: center;
+			padding: 40px 0;
+		}
+
+		/* Calendar/Timepicker cell styling */
+		.dhx_layout_calendar_cell {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-width: 248px;
+		}
+
+		/* Sidebar custom elements styling */
+		.dhx_navbar--vertical {
+			overflow: hidden;
+		}
+		.user-info_container {
+			padding-top: 8px;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+		}
+		.user-info_avatar {
+			height: 40px;
+			width: 40px;
+			border-radius: 100%;
+		}
+		.user-info_title {
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 24px;
+			margin-top: 8px;
+		}
+		.user-info_contact {
+			font-family: Roboto;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 14px;
+			line-height: 20px;
+			margin-bottom: 28px;
+		}
+		.dhx_sidebar--minimized .user-info_avatar {
+			height: 30px;
+			width: 30px;
+		}
+		.dhx_sidebar--minimized .user-info_title,
+		.dhx_sidebar--minimized .user-info_contact {
+			visibility: hidden;
+		}
+		.dhx-container,
+		.dhx-container__widget {
+			height: 100%;
+		}
+
+		/* Theme controls */
+		.dhx_theme-view {
+			display: flex;
+			height: calc(100% - 60px);
+		}
+		.dhx_theme-layout {
+			height: 100%;
+			width: calc(100% - 310px);
+		}
+		.dhx_theme-controls {
+			height: 100%;
+			width: 310px;
+			padding: 20px;
+
+			border-left: 1px solid hsl(0, 0%, 87%);
+			background-color: #fff;
+		}
+		.dhx_theme-controls h3 {
+			color: #000;
+			font-size: var(--dhx-font-size-large);
+			font-weight: var(--dhx-font-weight-medium);
+			line-height: var(--dhx-line-height-normal);
+			margin: 10px 0;
+		}
+		.dhx_theme-controls h5 {
+			color: #000;
+			font-size: var(--dhx-font-size-normal);
+			font-weight: var(--dhx-font-weight-medium);
+			line-height: var(--dhx-line-height-normal);
+			margin: 10px 0;
+		}
+		.dhx_theme-controls .dhx_button {
+			color: #fff;
+		}
+		.dhx_theme-container {
+			display: flex;
+			flex-direction: column;
+			margin: 10px 0;
+		}
+		.dhx_theme-container--space {
+			margin: 40px 0;
+		}
+		.dhx_theme-inline-wrapper {
+			width: 100%;
+			margin: 6px 0;
+			display: flex;
+			align-items: center;
+		}
+		.dhx_theme-inline-wrapper--center {
+			justify-content: space-between;
+		}
+		.dhx_theme-inline-wrapper:last-child {
+			margin-bottom: 0;
+		}
+		.dhx_theme-box {
+			cursor: pointer;
+
+			height: 36px;
+			width: 36px;
+			padding: 6px;
+			margin-right: 8px;
+
+			border: var(--theme-control-border);
+			border-radius: 2px;
+			background-color: #fff;
+		}
+		.dhx_theme-box--active {
+			outline: 1px solid var(--dhx-color-primary);
+		}
+		.dhx_theme-box__color {
+			height: 100%;
+			width: 100%;
+
+			border-radius: 2px;
+			border: var(--theme-control-border);
+		}
+		.dhx_theme-preset-box {
+			cursor: pointer;
+
+			height: 36px;
+			width: 60px;
+			padding: 6px;
+
+			border: var(--theme-control-border);
+			border-radius: 2px;
+			background-color: #fff;
+		}
+		.dhx_theme-preset-box--active {
+			outline: 1px solid var(--dhx-color-primary);
+		}
+		.dhx_theme-preset-box__container {
+			height: 100%;
+			width: 100%;
+			border-radius: 2px;
+		}
+		.dhx_theme-preset-box__toolbar {
+			height: 8px;
+			border: var(--theme-control-border);
+		}
+		.dhx_theme-preset-box__wrapper {
+			display: flex;
+			height: calc(100% - 8px);
+			width: 100%;
+		}
+		.dhx_theme-preset-box__sidebar {
+			width: 50%;
+			border-right: var(--theme-control-border);
+			border-left: var(--theme-control-border);
+			border-bottom: var(--theme-control-border);
+		}
+		.dhx_theme-preset-box__main {
+			width: 50%;
+			border-right: var(--theme-control-border);
+			border-bottom: var(--theme-control-border);
+		}
+		.dhx_theme-presets {
+			margin: 8px 0;
+		}
+		.dhx_theme-code {
+			white-space: pre-line;
+		}
+
+	</style>
+	<style id="themes"></style>
+</head>
+<body>
+	<header class="dhx_sample-header">
+		<div class="dhx_sample-header__main">
+			<nav class="dhx_sample-header__breadcrumbs">
+				<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+			</nav>
+			<h1 class="dhx_sample-header__title">
+				<div class="dhx_sample-header__content">
+					Suite theme configurator
+				</div>
+			</h1>
+		</div>
+	</header>
+	<section class="dhx_theme-view">
+		<main class="dhx_theme-layout" id="layout"></main>
+		<aside class="dhx_theme-controls">
+			<h3>Choose a theme and colors</h3>
+			<div class="dhx_theme-container">
+				<h5>Accent color</h5>
+				<div id="accents" class="dhx_theme-inline-wrapper">
+					<button class="dhx_theme-box dhx_theme-box--active" data-theme-color="#0288D1">
+						<div class="dhx_theme-box__color dhx_theme-box__color--primary" style="background: #0288D1;"></div>
+					</button>
+					<button class="dhx_theme-box" data-theme-color="#019A88">
+						<div class="dhx_theme-box__color dhx_theme-box__color--primary" style="background: #019A88;"></div>
+					</button>
+					<button class="dhx_theme-box" data-theme-color="#5A64CC">
+						<div class="dhx_theme-box__color dhx_theme-box__color--primary" style="background: #5A64CC;"></div>
+					</button>
+				</div>
+			</div>
+			<div class="dhx_theme-container">
+				<h5>Presets</h5>
+				<div id="presets"></div>
+			<div class="dhx_theme-container dhx_theme-container--space">
+				<button id="download"
+					class="dhx_button dhx_button--color_primary dhx_button--size_small dhx_button--view_flat dhx_button--width_full dhx_button--circle">
+					<span class="dhx_button__icon dxi dxi-plus"></span>
+					<span class="dhx_button__text">Copy color theme</span>
+				</button>
+			</div>
+		</aside>
+	</section>
+	<script>
+		// enable custom scroll - https://docs.dhtmlx.com/suite/helpers/custom_scroll/
+		dhx.scrollViewConfig.enable = false;
+
+		// DHTMLX Layout - https://docs.dhtmlx.com/suite/layout/
+		const layout = new dhx.Layout("layout", {
+			type: "line",
+			cols: [
+				{
+					id: "sidebar",
+					width: "content",
+					css: "dhx_widget--border_right"
+				},
+				{
+					height: "content",
+					rows: [
+						{ id: "toolbar", height: 56 },
+						{ id: "main" },
+					]
+				}
+			]
+		});
+
+		// DHTMLX Toolbar - https://docs.dhtmlx.com/suite/toolbar/
+		const toolbar = new dhx.Toolbar(null);
+		toolbar.data.parse(topmenuData);
+		layout.getCell("toolbar").attach(toolbar);
+
+		// DHTMLX Sidebar - https://docs.dhtmlx.com/suite/sidebar/
+		const sidebar = new dhx.Sidebar(null);
+		sidebar.data.parse(sidebarData);
+		layout.getCell("sidebar").attach(sidebar);
+
+		// adding events to DHTMLX Sidebar
+		sidebar.events.on("click", id => {
+			if (id === "toggle") {
+				const toggleItem = sidebar.data.getItem("toggle");
+				sidebar.toggle();
+				toggleItem.icon = sidebar.config.collapsed ? "mdi mdi-menu" : "mdi mdi-backburger";
+			}
+		});
+
+		// DHTMLX Tabbar - https://docs.dhtmlx.com/suite/tabbar/
+		const tabbar = new dhx.Tabbar(null, {
+			tabAlign: "center",
+			disabled: ["reports", "tickets", "users", "applications"],
+			views: [
+				{ id: "dashboard", tab: "Dashboard" },
+				{ id: "reports", tab: "Reports" },
+				{ id: "tickets", tab: "Tickets" },
+				{ id: "users", tab: "Users" },
+				{ id: "applications", tab: "Applications" },
+			]
+		});
+		layout.getCell("main").attach(tabbar);
+
+		// DHTMLX Layout - https://docs.dhtmlx.com/suite/layout/
+		const dashboard = new dhx.Layout(null, {
+			type: "space",
+			css: "dhx_layout_cell--overflow-auto",
+			rows: [
+				{
+					height: "fit-content",
+					css: "dhx_layout_cell--overflow-auto",
+					type: "wide",
+					cols: [
+						{
+							minWidth: 780,
+							gravity: 3,
+							height: "fit-content",
+							rows: [
+								{
+									type: "line",
+									height: "content",
+									rows: [
+										{
+											id: "grid",
+											height: 845,
+										},
+										{
+											id: "gridPager"
+										},
+									]
+								},
+								{
+									height: "content",
+									cols: [
+										{
+											id: "sampleCalendar",
+											css: "dhx_layout_calendar_cell",
+										},
+										{
+											id: "timepicker",
+											css: "dhx_layout_calendar_cell",
+										},
+										{
+											id: "yearsCalendar",
+											css: "dhx_layout_calendar_cell",
+										}
+									]
+								},
+								{
+									id: "accordion",
+									height: "content"
+								},
+								{
+									height: 350,
+									cols: [
+										{
+											width: "50%",
+											padding: 30,
+											id: "sliderLayout",
+										},
+										{
+											width: "50%",
+											padding: 30,
+											id: "tree",
+										}
+									]
+								},
+								{
+									height: "content",
+									padding: 50,
+									id: "ribbon"
+								},
+								{
+									height: "content",
+									id: "ticketsDataview",
+									css: "dhx_layout_cell--border-none",
+								}
+							]
+						},
+						{
+							height: "fit-content",
+							minWidth: 500,
+							gravity: 2,
+							rows: [
+								{
+									height: "content",
+									align: "center",
+									id: "form"
+								},
+								{
+									height: "content",
+									id: "buttonsForm"
+								},
+								{
+									height: "content",
+									id: "colorpicker",
+									css: "dhx_layout_colorpicker_cell",
+								},
+								{
+									height: "content",
+									id: "messageDataview",
+									css: "dhx_layout_cell--border-none",
+								}
+							]
+						}
+					]
+				}
+			]
+		});
+		tabbar.getCell("dashboard").attach(dashboard);
+
+		// DHTMLX Grid - https://docs.dhtmlx.com/suite/grid/
+		const grid = new dhx.Grid(null, {
+			css: "grid",
+			...gridConfig,
+		});
+		dashboard.getCell("grid").attach(grid);
+
+		// DHXTMLX Pagination - https://docs.dhtmlx.com/suite/pagination/
+		const gridPager = new dhx.Pagination(null, {
+			data: grid.data,
+			pageSize: 20,
+		});
+		dashboard.getCell("gridPager").attach(gridPager);
+
+		// DHTMLX Calendar - https://docs.dhtmlx.com/suite/calendar/
+		const sampleCalendar = new dhx.Calendar(null, {
+			weekStart: "monday",
+			timePicker: true,
+			range: true,
+			value: [new Date, new Date(Date.now() + 200000000)],
+		});
+		dashboard.getCell("sampleCalendar").attach(sampleCalendar);
+
+		// DHTMLX Timepicker - https://docs.dhtmlx.com/suite/timepicker/
+		const timepicker = new dhx.Timepicker(null, {
+			controls: true,
+			value: new Date,
+		});
+		dashboard.getCell("timepicker").attach(timepicker);
+
+		// DHTMLX Calendar - https://docs.dhtmlx.com/suite/calendar/
+		const yearsCalendar = new dhx.Calendar(null, {
+			timePicker: true,
+			mode: "year",
+			value: new Date,
+		});
+		dashboard.getCell("yearsCalendar").attach(yearsCalendar);
+
+		// DHTMLX Form - https://docs.dhtmlx.com/suite/form/
+		const form = new dhx.Form(null, {
+			padding: 40,
+			width: "auto",
+			rows: [
+				{
+					cols: [
+						{
+							width: "48%",
+							name: "name",
+							type: "input",
+							label: "Name",
+							placeholder: "Type text",
+							required: true,
+						},
+						{
+							type: "spacer",
+						},
+						{
+							width: "48%",
+							name: "surname",
+							type: "input",
+							label: "Surname",
+							placeholder: "Type text",
+							required: true,
+						}
+					]
+				},
+				{
+					name: "country",
+					type: "combo",
+					label: "Country",
+					placeholder: "Click to select",
+					multiselection: true,
+					value: ["austria", "estonia"],
+					data: country,
+				},
+				{
+					name: "birth",
+					type: "datepicker",
+					label: "Date of Birth",
+					placeholder: "Type text",
+					value: new Date,
+				},
+				{
+					name: "career",
+					type: "input",
+					label: "Career objective",
+					placeholder: "Type text",
+					helpMessage: " Help information",
+				},
+				{
+					name: "motivation",
+					type: "textarea",
+					label: "Motivation",
+					placeholder: "Type text here",
+				},
+				{
+					name: "language",
+					type: "radioGroup",
+					label: "Language level",
+					value: "1",
+					options: {
+						cols: [
+							{
+								type: "radioButton",
+								text: "Elementary",
+								value: "1",
+							},
+							{
+								type: "radioButton",
+								text: "Intermediate",
+								value: "2"
+							},
+							{
+								type: "radioButton",
+								text: "Advanced",
+								value: "2"
+							},
+						]
+					},
+				},
+				{
+					name: "backgroundColor",
+					type: "colorpicker",
+					label: "Background color",
+					placeholder: "Click to change",
+				},
+				{
+					name: "offices",
+					type: "combo",
+					label: "Offices",
+					placeholder: "You can select several offices",
+					multiselection: true,
+					data: country,
+				},
+				{
+					name: "attachDocument",
+					type: "simpleVault",
+					label: "Attach document",
+				},
+				{
+					name: "howToContact",
+					type: "checkboxGroup",
+					label: "How to contact you",
+					options: {
+						cols: [
+							{
+								id: "1",
+								type: "checkbox",
+								text: "Phone",
+								checked: true,
+							},
+							{
+								id: "2",
+								type: "checkbox",
+								text: "Mail",
+							},
+							{
+								id: "3",
+								type: "checkbox",
+								text: "Messenger",
+							},
+							{
+								id: "4",
+								type: "checkbox",
+								text: "Your option",
+							},
+						]
+					}
+				},
+			]
+		});
+		dashboard.getCell("form").attach(form);
+
+		// DHTMLX Slider - https://docs.dhtmlx.com/suite/slider/
+		const slider1 = new dhx.Slider(null, {
+			min: 0,
+			max: 40,
+			step: 1,
+		});
+
+		// Slider 2 initialization
+		const slider2 = new dhx.Slider(null, {
+			min: 0,
+			max: 40,
+			range: true,
+			value: [10, 20],
+			step: 1,
+		});
+
+		// Slider 3 initialization
+		const slider3 = new dhx.Slider(null, {
+			min: 0,
+			max: 40,
+			step: 1,
+			range: true,
+			value: [0, 20],
+			tick: 1,
+			majorTick: 5,
+			tickTemplate: v => v,
+		});
+
+		// Slider 4 initialization
+		const slider4 = new dhx.Slider(null, {
+			min: 0,
+			max: 40,
+			step: 10,
+			range: true,
+			value: [0, 20],
+		});
+
+		// Slider 5 initialization
+		const slider5 = new dhx.Slider(null, {
+			mode: "vertical",
+			range: true,
+			min: 0,
+			max: 40,
+			step: 2,
+			tick: 1,
+			majorTick: 5,
+			value: [0, 20],
+			tickTemplate: v => v,
+		});
+
+		// DHTMLX Layout - https://docs.dhtmlx.com/suite/layout/
+		const sliderLayout = new dhx.Layout(null, {
+			type: "none",
+			height: "fit-content",
+			cols: [
+				{
+					height: "content",
+					align: "between",
+					rows: [
+						{
+							padding: 10,
+							height: "content",
+							id: "slider1",
+						},
+						{
+							padding: 10,
+							height: "content",
+							id: "slider2",
+						},
+						{
+							padding: 10,
+							height: "content",
+							id: "slider3",
+						},
+						{
+							padding: 10,
+							height: "content",
+							id: "slider4",
+						}
+					]
+				},
+				{
+					padding: "10px 20px",
+					height: "260px",
+					width: "20%",
+					id: "slider5",
+				}
+			]
+		});
+		dashboard.getCell("sliderLayout").attach(sliderLayout);
+
+		// Attached all sliders in sliderLayout, which is main layout's cell 
+		sliderLayout.getCell("slider1").attach(slider1);
+		sliderLayout.getCell("slider2").attach(slider2);
+		sliderLayout.getCell("slider3").attach(slider3);
+		sliderLayout.getCell("slider4").attach(slider4);
+		sliderLayout.getCell("slider5").attach(slider5);
+
+		// DHTMLX Tree - https://docs.dhtmlx.com/suite/tree/
+		const tree = new dhx.Tree(null, {
+			checkbox: true,
+			editable: true,
+			keyNavigation: true,
+			dragMode: "both",
+		});
+		tree.data.parse(treeData);
+		dashboard.getCell("tree").attach(tree);
+
+		// DHTMLX Ribbon - https://docs.dhtmlx.com/suite/ribbon/
+		const ribbon = new dhx.Ribbon(null, {
+			css: "dhx_widget--bordered",
+			data: ribbonData
+		});
+		dashboard.getCell("ribbon").attach(ribbon);
+
+		// Tickets dataview initialization
+		const ticketsDataview = new dhx.DataView(null, {
+			template: templateTicketsDataview,
+			data: ticketsDataviewData,
+			itemsInRow: 2,
+			css: "dhx_dataview_template_a_box"
+		});
+
+		dashboard.getCell("ticketsDataview").attach(ticketsDataview);
+
+		// Form with buttons initialization
+		const buttonsForm = new dhx.Form(null,
+			{
+				height: "content",
+				padding: 40,
+				align: "between",
+				rows: [
+				{
+						align: "between",
+						cols: [
+							{
+								padding: 5,
+								width: 140,
+								type: "button",
+								text: "Primary",
+								color: "primary",
+								icon: "dxi dxi-plus",
+								full: true,
+								size: "small",
+							},
+							{
+								padding: 5,
+								width: 140,
+								type: "button",
+								text: "Primary",
+								color: "primary",
+								full: true,
+								view: "link",
+								size: "small",
+							},
+							{
+								padding: 5,
+								width: 140,
+								type: "button",
+								text: "Primary",
+								color: "primary",
+								full: true,
+								disabled: true,
+								size: "small",
+							},
+						],
+					},
+					{
+						align: "between",
+						cols: [
+							{
+								padding: 5,
+								width: 140,
+								type: "button",
+								text: "Secondary",
+								color: "secondary",
+								icon: "dxi dxi-plus",
+								full: true,
+								size: "small",
+							},
+							{
+								padding: 5,
+								width: 140,
+								type: "button",
+								text: "Secondary",
+								color: "secondary",
+								full: true,
+								size: "small",
+								view: "link",
+							},
+							{
+								padding: 5,
+								width: 140,
+								type: "button",
+								text: "Secondary",
+								color: "secondary",
+								full: true,
+								size: "small",
+								disabled: true,
+							},
+						],
+					},
+					{
+						align: "between",
+						cols: [
+							{
+								padding: 5,
+								width: 140,
+								type: "button",
+								text: "Danger",
+								color: "danger",
+								icon: "dxi dxi-plus",
+								full: true,
+								size: "small",
+							},
+							{
+								padding: 5,
+								width: 140,
+								type: "button",
+								text: "Danger",
+								color: "danger",
+								full: true,
+								size: "small",
+								view: "link",
+							},
+							{
+								padding: 5,
+								width: 140,
+								type: "button",
+								text: "Danger",
+								color: "danger",
+								full: true,
+								size: "small",
+								disabled: true,
+							},
+						],
+					},
+					{
+						align: "between",
+						cols: [
+							{
+								padding: 5,
+								width: 140,
+								type: "button",
+								text: "Success",
+								color: "success",
+								icon: "dxi dxi-plus",
+								full: true,
+								size: "small",
+							},
+							{
+								padding: 5,
+								width: 140,
+								type: "button",
+								text: "Success",
+								color: "success",
+								full: true,
+								size: "small",
+								view: "link",
+							},
+							{
+								padding: 5,
+								width: 140,
+								type: "button",
+								text: "Success",
+								color: "success",
+								full: true,
+								size: "small",
+								disabled: true,
+							},
+						],
+					},
+				],
+			}
+		);
+		dashboard.getCell("buttonsForm").attach(buttonsForm);
+
+		// Colorpicker initialization
+		const colorpicker = new dhx.Colorpicker(null, {
+			mode: "picker",
+		});
+		colorpicker.setValue("#0288d1");
+		dashboard.getCell("colorpicker").attach(colorpicker);
+
+		// Message dataview initialization
+		const messageDataview = new dhx.DataView(null, {
+			template: messageTemplate,
+			data: messageDataviewData,
+			itemsInRow: 2,
+			css: "dhx_dataview_template_b_box"
+		});
+		dashboard.getCell("messageDataview").attach(messageDataview);
+
+		// Theme configurator
+
+		function setThemeStyles(theme) {
+			const style = document.getElementById("themes");
+			const { sidebar, toolbar, main } = theme;
+
+			style.textContent = "";
+
+			if (theme.color) {
+				const { h, s, l } = theme.color;
+
+				style.textContent += `
+					:root, [data-dhx-theme] {
+						--dhx-h-primary: ${h};
+						--dhx-s-primary: ${s}%;
+						--dhx-l-primary: ${l}%;
+					}
+				`;
+			}
+			if (sidebar?.custom) {
+				const { h, s, l } = hexToHSLChema(sidebar.color);
+
+				style.textContent += `
+					[data-cell-id='sidebar'], .dhx_sidebar--popup-menu {
+						--dhx-h-background: ${h};
+						--dhx-s-background: ${s}%;
+						--dhx-l-background: ${l}%;
+
+						--dhx-background-primary: hsl(var(--dhx-h-background), var(--dhx-s-background), var(--dhx-l-background));
+						--dhx-background-secondary: hsl(var(--dhx-h-background), var(--dhx-s-background), calc(var(--dhx-l-background) + 8%));
+						--dhx-background-additional: hsl(var(--dhx-h-background), var(--dhx-s-background), calc(var(--dhx-l-background) + 12%));
+					}
+				`;
+			}
+			if (toolbar?.custom) {
+				const { h, s, l } = hexToHSLChema(toolbar.color);
+
+				style.textContent += `
+					[data-cell-id='toolbar'], .dhx_toolbar--popup-menu  {
+						--dhx-h-background: ${h};
+						--dhx-s-background: ${s}%;
+						--dhx-l-background: ${l}%;
+
+						--dhx-background-primary: hsl(var(--dhx-h-background), var(--dhx-s-background), var(--dhx-l-background));
+						--dhx-background-secondary: hsl(var(--dhx-h-background), var(--dhx-s-background), calc(var(--dhx-l-background) + 8%));
+						--dhx-background-additional: hsl(var(--dhx-h-background), var(--dhx-s-background), calc(var(--dhx-l-background) + 12%));
+
+						--dhx-s-toolbar-background: var(--dhx-background-primary);
+					}
+				`;
+			}
+
+			dhx.setTheme(theme.root);
+
+			if (sidebar?.theme) dhx.setTheme(sidebar.theme, "sidebar");
+			if (toolbar?.theme) dhx.setTheme(toolbar.theme, "toolbar");
+			if (main?.theme) dhx.setTheme(main.theme, "main");
+		}
+
+		function createPresets(data) {
+			const presetsEl = document.getElementById("presets");
+			let html = "";
+
+			for (let index = 0; index < data.length; index++) {
+				const preset = data[index];
+
+				if (index % 4 === 0) {
+					html += `
+						${index === 0 ? "" : "</div>"}
+						<div class="dhx_theme-inline-wrapper dhx_theme-inline-wrapper--center dhx_theme-presets">
+					`;
+				}
+				html += `
+					<button class="dhx_theme-preset-box ${preset.active? "dhx_theme-preset-box--active" : ""}"
+						data-theme-index="${index}"
+						>
+						<div class="dhx_theme-preset-box__container">
+							<div class="dhx_theme-preset-box__toolbar" style="background:${preset.toolbar.color}"></div>
+							<div class="dhx_theme-preset-box__wrapper">
+								<div class="dhx_theme-preset-box__sidebar" style="background:${preset.sidebar.color}"></div>
+								<div class="dhx_theme-preset-box__main" style="background:${preset.main.color}"></div>
+							</div>
+						</div>
+					</button>
+				`;
+				if (data.length - 1 === index) html += "</div>";
+			}
+
+			presetsEl.innerHTML = html;
+		}
+
+		const downloadEl = document.getElementById("download");
+		const presetsEl = document.getElementById("presets");
+		const accentsEl = document.getElementById("accents");
+		const copy = {};
+
+		let theme = {
+			color: null,
+			sidebar: null,
+			toolbar: null,
+			main: null,
+			root: "light",
+		};
+
+		createPresets(presetsData);
+		setThemeStyles(theme);
+
+		presetsEl.addEventListener("click", event => {
+			const el = event.target.closest("[data-theme-index]");
+			if (!el) return;
+
+			const { sidebar, toolbar, main, root } = presetsData[+el.dataset.themeIndex];
+			theme = { ...theme, sidebar, toolbar, main, root };
+			setThemeStyles(theme);
+
+			presetsEl.querySelector(".dhx_theme-preset-box--active")?.classList.remove("dhx_theme-preset-box--active");
+			el.classList.add("dhx_theme-preset-box--active");
+		});
+
+		accentsEl.addEventListener("click", event => {
+			const el = event.target.closest("[data-theme-color]");
+			if (!el) return;
+
+			const hex = el.dataset.themeColor;
+			const { h, s, l } = theme.color = hexToHSLChema(hex);
+
+			setThemeStyles(theme);
+
+			accentsEl.querySelector(".dhx_theme-box--active")?.classList.remove("dhx_theme-box--active");
+			el.classList.add("dhx_theme-box--active");
+		});
+
+		const dhxWindow = new dhx.Window({
+			title: "Copy and paste into your project",
+			modal: true,
+			footer: true,
+			closable: true,
+			height: document.documentElement.clientHeight * 0.8,
+			width: document.documentElement.clientWidth * 0.8,
+		});
+
+		dhxWindow.footer.data.add([
+			{
+				type: "spacer",
+			},
+			{
+				type: "button",
+				view: "link",
+				size: "medium",
+				color: "primary",
+				value: "close",
+				id: "close"
+			},
+			{
+				type: "button",
+				view: "flat",
+				size: "medium",
+				color: "primary",
+				value: "copy",
+				id: "copy",
+			}
+		]);
+
+		dhxWindow.footer.events.on("click", id => {
+			if (id === "copy") {
+				navigator.clipboard.writeText(`
+					${copy.styles ? `<style>${copy.styles}<\/style>` : ""}
+					${copy.script ? `<script>${copy.script}<\/script>` : ""}
+				`);
+			}
+			dhxWindow.hide();
+		});
+
+		downloadEl.addEventListener("click", () => {
+			const stylesWord = copy.style = document.getElementById("themes").textContent;
+			let scriptWord =  `dhx.setTheme(${theme.root});`
+
+			if (theme.sidebar?.theme) scriptWord += `\ndhx.setTheme(${theme.sidebar.theme}, "sidebar")`;
+			if (theme.toolbar?.theme) scriptWord += `\ndhx.setTheme(${theme.toolbar.theme}, "toolbar")`;
+			if (theme.main?.theme) scriptWord += `\ndhx.setTheme(${theme.main.theme}, "main")`;
+
+			copy.script = scriptWord;
+
+			if (copy?.style || copy?.script) {
+				const styles = copy?.style
+					? `
+					<code class="dhx_theme-code">
+						&lt;style&gt;
+							${stylesWord}
+						&lt;/style&gt;
+					</code>`
+					: "";
+				const code = copy?.script
+					? `
+					<code class="dhx_theme-code">
+						&lt;script&gt;
+							${scriptWord}
+						&lt;/script&gt;
+					</code>`
+					: "";
+
+				dhxWindow.attachHTML(`
+					<section>
+						${styles}
+						${code}
+					</section>
+				`);
+				dhxWindow.show();
+			}
+		});
+
+	</script>
+</body>
+</html>

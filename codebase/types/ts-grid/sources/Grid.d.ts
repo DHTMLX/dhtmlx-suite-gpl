@@ -4,8 +4,7 @@ import { Id, ITouchParam } from "../../ts-common/types";
 import { View } from "../../ts-common/view";
 import { DataEvents, DragEvents, IDataCollection, IDataEventsHandlersMap, IDataItem, IDragEventsHandlersMap } from "../../ts-data";
 import { Exporter } from "./Exporter";
-import { Dirs, EditorType, GridEvents, IAdjustBy, ICellRect, ICol, IContentList, ICoords, IEventHandlersMap, IGrid, IGridConfig, IRow, IScrollState, ISelection, ISpan, GridSystemEvents, ISystemEventHandlersMap, IColumnsWidth, ISortingState, SortFunction } from "./types";
-import { Combobox } from "../../ts-combobox";
+import { Dirs, EditorType, GridEvents, IAdjustBy, ICellRect, ICol, IContentList, ICoords, IEventHandlersMap, IGrid, IGridConfig, IRow, IScrollState, ISelection, ISpan, GridSystemEvents, ISystemEventHandlersMap, IColumnsWidth, ISortingState, SortFunction, IHeaderFilter } from "./types";
 export declare class Grid extends View implements IGrid {
     data: IDataCollection;
     config: IGridConfig;
@@ -48,9 +47,10 @@ export declare class Grid extends View implements IGrid {
     editCell(rowId: Id, colId: Id, editorType?: EditorType): void;
     editEnd(withoutSave?: boolean): void;
     getSortingState(): ISortingState;
-    getHeaderFilter(colId: Id): HTMLElement | Combobox;
+    getHeaderFilter(colId: Id): IHeaderFilter;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     edit(rowId: Id, colId: Id, editorType?: EditorType): void;
+    paint(): void;
     protected _createView(): any;
     protected _parseColumns(configChanged?: boolean): void;
     protected _parseData(): void;
@@ -65,8 +65,8 @@ export declare class Grid extends View implements IGrid {
     protected _prepareData(data: IDataItem[] | IDataCollection): any[] | IDataItem[];
     protected _adjustColumnsWidth(rows: IRow[], cols: ICol[], adjust?: IAdjustBy): IColumnsWidth;
     protected _prepareColumnData(data: any, type: "header" | "footer"): IRow[];
-    private _dragStart;
-    private _getColumn;
+    protected _dragStart(event: any): void;
+    protected _getRowGhost(ids: Id[]): HTMLDivElement;
     private _init;
     private _attachDataCollection;
     private _setMarks;

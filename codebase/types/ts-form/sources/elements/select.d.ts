@@ -14,9 +14,9 @@ export declare class Select extends Label implements ISelect {
     show(): void;
     hide(init?: boolean): void;
     isVisible(): boolean;
-    disable(): void;
-    enable(): void;
-    isDisabled(): boolean;
+    disable(value?: string | number): void;
+    enable(value?: string | number): void;
+    isDisabled(value?: string | number): boolean;
     validate(silent?: boolean): boolean;
     clearValidate(): void;
     clear(): void;

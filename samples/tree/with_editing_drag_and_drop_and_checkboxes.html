@@ -23,6 +23,11 @@
 		href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/4.4.95/css/materialdesignicons.css?v=6.4.2"
 		media="all" rel="stylesheet" type="text/css">
 	<script src="./common/data.js"></script>
+	<style>
+		.dhx_tree-custom {
+			padding: 40px;
+		}
+	</style>
 </head>
 
 <body>
@@ -43,15 +48,15 @@
 		</div>
 	</header>
 	<section class="dhx_sample-container">
-		<div style="padding: 40px; background: #fff; height: 600px; width: 400px" id="tree"></div>
+		<div style="height: 600px; width: 400px" id="tree"></div>
 	</section>
 	<script>
 		const tree = new dhx.Tree("tree", {
+			css: "dhx_tree-custom",
 			editable: true,
 			dragMode: "both",
 			checkbox: true
 		});
-
 		tree.data.parse(dataset);
 	</script>
 </body>

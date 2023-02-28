@@ -21,7 +21,7 @@ export interface IComboboxConfig {
     helpMessage?: string;
     hiddenLabel?: boolean;
     css?: string;
-    value?: string | string[];
+    value?: Id | Id[];
     newOptions?: boolean;
     htmlEnable?: boolean;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
@@ -36,6 +36,7 @@ export interface IComboboxConfig {
     readonly?: boolean;
 }
 export declare enum ComboboxEvents {
+    beforeChange = "beforeChange",
     change = "change",
     focus = "focus",
     blur = "blur",
@@ -52,6 +53,7 @@ export declare enum ComboboxEvents {
 }
 export interface IComboboxEventHandlersMap {
     [key: string]: (...args: any[]) => any;
+    [ComboboxEvents.beforeChange]: (ids: Id | Id[]) => boolean | void;
     [ComboboxEvents.change]: (ids: Id | Id[]) => void;
     [ComboboxEvents.focus]: () => void;
     [ComboboxEvents.blur]: () => void;
@@ -73,9 +75,9 @@ export interface ICombobox {
     clear(): void;
     focus(): void;
     blur(): void;
-    getValue(asArray?: boolean): Id[] | string;
+    getValue(asArray?: boolean): Id[] | Id;
     setValue(ids: Id[] | Id): void;
-    addOption(value: string): void;
+    addOption(value: string, join?: boolean): void;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     setState(state: State): void;
 }

@@ -43,7 +43,7 @@ export interface ITreeConfig extends IDragConfig {
     template?: (item: ITreeItem, isFolder: boolean) => string;
     eventHandlers?: {
         [eventName: string]: {
-            [className: string]: (events: Event, item: ITree) => void;
+            [className: string]: (event: Event, item: ITree) => void | boolean;
         };
     };
     $editable?: boolean;
@@ -115,4 +115,13 @@ export interface ITreeEventHandlersMap extends IDragEventsHandlersMap {
     [TreeEvents.beforeCheck]: (index: number, id: Id) => boolean | void;
     [TreeEvents.afterCheck]: (index: number, id: Id, value: boolean) => void;
     [TreeEvents.itemContextMenu]: (id: Id, e: Event) => any;
+}
+export declare enum Direction {
+    up = "up",
+    down = "down"
+}
+export interface IScrollConfig {
+    elem: Element | HTMLElement | null;
+    step: number;
+    delay: number;
 }

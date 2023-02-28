@@ -41,12 +41,12 @@ export declare class Form extends View implements IForm {
     destructor(): void;
     getRootView(): any;
     protected _addLayoutItem(item: IItemConfig): ICellConfig;
+    protected _initItemHandlers(item: IItemConfig, name: string): void;
     protected _changeProps(name: any, props: any): void;
     private _addLayoutItems;
     private _checkLayoutConfig;
     protected _createLayoutConfig(config: IFormConfig, layoutConfig: ILayoutConfig): void;
     protected _initUI(container: HTMLElement | string): void;
-    private _initHandlers;
     private _clear;
     private _clearValidate;
     private _formContainerShow;

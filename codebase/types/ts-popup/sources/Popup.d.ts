@@ -22,6 +22,7 @@ export declare class Popup extends View implements IPopup {
     getContainer(): HTMLElement;
     toVDOM(): any;
     destructor(): void;
+    private _setTheme;
     private _setPopupSize;
     private _detectOuterClick;
     private _hide;

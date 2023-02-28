@@ -1,7 +1,7 @@
 import "../../styles/suite.scss";
 export { cssManager } from "../../ts-common/CssManager";
 export { EventSystem } from "../../ts-common/events";
-export { awaitRedraw, resizeHandler } from "../../ts-common/dom";
+export { awaitRedraw, resizeHandler, setTheme } from "../../ts-common/dom";
 export { Uploader } from "../../ts-vault";
 export { DataCollection, TreeCollection, DataProxy, dataDrivers, ajax } from "../../ts-data";
 export { Layout } from "../../ts-layout";

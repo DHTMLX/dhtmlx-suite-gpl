@@ -9,6 +9,7 @@ export declare class Tabbar extends Layout implements ITabbar {
     private _beforeScrollSize;
     private _afterScrollSize;
     private _keyManager;
+    private _tabFontSize;
     constructor(container: any, config: ITabbarConfig);
     toVDOM(): any;
     destructor(): void;

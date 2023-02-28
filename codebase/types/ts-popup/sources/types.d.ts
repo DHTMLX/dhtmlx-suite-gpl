@@ -16,6 +16,7 @@ export interface IPopup {
 export interface IPopupConfig {
     css?: string;
     events?: IEventSystem<any>;
+    theme?: HTMLElement | string;
 }
 export declare enum PopupEvents {
     beforeHide = "beforeHide",
@@ -29,6 +30,7 @@ export interface IShowConfig {
     auto?: boolean;
     mode?: Position;
     indent?: number | string;
+    theme?: string | HTMLElement;
 }
 export interface IPopupEventHandlersMap {
     [key: string]: (...args: any[]) => any;

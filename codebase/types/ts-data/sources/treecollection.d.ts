@@ -48,6 +48,7 @@ export declare class TreeCollection<T extends IDataItem = IDataItem> extends Dat
     protected _removeCore(id: any): void;
     protected _addToOrder(_order: any, obj: any, index: number): void;
     protected _parse_data(data: any, parent?: string | number): void;
+    protected _applySmart(): void;
     private _fastDeleteChilds;
     private _recursiveFilter;
     private _serialize;

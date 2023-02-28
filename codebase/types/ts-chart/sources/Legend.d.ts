@@ -11,4 +11,5 @@ export declare class Legend {
     scaleReady(sizes: IFitPosition): void;
     paint(width: number, height: number): SvgElement;
     protected _getData(): ILegendDrawData[];
+    private setCriticals;
 }

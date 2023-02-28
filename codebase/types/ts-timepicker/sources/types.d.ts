@@ -25,6 +25,7 @@ export interface ITimeObject {
     AM?: boolean;
 }
 export declare enum TimepickerEvents {
+    beforeChange = "beforeChange",
     change = "change",
     beforeApply = "beforeApply",
     afterApply = "afterApply",
@@ -39,6 +40,7 @@ export declare enum TimepickerEvents {
 }
 export interface ITimepickerHandlersMap {
     [key: string]: (...args: any[]) => any;
+    [TimepickerEvents.beforeChange]: (value: string | ITimeObject) => boolean | void;
     [TimepickerEvents.change]: (value: string | ITimeObject) => void;
     [TimepickerEvents.beforeApply]: (value: string | ITimeObject) => boolean | void;
     [TimepickerEvents.afterApply]: (value: string | ITimeObject) => void;

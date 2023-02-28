@@ -16,7 +16,9 @@ export interface IDataViewConfig extends IListConfig {
     multiselection?: boolean | MultiselectionMode;
     editable?: boolean;
     eventHandlers?: {
-        [key: string]: any;
+        [eventName: string]: {
+            [className: string]: (event: Event, id: Id) => void;
+        };
     };
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     editing?: boolean;

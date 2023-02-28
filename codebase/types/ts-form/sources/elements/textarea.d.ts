@@ -9,7 +9,6 @@ export declare class Textarea extends Input implements ITextArea {
     events: IEventSystem<ItemEvent, ITextAreaEventHandlersMap>;
     protected _propsItem: string[];
     protected _props: string[];
-    setValue(value: string): void;
     getValue(): string;
     focus(): void;
     blur(): void;

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<!-- meta block -->
+		<title>TreeMap chart - DHTMLX Chart</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		
+		<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+		<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+		<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+		<!-- end meta block -->
+		<script type="text/javascript" src="../../codebase/suite.js"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css">
+		
+		<link rel="stylesheet" href="../common/index.css">
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						TreeMap chart
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div id="chart" style="width: 100%; padding: 20px"></div>
+		</section>
+		<script>
+			const treeMapData = [
+				{ id: "2021", name: "2021" },
+				{ id: "100", value: 50, name: "Outsourcing team", parent: "2021" },
+				{ id: "101", value: 100, name: "Product team", parent: "2021" },
+				{ id: "102", value: 10, name: "QA team", parent: "2021" },
+				
+				{ id: "2020", name: "2020" },
+				{ id: "200", value: 32, name: "Outsourcing team", parent: "2020" },
+				{ id: "201", value: 4, name: "QA team", parent: "2020" },
+				{ id: "202", value: 35, name: "Product team", parent: "2020" },
+				
+				{ id: "2019", name: "2019" },
+				{ id: "300", value: 22, name: "Outsourcing team", parent: "2019" },
+				{ id: "301", value: 14, name: "QA team", parent: "2019" },
+				{ id: "302", value: 21, name: "Product team", parent: "2019" },
+				
+				{ id: "2018", name: "2018" },
+				{ id: "400", value: 14, name: "Outsourcing team", parent: "2018" },
+				
+				{ id: "2017", name: "2017" },
+				{ id: "500", value: 9, name: "Outsourcing team", parent: "2017" },
+			];
+			const config = {
+				type: "treeMap",
+				css: "dhx_widget--bordered",
+				series: [
+					{
+						value: "value",
+						text: "name",
+						stroke: "#eeeeee",
+						strokeWidth: 1,
+						tooltipTemplate: item => `${item[1]}: ${item[0]} employees`,
+						direction: "desc",
+					}
+				],
+				legend: {
+					type: "groupName",
+					treeSeries: [
+						{ id: "2021" },
+						{ id: "2020" },
+						{ id: "2019" },
+						{ id: "2018" },
+						{ id: "2017" },
+					],
+					halign: "right",
+					valign: "bottom",
+				}
+			};
+
+			const chart = new dhx.Chart("chart", config);
+			chart.data.parse(treeMapData);
+		</script>
+	</body>
+</html>

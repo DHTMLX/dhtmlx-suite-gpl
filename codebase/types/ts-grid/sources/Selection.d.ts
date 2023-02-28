@@ -22,8 +22,12 @@ export declare class Selection implements ISelection {
     protected _removeCell(row: any, col: any): void;
     protected _removeCells(): void;
     protected _init(): void;
-    protected _toHTML(row: IRow, column: ICol, last?: boolean): any;
+    protected _toHTML(row: IRow, column: ICol, last?: boolean, skipRow?: boolean): any;
     protected _isUnselected(): boolean;
     protected _findIndex(cell?: ICell): number;
     protected _setBrowserFocus(): void;
+    protected _getReverseScrollState(scrollState: any): {
+        x: number;
+        y: number;
+    };
 }

@@ -6,7 +6,7 @@
 	<title>Menu. Initialization with config.data - DHTMLX Menu</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-
+	
 	<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
 	<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
 	<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
@@ -16,13 +16,13 @@
 	<!-- end meta block -->
 	<script type="text/javascript" src="../../codebase/suite.js"></script>
 	<link rel="stylesheet" href="../../codebase/suite.css">
-
+	
 	<link rel="stylesheet" href="../common/index.css">
 	<!-- custom sample head -->
 	<script src="./common/data.js"></script>
 	<style>
 		.dhx_sample__menu {
-			width: 800px;
+			max-width: 800px;
 			margin: 40px auto;
 		}
 	</style>
@@ -44,14 +44,14 @@
 				</div>
 			</h1>
 		</div>
-	</header>
+</header>
 	<!-- component container -->
 	<div class="dhx_sample__menu">
 		<div class="dhx_sample-container__widget" id="menu"></div>
 	</div>
 	<script>
 		const menu = new dhx.Menu("menu", {
-			css: "dhx_widget--bordered dhx_widget--bg_white",
+			css: "dhx_widget--bordered",
 			data: dataset
 		});
 	</script>

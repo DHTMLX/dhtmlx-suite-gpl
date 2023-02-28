@@ -30,23 +30,23 @@
 				display: inline-block;
 				box-sizing: border-box;
 			}
-		
+
 			.social-network {
 				display: inline-block;
 				vertical-align: middle;
 				line-height: 0;
 				margin-left: 13px;
 			}
-		
+
 			.social-network__icon {
 				height: 28px;
 				width: 28px;
 			}
-		
+
 			.social-network__icon.line {
 				fill: #0288d1;
 			}
-		
+
 			.social-network__icon.white-line {
 				fill: #fff;
 			}
@@ -73,8 +73,6 @@
 			<div id="form"></div>
 		</section>
 		<script>
-
-
 			const form = new dhx.Form("form", {
 				css: "dhx_widget--bordered",
 				padding: 40,
@@ -97,13 +95,13 @@
 						helpMessage: "Help information",
 						labelWidth: 140,
 						multiselection: true,
-						value: ["1", "4"],
+						value: ["id:1", 4],
 						data: [
-							{ value: "1", id: "1" },
-							{ value: "2", id: "2" },
-							{ value: "3", id: "3" },
-							{ value: "4", id: "4" },
-							{ value: "5", id: "5" },
+							{ value: "value: 1", id: "id:1" },
+							{ value: "value: 2", id: "id:2" },
+							{ value: "value: 3", id: 3 },
+							{ value: "value: 4", id: 4 },
+							{ value: "value: 5", id: 5 },
 						]
 					},
 					{
@@ -228,7 +226,6 @@
 					{
 						name: "checkboxGroup",
 						type: "checkboxGroup",
-						name: "checkboxGroup",
 						required: true,
 						label: "Checkbox Group",
 						labelWidth: 140,

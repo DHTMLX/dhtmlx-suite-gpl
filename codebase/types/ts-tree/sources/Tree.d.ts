@@ -17,6 +17,7 @@ export declare class Tree<T extends object = object> extends View implements ITr
     private _right;
     private _keyManager;
     private _touch;
+    private _scroll;
     private _isDraget;
     constructor(container: HTMLElement | string, config?: ITreeConfig);
     focusItem(id: Id): void;
@@ -44,6 +45,7 @@ export declare class Tree<T extends object = object> extends View implements ITr
     unCheckItem(id: Id): void;
     private _draw;
     private _initEvents;
+    private _autoScroll;
     private _initHandlers;
     private _dblClick;
     private _clearTouchTimer;

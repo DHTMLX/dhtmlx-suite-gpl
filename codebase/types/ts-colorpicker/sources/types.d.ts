@@ -29,6 +29,7 @@ export interface IColorpickerConfig {
     paletteOnly?: boolean;
 }
 export declare enum ColorpickerEvents {
+    beforeChange = "beforeChange",
     change = "change",
     apply = "apply",
     cancelClick = "cancelClick",
@@ -42,6 +43,7 @@ export declare enum ColorpickerEvents {
 }
 export interface IEventHandlersMap {
     [key: string]: (...args: any[]) => any;
+    [ColorpickerEvents.beforeChange]: (color: string) => boolean | void;
     [ColorpickerEvents.change]: (color: string) => void;
     [ColorpickerEvents.apply]: () => void;
     [ColorpickerEvents.cancelClick]: () => void;

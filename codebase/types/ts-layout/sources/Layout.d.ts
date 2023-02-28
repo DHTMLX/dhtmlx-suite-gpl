@@ -5,6 +5,7 @@ export declare class Layout extends Cell implements ILayout {
     protected _all: any;
     protected _cells: ICell[];
     protected _root: ILayout;
+    protected _progress: boolean;
     private _xLayout;
     private _isViewLayout;
     constructor(parent: any, config: ILayoutConfig);
@@ -18,6 +19,8 @@ export declare class Layout extends Cell implements ILayout {
     forEach(callback: LayoutCallback, parent?: string, level?: number): void;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     cell(id: string): any;
+    progressShow(): void;
+    progressHide(): void;
     protected _getCss(content?: boolean): string;
     private _parseConfig;
     protected _createCell(cell: ILayoutConfig): ICell;

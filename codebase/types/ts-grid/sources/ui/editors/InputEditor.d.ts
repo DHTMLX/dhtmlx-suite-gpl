@@ -11,6 +11,6 @@ export declare class InputEditor implements IEditor {
     protected _input: HTMLInputElement;
     constructor(row: IRow, col: ICol, config: IRendererConfig);
     endEdit(withoutSave?: boolean): void;
-    toHTML(): any;
+    toHTML(text?: string): any;
     protected _initHandlers(): void;
 }

@@ -19,6 +19,7 @@ export declare class Toolbar extends Navbar<IToolbarElement> implements IToolbar
     constructor(element?: string | HTMLElement, config?: any);
     getState(id?: Id): IState;
     setState(state: IState): void;
+    setFocus(id: Id): void;
     protected _customHandlers(): {
         input: (e: Event) => void;
         tooltip: (e: MouseEvent) => void;

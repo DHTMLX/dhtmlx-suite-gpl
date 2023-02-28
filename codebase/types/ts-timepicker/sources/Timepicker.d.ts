@@ -13,14 +13,16 @@ export declare class Timepicker extends View implements ITimepicker {
     private _handlers;
     private _outerHandlers;
     constructor(container: HTMLElement | string, config?: ITimepickerConfig);
-    getValue<T extends boolean = false>(asOBject?: T): T extends true ? ITimeObject : string;
+    getValue<T extends boolean = false>(asObject?: T): T extends true ? ITimeObject : string;
     setValue(value: Date | number | string | any[] | ITimeObject): void;
     clear(): void;
     destructor(): void;
     getRootView(): any;
+    private _getValue;
     private _setValue;
     private _initUI;
     private _initHandlers;
     private _initEvents;
     private _draw;
+    private _isTimeObj;
 }

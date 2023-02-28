@@ -55,6 +55,7 @@ export interface IFormConfig extends IBlockConfig {
     hidden?: boolean;
 }
 export declare enum FormEvents {
+    beforeChange = "beforeChange",
     change = "change",
     click = "click",
     focus = "focus",
@@ -77,15 +78,16 @@ export declare enum FormEvents {
 }
 export interface IFormEventHandlersMap {
     [key: string]: (...args: any[]) => any;
+    [FormEvents.beforeChange]: (name: string, value: any) => boolean | void;
     [FormEvents.change]: (name: string, value: any) => void;
     [FormEvents.click]: (name: string, event: Event) => void;
     [FormEvents.focus]: (name: string, value: any, id?: string) => void;
     [FormEvents.blur]: (name: string, value: any, id?: string) => void;
     [FormEvents.keydown]: (event: KeyboardEvent, name: string, id?: string) => void;
-    [FormEvents.beforeHide]: (name: string, value?: any) => boolean | void;
-    [FormEvents.afterHide]: (name: string, value?: any) => void;
-    [FormEvents.beforeShow]: (name: string, value?: any) => boolean | void;
-    [FormEvents.afterShow]: (name: string, value?: any) => void;
+    [FormEvents.beforeHide]: (name: string, value?: any, id?: string) => boolean | void;
+    [FormEvents.afterHide]: (name: string, value?: any, id?: string) => void;
+    [FormEvents.beforeShow]: (name: string, value?: any, id?: string) => boolean | void;
+    [FormEvents.afterShow]: (name: string, value?: any, id?: string) => void;
     [FormEvents.beforeValidate]: (name: string, value: any) => boolean | void;
     [FormEvents.afterValidate]: (name: string, value: any, isValid: boolean) => void;
     [FormEvents.beforeChangeProperties]: (name: string, props: any) => boolean | void;
@@ -323,7 +325,7 @@ export interface IComboProps extends IBaseLayoutItem {
 export interface IComboConfig extends IItem, IComboboxConfig {
     type?: "combo";
     required?: boolean;
-    value?: string | string[];
+    value?: Id | Id[];
     data?: any[];
     validation?: ValidationComboFn;
 }
@@ -338,10 +340,10 @@ export interface ICombo {
     disable(): void;
     enable(): void;
     isDisabled(): boolean;
-    validate(silent?: boolean, validateValue?: string | string[]): boolean;
+    validate(silent?: boolean, validateValue?: Id | Id[]): boolean;
     clearValidate(): void;
-    setValue(value: string | string[]): void;
-    getValue(): string | string[];
+    setValue(value: Id | Id[]): void;
+    getValue(): Id | Id[];
     focus(): void;
     blur(): void;
     clear(): void;
@@ -400,7 +402,8 @@ export interface IRadioButtonConfig {
     checked?: boolean;
     value?: string;
     text?: string;
-    $disabled?: boolean;
+    hidden?: boolean;
+    disabled?: boolean;
     $name?: string;
     $required?: boolean;
     $validationStatus?: ValidationStatus;
@@ -425,12 +428,12 @@ export interface IRadioGroup {
     setValue(value: string): void;
     focus(id?: string): void;
     blur(): void;
-    show(): void;
-    hide(init?: boolean): void;
-    isVisible(): boolean;
-    disable(): void;
-    enable(): void;
-    isDisabled(): boolean;
+    show(id?: string): void;
+    hide(id?: string, init?: boolean): void;
+    isVisible(id?: string): boolean;
+    disable(id?: string): void;
+    enable(id?: string): void;
+    isDisabled(id?: string): boolean;
     clear(): void;
     validate(silent?: boolean): boolean;
     clearValidate(): void;
@@ -505,6 +508,7 @@ export interface ICheckboxGroupItemConfig {
     disabled?: boolean;
     name?: string;
     required?: boolean;
+    hidden?: boolean;
     $validationStatus?: ValidationStatus;
     $group?: boolean;
 }
@@ -531,12 +535,12 @@ export interface ICheckboxGroup {
     setValue(value: ICheckboxGroupValue): void;
     focus(id?: string): void;
     blur(): void;
-    show(): void;
-    hide(init?: boolean): void;
-    isVisible(): boolean;
-    disable(): void;
-    enable(): void;
-    isDisabled(): boolean;
+    show(id?: string): void;
+    hide(id?: string, init?: boolean): void;
+    isVisible(id?: string): boolean;
+    disable(id?: string): void;
+    enable(id?: string): void;
+    isDisabled(id?: string): boolean;
     clear(): void;
     validate(silent?: boolean): boolean;
     clearValidate(): void;
@@ -735,9 +739,9 @@ export interface ISelect {
     show(): void;
     hide(init?: boolean): void;
     isVisible(): boolean;
-    disable(): void;
-    enable(): void;
-    isDisabled(): boolean;
+    disable(value?: string | number): void;
+    enable(value?: string | number): void;
+    isDisabled(value?: string | number): boolean;
     validate(silent?: boolean): boolean;
     clearValidate(): void;
     setValue(value: string | number): void;
@@ -881,11 +885,13 @@ export declare type IItemConfig = IInputConfig | IButtonConfig | IComboConfig | 
 export declare type IBlock = IBlockConfig | IItemConfig[];
 export declare enum ItemEvent {
     click = "click",
+    beforeChange = "beforeChange",
     change = "change",
     input = "input",
     focus = "focus",
     blur = "blur",
     keydown = "keydown",
+    beforeChangeOptions = "beforeChangeOptions",
     changeOptions = "changeOptions",
     beforeShow = "beforeShow",
     afterShow = "afterShow",
@@ -918,6 +924,7 @@ export interface IButtonHandlersMap extends IBaseHandlersMap {
     [ItemEvent.afterChangeProperties]: (properties: IButtonProps) => void;
 }
 export interface IColorPickerEventHandlersMap extends IBaseHandlersMap {
+    [ItemEvent.beforeChange]: (value: string) => boolean | void;
     [ItemEvent.change]: (value: string) => void;
     [ItemEvent.focus]: (value: string) => void;
     [ItemEvent.blur]: (value: string) => void;
@@ -933,20 +940,22 @@ export interface IColorPickerEventHandlersMap extends IBaseHandlersMap {
     [ItemEvent.afterChangeProperties]: (properties: IColorpickerProps) => void;
 }
 export interface IComboEventHandlersMap extends IBaseHandlersMap {
-    [ItemEvent.change]: (value: string | string[]) => void;
-    [ItemEvent.focus]: (value: string | string[]) => void;
-    [ItemEvent.blur]: (value: string | string[]) => void;
-    [ItemEvent.keydown]: (event: KeyboardEvent, id: string | undefined) => void;
-    [ItemEvent.beforeHide]: (value: string | string[], init: boolean) => boolean | void;
-    [ItemEvent.beforeShow]: (value: string | string[]) => boolean | void;
-    [ItemEvent.afterHide]: (value: string | string[], init: boolean) => void;
-    [ItemEvent.afterShow]: (value: string | string[]) => void;
-    [ItemEvent.beforeValidate]: (value: string | string[]) => boolean | void;
-    [ItemEvent.afterValidate]: (value: string | string[], isValidate: boolean) => void;
+    [ItemEvent.beforeChange]: (value: Id | Id[]) => boolean | void;
+    [ItemEvent.change]: (value: Id | Id[]) => void;
+    [ItemEvent.focus]: (value: Id | Id[]) => void;
+    [ItemEvent.blur]: (value: Id | Id[]) => void;
+    [ItemEvent.keydown]: (event: KeyboardEvent, id: Id | undefined) => void;
+    [ItemEvent.beforeHide]: (value: Id | Id[], init: boolean) => boolean | void;
+    [ItemEvent.beforeShow]: (value: Id | Id[]) => boolean | void;
+    [ItemEvent.afterHide]: (value: Id | Id[], init: boolean) => void;
+    [ItemEvent.afterShow]: (value: Id | Id[]) => void;
+    [ItemEvent.beforeValidate]: (value: Id | Id[]) => boolean | void;
+    [ItemEvent.afterValidate]: (value: Id | Id[], isValidate: boolean) => void;
     [ItemEvent.beforeChangeProperties]: (properties: IComboProps) => boolean | void;
     [ItemEvent.afterChangeProperties]: (properties: IComboProps) => void;
 }
 export interface IDatePickerEventHandlersMap extends IBaseHandlersMap {
+    [ItemEvent.beforeChange]: (value: string | Date) => boolean | void;
     [ItemEvent.change]: (value: string | Date) => void;
     [ItemEvent.focus]: (value: string | Date) => void;
     [ItemEvent.blur]: (value: string | Date) => void;
@@ -962,34 +971,37 @@ export interface IDatePickerEventHandlersMap extends IBaseHandlersMap {
     [ItemEvent.afterChangeProperties]: (properties: IDatePickerProps) => void;
 }
 export interface IRadioGroupEventHandlersMap extends IBaseHandlersMap {
+    [ItemEvent.beforeChange]: (value: string) => boolean | void;
     [ItemEvent.change]: (value: string) => void;
     [ItemEvent.focus]: (value: string, id: string) => void;
     [ItemEvent.blur]: (value: string, id: string) => void;
     [ItemEvent.keydown]: (event: KeyboardEvent, id: string) => void;
-    [ItemEvent.beforeHide]: (value: string, init: boolean) => boolean | void;
-    [ItemEvent.beforeShow]: (value: string) => boolean | void;
-    [ItemEvent.afterHide]: (value: string, init: boolean) => void;
-    [ItemEvent.afterShow]: (value: string) => void;
+    [ItemEvent.beforeHide]: (value: string, id?: string, init?: boolean) => boolean | void;
+    [ItemEvent.beforeShow]: (value: string, id?: string) => boolean | void;
+    [ItemEvent.afterHide]: (value: string, id?: string, init?: boolean) => void;
+    [ItemEvent.afterShow]: (value: string, id?: string) => void;
     [ItemEvent.beforeValidate]: (value: string) => boolean | void;
     [ItemEvent.afterValidate]: (value: string, isValidate: boolean) => void;
     [ItemEvent.beforeChangeProperties]: (properties: ICheckboxGroupProps) => boolean | void;
     [ItemEvent.afterChangeProperties]: (properties: ICheckboxGroupProps) => void;
 }
 export interface ICheckboxGroupEventHandlersMap extends IBaseHandlersMap {
+    [ItemEvent.beforeChange]: (value: ICheckboxGroupValue) => boolean | void;
     [ItemEvent.change]: (value: ICheckboxGroupValue) => void;
     [ItemEvent.focus]: (value: ICheckboxGroupValue, id: string) => void;
     [ItemEvent.blur]: (value: ICheckboxGroupValue, id: string) => void;
     [ItemEvent.keydown]: (event: KeyboardEvent, id: string) => void;
-    [ItemEvent.beforeHide]: (value: ICheckboxGroupValue, init: boolean) => boolean | void;
-    [ItemEvent.beforeShow]: (value: ICheckboxGroupValue) => boolean | void;
-    [ItemEvent.afterHide]: (value: ICheckboxGroupValue, init: boolean) => void;
-    [ItemEvent.afterShow]: (value: ICheckboxGroupValue) => void;
+    [ItemEvent.beforeHide]: (value: ICheckboxGroupValue, id?: string, init?: boolean) => boolean | void;
+    [ItemEvent.beforeShow]: (value: ICheckboxGroupValue, id?: string) => boolean | void;
+    [ItemEvent.afterHide]: (value: ICheckboxGroupValue, id?: string, init?: boolean) => void;
+    [ItemEvent.afterShow]: (value: ICheckboxGroupValue, id?: string) => void;
     [ItemEvent.beforeValidate]: (value: ICheckboxGroupValue) => boolean | void;
     [ItemEvent.afterValidate]: (value: ICheckboxGroupValue, isValidate: boolean) => void;
     [ItemEvent.beforeChangeProperties]: (properties: ICheckboxGroupProps) => boolean | void;
     [ItemEvent.afterChangeProperties]: (properties: ICheckboxGroupProps) => void;
 }
 export interface ICheckboxEventHandlersMap extends IBaseHandlersMap {
+    [ItemEvent.beforeChange]: (value: string | boolean) => boolean | void;
     [ItemEvent.change]: (value: string | boolean) => void;
     [ItemEvent.focus]: (value: string | boolean, id?: string) => void;
     [ItemEvent.blur]: (value: string | boolean, id?: string) => void;
@@ -1004,10 +1016,12 @@ export interface ICheckboxEventHandlersMap extends IBaseHandlersMap {
     [ItemEvent.afterChangeProperties]: (properties: ICheckboxProps) => void;
 }
 export interface ISelectEventHandlersMap extends IBaseHandlersMap {
+    [ItemEvent.beforeChange]: (value: string | number) => boolean | void;
     [ItemEvent.change]: (value: string | number) => void;
     [ItemEvent.focus]: (value: string | number) => void;
     [ItemEvent.blur]: (value: string | number) => void;
     [ItemEvent.keydown]: (event: KeyboardEvent) => void;
+    [ItemEvent.beforeChangeOptions]: (options: IOption[]) => boolean | void;
     [ItemEvent.changeOptions]: (options: IOption[]) => void;
     [ItemEvent.beforeHide]: (value: string | number, init: boolean) => boolean | void;
     [ItemEvent.beforeShow]: (value: string | number) => boolean | void;
@@ -1019,6 +1033,7 @@ export interface ISelectEventHandlersMap extends IBaseHandlersMap {
     [ItemEvent.afterChangeProperties]: (properties: ISelectProps) => void;
 }
 export interface ISliderFormEventHandlersMap extends IBaseHandlersMap {
+    [ItemEvent.beforeChange]: (value: number[]) => boolean | void;
     [ItemEvent.change]: (value: number[]) => void;
     [ItemEvent.focus]: (value: number[]) => void;
     [ItemEvent.blur]: (value: number[]) => void;
@@ -1031,6 +1046,7 @@ export interface ISliderFormEventHandlersMap extends IBaseHandlersMap {
     [ItemEvent.afterChangeProperties]: (properties: ISliderProps) => void;
 }
 export interface ITimePickerEventHandlersMap extends IBaseHandlersMap {
+    [ItemEvent.beforeChange]: (value: string | ITimeObject) => boolean | void;
     [ItemEvent.change]: (value: string | ITimeObject) => void;
     [ItemEvent.focus]: (value: string | ITimeObject) => void;
     [ItemEvent.blur]: (value: string | ITimeObject) => void;
@@ -1046,6 +1062,7 @@ export interface ITimePickerEventHandlersMap extends IBaseHandlersMap {
     [ItemEvent.afterChangeProperties]: (properties: ITimePickerProps) => void;
 }
 export interface ISimpleVaultEventHandlersMap extends IBaseHandlersMap {
+    [ItemEvent.beforeChange]: (value: ISimpleVaultValue[]) => boolean | void;
     [ItemEvent.change]: (value: ISimpleVaultValue[]) => void;
     [ItemEvent.beforeHide]: (value: ISimpleVaultValue[], init: boolean) => boolean | void;
     [ItemEvent.beforeShow]: (value: ISimpleVaultValue[]) => boolean | void;
@@ -1065,6 +1082,7 @@ export interface ISimpleVaultEventHandlersMap extends IBaseHandlersMap {
     [ItemEvent.afterChangeProperties]: (properties: ISimpleVaultProps) => void;
 }
 export interface ITextAreaEventHandlersMap extends IBaseHandlersMap {
+    [ItemEvent.beforeChange]: (value: string) => boolean | void;
     [ItemEvent.change]: (value: string) => void;
     [ItemEvent.focus]: (value: string) => void;
     [ItemEvent.blur]: (value: string) => void;
@@ -1080,6 +1098,7 @@ export interface ITextAreaEventHandlersMap extends IBaseHandlersMap {
     [ItemEvent.afterChangeProperties]: (properties: IInputProps | ITextProps | ITextAreaProps) => void;
 }
 export interface IInputEventHandlersMap extends IBaseHandlersMap {
+    [ItemEvent.beforeChange]: (value: string | number) => boolean | void;
     [ItemEvent.change]: (value: string | number) => void;
     [ItemEvent.focus]: (value: string | number) => void;
     [ItemEvent.blur]: (value: string | number) => void;
@@ -1095,18 +1114,18 @@ export interface IInputEventHandlersMap extends IBaseHandlersMap {
     [ItemEvent.afterChangeProperties]: (properties: IInputProps | ITextProps | ITextAreaProps) => void;
 }
 export interface ISpacerHandlersMap extends IBaseHandlersMap {
-    [ItemEvent.beforeHide]: (value: undefined, init: boolean) => boolean | void;
-    [ItemEvent.beforeShow]: (value: undefined) => boolean | void;
-    [ItemEvent.afterHide]: (value: undefined, init: boolean) => void;
-    [ItemEvent.afterShow]: (value: undefined) => void;
+    [ItemEvent.beforeHide]: (init: boolean) => boolean | void;
+    [ItemEvent.beforeShow]: () => boolean | void;
+    [ItemEvent.afterHide]: (init: boolean) => void;
+    [ItemEvent.afterShow]: () => void;
     [ItemEvent.beforeChangeProperties]: (properties: IBaseLayoutItem) => boolean | void;
     [ItemEvent.afterChangeProperties]: (properties: IBaseLayoutItem) => void;
 }
 export interface IContainerHandlersMap extends IBaseHandlersMap {
-    [ItemEvent.beforeHide]: (value: undefined, init: boolean) => boolean | void;
-    [ItemEvent.beforeShow]: (value: undefined) => boolean | void;
-    [ItemEvent.afterHide]: (value: undefined, init: boolean) => void;
-    [ItemEvent.afterShow]: (value: undefined) => void;
+    [ItemEvent.beforeHide]: (init: boolean) => boolean | void;
+    [ItemEvent.beforeShow]: () => boolean | void;
+    [ItemEvent.afterHide]: (init: boolean) => void;
+    [ItemEvent.afterShow]: () => void;
     [ItemEvent.beforeChangeProperties]: (properties: IBaseLayoutItem) => boolean | void;
     [ItemEvent.afterChangeProperties]: (properties: IBaseLayoutItem) => void;
 }
@@ -1116,7 +1135,7 @@ export declare type ValidationInputFn = (input: string | number) => boolean;
 export declare type ValidationDateInput = (input: string | Date) => boolean;
 export declare type ValidationTimepickerFn = (input: string | ITimeObject) => boolean;
 export declare type ValidationSelectFn = (input: string | number | boolean) => boolean;
-export declare type ValidationComboFn = (input: string | string[]) => boolean;
+export declare type ValidationComboFn = (input: Id | Id[], text: string | string[]) => boolean;
 export declare enum ClearMethod {
     value = "value",
     validation = "validation"

@@ -1,4 +1,338 @@
-Version 7.3 (January 19, 2022)
+# Version 8.0.0 (February 24, 2023)
+
+### New functionality
+
+#### Styling
+
+- New "light", "contrast-light", "dark" and "contrast-dark" color themes
+- The ability to change base themes or configure your own color theme
+- New Theme configurator
+
+#### Chart
+
+- New Calendar heatmap chart (Pro version)
+- The ability to export the Chart data to PDF and PNG
+
+#### Colorpicker
+
+- New "beforeChange" event
+
+#### Combobox
+
+- New "beforeChange" event
+
+#### Slider
+
+- New "beforeChange" event
+
+#### Timepicker
+
+- New "beforeChange" event
+
+#### Form
+
+- New "beforeChange" event
+
+#### Form controls
+  - Datepicker "beforeChange" event
+  - Checkbox "beforeChange" event
+  - CheckboxGroup "beforeChange" event
+  - Colorpicker "beforeChange" event
+  - Combo "beforeChange" event
+  - Input "beforeChange" event
+  - Radiogroup "beforeChange" event
+  - Slider "beforeChange" event
+  - Textarea "beforeChange" event
+  - Timepicker "beforeChange" event
+  - Select "beforeChange" and "beforeChangeOptions" events
+
+#### Grid
+
+- Now the user can clear date values in the cell
+- The ability to configure drag-n-drop of multiple rows
+- The ability to control the process of data filtering (new "beforeFilter" event)
+- The ability to configure the "datePicker" editor of a cell by passing most of properties of DHTMLX Calendar to the "columns.editorConfig" property
+- The ability to fix bottom rows and right columns using the corresponding "bottomSplit" and "rightSplit" properties
+
+#### Layout
+
+- The ability to show a progress bar for empty cells by default (new "progressDefault" property of a Layout cell)
+- The ability to hide/show a progress bar via API calls:
+    - new methods of Layout: "progressShow()" and "progressHide()"
+    - new method of a Layout cell: "progressShow()" and "progressHide()"
+- The ability to detach a component or HTML content from a cell (new "detach()" method of a Layout cell)
+
+#### Message
+
+- The ability to close a message box (new "close()" method)
+- The ability to set margin between the node and tooltip (new "margin" property of the tooltip)
+
+#### Toolbar
+
+- DatePicker control. The ability to let the user enter the date via the input (new "editable" property)
+- DatePicker control. New properties: "valueFormat", "disabledDates", "mark", "mode", "thisMonthOnly", "timeFormat", "timePicker", "weekNumbers" and "weekStart"
+- The ability to set focus on an Input (new "setFocus()" method)
+
+#### TreeCollection
+
+- New "beforeItemLoad" and "afterItemLoad" events
+
+#### TreeGrid
+
+- Now the user can clear date values in the cell
+- The ability to control the process of data filtering (new "beforeFilter" event)
+- The ability to configure the datePicker editor of a cell by passing most of properties of DHTMLX Calendar to the "columns.editorConfig" property
+- The ability to fix bottom rows and right columns using the corresponding "bottomSplit" and "rightSplit" properties 
+
+### Updates
+
+#### Combobox
+
+- The "addOption()" method is updated (new "join" parameter)
+
+#### Form
+
+- New "id" parameter is added for Form events: "afterHide", "afterShow", "beforeHide" and "beforeShow"
+
+#### Form. CheckboxGroup control
+
+- Now it is possible to hide/show not only of the whole control but also of its separate checkboxes:
+    - new "id" parameter is added for CheckboxGroup methods: "hide()" and "show()"
+    - new "id" parameter is added for CheckboxGroup events: "afterHide", "afterShow", "beforeHide" and "beforeShow"
+
+- Now it is possible to enable/disable and check visibility not only of the whole control but also of its separate checkboxes:
+    - new "id" parameter is added for CheckboxGroup methods: "enable()", "disable()", "isVisible()" and "isDisabled()"
+
+#### Form. RadioGroup control
+
+- Now it is possible to hide/show not only of the whole control but also of its separate radio buttons:
+    - new "id" parameter is added for RadioGroup methods: "hide()" and "show()"
+    - new "id" parameter is added for RadioGroup events: "afterHide", "afterShow", "beforeHide" and "beforeShow"
+
+- Now it is possible to enable/disable and check visibility not only of the whole control but also of its separate radio buttons:
+    - new "id" parameter is added for RadioGroup methods: "enable()", "disable()", "isVisible()" and "isDisabled()"
+
+#### Form. Select control
+
+- Now it is possible to enable/disable and check visibility not only of the whole control but also of its separate radio buttons:
+    - new "value" parameter is added for Select methods: "enable()", "disable()" and "isDisabled()"
+
+#### Form. Container control
+
+-  The "value" parameter is removed from Container events: "afterhide", "aftershow", "beforehide" and "beforeshow"
+
+#### Form. Spacer control
+
+-  The "value" parameter is removed from Spacer events: "afterhide", "aftershow", "beforehide" and "beforeshow"
+
+#### Grid/TreeGrid
+
+- The "getHeaderFilter()" method is updated. Now the method returns an object with a set of methods: "blur()", "clear()", "focus()", "getFilter()" and "setValue()"
+- Now the sorting icon will also appear after sorting data via the "data.sort()" method
+
+#### Message
+
+- The "position" property of the tooltip is extended by the "left" and "top" values
+
+### Fixes
+
+- Grid. Fix the issue related to the "complex" selection that works incorrectly with the multiselection (shift selection)
+- Grid/TreeGrid. Fix the issue related to the Drag'n'drop and highlighting the dropping area
+- Grid/TreeGrid. Fix the issue related to incorrect display rows that available for dropping 
+- Tree. Fix the issue related to templated item that cannot be edited
+
+# Version 7.3.14 (January 17, 2023)
+
+### Fixes
+
+- Grid. Fix the issue which caused "inputFilter"/"selectFilter" to stop working in some browsers
+- Grid. Fix the issue with automatic adjustment of the column's width for header or footer consisting of several rows
+- Grid. Fix the issue with calculation of the height for frozen columns in Grid with horizontal and vertical scrollbars
+- Grid. Fix work of drag-n-drop for columns
+- Grid. Fix work of the "headerSort:false" property specified for the header consisting of the spanned rows
+- Grid. Now it is possible to select several cells/rows when using "multiselection" together with "selection:"complex""
+- Grid. Now the "eventHandlers" property works for frozen columns
+- TreeGrid. Fix the display of selection for spanned cells
+- TreeGrid. Fix the issue with display of total values in the footer of the exported .csv / .xlsx file
+- TreeGrid. Fix the issue with editing of spanned cells
+- TreeGrid. Now it is possible to collapse/expand the content of the first cell of the first column even if it is included into the colspan
+- Fix issues with AJAX helper
+
+# Version 7.3.13 (December 14, 2022)
+
+### Fixes
+
+- Grid. Fix the issue with checkbox editors of the column which appeared after double-click on one of the checkboxes
+- Grid. Fix work of the beforeUnSelect event
+- Grid. Now you can edit content in the spans of columns/rows via double-click on it
+- Layout. Fix the issue with resizing of cells for which sizes were not specified. The issue appeared after one of the Layout cells was hidden
+
+# Version 7.3.12 (November 17, 2022)
+
+### Fixes
+
+- Calendar. Fix the issue with calling the "clear()" method when two calendars are linked
+- Gird. Fix the issue with the type: "percent" property of a column
+- Grid. Fix issues with selectFilter and comboFilter. Now they don't ignore the "type" and "format" properties of a column
+- Grid. Fix the error thrown when exporting data to CSV format
+- Grid. Now custom tooltip will be also displayed for cells with empty values
+- Grid. Now it is possible to prevent a custom tooltip from being shown via returning false from the "tooltipTemplate" function
+- TreeGrid. Fix the error appeared on initialization of the component when "data" was defined as "TreeGridCollection" instance and "spans" were applied
+- Window. Fix the issue with overlay positioning for a modal window (z-index is changed)
+
+# Version 7.3.11 (November 3, 2022)
+
+### Fixes
+
+- DataCollection. Fix work of the "save()" method which thrown an error in some cases
+- Form. Combo control. Fix the issue which caused data of the control to be reset after applying the "setProperties()" method
+- Grid. Fix the incorrect display of values for options of the combobox
+- Grid. Fix the issue with the selectFilter of a column which appeared after resizing the column
+- Grid. Fix the type of data returned by the "getSpan()" method
+- Grid. Fix work of the "mark" property of a column. Now the property doesn't ignore cell spans
+- Grid. Now it is possible to scroll Grid when a mouse cursor is over frozen columns (rows)
+- Layout. Fix the issue with resizing of a cell
+- Toolbar. Input control. Now autocomplete of an input field is disabled by default. To enable it, use the "autocomplete" property of the control
+
+# Version 7.3.10 (October 18, 2022)
+
+### Fixes
+
+- Grid. Fix the issue with incorrect definition of the data type when setting the type of a cell as a boolean value
+- Grid. Fix the issue with selection of cells when clicking on a cell from the frozen part
+- Layout. Additional container with the "dhx_layout-cell-inner_html" class is added for HTML content
+- Message. Fix position of the overlay for the confirm message
+- Window. Fix the issue with incorrect positioning of the active window
+
+# Version 7.3.9 (September 26, 2022)
+
+### Fixes
+
+- Combobox. Fix work of the "addOption()" method
+- Combobox&Combo control of Form. Fix the issue with the "setValue()" method which caused currently selected options to remain selected after setting new values
+- Form. Combo control. Fix the issue with validation of the control in the "multiselection:true" mode
+- List, DataView, Combobox&Combo control of Form. Fix work with IDs specified as numbers
+
+# Version 7.3.8 (September 19, 2022)
+
+### Fixes
+
+- Calendar. Fix the issue which appeared when the "width" property specified as a number was used together with "weekNumbers: true"
+- Grid. Fix the behavior of selection with frozen spans
+- Grid. Fix the incorrect work of the "dragItem" property when the item's ID was defined as a number
+- Grid. Fix the issue which caused the resized width of the columns to be reset to the initial values after dragging the columns
+- Grid. Fix the issue with the "getCells()" method which returned incorrect results if multiple cells were selected with the Shift key
+- Layout. Fix the issue with the "attachHTML()" method
+- Ribbon. Input control. Fix the behavior of the label which caused focus not to be moved to the input field
+- Toolbar. Input control. Fix the behavior of the label which caused focus not to be moved to the input field
+- TreeGrid. Fix the incorrect calculation of the columns and rows displayed on the screen when calling the "hideColumn()" or "hideRow()" methods correspondingly
+
+# Version 7.3.7 (September 5, 2022)
+
+### Fixes
+
+- Grid. Fix the issue with disappearing of the comboFilter of a visible column after you hide any other column
+- Grid. Fix the issue with display of the comboFilter for frozen columns when scrolling Grid horizontally
+- Grid. Fix the issue with display of tooltips for columns with checkboxes
+- Grid. Fix the issue with the "canRowDrop" event
+- Grid. Fix the issue with work of key navigation for Grid initialized in a collapsed Layout cell
+- Ribbon. Fix the issue with the "label" property of the Input control
+- Suite. Fix the issue with work of the "promiz" webpack together with ES6 modules
+- Tabbar. Fix the issue with work of Tabbar in IE11
+- Toolbar. Fix the issue with the "label" property of the Datepicker control
+- Toolbar. Fix the issue with the "label" property of the Input control
+- TreeCollection. Fix work of the "add" and "smartFilter" properties of the "config" parameter of the "filter()" method
+
+# Version 7.3.6 (August 8, 2022)
+
+### Fixes
+
+- Calendar. Now it is possible to set "saturday" as the starting day of the week
+- Data. Fix the issue which caused extra requests to be sent to the server when making several changes to one item
+- Data. Now it is possible to sort data by the value without use of the as attribute of the rule object if some of the values are null | undefined
+- DataView, List, Tree. Now you can block bubbling of the events specified via the "eventHandlers" property by using "stopPropagation()"
+- Form inside Popup. Fix the issue which caused the Popup to close after clicking on a popup of a Form control
+- Grid. Fix the issue which caused the eventHandlers template to return an empty row object when the row ID was an integer
+- Grid. Fix the issue with calculation of the correct number of columns which should be rendered on the screen (in some cases)
+- Grid. Fix the issue with exporting Grid with the footer to Excel (the value for the footer in the exported file was different from the value in Grid)
+- Grid. Fixed location of zones for a resize handle. Now it is possible to resize each column under the spanned header
+- LazyDataProxy. Fix the issue with dynamic data loading which caused a part of the data to be loaded one more time. Now LazyDataProxy will load only the data which hasn't been loaded into the component before
+- Popup. Fix the issue with display of tooltips for items of a component (for example, Toolbar) which is attached to a popup
+- Tree with scrollbar. Now the content of the Tree will be auto scrolled if you drag an item of a Tree above or below its body
+
+# Version 7.3.5 (July 7, 2022)
+
+### Fixes
+
+- Form. Fix the issue with internal paddings of Form elements when using the "setProperties()" method
+- Form. Now it is possible to set a new value for the disabled Combobox control via API
+- Grid. Fix the incorrect work of formatting of numbers in some cases
+- Grid. Fix the incorrect display of dates when the date format includes milliseconds
+- Grid. Fix the incorrect work of editing of spanned cells
+- Grid. Fix the issue which caused "fixed" columns to hide horizontal scrollbar
+- Grid. Fix the issue which caused sorting icons not to show the correct direction of the future sorting order
+- Grid. Fix the issue which caused the hidden rows to become visible after filtering of data was reset
+- Grid. Fix the issue which prevented spans from being stylized via the "addCellCss()" method
+- Grid. Now it is possible to reset filtering in the read-only mode of comboFilter by choosing an empty option in the dropdown list
+- List. Fix the issue which caused focus to set on an item when clicking on it even so selection functionality was disabled via "selection:false"
+- TreeGrid. Fix the incorrect work of the "getLength()" method which returned null instead of "0" for empty TreeGrid in some cases
+- TreeGrid. Fix the issue which caused the height of the treegrid not to be recalculated after changing the data set
+- Window. Fix the incorrect display of modal window (it was displayed behind the non-modal one)
+- Window. Fix the issue with positioning of the window if the values of the width and height were incorrect
+
+# Version 7.3.4 (June 7, 2022)
+
+### Fixes
+
+- Calendar. Fix the issue with a miscalculation of number of the last week of year
+- Combobox. Fix the issue with setting values if the widget is disabled
+- Form. Fix the issue with validation of the combo component. The ID is validated instead of value
+- Form. Fix the issue with sending the html form (if *dhx.Form* is included into the *form* tag) when pressing the "enter" key, if any input field is in focus 
+- Form. Fix the issue with activating/displaying the initially hidden control (`hidden: true`) of the "container" form using the `show()` method
+- Form. Fix the issue with including a toolbar into the "container" form (errors in console)
+- Grid. Fix the issue with selection when adding spans into the grid component
+- Grid. Fix the issue with reselection a cell after calling the `grid.selection.removeCell()` metod
+- Layout. Fix the issue with the initially collapsed cell which includes the `min-width` and `min-height` settings. Instead of being collapsed, the cell takes the specified min sizes
+- Layout. Fix the issue with dynamic resizing a cell when resizing a viewport (in some cases)
+- Layout. Fix the issue with resizing cells which contain the iframe element
+- Tree. Fix the issue with dynamic loading of the child elements, if the url for autoloading includes "?"
+- Custom scroll. Fix the issue with custom scrolling on MacOS
+
+# Version 7.3.3 (April 25, 2022)
+
+### Fixes
+
+- Form. Combo control. Fix the issue with re-setting of the same value of the readonly Combo control after the clear() method of Form was called
+- Form. Fix the issue which caused the getValue() method to return the null value as a string
+- Grid. Fix the issue with filtering of a big data set which caused the symbols to get lost when typing them into the header filter. Now you have more time for typing symbols into the input filter of Grid
+- Toolbar. Fix the issue which caused the getState() method not to return the value of a datePicker
+- Vault and Suite. Fix the conflict appeared between CSS styles of the Vault and Suite scrollbars when including source files of the components to the one page
+
+# Version 7.3.2 (April 4, 2022)
+
+### Fixes
+
+- Data. Now the , ; " symbols will be wrapped into the quotes when serializing a data set into the CSV format
+- Form. Text control. Fix the incorrect display of the long value of the Text control
+- Grid, TreeGrid. Now the Grid and TreeGrid packages includes the ability to localize the "datePicker" and "combobox" column editors
+- Grid. Fix the issue which caused the empty row/col objects to be returned after calling events for custom templates of Grid columns
+- Grid. Fix the issue with processing of Date objects when exporting the Grid data into the CSV/Excel format
+- Grid. Fix the issue with the htmlEnable: true property which didn't take into account the line breaks of the cells content when the autoHeight:false property of Grid was applied
+
+# Version 7.3.1 (March 17, 2022)
+
+### Fixes
+
+- Data. Fix the issue with serialization of data into CSV format which caused the incorrect structure of the output data if the initial data set contained a comma (",") in a value
+- DataCollection. Fix the issue with the save() method of DataCollection which sent multiple requests (when making multiple changes) to the server instead one
+- Form. Fix the incorrect work of the destruct() method when calling it from the change event
+- Grid. Fix the issue which caused a selected item still to remain selected after it was removed from the data collection
+- Grid. Fix the issue with applying the adjust property of Grid after the data reloading
+- Grid. Fix the script error thrown after removing all selected options from the "multiselect" editor of a cell
+- Grid. Pagination. Fix the issue which caused pagination not to work when using lazy loading of Grid data
+- List. Pagination. Fix the issue which caused pagination not to work when using lazy loading of List data
+
+# Version 7.3 (January 19, 2022)
 
 ### New functionality
 
@@ -72,7 +406,7 @@ Version 7.3 (January 19, 2022)
 - TreeGrid. Fix the issue with exporting a grouped treegrid to CSV
 - TreeGrid. Fix the issue with render of data items when they are parsed in reverse order
 
-Version 7.2.5 (October 28, 2021)
+# Version 7.2.5 (October 28, 2021)
 
 ### Fixes
 
@@ -86,7 +420,7 @@ Version 7.2.5 (October 28, 2021)
 - Grid. TreeGrid. Fix the issue which caused data of the treegrid to be changed after filtering and dragging a column/row
 
 
-Version 7.2.4 (October 13, 2021)
+# Version 7.2.4 (October 13, 2021)
 
 ### Fixes
 
@@ -102,7 +436,7 @@ Version 7.2.4 (October 13, 2021)
 - TreeGrid. Fix the incorrect display of an icon of a treegrid row after adding a child row and then deleting it. Now the $items property of the TreeGridCollection object is updated after deleting all child items
 
 
-Version 7.2.3 (September 27, 2021)
+# Version 7.2.3 (September 27, 2021)
 
 ### Fixes
 
@@ -117,7 +451,7 @@ Version 7.2.3 (September 27, 2021)
 - Toolbar. Fix the issue with render of data when recreating the toolbar after removing it via the `destructor()` method
 
 
-Version 7.2.2 (September 13, 2021)
+# Version 7.2.2 (September 13, 2021)
 
 ### Fixes
 
@@ -127,7 +461,7 @@ Version 7.2.2 (September 13, 2021)
 - TreeGrid. Fix the issue with selection of the child rows and its cells
 
 
-Version 7.2.1 (August 26, 2021)
+# Version 7.2.1 (August 26, 2021)
 
 ### Fixes
 
@@ -143,21 +477,24 @@ Version 7.2.1 (August 26, 2021)
 - List. Fix the issue which caused the list not to be scrolled to the item selected via the `setFocus()` method
 - TreeGrid. Now it is possible to filter the content of the treegrid by multiple header filters
 
-Version 7.2.0 (August 4, 2021)
-----------------------------
+
+# Version 7.2 (August 4, 2021)
 
 ### New functionality
 
 #### Combobox
+
 - New blur() method is added
 - New events are added: blur, focus, keydown, beforeOpen, afterOpen
 
 #### Form
+
 - New Container control to attach HTML code or the DHTMLX widgets is added (Pro version)
 - New "blur()" method is added
 - New events are added: "blur", "focus", "keydown"
 
 #### Form controls
+
 - New "blur()" method of Form controls: Button, DatePicker, Checkbox, CheckboxGroup, ColorPicker, Combo, Input, RadioGroup, Select, Slider, Textarea, TimePicker
 - New "focus()" method of Form controls: Button, Slider
 - New "blur" event of Form controls: Button, DatePicker, Checkbox, CheckboxGroup, ColorPicker, Combo, Input, RadioGroup, Select, Slider, Textarea, TimePicker
@@ -165,6 +502,7 @@ Version 7.2.0 (August 4, 2021)
 - New "keydown" event of Form controls: Button, DatePicker, Checkbox, CheckboxGroup, ColorPicker, Combo, Input, RadioGroup, Select, Slider, Textarea, TimePicker
 
 #### Grid
+
 - New multiselect editor is added
 - The ability to choose several options in comboFilter at once via setting multiselection:true property of comboFilter
 - The ability to show different values in the grid cell and in the combo editor by setting "id-value" combinations for each option of the combo editor
@@ -172,19 +510,23 @@ Version 7.2.0 (August 4, 2021)
 - The ability to enable/disable sorting by clicking the header via the "headerSort" attribute of the header configuration property of a Grid column
 
 #### Slider
+
 - New methods are added: blur() , focus()
 - New events are added: blur, focus, keydown
 
 #### Toolbar
+
 - New Datepicker control is added
 - The inputChange event is added
 
 #### Tree
+
 - The ability to specify a template for Tree items
 - The ability to add event handlers to the HTML elements of a custom template
 - The ability to set the height of an item
 
 #### Treegrid
+
 - New multiselect editor is added
 - The ability to choose several options in comboFilter at once via setting multiselection:true property of comboFilter
 - The ability to show different values in the grid cell and in the combobox editor by setting "id-value" combinations for each option of the combobox editor
@@ -192,21 +534,24 @@ Version 7.2.0 (August 4, 2021)
 - The ability to enable/disable sorting by clicking the header via the "headerSort" attribute of the header configuration property of a TreeGrid column
 
 #### Helpers
+
 - Custom scroll to replace the standard browser scrollbar is added (Pro version)
 
 ### Updates
+
 - DataCollection. The save() method of DataCollection is updated. Now the method sends either POST, or PUT, or DELETE requests to the backend.
 - Grid, TreeGrid. The "row" and "both" values of the dragItem configuration property are added.
 - Tree. Now it is possible to edit multiline content of a Tree item after setting "editable:true" configuration option of Tree
 
 ### Fixes
+
 - Grid. Fix the issue with the update of options in the combo filter after adding a new item into the data collection
 - Grid. Fix the issue with loading data into Grid using lazyDataProxy
 - Grid. Fix the issue with entering text in the combobox editor of a Grid cell
 - Menu. Fix the issue which caused the context menu not to close after clicking outside the menu when the `navigationType: "click"` property is specified
 
-Version 7.1.10 (July 20, 2021)
-----------------------------
+
+# Version 7.1.10 (July 20, 2021)
 
 ### Fixes
 
@@ -234,8 +579,8 @@ Version 7.1.10 (July 20, 2021)
 - TreeGrid. Fix the incorrect display of data when entering the value, which doesn't exist in the data set, into the header cell with the input filter
 - TreeGrid. Fix the issues with the top and bottom borders of the footer cells of the frozen columns
 
-Version 7.1.9 (June 24, 2021)
-----------------------------
+
+# Version 7.1.9 (June 24, 2021)
 
 ### Fixes
 
@@ -263,12 +608,12 @@ Version 7.1.9 (June 24, 2021)
 - TreeGrid. Fix the issue with dragging the rows in the grouped treegrid
 - TreeGrid. Fix the incorrect work of selection after a tree node is collapsed
 
-Version 7.1.8 (June 10, 2021)
-----------------------------
+
+# Version 7.1.8 (June 10, 2021)
 
 ### Fixes
 
-- Calendar. Fix the issue that caused the previously selected date to remain highlighted with the grey circle after selecting some other date
+- Calendar. Fix the issue that caused the previously selected date to remain highlighted with the gray circle after selecting some other date
 - Calendar. Fix the script error that appeared when two calendars are linked and the "destructor()" method is called
 - Chart. Fix the issue with the "log" configuration option of the chart scales
 - Data Collection. Fix the issue with the "update()" method
@@ -282,8 +627,8 @@ Version 7.1.8 (June 10, 2021)
 - Sidebar. Fix the issue with the display of nested items of the Sidebar controls
 - Tree. Fix the issue with opening of the selected folder using key navigation when using the "autoload" configuration property of Tree
 
-Version 7.1.7 (May 17, 2021)
-----------------------------
+
+# Version 7.1.7 (May 17, 2021)
 
 ### Fixes
 
@@ -295,8 +640,8 @@ Version 7.1.7 (May 17, 2021)
 - Data Collection. Fix the error fired after an item with the already existing id is added to the component via the "add()" method of the data collection
 - Tree Collection. Fix the issue with the "filter()" method
 
-Version 7.1.6 (May 5, 2021)
-----------------------------
+
+# Version 7.1.6 (May 5, 2021)
 
 ### Fixes
 
@@ -308,8 +653,8 @@ Version 7.1.6 (May 5, 2021)
 - TreeGrid. Fix the issue with drag-n-drop of rows
 - Tree Collection. Fix the issue with the "copy" and "move" methods
 
-Version 7.1.5 (April 22, 2021)
-----------------------------
+
+# Version 7.1.5 (April 22, 2021)
 
 ### Fixes
 
@@ -317,8 +662,8 @@ Version 7.1.5 (April 22, 2021)
 - Combobox. Fix the behavior of the css configuration option
 - Tabbar. The recalculation function of the width of the tabs is optimized
 
-Version 7.1.4 (April 16, 2021)
-----------------------------
+
+# Version 7.1.4 (April 16, 2021)
 
 ### Fixes
 
@@ -332,8 +677,8 @@ Version 7.1.4 (April 16, 2021)
 - LazyDataProxy in Grid. Fix the error occurred when returning false from the 'beforeLazyLoad" event handler
 - Window. Fix the issue with display of tooltips of Grid cells behind the window when Grid is attached to Window
 
-Version 7.1.3 (April 12, 2021)
-----------------------------
+
+# Version 7.1.3 (April 12, 2021)
 
 ### Fixes
 
@@ -361,8 +706,8 @@ Version 7.1.3 (April 12, 2021)
 - TreeGrid. Fix the issue with incorrect serialization of data
 - Tree Collection. Fix the issue with the "mapRange()" method
 
-Version 7.1.2 (March 9, 2021)
-----------------------------
+
+# Version 7.1.2 (March 9, 2021)
 
 ### Fixes
 
@@ -388,8 +733,8 @@ Version 7.1.2 (March 9, 2021)
 - TimePicker. The default height is reduced from 322px to 275px
 - Tree. Fix the issue that caused the expand/collapse events not to trigger on expanding/collapsing the Tree item first time when autoload is used
 
-Version 7.1.1 (February 23, 2021)
-----------------------------
+
+# Version 7.1.1 (February 23, 2021)
 
 ### Fixes
 
@@ -401,8 +746,8 @@ Version 7.1.1 (February 23, 2021)
 - Form. Fix the issue with the "required" configuration option of the Select control
 - Window. Fix the incorrect display of the menu items when placing the menu inside the window
 
-Version 7.1.0 (February 18, 2021)
-----------------------------
+
+# Version 7.1 (February 18, 2021)
 
 ### New functionality
 
@@ -463,10 +808,10 @@ Version 7.1.0 (February 18, 2021)
 - Window. Fix the issue with the sequence of closing modal windows when using key navigation
 - Fix the issue that invoked the `domvm.js` warning in the console
 
-Version 7.0.3 (January 19, 2021)
-----------------------------
 
-#### Fixes
+# Version 7.0.3 (January 19, 2021)
+
+### Fixes
 
 - Donut chart. Fix the issue with colors
 - Grid. Fix the issue that caused the frozen columns to become movable when hiding columns
@@ -478,18 +823,18 @@ Version 7.0.3 (January 19, 2021)
 - Window. Fix the issue that caused the text in the title of the window to overflow
 - Fix the issue with TypeScript definition files
 
-Version 7.0.2 (December 28, 2020)
-----------------------------
 
-#### Fixes
+# Version 7.0.2 (December 28, 2020)
+
+### Fixes
 
 - Fix the issue with loading data into the component via the parse() method of Tree Collection, or via the data configuration property of the component
 - Fix the types of events in Grid
 
-Version 7.0.1 (December 21, 2020)
-----------------------------
 
-#### Fixes
+# Version 7.0.1 (December 21, 2020)
+
+### Fixes
 
 - Fix the issue which appeared when scrolling Grid after opening a combo editor
 - Fix the issue with the initial width of Grid columns when using "minWidth"
@@ -504,8 +849,8 @@ Version 7.0.1 (December 21, 2020)
 - Fix the issue which caused the item in the filtered state after deleting from the data collection to be still found via the afterRemove event
 - Fix the issue which caused the multiple combo options selected not to be numerated when sending values of Form to the server as Form Data
 
-Version 7.0.0 (December 7, 2020)
-----------------------------
+
+# Version 7.0 (December 7, 2020)
 
 ### Breaking changes
 
@@ -649,7 +994,7 @@ The update brings various changes in the API methods. Check the Migration articl
 - Checkbox control of Form. The getValue() method is updated
 - Input control of Form. The ability to define the type for the input field via the "inputType" attribute
 - TimePicker control of Form. The "value" attribute is updated- the ability to specify the value as a Date, a number, an array, an object is added.
-- SimpleValult control of Form. The beforeUploadFile, uploadBegin, uploadComplete, uploadFail, uploadFile, uploadProgress events are improved
+- SimpleVault control of Form. The beforeUploadFile, uploadBegin, uploadComplete, uploadFail, uploadFile, uploadProgress events are improved
 - TimePicker control of Form. The getValue()/ setValue() methods are updated
 - Form. The getValue() method is updated
 - Grid/TreeGrid. The "splitAt" configuration property is replaced by the "leftSplit" one
@@ -694,18 +1039,18 @@ The update brings various changes in the API methods. Check the Migration articl
 - The issue with incorrect saving of Grid data when using the data.update() method called from the AfterEditEnd event, and applying the data.save() method
 - The incorrect work of the data.save() method which caused only the first change of the Grid row to save
 
-Version 6.5.8 (October 15, 2020)
-----------------------------
 
-#### Fixes
+# Version 6.5.8 (October 15, 2020)
+
+### Fixes
 
 - Fix the incorrect behavior of the sorting icon in the header of a Grid column when setting the sortable property to false
 - Fix the issue which caused key navigation in Tree not to work in IE
 
-Version 6.5.7 (October 15, 2020)
-----------------------------
 
-#### Fixes
+# Version 6.5.7 (October 15, 2020)
+
+### Fixes
 
 - Fix the incorrect work of the AfterEditEnd, AfterEditStart, BeforeEditEnd, BeforeEditStart events for cells with the checkbox editor type in Grid
 - Fix the issue with rendering a tooltip on hovering over the slider thumb when the slider is attached to a Layout and a Window at the same time
@@ -713,10 +1058,10 @@ Version 6.5.7 (October 15, 2020)
 - Fix the issue with filtering data in Grid columns that caused filtering to stop working after reordering columns by drag and drop
 - Fix the issue with drag and drop of Grid columns with selectFilter filled
 
-Version 6.5.6 (October 5, 2020)
-----------------------------
 
-#### Fixes
+# Version 6.5.6 (October 5, 2020)
+
+### Fixes
 
 - Fix the incorrect work of the input filter of a Grid column when placing a grid into a shadowDOM while working in Firefox
 - Fix the issue with key navigation in a grid placed to a layout cell, which caused key navigation to stop working after collapsing/expanding the layout cell
@@ -726,18 +1071,18 @@ Version 6.5.6 (October 5, 2020)
 - Fix the issue with the width of expanded items in Tree
 - Fix the incorrect work of selection in Grid cells when using key navigation on a page with several grids
 
-Version 6.5.5 (September 17, 2020)
-----------------------------
 
-#### Fixes
+# Version 6.5.5 (September 17, 2020)
+
+### Fixes
 
 - Fix the behavior of the align property of a Grid column when the spans configuration option is used
 - Fix the issue with rendering of Grid/TreeGrid
 
-Version 6.5.4 (September 15, 2020)
-----------------------------
 
-#### Fixes
+# Version 6.5.4 (September 15, 2020)
+
+### Fixes
 
 - Fix the issue with the value of a cell when calling the afterEditEnd event of Grid
 - Fix the issue with positioning of selection over frozen columns in Grid and TreeGrid
@@ -749,10 +1094,10 @@ Version 6.5.4 (September 15, 2020)
 - Fix the issue with visualization of the mark property of a Grid column after data reloading
 - Fix the issue which caused a footer of a Grid not to be included to the exported file
 
-Version 6.5.3 (September 2, 2020)
-----------------------------
 
-#### Fixes
+# Version 6.5.3 (September 2, 2020)
+
+### Fixes
 
 - Fix the behavior of the keyNavigation property of Grid when the Grid is attached to a collapsed Layout cell
 - Fix the issue with positioning of a popup relative to a Window
@@ -763,10 +1108,10 @@ Version 6.5.3 (September 2, 2020)
 - Checking the incorrect data of the setCell method of Grid is added
 - Fix issues with minimal and maximal values of scales in Chart
 
-Version 6.5.2 (July 14, 2020)
-----------------------------
 
-#### Fixes
+# Version 6.5.2 (July 14, 2020)
+
+### Fixes
 
 - Fixed types in d.ts
 - Issue with the editCell method in Grid
@@ -776,15 +1121,15 @@ Version 6.5.2 (July 14, 2020)
 - Improved editing mode when drag and drop is enabled in Tree
 - Issue with rendering nested levels of TreeGrid items
 
-Version 6.5.1 (June 16, 2020)
-----------------------------
 
-#### Fixes
+# Version 6.5.1 (June 16, 2020)
+
+### Fixes
 
 - Issue with npm codebase build
 
-Version 6.5.0 (June 16, 2020)
-----------------------------
+
+# Version 6.5 (June 16, 2020)
 
 ### New functionality
 
@@ -837,10 +1182,10 @@ Version 6.5.0 (June 16, 2020)
 - Suite with React demo is updated
 - Ability to work with number type of id in Combobox, DataView, List widgets and in Select control of Form
 
-Version 6.4.4 (May 19, 2020)
-----------------------------
 
-#### Fixes
+# Version 6.4.4 (May 19, 2020)
+
+### Fixes
 
 - Fix the behavior of Layout inside a resizable window
 - Fix the behavior of charts placed into a cell of Tabbar in IE
@@ -856,10 +1201,10 @@ Version 6.4.4 (May 19, 2020)
 - Fix rendering of custom HTML content in Window
 - Fix priority of the modal Window while calling more than one Window
 
-Version 6.4.3 (April 29, 2020)
-----------------------------
 
-#### Fixes
+# Version 6.4.3 (April 29, 2020)
+
+### Fixes
 
 - Fix clearing values while using the `clear()` method for the DatePicker control of Form
 - Fix issues with the `CellClick, CellMouseOver, CellMouseDown, CellDblClick, CellRightClick` events of Grid when its columns are hidden
@@ -878,10 +1223,10 @@ Version 6.4.3 (April 29, 2020)
 - Fix the issue with the configuration of the `showText` property in Chart
 - Fix calculation of width and height in Chart (Pie, 3DPie, Donut, Radar)
 
-Version 6.4.2 (March 3, 2020)
-----------------------------
 
-#### Fixes
+# Version 6.4.2 (March 3, 2020)
+
+### Fixes
 
 - The issue with virtualization behavior in Grid when interacting with Tabbar
 - The issue with clicking on a frozen column in Grid
@@ -891,18 +1236,18 @@ Version 6.4.2 (March 3, 2020)
 - The ability to check validation of values is added in Colorpicker
 - Styles for all inputs with invalid values are fixed for Firefox browser
 
-Version 6.4.1 (January 30, 2020)
-----------------------------
 
-#### Fixes
+# Version 6.4.1 (January 30, 2020)
+
+### Fixes
 
 - Behavior of lazy load in Grid
 - The issue with the template configuration option in a column of Grid
 - The issue with the headerIcon property of a layout cell
 - The issue with the height of layout cells when the layout has a header
 
-Version 6.4.0 (January 28, 2020)
-----------------------------
+
+# Version 6.4 (January 28, 2020)
 
 ### New functionality
 
@@ -1039,7 +1384,7 @@ Version 6.4.0 (January 28, 2020)
 - Now the multiselection property allows setting the mode of multiselection in List
 - The getValue method of DatePicker Form control
 
-#### Fixes
+### Fixes
 
 - The issue with ability to use all types of chart scales in any combinations
 - The issue with the setActive() method in Tabbar
@@ -1049,8 +1394,8 @@ Version 6.4.0 (January 28, 2020)
 - The issue with styles when Combobox is disabled
 - Issues with the filter() method in Tree Collection
 
-Version 6.3.1 (December 18, 2019)
-----------------------------
+
+# Version 6.3.1 (December 18, 2019)
 
 ### Fixes
 
@@ -1060,8 +1405,8 @@ Version 6.3.1 (December 18, 2019)
 - Add the ability to set the name attribute in the setValue method of Form control as key
 - Issue with the combo control of For
 
-Version 6.3.0 (December 12, 2019)
-----------------------------
+
+# Version 6.3 (December 12, 2019)
 
 ### New functionality
 
@@ -1119,8 +1464,8 @@ Version 6.3.0 (December 12, 2019)
 - Issue with the validation property of Form controls
 - Behavior of a TimePicker control of Form
 
-Version 6.2.3 (November 19, 2019)
-----------------------------
+
+# Version 6.2.3 (November 19, 2019)
 
 ### Fixes
 
@@ -1130,37 +1475,40 @@ Version 6.2.3 (November 19, 2019)
 - Issue with the "movable" property in Window
 - Issue with Window fixation
 
-Version 6.2.2 (November 5, 2019)
-----------------------------
+
+# Version 6.2.2 (November 5, 2019)
 
 ### Fixes
 
 - Issues with selection in Grid
 - Issue with the height of a cell in Layout
 
-Version 6.2.1 (October 25, 2019)
-----------------------------
+
+# Version 6.2.1 (October 25, 2019)
 
 ### Fixes
 
 - Issue with the setValue() method in Calendar
 - Issue with the combo filters in Grid
 
-Version 6.2.0 (October 23, 2019)
-----------------------------
+
+# Version 6.2 (October 23, 2019)
 
 ### New functionality
 
-####Calendar
+#### Calendar
+
 - The ability to select a range of dates in one calendar
 
 #### Form
+
 - The ability to manipulate Form controls via the getItem() method of Form
 - The ability to use clear(), clearValidate(), getValue(), setValue(), validate() methods for all Form controls
 - The possibility to update the configuration of DatePicker, Checkbox, ColorPicker, Combo, Input, RadioGroup, Select, SimpleVault, Slider, Text, Textarea, TimePicker Form controls via the setConfig() method
 - The ability to use methods of DHTMLX widgets via the getWidget() method of Datepicker, Colorpicker, Simplevault, Slider, Timepicker Form controls
 
 #### Grid/TreeGrid
+
 - The possibility to show and hide a column in the Grid via the showColumn() and hideColumn() methods
 - A new comboFilter for the header/footer content of a Grid column
 - New checkbox and combobox editors for the cells of a Grid column
@@ -1170,6 +1518,7 @@ Version 6.2.0 (October 23, 2019)
 - Export to CSV format
 
 #### Layout
+
 - New events
 
 ### Updates
@@ -1197,8 +1546,8 @@ Version 6.2.0 (October 23, 2019)
 - Issue with Timepicker Form control
 - Issue with Colorpicker Form control
 
-Version 6.1.7 (October 10, 2019)
-----------------------------
+
+# Version 6.1.7 (October 10, 2019)
 
 ### Fixes
 
@@ -1206,8 +1555,8 @@ Version 6.1.7 (October 10, 2019)
 - Issue with value property in Form
 - Issue with editor on a frozen columns in Grid
 
-Version 6.1.6 (September 26, 2019)
-----------------------------
+
+# Version 6.1.6 (September 26, 2019)
 
 ### Fixes
 
@@ -1216,8 +1565,8 @@ Version 6.1.6 (September 26, 2019)
 - Issue with the header rowspans in Grid
 - Issues with the copy() and move() methods in Treecollection and Datacollection
 
-Version 6.1.5 (September 12, 2019)
-----------------------------
+
+# Version 6.1.5 (September 12, 2019)
 
 ### Fixes
 
@@ -1226,8 +1575,8 @@ Version 6.1.5 (September 12, 2019)
 - Issue with Combobox popup
 - Issue with the height of uploader in Form
 
-Version 6.1.4 (September 5, 2019)
-----------------------------
+
+# Version 6.1.4 (September 5, 2019)
 
 ### Fixes
 
@@ -1239,8 +1588,8 @@ Version 6.1.4 (September 5, 2019)
 - Issues with Calendar styles
 - Fixes in samples
 
-Version 6.1.3 (August 29, 2019)
-----------------------------
+
+# Version 6.1.3 (August 29, 2019)
 
 ### Fixes
 
@@ -1248,8 +1597,8 @@ Version 6.1.3 (August 29, 2019)
 - Issues with styles in Chart
 - Issues with property "hidden" in Checkboxes and RadioGroup of Form
 
-Version 6.1.2 (August 22, 2019)
-----------------------------
+
+# Version 6.1.2 (August 22, 2019)
 
 ### Fixes
 
@@ -1257,32 +1606,36 @@ Version 6.1.2 (August 22, 2019)
 - Issues with Form select
 - Issue with Datacollection add() method
 
-Version 6.1.1 (August 16, 2019)
-----------------------------
+
+# Version 6.1.1 (August 16, 2019)
 
 ### Fixes
 
 - Issues with DnD in List and DataView
 - Issue with getValue() method in Form
 
-Version 6.1.0 (August 15, 2019)
-----------------------------
+
+# Version 6.1 (August 15, 2019)
 
 ### New functionality
 
 #### ComboBox
+
 - Ability to manipulate the visibility of the Combo popup via the Popup API
 
 #### Dataview/List
+
 - The possibility to edit items via API (DataView / List) or the configuration object (DataView / List)
 - New editing-related events: DoubleClick, BeforeEditStart, BeforeEditEnd, AfterEditStart, AfterEditEnd
 - Multiple selection of items (DataView / List)
 - Multiple drag-n-drop of items (DataView / List)
 
 #### Data/Tree Collection
+
 - A new LoadError event for catching loading errors
 
 #### Form
+
 - Dynamic config updating and re-rendering of a form
 - Adding values into controls on the fly
 - Clearing a form
@@ -1290,6 +1643,7 @@ Version 6.1.0 (August 15, 2019)
 - A new RadioGroup control for grouping RadioButtons
 
 #### Grid
+
 - Editing the whole Grid or separate columns via the configuration object
 - Editing certain cells via the API method
 - New editing-related events: BeforeEditStart, BeforeEditEnd, AfterEditStart, AfterEditEnd
@@ -1299,27 +1653,33 @@ Version 6.1.0 (August 15, 2019)
 - The possibility to enable automatic adding of an empty row to the end of the Grid
 
 #### Popup
+
 - The possibility to adjust the Popup offsets
 
 #### Tree
+
 - The possibility to enable editing of items via the configuration object
 
 #### Window
+
 - The ability to check the visibility of a window
 
 ### Updates
 
 #### Data/Tree Collection
+
 - Calling sort without parameters resets applied sorting
 - The possibility to add an array of items via the add method
 
 #### Form
+
 - The possibility to set values for DatePicker, TimePicker, ColorPicker Form controls via inputs
 - The possibility to make Form Inputs hidden
 - The autocomplete feature for Form Inputs
 - Validation of a Form Select control
 
 #### Grid
+
 - Extended selection possibilities
 
 ### Fixes
@@ -1328,8 +1688,7 @@ Version 6.1.0 (August 15, 2019)
 - Behavior of the Slider control
 
 
-Version 6.0.4 (August 6, 2019)
-----------------------------
+# Version 6.0.4 (August 6, 2019)
 
 ### Fixes
 
@@ -1343,8 +1702,8 @@ Version 6.0.4 (August 6, 2019)
 - Issues with names in Calendar localization
 - Styles fixes
 
-Version 6.0.3 (July 19, 2019)
-----------------------------
+
+# Version 6.0.3 (July 19, 2019)
 
 ### Fixes
 
@@ -1362,8 +1721,8 @@ Version 6.0.3 (July 19, 2019)
 - Issues with z-index in Window and Popup
 - Styles fixes
 
-Version 6.0.2 (July 11, 2019)
-----------------------------
+
+# Version 6.0.2 (July 11, 2019)
 
 ### Fixes
 
@@ -1376,8 +1735,8 @@ Version 6.0.2 (July 11, 2019)
 - Issue with scroll in Combobox
 - Issue with data parsing in Toolbar
 
-Version 6.0.1 (July 5, 2019)
-----------------------------
+
+# Version 6.0.1 (July 5, 2019)
 
 ### Fixes
 

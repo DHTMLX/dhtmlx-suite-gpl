@@ -1,13 +1,24 @@
-/* vars */
 :root {
-	--m_c: #000; /* main color */
-	--p_c: #0288dd; /* primary color */
-	--p_h_c: #03a9f4; /* primary hover color */
-	--g_c: #ededed; /* gray color */
-	--g_b_c: #e0e0e0; /* gray border color */
-	--font_s: 14px; /* common font size */
-	--font: "Roboto", Arial, sans-serif; /* common font */
-	--l_h: 1.428571428571429; /* line height */
+	/* font */
+	--dhx-cover-font-family: var(--dhx-font-family, "Roboto", Arial, Tahoma, Verdana, sans-serif);
+	--dhx-cover-font-size: var(--dhx-font-size-normal, 14px);
+	--dhx-cover-line-height: var(--dhx-line-height-normal, 20px);
+	--dhx-cover-font-color: #000;
+	/* end font  */
+
+	/* border */
+	--dhx-cover-border: var(--dhx-border, 1px solid #e0e0e0);
+	/* end border */
+
+	/* background  */
+	--dhx-cover-background-primary: var(--dhx-background-primary, #fff);
+	--dhx-cover-background-additional: var(--dhx-background-additional, #ededed);
+	/* end background */
+
+	/* color */
+	--dhx-cover-color-primary: var(--dhx-color-primary, #0288dd);
+	--dhx-cover-color-primary-hover: var(--dhx-color-primary-hover, #03a9f4);
+	/* end color */
 }
 
 /* reset styles */
@@ -36,7 +47,7 @@ li {
 }
 
 strong, b {
-	font-family: var(--font);
+	font-family: var(--dhx-cover-font-family);
 	font-weight: 500;
 }
 
@@ -59,8 +70,10 @@ textarea {
 /* ====================== END reset ====================== */
 
 body {
-	color: var(--m_c);
-	font: 400 var(--font_s)/var(--l_h) var(--font);
+	color: var(--dhx-cover-font-color);
+	font-family: var(--dhx-cover-font-family);
+	font-size: var(--dhx-cover-font-size);
+	line-height: var(--dhx-cover-line-height);
 
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 	-webkit-tap-highlight-color: transparent;
@@ -69,7 +82,7 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 
-	background-color: #fff;
+	background-color: var(--dhx-cover-background-primary);
 }
 
 svg.svg {
@@ -81,7 +94,7 @@ svg.svg {
 	padding-left: 20px;
 	padding-right: 20px;
 
-	background-color: var(--g_c);
+	background-color: var(--dhx-cover-background-additional);
 	box-sizing: border-box;
 }
 
@@ -92,12 +105,21 @@ svg.svg {
 
 	padding: 88px 0;
 
-	border-left: 1px solid var(--g_b_c);
-	border-right: 1px solid var(--g_b_c);
-	background-color: #fff;
+	border-left: var(--dhx-cover-border);
+	border-right: var(--dhx-cover-border);
+	background-color: var(--dhx-cover-background-primary);
 	box-sizing: border-box;
 
 	overflow: hidden;
+}
+
+.page-container.complex {
+	max-width: 1000px;
+	height: 100vh;
+}
+
+.page-container.complex .dhx-block {
+	max-width: 800px;
 }
 
 .dhx-block {
@@ -109,7 +131,7 @@ svg.svg {
 }
 
 .main-title {
-	font: 500 36px/1.2 var(--font);
+	font: 500 36px/1.2 var(--dhx-cover-font-family);
 	text-align: center;
 
 	padding-bottom: 80px;
@@ -129,12 +151,15 @@ svg.svg {
 .samples-container__col {
 	width: 33.33333333333%;
 	padding: 54px 82px;
-
 	box-sizing: border-box;
 }
 
+.samples-container__col.complex {
+	width: 100%;
+}
+
 .samples-title {
-	font: 500 24px/1.2 var(--font);
+	font: 500 24px/1.2 var(--dhx-cover-font-family);
 }
 
 .samples-list {
@@ -159,7 +184,8 @@ svg.svg {
 	box-sizing: border-box;
 }
 
-.samples-list__row.samples-list__row--w3 {
+.samples-list__row.samples-list__row--w3,
+.samples-list__row.samples-list__row--w4 {
 	display: inline-block;
 	vertical-align: top;
 
@@ -173,16 +199,16 @@ svg.svg {
 .samples-icon-link {
 	display: inline-block;
 
-	color: var(--p_c);
-	font-size: var(--font_s);
-	line-height: var(--l_h);
+	color: var(--dhx-cover-color-primary);
+	font-size: var(--dhx-cover-font-size);
+	line-height: var(--dhx-cover-line-height);
 
 	transition: color 0.15s ease-in-out;
 }
 
 .samples-link:hover,
 .samples-icon-link:hover {
-	color: var(--p_h_c);
+	color: var(--dhx-cover-color-primary-hover);
 }
 
 .samples-list-footer {
@@ -210,13 +236,12 @@ svg.svg {
 }
 
 .anchor-icon.line {
-	fill: var(--p_c);
-
+	fill: var(--dhx-cover-color-primary);
 	transition: all 0.15s ease-in-out;
 }
 
 .samples-icon-link:hover .anchor-icon.line {
-	fill: var(--p_h_c);
+	fill: var(--dhx-cover-color-primary-hover);
 }
 
 @media screen and (max-width: 1180px) {
@@ -238,7 +263,6 @@ svg.svg {
 
 	.main-title {
 		font-size: 28px;
-
 		padding-bottom: 40px;
 	}
 

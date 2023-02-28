@@ -29,6 +29,7 @@ export declare class Checkbox extends Label implements ICheckbox {
     focus(): void;
     blur(): void;
     isChecked(): boolean;
+    private _getValue;
     private _initView;
     protected _initHandlers(): void;
     protected _draw(): any;

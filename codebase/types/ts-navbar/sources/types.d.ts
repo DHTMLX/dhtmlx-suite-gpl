@@ -1,6 +1,8 @@
 import { Id } from "../../ts-common/types";
 import { IEventSystem } from "../../ts-common/events";
 import { DataEvents, IDataEventsHandlersMap, IDataItem, TreeCollection } from "../../ts-data";
+import { Calendar, ViewMode } from "../../ts-calendar";
+import { Popup } from "../../ts-popup";
 export { DataEvents } from "../../ts-data";
 export interface IHtmlExtendable {
     html?: string;
@@ -22,6 +24,7 @@ export interface INavbarConfig {
     menuCss?: string;
     data?: any[] | TreeCollection<any>;
     rootId?: string;
+    $name?: string;
 }
 export interface INavbar {
     data: TreeCollection;
@@ -120,7 +123,9 @@ export interface IInput extends IItem {
     placeholder?: string;
     width?: string;
     label?: string;
+    hiddenLabel?: boolean;
     value?: string;
+    autocomplete?: boolean;
 }
 export interface IImageButton extends IItem {
     type: "imageButton";
@@ -161,8 +166,22 @@ export interface IDatePicker extends IItem {
     placeholder?: string;
     width?: string;
     label?: string;
+    hiddenLabel?: boolean;
+    editable?: boolean;
     value?: string | Date;
     dateFormat?: string;
+    valueFormat?: "string" | "date";
+    date?: Date | string;
+    mark?: (a: Date) => string;
+    disabledDates?: (a: Date) => boolean;
+    weekStart?: "saturday" | "sunday" | "monday";
+    weekNumbers?: boolean;
+    mode?: ViewMode;
+    timePicker?: boolean;
+    timeFormat?: 24 | 12;
+    thisMonthOnly?: boolean;
+    $calendar?: Calendar;
+    $popup?: Popup;
 }
 export declare enum NavigationBarEvents {
     inputCreated = "inputCreated",

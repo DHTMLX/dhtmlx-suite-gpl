@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<!-- meta block -->
+		<title>Custom themes - DHTMLX Theme</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		
+		<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+		<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+		<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+		<!-- end meta block -->
+		<script type="text/javascript" src="../../codebase/suite.js"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css">
+		
+		<link rel="stylesheet" href="../common/index.css">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.0.96/css/materialdesignicons.css" media="all" rel="stylesheet" type="text/css">
+
+		<script src="./common/data.js"></script>
+		<!-- custom sample head -->
+		<style>
+			[data-dhx-theme='custom-theme-light'] {
+				/* font */
+				--dhx-font-color-primary: #212529;
+				--dhx-font-color-secondary: #95a5a5;
+				/* end font */
+
+				/* border */
+				--dhx-border-color: #ced4da;
+				/* end border */
+	
+				/* color schema */
+				--dhx-h-primary: 210;
+				--dhx-s-primary: 30%;
+				--dhx-l-primary: 20%;
+
+				--dhx-h-secondary: 185;
+				--dhx-s-secondary: 5%;
+				--dhx-l-secondary: 50%;
+
+				--dhx-h-danger: 6;
+				--dhx-s-danger: 78%;
+				--dhx-l-danger: 57%;
+
+				--dhx-h-success: 168;
+				--dhx-s-success: 77%;
+				--dhx-l-success: 42%;
+
+				--dhx-l-background: 98%;
+				/* end color shema */
+			}
+
+			[data-dhx-theme='custom-theme-dark'] {
+				/* font */
+				--dhx-font-color-primary: var(--dhx-color-gray-200);
+				--dhx-font-color-secondary: var(--dhx-color-gray-500);
+				--dhx-font-color-additional: var(--dhx-color-gray-500);
+				--dhx-font-color-disabled: var(--dhx-color-gray-800);
+				--dhx-font-color-contrast: var(--dhx-color-black);
+				--dhx-font-color-contrast-disabled: var(--dhx-font-color-disabled);
+				/* end font */
+
+				/* border */
+				--dhx-border-color: #007a99;
+				/* end border */
+	
+				/* color schema */
+				--dhx-h-primary: 45;
+				--dhx-s-primary: 100%;
+				--dhx-l-primary: 35%;
+
+				--dhx-h-secondary: 185;
+				--dhx-s-secondary: 5%;
+				--dhx-l-secondary: 50%;
+
+				--dhx-h-danger: 330;
+				--dhx-s-danger: 65%;
+				--dhx-l-danger: 50%;
+
+				--dhx-h-success: 175;
+				--dhx-s-success: 60%;
+				--dhx-l-success: 40%;
+
+				--dhx-h-background: 190;
+				--dhx-s-background: 100%;
+				--dhx-l-background: 10%;
+				/* end color shema */
+
+				/* theme colors */
+				--dhx-background-primary: hsl(var(--dhx-h-background), var(--dhx-s-background), var(--dhx-l-background));
+				--dhx-background-secondary: hsl(var(--dhx-h-background), var(--dhx-s-background), calc(var(--dhx-l-background) + 8%));
+				--dhx-background-additional: hsl(var(--dhx-h-background), var(--dhx-s-background), calc(var(--dhx-l-background) + 12%));
+				/* end theme colors */
+
+				/* DHTMLX Grid service variables*/
+				--dhx-s-grid-header-background: #002229;
+				--dhx-s-grid-selection-background: var(--dhx-color-gray-100);
+				/* end DHTMLX Grid service variables*/
+
+				/* DHTMLX Toolbar service variables*/
+				--dhx-s-toolbar-background: #002229;
+				/* end DHTMLX Toolbar service variables */
+			}
+
+			body {
+				margin: 0;
+				overflow: hidden;
+			}
+
+			/* Grid styling */
+			.contact_email {
+				color: var(--dhx-color-primary);
+			}
+			.grid .dhx_grid-content {
+				border: none;
+			}
+
+			/* Tickets dataview styling */
+			.dhx_dataview_template_a {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-flex-direction: column;
+				-ms-flex-direction: column;
+				flex-direction: column;
+				-webkit-justify-content: space-between;
+				-ms-flex-pack: justify;
+				justify-content: space-between;
+				height: 100%;
+			}
+		
+			.dhx_dataview_template_a_box {
+				background-color: var(--dhx-background-secondary);
+			}
+
+			.dhx_dataview_template_a_box .dhx_dataview-item__inner-html {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-orient: vertical;
+				-webkit-box-direction: normal;
+				-ms-flex-direction: column;
+				flex-direction: column;
+				-webkit-box-pack: justify;
+				-ms-flex-pack: justify;
+				justify-content: space-between;
+				height: 100%;
+			}
+
+			.dhx_dataview_template_a_box .dhx_dataview-item {
+				padding: 20px;
+				-webkit-box-sizing: border-box;
+				box-sizing: border-box;
+				background-color: var(--dhx-background-primary);
+				border: var(--dhx-border) !important;
+				margin-bottom: 8px !important;
+				margin-left: 8px !important;
+			}
+			.dhx_dataview_template_a_box .dhx_dataview-item:first-child {
+				margin-left: 0 !important;
+			}
+
+			.dhx_dataview_template_a__head {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+			}
+
+			.dhx_dataview_template_a__type {
+				color: var(--dhx-font-color-contrast);
+				text-align: center;
+				text-transform: capitalize;
+				width: 55px;
+				height: 20px;
+				border-radius: 2px;
+			}
+
+			.dhx_dataview_template_a__type--major {
+				background-color: var(--dhx-color-danger);
+			}
+
+			.dhx_dataview_template_a__type--minor {
+				background-color: var(--dhx-color-success);
+			}
+
+			.dhx_dataview_template_a__type--normal {
+				background-color: var(--dhx-color-primary);
+			}
+
+			.dhx_dataview_template_a__content {
+				padding-left: 16px;
+				width: 80%;
+			}
+
+			.dhx_dataview_template_a__title {
+				font-family: var(--dhx-font-family);
+				font-size: var(--dhx-font-size-large);
+				line-height: var(--dhx-line-height-large);
+				font-weight: var(--dhx-font-weight-medium);
+				padding-bottom: 8px;
+			}
+
+			.dhx_dataview_template_a__comment {
+				display: -webkit-box;
+				max-height: 40px;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;
+			}
+
+			.dhx_dataview_template_a__body {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-pack: justify;
+				-ms-flex-pack: justify;
+				justify-content: space-between;
+				margin-top: 20px;
+			}
+
+			.dhx_dataview_template_a__person {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+			}
+
+			.dhx_dataview_template_a__avatar {
+				width: 40px;
+				height: 40px;
+				margin-left: 15px;
+				margin-right: 16px;
+				border-radius: 20px;
+				background: center center/cover no-repeat #f7f7f7;
+			}
+
+			.dhx_dataview_template_a__name {
+				color: var(--dhx-font-color-secondary);
+			}
+
+			.dhx_dataview_template_a__comments {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-align: end;
+				-ms-flex-align: end;
+				align-items: flex-end;
+				line-height: 20px;
+			}
+
+			.dhx_dataview_template_a__comments .mdi:before {
+				position: relative;
+				top: 4px;
+				color: var(--dhx-font-color-secondary);
+				font-size: 20px;
+				margin-left: 6px;
+			}
+
+			/* Message dataview styling */
+			.dhx_dataview_template_b_box {
+				background-color: var(--dhx-background-secondary);
+			}
+
+			.dhx_dataview_template_b_box .dhx_dataview-item {
+				padding: 0;
+				border: var(--dhx-border) !important;
+				border-radius: 6px;
+				overflow: hidden;
+				background-color: var(--dhx-background-primary);
+				margin-bottom: 8px !important;
+				margin-left: 8px !important;
+			}
+
+			.dhx_dataview_template_b_box .dhx_dataview-item:first-child {
+				margin-left: 0 !important;
+			}
+
+			.dhx_dataview_template_b {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-orient: vertical;
+				-webkit-box-direction: normal;
+				-ms-flex-direction: column;
+				flex-direction: column;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				align-items: center;
+				width: 100%;
+				height: 200px;
+			}
+
+			.dhx_dataview_template_b__avatar {
+				position: relative;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				margin-top: 16px;
+				width: 80px;
+				height: 80px;
+				border-radius: 50%;
+				background-size: 80px 80px;
+			}
+
+			.dhx_dataview_template_b__status {
+				position: absolute;
+				bottom: 1px;
+				right: 9px;
+				width: 12px;
+				height: 12px;
+				border-radius: 50%;
+				border: 1px solid var(--dhx-color-white);
+				background-color: var(--dhx-color-success);
+			}
+
+			.dhx_dataview_template_b__status.dhx_dataview_template_b__status--offline {
+				display: none;
+			}
+
+			.dhx_dataview_template_b__title,
+			.dhx_dataview_template_b__name,
+			.dhx_dataview_template_b__message-label {
+				font: var(--dhx-font-family);
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			.dhx_dataview_template_b__title {
+				font-weight: var(--dhx-font-weight-medium);
+				margin-top: 8px;
+			}
+
+			.dhx_dataview_template_b__message {
+				border-top: 1px solid var(--dhx-border-color);
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				height: 44px;
+				width: 100%;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-ms-flex-pack: center;
+				justify-content: center;
+				text-decoration: none;
+				position: absolute;
+				left: 0;
+				bottom: 0;
+			}
+
+			.dhx_dataview_template_b__message-icon {
+				margin-right: 4px;
+				font-size: 16px;
+				color: var(--dhx-color-primary);
+			}
+
+			.dhx_dataview_template_b__message-label {
+				color: var(	--dhx-color-primary);
+				font-weight: 500;
+			}
+
+			/* Layout cell styling  */
+			.dhx_layout_cell--overflow-auto {
+				overflow: auto;
+			}
+
+			.dhx_layout_cell--border-none {
+				border: none !important;
+			}
+
+			.dhx_layout_cell-align_content--center {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			/* Calendar/Timepicker cell styling */
+			.dhx_layout_calendar_cell {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				min-width: 248px;
+			}
+
+			/* Sidebar custom elements styling */
+			.dhx_navbar--vertical {
+				overflow: hidden;
+			}
+
+			.user-info_container {
+				padding-top: 8px;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-start;
+				align-items: center;
+			}
+
+			.user-info_avatar {
+				height: 40px;
+				width: 40px;
+				border-radius: 100%;
+			}
+
+			.user-info_title {
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: 500;
+				font-size: 16px;
+				line-height: 24px;
+				margin-top: 8px;
+			}
+
+			.user-info_contact {
+				font-family: Roboto;
+				font-style: normal;
+				font-weight: normal;
+				font-size: 14px;
+				line-height: 20px;
+				margin-bottom: 28px;
+			}
+
+			.dhx_sidebar--minimized .user-info_avatar {
+				height: 30px;
+				width: 30px;
+			}
+
+			.dhx_sidebar--minimized .user-info_title,
+			.dhx_sidebar--minimized .user-info_contact {
+				visibility: hidden;
+			}
+
+			.dhx-container,
+			.dhx-container__widget {
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Custom themes
+					</div>
+				</h1>
+			</div>
+		</header>
+		<form id="dhxTheme" class="dhx_sample-controls">
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input checked type="radio" name="theme" id="light" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Suite light</span>
+			</label>
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input type="radio" name="theme" id="custom-theme-light" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Custom theme light</span>
+			</label>
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input type="radio" name="theme" id="custom-theme-dark" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Custom theme dark</span>
+			</label>
+		</form>
+		<section id="layout" style="height: calc(100% - 121px);"></section>
+		<script>
+			// DHTMLX Layout - https://docs.dhtmlx.com/suite/layout/
+			const layout = new dhx.Layout("layout", {
+				type: "line",
+				cols: [
+					{
+						id: "sidebar",
+						width: "content",
+						css: "dhx_widget--border_right"
+					},
+					{
+						height: "content",
+						rows: [
+							{ id: "toolbar", height: 56 },
+							{ id: "tabbar" },
+						]
+					}
+				]
+			});
+
+			// DHTMLX Toolbar - https://docs.dhtmlx.com/suite/toolbar/
+			const toolbar = new dhx.Toolbar(null);
+			toolbar.data.parse(topmenuData);
+			layout.getCell("toolbar").attach(toolbar);
+
+			// DHTMLX Sidebar - https://docs.dhtmlx.com/suite/sidebar/
+			const sidebar = new dhx.Sidebar(null);
+			sidebar.data.parse(sidebarData);
+			layout.getCell("sidebar").attach(sidebar);
+
+			// adding events to DHTMLX Sidebar
+			sidebar.events.on("click", id => {
+				if (id === "toggle") {
+					const toggleItem = sidebar.data.getItem("toggle");
+					sidebar.toggle();
+					toggleItem.icon =  sidebar.config.collapsed ? "mdi mdi-menu" : "mdi mdi-backburger";
+				}
+			});
+
+			// DHTMLX Tabbar - https://docs.dhtmlx.com/suite/tabbar/
+			const tabbar = new dhx.Tabbar(null, {
+				tabAlign: "center",
+				views: [
+					{ id: "dashboard", tab: "Dashboard" },
+					{ tab: "Vilnius", html: "<div><p style='font-size: 18px; line-height: 1.6; padding-left: 20px; padding-right: 20px'><strong>Vilnius(Lithuanian pronunciation: [ˈvʲɪlʲnʲʊs]</strong> , see also other names) is the capital of Lithuania and its largest city, with a population of 574,147 as of 2018. Vilnius is in the southeast part of Lithuania and is the second largest city in the Baltic states. Vilnius is the seat of the main government institutions of Lithuania and the Vilnius District Municipality.</p></div>" },
+					{ tab: "Paris", html: "<div><p style='font-size: 18px; line-height: 1.6; padding-left: 20px; padding-right: 20px'><strong>Paris (French pronunciation: ​[paʁi]</strong> is the capital and most populous city of France, with an area of 105 square kilometres (41 square miles) and an official estimated population of 2,140,526 residents as of 1 January 2019. Since the 17th century, Paris has been one of Europe's major centres of finance, diplomacy, commerce, fashion, science, as well as the arts. The City of Paris is the centre and seat of government of the Île-de-France, or Paris Region, which has an estimated official 2019 population of 12,213,364, or about 18 percent of the population of France.</p></div>" },
+					{ tab: "London", html: "<div><p style='font-size: 18px; line-height: 1.6; padding-left: 20px; padding-right: 20px'><strong>London</strong> is the capital and largest city of both England and the United Kingdom, as well as the largest city within the European Union. Standing on the River Thames in the south-east of England, at the head of its 50-mile (80 km) estuary leading to the North Sea, London has been a major settlement for two millennia. Londinium was founded by the Romans</p></div>" },
+					{ tab: "Rome", html: "<div><p style='font-size: 18px; line-height: 1.6; padding-left: 20px; padding-right: 20px'><storng>Rome (Latin and Italian: Roma [ˈroːma]</storng> is the capital city and a special comune of Italy (named Comune di Roma Capitale). Rome also serves as the capital of the Lazio region. With 2,872,800 residents in 1,285 km2 (496.1 sq mi), it is also the country's most populated comune. It is the fourth most populous city in the European Union by population within city limits. It is the centre of the Metropolitan City of Rome, which has a population of 4,355,725 residents, thus making it the most populous metropolitan city in Italy.</p></div>" }
+				]
+			});
+			layout.getCell("tabbar").attach(tabbar);
+
+			// DHTMLX Layout - https://docs.dhtmlx.com/suite/layout/
+			const dashboard = new dhx.Layout(null, {
+				type: "space",
+				css: "dhx_layout_cell--overflow-auto",
+				rows: [
+					{
+						height: "fit-content",
+						css: "dhx_layout_cell--overflow-auto",
+						type: "wide",
+						cols: [
+							{
+								minWidth: 780,
+								gravity: 3,
+								height: "fit-content",
+								rows: [
+									{
+										type: "line",
+										height: "content",
+										rows: [
+											{
+												id: "grid",
+												height: 845,
+											},
+											{
+												id: "gridPager"
+											},
+										]
+									},
+									{
+										height: "content",
+										cols: [
+											{ 
+												id: "sampleCalendar",
+												css: "dhx_layout_calendar_cell",
+											},
+											{
+												id: "timepicker",
+												css: "dhx_layout_calendar_cell",
+											},
+											{
+												id: "yearsCalendar",
+												css: "dhx_layout_calendar_cell",
+											}
+										]
+									},
+									{
+										height: 350,
+										cols: [
+											{
+												width: "50%",
+												padding: 30,
+												id: "sliderLayout",
+											},
+											{
+												width: "50%",
+												padding: 30,
+												id: "tree",
+											}
+										]
+									},
+									{
+										height: "content",
+										id: "ticketsDataview",
+										css: "dhx_layout_cell--border-none",
+									}
+								]
+							},
+							{
+								height: "fit-content",
+								minWidth: 500,
+								gravity: 2,
+								rows: [
+									{
+										height: "content",
+										align: "center",
+										id: "form"
+									},
+									{
+										height: "content",
+										id: "buttonsForm"
+									},
+									{
+										height: "content",
+										id: "messageDataview",
+										css: "dhx_layout_cell--border-none",
+									}
+								]
+							}
+						]
+					}
+				] 
+			});
+			tabbar.getCell("dashboard").attach(dashboard);
+
+			// DHTMLX Grid - https://docs.dhtmlx.com/suite/grid/
+			const grid = new dhx.Grid(null, {
+				css: "grid",
+				...gridConfig,
+			});
+			dashboard.getCell("grid").attach(grid);
+
+			// DHXTMLX Pagination - https://docs.dhtmlx.com/suite/pagination/
+			const gridPager = new dhx.Pagination(null, {
+				data: grid.data,
+				pageSize: 20,
+			});
+			dashboard.getCell("gridPager").attach(gridPager);
+
+			// DHTMLX Calendar - https://docs.dhtmlx.com/suite/calendar/
+			const sampleCalendar = new dhx.Calendar(null, {
+				weekStart: "monday",
+				timePicker: true,
+				range: true,
+				value: [new Date, new Date(Date.now() + 200000000)],
+			});
+			dashboard.getCell("sampleCalendar").attach(sampleCalendar);
+
+			// DHTMLX Timepicker - https://docs.dhtmlx.com/suite/timepicker/
+			const timepicker = new dhx.Timepicker(null, {
+				controls: true,
+				value: new Date,
+			});
+			dashboard.getCell("timepicker").attach(timepicker);
+
+			// DHTMLX Calendar - https://docs.dhtmlx.com/suite/calendar/
+			const yearsCalendar = new dhx.Calendar(null, {
+				timePicker: true,
+				mode: "year",
+				value: new Date,
+			});
+			dashboard.getCell("yearsCalendar").attach(yearsCalendar);
+
+			// DHTMLX Form - https://docs.dhtmlx.com/suite/form/
+			const form = new dhx.Form(null, {
+				padding: 40,
+				width: "auto",
+				rows: [
+					{
+						cols: [
+							{
+								width: "48%",
+								name: "name",
+								type: "input",
+								label: "Name",
+								placeholder: "Type text",
+								required: true,
+							},
+							{
+								type: "spacer",
+							},
+							{
+								width: "48%",
+								name: "surname",
+								type: "input",
+								label: "Surname",
+								placeholder: "Type text",
+								required: true,
+							}              
+						]
+					},
+					{
+						name: "country",
+						type: "combo",
+						label: "Country",
+						placeholder: "Click to select",
+						multiselection: true,
+						value: ["austria", "estonia"],
+						data: country,
+					},
+					{
+						name: "birth",
+						type: "datepicker",
+						label: "Date of Birth",
+						placeholder: "Type text",
+						value: new Date,
+					},
+					{
+						name: "career",
+						type: "input",
+						label: "Career objective",
+						placeholder: "Type text",
+						helpMessage: " Help information",
+					},
+					{
+						name: "motivation",
+						type: "textarea",
+						label: "Motivation",
+						placeholder: "Type text here",
+					},
+					{
+						name: "language",
+						type: "radioGroup",
+						label: "Language level",
+						value: "1",
+						options: {
+							cols: [
+								{
+									type: "radioButton",
+									text: "Elementary",
+									value: "1",
+								},
+								{
+									type: "radioButton",
+									text: "Intermediate",
+									value: "2"
+								},
+								{
+									type: "radioButton",
+									text: "Advanced",
+									value: "2"
+								},
+							]
+						},
+					},
+					{
+						name: "backgroundColor",
+						type: "colorpicker",
+						label: "Background color",
+						placeholder: "Click to change",
+					},
+					{
+						name: "offices",
+						type: "combo",
+						label: "Offices",
+						placeholder: "You can select several offices",
+						multiselection: true,
+						data: country,
+					},
+					{
+						name: "attachDocument",
+						type: "simpleVault",
+						label: "Attach document",
+					},
+					{
+						name: "howToContact",
+						type: "checkboxGroup",
+						label: "How to contact you",
+						options: {
+							cols: [
+								{
+									id: "1",
+									type: "checkbox",
+									text: "Phone",
+									checked: true,
+								},
+								{
+									id: "2",
+									type: "checkbox",
+									text: "Mail",
+								},
+								{
+									id: "3",
+									type: "checkbox",
+									text: "Messenger",
+								},
+								{
+									id: "4",
+									type: "checkbox",
+									text: "Your option",
+								},
+							]
+						}
+					},
+				]
+			});
+			dashboard.getCell("form").attach(form);
+
+			// DHTMLX Slider - https://docs.dhtmlx.com/suite/slider/
+			const slider1 = new dhx.Slider(null, {
+				min: 0,
+				max: 40,
+				step: 1,
+			});
+
+			// Slider 2 initialization
+			const slider2 = new dhx.Slider(null, {
+				min: 0,
+				max: 40,
+				range: true,
+				value: [10, 20],
+				step: 1,
+			});
+
+			// Slider 3 initialization
+			const slider3 = new dhx.Slider(null, {
+				min: 0,
+				max: 40,
+				step: 1,
+				range: true,
+				value: [0, 20],
+				tick: 1,
+				majorTick: 5,
+				tickTemplate: v => v,
+			});
+
+			// Slider 4 initialization
+			const slider4 = new dhx.Slider(null, {
+				min: 0,
+				max: 40,
+				step: 10,
+				range: true,
+				value: [0, 20],
+			});
+
+			// Slider 5 initialization
+			const slider5 = new dhx.Slider(null, {
+				mode: "vertical",
+				range: true,
+				min: 0,
+				max: 40,
+				step: 2,
+				tick: 1,
+				majorTick: 5,
+				value: [0, 20],
+				tickTemplate: v => v,
+			});
+
+			// DHTMLX Layout - https://docs.dhtmlx.com/suite/layout/
+			const sliderLayout = new dhx.Layout(null, {
+				type: "none",
+				height: "fit-content",
+				cols: [
+					{
+						height: "content",
+						align: "between",
+						rows: [
+							{
+								padding: 10,
+								height: "content",
+								id: "slider1",
+							},
+							{
+								padding: 10,
+								height: "content",
+								id: "slider2",
+							},
+							{
+								padding: 10,
+								height: "content",
+								id: "slider3",
+							},
+							{
+								padding: 10,
+								height: "content",
+								id: "slider4",
+							}
+						]
+					},
+					{
+						padding: "10px 20px",
+						height: "260px",
+						width: "20%",
+						id: "slider5",
+					}
+				]
+			});
+			dashboard.getCell("sliderLayout").attach(sliderLayout);
+
+			// Attached all sliders in sliderLayout, which is main layout's cell 
+			sliderLayout.getCell("slider1").attach(slider1);
+			sliderLayout.getCell("slider2").attach(slider2);
+			sliderLayout.getCell("slider3").attach(slider3);
+			sliderLayout.getCell("slider4").attach(slider4);
+			sliderLayout.getCell("slider5").attach(slider5);
+
+			// DHTMLX Tree - https://docs.dhtmlx.com/suite/tree/
+			const tree = new dhx.Tree(null, {
+				checkbox: true,
+				editable: true,
+				keyNavigation: true,
+				dragMode: "both",
+			});
+			tree.data.parse(treeData);
+			dashboard.getCell("tree").attach(tree);
+
+			// Tickets dataview initialization
+			const ticketsDataview = new dhx.DataView(null, {
+				template: templateTicketsDataview,
+				data: ticketsDataviewData,
+				itemsInRow: 2,
+				css: "dhx_dataview_template_a_box"
+			});
+
+			dashboard.getCell("ticketsDataview").attach(ticketsDataview);
+
+			// Form with buttons initialization
+			const buttonsForm = new dhx.Form(null,
+				{
+					height: "content",
+					padding: 40,
+					align: "between",
+					rows: [
+						{
+							align: "between",
+							cols: [
+								{
+									padding: 5,
+									width: 140,
+									type: "button",
+									text: "Primary",
+									color: "primary",
+									icon: "dxi dxi-plus",
+									full: true,
+									size: "small",
+								},
+								{
+									padding: 5,
+									width: 140,
+									type: "button",
+									text: "Primary",
+									color: "primary",
+									full: true,
+									view: "link",
+									size: "small",
+								},
+								{
+									padding: 5,
+									width: 140,
+									type: "button",
+									text: "Primary",
+									color: "primary",
+									full: true,
+									disabled: true,
+									size: "small",
+								},
+							],
+						},
+						{
+							align: "between",
+							cols: [
+								{
+									padding: 5,
+									width: 140,
+									type: "button",
+									text: "Secondary",
+									color: "secondary",
+									icon: "dxi dxi-plus",
+									full: true,
+									size: "small",
+								},
+								{
+									padding: 5,
+									width: 140,
+									type: "button",
+									text: "Secondary",
+									color: "secondary",
+									full: true,
+									size: "small",
+									view: "link",
+								},
+								{
+									padding: 5,
+									width: 140,
+									type: "button",
+									text: "Secondary",
+									color: "secondary",
+									full: true,
+									size: "small",
+									disabled: true,
+								},
+							],
+						},
+						{
+							align: "between",
+							cols: [
+								{
+									padding: 5,
+									width: 140,
+									type: "button",
+									text: "Danger",
+									color: "danger",
+									icon: "dxi dxi-plus",
+									full: true,
+									size: "small",
+								},
+								{
+									padding: 5,
+									width: 140,
+									type: "button",
+									text: "Danger",
+									color: "danger",
+									full: true,
+									size: "small",
+									view: "link",
+								},
+								{
+									padding: 5,
+									width: 140,
+									type: "button",
+									text: "Danger",
+									color: "danger",
+									full: true,
+									size: "small",
+									disabled: true,
+								},
+							],
+						},
+						{
+							align: "between",
+							cols: [
+								{
+									padding: 5,
+									width: 140,
+									type: "button",
+									text: "Success",
+									color: "success",
+									icon: "dxi dxi-plus",
+									full: true,
+									size: "small",
+								},
+								{
+									padding: 5,
+									width: 140,
+									type: "button",
+									text: "Success",
+									color: "success",
+									full: true,
+									size: "small",
+									view: "link",
+								},
+								{
+									padding: 5,
+									width: 140,
+									type: "button",
+									text: "Success",
+									color: "success",
+									full: true,
+									size: "small",
+									disabled: true,
+								},
+							],
+						},
+					],
+				}
+			);
+			dashboard.getCell("buttonsForm").attach(buttonsForm);
+
+			// Message dataview initialization
+			const messageDataview = new dhx.DataView(null, {
+				template: messageTemplate,
+				data: messageDataviewData,
+				itemsInRow: 2,
+				css: "dhx_dataview_template_b_box"
+			});
+			dashboard.getCell("messageDataview").attach(messageDataview);
+
+			document.querySelector("#dhxTheme").addEventListener("change", function (e) {
+				e.target.id && dhx.setTheme(e.target.id)
+			});
+		</script>
+	</body>
+</html>

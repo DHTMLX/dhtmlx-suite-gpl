@@ -25,6 +25,7 @@ export interface ITooltipConfig extends IScreenPosition {
     showDelay?: number;
     hideDelay?: number;
     htmlEnable?: boolean;
+    margin?: number;
 }
 export interface IPosition {
     left: number;
@@ -39,7 +40,9 @@ export interface IScreenPosition {
 export declare enum Position {
     right = "right",
     bottom = "bottom",
-    center = "center"
+    center = "center",
+    left = "left",
+    top = "top"
 }
 export declare enum MessageContainerPosition {
     topLeft = "top-left",

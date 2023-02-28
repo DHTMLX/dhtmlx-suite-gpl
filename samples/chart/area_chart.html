@@ -35,7 +35,7 @@
 					</div>
 				</h1>
 			</div>
-		</header>
+</header>
 		<section class="dhx_sample-container">
 			<div id="chart" style="width: 100%; padding: 20px"></div>
 		</section>
@@ -55,7 +55,7 @@
 			//  You can change stroke width in series config
 			const config = {
 				type: "area",
-				css: "dhx_widget--bg_white dhx_widget--bordered",
+				css: "dhx_widget--bordered",
 				scales: {
 					"bottom": {
 						text: "month"
@@ -89,7 +89,8 @@
 				legend: {
 					series: ["A", "B", "C"],
 					halign: "right",
-					valign: "top"
+					valign: "top",
+					size: 60
 				}
 			};
 			const chart = new dhx.Chart("chart", config);

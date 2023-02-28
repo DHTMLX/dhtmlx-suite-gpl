@@ -12,7 +12,7 @@ export declare class DateHelper {
     static copy(d: Date): Date;
     static fromYear(year: number): Date;
     static fromYearAndMonth(year: number, month: number): Date;
-    static weekStart(d: Date, firstWeekday: 1 | 0): Date;
+    static weekStart(d: Date, firstWeekday: -1 | 0 | 1): Date;
     static monthStart(d: Date): Date;
     static yearStart(d: Date): Date;
     static dayStart(d: Date): Date;
@@ -25,6 +25,7 @@ export declare class DateHelper {
     static mergeHoursAndMinutes(source: Date, target: Date): Date;
     static isWeekEnd(d: Date): boolean;
     static getTwelweYears(d: Date): number[];
+    static getDayOrdinal(d: Date): number;
     static getWeekNumber(d: Date): number;
     static isSameDay(d1: Date, d2: Date): boolean;
     static toDateObject(date: Date | string, dateFormat: string): Date;

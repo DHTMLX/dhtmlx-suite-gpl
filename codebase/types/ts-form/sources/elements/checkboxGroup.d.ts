@@ -22,12 +22,12 @@ export declare class CheckboxGroup extends Label implements ICheckboxGroup {
     };
     focus(id?: string): void;
     blur(): void;
-    show(): void;
-    hide(init?: boolean): void;
-    isVisible(): boolean;
-    disable(): void;
-    enable(): void;
-    isDisabled(): boolean;
+    show(id?: string): void;
+    hide(id?: string, init?: boolean): void;
+    isVisible(id?: string): boolean;
+    enable(id?: string): void;
+    disable(id?: string, init?: boolean): void;
+    isDisabled(id?: string): boolean;
     clear(): void;
     validate(silent?: boolean): boolean;
     clearValidate(): void;

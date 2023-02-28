@@ -2,6 +2,7 @@ import { IEventSystem } from "./events";
 export interface IHandlers {
     [key: string]: anyFunction | IHandlers;
 }
+export declare type TTheme = "light" | "dark" | "contrast-light" | "contrast-dark" | string;
 export declare type Id = string | number;
 export declare type fn<T extends any[], K> = (...args: T) => K;
 export declare type anyFunction = fn<any[], any>;

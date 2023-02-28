@@ -64,4 +64,6 @@ export declare function getLabelStyle(config: any): false | {
     };
     label: any;
 };
+export declare function getPageInlineCss(): string;
+export declare function getPageLinksCss(exportStyles?: string[]): string;
 export {};

@@ -4,6 +4,7 @@ export interface IKeyManager {
     addHotKey(key: string, handler: any): void;
     removeHotKey(key?: string, context?: any): void;
     exist(key: string): boolean;
+    getKeyStorageLength(): number;
 }
 export declare class KeyManager implements IKeyManager {
     private _keysStorage;
@@ -14,4 +15,5 @@ export declare class KeyManager implements IKeyManager {
     addHotKey(key: string, handler: any): void;
     removeHotKey(key?: string, handler?: anyFunction): void;
     exist(key: string): boolean;
+    getKeyStorageLength(): number;
 }

@@ -2,6 +2,7 @@ import { Combobox } from "../../../ts-combobox";
 import { IEventSystem } from "../../../ts-common/events";
 import { Label } from "./helper/label";
 import { IComboConfig, ItemEvent, IComboEventHandlersMap, ICombo, IComboProps } from "../types";
+import { Id } from "../../../ts-common/types";
 export declare class Combo extends Label implements ICombo {
     config: IComboConfig;
     combobox: Combobox;
@@ -21,9 +22,9 @@ export declare class Combo extends Label implements ICombo {
     enable(): void;
     isDisabled(): boolean;
     clear(): void;
-    getValue(): string | string[];
-    setValue(value: string | string[]): void;
-    validate(silent?: boolean, validateValue?: string | string[]): boolean;
+    getValue(): Id | Id[];
+    setValue(value: Id | Id[]): void;
+    validate(silent?: boolean, validateValue?: Id | Id[]): boolean;
     clearValidate(): void;
     getWidget(): Combobox;
     focus(): void;
@@ -34,4 +35,5 @@ export declare class Combo extends Label implements ICombo {
     protected _getRootView(): any;
     protected _draw(): any;
     private _exsistData;
+    private _getItemText;
 }

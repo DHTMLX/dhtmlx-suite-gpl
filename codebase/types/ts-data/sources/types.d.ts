@@ -57,7 +57,7 @@ export interface IDataConfig {
     init?: anyFunction;
     update?: anyFunction;
     approximate?: IApproximate;
-    autoload?: boolean;
+    autoload?: string;
 }
 export interface IDataCollection<T extends IDataItem = IDataItem> {
     config: IDataConfig;
@@ -209,10 +209,13 @@ export declare enum DataEvents {
     beforeRemove = "beforeremove",
     afterRemove = "afterremove",
     change = "change",
+    dataRequest = "dataRequest",
     load = "load",
     loadError = "loaderror",
     beforeLazyLoad = "beforelazyload",
-    afterLazyLoad = "afterlazyload"
+    afterLazyLoad = "afterlazyload",
+    beforeItemLoad = "beforeItemLoad",
+    afterItemLoad = "afterItemLoad"
 }
 export interface IDataEventsHandlersMap {
     [key: string]: (...args: any[]) => any;
@@ -221,9 +224,12 @@ export interface IDataEventsHandlersMap {
     [DataEvents.afterRemove]: (removedItem: any) => void;
     [DataEvents.beforeAdd]: (newItem: any) => boolean | void;
     [DataEvents.beforeRemove]: (removedItem: any) => boolean | void;
-    [DataEvents.load]: () => void;
     [DataEvents.removeAll]: () => void;
+    [DataEvents.dataRequest]: (from: number, to: number) => void;
+    [DataEvents.load]: () => void;
     [DataEvents.loadError]: (response: any) => void;
+    [DataEvents.beforeItemLoad]: (id: Id) => boolean | void;
+    [DataEvents.afterItemLoad]: (id: Id) => void;
     [DataEvents.beforeLazyLoad]: () => boolean | void;
     [DataEvents.afterLazyLoad]: (from: number, count: number) => void;
 }

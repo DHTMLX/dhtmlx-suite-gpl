@@ -8,4 +8,4 @@ export declare function baseInputValidate(value: string | number, config: IInput
 export declare function isTimeFormat(value: string, timeFormat?: number): boolean;
 export declare function isVerify(config: any): boolean;
 export declare const baseProps: string[];
-export declare const widgetConfig: ({ width, type, id, name, hidden, editable, valueFormat, css, required, helpMessage, preMessage, successMessage, errorMessage, label, labelWidth, labelPosition, hiddenLabel, validation, icon, ...res }: any) => any;
+export declare const widgetConfig: ({ width, type, id, name, hidden, editable, css, required, helpMessage, preMessage, successMessage, errorMessage, label, labelWidth, labelPosition, hiddenLabel, validation, icon, ...res }: any) => any;

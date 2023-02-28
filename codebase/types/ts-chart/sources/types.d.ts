@@ -10,7 +10,7 @@ export interface IChart {
     getSeries(id: string): ISeria;
 }
 export interface IChartConfig {
-    type?: ChartType;
+    type?: TChartType;
     css?: string;
     barWidth?: number;
     scales?: IScalesConfig;
@@ -18,8 +18,9 @@ export interface IChartConfig {
     series?: SeriaConfig[];
     maxPoints?: number;
     data?: DataCollection<any> | any[];
+    exportStyles?: boolean | string[];
 }
-export declare type ChartType = "bar" | "line" | "spline" | "scatter" | "area" | "donut" | "pie" | "pie3D" | "radar" | "xbar" | "splineArea" | "treeMap";
+export declare type TChartType = "bar" | "line" | "spline" | "scatter" | "area" | "donut" | "pie" | "pie3D" | "radar" | "xbar" | "splineArea" | "treeMap" | "calendarHeatMap";
 export declare enum ChartEvents {
     toggleSeries = "toggleSeries",
     chartMouseMove = "chartMouseMove",
@@ -56,7 +57,7 @@ export interface ISeria extends ILikeSeria {
 export declare type TreeDirectionType = "asc" | "desc";
 export interface ISeriaConfig {
     id?: string;
-    type?: ChartType;
+    type?: TChartType;
     active?: boolean;
     pointColor?: string;
     dashed?: boolean;
@@ -119,10 +120,10 @@ export interface IScales {
     radial?: IScale;
 }
 export interface IScalesConfig {
-    left?: IScaleConfig;
-    right?: IScaleConfig;
-    top?: IScaleConfig;
-    bottom?: IScaleConfig;
+    left?: IScaleConfig | boolean;
+    right?: IScaleConfig | boolean;
+    top?: IScaleConfig | boolean;
+    bottom?: IScaleConfig | boolean;
     radial?: IRadialScaleConfig;
 }
 export interface ILegendConfig {
@@ -131,6 +132,15 @@ export interface ILegendConfig {
         text: SmartLocator;
         color: SmartLocator;
         alpha?: SmartLocator;
+        positiveColor?: SmartLocator;
+        negativeColor?: SmartLocator;
+        minValue?: number;
+        maxValue?: number;
+        value?: string;
+        step?: number;
+        tick?: number;
+        majorTick?: number;
+        tickTemplate?: <T>(value: T) => string;
     };
     size?: number;
     form?: Shape;
@@ -162,6 +172,14 @@ export interface ILegendDrawData {
     fill: string;
     active?: boolean;
     color?: string;
+    minValue?: number;
+    maxValue?: number;
+    negativeColor?: string;
+    positiveColor?: string;
+    step?: number;
+    tick?: number;
+    majorTick?: number;
+    tickTemplate?: <T>(value: T) => string;
 }
 export interface IComposable {
     paint(width: number, height: number, prev?: PointData[]): object;
@@ -196,6 +214,20 @@ export interface IRadarScaleDrawData {
 export interface ITreeMapConfig extends ISeriaConfig {
     paddings?: number;
     text?: string;
+}
+export interface ICalendarHeatMapConfig extends ISeriaConfig {
+    paddings?: number;
+    date?: string;
+    dateFormat?: string;
+    weekStart?: "saturday" | "sunday" | "monday";
+    positiveColor?: SmartLocator;
+    negativeColor?: SmartLocator;
+    minValue?: number;
+    maxValue?: number;
+    startDate?: string | Date;
+    endDate?: string | Date;
+    days?: string[];
+    months?: string[];
 }
 export interface IAxisCreatorConfig {
     max?: number;
@@ -232,11 +264,11 @@ export declare type PointType = "circle" | "rect" | "triangle" | "rhombus" | "si
 export declare type Gradient = (color: string) => any;
 export declare type TooltipType = "simple" | "right" | "left" | "top" | "bot";
 export declare type SvgElement = any;
-export declare type Shape = "rect" | "circle";
+export declare type Shape = "rect" | "circle" | "line";
 export declare type HorizontalPosition = "left" | "center" | "right";
 export declare type VerticalPosition = "top" | "middle" | "bottom";
 export declare type LegendDirection = "row" | "column";
-export declare type LegendType = "groupName" | "range";
+export declare type LegendType = "groupName" | "range" | "scale";
 export declare type LegendSizes = {
     width: number;
     height: number;
@@ -255,7 +287,7 @@ export declare type SmartLocator = Locator | string;
 export interface IStacker extends IComposable, ILikeSeria {
     add(seria: ISeria): void;
 }
-export declare type PointData = [number, number, string, number | string, number, TreePointData?];
+export declare type PointData = [number, number, string, (number | string)?, number?, TreePointData?];
 export declare type TreePointData = {
     items: PointData[];
 };

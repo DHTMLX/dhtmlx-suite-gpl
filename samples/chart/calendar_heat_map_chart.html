@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<!-- meta block -->
+		<title>Calendar HeatMap chart - DHTMLX Chart</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		
+		<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+		<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+		<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+		<!-- end meta block -->
+		<script type="text/javascript" src="../../codebase/suite.js"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css">
+		
+		<link rel="stylesheet" href="../common/index.css">
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Calendar HeatMap chart
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="chart"></div>
+		</section>
+		<script>
+			const heatMapData = [
+				{ id: "100", value: 50, date: "02/02/22" },
+				{ id: "101", value: 100, date: new Date(2022, 4, 1) },
+				{ id: "102.1", value: 10, date: new Date(2022, 4, 4) },
+				{ id: "102.2", value: 30, date: new Date(2022, 4, 4) },
+				{ id: "200", value: 32, date: new Date(2022, 6, 1) },
+				{ id: "201", value: 4, date: new Date(2022, 6, 15) },
+				{ id: "202", value: 35, date: new Date(2022, 7, 21) },
+				{ id: "300", value: 22, date: new Date(2022, 9, 6) },
+				{ id: "301", value: 14, date: new Date(2022, 9, 7) },
+				{ id: "302", value: 21, date: new Date(2022, 9, 12) },
+				{ id: "400", value: -14, date: new Date(2022, 9, 15) },
+				{ id: "500", value: 9, date: new Date(2023, 9, 20) },
+			];
+			const config = {
+				type: "calendarHeatMap",
+				css: "dhx_widget--bordered",
+				series: [
+					{
+						value: "value",
+						date: "date",
+					}
+				],
+				legend: {
+					values: {
+						text: "Calendar heatmap chart",
+					},
+					halign: "center",
+					valign: "top"
+				}
+			};
+
+			const chart = new dhx.Chart("chart", config);
+			chart.data.parse(heatMapData);
+		</script>
+	</body>
+</html>

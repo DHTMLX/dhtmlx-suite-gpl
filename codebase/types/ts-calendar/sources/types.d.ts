@@ -4,7 +4,7 @@ export interface ICalendarConfig {
     css?: string;
     mark?: (a: Date) => string;
     disabledDates?: (a: Date) => boolean;
-    weekStart?: "monday" | "sunday";
+    weekStart?: "saturday" | "sunday" | "monday";
     weekNumbers?: boolean;
     mode?: ViewMode;
     timePicker?: boolean;

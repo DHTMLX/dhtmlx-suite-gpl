@@ -10,3 +10,4 @@ export declare function isTooltip(config: IGridConfig, element: ICol | ISpan): b
 export declare function isHtmlEnable(config: IGridConfig, col: ICol): boolean;
 export declare function getTotalWidth(columns: ICol[]): number;
 export declare function getTotalHeight(rows: IRow[]): number;
+export declare function scrollFixedColsAndRows(e: WheelEvent): void;

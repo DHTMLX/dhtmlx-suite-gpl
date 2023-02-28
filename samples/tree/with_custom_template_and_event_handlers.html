@@ -30,10 +30,10 @@
 				height: 100%;
 			}
 			.dhx_tree_template__value {
-				font-family: Roboto, Arial, Tahoma, Verdana, sans-serif;
-				font-size: 14px;
-				line-height: normal;
-				color: rgba(0,0,0,.7);
+				font-family: var(--dhx-font-famaly);
+				font-size: var(--dhx-font-size-normal);
+				line-height: var(--dhx-line-height-normal);
+				color: var(--dhx-font-color-primary);
 			}
 			.dhx_tree_template__rows {
 				display: flex;
@@ -57,10 +57,13 @@
 				justify-content: center;
 				height: 100%;
 				width: 100%;
-				color: rgba(0,0,0,.7);
+				color: var(--dhx-font-color-primary);
 			}
 			.dhx_tree_template__icon--danger {
-				color: #E06D0D;
+				color: var(--dhx-color-danger);
+			}
+			.dhx_tree-custom {
+				padding: 40px;
 			}
 		</style>
 	</head>
@@ -82,10 +85,11 @@
 			</div>
 		</header>
 		<section class="dhx_sample-container">
-			<div style="padding: 40px; background: #fff; height: 600px; width: 400px" id="tree"></div>
+			<div style="height: 600px; width: 400px" id="tree"></div>
 		</section>
 		<script>
 			const tree = new dhx.Tree("tree", {
+				css: "dhx_tree-custom",
 				template: ({ value }, isFolder) => {
 					const template = `
 						<div class="dhx_tree_template">

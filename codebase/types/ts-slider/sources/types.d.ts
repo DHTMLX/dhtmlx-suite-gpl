@@ -13,6 +13,7 @@ export interface ISlider {
     blur(): void;
 }
 export declare enum SliderEvents {
+    beforeChange = "beforeChange",
     change = "change",
     focus = "focus",
     blur = "blur",
@@ -22,6 +23,7 @@ export declare enum SliderEvents {
 }
 export interface ISliderEventHandlersMap {
     [key: string]: (...args: any[]) => any;
+    [SliderEvents.beforeChange]: (value: number, oldValue: number, isRange: boolean) => void;
     [SliderEvents.change]: (value: number, oldValue: number, isRange: boolean) => void;
     [SliderEvents.focus]: () => void;
     [SliderEvents.blur]: () => void;

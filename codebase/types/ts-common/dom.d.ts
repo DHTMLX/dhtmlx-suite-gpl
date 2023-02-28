@@ -1,3 +1,4 @@
+import { TTheme } from "./types";
 export declare const el: any;
 export declare const sv: any;
 export declare const view: any;
@@ -19,3 +20,4 @@ export interface IViewHash {
 export declare function resizer(handler: any): any;
 export declare function resizeHandler(container: any, handler: any): any;
 export declare function awaitRedraw(): Promise<any>;
+export declare function setTheme(theme: TTheme, container: string | HTMLElement): void;

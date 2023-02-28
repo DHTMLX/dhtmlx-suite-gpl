@@ -10,6 +10,7 @@ import scatter from "./Scatter";
 import spline from "./Spline";
 import splineArea from "./SplineArea";
 import treeMap from "./TreeMap";
+import calendarHeatMap from "./CalendarHeatMap";
 declare const seriesTypes: {
     line: typeof line;
     spline: typeof spline;
@@ -23,5 +24,6 @@ declare const seriesTypes: {
     bar: typeof bar;
     xbar: typeof xbar;
     treeMap: typeof treeMap;
+    calendarHeatMap: typeof calendarHeatMap;
 };
 export default seriesTypes;

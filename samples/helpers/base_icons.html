@@ -22,7 +22,9 @@
 		<script src="https://docs.dhtmlx.com/suite/samples/helpers/common/clipboard.min.js?v=6.4.2"></script>
 		<style>
 			.dhx_sample-icon-container {
-				display: block;
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				justify-items: left;
 				background: #fff;
 				height: auto;
 				min-height: 600px;
@@ -30,6 +32,11 @@
 				padding: 50px;
 				column-count: 3;
 				margin: 0;
+			}
+			@media only screen and (max-width: 550px) {
+				.dhx_sample-icon-container {
+					grid-template-columns: 1fr;
+				}
 			}
 			.dhx_sample-icon-container .icon-card {
 				flex: 1 1 auto;
@@ -239,6 +246,10 @@
 			                            <i class="dxi dxi-download"> </i>
 			                            <span class="icon-caption">dxi dxi-download</span>
 			                        </button>
+			<button data-clipboard-text="dxi dxi-email" class="icon-card">
+			                            <i class="dxi dxi-email"> </i>
+			                            <span class="icon-caption">dxi dxi-email</span>
+			                        </button>
 			<button data-clipboard-text="dxi dxi-empty" class="icon-card">
 			                            <i class="dxi dxi-empty"> </i>
 			                            <span class="icon-caption">dxi dxi-empty</span>
@@ -330,6 +341,18 @@
 			<button data-clipboard-text="dxi dxi-format-strikethrough" class="icon-card">
 			                            <i class="dxi dxi-format-strikethrough"> </i>
 			                            <span class="icon-caption">dxi dxi-format-strikethrough</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-text-wrapping-clip" class="icon-card">
+			                            <i class="dxi dxi-format-text-wrapping-clip"> </i>
+			                            <span class="icon-caption">dxi dxi-format-text-wrapping-clip</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-text-wrapping-overflow" class="icon-card">
+			                            <i class="dxi dxi-format-text-wrapping-overflow"> </i>
+			                            <span class="icon-caption">dxi dxi-format-text-wrapping-overflow</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-format-text-wrapping-wrap" class="icon-card">
+			                            <i class="dxi dxi-format-text-wrapping-wrap"> </i>
+			                            <span class="icon-caption">dxi dxi-format-text-wrapping-wrap</span>
 			                        </button>
 			<button data-clipboard-text="dxi dxi-format-underline" class="icon-card">
 			                            <i class="dxi dxi-format-underline"> </i>
@@ -443,6 +466,10 @@
 			                            <i class="dxi dxi-sort-variant"> </i>
 			                            <span class="icon-caption">dxi dxi-sort-variant</span>
 			                        </button>
+			<button data-clipboard-text="dxi dxi-table-check" class="icon-card">
+			                            <i class="dxi dxi-table-check"> </i>
+			                            <span class="icon-caption">dxi dxi-table-check</span>
+			                        </button>
 			<button data-clipboard-text="dxi dxi-table-column-plus-after" class="icon-card">
 			                            <i class="dxi dxi-table-column-plus-after"> </i>
 			                            <span class="icon-caption">dxi dxi-table-column-plus-after</span>
@@ -463,6 +490,10 @@
 			                            <i class="dxi dxi-table-column"> </i>
 			                            <span class="icon-caption">dxi dxi-table-column</span>
 			                        </button>
+			<button data-clipboard-text="dxi dxi-table-merge-cells" class="icon-card">
+			                            <i class="dxi dxi-table-merge-cells"> </i>
+			                            <span class="icon-caption">dxi dxi-table-merge-cells</span>
+			                        </button>
 			<button data-clipboard-text="dxi dxi-table-row-plus-after" class="icon-card">
 			                            <i class="dxi dxi-table-row-plus-after"> </i>
 			                            <span class="icon-caption">dxi dxi-table-row-plus-after</span>
@@ -482,6 +513,10 @@
 			<button data-clipboard-text="dxi dxi-table-row" class="icon-card">
 			                            <i class="dxi dxi-table-row"> </i>
 			                            <span class="icon-caption">dxi dxi-table-row</span>
+			                        </button>
+			<button data-clipboard-text="dxi dxi-table-split-cell" class="icon-card">
+			                            <i class="dxi dxi-table-split-cell"> </i>
+			                            <span class="icon-caption">dxi dxi-table-split-cell</span>
 			                        </button>
 			<button data-clipboard-text="dxi dxi-undo" class="icon-card">
 			                            <i class="dxi dxi-undo"> </i>

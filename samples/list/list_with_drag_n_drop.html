@@ -24,6 +24,12 @@
 			.item_name {
 				font-weight: 500;
 			}
+			@media only screen and (max-width: 550px) {
+				.list_container {
+					margin: 0 auto;
+					max-width: 250px;
+				}
+			}
 		</style>
 	</head>
 	<body>
@@ -42,58 +48,58 @@
 					</div>
 				</h1>
 			</div>
-</header>
+		</header>
 		<section class="dhx_sample-controls">
 			Drag&apos;n&apos;drop to target or both
 		</section>
 		<section class="dhx_sample-container">
-			<div>
+			<div class="list_container">
 				<h2>Source:</h2>
 				<div id="list_source" style="width: 250px; height: 400px; margin-right: 20px;"></div>
 			</div>
-			<div>
+			<div class="list_container">
 				<h2>Both:</h2>
 				<div id="list_both" style="width: 250px; height: 400px; margin-right: 20px;"></div>
 			</div>
-			<div>
+			<div class="list_container">
 				<h2>Target:</h2>
 				<div id="list_target" style="width: 250px; height: 400px;"></div>
 			</div>
 		</section>
 		<script>
 			function template(item) {
-    let template = "<div class='list_item'>";
-    template += "<div class='item_name'>" + item.value;
-    template += "</div>";
-    template += "<div class='item_author'>";
-    template += item.authors + ", ";
-    template += item.publication_date.split("/")[2] + "</div>";
-    template += "</div>";
-    return template;
-};
+				let template = "<div class='list_item'>";
+				template += "<div class='item_name'>" + item.value;
+				template += "</div>";
+				template += "<div class='item_author'>";
+				template += item.authors + ", ";
+				template += item.publication_date.split("/")[2] + "</div>";
+				template += "</div>";
+				return template;
+			};
 
-const listSource = new dhx.List("list_source", {
-    dragMode: "source",
-    css: "dhx_widget--bordered",
-    multiselection: true,
-    template: template
-});
-listSource.data.parse(data);
+			const listSource = new dhx.List("list_source", {
+				dragMode: "source",
+				css: "dhx_widget--bordered",
+				multiselection: true,
+				template: template
+			});
+			listSource.data.parse(data);
 
-const listBoth = new dhx.List("list_both", {
-    dragMode: "both",
-    css: "dhx_widget--bordered",
-    multiselection: true,
-    template: template
-});
-listBoth.data.parse(data);
+			const listBoth = new dhx.List("list_both", {
+				dragMode: "both",
+				css: "dhx_widget--bordered",
+				multiselection: true,
+				template: template
+			});
+			listBoth.data.parse(data);
 
-const listTarget = new dhx.List("list_target", {
-    dragMode: "target",
-    css: "dhx_widget--bordered",
-    multiselection: true,
-    template: template
-});
+			const listTarget = new dhx.List("list_target", {
+				dragMode: "target",
+				css: "dhx_widget--bordered",
+				multiselection: true,
+				template: template
+			});
 		</script>
 	</body>
 </html>
