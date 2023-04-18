@@ -1,3 +1,4 @@
+import { VNode } from "../../ts-common/dom";
 import { IEventSystem } from "../../ts-common/events";
 import { View } from "../../ts-common/view";
 import { DataCollection, DataEvents, IDataEventsHandlersMap } from "../../ts-data";
@@ -6,6 +7,7 @@ import { List } from "../../ts-list";
 import { Popup } from "../../ts-popup";
 import { Id, IHandlers } from "../../ts-common/types";
 import { ComboboxEvents, ICombobox, IComboboxConfig, IComboboxEventHandlersMap, State } from "./types";
+export declare const $template: VNode;
 export declare class Combobox extends View implements ICombobox {
     data: DataCollection;
     config: IComboboxConfig;

@@ -46,6 +46,7 @@ export interface ITreeConfig extends IDragConfig {
             [className: string]: (event: Event, item: ITree) => void | boolean;
         };
     };
+    collapsed?: boolean;
     $editable?: boolean;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     editing?: boolean;

@@ -1,3 +1,97 @@
+# Version 8.1 (April 18, 2023)
+
+### New functionality
+
+#### Chart
+
+- New "exportStyles" property
+
+#### Grid
+
+- The ability to export Grid to a PDF or PNG file:
+    - new export methods: "pdf()", "png()"
+    - new property: "exportStyles"
+- The ability to set individual lists of editor options for different cells of the column:
+    - now it is possible to define the "options" property of a column as a callback function
+- The ability to set automatic height for Grid (Pro)
+
+#### Tree
+
+- The ability to initialize Tree in the collapsed state:
+    - new property: "collapsed"
+
+#### TreeGrid
+
+- The ability to export TreeGrid to a PDF or PNG file:
+    - new export methods: "pdf()", "png()"
+    - new property: "exportStyles"
+- The ability to set individual lists of editor options for different cells of the column:
+    - now it is possible to define the "options" property of a column as a callback function
+- The ability to set automatic height for TreeGrid
+- New "multiselection" property:
+    - the ability to select multiple cells/rows in TreeGrid
+    - the ability to drag-n-drop multiple rows
+- The ability to define whether collapsed rows should expand while hovering them over during drag-n-drop:
+    - new property: "dragExpand"
+- The ability to initialize TreeGrid in the collapsed state:
+    - new property: "collapsed"
+
+### Updates
+
+#### Chart
+
+- The "pdf()" method was updated:
+    - new options of the export object are added: "theme", "exportStyles"
+    - new options of the pdf object are added: "pageRanges", "displayHeaderFooter", "footerTemplate", "headerTemplate"
+- The "png()" method was updated:
+    - new options of the export object are added: "theme", "exportStyles"
+
+### Fixes
+
+- Grid. Fix work of the "afterEditEnd", "afterEditStart", "beforeEditEnd", "beforeEditStart" events when keyboard navigation is enabled
+- Grid/TreeGrid. Fix work of selection on removing or loading data
+- Layout. Fix work of the progress bar
+- TreeGrid. Fix incorrect work of filtering when collapsing or expanding the parent node
+
+# Version 8.0.3 (April 12, 2023)
+
+### Fixes
+
+- Calendar. Fix work of the calendar when it is initialized in the container with limited size
+- Form. Fix the issue with auto filling of the form in Firefox
+- Grid. Fix display of data in the tooltip for new options created via the combobox editor
+- Grid. Fix work of Grid with lazyDataProxy
+- Grid. Fix work of the "cellClick", "cellDblClick", "cellRightClick" events for spanned cells
+- Grid/TreeGrid. Fix display of data in spanned cells
+- Slider. Fix work of the slider on touch devices
+
+# Version 8.0.2 (March 20, 2023)
+
+### Fixes
+
+- Grid. Fix the issue with editing of a span belonging to fixed columns or rows
+- Grid. Fix the issue with editing of cells when selection is enabled
+- Grid. Fix the issue with export to Excel after applying a custom font to Grid cells
+- Grid. Fix the issue with the "adjustColumnWidth()" method after resizing of a column
+- Grid. Fix work of key navigation between a span and cell (in some cases)
+
+# Version 8.0.1 (March 13, 2023)
+
+### Fixes
+
+- Combobox. Fix default templates for the "img" and "icon" attributes of a data item
+- Combobox. Fix work of the "htmlEnable" property
+- Context menu. Fix the issue with applying of themes to the context menu
+- Grid/TreeGrid. Fix an error thrown when editing cells with null or undefined values in the column with "editorType: "select""
+- Grid/TreeGrid. Fix the issue with custom scroll when using together with frozen columns/rows
+- Grid/TreeGrid. Fix the issue with the value returned from the "filterChange" event after resetting the value of the inputFilter/selectFilter. Now the event returns value as an empty string
+- Grid/TreeGrid. Fix work of events of the Selection object
+- List. Now focusing of items isn't available when key navigation is disabled
+- Suite. Now the date format must include delimiters (space or symbol), otherwise an error will be thrown
+- TreeGrid. Fix the issue which caused headers of groups to be duplicated when using the "leftSplit" property of TreeGrid
+- Window. Fix the issue with excess scroll in the window content
+- Window. Fix work of Window with the "resizable: true" property
+
 # Version 8.0.0 (February 24, 2023)
 
 ### New functionality

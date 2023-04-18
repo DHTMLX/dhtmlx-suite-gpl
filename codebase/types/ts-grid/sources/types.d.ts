@@ -7,13 +7,14 @@ import { Combobox } from "../../ts-combobox";
 import { IHandlers, Id } from "../../ts-common/types";
 import { ScrollView } from "../../ts-common/ScrollView";
 import { ICalendarConfig } from "../../ts-calendar";
+import { VNode } from "../../ts-common/dom";
 export interface IGridConfig extends IDragConfig {
     columns?: ICol[];
     spans?: ISpan[];
     data?: any[];
     type?: "tree";
     width?: number;
-    height?: number;
+    height?: number | "auto";
     sortable?: boolean;
     rowCss?: (row: IRow) => string;
     leftSplit?: number;
@@ -42,7 +43,10 @@ export interface IGridConfig extends IDragConfig {
             [className: string]: (event: Event, item: ICellObj) => void;
         };
     };
+    exportStyles?: boolean | string[];
     rootParent?: Id;
+    $width?: number;
+    $height?: number;
     $headerLevel?: number;
     $footerLevel?: number;
     $totalWidth?: number;
@@ -59,6 +63,7 @@ export interface IGridConfig extends IDragConfig {
     };
     $resizing?: string | number;
     $scrollBarWidth?: IScrollBarWidth;
+    $data?: any[];
     groupTitleTemplate?: (groupName: string, groupItems: IDataItem[]) => string;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     editing?: boolean;
@@ -74,6 +79,8 @@ export interface IGridConfig extends IDragConfig {
 export interface IScrollBarWidth {
     x: number;
     y: number;
+    xState: boolean;
+    yState: boolean;
 }
 interface ICellObj {
     col: ICol;
@@ -112,7 +119,7 @@ export interface IRendererConfig extends IGridConfig {
     htmlEnable?: boolean;
     content?: IContentList;
     gridId?: string;
-    $renderFrom?: "fixedCols" | "fixedRows" | "render" | "both";
+    $renderFrom?: "leftFixedCols" | "rightFixedCols" | "topFixedRows" | "bottomFixedRows" | "render" | "both";
     _events?: IEventSystem<GridSystemEvents>;
 }
 export interface ISortingState {
@@ -187,6 +194,11 @@ export interface IHeaderFilter {
 export interface ICellRect extends ICoords, ISizes {
 }
 export declare type colType = "string" | "number" | "boolean" | "date" | "percent" | any;
+export interface IOption {
+    id: Id;
+    value: string;
+}
+export declare type TOption = IOption | string;
 export interface ICol {
     id: Id;
     width?: number;
@@ -202,7 +214,7 @@ export interface ICol {
     editable?: boolean;
     resizable?: boolean;
     sortable?: boolean;
-    options?: any[];
+    options?: (col: ICol, row?: IRow) => TOption[] | TOption[];
     draggable?: boolean;
     htmlEnable?: boolean;
     template?: (cellValue: any, row: IRow, col: ICol) => string;
@@ -220,6 +232,7 @@ export interface ICol {
     $width?: number;
     $fixed?: boolean;
     $htmlEnable?: boolean;
+    $customOptions?: any;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     dateFormat?: string;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
@@ -486,7 +499,6 @@ export interface ISizes {
 export interface ICell {
     row: IRow;
     column: ICol;
-    $preventedUnselect?: boolean;
 }
 export interface IRow {
     id?: Id;
@@ -508,13 +520,13 @@ export interface ISelectionConfig {
 }
 export interface ISelection {
     config?: ISelectionConfig;
-    setCell(rowId?: Id, colId?: Id, ctrlUp?: boolean, shiftUp?: boolean): void;
-    getCell(): ICell;
+    setCell(rowId?: IRow | Id, colId?: ICol | Id, ctrlUp?: boolean, shiftUp?: boolean): void;
+    getCell(): ICell | void;
     getCells(): ICell[];
     removeCell(rowId?: Id, colId?: Id): void;
     disable(): void;
     enable(): void;
-    toHTML(): any | any[];
+    toHTML(): VNode | VNode[];
 }
 export declare enum GridSelectionEvents {
     beforeUnSelect = "beforeUnSelect",

@@ -3,6 +3,7 @@ import { IEventSystem } from "../../ts-common/events";
 import { IHandlers, SelectionEvents, ISelectionEventsHandlersMap, Id } from "../../ts-common/types";
 import { IKeyManager } from "../../ts-common/KeyManager";
 import { ScrollView } from "../../ts-common/ScrollView";
+import { VNode } from "../../ts-common/dom";
 export declare type MultiselectionMode = "click" | "ctrlClick";
 export interface IListConfig extends IDragConfig {
     template?: (obj: IDataItem) => string;
@@ -22,6 +23,7 @@ export interface IListConfig extends IDragConfig {
         };
     };
     htmlEnable?: boolean;
+    $template?: (obj: IDataItem) => VNode;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     editing?: boolean;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */

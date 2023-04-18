@@ -7,6 +7,7 @@ export declare class Input extends Label implements IInput {
     protected _propsItem: string[];
     protected _props: string[];
     private _isValid;
+    private _value;
     constructor(container: HTMLElement | string, config?: {});
     destructor(): void;
     setProperties(propertyConfig: IInputProps): void;

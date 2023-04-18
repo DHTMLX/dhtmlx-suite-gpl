@@ -58,6 +58,7 @@ export interface IDataConfig {
     update?: anyFunction;
     approximate?: IApproximate;
     autoload?: string;
+    collapsed?: boolean;
 }
 export interface IDataCollection<T extends IDataItem = IDataItem> {
     config: IDataConfig;
@@ -94,7 +95,7 @@ export interface IDataCollection<T extends IDataItem = IDataItem> {
     forEach(callback: DataCallback<T>): void;
     save(url: IDataProxy | string): void;
     isSaved(): boolean;
-    getRawData(from: number, to: number, order?: T[], mode?: number): T[];
+    getRawData(from: number, to: number, order?: T[] | null, mode?: number): T[];
 }
 export interface IDataChangeStack {
     order: IDataChange[];
@@ -249,6 +250,7 @@ export interface IDragInfo {
     source: Id[];
     target: Id;
     dropPosition?: DropPosition;
+    dragItem?: "row" | "column";
 }
 export declare type DragMode = "target" | "both" | "source";
 export declare type DropBehaviour = "child" | "sibling" | "complex";

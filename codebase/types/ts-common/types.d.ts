@@ -42,3 +42,34 @@ export interface ITouchParam {
     timeStamp?: number;
     dblDuration?: number;
 }
+export declare type TExportType = "pdf" | "png";
+export declare type TPaperFormat = "Letter" | "Legal" | "Tabloid" | "Ledger" | "A0" | "A1" | "A2" | "A3" | "A4" | "A5" | "A6";
+export interface IExportFileConfig {
+    url?: string;
+    name?: string;
+    header?: string;
+    footer?: string;
+    exportStyles?: boolean | string[];
+    theme?: string;
+}
+export interface IPDFConfig extends IExportFileConfig {
+    pdf?: {
+        scale?: number;
+        landscape?: boolean;
+        format?: TPaperFormat;
+        margin?: {
+            top?: string | number;
+            right?: string | number;
+            bottom?: string | number;
+            left?: string | number;
+        };
+        width?: string;
+        height?: string;
+        pageRanges?: string;
+        displayHeaderFooter?: boolean;
+        footerTemplate?: string;
+        headerTemplate?: string;
+        printBackground?: boolean;
+    };
+}
+export declare type IPNGConfig = IExportFileConfig;

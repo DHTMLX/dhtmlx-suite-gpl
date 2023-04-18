@@ -6,6 +6,7 @@ import { DataEvents, DragEvents, IDataCollection, IDataEventsHandlersMap, IDataI
 import { Exporter } from "./Exporter";
 import { Dirs, EditorType, GridEvents, IAdjustBy, ICellRect, ICol, IContentList, ICoords, IEventHandlersMap, IGrid, IGridConfig, IRow, IScrollState, ISelection, ISpan, GridSystemEvents, ISystemEventHandlersMap, IColumnsWidth, ISortingState, SortFunction, IHeaderFilter } from "./types";
 export declare class Grid extends View implements IGrid {
+    version: string;
     data: IDataCollection;
     config: IGridConfig;
     events: IEventSystem<DataEvents | GridEvents | DragEvents, IEventHandlersMap & IDataEventsHandlersMap & IDragEventsHandlersMap>;
@@ -76,4 +77,5 @@ export declare class Grid extends View implements IGrid {
     private _destroyContent;
     private _render;
     private _initHotKey;
+    private _normalizeConfig;
 }
