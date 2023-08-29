@@ -1,15 +1,19 @@
-/*
-@license
+dhtmlxSuite v.8.2.0 Standard edition
+============
 
-dhtmlxSuite v.8.2.0 Standard
-This software is covered by GPL-2.0 License. Usage without proper license is prohibited.
+### Official site
 
-(c) XB Software.
-*/
+https://dhtmlx.com
 
 
-Useful links
--------------
+### Documentation
 
-- Online  documentation
-	https://docs.dhtmlx.com/
+https://docs.dhtmlx.com
+
+
+License
+----------
+
+This version of dhtmlxSuite is distributed under GPL 2.0 license and can be legally used in GPL projects. To use dhtmlxSuite in non-GPL projects (and get Pro version of the product), please obtain Commercial/Enterprise or Ultimate license on our site https://dhtmlx.com/docs/products/licenses.shtml or contact us at sales@dhtmlx.com
+
+(c) XB Software
