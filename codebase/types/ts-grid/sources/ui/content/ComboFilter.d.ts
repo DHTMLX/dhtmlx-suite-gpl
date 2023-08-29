@@ -10,12 +10,15 @@ export declare class ComboFilter implements IHeaderFilter {
     events: IEventSystem<HeaderFilterEvent>;
     private _filter;
     private _isFocused;
+    private _silentMode;
     constructor(column: any, config?: any, data?: any, value?: any, conf?: any);
     protected initFilter(): void;
     protected initHandlers(): void;
     getFilter(): Combobox;
-    setValue(value: string | string[]): void;
-    clear(): void;
+    setValue(value: string | string[], silent?: boolean): void;
+    clear(silent?: boolean): void;
     focus(): void;
     blur(): void;
+    private _setData;
+    private _checkValue;
 }

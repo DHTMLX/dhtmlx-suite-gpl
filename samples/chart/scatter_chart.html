@@ -13,10 +13,10 @@
 		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
 		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
 		<!-- end meta block -->
-		<script type="text/javascript" src="../../codebase/suite.js"></script>
-		<link rel="stylesheet" href="../../codebase/suite.css">
+		<script type="text/javascript" src="../../codebase/suite.js?v=8.2.0"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css?v=8.2.0">
 		
-		<link rel="stylesheet" href="../common/index.css">
+		<link rel="stylesheet" href="../common/index.css?v=8.2.0">
 		<!-- custom sample head -->
 	</head>
 	<body>
@@ -41,18 +41,16 @@
 		</section>
 		<script>
 			const scatterData = [
-				{ month: "01", "value A": 25, "value B": 50, "value C": 30 },
-				{ month: "02", "value A": 20, "value B": 52, "value C": 28 },
-				{ month: "03", "value A": 5, "value B": 33, "value C": 15 },
-				{ month: "04", "value A": 55, "value B": 30, "value C": 75 },
-				{ month: "05", "value A": 30, "value B": 11, "value C": 20 },
-				{ month: "06", "value A": 27, "value B": 14, "value C": 19 },
-				{ month: "07", "value A": 32, "value B": 31, "value C": 11 },
-				{ month: "08", "value A": 50, "value B": 22, "value C": 43 },
-				{ month: "09", "value A": 12, "value B": 19, "value C": 20 },
-				{ month: "10", "value A": 10, "value B": 24, "value C": 4 },
-				{ month: "11", "value A": 17, "value B": 40, "value C": 20 },
-				{ month: "12", "value A": 40, "value B": 60, "value C": 10 }
+				{ month: "01", "A": 20, "B": 52 },
+				{ month: "02", "A": 5, "B": 33 },
+				{ month: "03", "A": 55, "B": 30 },
+				{ month: "04", "A": 30, "B": 11 },
+				{ month: "05", "A": 27, "B": 14 },
+				{ month: "06", "A": 32, "B": 31 },
+				{ month: "07", "A": 50, "B": 22 },
+				{ month: "08", "A": 12, "B": 19 },
+				{ month: "09", "A": 10, "B": 24 },
+				{ month: "10", "A": 17, "B": 40 }
 			];
 			const config = {
 				css: "dhx_widget--bordered",
@@ -73,18 +71,20 @@
 					{
 						id: "A_B",
 						type: "scatter",
-						value: "value A",
-						valueY: "value B",
+						value: "A",
+						valueY: "B",
 						color: "#81C4E8",
-						pointType: "circle"
+						pointType: "circle",
+						label: "Value A",
 					},
 					{
 						id: "B_A",
 						type: "scatter",
-						value: "value B",
-						valueY: "value A",
+						value: "B",
+						valueY: "A",
 						color: "#74A2E7",
-						pointType: "circle"
+						pointType: "circle",
+						label: ({ value }) => `Value ${value}`,
 					}
 				],
 				legend: {

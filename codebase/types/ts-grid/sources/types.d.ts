@@ -32,6 +32,8 @@ export interface IGridConfig extends IDragConfig {
     resizable?: boolean;
     htmlEnable?: boolean;
     tooltip?: boolean;
+    headerTooltip?: boolean;
+    footerTooltip?: boolean;
     headerRowHeight?: number;
     footerRowHeight?: number;
     rowHeight?: number;
@@ -104,6 +106,8 @@ interface IFixedRows {
 export interface IRendererConfig extends IGridConfig {
     scroll?: IScrollState;
     datacollection: any;
+    columns?: ICol[];
+    filteredColumns?: ICol[];
     currentColumns?: ICol[];
     currentRows?: IRow[];
     fixedColumns?: IFixedColumns;
@@ -186,8 +190,8 @@ export interface IHeaderFilter {
     id?: Id;
     filterConfig?: IComboFilterConfig;
     getFilter(): HTMLElement | Combobox;
-    setValue(value: string | string[]): void;
-    clear(): void;
+    setValue(value: string | string[], silent?: boolean): void;
+    clear(silent?: boolean): void;
     focus(): void;
     blur(): void;
 }
@@ -214,7 +218,7 @@ export interface ICol {
     editable?: boolean;
     resizable?: boolean;
     sortable?: boolean;
-    options?: (col: ICol, row?: IRow) => TOption[] | TOption[];
+    options?: ((col: ICol, row?: IRow) => TOption[]) | TOption[];
     draggable?: boolean;
     htmlEnable?: boolean;
     template?: (cellValue: any, row: IRow, col: ICol) => string;
@@ -245,18 +249,27 @@ export interface ICol {
     fitToContainer?: boolean;
 }
 export declare type fixedRowContent = "inputFilter" | "selectFilter" | "comboFilter";
-export declare type footerMethods = "avg" | "sum" | "max" | "min";
-export interface IHeader {
+export declare type footerMethods = "avg" | "sum" | "max" | "min" | "count";
+export interface IContent {
+    id?: string;
     text?: string;
     colspan?: number;
     rowspan?: number;
-    css?: any;
+    css?: string;
+    align?: IAlign;
+    tooltip?: boolean;
+}
+export interface IHeader extends IContent {
     content?: fixedRowContent | footerMethods;
     filterConfig?: IComboFilterConfig;
     customFilter?: (item: any, input: string) => boolean;
-    align?: IAlign;
     headerSort?: boolean;
     sortAs?: SortFunction;
+    tooltipTemplate?: (value: string | undefined, header: IHeader, col: ICol) => string | boolean;
+}
+export interface IFooter extends IContent {
+    content?: footerMethods;
+    tooltipTemplate?: (value: string | undefined, header: IFooter, col: ICol) => string | boolean;
 }
 export interface IComboFilterConfig {
     data?: DataCollection<any> | any[];
@@ -266,12 +279,6 @@ export interface IComboFilterConfig {
     placeholder?: string;
     virtual?: boolean;
     multiselection?: boolean;
-}
-export declare type SortFunction = (cellValue: any) => string | number;
-export interface IFooter {
-    text?: string | number;
-    css?: any;
-    content?: fixedRowContent | footerMethods;
 }
 export interface ISpan {
     row: Id;
@@ -283,7 +290,18 @@ export interface ISpan {
     tooltip?: boolean;
     tooltipTemplate?: (spanValue: any, span: ISpan) => string;
     $markCss?: string;
+    $type?: colType;
 }
+export interface IComboFilterConfig {
+    data?: DataCollection<any> | any[];
+    readonly?: boolean;
+    template?: (item: any) => string;
+    filter?: (item: any, input: string) => boolean;
+    placeholder?: string;
+    virtual?: boolean;
+    multiselection?: boolean;
+}
+export declare type SortFunction = (cellValue: any) => string | number;
 declare type MarkFunction = (cell: any, columnCells: any[], row: IRow, column: ICol) => string;
 export interface IMark {
     min?: string;
@@ -378,7 +396,7 @@ export interface IEventHandlersMap {
     [GridEvents.scroll]: (scrollState: ICoords) => void;
     [GridEvents.beforeSort]: (col: ICol, dir: Dirs) => void | boolean;
     [GridEvents.afterSort]: (col: ICol, dir: Dirs) => void;
-    [GridEvents.filterChange]: (value: string | string[], colId: Id, filterId: fixedRowContent) => void;
+    [GridEvents.filterChange]: (value: string | string[], colId: Id, filterId: fixedRowContent, silent?: boolean) => void;
     [GridEvents.beforeFilter]: (value: string, colId: Id) => void | boolean;
     [GridEvents.beforeResizeStart]: (col: ICol, e: MouseEvent) => boolean | void;
     [GridEvents.resize]: (col: ICol, e: MouseEvent) => void;
@@ -515,6 +533,12 @@ export declare type IDirection = "horizontal" | "vertical";
 export declare type IDragType = "row" | "column" | "both";
 export declare type AdjustTargetType = "data" | "header" | "footer";
 export declare type IAdjustBy = AdjustTargetType | boolean;
+export interface IAdjustColumns {
+    rows: IRow[];
+    cols: ICol[];
+    totalCols?: ICol[];
+    adjust?: IAdjustBy;
+}
 export interface ISelectionConfig {
     disabled?: boolean;
 }

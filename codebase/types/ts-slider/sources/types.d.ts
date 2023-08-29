@@ -33,9 +33,9 @@ export interface ISliderEventHandlersMap {
 }
 export declare type ILabelPosition = "left" | "top";
 export interface ISliderConfig {
-    min: number;
-    max: number;
-    step: number;
+    min?: number;
+    max?: number;
+    step?: number;
     mode?: Direction;
     range?: boolean;
     value?: number[] | number | string;

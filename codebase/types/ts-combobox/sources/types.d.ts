@@ -1,5 +1,5 @@
 import { Id } from "../../ts-common/types";
-import { DataCollection } from "../../ts-data";
+import { DataCollection, IDataItem } from "../../ts-data";
 export declare type ILabelPosition = "left" | "top";
 export interface IComboboxConfig {
     data?: DataCollection<any> | any[];
@@ -77,7 +77,7 @@ export interface ICombobox {
     blur(): void;
     getValue(asArray?: boolean): Id[] | Id;
     setValue(ids: Id[] | Id): void;
-    addOption(value: string, join?: boolean): void;
+    addOption<T extends IDataItem>(value: T | string, join?: boolean): void;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     setState(state: State): void;
 }

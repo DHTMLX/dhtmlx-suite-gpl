@@ -1,8 +1,8 @@
 import { IContainerConfig } from "../../../ts-common/core";
-import { ICol, IColumnsWidth, IGridConfig, IRendererConfig, IRow, colType, TOption } from "./../types";
+import { ICol, IColumnsWidth, IGridConfig, IRow, colType, TOption } from "./../types";
 export declare function normalizeColumns({ columns, htmlEnable }: IGridConfig, configChanged?: boolean): void;
 export declare function countColumns(config: IGridConfig, columns: ICol[]): number;
-export declare function calculatePositions(width: number, height: number, scroll: any, conf: IRendererConfig, data: IRow[]): {
+export declare function calculatePositions(width: number, height: number, scroll: any, conf: IGridConfig, data: IRow[]): {
     xStart: number;
     xEnd: number;
     yStart: number;

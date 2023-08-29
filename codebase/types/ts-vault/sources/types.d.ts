@@ -61,9 +61,11 @@ export interface IUploader {
     parseFiles(dataTransfer: DataTransfer): any;
 }
 export interface IUploaderConfig {
+    accept?: string;
     autosend?: boolean;
     target?: string;
     params?: IParams;
+    headerParams?: IParams;
     singleRequest?: boolean;
     fieldName?: string;
     updateFromResponse?: boolean;

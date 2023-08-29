@@ -2,7 +2,7 @@ import { IEventSystem } from "../../ts-common/events";
 import { View } from "../../ts-common/view";
 import { Layout, ILayoutConfig, ICellConfig } from "../../ts-layout";
 import { IAnyObj } from "../../ts-common/types";
-import { FormEvents, IItemConfig, IFormEventHandlersMap, IForm, ClearMethod, IFormConfig, FormDataCallback, IFormProps } from "./types";
+import { FormEvents, IItemConfig, IFormEventHandlersMap, IForm, ClearMethod, IFormConfig, TFormDataCallback, TProps } from "./types";
 export declare class Form extends View implements IForm {
     config: IFormConfig;
     events: IEventSystem<FormEvents, IFormEventHandlersMap>;
@@ -24,11 +24,11 @@ export declare class Form extends View implements IForm {
     getItem(name: string): any;
     validate(silent?: boolean): boolean;
     setProperties(arg: string | {
-        [name: string]: IFormProps;
-    }, props?: IFormProps): void;
+        [name: string]: TProps;
+    }, props?: TProps): void;
     getProperties(name?: string): {
-        [name: string]: IFormProps;
-    } | IFormProps;
+        [name: string]: TProps;
+    } | TProps;
     show(): void;
     hide(init?: boolean): void;
     setFocus(name: string): void;
@@ -37,7 +37,7 @@ export declare class Form extends View implements IForm {
     disable(): void;
     enable(): void;
     isDisabled(name?: string): boolean;
-    forEach(callback: FormDataCallback): void;
+    forEach(callback: TFormDataCallback): void;
     destructor(): void;
     getRootView(): any;
     protected _addLayoutItem(item: IItemConfig): ICellConfig;

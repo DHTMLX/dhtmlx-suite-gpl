@@ -1,9 +1,72 @@
 import { Combobox } from "../../../ts-combobox";
 import { IEventSystem } from "../../../ts-common/events";
 import { Label } from "./helper/label";
-import { IComboConfig, ItemEvent, IComboEventHandlersMap, ICombo, IComboProps } from "../types";
+import { ValidationStatus, ItemEvent, ILabel, IBaseLayoutItem, IMessage, IBaseState, IBaseItem, IBaseHandlersMap } from "../types";
 import { Id } from "../../../ts-common/types";
+import { IFieldset } from "./fieldset";
+export declare type ValidationComboFn = (input: Id | Id[], text: string | string[]) => boolean;
+export interface IComboProps extends IBaseLayoutItem, ILabel, IMessage {
+    readOnly?: boolean;
+    validation?: ValidationComboFn;
+    template?: (item: any) => string;
+    filter?: (item: any, input: string) => boolean;
+    multiselection?: boolean;
+    placeholder?: string;
+    selectAllButton?: boolean;
+    itemsCount?: boolean | ((count: number) => string);
+    itemHeight?: number | string;
+    virtual?: boolean;
+    listHeight?: number | string;
+    newOptions?: boolean;
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    readonly?: boolean;
+}
+export interface IComboConfig extends IBaseItem, IBaseState, IComboProps {
+    type: "combo";
+    value?: Id | Id[];
+    data?: any[];
+    $validationStatus?: ValidationStatus;
+}
+export interface ICombo {
+    parent?: IFieldset;
+    config: IComboConfig;
+    combobox: Combobox;
+    events: IEventSystem<ItemEvent, IComboEventHandlersMap>;
+    destructor(): void;
+    show(): void;
+    hide(init?: boolean): void;
+    isVisible(): boolean;
+    disable(): void;
+    enable(): void;
+    isDisabled(): boolean;
+    validate(silent?: boolean, validateValue?: Id | Id[]): boolean;
+    clearValidate(): void;
+    setValue(value: Id | Id[]): void;
+    getValue(): Id | Id[];
+    focus(): void;
+    blur(): void;
+    clear(): void;
+    getWidget(): Combobox;
+    setProperties(propertyConfig: IComboProps): void;
+    getProperties(): IComboProps;
+}
+export interface IComboEventHandlersMap extends IBaseHandlersMap {
+    [ItemEvent.beforeChange]: (value: Id | Id[]) => boolean | void;
+    [ItemEvent.change]: (value: Id | Id[]) => void;
+    [ItemEvent.focus]: (value: Id | Id[]) => void;
+    [ItemEvent.blur]: (value: Id | Id[]) => void;
+    [ItemEvent.keydown]: (event: KeyboardEvent, id: Id | undefined) => void;
+    [ItemEvent.beforeHide]: (value: Id | Id[], init: boolean) => boolean | void;
+    [ItemEvent.beforeShow]: (value: Id | Id[]) => boolean | void;
+    [ItemEvent.afterHide]: (value: Id | Id[], init: boolean) => void;
+    [ItemEvent.afterShow]: (value: Id | Id[]) => void;
+    [ItemEvent.beforeValidate]: (value: Id | Id[]) => boolean | void;
+    [ItemEvent.afterValidate]: (value: Id | Id[], isValidate: boolean) => void;
+    [ItemEvent.beforeChangeProperties]: (properties: IComboProps) => boolean | void;
+    [ItemEvent.afterChangeProperties]: (properties: IComboProps) => void;
+}
 export declare class Combo extends Label implements ICombo {
+    parent: IFieldset;
     config: IComboConfig;
     combobox: Combobox;
     events: IEventSystem<ItemEvent, IComboEventHandlersMap>;

@@ -36,7 +36,8 @@ export declare class List extends View implements IList {
     setFocus(id: Id): void;
     getFocus(): Id;
     destructor(): void;
-    showItem(id: Id): void;
+    scrollTo(id: Id): void;
+    protected _scrollTo(id: Id, el: HTMLElement): void;
     protected _renderItem(item: IListItem, index: number): VNode;
     protected _renderList(): VNode;
     moveFocus(mode: number, step?: number): void;

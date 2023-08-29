@@ -18,6 +18,7 @@ export declare function getSpans(config: IRendererConfig, mode?: Split): any[];
 export declare function getShifts(conf: IRendererConfig): ICoords;
 export declare function normalizeSpan(span: ISpan, config: IGridConfig): {
     $renderFrom: string[];
+    $type: any;
     row: string | number;
     column: string | number;
     rowspan?: number;

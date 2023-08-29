@@ -1,6 +1,7 @@
 import { IEventSystem } from "../../../ts-common/events";
 import { View } from "../../../ts-common/view";
-import { IRadioButtonConfig } from "../types";
+import { IFieldset } from "./fieldset";
+import { IRadioButtonConfig } from "./radioGroup";
 export declare enum RadioButtonEvents {
     beforeChange = "beforeChange",
     change = "change",
@@ -13,6 +14,7 @@ export declare enum RadioButtonEvents {
     afterShow = "afterShow"
 }
 export declare class RadioButton extends View {
+    parent: IFieldset;
     config: IRadioButtonConfig;
     events: IEventSystem<RadioButtonEvents>;
     protected _handlers: any;

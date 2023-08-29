@@ -1,7 +1,7 @@
 @font-face {
     font-family: "dhxicons";
-    src: url("./dhxicons.woff2?8dc3ce540ffbe1de5f875208d89a7e3e") format("woff2"),
-url("./dhxicons.woff?8dc3ce540ffbe1de5f875208d89a7e3e") format("woff");
+    src: url("./dhxicons.woff2?97ccb4ab78f82c65b50005c65ca4e934") format("woff2"),
+url("./dhxicons.woff?97ccb4ab78f82c65b50005c65ca4e934") format("woff");
 }
 
 .dxi:before {
@@ -255,78 +255,81 @@ url("./dhxicons.woff?8dc3ce540ffbe1de5f875208d89a7e3e") format("woff");
 .dxi.dxi-pencil:before {
     content: "\f150";
 }
-.dxi.dxi-plus-circle:before {
+.dxi.dxi-person:before {
     content: "\f151";
 }
-.dxi.dxi-plus:before {
+.dxi.dxi-plus-circle:before {
     content: "\f152";
 }
-.dxi.dxi-printer:before {
+.dxi.dxi-plus:before {
     content: "\f153";
 }
-.dxi.dxi-redo:before {
+.dxi.dxi-printer:before {
     content: "\f154";
 }
-.dxi.dxi-rotate-right:before {
+.dxi.dxi-redo:before {
     content: "\f155";
 }
-.dxi.dxi-select-all:before {
+.dxi.dxi-rotate-right:before {
     content: "\f156";
 }
-.dxi.dxi-sort-variant:before {
+.dxi.dxi-select-all:before {
     content: "\f157";
 }
-.dxi.dxi-table-check:before {
+.dxi.dxi-sort-variant:before {
     content: "\f158";
 }
-.dxi.dxi-table-column-plus-after:before {
+.dxi.dxi-table-check:before {
     content: "\f159";
 }
-.dxi.dxi-table-column-plus-before:before {
+.dxi.dxi-table-column-plus-after:before {
     content: "\f15a";
 }
-.dxi.dxi-table-column-remove-after:before {
+.dxi.dxi-table-column-plus-before:before {
     content: "\f15b";
 }
-.dxi.dxi-table-column-remove:before {
+.dxi.dxi-table-column-remove-after:before {
     content: "\f15c";
 }
-.dxi.dxi-table-column:before {
+.dxi.dxi-table-column-remove:before {
     content: "\f15d";
 }
-.dxi.dxi-table-merge-cells:before {
+.dxi.dxi-table-column:before {
     content: "\f15e";
 }
-.dxi.dxi-table-row-plus-after:before {
+.dxi.dxi-table-merge-cells:before {
     content: "\f15f";
 }
-.dxi.dxi-table-row-plus-before:before {
+.dxi.dxi-table-row-plus-after:before {
     content: "\f160";
 }
-.dxi.dxi-table-row-remove-after:before {
+.dxi.dxi-table-row-plus-before:before {
     content: "\f161";
 }
-.dxi.dxi-table-row-remove:before {
+.dxi.dxi-table-row-remove-after:before {
     content: "\f162";
 }
-.dxi.dxi-table-row:before {
+.dxi.dxi-table-row-remove:before {
     content: "\f163";
 }
-.dxi.dxi-table-split-cell:before {
+.dxi.dxi-table-row:before {
     content: "\f164";
 }
-.dxi.dxi-undo:before {
+.dxi.dxi-table-split-cell:before {
     content: "\f165";
 }
-.dxi.dxi-unfold-more-horizontal:before {
+.dxi.dxi-undo:before {
     content: "\f166";
 }
-.dxi.dxi-vault:before {
+.dxi.dxi-unfold-more-horizontal:before {
     content: "\f167";
 }
-.dxi.dxi-view-grid:before {
+.dxi.dxi-vault:before {
     content: "\f168";
 }
-.dxi.dxi-view-sequential:before {
+.dxi.dxi-view-grid:before {
     content: "\f169";
+}
+.dxi.dxi-view-sequential:before {
+    content: "\f16a";
 }

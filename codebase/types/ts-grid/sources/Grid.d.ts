@@ -4,7 +4,7 @@ import { Id, ITouchParam } from "../../ts-common/types";
 import { View } from "../../ts-common/view";
 import { DataEvents, DragEvents, IDataCollection, IDataEventsHandlersMap, IDataItem, IDragEventsHandlersMap } from "../../ts-data";
 import { Exporter } from "./Exporter";
-import { Dirs, EditorType, GridEvents, IAdjustBy, ICellRect, ICol, IContentList, ICoords, IEventHandlersMap, IGrid, IGridConfig, IRow, IScrollState, ISelection, ISpan, GridSystemEvents, ISystemEventHandlersMap, IColumnsWidth, ISortingState, SortFunction, IHeaderFilter } from "./types";
+import { Dirs, EditorType, GridEvents, IAdjustBy, ICellRect, ICol, IContentList, ICoords, IEventHandlersMap, IGrid, IGridConfig, IRow, IScrollState, ISelection, ISpan, GridSystemEvents, ISystemEventHandlersMap, IColumnsWidth, ISortingState, SortFunction, IHeaderFilter, IAdjustColumns } from "./types";
 export declare class Grid extends View implements IGrid {
     version: string;
     data: IDataCollection;
@@ -23,6 +23,7 @@ export declare class Grid extends View implements IGrid {
     private _filterData;
     protected _activeFilters: {};
     private _hiddenFilters;
+    protected _destructed: boolean;
     constructor(container: HTMLElement | string, config?: IGridConfig);
     destructor(): void;
     setColumns(columns: ICol[]): void;
@@ -61,13 +62,21 @@ export declare class Grid extends View implements IGrid {
     protected _addEmptyRow(): void;
     protected _sort(by: Id, dir?: Dirs, sortAs?: SortFunction): void;
     protected _clearTouchTimer(): void;
-    protected _checkFilters(): void;
+    protected _checkFilters(reset?: boolean): void;
+    protected _setUniqueData(sync?: boolean): void;
+    protected _checkSelectFilterValue(): void;
+    protected _clearFilterValue(allCols?: boolean): void;
     protected _adjustColumns(): void;
     protected _prepareData(data: IDataItem[] | IDataCollection): any[] | IDataItem[];
-    protected _adjustColumnsWidth(rows: IRow[], cols: ICol[], adjust?: IAdjustBy): IColumnsWidth;
+    protected _adjustColumnsWidth({ rows, cols, adjust, }: IAdjustColumns): IColumnsWidth;
     protected _prepareColumnData(data: any, type: "header" | "footer"): IRow[];
     protected _dragStart(event: any): void;
     protected _getRowGhost(ids: Id[]): HTMLDivElement;
+    protected _initHooks(): {
+        didMount: () => void;
+        didUnmount: (vm: any) => void;
+    };
+    private _canDataParse;
     private _init;
     private _attachDataCollection;
     private _setMarks;
@@ -78,4 +87,6 @@ export declare class Grid extends View implements IGrid {
     private _render;
     private _initHotKey;
     private _normalizeConfig;
+    private _normalizeSpans;
+    private _autoScroll;
 }

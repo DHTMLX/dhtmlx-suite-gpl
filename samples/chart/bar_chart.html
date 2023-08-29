@@ -13,10 +13,10 @@
 		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
 		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
 		<!-- end meta block -->
-		<script type="text/javascript" src="../../codebase/suite.js"></script>
-		<link rel="stylesheet" href="../../codebase/suite.css">
+		<script type="text/javascript" src="../../codebase/suite.js?v=8.2.0"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css?v=8.2.0">
 		
-		<link rel="stylesheet" href="../common/index.css">
+		<link rel="stylesheet" href="../common/index.css?v=8.2.0">
 		<!-- custom sample head -->
 	</head>
 	<body>
@@ -41,12 +41,12 @@
 		</section>
 		<script>
 			const companiesData = [
-				{ month: "01", "company A": 20, "company B": 52, "company C": 72, "company D": 34 },
-				{ month: "02", "company A": 5, "company B": 33, "company C": 90, "company D": 55 },
-				{ month: "03", "company A": 55, "company B": 30, "company C": 81, "company D": 66 },
-				{ month: "04", "company A": 30, "company B": 11, "company C": 62, "company D": 22 },
-				{ month: "05", "company A": 27, "company B": 14, "company C": 68, "company D": 70 },
-				{ month: "06", "company A": 32, "company B": 31, "company C": 64, "company D": 50 },
+				{ month: "01", "A": 20, "B": 52, "company C": 72, },
+				{ month: "02", "A": 5, "B": 33, "company C": 90, },
+				{ month: "03", "A": 55, "B": 30, "company C": 81, },
+				{ month: "04", "A": 30, "B": 11, "company C": 62, },
+				{ month: "05", "A": 27, "B": 14, "company C": 68, },
+				{ month: "06", "A": 32, "B": 31, "company C": 64, },
 			];
 			const config = {
 				type: "bar",
@@ -64,15 +64,17 @@
 				series: [
 					{
 						id: "A",
-						value: "company A",
+						value: "A",
 						color: "#81C4E8",
-						fill: "#81C4E8"
+						fill: "#81C4E8",
+						label: "Company A",
 					},
 					{
 						id: "B",
-						value: "company B",
+						value: "B",
 						color: "#74A2E7",
-						fill: "#74A2E7"
+						fill: "#74A2E7",
+						label: ({ id }) => `Company ${id}`,
 					},
 					{
 						id: "C",

@@ -54,4 +54,5 @@ export declare class Cell extends View implements ICell {
     protected _calculateStyle(): any;
     private _resizedWindow;
     private _resetCellsSize;
+    private _checkFullSizeCell;
 }

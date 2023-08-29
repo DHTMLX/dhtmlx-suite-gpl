@@ -3,6 +3,7 @@ import { VNode } from "../../ts-common/dom";
 import { IEventSystem } from "../../ts-common/events";
 import { FlexDirection } from "../../ts-common/html";
 import { ScrollView } from "../../ts-common/ScrollView";
+import { TLabelAlignment } from "../../ts-common/types";
 export interface ICellConfig {
     id?: string;
     html?: string;
@@ -36,6 +37,10 @@ export interface ICellConfig {
     $fixed?: boolean;
     $autoWidth?: boolean;
     $autoHeight?: boolean;
+    $fieldset?: boolean;
+    $disabled?: boolean;
+    label?: string;
+    labelAlignment?: TLabelAlignment;
 }
 export interface ILayoutConfig extends ICellConfig {
     rows?: ICellConfig[] | ILayoutConfig[];

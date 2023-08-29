@@ -24,7 +24,7 @@
 		<script>function loadFont(a,b,c,d){function e(){if(!window.FontFace)return!1;var a=new FontFace("t",'url("data:application/font-woff2,") format("woff2")',{}),b=a.load();try{b.then(null,function(){})}catch(c){}return"loading"===a.status}var f=navigator.userAgent,g=!window.addEventListener||f.match(/(Android (2|3|4.0|4.1|4.2|4.3))|(Opera (Mini|Mobi))/)&&!f.match(/Chrome/);if(!g){var h={};try{h=localStorage||{}}catch(i){}var j="x-font-"+a,k=j+"url",l=j+"css",m=h[k],n=h[l],o=document.createElement("style");if(o.rel="stylesheet",document.head.appendChild(o),!n||m!==b&&m!==c){var p=c&&e()?c:b,q=new XMLHttpRequest;q.open("GET",p),q.onload=function(){q.status>=200&&q.status<400&&(h[k]=p,h[l]=q.responseText,d||(o.textContent=q.responseText))},q.send()}else o.textContent=n}}</script>
 		<script>loadFont('robotoFont', './common/fonts/fonts-woff.css?ver=1', './common/fonts/fonts-woff2.css?ver=1')</script>
 		<!-- css -->
-		<link rel="stylesheet" type="text/css" href="./common/cover.css">
+		<link rel="stylesheet" type="text/css" href="./common/cover.css?v=8.2.0">
 	</head>
 
 	<body>
@@ -363,29 +363,6 @@
 						</div>
 						<div class="samples-container__col ">
 							<div>
-								<div class="samples-title">Pagination</div>
-								<div class="samples-list">
-									<div class="samples-list__row">
-										<a href="../samples/pagination/pagination_with_grid.html" title="" class="samples-link">Pagination with Grid</a>
-									</div>
-									<div class="samples-list__row">
-										<a href="../samples/pagination/pagination_align.html" title="" class="samples-link">Pagination align</a>
-									</div>
-								</div>
-								<div class="samples-list-footer">
-									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23pagination" title="" class="samples-icon-link" target="_blank">
-										<span class="samples-icon-link__icon">
-											<svg viewBox="0 0 16 16" class="anchor-icon">
-												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
-											</svg>
-										</span>
-										Check over 10 online Pagination samples
-									</a>
-								</div>
-							</div>
-						</div>
-						<div class="samples-container__col ">
-							<div>
 								<div class="samples-title">Popup</div>
 								<div class="samples-list">
 									<div class="samples-list__row">
@@ -590,29 +567,6 @@
 											</svg>
 										</span>
 										Check over 15 online Tree samples
-									</a>
-								</div>
-							</div>
-						</div>
-						<div class="samples-container__col ">
-							<div>
-								<div class="samples-title">Treegrid</div>
-								<div class="samples-list">
-									<div class="samples-list__row">
-										<a href="../samples/treegrid/treegrid_initialization.html" title="" class="samples-link">Initialization with config.data</a>
-									</div>
-									<div class="samples-list__row">
-										<a href="../samples/treegrid/treegrid_with_rich_configuration.html" title="" class="samples-link">TreeGrid with rich configuration</a>
-									</div>
-								</div>
-								<div class="samples-list-footer">
-									<a href="https://snippet.dhtmlx.com/all?text&#x3D;%23treegrid" title="" class="samples-icon-link" target="_blank">
-										<span class="samples-icon-link__icon">
-											<svg viewBox="0 0 16 16" class="anchor-icon">
-												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#anchor" class="anchor-icon line"></use>
-											</svg>
-										</span>
-										Check over 50 online Treegrid samples
 									</a>
 								</div>
 							</div>

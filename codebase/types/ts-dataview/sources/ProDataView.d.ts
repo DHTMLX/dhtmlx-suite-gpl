@@ -6,6 +6,6 @@ export declare class ProDataView extends DataView implements IProDataView {
     scrollView: ScrollView;
     constructor(node: HTMLElement | string, config?: IDataViewConfig);
     destructor(): void;
-    showItem(id: string): void;
+    scrollTo(id: string): void;
     protected _renderList(): VNode;
 }

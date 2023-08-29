@@ -1,3 +1,153 @@
+# Version 8.2 (August 28, 2023)
+
+### New functionality
+
+#### DataCollection/TreeCollection
+
+- New filter event and resetFilter(), getFilters() methods
+
+#### Grid/TreeGrid
+
+- The ability to control the header/footer tooltip
+
+#### Form
+
+- New Avatar control
+- New Fieldset control
+- New Toggle and ToggleGroup controls
+
+### Updates
+
+#### Chart
+
+- The series configuration property is extended with the **label** option for setting the text of the legend for a series (for the "line", "spline", "bar", "x-bar", "area", "splineArea", "radar", "scatter" chart types)
+
+#### DataCollection/TreeCollection
+
+- Functionality of the filter() method is updated. Its second parameter - the **config** object gets the *permanent* property instead of the *smartFilter* one, and the new **id** property
+
+#### Form
+
+- Types of Form controls are restructured. The type declaration file (d.ts) is updated
+
+#### Form. SimpleVault
+
+- The API of the control is renewed and improved
+
+### Fixes
+
+- Form. Fix the functionality of the **change** event of the simpleVault control
+- Grid/TreeGrid. Fix the functionality of comboFilter and selectFilter that presupposes displaying options in these filters according to the current filtered state of DataCollection
+- Grid/TreeGrid. Fix the issue with triggering the **change** event after filtering data (after selecting the filter)
+- Grid/TreeGrid. Fix the issue with incorrect header tooltip rendering due to the use of a colspan
+- Grid/TreeGrid. Fix the issue with incorrect displaying of header spans in the fixed columns
+- Toolbar. Fix the problem with not displaying the expand triangle icon on adding sub-items into an element placed lower than the second level
+- Grid/TreeGrid. Fix the incorrect calculation of the row autoHeight
+
+# Version 8.1.10 (August 21, 2023)
+
+### Fixes
+
+- Combobox. Fix the issue with the default icon of an option (set via the "src" or "icon" properties) not displayed in the input field
+- Toolbar. Fix the problem with the setState() method not applying a value for DatePicker
+
+# Version 8.1.9 (August 14, 2023)
+
+### Fixes
+
+- Grid/TreeGrid. Fix the issue with a colspan breaking in case of hiding several of its columns
+- Grid/TreeGrid. Fix the issue with the Input filter operating with the formatted numeric value instead of the original one
+- Grid/TreeGrid. Fix incorrect export of boolean values to PDF/PNG
+- Grid/TreeGrid. Fix incorrect work of the autoHeight property that resulted in not displaying multi-line data in cells
+
+# Version 8.1.8 (August 8, 2023)
+
+### Fixes
+
+- Form. Fix incorrect data rendering in the Input control on blocking changes by the beforeChange event
+- Grid/TreeGrid. Fix incorrect behavior when typing "null" in the inputFilter displayed empty rows
+- Grid/TreeGrid. Fix the issue with the destructor call after operating with the in-header filters that caused a console error throwing
+
+# Version 8.1.7 (July 26, 2023)
+
+### Fixes
+
+- Combobox. Fix an incorrect behavior whereby the filter selects option in any case
+- Core. Fix an incorrect behavior whereby the form datePicker with the defined time format does not work
+- Grid/TreeGrid. Disallow the html markup in span, if the htmlEnable property is set to false
+- Grid/TreeGrid. Fix incorrect displaying of multilines in cells in the exported PDF
+- Grid/TreeGrid. Fix incorrect displaying of spans in the fixed columns
+- Toolbar. Fix the incorrect behavior of the toolbar buttons, if the toolbar is attached to a window
+- Tree. Fix the issue that occurs if the data contains ID set to the 0 number (id:0)
+
+# Version 8.1.6 (July 11, 2023)
+
+### Fixes
+
+- ContextMenu. Fix displaying of ContextMenu behind Grid due to incorrect z-index
+- Grid/TreeGrid. Fix the issue with the comboFilter not rendering options in case of the external data loading/parsing
+- Grid/TreeGrid. Fix the incorrect data rendering in the autoHeight mode used together with the autoWidth mode when Grid/TreeGrid is placed in a Layout cell
+- Grid/TreeGrid. Fix the console error appearing in case of numeric values in the data set combined with the enabled "multiselection" mode of the comboFilter
+- Grid/TreeGrid. Fix incorrect positioning of the "select" editor when the Grid height is limited
+- Grid/TreeGrid. Fix the issue when spans ignored the specified column format
+- Layout. Fix the incorrect calculation of cells' sizes in the "wide" layout type
+- Tree. Fix the issue when focusing an item didn't initiate scrolling a view to it
+- TreeGridCollection. Fix the issue with the getId()/getIndex() methods not working correctly in relation to each other
+
+# Version 8.1.5 (June 19, 2023)
+
+### Fixes
+
+- Combobox. Fix the functionality of the addOption() method. Now it takes both a string and an object as a parameter
+- Form. Fix the issue with the beforeChange event not triggering for the TimePicker control during the UI interaction in the `controls:false` mode
+- Grid/TreeGrid. Fix the issue with ignoring colspans defined in the configuration object while loading data via the parse() or load() methods
+- Grid/TreeGrid. Fix the problem with the "combobox" editor saving an option's text instead of its id in the data set after editing
+- Grid/TreeGrid. Fix the TypeScript error which occurred due to the absence of the `align` property of the footer in the types
+- Grid/TreeGrid. Fix the TypeScript error that occurred due to the wrong declaration of the iCol option type
+- Window. Fix the problem with window focusing in FireFox
+    - note that the `--dhx-z-index-overlay-total` CSS variable for the default theme has been changed to 10000000
+
+# Version 8.1.4 (June 15, 2023)
+
+### Fixes
+
+- Form. Fix the issue with the `undefined` CSS class that appeared on creation of a form
+
+# Version 8.1.3 (June 12, 2023)
+
+### Fixes
+
+- Combobox. Fix the issue with displaying HTML content in the input
+- Grid/TreeGrid. Fix incorrect processing of dates containing time in the AM format by the datePicker editor
+- Grid/TreeGrid. Fix the problem with the footer colspan not working in the frozen part of a grid
+- Grid/TreeGrid. Fix the issue with displaying HTML content in the comboFilter
+- TreeGrid. Fix incorrect behavior when removing a child item of a selected row resets the selection
+
+# Version 8.1.2 (May 29, 2023)
+
+### Fixes
+
+- DataView. Fix incorrect rendering of multiple selected items while dragging them to the target
+- Form. Fix incorrect key navigation in the TimePicker control
+- Grid/TreeGrid. Fix the horizontal scrolling during the column drag
+- Grid/TreeGrid. Fix the vertical scrolling during the row drag
+- Grid/TreeGrid. Fix the impossibility to select an empty option in the `multiselection:false` mode of the comboFilter
+- Layout. Fix incorrect arrangement of cells on a page after resizing/collapsing
+- Window. Fix the issue when a modal window with an attached component refuses to close with the ESC button
+
+# Version 8.1.1 (May 18, 2023)
+
+### Fixes
+
+- DataProxy. Fix the issue with items' ids during lazy loading
+- DataView. Fix incorrect work of the setFocus() method
+- Form. Fix incorrect application of a validation class added to a custom CSS class
+- Grid/TreeGrid. Fix the issue with ignoring hidden columns being a part of a colspan
+- Grid/TreeGrid. Fix displaying of data in the header/footer during the initialization of a large number of columns
+- Grid/TreeGrid. Fix incorrect drag-n-drop behavior in the disabled multi select mode
+- Grid/TreeGrid. Fix the issue with the multi select filter when it adds an empty value from a data set into selected options by default
+- TreeGrid. Fix incorrect work of the adjustColumnWidth() method
+
 # Version 8.1 (April 18, 2023)
 
 ### New functionality

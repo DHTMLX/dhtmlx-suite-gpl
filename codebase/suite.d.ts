@@ -1,3 +1,3 @@
 export as namespace dhx;
 
-export * from "./types/ts-all/sources/entry";
+export * from "./types/ts-all/sources/entry_pro";

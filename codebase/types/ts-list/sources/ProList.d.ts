@@ -6,6 +6,6 @@ export declare class ProList extends List implements IProList {
     scrollView: ScrollView;
     constructor(container: HTMLElement | string, config?: IListConfig);
     destructor(): void;
-    showItem(id: string): void;
+    scrollTo(id: string): void;
     protected _renderList(): VNode;
 }

@@ -1,7 +1,7 @@
 import { VNode } from "../../ts-common/dom";
 import { IEventSystem } from "../../ts-common/events";
 import { View } from "../../ts-common/view";
-import { DataCollection, DataEvents, IDataEventsHandlersMap } from "../../ts-data";
+import { DataCollection, DataEvents, IDataEventsHandlersMap, IDataItem } from "../../ts-data";
 import { Layout } from "../../ts-layout";
 import { List } from "../../ts-list";
 import { Popup } from "../../ts-popup";
@@ -28,8 +28,8 @@ export declare class Combobox extends View implements ICombobox {
     isDisabled(): boolean;
     clear(): void | boolean;
     getValue<T extends boolean = false>(asArray?: T): T extends true ? Id[] : Id;
-    setValue(ids: Id[] | Id): void | boolean;
-    addOption(value: string, join?: boolean): void;
+    setValue(ids: Id[] | Id, silent?: boolean): void | boolean;
+    addOption<T extends IDataItem>(value: T | string, join?: boolean): void;
     destructor(): void;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     setState(state: State): void;

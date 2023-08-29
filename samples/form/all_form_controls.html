@@ -13,12 +13,12 @@
 		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
 		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
 		<!-- end meta block -->
-		<script type="text/javascript" src="../../codebase/suite.js"></script>
-		<link rel="stylesheet" href="../../codebase/suite.css">
+		<script type="text/javascript" src="../../codebase/suite.js?v=8.2.0"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css?v=8.2.0">
 		
-		<link rel="stylesheet" href="../common/index.css">
+		<link rel="stylesheet" href="../common/index.css?v=8.2.0">
 		<!-- custom sample head -->
-		<script src="./common/data.js"></script>
+		<script src="./common/data.js?v=8.2.0"></script>
 
 		<!-- custom styles -->
 		<style>
@@ -79,6 +79,31 @@
 				width: 600,
 				rows: [
 					{
+						name: "fieldset",
+						type: "fieldset",
+						label: "Fieldset",
+						rows: [
+							{
+								name: "name",
+								type: "input",
+								label: "Name",
+								placeholder: "Type text",
+							},
+							{
+								name: "surname",
+								type: "input",
+								label: "Surname",
+								placeholder: "Type text",
+							},
+							{
+								name: "date",
+								type: "datepicker",
+								label: "Date of Brith",
+								placeholder: "Click to select",
+							},
+						]
+					},
+					{
 						name: "input",
 						type: "input",
 						label: "Input",
@@ -86,6 +111,20 @@
 						labelWidth: 140,
 						required: true,
 						placeholder: "Input placeholder",
+					},
+					{
+						name: "avatar",
+						type: "avatar",
+						size: "medium",
+						required: true,
+						helpMessage: "Help information",
+						labelWidth: 140,
+						label: "Avatar",
+						labelPosition: "top",
+						icon: "dxi dxi-person",
+						placeholder: "Add a photo",
+						alt: "Employee photo",
+						target: "https://docs.dhtmlx.com/suite/backend/upload",
 					},
 					{
 						name: "combo",
@@ -239,6 +278,7 @@
 									id: "first",
 									type: "checkbox",
 									text: "Select 1",
+									value: "first",
 								},
 								{
 									id: "second",
@@ -255,9 +295,42 @@
 						text: "I agree",
 						label: "Checkbox",
 						labelWidth: 140,
+						labelPosition: "top",
 						helpMessage: "Help information",
 						required: true,
 						value: "checkboxvalue",
+					},
+					{
+						name: "toggle",
+						type: "toggle",
+						icon: "dxi dxi-eye",
+						offIcon: "dxi dxi-eye-off",
+						text: "Visible",
+						offText: "Invisible",
+					},
+					{
+						name: "align",
+						type: "toggleGroup",
+						multiselection: false,
+						value: {
+							"left": true,
+						},
+						options: [
+							{
+								id: "left",
+								icon: "dxi dxi-format-align-left",
+							},
+							{
+								id: "center",
+								icon: "dxi dxi-format-align-center",
+								value: "center",
+							},
+							{
+								id: "right",
+								icon: "dxi dxi-format-align-right",
+								value: 1,
+							}
+						]
 					},
 					{
 						type: "container",
@@ -328,9 +401,10 @@
 								view: "flat",
 								color: "primary",
 								url: "https://docs.dhtmlx.com/suite/backend/formData/",
+								full: true
 							}
 						]
-					}
+					},
 				]
 			});
 
@@ -351,6 +425,7 @@
 			});
 
 			form.getItem("grid").attach(grid);
+
 		</script>
 	</body>
 </html>

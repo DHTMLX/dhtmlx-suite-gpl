@@ -14,7 +14,7 @@ export declare class Selection implements ISelection {
     getId(): Id | Id[] | undefined;
     getItem(): IDataItem | IDataItem[];
     contains(id?: Id): boolean;
-    remove(id?: Id): void;
+    remove(id?: Id, silent?: boolean): void;
     add(id?: Id, isCtrl?: boolean, isShift?: boolean, silent?: boolean): void;
     destructor(): void;
     private _addMulti;

@@ -117,12 +117,3 @@ export interface ITreeEventHandlersMap extends IDragEventsHandlersMap {
     [TreeEvents.afterCheck]: (index: number, id: Id, value: boolean) => void;
     [TreeEvents.itemContextMenu]: (id: Id, e: Event) => any;
 }
-export declare enum Direction {
-    up = "up",
-    down = "down"
-}
-export interface IScrollConfig {
-    elem: Element | HTMLElement | null;
-    step: number;
-    delay: number;
-}

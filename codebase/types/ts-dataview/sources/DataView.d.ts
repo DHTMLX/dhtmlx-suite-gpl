@@ -5,7 +5,8 @@ import { IDataViewConfig, IDataView } from "./types";
 export declare class DataView extends List implements IDataView {
     config: IDataViewConfig;
     constructor(node: HTMLElement | string, config?: IDataViewConfig);
-    showItem(id: Id): void;
+    scrollTo(id: Id): void;
+    protected _scrollTo(id: Id, el: HTMLElement): void;
     protected _didRedraw(vm: any): void;
     protected _renderItem(item: any, index: number): VNode;
     protected _renderList(): VNode;

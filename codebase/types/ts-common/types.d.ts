@@ -73,3 +73,4 @@ export interface IPDFConfig extends IExportFileConfig {
     };
 }
 export declare type IPNGConfig = IExportFileConfig;
+export declare type TLabelAlignment = "left" | "right" | "center";

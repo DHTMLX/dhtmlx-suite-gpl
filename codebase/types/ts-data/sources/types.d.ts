@@ -34,9 +34,24 @@ export interface IFilterMode {
 export interface IFilterComplexMode {
     [key: string]: IFilterMode;
 }
+export interface IFilter {
+    [key: string]: IFilterParams;
+}
+export interface IFilterParams {
+    rule: IFilterMode | IFilterComplexMode | IFilterCallback;
+    config: IFilterConfig | ITreeFilterConfig;
+}
 export interface IFilterConfig {
+    id?: string;
     add?: boolean;
     smartFilter?: boolean;
+    permanent?: boolean;
+    $restore?: boolean;
+    $local?: boolean;
+}
+export interface IResetFilterConfig {
+    id?: string;
+    permanent?: boolean;
 }
 export interface ISortConfig {
     smartSorting?: boolean;
@@ -81,7 +96,14 @@ export interface IDataCollection<T extends IDataItem = IDataItem> {
     getLength(): number;
     isDataLoaded(from?: number, to?: number): boolean;
     getId(index: number): Id;
-    filter(rule?: IFilterMode | IFilterCallback, config?: IFilterConfig): void;
+    filter(rule?: IFilterMode | IFilterCallback, config?: IFilterConfig, silent?: boolean): string;
+    resetFilter(config?: IResetFilterConfig, silent?: boolean): boolean;
+    getFilters(config?: {
+        permanent?: boolean;
+    }): IFilter;
+    getRawFilters(config?: {
+        permanent?: boolean;
+    }): IFilter;
     find(rule: IFilterMode): T;
     reduce<A>(callback: ReduceCallBack<T, A>, acc: A): A;
     findAll(rule: IFilterMode): T[];
@@ -150,7 +172,7 @@ export interface ITreeCollection<T extends IDataItem = IDataItem> extends IDataC
     getItems(id: Id): T[];
     sort(rule?: ISortMode): void;
     map(callback: DataCallback<T>, parent?: Id, direct?: boolean): any;
-    filter(rule?: IFilterMode | IFilterCallback, config?: ITreeFilterConfig): void;
+    filter(rule?: IFilterMode | IFilterCallback, config?: ITreeFilterConfig, silent?: boolean): string;
     restoreOrder(): void;
     copy(id: Id, index: number, target?: IDataCollection | ITreeCollection, targetId?: Id): Id;
     copy(id: Id[], index: number, target?: IDataCollection | ITreeCollection, targetId?: Id): Id[];
@@ -210,6 +232,7 @@ export declare enum DataEvents {
     beforeRemove = "beforeremove",
     afterRemove = "afterremove",
     change = "change",
+    filter = "filter",
     dataRequest = "dataRequest",
     load = "load",
     loadError = "loaderror",
@@ -221,6 +244,7 @@ export declare enum DataEvents {
 export interface IDataEventsHandlersMap {
     [key: string]: (...args: any[]) => any;
     [DataEvents.change]: (id?: Id, status?: Statuses, updatedItem?: any) => void;
+    [DataEvents.filter]: (filter?: IFilter) => void;
     [DataEvents.afterAdd]: (newItem: any) => void;
     [DataEvents.afterRemove]: (removedItem: any) => void;
     [DataEvents.beforeAdd]: (newItem: any) => boolean | void;

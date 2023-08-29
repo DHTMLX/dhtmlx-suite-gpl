@@ -71,7 +71,7 @@ export interface IList<T = any> {
     getFocusItem(): T;
     setFocus(id: Id): void;
     getFocus(): Id;
-    showItem(id: Id): void;
+    scrollTo(id: Id): void;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     disableSelection(): void;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
@@ -86,7 +86,7 @@ export interface ISelection<T = any> {
     getId(): Id | Id[] | undefined;
     getItem(): T;
     contains(id?: Id): boolean;
-    remove(id?: Id): void;
+    remove(id?: Id, silent?: boolean): void;
     add(id?: Id, isShift?: boolean, isCtrl?: boolean, silent?: boolean): void;
     enable(): void;
     disable(): void;

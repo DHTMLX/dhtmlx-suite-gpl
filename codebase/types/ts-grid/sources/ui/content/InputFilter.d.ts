@@ -15,8 +15,8 @@ export declare class InputFilter implements IHeaderFilter {
     protected initHandlers(): void;
     protected initFilter(): void;
     getFilter(): HTMLElement;
-    setValue(value: string): void;
-    clear(): void;
+    setValue(value: string, silent?: boolean): void;
+    clear(silent?: boolean): void;
     focus(): void;
     blur(): void;
 }
