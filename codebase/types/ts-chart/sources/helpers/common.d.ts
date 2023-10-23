@@ -1,6 +1,6 @@
 import { IContainerConfig } from "../../../ts-common/core";
 export declare function getDefaultColor(index?: number, isTreeMapRange?: boolean): string;
-declare type Locator = (data: any) => number | string;
+type Locator = (data: any) => number | string;
 export declare function locator(value: string | Locator): Locator;
 export declare function log10(x: number): number;
 export declare const getTextWidth: (...args: string[]) => number;

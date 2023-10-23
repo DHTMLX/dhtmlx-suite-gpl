@@ -1,5 +1,5 @@
-export declare type Direction = "vertical" | "horizontal";
-export declare type ActiveSlider = "tooltip" | "extraTooltip" | "none";
+export type Direction = "vertical" | "horizontal";
+export type ActiveSlider = "tooltip" | "extraTooltip" | "none";
 export interface ISlider {
     config: ISliderConfig;
     paint(): void;
@@ -31,7 +31,7 @@ export interface ISliderEventHandlersMap {
     [SliderEvents.mousedown]: (event: Event) => void;
     [SliderEvents.mouseup]: (event: Event) => void;
 }
-export declare type ILabelPosition = "left" | "top";
+export type ILabelPosition = "left" | "top";
 export interface ISliderConfig {
     min?: number;
     max?: number;

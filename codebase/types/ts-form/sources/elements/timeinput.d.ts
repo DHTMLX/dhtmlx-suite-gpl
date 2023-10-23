@@ -3,7 +3,7 @@ import { Label } from "./helper/label";
 import { IEventSystem } from "../../../ts-common/events";
 import { ValidationStatus, ItemEvent, IBaseLayoutItem, ILabel, IMessage, IBaseItem, IBaseState, IBaseHandlersMap } from "../types";
 import { IFieldset } from "./fieldset";
-export declare type ValidationTimepickerFn = (input: string | ITimeObject) => boolean;
+export type ValidationTimepickerFn = (input: string | ITimeObject) => boolean;
 export interface ITimePickerProps extends IBaseLayoutItem, ILabel, IMessage {
     editable?: boolean;
     validation?: ValidationTimepickerFn;
@@ -64,7 +64,6 @@ export declare class TimePicker extends Label implements ITimePicker {
     events: IEventSystem<ItemEvent, ITimePickerEventHandlersMap>;
     private _keyManager;
     private _popup;
-    private _isValid;
     private _popupIsFocus;
     private _propsItem;
     private _propsTimepicker;
@@ -79,7 +78,7 @@ export declare class TimePicker extends Label implements ITimePicker {
     disable(): void;
     enable(): void;
     isDisabled(): boolean;
-    validate(silent?: boolean, validateValue?: string | ITimeObject): boolean;
+    validate(silent?: boolean, value?: any): boolean;
     clearValidate(): void;
     setValue(value: Date | number | string | any[] | ITimeObject): void;
     getValue(asOBject?: boolean): ITimeObject | string | any;

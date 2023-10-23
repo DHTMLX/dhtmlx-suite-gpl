@@ -1,7 +1,7 @@
 import { Colorpicker, ViewsMode } from "../../../ts-colorpicker";
 import { IEventSystem } from "../../../ts-common/events";
 import { Label } from "./helper/label";
-import { ItemEvent, IBaseHandlersMap, IBaseLayoutItem, ILabel, IMessage, ValidationFn, IBaseItem, IBaseState, ValidationStatus } from "../types";
+import { ItemEvent, IBaseHandlersMap, IBaseLayoutItem, ILabel, IMessage, ValidationFn, IBaseItem, IBaseState } from "../types";
 import { IFieldset } from "./fieldset";
 export interface IColorpickerProps extends IBaseLayoutItem, ILabel, IMessage {
     validation?: ValidationFn;
@@ -18,7 +18,6 @@ export interface IColorpickerProps extends IBaseLayoutItem, ILabel, IMessage {
 export interface IColorPickerConfig extends IBaseItem, IBaseState, IColorpickerProps {
     type: "colorpicker";
     value?: string;
-    $validationStatus?: ValidationStatus;
 }
 export interface IColorPicker {
     parent?: IFieldset;
@@ -66,7 +65,6 @@ export declare class ColorPicker extends Label implements IColorPicker {
     events: IEventSystem<ItemEvent, IColorPickerEventHandlersMap>;
     private _keyManager;
     private _popup;
-    private _isValid;
     private _popupIsFocus;
     private _propsItem;
     private _propsColorpicker;
@@ -81,7 +79,7 @@ export declare class ColorPicker extends Label implements IColorPicker {
     disable(): void;
     enable(): void;
     isDisabled(): boolean;
-    validate(silent?: boolean, validateValue?: string): boolean;
+    validate(silent?: boolean, value?: string): boolean;
     clearValidate(): void;
     setValue(value: string): void;
     getValue(): string;

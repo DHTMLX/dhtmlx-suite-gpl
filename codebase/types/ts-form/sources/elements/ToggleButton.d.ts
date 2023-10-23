@@ -2,7 +2,7 @@ import { IBaseLayoutItem, IBaseItem, IBaseState, IBaseHandlersMap, ItemEvent } f
 import { View } from "../../../ts-common/view";
 import { IFieldset } from "./fieldset";
 import { IEventSystem } from "../../../ts-common/events";
-export declare type IToggleValue = number | string;
+export type IToggleValue = number | string;
 export interface IToggleButtonProps extends IBaseLayoutItem {
     full?: boolean;
     text?: string;

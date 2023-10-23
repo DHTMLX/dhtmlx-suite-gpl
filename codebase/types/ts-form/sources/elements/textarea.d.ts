@@ -1,5 +1,5 @@
 import { Input, IInputProps } from "./input";
-import { ItemEvent, ValidationFn, IBaseItem, IBaseState, IBaseLayoutItem, ILabel, IMessage, ValidationStatus, IBaseHandlersMap } from "../types";
+import { ItemEvent, ValidationFn, IBaseItem, IBaseState, IBaseLayoutItem, ILabel, IMessage, IBaseHandlersMap } from "../types";
 import { IEventSystem } from "../../../ts-common/events";
 import { IFieldset } from "./fieldset";
 export interface ITextAreaProps extends IBaseLayoutItem, ILabel, IMessage {
@@ -13,7 +13,6 @@ export interface ITextAreaProps extends IBaseLayoutItem, ILabel, IMessage {
 export interface ITextAreaConfig extends IBaseItem, IBaseState, ITextAreaProps {
     type: "textarea";
     value?: string;
-    $validationStatus?: ValidationStatus;
 }
 export interface ITextArea {
     parent?: IFieldset;
@@ -61,6 +60,7 @@ export declare class Textarea extends Input implements ITextArea {
     protected _propsItem: string[];
     protected _props: string[];
     getValue(): string;
+    isFocused(): boolean;
     focus(): void;
     blur(): void;
     setProperties(propertyConfig: ITextAreaProps & IInputProps): void;

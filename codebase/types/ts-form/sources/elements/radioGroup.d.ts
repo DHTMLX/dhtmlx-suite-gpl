@@ -2,7 +2,7 @@ import { Layout } from "../../../ts-layout";
 import { Popup } from "../../../ts-popup";
 import { IEventSystem } from "../../../ts-common/events";
 import { Label } from "./helper/label";
-import { ValidationStatus, ItemEvent, IBaseState, IBaseLayoutItem, IGroup, ILabel, IMessage, IBaseItem, IBaseHandlersMap } from "../types";
+import { ItemEvent, IBaseState, IBaseLayoutItem, IGroup, ILabel, IMessage, IBaseItem, IBaseHandlersMap } from "../types";
 import { IFieldset } from "./fieldset";
 export interface IRadioButtonProps extends IBaseState, IBaseLayoutItem {
     id?: string;
@@ -14,7 +14,6 @@ export interface IRadioButtonConfig extends IRadioButtonProps {
     type: "radiobutton";
     $name?: string;
     $required?: boolean;
-    $validationStatus?: ValidationStatus;
     $group?: boolean;
 }
 export interface IRadioGroupOption extends IGroup {
@@ -28,7 +27,6 @@ export interface IRadioGroupProps extends IBaseLayoutItem, ILabel, IMessage {
 export interface IRadioGroupConfig extends IBaseItem, IBaseState, IRadioGroupProps {
     type: "radiogroup";
     value?: string;
-    $validationStatus?: ValidationStatus;
 }
 export interface IRadioGroup {
     parent?: IFieldset;
@@ -75,7 +73,6 @@ export declare class RadioGroup extends Label implements IRadioGroup {
     protected _handlers: any;
     protected _helper: Popup;
     private _buttons;
-    private _isValid;
     private _propsItem;
     private _props;
     constructor(container: any, config: IRadioGroupConfig);

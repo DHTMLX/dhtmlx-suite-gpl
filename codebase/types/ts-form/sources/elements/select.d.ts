@@ -1,8 +1,8 @@
 import { Label } from "./helper/label";
 import { IEventSystem } from "../../../ts-common/events";
-import { ValidationStatus, ItemEvent, IBaseLayoutItem, ILabel, IMessage, IBaseItem, IBaseState, IBaseHandlersMap } from "../types";
+import { ItemEvent, IBaseLayoutItem, ILabel, IMessage, IBaseItem, IBaseState, IBaseHandlersMap } from "../types";
 import { IFieldset } from "./fieldset";
-export declare type ValidationSelectFn = (input: string | number | boolean) => boolean;
+export type ValidationSelectFn = (input: string | number | boolean) => boolean;
 export interface IOption {
     value: string | number;
     content: string;
@@ -17,7 +17,6 @@ export interface ISelectConfig extends IBaseItem, IBaseState, ISelectProps {
     type: "select";
     options: IOption[];
     value?: string | number;
-    $validationStatus?: ValidationStatus;
 }
 export interface ISelect {
     parent?: IFieldset;
@@ -63,7 +62,6 @@ export declare class Select extends Label implements ISelect {
     parent: IFieldset;
     config: ISelectConfig;
     events: IEventSystem<ItemEvent, ISelectEventHandlersMap>;
-    private _isValid;
     private _propsItem;
     private _props;
     constructor(container: any, config: ISelectConfig);
@@ -86,7 +84,6 @@ export declare class Select extends Label implements ISelect {
     setOptions(options: IOption[]): void;
     getOptions(): IOption[];
     protected _initView(config: ISelectConfig): void;
-    protected _initHandlers(): void;
     protected _getHandlers(): {
         onchange: (e: Event) => void;
         onblur: () => void;

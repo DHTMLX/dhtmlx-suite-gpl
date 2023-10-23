@@ -19,6 +19,7 @@ export declare class Exporter {
                     color: string;
                     background: string;
                     fontSize: number;
+                    bold: boolean;
                 };
             };
         };

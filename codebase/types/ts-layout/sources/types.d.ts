@@ -50,7 +50,7 @@ export interface ILayoutConfig extends ICellConfig {
     activeTab?: string;
     parent?: ILayout;
 }
-export declare type IViewFn = (cfg: any) => VNode;
+export type IViewFn = (cfg: any) => VNode;
 export interface IViewConstructor {
     new: (container: HTMLElement | string, config: any) => IView;
 }
@@ -126,5 +126,5 @@ export interface ILayoutEventHandlersMap {
     [LayoutEvents.beforeExpand]: (id: string) => boolean | void;
     [LayoutEvents.afterExpand]: (id: string) => void;
 }
-export declare type LayoutCallback = (cell: ICell, index: number, array: any) => any;
-export declare type IFillSpace = boolean | "x" | "y";
+export type LayoutCallback = (cell: ICell, index: number, array: any) => any;
+export type IFillSpace = boolean | "x" | "y";

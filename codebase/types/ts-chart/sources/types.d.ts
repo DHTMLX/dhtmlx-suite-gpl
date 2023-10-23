@@ -20,7 +20,7 @@ export interface IChartConfig {
     data?: DataCollection<any> | any[];
     exportStyles?: boolean | string[];
 }
-export declare type TChartType = "bar" | "line" | "spline" | "scatter" | "area" | "donut" | "pie" | "pie3D" | "radar" | "xbar" | "splineArea" | "treeMap" | "calendarHeatMap";
+export type TChartType = "bar" | "line" | "spline" | "scatter" | "area" | "donut" | "pie" | "pie3D" | "radar" | "xbar" | "splineArea" | "treeMap" | "calendarHeatMap";
 export declare enum ChartEvents {
     toggleSeries = "toggleSeries",
     chartMouseMove = "chartMouseMove",
@@ -54,7 +54,7 @@ export interface ISeria extends ILikeSeria {
     getClosest(x: number, y: number): [number, number, number, string];
     getClosestVertical(x: number): [number, number, number, string, number];
 }
-export declare type TreeDirectionType = "asc" | "desc";
+export type TreeDirectionType = "asc" | "desc";
 export interface ISeriaConfig {
     id?: string;
     type?: TChartType;
@@ -86,7 +86,7 @@ export interface ISeriaConfig {
     baseLine?: number;
     stacked?: boolean;
 }
-export declare type SeriaConfig = ISeriaConfig | INoScaleConfig;
+export type SeriaConfig = ISeriaConfig | INoScaleConfig;
 export interface IScale extends IComposable {
     locator?: Locator;
     add(chart: ILikeSeria): void;
@@ -111,7 +111,7 @@ export interface IScaleConfig extends IAxisCreatorConfig {
     showText?: boolean;
     locator?: SmartLocator;
 }
-export declare type ScaleType = "left" | "right" | "top" | "bottom" | "radial";
+export type ScaleType = "left" | "right" | "top" | "bottom" | "radial";
 export interface IScales {
     left?: IScale | ITextScale;
     right?: IScale | ITextScale;
@@ -260,16 +260,16 @@ export interface INoScaleConfig extends ISeriaConfig {
     monochrome?: string;
     paddings?: number;
 }
-export declare type PointType = "circle" | "rect" | "triangle" | "rhombus" | "simpleRect" | "simpleCircle" | "empty";
-export declare type Gradient = (color: string) => any;
-export declare type TooltipType = "simple" | "right" | "left" | "top" | "bot";
-export declare type SvgElement = any;
-export declare type Shape = "rect" | "circle" | "line";
-export declare type HorizontalPosition = "left" | "center" | "right";
-export declare type VerticalPosition = "top" | "middle" | "bottom";
-export declare type LegendDirection = "row" | "column";
-export declare type LegendType = "groupName" | "range" | "scale";
-export declare type LegendSizes = {
+export type PointType = "circle" | "rect" | "triangle" | "rhombus" | "simpleRect" | "simpleCircle" | "empty";
+export type Gradient = (color: string) => any;
+export type TooltipType = "simple" | "right" | "left" | "top" | "bot";
+export type SvgElement = any;
+export type Shape = "rect" | "circle" | "line";
+export type HorizontalPosition = "left" | "center" | "right";
+export type VerticalPosition = "top" | "middle" | "bottom";
+export type LegendDirection = "row" | "column";
+export type LegendType = "groupName" | "range" | "scale";
+export type LegendSizes = {
     width: number;
     height: number;
 };
@@ -280,15 +280,15 @@ export interface ILikeSeria extends IComposable {
 export interface ITextScale extends IScale {
     addPadding(): void;
 }
-export declare type Locator = (item: any) => any;
-export declare type DrawPoint = (x: number, y: number, ref?: string) => any;
-export declare type NoScaleSubType = "basic" | "percentOnly" | "valueOnly";
-export declare type SmartLocator = Locator | string;
+export type Locator = (item: any) => any;
+export type DrawPoint = (x: number, y: number, ref?: string) => any;
+export type NoScaleSubType = "basic" | "percentOnly" | "valueOnly";
+export type SmartLocator = Locator | string;
 export interface IStacker extends IComposable, ILikeSeria {
     add(seria: ISeria): void;
 }
-export declare type PointData = [number, number, string, (number | string)?, number?, TreePointData?];
-export declare type TreePointData = {
+export type PointData = [number, number, string, (number | string)?, number?, TreePointData?];
+export type TreePointData = {
     items: PointData[];
 };
 export interface IGridRenderConfig {

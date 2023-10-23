@@ -2,10 +2,10 @@ import { IEventSystem } from "./events";
 export interface IHandlers {
     [key: string]: anyFunction | IHandlers;
 }
-export declare type TTheme = "light" | "dark" | "contrast-light" | "contrast-dark" | string;
-export declare type Id = string | number;
-export declare type fn<T extends any[], K> = (...args: T) => K;
-export declare type anyFunction = fn<any[], any>;
+export type TTheme = "light" | "dark" | "contrast-light" | "contrast-dark" | string;
+export type Id = string | number;
+export type fn<T extends any[], K> = (...args: T) => K;
+export type anyFunction = fn<any[], any>;
 export interface IAnyObj {
     [key: string]: any;
 }
@@ -42,8 +42,8 @@ export interface ITouchParam {
     timeStamp?: number;
     dblDuration?: number;
 }
-export declare type TExportType = "pdf" | "png";
-export declare type TPaperFormat = "Letter" | "Legal" | "Tabloid" | "Ledger" | "A0" | "A1" | "A2" | "A3" | "A4" | "A5" | "A6";
+export type TExportType = "pdf" | "png";
+export type TPaperFormat = "Letter" | "Legal" | "Tabloid" | "Ledger" | "A0" | "A1" | "A2" | "A3" | "A4" | "A5" | "A6";
 export interface IExportFileConfig {
     url?: string;
     name?: string;
@@ -72,5 +72,5 @@ export interface IPDFConfig extends IExportFileConfig {
         printBackground?: boolean;
     };
 }
-export declare type IPNGConfig = IExportFileConfig;
-export declare type TLabelAlignment = "left" | "right" | "center";
+export type IPNGConfig = IExportFileConfig;
+export type TLabelAlignment = "left" | "right" | "center";

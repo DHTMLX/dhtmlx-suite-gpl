@@ -27,7 +27,7 @@ export declare enum SelectStatus {
     selected = 1,
     indeterminate = 2
 }
-export declare type ItemIcon = "file" | "folder" | "openFolder";
+export type ItemIcon = "file" | "folder" | "openFolder";
 export interface ITreeConfig extends IDragConfig {
     data?: TreeCollection<any> | any[];
     css?: string;

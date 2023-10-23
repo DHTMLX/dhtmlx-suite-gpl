@@ -1,6 +1,6 @@
 import { GridEvents, GridSystemEvents, ICol, ICoords, IGridConfig, IRendererConfig, ISpan, Split } from "../types";
-declare type mouseEvents = GridEvents.cellClick | GridEvents.cellMouseOver | GridEvents.cellMouseDown | GridEvents.cellDblClick | GridEvents.cellRightClick;
-declare type touchEvents = GridSystemEvents.cellTouchEnd | GridSystemEvents.cellTouchMove;
+type mouseEvents = GridEvents.cellClick | GridEvents.cellMouseOver | GridEvents.cellMouseDown | GridEvents.cellDblClick | GridEvents.cellRightClick;
+type touchEvents = GridSystemEvents.cellTouchEnd | GridSystemEvents.cellTouchMove;
 declare function handleMouse(rowStart: number, colStart: number, conf: IRendererConfig, type: mouseEvents & touchEvents, e: any): void;
 export declare function getHandlers(row: number, column: number, conf: IRendererConfig): {
     onclick: (number | GridEvents | IRendererConfig | typeof handleMouse)[];
@@ -19,8 +19,8 @@ export declare function getShifts(conf: IRendererConfig): ICoords;
 export declare function normalizeSpan(span: ISpan, config: IGridConfig): {
     $renderFrom: string[];
     $type: any;
-    row: string | number;
-    column: string | number;
+    row: import("../../../ts-common/types").Id;
+    column: import("../../../ts-common/types").Id;
     rowspan?: number;
     colspan?: number;
     text?: string | number;

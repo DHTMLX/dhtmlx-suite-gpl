@@ -22,7 +22,7 @@ import { ITextConfig, IText, ITextProps } from "./elements/textinput";
 import { ITimePickerConfig, ITimePicker, ITimePickerProps } from "./elements/timeinput";
 import { IToggleButtonConfig, IToggleButton, IToggleButtonProps } from "./elements/ToggleButton";
 import { IToggleGroupProps, IToggleGroupConfig, IToggleGroup } from "./elements/ToggleGroup";
-export declare type TFormDataCallback = (item: IItem, index: number, array: IItem[]) => void;
+export type TFormDataCallback = (item: IItem, index: number, array: IItem[]) => void;
 export declare enum ClearMethod {
     value = "value",
     validation = "validation"
@@ -100,13 +100,13 @@ export interface IFormEventHandlersMap {
     [FormEvents.buttonClick]: (name: string, event: Event) => any;
     [FormEvents.validationFail]: (id: string, component: any) => any;
 }
-export declare type ValidationFn = (input: string) => boolean;
+export type ValidationFn = (input: string) => boolean;
 export declare enum ValidationStatus {
     pre = 0,
     error = 1,
     success = 2
 }
-export declare type TItemType = "input" | "button" | "avatar" | "combo" | "slider" | "radiobutton" | "radiogroup" | "checkbox" | "checkboxgroup" | "select" | "simplevault" | "textarea" | "timepicker" | "datepicker" | "colorpicker" | "text" | "spacer" | "container" | "fieldset" | "toggle" | "togglegroup";
+export type TItemType = "input" | "button" | "avatar" | "combo" | "slider" | "radiobutton" | "radiogroup" | "checkbox" | "checkboxgroup" | "select" | "simplevault" | "textarea" | "timepicker" | "datepicker" | "colorpicker" | "text" | "spacer" | "container" | "fieldset" | "toggle" | "togglegroup";
 export interface IBlockConfig extends IBaseLayoutItem {
     rows?: IBlock & any;
     cols?: IBlock & any;
@@ -124,7 +124,7 @@ export interface IBaseLayoutItem {
     height?: string | number | "content";
     padding?: string | number;
 }
-export declare type ILabelPosition = "left" | "top";
+export type ILabelPosition = "left" | "top";
 export interface ILabel {
     label?: string;
     labelWidth?: string | number;
@@ -132,6 +132,7 @@ export interface ILabel {
     hiddenLabel?: boolean;
     helpMessage?: string;
     required?: boolean;
+    $validationStatus?: ValidationStatus;
 }
 export interface IMessage {
     preMessage?: string;
@@ -148,10 +149,10 @@ export interface IBaseHandlersMap {
 export interface IGroup extends IBaseLayoutItem {
     align?: FlexDirection;
 }
-export declare type TProps = IButtonProps | IAvatarProps | ICheckboxProps | ICheckboxGroupProps | IColorpickerProps | IComboProps | IContainerProps | IDatePickerProps | IInputProps | IRadioButtonProps | IRadioGroupProps | ISelectProps | ISimpleVaultProps | ISliderProps | ITextProps | ITextAreaProps | ITimePickerProps | ISpacerProps | IFieldsetProps | IToggleButtonProps | IToggleGroupProps;
-export declare type IItemConfig = IAvatarConfig | IInputConfig | IButtonConfig | IComboConfig | ISliderFormConfig | ICheckboxConfig | IDatePickerConfig | ISelectConfig | ISimpleVaultConfig | ITextAreaConfig | ITimePickerConfig | ITextConfig | IColorPickerConfig | IRadioGroupConfig | ICheckboxGroupConfig | ISpacerConfig | IContainerConfig | IFieldsetConfig | IToggleButtonConfig | IToggleGroupConfig;
-export declare type IItem = IAvatar | IInput | IButton | ICombo | ISliderForm | ICheckbox | IDatePicker | ISelect | ISimpleVault | ITextArea | ITimePicker | IText | IColorPicker | IRadioGroup | ICheckboxGroup | ISpacer | IContainer | IFieldset | IToggleButton | IToggleGroup;
-export declare type IBlock = IBlockConfig | IItemConfig[];
+export type TProps = IButtonProps | IAvatarProps | ICheckboxProps | ICheckboxGroupProps | IColorpickerProps | IComboProps | IContainerProps | IDatePickerProps | IInputProps | IRadioButtonProps | IRadioGroupProps | ISelectProps | ISimpleVaultProps | ISliderProps | ITextProps | ITextAreaProps | ITimePickerProps | ISpacerProps | IFieldsetProps | IToggleButtonProps | IToggleGroupProps;
+export type IItemConfig = IAvatarConfig | IInputConfig | IButtonConfig | IComboConfig | ISliderFormConfig | ICheckboxConfig | IDatePickerConfig | ISelectConfig | ISimpleVaultConfig | ITextAreaConfig | ITimePickerConfig | ITextConfig | IColorPickerConfig | IRadioGroupConfig | ICheckboxGroupConfig | ISpacerConfig | IContainerConfig | IFieldsetConfig | IToggleButtonConfig | IToggleGroupConfig;
+export type IItem = IAvatar | IInput | IButton | ICombo | ISliderForm | ICheckbox | IDatePicker | ISelect | ISimpleVault | ITextArea | ITimePicker | IText | IColorPicker | IRadioGroup | ICheckboxGroup | ISpacer | IContainer | IFieldset | IToggleButton | IToggleGroup;
+export type IBlock = IBlockConfig | IItemConfig[];
 export declare enum ItemEvent {
     click = "click",
     beforeChange = "beforeChange",

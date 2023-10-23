@@ -14,3 +14,5 @@ export declare function HexToRGB(hex: string): IRgb;
 export declare function RGBToHSV(rgb: IRgb): IHsv;
 export declare function HexToHSV(hex: string): IHsv;
 export declare function isHex(hex: string): boolean;
+export declare function alphaToHex(alpha: number): string;
+export declare function getAlpha(hex: string): number;

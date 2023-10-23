@@ -27,6 +27,7 @@ export interface IColorpickerConfig {
     mode?: ViewsMode;
     pickerOnly?: boolean;
     paletteOnly?: boolean;
+    transparency?: boolean;
 }
 export declare enum ColorpickerEvents {
     beforeChange = "beforeChange",
@@ -44,7 +45,7 @@ export declare enum ColorpickerEvents {
 export interface IEventHandlersMap {
     [key: string]: (...args: any[]) => any;
     [ColorpickerEvents.beforeChange]: (color: string) => boolean | void;
-    [ColorpickerEvents.change]: (color: string) => void;
+    [ColorpickerEvents.change]: (color: string, mode?: "clear") => void;
     [ColorpickerEvents.apply]: () => void;
     [ColorpickerEvents.cancelClick]: () => void;
     [ColorpickerEvents.modeChange]: (view: ViewsMode) => void;
@@ -60,7 +61,9 @@ export interface IHSV {
 export interface IPickerState {
     hsv: IHSV;
     customHex: string;
+    alpha: number;
     background?: string;
-    rangeLeft?: number;
+    hueRangeLeft?: number;
+    alphaRangeLeft?: number;
 }
-export declare type ViewsMode = "palette" | "picker";
+export type ViewsMode = "palette" | "picker";

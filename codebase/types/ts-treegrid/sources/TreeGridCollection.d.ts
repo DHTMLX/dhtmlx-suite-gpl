@@ -11,7 +11,7 @@ export declare class TreeGridCollection extends TreeCollection {
     getPlainIndex(id: Id): number;
     map(cb: DataCallback<IDataItem>, parent?: Id, direct?: boolean): IDataItem[];
     mapVisible(cb: DataCallback<IDataItem>, parent?: Id, direct?: boolean): IDataItem[];
-    protected _parse_data(data: any, parent?: string | number): void;
+    protected _parse_data(data: any, parent?: Id): void;
     protected _copy(id: Id, index: number, target?: TreeGridCollection, targetId?: Id, key?: number): Id;
     protected _addToOrder(_order: any, obj: any, index: number): void;
     protected _removeCore(id: Id): void;

@@ -29,7 +29,7 @@ export declare class DataCollection<T extends IDataItem = IDataItem> implements 
     remove(id: Id | Id[]): void;
     removeAll(): void;
     exists(id: Id): boolean;
-    getNearId(id: Id): string | number;
+    getNearId(id: Id): Id;
     getItem(id: Id): T;
     update(id: Id, newItem: IUpdateObject, silent?: boolean): void;
     getIndex(id: Id): number;

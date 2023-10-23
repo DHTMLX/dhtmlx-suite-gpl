@@ -9,6 +9,7 @@ export declare class Colorpicker extends View implements IColorpicker {
     private _handlers;
     private _pickerState;
     private _inputTimeout;
+    private _activeRange;
     constructor(container: string | HTMLElement, config?: IColorpickerConfig);
     destructor(): void;
     clear(): void;

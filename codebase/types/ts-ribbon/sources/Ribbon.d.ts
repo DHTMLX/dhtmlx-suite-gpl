@@ -1,4 +1,4 @@
-import { Navbar, IState, IBlock, INavbar, IButton, IInput, IImageButton, ISeparator, ISpacer, ITitle, ICustomHTML, ISelectButton, INavItem } from "../../ts-navbar";
+import { Navbar, IState, IBlock, INavbar, IButton, IInput, IImageButton, ISeparator, ISpacer, ITitle, ICustomHTML, ISelectButton, INavItem, IDatePicker } from "../../ts-navbar";
 import { Id, IHandlers } from "../../ts-common/types";
 import { TreeCollection } from "../../ts-data";
 export interface IToolbarConfig {
@@ -23,7 +23,7 @@ interface IRibbonSelectButton extends ISelectButton {
 interface IRibbonNavItem extends INavItem {
     size?: "small" | "medium" | "auto";
 }
-export declare type IRibbonElement = IRibbonButton | IInput | IRibbonImageButton | ISeparator | ISpacer | ITitle | IRibbonSelectButton | ICustomHTML | IBlock | IRibbonNavItem;
+export type IRibbonElement = IRibbonButton | IInput | IRibbonImageButton | ISeparator | ISpacer | ITitle | IRibbonSelectButton | ICustomHTML | IBlock | IRibbonNavItem | IDatePicker;
 export declare class Ribbon extends Navbar<IRibbonElement> implements IRibbon {
     protected _listeners: IHandlers;
     protected _widgetHeight: number[];

@@ -9,8 +9,12 @@ export declare class InputEditor implements IEditor {
     };
     protected _config: IRendererConfig;
     protected _input: HTMLInputElement;
+    private prevValue;
+    private type;
     constructor(row: IRow, col: ICol, config: IRendererConfig);
     endEdit(withoutSave?: boolean): void;
-    toHTML(text?: string): any;
+    toHTML(value?: string): any;
     protected _initHandlers(): void;
+    private isValidWord;
+    private isCorrectRange;
 }

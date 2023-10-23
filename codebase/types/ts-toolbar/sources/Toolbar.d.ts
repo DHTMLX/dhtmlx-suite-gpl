@@ -12,7 +12,7 @@ export interface IToolbar extends INavbar {
     getState(id?: Id): IState;
     setState(state: IState): void;
 }
-export declare type IToolbarElement = IButton | IImageButton | ISelectButton | IInput | ISeparator | ISpacer | ITitle | ICustomHTML | INavItem | IMenuItem | IDatePicker;
+export type IToolbarElement = IButton | IImageButton | ISelectButton | IInput | ISeparator | ISpacer | ITitle | ICustomHTML | INavItem | IMenuItem | IDatePicker;
 export declare class Toolbar extends Navbar<IToolbarElement> implements IToolbar {
     data: TreeCollection<IToolbarElement>;
     config: IToolbarConfig;

@@ -29,7 +29,7 @@ export interface ICalendar {
     getCurrentMode(): ViewMode;
     link(calendar: ICalendar): void;
 }
-export declare type ViewMode = "calendar" | "year" | "month" | "timepicker";
+export type ViewMode = "calendar" | "year" | "month" | "timepicker";
 export interface ICalendarDay {
     css: string;
     date: Date;
@@ -53,7 +53,7 @@ export declare enum CalendarEvents {
 }
 export interface ICalendarHandlersMap {
     [key: string]: (...args: any[]) => any;
-    [CalendarEvents.change]: (date: Date, oldDate: Date, byClick: boolean) => void;
+    [CalendarEvents.change]: (date: Date, oldDate: Date, byClick: boolean, mode?: "clear") => void;
     [CalendarEvents.beforeChange]: (date: Date, oldDate: Date, byClick: boolean) => boolean | void;
     [CalendarEvents.dateMouseOver]: (date: Date, e: MouseEvent) => void;
     [CalendarEvents.modeChange]: (mode: string) => void;

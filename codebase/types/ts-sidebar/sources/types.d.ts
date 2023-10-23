@@ -10,7 +10,7 @@ export interface ISidebarConfig {
     minWidth?: number | string;
     collapsed?: boolean;
 }
-export declare type ISidebarElement = ISeparator | ISpacer | ITitle | INavItem | IMenuItem | ICustomHTML;
+export type ISidebarElement = ISeparator | ISpacer | ITitle | INavItem | IMenuItem | ICustomHTML;
 export interface ISidebar extends INavbar {
     config: ISidebarConfig;
     events: IEventSystem<DataEvents | NavigationBarEvents, IDataEventsHandlersMap & INavbarEventHandlersMap & SidebarEvents & ISidebarEventHandlersMap>;

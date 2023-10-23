@@ -6,7 +6,7 @@ export interface IDataProxy {
     url: string;
     config?: any;
     updateUrl?: (url?: string, params?: any) => void;
-    load?: () => Promise<any[]>;
+    load?: () => Promise<any[] | void>;
     save?: (data: any, mode: string) => Promise<any>;
 }
 export interface ILazyDataProxy extends IDataProxy {
@@ -24,7 +24,7 @@ export interface ISortMode {
     as?: (a: any) => any;
     rule?: (a: any, b: any) => number;
 }
-export declare type IFilterCallback = (obj: any) => boolean;
+export type IFilterCallback = (obj: any) => boolean;
 export interface IFilterMode {
     by?: Id;
     match?: string | number | boolean;
@@ -122,7 +122,7 @@ export interface IDataCollection<T extends IDataItem = IDataItem> {
 export interface IDataChangeStack {
     order: IDataChange[];
 }
-export declare type Statuses = "add" | "update" | "remove" | string;
+export type Statuses = "add" | "update" | "remove" | string;
 export interface IDataChange {
     id: Id;
     status: Statuses;
@@ -132,7 +132,7 @@ export interface IDataChange {
     pending?: boolean;
     error?: boolean;
 }
-export declare type RequestStatus = "saving" | "pending" | "error";
+export type RequestStatus = "saving" | "pending" | "error";
 export interface IDir {
     [key: string]: any;
     asc: number;
@@ -158,8 +158,8 @@ export declare enum TreeFilterType {
     level = "level",
     leafs = "leafs"
 }
-export declare type DataCallback<T> = (item: T, index?: number, array?: T[]) => any;
-export declare type ReduceCallBack<T, A> = (acc: A, item: T, index?: number) => A;
+export type DataCallback<T> = (item: T, index?: number, array?: T[]) => any;
+export type ReduceCallBack<T, A> = (acc: A, item: T, index?: number) => A;
 export interface ITreeCollection<T extends IDataItem = IDataItem> extends IDataCollection<T> {
     add(newItem: IDataItem, index?: number, parent?: Id): Id;
     add(newItem: IDataItem[], index?: number, parent?: Id): Id[];
@@ -192,7 +192,7 @@ export interface IDataItem {
     id?: Id;
     [key: string]: any;
 }
-export declare type DropPosition = "top" | "bottom" | "in";
+export type DropPosition = "top" | "bottom" | "in";
 export interface IObjWithData {
     data: TreeCollection | DataCollection;
     events: IEventSystem<DragEvents, IDragEventsHandlersMap>;
@@ -276,8 +276,8 @@ export interface IDragInfo {
     dropPosition?: DropPosition;
     dragItem?: "row" | "column";
 }
-export declare type DragMode = "target" | "both" | "source";
-export declare type DropBehaviour = "child" | "sibling" | "complex";
+export type DragMode = "target" | "both" | "source";
+export type DropBehaviour = "child" | "sibling" | "complex";
 export interface IDragEventsHandlersMap {
     [key: string]: (...args: any[]) => any;
     [DragEvents.beforeDrag]: (data: IDragInfo, events: MouseEvent, ghost: HTMLElement) => void | boolean;
@@ -295,7 +295,7 @@ export declare enum DataDriver {
     csv = "csv",
     xml = "xml"
 }
-export declare type AjaxResponseType = "json" | "xml" | "text" | "raw";
+export type AjaxResponseType = "json" | "xml" | "text" | "raw";
 export interface IAjaxHelperConfig {
     headers: {
         [key: string]: string;
@@ -305,14 +305,14 @@ export interface IAjaxHelperConfig {
 export interface IAjaxHelper {
     get<T>(url: string, data?: {
         [key: string]: any;
-    } | string, config?: Partial<IAjaxHelperConfig>): Promise<T>;
+    } | string, config?: Partial<IAjaxHelperConfig>): Promise<T | void>;
     post<T>(url: string, data?: {
         [key: string]: any;
-    } | string, config?: Partial<IAjaxHelperConfig>): Promise<T>;
+    } | string, config?: Partial<IAjaxHelperConfig>): Promise<T | void>;
     put<T>(url: string, data?: {
         [key: string]: any;
-    } | string, config?: Partial<IAjaxHelperConfig>): Promise<T>;
+    } | string, config?: Partial<IAjaxHelperConfig>): Promise<T | void>;
     delete<T>(url: string, data?: {
         [key: string]: any;
-    } | string, config?: Partial<IAjaxHelperConfig>): Promise<T>;
+    } | string, config?: Partial<IAjaxHelperConfig>): Promise<T | void>;
 }

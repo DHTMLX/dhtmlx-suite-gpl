@@ -2,7 +2,7 @@ import { VNode } from "../../../ts-common/dom";
 import { IHandlers } from "../../../ts-common/types";
 import { IEventSystem } from "../../../ts-common/events";
 import { Label } from "./helper/label";
-import { ItemEvent, ValidationStatus, IBaseHandlersMap, IBaseItem, IBaseState, IBaseLayoutItem, ILabel, IMessage } from "../types";
+import { ItemEvent, IBaseHandlersMap, IBaseItem, IBaseState, IBaseLayoutItem, ILabel, IMessage } from "../types";
 import { FileStatus, IParams } from "./simplevault";
 import { IFieldset } from "./fieldset";
 export interface IUploadValue {
@@ -35,7 +35,6 @@ export interface IAvatarProps extends IBaseLayoutItem, ILabel, IMessage {
 export interface IAvatarConfig extends IBaseItem, IBaseState, IAvatarProps {
     type: "avatar";
     value?: IUploadValue;
-    $validationStatus?: ValidationStatus;
 }
 export interface IAvatar {
     parent?: IFieldset;
@@ -87,7 +86,6 @@ export declare class Avatar extends Label implements IAvatar {
     protected _handlers: IHandlers;
     protected _propsItem: string[];
     protected _props: string[];
-    private _isValid;
     private _isUpload;
     private _dragover;
     private _dragoverTimeout;
@@ -95,6 +93,7 @@ export declare class Avatar extends Label implements IAvatar {
     send(params?: IParams): void;
     selectFile(): void;
     setValue(value: IUploadValue): void;
+    private _setValue;
     getValue(): IUploadValue;
     clear(): void;
     disable(): void;
@@ -103,7 +102,7 @@ export declare class Avatar extends Label implements IAvatar {
     show(): void;
     hide(init?: boolean): void;
     isVisible(): boolean;
-    validate(silent?: boolean, validateValue?: IUploadValue): boolean;
+    validate(silent?: boolean, value?: IUploadValue): boolean;
     clearValidate(): void;
     setProperties(propertyConfig: IAvatarProps): void;
     getProperties(): IAvatarProps;

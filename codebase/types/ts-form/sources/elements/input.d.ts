@@ -1,6 +1,6 @@
 import { Label } from "./helper/label";
 import { IEventSystem } from "../../../ts-common/events";
-import { ValidationStatus, ItemEvent, IBaseLayoutItem, ILabel, IMessage, IBaseItem, IBaseState, IBaseHandlersMap } from "../types";
+import { ItemEvent, IBaseLayoutItem, ILabel, IMessage, IBaseItem, IBaseState, IBaseHandlersMap } from "../types";
 import { IFieldset } from "./fieldset";
 import { ITextProps, ITextConfig } from "./textinput";
 import { ITextAreaConfig } from "./textarea";
@@ -12,7 +12,7 @@ export declare enum Validation {
     validAlphaNumeric = "alphanumeric",
     validIPv4 = "IPv4"
 }
-export declare type ValidationInputFn = (input: string | number) => boolean;
+export type ValidationInputFn = (input: string | number) => boolean;
 export interface IInputProps extends IBaseLayoutItem, ILabel, IMessage {
     inputType?: "text" | "password" | "number";
     validation?: Validation | ValidationInputFn;
@@ -29,7 +29,6 @@ export interface IInputProps extends IBaseLayoutItem, ILabel, IMessage {
 export interface IInputConfig extends IBaseItem, IBaseState, IInputProps {
     type: "input";
     value?: string | number;
-    $validationStatus?: ValidationStatus;
 }
 export interface IInput {
     parent?: IFieldset;
@@ -46,6 +45,7 @@ export interface IInput {
     clearValidate(): void;
     setValue(value: string | number): void;
     getValue(): string | number;
+    isFocused(): boolean;
     focus(): void;
     blur(): void;
     clear(): void;
@@ -74,8 +74,7 @@ export declare class Input extends Label implements IInput {
     events: IEventSystem<ItemEvent, IInputEventHandlersMap>;
     protected _propsItem: string[];
     protected _props: string[];
-    private _isValid;
-    private _value;
+    protected _value: any;
     constructor(container: HTMLElement | string, config?: {});
     destructor(): void;
     setProperties(propertyConfig: IInputProps): void;
@@ -86,11 +85,12 @@ export declare class Input extends Label implements IInput {
     disable(): void;
     enable(): void;
     isDisabled(): boolean;
-    validate(silent?: boolean, validateValue?: string | number): boolean;
+    validate(silent?: boolean, value?: string | number): boolean;
     clearValidate(): void;
     clear(): void;
     setValue(value: string | number): void;
     getValue(): string | number;
+    isFocused(): boolean;
     focus(): void;
     blur(): void;
     protected _initView(config: IInputConfig | ITextConfig | ITextAreaConfig): void;

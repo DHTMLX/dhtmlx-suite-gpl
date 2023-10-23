@@ -1,10 +1,10 @@
 import { Combobox } from "../../../ts-combobox";
 import { IEventSystem } from "../../../ts-common/events";
 import { Label } from "./helper/label";
-import { ValidationStatus, ItemEvent, ILabel, IBaseLayoutItem, IMessage, IBaseState, IBaseItem, IBaseHandlersMap } from "../types";
+import { ItemEvent, ILabel, IBaseLayoutItem, IMessage, IBaseState, IBaseItem, IBaseHandlersMap } from "../types";
 import { Id } from "../../../ts-common/types";
 import { IFieldset } from "./fieldset";
-export declare type ValidationComboFn = (input: Id | Id[], text: string | string[]) => boolean;
+export type ValidationComboFn = (input: Id | Id[], text: string | string[]) => boolean;
 export interface IComboProps extends IBaseLayoutItem, ILabel, IMessage {
     readOnly?: boolean;
     validation?: ValidationComboFn;
@@ -25,7 +25,6 @@ export interface IComboConfig extends IBaseItem, IBaseState, IComboProps {
     type: "combo";
     value?: Id | Id[];
     data?: any[];
-    $validationStatus?: ValidationStatus;
 }
 export interface ICombo {
     parent?: IFieldset;
@@ -70,10 +69,10 @@ export declare class Combo extends Label implements ICombo {
     config: IComboConfig;
     combobox: Combobox;
     events: IEventSystem<ItemEvent, IComboEventHandlersMap>;
-    private _isValid;
     private _propsItem;
     private _propsCombo;
     private _props;
+    private _isClear;
     constructor(container: any, config: IComboConfig);
     destructor(): void;
     setProperties(propertyConfig: IComboProps): void;
@@ -87,7 +86,7 @@ export declare class Combo extends Label implements ICombo {
     clear(): void;
     getValue(): Id | Id[];
     setValue(value: Id | Id[]): void;
-    validate(silent?: boolean, validateValue?: Id | Id[]): boolean;
+    validate(silent?: boolean, value?: Id | Id[]): boolean;
     clearValidate(): void;
     getWidget(): Combobox;
     focus(): void;
@@ -97,6 +96,6 @@ export declare class Combo extends Label implements ICombo {
     protected _validationStatus(): any;
     protected _getRootView(): any;
     protected _draw(): any;
-    private _exsistData;
+    private _existData;
     private _getItemText;
 }

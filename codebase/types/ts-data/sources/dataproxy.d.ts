@@ -5,6 +5,6 @@ export declare class DataProxy implements IDataProxy {
     protected _url: string;
     constructor(url: string, config?: any);
     updateUrl(url?: string, params?: any): void;
-    load<T = string>(): Promise<T>;
+    load<T = string>(): Promise<T | void>;
     save(data: any, mode: string): Promise<any>;
 }

@@ -1,9 +1,9 @@
 import { Calendar, ViewMode } from "../../../ts-calendar";
 import { IEventSystem } from "../../../ts-common/events";
 import { Label } from "./helper/label";
-import { ValidationStatus, ItemEvent, IBaseLayoutItem, ILabel, IMessage, IBaseItem, IBaseState, IBaseHandlersMap } from "../types";
+import { ItemEvent, IBaseLayoutItem, ILabel, IMessage, IBaseItem, IBaseState, IBaseHandlersMap } from "../types";
 import { IFieldset } from "./fieldset";
-export declare type ValidationDateInput = (input: string | Date) => boolean;
+export type ValidationDateInput = (input: string | Date) => boolean;
 export interface IDatePickerProps extends IBaseLayoutItem, ILabel, IMessage {
     editable?: boolean;
     validation?: ValidationDateInput;
@@ -20,11 +20,10 @@ export interface IDatePickerProps extends IBaseLayoutItem, ILabel, IMessage {
     timeFormat?: 24 | 12;
     thisMonthOnly?: boolean;
 }
-export declare type IDatePickerValueFormat = "string" | "Date";
+export type IDatePickerValueFormat = "string" | "Date";
 export interface IDatePickerConfig extends IBaseItem, IBaseState, IDatePickerProps {
     type: "datepicker";
     value?: Date | string;
-    $validationStatus?: ValidationStatus;
 }
 export interface IDatePicker {
     parent?: IFieldset;
@@ -72,7 +71,6 @@ export declare class DatePicker extends Label implements IDatePicker {
     events: IEventSystem<ItemEvent, IDatePickerEventHandlersMap>;
     private _keyManager;
     private _popup;
-    private _isValid;
     private _popupIsFocus;
     private _propsItem;
     private _propsCalendar;
@@ -87,7 +85,7 @@ export declare class DatePicker extends Label implements IDatePicker {
     disable(): void;
     enable(): void;
     isDisabled(): boolean;
-    validate(silent?: boolean, validateValue?: string | Date): boolean;
+    validate(silent?: boolean, value?: string | Date): boolean;
     clearValidate(): void;
     setValue(value: string | Date): void;
     getValue<T extends boolean = false>(asDateObject?: T): string | Date;

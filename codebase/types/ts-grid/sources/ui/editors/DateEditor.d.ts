@@ -20,7 +20,7 @@ export declare class DateEditor implements IEditor {
         css?: string;
         mark?: (a: Date) => string;
         disabledDates?: (a: Date) => boolean;
-        weekStart?: "saturday" | "sunday" | "monday";
+        weekStart?: "monday" | "sunday" | "saturday";
         weekNumbers?: boolean;
         mode?: import("../../../../ts-calendar").ViewMode;
         timePicker?: boolean;

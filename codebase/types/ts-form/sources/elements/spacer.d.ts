@@ -2,7 +2,7 @@ import { View } from "../../../ts-common/view";
 import { ItemEvent, IBaseLayoutItem, IBaseHandlersMap, IBaseItem } from "../types";
 import { IEventSystem } from "../../../ts-common/events";
 import { IFieldset } from "./fieldset";
-export declare type ISpacerProps = IBaseLayoutItem;
+export type ISpacerProps = IBaseLayoutItem;
 export interface ISpacerConfig extends IBaseItem, ISpacerProps {
     type: "spacer";
     hidden?: boolean;

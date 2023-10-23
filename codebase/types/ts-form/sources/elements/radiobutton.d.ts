@@ -1,7 +1,7 @@
 import { IEventSystem } from "../../../ts-common/events";
-import { View } from "../../../ts-common/view";
 import { IFieldset } from "./fieldset";
 import { IRadioButtonConfig } from "./radioGroup";
+import { Label } from "./helper/label";
 export declare enum RadioButtonEvents {
     beforeChange = "beforeChange",
     change = "change",
@@ -13,7 +13,7 @@ export declare enum RadioButtonEvents {
     beforeShow = "beforeShow",
     afterShow = "afterShow"
 }
-export declare class RadioButton extends View {
+export declare class RadioButton extends Label {
     parent: IFieldset;
     config: IRadioButtonConfig;
     events: IEventSystem<RadioButtonEvents>;
@@ -37,5 +37,5 @@ export declare class RadioButton extends View {
     clear(): void;
     validate(): boolean;
     clearValidate(): void;
-    private _draw;
+    protected _draw(): any;
 }

@@ -34,12 +34,14 @@ export interface IGridConfig extends IDragConfig {
     tooltip?: boolean;
     headerTooltip?: boolean;
     footerTooltip?: boolean;
+    rowHeight?: number;
     headerRowHeight?: number;
     footerRowHeight?: number;
-    rowHeight?: number;
-    adjust?: IAdjustBy;
     autoWidth?: boolean;
     autoHeight?: boolean;
+    headerAutoHeight?: boolean;
+    footerAutoHeight?: boolean;
+    adjust?: IAdjustBy;
     eventHandlers?: {
         [eventName: string]: {
             [className: string]: (event: Event, item: ICellObj) => void;
@@ -49,8 +51,10 @@ export interface IGridConfig extends IDragConfig {
     rootParent?: Id;
     $width?: number;
     $height?: number;
-    $headerLevel?: number;
-    $footerLevel?: number;
+    $headerHeight?: number;
+    $footerHeight?: number;
+    $headerHeightMap?: number[];
+    $footerHeightMap?: number[];
     $totalWidth?: number;
     $totalHeight?: number;
     $positions?: IPositions;
@@ -106,7 +110,6 @@ interface IFixedRows {
 export interface IRendererConfig extends IGridConfig {
     scroll?: IScrollState;
     datacollection: any;
-    columns?: ICol[];
     filteredColumns?: ICol[];
     currentColumns?: ICol[];
     currentRows?: IRow[];
@@ -120,7 +123,6 @@ export interface IRendererConfig extends IGridConfig {
     sortBy?: Id;
     sortDir?: string;
     filterLocation?: string;
-    htmlEnable?: boolean;
     content?: IContentList;
     gridId?: string;
     $renderFrom?: "leftFixedCols" | "rightFixedCols" | "topFixedRows" | "bottomFixedRows" | "render" | "both";
@@ -171,9 +173,23 @@ export interface IGrid {
 export interface IProGrid extends IGrid {
     scrollView: ScrollView;
 }
-export declare type EditorType = "input" | "select" | "datePicker" | "checkbox" | "combobox" | "multiselect" | "textarea";
+export type EditorType = "input" | "select" | "datePicker" | "checkbox" | "combobox" | "multiselect" | "textarea";
 export interface IComboEditorConfig {
     newOptions?: boolean;
+    readOnly?: boolean;
+    selectAllButton?: boolean;
+    placeholder?: string;
+    itemHeight?: number | string;
+    listHeight?: number | string;
+    css?: string;
+    template?: (item: {
+        id: Id;
+        value: string;
+    }) => string;
+}
+export interface IInputEditorConfig {
+    min?: number;
+    max?: number;
 }
 export interface IBaseHandlersMap {
     [key: string]: (...args: any[]) => any;
@@ -189,7 +205,7 @@ export interface IHeaderFilter {
     data?: any[];
     id?: Id;
     filterConfig?: IComboFilterConfig;
-    getFilter(): HTMLElement | Combobox;
+    getFilter(): VNode | Combobox;
     setValue(value: string | string[], silent?: boolean): void;
     clear(silent?: boolean): void;
     focus(): void;
@@ -197,12 +213,12 @@ export interface IHeaderFilter {
 }
 export interface ICellRect extends ICoords, ISizes {
 }
-export declare type colType = "string" | "number" | "boolean" | "date" | "percent" | any;
+export type colType = "string" | "number" | "boolean" | "date" | "percent" | any;
 export interface IOption {
     id: Id;
     value: string;
 }
-export declare type TOption = IOption | string;
+export type TOption = IOption | string;
 export interface ICol {
     id: Id;
     width?: number;
@@ -214,7 +230,7 @@ export interface ICol {
     type?: colType;
     format?: string;
     editorType?: EditorType;
-    editorConfig?: IComboEditorConfig | ICalendarConfig;
+    editorConfig?: IComboEditorConfig | ICalendarConfig | IInputEditorConfig;
     editable?: boolean;
     resizable?: boolean;
     sortable?: boolean;
@@ -233,9 +249,9 @@ export interface ICol {
         [key: string]: string;
     };
     $uniqueData?: any[];
+    $activeFilterData?: any[];
     $width?: number;
     $fixed?: boolean;
-    $htmlEnable?: boolean;
     $customOptions?: any;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     dateFormat?: string;
@@ -248,8 +264,8 @@ export interface ICol {
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     fitToContainer?: boolean;
 }
-export declare type fixedRowContent = "inputFilter" | "selectFilter" | "comboFilter";
-export declare type footerMethods = "avg" | "sum" | "max" | "min" | "count";
+export type fixedRowContent = "inputFilter" | "selectFilter" | "comboFilter";
+export type footerMethods = "avg" | "sum" | "max" | "min" | "count";
 export interface IContent {
     id?: string;
     text?: string;
@@ -258,6 +274,7 @@ export interface IContent {
     css?: string;
     align?: IAlign;
     tooltip?: boolean;
+    htmlEnable?: boolean;
 }
 export interface IHeader extends IContent {
     content?: fixedRowContent | footerMethods;
@@ -301,8 +318,8 @@ export interface IComboFilterConfig {
     virtual?: boolean;
     multiselection?: boolean;
 }
-export declare type SortFunction = (cellValue: any) => string | number;
-declare type MarkFunction = (cell: any, columnCells: any[], row: IRow, column: ICol) => string;
+export type SortFunction = (cellValue: any) => string | number;
+type MarkFunction = (cell: any, columnCells: any[], row: IRow, column: ICol) => string;
 export interface IMark {
     min?: string;
     max?: string;
@@ -314,9 +331,10 @@ export interface IPositions {
     yEnd: number;
 }
 export interface ICellCss {
-    color: string;
-    background: string;
-    fontSize: number;
+    color?: string;
+    background?: string;
+    fontSize?: number;
+    bold?: boolean;
 }
 export interface IExportData {
     columns: Array<{
@@ -505,7 +523,7 @@ export interface ICsvExportConfig extends ICsvDriverConfig {
     rowDelimiter?: string;
     columnDelimiter?: string;
 }
-export declare type Dirs = "asc" | "desc";
+export type Dirs = "asc" | "desc";
 export interface ICoords {
     x: number;
     y: number;
@@ -521,6 +539,7 @@ export interface ICell {
 export interface IRow {
     id?: Id;
     height?: number;
+    hidden?: boolean;
     $height?: number;
     [key: string]: any;
 }
@@ -528,11 +547,11 @@ export interface IEditor {
     toHTML(text?: string): any;
     endEdit(withoutSave?: boolean): void;
 }
-export declare type ISelectionType = "cell" | "row" | "complex";
-export declare type IDirection = "horizontal" | "vertical";
-export declare type IDragType = "row" | "column" | "both";
-export declare type AdjustTargetType = "data" | "header" | "footer";
-export declare type IAdjustBy = AdjustTargetType | boolean;
+export type ISelectionType = "cell" | "row" | "complex";
+export type IDirection = "horizontal" | "vertical";
+export type IDragType = "row" | "column" | "both";
+export type AdjustTargetType = "data" | "header" | "footer";
+export type IAdjustBy = AdjustTargetType | boolean;
 export interface IAdjustColumns {
     rows: IRow[];
     cols: ICol[];
@@ -565,7 +584,7 @@ export interface IGridSelectionEventsHandlersMap {
     [GridSelectionEvents.beforeSelect]: (row: IRow, col: ICol) => boolean | void;
     [GridSelectionEvents.beforeUnSelect]: (row: IRow, col: ICol) => boolean | void;
 }
-export declare type TRowStatus = "firstFilledRow" | "firstEmptyRow";
+export type TRowStatus = "firstFilledRow" | "firstEmptyRow";
 export declare enum Split {
     left = "leftSplit",
     right = "rightSplit",

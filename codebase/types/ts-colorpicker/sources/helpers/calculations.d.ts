@@ -4,5 +4,6 @@ export declare function calculatePaletteGrip(clientRect: ClientRect, top: number
 };
 export declare function calculateRangeGrip(clientRect: ClientRect, left: number): {
     h: number;
+    alpha: number;
     rangeLeft: number;
 };

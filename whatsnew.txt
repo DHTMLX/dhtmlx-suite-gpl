@@ -1,3 +1,110 @@
+# Version 8.3 (October 23, 2023)
+
+### New functionality
+
+#### ColorPicker
+
+- The ability to adjust the color transparency
+
+#### Form. Container
+
+- The control's configuration object is extended with a set of properties that allow adding and controlling the **label**
+
+#### Grid/TreeGrid
+
+- The ability to set the autoheight mode for the column's header/footer (PRO version)
+- The ability to enable HTML content in the columns' header/footer independent of the settings applied for the column or the whole component
+
+#### Menu
+
+- New `keydown` event
+
+#### Ribbon
+
+- New events: `input`, `inputChange`, `keydown`, and the Datepicker control
+
+#### Sidebar
+
+- New `keydown` event
+
+#### Toolbar
+
+- New events: `input` and `keydown`
+
+### Updates
+
+#### Grid/TreeGrid
+
+- The functionality of the eventHandlers configuration property is extended for the columns' header/footer
+- The columns with the "number" type allow only numeric values in the cells
+
+### Fixes
+
+- Form. Fix the absence of the bottom margin at the Container control
+- Grid/TreeGrid. Fix the work of the bottomSplit property when there was too little data for the proper content height
+- TreeGrid. Fix the work of the adjust property with the "footer" value
+
+# Version 8.2.7 (October 19, 2023)
+
+### Fixes
+
+- Combobox. Fix the absence of the placeholder if Combobox has a template
+- Form. Combo control. Fix the incorrect position of preMessage after the call of setProperties()
+- Form. Input/Textarea controls. Fix disappearance of the entered value on entering the full screen mode
+- Form. Toggle control. Fix the break of the Toggle button styles in case of simultaneous usage of the Suite and Vault sources on a page
+- Grid/TreeGrid. Fix incorrect autoWidth calculation in case of a big number of columns
+
+# Version 8.2.6 (October 12, 2023)
+
+### Fixes
+
+- ColorPicker. Fix incorrect adding of a custom color
+- Form. Fix incorrect work of the `validate()` method in the "silent" mode
+- Form. Fix incorrect work of the `clear()` method that triggered validation
+- Form. Fix blocking of typing on call of the `validate()` method for the Input control
+- Grid/TreeGrid. Fix the difference in the number format used for the cell data and for the footer
+- Grid/TreeGrid. Fix the problem with displaying `O`(zero) in the footer as a total sum of a column
+
+# Version 8.2.4 (October 4, 2023)
+
+### Fixes
+
+- Grid/TreeGrid. Fix the issue with ComboFilter not working in case the column's editor contains options with the id and value that don't match
+- Grid/TreeGrid. Fix the problem with the setColumns() method not refreshing the comboFilter options
+- TreeGrid. Fix the issue with a console error throwing on hovering over the footer tooltips used together with the "content" property
+- Toolbar/Menu. Fix the problem with displaying the count badge with the `0` value
+
+# Version 8.2.3 (September 26, 2023)
+
+### Fixes
+
+- Chart. Fix the issue with `minValue` rounding a fractional value
+- Chart. Fix the functionality of the `dashed` property in the Spline charts
+- Grid/TreeGrid. Fix the memory leak related to the header filters
+- TreeGrid. Fix the problem when a double click on a grouped row threw an error
+
+# Version 8.2.2 (September 13, 2023)
+
+### Fixes
+
+- DataView. Fix the issue with the FocusChange event not triggering on selecting an item with the mouse click
+- Grid/TreeGrid. Fix export to Excel with the non-numeric footer content
+- Grid/TreeGrid. Fix the problem with setting columns' width during export to Excel if the `adjust` config is enabled
+- Grid/TreeGrid. Fix export to Excel of the applied cell alignment
+- Grid/TreeGrid. Fix export to Excel of the font weight applied to cells
+- Menu. Fix the problem with rendering of the count badge at the root level
+- Tree. Fix the impossibility to override the checkbox configuration via the dataset
+- TreeGrid. Fix the issue with resetting changes in the edited cells after data ungrouping
+
+# Version 8.2.1 (August 31, 2023)
+
+### Fixes
+
+- Combobox. Fix the displaying of templates
+- Context Menu. Fix the problem with closing of the context menu when clicking on the scrollbar
+- Grid/TreeGrid. Fix the issue when calling of the destructor() method caused a crash of an app based on the Optimus framework
+- Grid/TreeGrid. Fix the rendering of hidden columns
+
 # Version 8.2 (August 28, 2023)
 
 ### New functionality

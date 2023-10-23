@@ -1,5 +1,5 @@
-declare type fn<T extends any[], K> = (...args: T) => K;
-declare type anyFunction = fn<any[], any>;
+type fn<T extends any[], K> = (...args: T) => K;
+type anyFunction = fn<any[], any>;
 export declare function uid(): string;
 export declare function extend(target: any, source: any, deep?: boolean): any;
 interface IOBj {

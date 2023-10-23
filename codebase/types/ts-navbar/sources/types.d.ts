@@ -10,14 +10,14 @@ export interface IHtmlExtendable {
 export interface IState {
     [key: string]: string;
 }
-export declare type NavigationType = "pointer" | "click";
+export type NavigationType = "pointer" | "click";
 export interface IGroups {
     [key: string]: {
         active?: Id;
         elements: string[];
     };
 }
-export declare type ContextMode = "bottom" | "right";
+export type ContextMode = "bottom" | "right";
 export interface INavbarConfig {
     navigationType?: NavigationType;
     css?: string;
@@ -42,7 +42,7 @@ export interface INavbar {
     isSelected(id: Id): boolean;
     getSelected(): Id[];
 }
-export declare type ItemType = "button" | "imageButton" | "selectButton" | "customButton" | "input" | "separator" | "title" | "spacer" | "menuItem" | "block" | "navItem" | "customHTML" | "customHTMLButton" | "datePicker";
+export type ItemType = "button" | "imageButton" | "selectButton" | "customButton" | "input" | "separator" | "title" | "spacer" | "menuItem" | "block" | "navItem" | "customHTML" | "customHTMLButton" | "datePicker";
 export interface IItem extends IDataItem {
     id?: Id;
     type?: ItemType;
@@ -51,7 +51,7 @@ export interface IItem extends IDataItem {
     hidden?: boolean;
     disabled?: boolean;
 }
-export declare type IMenuElement = ISpacer | ISeparator | INavItem | IMenuItem | ICustomHTML;
+export type IMenuElement = ISpacer | ISeparator | IMenuItem | ICustomHTML;
 export interface IMenuItem extends IItem, IHtmlExtendable {
     type?: "menuItem";
     $openIcon?: string;
@@ -191,7 +191,9 @@ export declare enum NavigationBarEvents {
     afterHide = "afterHide",
     inputFocus = "inputFocus",
     inputBlur = "inputBlur",
-    inputChange = "inputChange"
+    inputChange = "inputChange",
+    input = "input",
+    keydown = "keydown"
 }
 export interface INavbarEventHandlersMap {
     [key: string]: (...args: any[]) => any;
@@ -203,4 +205,6 @@ export interface INavbarEventHandlersMap {
     [NavigationBarEvents.inputBlur]: (id: Id) => void;
     [NavigationBarEvents.inputFocus]: (id: Id) => void;
     [NavigationBarEvents.inputChange]: (id: Id, newValue: string) => void;
+    [NavigationBarEvents.input]: (id: Id, value: string) => void;
+    [NavigationBarEvents.keydown]: (event: KeyboardEvent, id?: Id) => void;
 }

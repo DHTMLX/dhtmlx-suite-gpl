@@ -1,9 +1,9 @@
-import { View } from "../../../ts-common/view";
-import { ItemEvent, IBaseLayoutItem, IBaseItem, IBaseState, IBaseHandlersMap } from "../types";
+import { Label } from "./helper/label";
+import { ItemEvent, IBaseLayoutItem, IBaseItem, IBaseState, IBaseHandlersMap, ILabel } from "../types";
 import { IEventSystem } from "../../../ts-common/events";
 import { Layout } from "../../../ts-layout";
 import { IFieldset } from "./fieldset";
-export declare type IContainerProps = IBaseLayoutItem;
+export type IContainerProps = IBaseLayoutItem & Omit<ILabel, "required">;
 export interface IContainerConfig extends IContainerProps, IBaseItem, IBaseState {
     type: "container";
 }
@@ -31,11 +31,12 @@ export interface IContainerHandlersMap extends IBaseHandlersMap {
     [ItemEvent.beforeChangeProperties]: (properties: IContainerProps) => boolean | void;
     [ItemEvent.afterChangeProperties]: (properties: IContainerProps) => void;
 }
-export declare class Container extends View implements IContainer {
+export declare class Container extends Label implements IContainer {
     parent: IFieldset;
     config: IContainerConfig;
     container: Layout;
     events: IEventSystem<ItemEvent, IContainerHandlersMap>;
+    private _props;
     constructor(container: any, config: IContainerConfig);
     attach(widget: any): void;
     attachHTML(html: string): void;
@@ -45,8 +46,8 @@ export declare class Container extends View implements IContainer {
     disable(): void;
     enable(): void;
     isDisabled(): boolean;
-    setProperties(propertyConfig: IBaseLayoutItem): void;
-    getProperties(): IBaseLayoutItem;
+    setProperties(propertyConfig: IContainerProps): void;
+    getProperties(): IContainerProps;
     protected _getRootView(): any;
     protected _draw(): any;
 }

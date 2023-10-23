@@ -9,6 +9,7 @@ export declare class Label extends View {
     protected _handlers: any;
     protected _helper: Popup;
     constructor(container: null | string | HTMLElement, config?: {});
+    setValidationStatus(state?: "pre" | "error" | "success"): void;
     protected _destructor(): void;
     protected _getHandlers(): {};
     protected _init(): void;

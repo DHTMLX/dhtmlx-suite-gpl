@@ -1,4 +1,4 @@
-export declare type Callback = (...args: any[]) => any;
+export type Callback = (...args: any[]) => any;
 export interface IEventSystem<E, T extends IEventHandlersMap = IEventHandlersMap> {
     context: any;
     events: IEvents;
@@ -17,7 +17,7 @@ interface IEvents {
 interface IEventHandlersMap {
     [key: string]: Callback;
 }
-declare type ArgumentTypes<F extends (...args: any[]) => any> = F extends (...args: infer A) => any ? A : never;
+type ArgumentTypes<F extends (...args: any[]) => any> = F extends (...args: infer A) => any ? A : never;
 export declare class EventSystem<E extends string, T extends IEventHandlersMap = IEventHandlersMap> implements IEventSystem<E, T> {
     events: IEvents;
     context: any;

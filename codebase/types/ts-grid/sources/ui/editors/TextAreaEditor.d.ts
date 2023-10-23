@@ -9,12 +9,13 @@ export declare class TextAreaEditor implements IEditor {
     };
     protected _config: IRendererConfig;
     protected _editor: HTMLTextAreaElement;
+    private type;
     private _minHeight;
     private _prevHeight;
     private _width;
     constructor(row: IRow, col: ICol, config: IRendererConfig);
     endEdit(withoutSave?: boolean): void;
-    toHTML(): any;
+    toHTML(value?: string): any;
     protected _initHandlers(): void;
     private _getCurrentHeight;
     private _getElementHeight;

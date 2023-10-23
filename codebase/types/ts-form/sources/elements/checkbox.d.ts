@@ -1,6 +1,6 @@
 import { IEventSystem } from "../../../ts-common/events";
 import { Popup } from "../../../ts-popup";
-import { ValidationStatus, ItemEvent, IBaseLayoutItem, IMessage, ILabel, IBaseState, IBaseItem, IBaseHandlersMap } from "../types";
+import { ItemEvent, IBaseLayoutItem, IMessage, ILabel, IBaseState, IBaseItem, IBaseHandlersMap } from "../types";
 import { Label } from "./helper/label";
 import { IFieldset } from "./fieldset";
 export interface ICheckboxProps extends IBaseLayoutItem, ILabel, IMessage {
@@ -12,7 +12,6 @@ export interface ICheckboxConfig extends ICheckboxProps, IBaseState, IBaseItem {
     value?: string;
     $group?: boolean;
     $required?: boolean;
-    $validationStatus?: ValidationStatus;
 }
 export interface ICheckbox {
     parent?: IFieldset;
@@ -58,7 +57,6 @@ export declare class Checkbox extends Label implements ICheckbox {
     protected _handlers: any;
     protected _helper: Popup;
     private _inGroup;
-    private _isValid;
     private _propsItem;
     private _props;
     constructor(container: HTMLElement | string, config?: {});

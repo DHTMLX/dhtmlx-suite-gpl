@@ -17,7 +17,7 @@ export declare enum UploaderEvents {
 export declare enum ProgressBarEvents {
     cancel = "cancel"
 }
-export declare type FileHandler = (file?: object, extra?: object) => boolean | void;
+export type FileHandler = (file?: object, extra?: object) => boolean | void;
 export interface IParams {
     [key: string]: any;
 }
@@ -83,7 +83,7 @@ export interface IFileWrapper extends IDataItem {
     preview?: string;
     $toRemove?: boolean;
 }
-declare type BeforeReturnType = false | void;
+type BeforeReturnType = false | void;
 interface IObjectWithAnyFields {
     [key: string]: string;
 }
@@ -103,5 +103,5 @@ export interface IEventHandlersMap {
     [DataEvents.change]: (id?: string, status?: Statuses, file?: IFileWrapper) => void;
     [DataEvents.load]: () => void;
 }
-export declare type IVaultEventSystem = IEventSystem<DataEvents | UploaderEvents | ProgressBarEvents>;
+export type IVaultEventSystem = IEventSystem<DataEvents | UploaderEvents | ProgressBarEvents>;
 export {};

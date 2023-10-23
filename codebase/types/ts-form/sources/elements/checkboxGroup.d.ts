@@ -1,7 +1,7 @@
 import { Layout } from "../../../ts-layout";
 import { IEventSystem } from "../../../ts-common/events";
 import { Label } from "./helper/label";
-import { ItemEvent, ValidationStatus, IBaseLayoutItem, IBaseItem, IBaseState, IGroup, ILabel, IMessage, IBaseHandlersMap } from "../types";
+import { ItemEvent, IBaseLayoutItem, IBaseItem, IBaseState, IGroup, ILabel, IMessage, IBaseHandlersMap } from "../types";
 import { IFieldset } from "./fieldset";
 export interface ICheckboxGroupValue {
     [id: string]: boolean | string;
@@ -14,7 +14,6 @@ export interface ICheckboxGroupItemProps extends IBaseLayoutItem {
 }
 export interface ICheckboxGroupItemConfig extends IBaseItem, IBaseState, ICheckboxGroupItemProps {
     type: "checkbox";
-    $validationStatus?: ValidationStatus;
     $group?: boolean;
 }
 export interface ICheckboxGroupOption extends IGroup {
@@ -27,7 +26,6 @@ export interface ICheckboxGroupProps extends IBaseLayoutItem, ILabel, IMessage {
 export interface ICheckboxGroupConfig extends IBaseItem, IBaseState, ICheckboxGroupProps {
     type: "checkboxgroup";
     value?: ICheckboxGroupValue;
-    $validationStatus?: ValidationStatus;
 }
 export interface ICheckboxGroup {
     parent?: IFieldset;
@@ -76,7 +74,6 @@ export declare class CheckboxGroup extends Label implements ICheckboxGroup {
     layout: Layout;
     events: IEventSystem<ItemEvent, ICheckboxGroupEventHandlersMap>;
     private _buttons;
-    private _isValid;
     private _propsItem;
     private _props;
     constructor(container: any, config: ICheckboxGroupConfig);

@@ -1,11 +1,11 @@
 import { Id } from "../../../ts-common/types";
 import { IEventSystem } from "../../../ts-common/events";
-import { View } from "../../../ts-common/view";
 import { DataCollection, IDataItem } from "../../../ts-data";
 import { UploaderEvents } from "../../../ts-vault";
 import { Popup } from "../../../ts-popup";
-import { ValidationStatus, ItemEvent, IBaseLayoutItem, IMessage, ILabel, IBaseItem, IBaseState, IBaseHandlersMap } from "../types";
+import { ItemEvent, IBaseLayoutItem, IMessage, ILabel, IBaseItem, IBaseState, IBaseHandlersMap } from "../types";
 import { IFieldset } from "./fieldset";
+import { Label } from "./helper/label";
 export interface IParams {
     [key: string]: any;
 }
@@ -42,7 +42,6 @@ export interface ISimpleVaultConfig extends IBaseItem, IBaseState, ISimpleVaultP
     type: "simplevault";
     value?: ISimpleVaultValue[];
     $vaultHeight?: number | string;
-    $validationStatus?: ValidationStatus;
 }
 export interface ISimpleVault {
     parent?: IFieldset;
@@ -88,16 +87,15 @@ export interface ISimpleVaultEventHandlersMap extends IBaseHandlersMap {
     [ItemEvent.beforeChangeProperties]: (properties: ISimpleVaultProps) => boolean | void;
     [ItemEvent.afterChangeProperties]: (properties: ISimpleVaultProps) => void;
 }
-export declare class SimpleVault extends View implements ISimpleVault {
+export declare class SimpleVault extends Label implements ISimpleVault {
+    config: ISimpleVaultConfig;
     parent: IFieldset;
     events: IEventSystem<UploaderEvents | ItemEvent | ISimpleVaultEventHandlersMap>;
     data: DataCollection<ISimpleVaultValue>;
     protected _helper: Popup;
     private _uploader;
-    private _handlers;
     private _dragover;
     private _dragoverTimeout;
-    private _isValid;
     private _propsItem;
     private _propsSimpleVault;
     private _props;
@@ -113,7 +111,7 @@ export declare class SimpleVault extends View implements ISimpleVault {
     show(): void;
     hide(init?: boolean): void;
     isVisible(): boolean;
-    validate(silent?: boolean, validateValue?: ISimpleVaultValue[]): boolean;
+    validate(silent?: boolean, value?: ISimpleVaultValue[]): boolean;
     clearValidate(): void;
     setProperties(propertyConfig: ISimpleVaultProps): void;
     getProperties(): ISimpleVaultProps;
@@ -122,5 +120,5 @@ export declare class SimpleVault extends View implements ISimpleVault {
     destructor(): void;
     protected _initView(config: ISimpleVaultConfig): void;
     protected _initHandlers(): void;
-    private _draw;
+    protected _draw(): any;
 }

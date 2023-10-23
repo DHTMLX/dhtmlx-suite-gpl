@@ -1,7 +1,7 @@
 import { Slider, Direction } from "../../../ts-slider";
 import { IEventSystem } from "../../../ts-common/events";
 import { Label } from "./helper/label";
-import { ItemEvent, IBaseLayoutItem, ILabel, IBaseItem, IBaseState, ValidationStatus, IBaseHandlersMap } from "../types";
+import { ItemEvent, IBaseLayoutItem, ILabel, IBaseItem, IBaseState, IBaseHandlersMap } from "../types";
 import { IFieldset } from "./fieldset";
 export interface ISliderProps extends IBaseLayoutItem, ILabel {
     helpMessage?: string;
@@ -19,7 +19,6 @@ export interface ISliderProps extends IBaseLayoutItem, ILabel {
 export interface ISliderFormConfig extends IBaseItem, IBaseState, ISliderProps {
     type: "slider";
     value?: number | number[];
-    $validationStatus?: ValidationStatus;
 }
 export interface ISliderForm {
     parent?: IFieldset;

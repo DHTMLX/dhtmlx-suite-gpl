@@ -4,7 +4,7 @@ import { IHandlers, SelectionEvents, ISelectionEventsHandlersMap, Id } from "../
 import { IKeyManager } from "../../ts-common/KeyManager";
 import { ScrollView } from "../../ts-common/ScrollView";
 import { VNode } from "../../ts-common/dom";
-export declare type MultiselectionMode = "click" | "ctrlClick";
+export type MultiselectionMode = "click" | "ctrlClick";
 export interface IListConfig extends IDragConfig {
     template?: (obj: IDataItem) => string;
     data?: DataCollection<any> | any[];

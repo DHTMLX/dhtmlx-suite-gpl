@@ -6,7 +6,7 @@ export declare const create: any;
 export declare const inject: any;
 export declare const KEYED_LIST: any;
 export declare function disableHelp(): void;
-export declare type VNode = any;
+export type VNode = any;
 export interface IDomView {
     redraw(): any;
     mount(el: HTMLElement): any;
@@ -19,5 +19,5 @@ export interface IViewHash {
 }
 export declare function resizer(handler: any): any;
 export declare function resizeHandler(container: any, handler: any): any;
-export declare function awaitRedraw(): Promise<any>;
+export declare function awaitRedraw(): Promise<void>;
 export declare function setTheme(theme: TTheme, container: string | HTMLElement): void;

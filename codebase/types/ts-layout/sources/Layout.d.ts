@@ -11,7 +11,7 @@ export declare class Layout extends Cell implements ILayout {
     constructor(parent: any, config: ILayoutConfig);
     destructor(): void;
     toVDOM(): any;
-    removeCell(id: string): any;
+    removeCell(id: string): void;
     addCell(config: ICellConfig, index?: number): void;
     getId(index: number): string;
     getRefs(name: string): any;

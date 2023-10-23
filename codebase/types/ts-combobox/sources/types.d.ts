@@ -1,6 +1,6 @@
 import { Id } from "../../ts-common/types";
 import { DataCollection, IDataItem } from "../../ts-data";
-export declare type ILabelPosition = "left" | "top";
+export type ILabelPosition = "left" | "top";
 export interface IComboboxConfig {
     data?: DataCollection<any> | any[];
     disabled?: boolean;
@@ -87,4 +87,4 @@ export declare enum ComboState {
     success = 2
 }
 /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
-export declare type State = "success" | "error" | "default";
+export type State = "success" | "error" | "default";
