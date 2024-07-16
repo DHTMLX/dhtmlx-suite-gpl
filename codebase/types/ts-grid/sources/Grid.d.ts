@@ -4,7 +4,7 @@ import { Id, ITouchParam } from "../../ts-common/types";
 import { View } from "../../ts-common/view";
 import { DataEvents, DragEvents, IDataCollection, IDataEventsHandlersMap, IDataItem, IDragEventsHandlersMap } from "../../ts-data";
 import { Exporter } from "./Exporter";
-import { Dirs, EditorType, GridEvents, IAdjustBy, ICellRect, ICol, IContentList, ICoords, IEventHandlersMap, IGrid, IGridConfig, IRow, IScrollState, ISelection, ISpan, GridSystemEvents, ISystemEventHandlersMap, IColumnsWidth, ISortingState, SortFunction, IHeaderFilter, IAdjustColumns, IFooter, IHeader } from "./types";
+import { Dirs, EditorType, GridEvents, IAdjustBy, ICellRect, ICol, IContentList, ICoords, IEventHandlersMap, IGrid, IGridConfig, IRow, IScrollState, ISelection, ISpan, GridSystemEvents, ISystemEventHandlersMap, IColumnsWidth, ISortingState, SortFunction, IHeaderFilter, IAdjustColumns, IFooter, IHeader, INormalizeColumnsParams } from "./types";
 export declare class Grid extends View implements IGrid {
     version: string;
     data: IDataCollection;
@@ -55,7 +55,7 @@ export declare class Grid extends View implements IGrid {
     paint(): void;
     protected _createView(): any;
     protected _parseColumns(configChanged?: boolean): void;
-    protected normalizeColumns(config: IGridConfig, configChanged?: boolean): void;
+    protected normalizeColumns({ config, columns, configChanged }: INormalizeColumnsParams): void;
     protected getNormalizeContentHeight(row: IFooter | IHeader, col: ICol, config: IGridConfig): number;
     protected _parseData(): void;
     protected _createCollection(prep: (data: any[]) => any[]): void;
@@ -78,6 +78,8 @@ export declare class Grid extends View implements IGrid {
         didMount: () => void;
     };
     protected _normalizeDataType(): void;
+    protected _applyLocalFilter(beforePrepareData?: boolean): void;
+    protected _normalizeSpans(): void;
     private _canDataParse;
     private _init;
     private _attachDataCollection;
@@ -89,6 +91,6 @@ export declare class Grid extends View implements IGrid {
     private _render;
     private _initHotKey;
     private _normalizeConfig;
-    private _normalizeSpans;
     private _autoScroll;
+    private _applyAutoWidth;
 }

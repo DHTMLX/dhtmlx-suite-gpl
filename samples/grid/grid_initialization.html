@@ -14,12 +14,12 @@
 	<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
 	<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
 	<!-- end meta block -->
-	<script type="text/javascript" src="../../codebase/suite.js?v=8.3.0"></script>
-	<link rel="stylesheet" href="../../codebase/suite.css?v=8.3.0">
+	<script type="text/javascript" src="../../codebase/suite.js?v=8.4.0"></script>
+	<link rel="stylesheet" href="../../codebase/suite.css?v=8.4.0">
 	
-	<link rel="stylesheet" href="../common/index.css?v=8.3.0">
+	<link rel="stylesheet" href="../common/index.css?v=8.4.0">
 	<!-- custom sample head -->
-	<script src="./common/data.js?v=8.3.0"></script>
+	<script src="./common/data.js?v=8.4.0"></script>
 </head>
 
 <body>
@@ -39,9 +39,7 @@
 			</h1>
 		</div>
 	</header>
-	<section class="dhx_sample-container" style="height: 80%">
-		<div style="height: 100%; width: 100%" id="grid"></div>
-	</section>
+	<div style="height: 600px; width: 100%" id="grid"></div>
 	<script>
 		const grid = new dhx.Grid("grid", {
 			columns: [
@@ -56,7 +54,7 @@
 				{ width: 150, id: "age", header: [{ text: "Med. Age" }] },
 				{ width: 150, id: "urban", header: [{ text: "Urban Pop" }] }
 			],
-			data: dataset,
+			data: dataset
 		});
 	</script>
 </body>

@@ -1,7 +1,7 @@
 import { IGrid, IDirection } from "../types";
 export declare function selectionMove(e: KeyboardEvent, grid: IGrid, dir: IDirection, range: number, toEnd?: boolean, ctrlUp?: boolean, shiftUp?: boolean): void;
 export declare function getKeysHandlers(grid: any): {
-    enter: (e: any) => void;
+    enter: () => void;
     space: (e: any) => void;
     escape: () => void;
     tab: (e: any) => void;

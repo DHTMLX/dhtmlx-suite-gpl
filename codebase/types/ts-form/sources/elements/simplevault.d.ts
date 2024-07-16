@@ -111,7 +111,7 @@ export declare class SimpleVault extends Label implements ISimpleVault {
     show(): void;
     hide(init?: boolean): void;
     isVisible(): boolean;
-    validate(silent?: boolean, value?: ISimpleVaultValue[]): boolean;
+    validate(silent?: boolean, ...args: any[]): boolean;
     clearValidate(): void;
     setProperties(propertyConfig: ISimpleVaultProps): void;
     getProperties(): ISimpleVaultProps;

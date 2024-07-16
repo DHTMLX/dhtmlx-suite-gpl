@@ -48,7 +48,7 @@ export interface IListEventHandlersMap {
     [ListEvents.itemMouseOver]: (id: Id, e: Event) => void;
     [ListEvents.doubleClick]: (id: Id, e: Event) => void;
     [ListEvents.itemRightClick]: (id: Id, e: MouseEvent) => void;
-    [ListEvents.focusChange]: (focusIndex: number, id: Id) => void;
+    [ListEvents.focusChange]: (focusIndex?: number, id?: Id) => void;
     [ListEvents.beforeEditStart]: (id: Id) => void | boolean;
     [ListEvents.afterEditStart]: (id: Id) => void;
     [ListEvents.beforeEditEnd]: (value: string, id: Id) => void | boolean;
@@ -59,7 +59,7 @@ export interface ISelectionConfig {
     multiselection?: boolean | MultiselectionMode;
     disabled?: boolean;
 }
-export interface IList<T = any> {
+export interface IList<T extends IDataItem = any> {
     config: IListConfig;
     data: DataCollection<T>;
     events: IEventSystem<DataEvents | ListEvents | DragEvents, IListEventHandlersMap & IDataEventsHandlersMap & IDragEventsHandlersMap>;
@@ -70,6 +70,7 @@ export interface IList<T = any> {
     editItem(id: Id): void;
     getFocusItem(): T;
     setFocus(id: Id): void;
+    resetFocus(): void;
     getFocus(): Id;
     scrollTo(id: Id): void;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */

@@ -24,6 +24,11 @@ export interface IComboboxConfig {
     value?: Id | Id[];
     newOptions?: boolean;
     htmlEnable?: boolean;
+    eventHandlers?: {
+        [eventName: string]: {
+            [className: string]: (event: Event, id: Id) => void | boolean;
+        };
+    };
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     cellHeight?: number;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */

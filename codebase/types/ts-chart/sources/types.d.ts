@@ -78,6 +78,7 @@ export interface ISeriaConfig {
     showText?: boolean;
     showTextRotate?: number | string;
     showTextTemplate?: (points: any) => string;
+    valueTemplate?: (value: number) => string;
     tooltip?: boolean;
     tooltipType?: TooltipType;
     tooltipTemplate?: (points: any[]) => string;

@@ -1,6 +1,7 @@
 import { IEventSystem } from "../../ts-common/events";
 import { IKeyManager } from "../../ts-common/KeyManager";
 import { IAlign } from "../../ts-common/html";
+import { Position } from "../../ts-message";
 import { IDataCollection, IDragConfig, ICsvDriverConfig, IDataItem, IDragInfo, DataCollection } from "../../ts-data";
 import { Exporter } from "./Exporter";
 import { Combobox } from "../../ts-combobox";
@@ -31,9 +32,9 @@ export interface IGridConfig extends IDragConfig {
     autoEmptyRow?: boolean;
     resizable?: boolean;
     htmlEnable?: boolean;
-    tooltip?: boolean;
-    headerTooltip?: boolean;
-    footerTooltip?: boolean;
+    tooltip?: boolean | IGridTooltipConfig;
+    headerTooltip?: boolean | IGridTooltipConfig;
+    footerTooltip?: boolean | IGridTooltipConfig;
     rowHeight?: number;
     headerRowHeight?: number;
     footerRowHeight?: number;
@@ -82,6 +83,14 @@ export interface IGridConfig extends IDragConfig {
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     splitAt?: number;
 }
+export interface IGridTooltipConfig {
+    force?: boolean;
+    showDelay?: number;
+    hideDelay?: number;
+    margin?: number;
+    position?: Position;
+    css?: string;
+}
 export interface IScrollBarWidth {
     x: number;
     y: number;
@@ -107,12 +116,14 @@ interface IFixedRows {
     top: IRow[];
     bottom: IRow[];
 }
-export interface IRendererConfig extends IGridConfig {
+type RenderFrom = "leftFixedCols" | "rightFixedCols" | "topFixedRows" | "bottomFixedRows" | "render";
+export interface IRendererConfig extends Required<IGridConfig> {
     scroll?: IScrollState;
     datacollection: any;
     filteredColumns?: ICol[];
     currentColumns?: ICol[];
     currentRows?: IRow[];
+    currentSpans?: ISpan[];
     fixedColumns?: IFixedColumns;
     fixedRows?: IFixedRows;
     firstColId?: Id;
@@ -125,7 +136,7 @@ export interface IRendererConfig extends IGridConfig {
     filterLocation?: string;
     content?: IContentList;
     gridId?: string;
-    $renderFrom?: "leftFixedCols" | "rightFixedCols" | "topFixedRows" | "bottomFixedRows" | "render" | "both";
+    $renderFrom?: RenderFrom;
     _events?: IEventSystem<GridSystemEvents>;
 }
 export interface ISortingState {
@@ -242,7 +253,7 @@ export interface ICol {
     adjust?: IAdjustBy;
     autoWidth?: boolean;
     align?: IAlign;
-    tooltip?: boolean;
+    tooltip?: boolean | IGridTooltipConfig;
     tooltipTemplate?: (cellValue: any, row: IRow, col: ICol) => string;
     gravity?: number;
     $cellCss?: {
@@ -251,7 +262,7 @@ export interface ICol {
     $uniqueData?: any[];
     $activeFilterData?: any[];
     $width?: number;
-    $fixed?: boolean;
+    $fixedWidth?: boolean;
     $customOptions?: any;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     dateFormat?: string;
@@ -273,7 +284,7 @@ export interface IContent {
     rowspan?: number;
     css?: string;
     align?: IAlign;
-    tooltip?: boolean;
+    tooltip?: boolean | IGridTooltipConfig;
     htmlEnable?: boolean;
 }
 export interface IHeader extends IContent {
@@ -304,10 +315,11 @@ export interface ISpan {
     colspan?: number;
     text?: string | number;
     css?: string;
-    tooltip?: boolean;
+    tooltip?: boolean | IGridTooltipConfig;
     tooltipTemplate?: (spanValue: any, span: ISpan) => string;
-    $markCss?: string;
-    $type?: colType;
+    $rowsVisibility?: number[];
+    $colsVisibility?: number[];
+    $renderFrom?: RenderFrom[];
 }
 export interface IComboFilterConfig {
     data?: DataCollection<any> | any[];
@@ -590,5 +602,10 @@ export declare enum Split {
     right = "rightSplit",
     top = "topSplit",
     bottom = "bottomSplit"
+}
+export interface INormalizeColumnsParams {
+    config: IGridConfig;
+    columns: ICol[];
+    configChanged?: boolean;
 }
 export {};

@@ -29,4 +29,5 @@ export declare class Exporter {
     private getFlatCSV;
     private _getCSV;
     protected _rawExport(config: IPNGConfig | IPDFConfig, mode: TExportType, view: any): void;
+    private _getHash;
 }

@@ -22,6 +22,7 @@ export interface IContainer {
     isDisabled(): boolean;
     setProperties(propertyConfig: IContainerProps): void;
     getProperties(): IContainerProps;
+    destructor(): void;
 }
 export interface IContainerHandlersMap extends IBaseHandlersMap {
     [ItemEvent.beforeHide]: (init: boolean) => boolean | void;
@@ -38,6 +39,7 @@ export declare class Container extends Label implements IContainer {
     events: IEventSystem<ItemEvent, IContainerHandlersMap>;
     private _props;
     constructor(container: any, config: IContainerConfig);
+    destructor(): void;
     attach(widget: any): void;
     attachHTML(html: string): void;
     show(): void;

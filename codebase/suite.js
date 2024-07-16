@@ -1,7 +1,7 @@
 /*
 @license
 
-dhtmlxSuite v.8.3.0 GPL
+dhtmlxSuite v.8.4.0 GPL
 
 This software is covered by GPL license.
 To use it in non-GPL project, you need obtain Commercial or Enterprise license
@@ -202,7 +202,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTextLines = exports.getCloneObject = exports.rgbToHex = exports.getStringWidth = exports.getMinArrayNumber = exports.getMaxArrayNumber = exports.isEmptyObj = exports.isType = exports.compare = exports.debounce = exports.downloadFile = exports.isNumeric = exports.range = exports.isId = exports.isDefined = exports.wrapBox = exports.unwrapBox = exports.detectWidgetClick = exports.singleOuterClick = exports.isEqualString = exports.findIndex = exports.naturalSort = exports.copy = exports.extend = exports.uid = void 0;
+exports.getTextLines = exports.getCloneObject = exports.rgbToHex = exports.getStringWidth = exports.getMinArrayNumber = exports.getMaxArrayNumber = exports.isEmptyObj = exports.isType = exports.compare = exports.debounce = exports.downloadFile = exports.isNumeric = exports.range = exports.isId = exports.isDefined = exports.wrapBox = exports.unwrapBox = exports.detectWidgetClick = exports.singleOuterClick = exports.isExistValue = exports.findIndex = exports.naturalSort = exports.copy = exports.extend = exports.uid = void 0;
 var html_1 = __webpack_require__(3);
 var counter = new Date().valueOf();
 function uid() {
@@ -259,20 +259,14 @@ function findIndex(arr, predicate) {
     return -1;
 }
 exports.findIndex = findIndex;
-function isEqualString(from, to) {
-    from = from.toString();
-    to = to.toString();
-    if (from.length > to.length) {
+function isExistValue(target, value) {
+    var str = value.toString();
+    var text = target.toString();
+    if (str.length > text.length)
         return false;
-    }
-    for (var i = 0; i < from.length; i++) {
-        if (from[i].toLowerCase() !== to[i].toLowerCase()) {
-            return false;
-        }
-    }
-    return true;
+    return text.toLowerCase().includes(str.toLowerCase());
 }
-exports.isEqualString = isEqualString;
+exports.isExistValue = isExistValue;
 function singleOuterClick(fn) {
     var click = function (e) {
         if (fn(e)) {
@@ -840,7 +834,7 @@ function placeRightOrLeft(pos, config) {
         left = leftDiff > rightDiff ? leftDiff : pos.right;
     }
     if (config.centering) {
-        top = verticalCentering(pos, config.height, rightBorder);
+        top = verticalCentering(pos, config.height, bottomBorder);
     }
     else {
         var bottomDiff = pos.bottom - config.height;
@@ -1359,6 +1353,7 @@ exports.setAttacments = exports.widgetConfig = exports.baseProps = exports.isVer
 /* eslint-disable no-useless-escape */
 var types_1 = __webpack_require__(4);
 var input_1 = __webpack_require__(39);
+var core_1 = __webpack_require__(1);
 function getFormItemCss(item, validate, focus) {
     var _a;
     if (focus === void 0) { focus = false; }
@@ -1421,35 +1416,28 @@ function validateInput(value, validation) {
 }
 exports.validateInput = validateInput;
 function baseInputValidate(value, config) {
-    var inputType = config.inputType, min = config.min, max = config.max, minlength = config.minlength, maxlength = config.maxlength;
-    if (inputType === "number") {
-        if (typeof min !== "undefined" && typeof max !== "undefined") {
-            return Number(min) <= Number(max) && Number(min) <= Number(value) && Number(max) >= Number(value);
+    var val = value !== null && value !== void 0 ? value : "";
+    if (config.required && !String(val).trim())
+        return false;
+    var validate = function (num, min, max) {
+        var isMin = (0, core_1.isDefined)(min);
+        var isMax = (0, core_1.isDefined)(max);
+        if (isMin && isMax) {
+            return Number(min) <= Number(max) && Number(min) <= num && Number(max) >= num;
         }
-        else if (typeof min !== "undefined") {
-            return Number(min) <= Number(value);
+        else if (isMin) {
+            return Number(min) <= num;
         }
-        else if (typeof max !== "undefined") {
-            return Number(max) >= Number(value);
-        }
-        else {
-            return value === 0 || value === "0" || !!value;
-        }
-    }
-    else {
-        if (typeof minlength !== "undefined" && typeof maxlength !== "undefined") {
-            return Number(minlength) <= String(value).length && Number(maxlength) >= String(value).length;
-        }
-        else if (typeof minlength !== "undefined") {
-            return Number(minlength) <= String(value).length;
-        }
-        else if (typeof maxlength !== "undefined") {
-            return Number(maxlength) >= String(value).length;
+        else if (isMax) {
+            return Number(max) >= num;
         }
         else {
-            return typeof value === "string" && !!value;
+            return true;
         }
-    }
+    };
+    return config.inputType === "number"
+        ? validate(Number(val), config.min, config.max)
+        : validate(String(val).length, config.minlength, config.maxlength);
 }
 exports.baseInputValidate = baseInputValidate;
 function isTimeFormat(value, timeFormat) {
@@ -1542,16 +1530,16 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(22), exports);
-__exportStar(__webpack_require__(61), exports);
+__exportStar(__webpack_require__(60), exports);
 __exportStar(__webpack_require__(125), exports);
 __exportStar(__webpack_require__(126), exports);
-__exportStar(__webpack_require__(26), exports);
+__exportStar(__webpack_require__(27), exports);
 __exportStar(__webpack_require__(162), exports);
 __exportStar(__webpack_require__(23), exports);
-__exportStar(__webpack_require__(64), exports);
 __exportStar(__webpack_require__(63), exports);
-__exportStar(__webpack_require__(163), exports);
 __exportStar(__webpack_require__(62), exports);
+__exportStar(__webpack_require__(163), exports);
+__exportStar(__webpack_require__(61), exports);
 __exportStar(__webpack_require__(41), exports);
 
 
@@ -1773,7 +1761,7 @@ var Label = /** @class */ (function (_super) {
                 e.stopPropagation();
                 _this._helper.hide();
             } }, _this._getHandlers());
-        var render = function () { return _this._draw(); };
+        var render = function () { return _this.config && _this._draw(); };
         _this.mount(container, (0, dom_1.create)({ render: render }));
         return _this;
     }
@@ -1858,7 +1846,7 @@ __exportStar(__webpack_require__(128), exports);
 __exportStar(__webpack_require__(129), exports);
 __exportStar(__webpack_require__(130), exports);
 __exportStar(__webpack_require__(67), exports);
-__exportStar(__webpack_require__(43), exports);
+__exportStar(__webpack_require__(42), exports);
 
 
 /***/ }),
@@ -1882,9 +1870,9 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(46), exports);
+__exportStar(__webpack_require__(45), exports);
 __exportStar(__webpack_require__(139), exports);
-__exportStar(__webpack_require__(47), exports);
+__exportStar(__webpack_require__(46), exports);
 
 
 /***/ }),
@@ -2038,8 +2026,19 @@ exports.KeyManager = KeyManager;
 
 "use strict";
 
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.scrollFixedColsAndRows = exports.getTotalHeight = exports.getTotalWidth = exports.isHtmlEnable = exports.isTooltip = exports.isContentTooltip = exports.showTooltip = exports.isAutoWidth = exports.isSortable = exports.isRowEmpty = exports.isCssSupport = exports.removeHTMLTags = exports.getStyleByClass = exports.transpose = void 0;
+exports.scrollFixedColsAndRows = exports.getTotalHeight = exports.getTotalWidth = exports.isHtmlEnable = exports.isTooltip = exports.getTooltipConfig = exports.isContentTooltip = exports.showTooltip = exports.isAutoWidth = exports.isSortable = exports.isRowEmpty = exports.isCssSupport = exports.removeHTMLTags = exports.getStyleByClass = exports.transpose = void 0;
 var core_1 = __webpack_require__(1);
 var html_1 = __webpack_require__(3);
 var ts_message_1 = __webpack_require__(11);
@@ -2066,23 +2065,32 @@ function insert(node, newone) {
         return newone;
     }
 }
-function getStyleByClass(cssClass, container, targetClass, def) {
-    var cont = container.querySelector("." + targetClass);
+function getStyleByClass(cssClass, targetClass, def, container) {
+    if (container === void 0) { container = document.body; }
+    var cont = container.querySelector("." + targetClass.trim().replace(/\s/g, "."));
     var testDiv = insert(cont, "<div class=\"".concat(cssClass, "\"></div>"));
     var styles = window.getComputedStyle(testDiv);
+    var TRANSPARENT = "rgba(0, 0, 0, 0)";
+    var background;
+    if (styles.backgroundColor === TRANSPARENT) {
+        var contStyles = window.getComputedStyle(cont);
+        background =
+            contStyles.backgroundColor === TRANSPARENT
+                ? def.background
+                : (0, core_1.rgbToHex)(contStyles.backgroundColor);
+    }
+    else {
+        background = (0, core_1.rgbToHex)(styles.backgroundColor);
+    }
     var result = {
         color: styles.color === "rgb(0, 0, 0)" ? def.color : (0, core_1.rgbToHex)(styles.color),
-        background: styles.backgroundColor === "rgba(0, 0, 0, 0)" ? def.background : (0, core_1.rgbToHex)(styles.backgroundColor),
+        background: background,
         fontSize: Math.round(parseFloat(styles.fontSize)),
         bold: ["bold", "700", "600", "500"].includes(styles.fontWeight),
     };
     cont.removeChild(testDiv);
-    // [dirty]
-    if (result.color === def.color &&
-        result.background === def.background &&
-        result.fontSize === def.fontSize) {
+    if ((0, core_1.compare)(result, def))
         return null;
-    }
     return result;
 }
 exports.getStyleByClass = getStyleByClass;
@@ -2140,11 +2148,10 @@ function isAutoWidth(config, col) {
     return check;
 }
 exports.isAutoWidth = isAutoWidth;
-function showTooltip(_a) {
-    var node = _a.node, value = _a.value, _b = _a.htmlEnable, htmlEnable = _b === void 0 ? false : _b;
-    if (!node)
+function showTooltip(value, config) {
+    if (!config.node)
         return;
-    (0, ts_message_1.tooltip)(value.toString(), { css: "dhx_grid_tooltip", node: node, htmlEnable: htmlEnable });
+    (0, ts_message_1.tooltip)(value.toString(), __assign(__assign({}, config), { css: "dhx_grid_tooltip " + (config.css || "") }));
 }
 exports.showTooltip = showTooltip;
 function isContentTooltip(config, col, cell, type) {
@@ -2152,12 +2159,22 @@ function isContentTooltip(config, col, cell, type) {
     var cellProp = type === "header" ? config.headerTooltip : config.footerTooltip;
     var prop = [config.tooltip, cellProp, col.tooltip, cell === null || cell === void 0 ? void 0 : cell.tooltip];
     for (var index = 0; index < prop.length; index++) {
-        if (typeof prop[index] === "boolean")
-            isEnable = prop[index];
+        if (prop[index] || typeof prop[index] === "boolean") {
+            isEnable = !!prop[index];
+        }
     }
     return isEnable;
 }
 exports.isContentTooltip = isContentTooltip;
+function getTooltipConfig(config, col, cell, type) {
+    return ([
+        cell === null || cell === void 0 ? void 0 : cell.tooltip,
+        col === null || col === void 0 ? void 0 : col.tooltip,
+        type && (type === "header" ? config.headerTooltip : config.footerTooltip),
+        config.tooltip,
+    ].find(function (tooltip) { return tooltip instanceof Object; }) || {});
+}
+exports.getTooltipConfig = getTooltipConfig;
 function isTooltip(config, element) {
     return (element.tooltip !== false && config.tooltip) || element.tooltip;
 }
@@ -2477,36 +2494,53 @@ function getFormattedDate(format, date) {
     }, "");
 }
 exports.getFormattedDate = getFormattedDate;
+var datePartQueue = { "%Y": 1, "%y": 1, "%M": 2, "%F": 2, "%m": 2, "%n": 2 };
 function stringToDate(str, format, validate) {
     if (typeof str !== "string") {
         return;
     }
-    format = format.replace(/(?<=[a-z])%a/i, function (match) {
+    format = format.replace(/([a-z])(%a)/i, function () {
+        var match = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            match[_i] = arguments[_i];
+        }
         str = str.replace(/(am|pm)/i, " $&");
-        return " " + match;
+        return match[1] + " " + match[2];
     });
     var tokens = tokenizeFormat(format);
-    var dateParts = [];
+    var dateParts = new Array(2);
     var index = 0;
     var formatter = null;
+    var dateFormat;
     var message = "Incorrect date, see docs: https://docs.dhtmlx.com/suite/calendar__api__calendar_dateformat_config.html";
+    var addDatePart = function (part) {
+        var queue = datePartQueue[part.formatter];
+        if (queue) {
+            dateParts[queue - 1] = part;
+            return;
+        }
+        if (part.formatter === "%A" || part.formatter === "%a") {
+            dateFormat = part.value;
+        }
+        dateParts.push(part);
+    };
     for (var i = 0; i < tokens.length; i++) {
         if (tokens[i].type === TokenType.separator) {
-            var sepratorIndex = str.indexOf(tokens[i].value, index);
-            if (sepratorIndex === -1) {
+            var separatorIndex = str.indexOf(tokens[i].value, index);
+            if (separatorIndex === -1) {
                 if (validate) {
                     return false;
                 }
                 throw new Error(message);
             }
             if (formatter) {
-                dateParts.push({
+                addDatePart({
                     formatter: formatter,
-                    value: str.slice(index, sepratorIndex),
+                    value: str.slice(index, separatorIndex),
                 });
                 formatter = null;
             }
-            index = sepratorIndex + tokens[i].value.length;
+            index = separatorIndex + tokens[i].value.length;
         }
         else if (tokens[i].type === TokenType.datePart) {
             if (tokens[i + 1] && tokens[i + 1].type !== TokenType.separator) {
@@ -2520,29 +2554,17 @@ function stringToDate(str, format, validate) {
             }
         }
     }
-    if (formatter === "%A" || formatter === "%a") {
-        dateParts.unshift({
+    if (formatter) {
+        addDatePart({
             formatter: formatter,
             value: str.slice(index),
         });
-    }
-    else if (formatter) {
-        dateParts.push({
-            formatter: formatter,
-            value: str.slice(index),
-        });
-    }
-    dateParts.reverse();
-    var dateFormat;
-    for (var _i = 0, dateParts_1 = dateParts; _i < dateParts_1.length; _i++) {
-        var datePart = dateParts_1[_i];
-        if (datePart.formatter === "%A" || datePart.formatter === "%a") {
-            dateFormat = datePart.value;
-        }
     }
     var date = new Date(0);
-    for (var _a = 0, dateParts_2 = dateParts; _a < dateParts_2.length; _a++) {
-        var datePart = dateParts_2[_a];
+    for (var _i = 0, dateParts_1 = dateParts; _i < dateParts_1.length; _i++) {
+        var datePart = dateParts_1[_i];
+        if (!datePart)
+            continue;
         if (setFormatters[datePart.formatter]) {
             if (validate && !setFormatters[datePart.formatter](date, datePart.value, dateFormat, validate)) {
                 return false;
@@ -2623,16 +2645,9 @@ var DateHelper = exports.DateHelper = /** @class */ (function () {
         return (d.valueOf() - DateHelper.yearStart(d).valueOf()) / dayMS;
     };
     DateHelper.getWeekNumber = function (d) {
-        if (d.getDay() !== 6) {
-            d = DateHelper.addDay(d, 6 - d.getDay());
-        }
-        var dayMS = 24 * 60 * 60 * 1000;
-        var ordinal = DateHelper.getDayOrdinal(d);
-        if (ordinal - d.getDay() < 0) {
-            d = new Date(d.getFullYear() - 1, 12, 0);
-            ordinal = DateHelper.getDayOrdinal(d);
-        }
-        return Math.floor((ordinal - d.getDay() + 10) / 7);
+        var currThursday = d.getDay() === 4 ? d : DateHelper.addDay(d, 4 - d.getDay());
+        var ordinal = DateHelper.getDayOrdinal(currThursday);
+        return Math.trunc(ordinal / 7) + 1;
     };
     DateHelper.isSameDay = function (d1, d2) {
         return (d1.getFullYear() === d2.getFullYear() &&
@@ -3002,7 +3017,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getValueForNumberColumn = exports.getEditorOptions = exports.toFormat = exports.getMaxColsWidth = exports.getTreeCellWidthOffset = exports.getCalculatedRowHeight = exports.getMaxRowHeight = exports.getUnique = exports.calculatePositions = exports.countColumns = exports.measureTextHeight = exports.normalizeArray = void 0;
+exports.getEditorValue = exports.getValueForNumberColumn = exports.getEditorOptions = exports.toFormat = exports.getMaxColsWidth = exports.getTreeCellWidthOffset = exports.getCalculatedRowHeight = exports.getMaxRowHeight = exports.getUnique = exports.calculatePositions = exports.countColumns = exports.measureTextHeight = exports.normalizeArray = void 0;
 var core_1 = __webpack_require__(1);
 var main_1 = __webpack_require__(15);
 var date_1 = __webpack_require__(16);
@@ -3131,12 +3146,15 @@ function calculatePositions(width, height, scroll, conf, data) {
     var rightSplit = (_b = conf.rightSplit) !== null && _b !== void 0 ? _b : 0;
     var bottomSplit = (_c = conf.bottomSplit) !== null && _c !== void 0 ? _c : 0;
     var x = 0;
+    var hiddenColCount = 0;
     var scrollLeft = scroll.left;
     var avrColWidth = conf.$totalWidth / columnsLength;
     for (var i = 0; i < columnsLength; i++) {
         var col = columns[i];
-        if (col.hidden)
+        if (col.hidden) {
+            hiddenColCount++;
             continue;
+        }
         scrollLeft = scrollLeft - col.$width;
         if (scrollLeft + avrColWidth / 2 > 0) {
             x++;
@@ -3146,12 +3164,15 @@ function calculatePositions(width, height, scroll, conf, data) {
         }
     }
     var y = 0;
+    var hiddenRowCount = 0;
     var scrollTop = scroll.top;
     var avrRowHeight = conf.$totalHeight / rowsLength;
     for (var i = 0; i < rowsLength; i++) {
         var row = rows[i];
-        if (row.hidden)
+        if (row.hidden) {
+            hiddenRowCount++;
             continue;
+        }
         scrollTop = scrollTop - row.$height;
         if (scrollTop + avrRowHeight / 2 > 0) {
             y++;
@@ -3164,9 +3185,10 @@ function calculatePositions(width, height, scroll, conf, data) {
     var itemsTotalByWidth = 0;
     var maxWidth = -Infinity;
     var minWidth = +Infinity;
+    var xStartIdx = x + hiddenColCount;
     for (var index = 0; index < columnsLength; index++) {
         var column = columns[index];
-        if (index >= x && sizeByWidth < width && !column.hidden) {
+        if (index >= xStartIdx && sizeByWidth < width && !column.hidden) {
             sizeByWidth += column.$width;
             itemsTotalByWidth++;
         }
@@ -3179,9 +3201,10 @@ function calculatePositions(width, height, scroll, conf, data) {
     var itemsTotalByHeight = 0;
     var maxHeight = -Infinity;
     var minHeight = +Infinity;
+    var yStartIdx = y + hiddenRowCount;
     for (var index = 0; index < rowsLength; index++) {
         var row = rows[index];
-        if (index >= y && sizeByHeight < height && !row.hidden) {
+        if (index >= yStartIdx && sizeByHeight < height && !row.hidden) {
             sizeByHeight += row.$height;
             itemsTotalByHeight++;
         }
@@ -3248,21 +3271,27 @@ var getMaxRowHeight = function (row, cols, config) {
             definedColumns[cols[index].id] = {
                 width: cols[index].$width - HORIZONTAL_OFFSET || 0,
                 htmlEnable: cols[index].htmlEnable,
+                cols: cols[index],
             };
         }
     }
     var defaultLineBreak = [];
     var mathLineBreak = [];
+    // eslint-disable-next-line prefer-const
     for (var _i = 0, _c = Object.entries(row); _i < _c.length; _i++) {
         var _d = _c[_i], key = _d[0], value = _d[1];
         if (definedColumns[key] &&
-            key !== "id" &&
             key !== "height" &&
             !key.startsWith("$") &&
             (typeof value === "string" ||
                 typeof value === "number" ||
                 value instanceof Date ||
                 Array.isArray(value))) {
+            var column = definedColumns[key].cols;
+            value =
+                column.editorType === "combobox" || column.editorType === "multiselect"
+                    ? getComboEditorValue(value, column, row)
+                    : value;
             var currentValue = "";
             if ((_a = definedColumns[key]) === null || _a === void 0 ? void 0 : _a.template) {
                 var templateValue = definedColumns[key].template(value, row, definedColumns[key].cols);
@@ -3332,17 +3361,18 @@ var getMaxColsWidth = function (rows, cols, config, target) {
                 width: 20,
                 htmlEnable: !!htmlEnable,
                 format: type === "date" ? format || "%M %d %Y" : format,
+                cols: col,
                 type: type,
             };
         }
     }
     var rowsLength = rows.length;
     for (var index = 0; index < rowsLength; index++) {
+        // eslint-disable-next-line prefer-const
         for (var _i = 0, _a = Object.entries(rows[index]); _i < _a.length; _i++) {
             var _b = _a[_i], key = _b[0], value = _b[1];
             var definedCol = definedColumns[key];
             if (definedCol &&
-                key !== "id" &&
                 key !== "height" &&
                 !key.startsWith("$") &&
                 (typeof value === "string" ||
@@ -3350,6 +3380,10 @@ var getMaxColsWidth = function (rows, cols, config, target) {
                     value instanceof Date ||
                     Array.isArray(value))) {
                 var template = definedCol.template, cols_1 = definedCol.cols, format = definedCol.format, type = definedCol.type, htmlEnable = definedCol.htmlEnable, colWidth = definedCol.width;
+                value =
+                    cols_1.editorType === "combobox" || cols_1.editorType === "multiselect"
+                        ? getComboEditorValue(value, cols_1, rows[index])
+                        : value;
                 var currentValue = void 0;
                 if (typeof template === "function") {
                     var templateValue = template(value, rows[index], cols_1);
@@ -3454,6 +3488,20 @@ function getValueForNumberColumn(col, value) {
     }
 }
 exports.getValueForNumberColumn = getValueForNumberColumn;
+function getComboEditorValue(value, col, row) {
+    var options = getEditorOptions(col, row);
+    return col.editorType === "multiselect" && typeof value === "string"
+        ? value
+            .split(",")
+            .map(function (val) { return getEditorValue(val.trim(), options); })
+            .join(", ")
+        : getEditorValue(value, options);
+}
+function getEditorValue(value, options) {
+    var option = options.find(function (option) { return option instanceof Object && option.id == value; });
+    return option ? option.value : value;
+}
+exports.getEditorValue = getEditorValue;
 
 
 /***/ }),
@@ -3925,8 +3973,8 @@ var DataDriver;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isOnlyPermanentFilters = exports.hasJsonOrArrayStructure = exports.isTreeCollection = exports.copyWithoutInner = exports.toDataDriver = exports.toProxy = exports.dhxError = exports.dhxWarning = exports.isDebug = exports.findByConf = exports.naturalCompare = exports.isEqualObj = void 0;
 var core_1 = __webpack_require__(1);
-var dataproxy_1 = __webpack_require__(26);
-var drivers_1 = __webpack_require__(62);
+var dataproxy_1 = __webpack_require__(27);
+var drivers_1 = __webpack_require__(61);
 function isEqualObj(a, b) {
     for (var key in a) {
         if (a[key] !== b[key] || Array.isArray(a[key])) {
@@ -4084,7 +4132,7 @@ var html_1 = __webpack_require__(3);
 var data_1 = __webpack_require__(18);
 var main_1 = __webpack_require__(15);
 var types_1 = __webpack_require__(9);
-var Cells_1 = __webpack_require__(27);
+var Cells_1 = __webpack_require__(28);
 var FixedCols_1 = __webpack_require__(79);
 var FixedRows_1 = __webpack_require__(80);
 var core_1 = __webpack_require__(1);
@@ -4132,12 +4180,31 @@ function getWrapperAutoHeight(grid, config, wrapperSizes) {
             (wrapperSizes ? calcScrollBarWidth(config, !!((_b = grid.scrollView) === null || _b === void 0 ? void 0 : _b.config.enable), wrapperSizes).x : 0));
     }
 }
+function isSpanVisible(span, visibility, _a, dataLength) {
+    var _b = _a === void 0 ? [0, 0] : _a, fixedStart = _b[0], fixedEnd = _b[1];
+    var spanStart = span[0], spanEnd = span[1];
+    var visStart = visibility[0], visEnd = visibility[1];
+    var isRangeVisible = (visStart <= spanStart && spanStart <= visEnd) ||
+        (visStart <= spanEnd && spanEnd <= visEnd) ||
+        (spanStart <= visStart && visEnd <= spanEnd);
+    return isRangeVisible || spanStart < fixedStart || (fixedEnd && spanEnd >= dataLength - fixedEnd);
+}
 function getRenderConfig(obj, data, wrapperSizes) {
     var config = obj.config;
-    var filteredColumns = config.columns.filter(function (col) { return !col.hidden; });
+    var _a = config.spans, spans = _a === void 0 ? [] : _a, columns = config.columns, _b = config.leftSplit, leftSplit = _b === void 0 ? 0 : _b, _c = config.topSplit, topSplit = _c === void 0 ? 0 : _c, _d = config.rightSplit, rightSplit = _d === void 0 ? 0 : _d, _e = config.bottomSplit, bottomSplit = _e === void 0 ? 0 : _e;
+    var filteredColumns = columns.filter(function (col) { return !col.hidden; });
     var positions = (0, data_1.calculatePositions)(wrapperSizes.width, wrapperSizes.height, obj._scroll, config, data);
     var currentColumns = filteredColumns.slice(positions.xStart, positions.xEnd);
     var currentRows = data.slice(positions.yStart, positions.yEnd);
+    var currentSpans = spans.filter(function (span) {
+        var _a;
+        if (!((_a = span.$renderFrom) === null || _a === void 0 ? void 0 : _a.length))
+            return false;
+        var rowInRange = isSpanVisible(span.$rowsVisibility, [positions.yStart, positions.yEnd], [topSplit, bottomSplit], data.length);
+        var colInRange = isSpanVisible(span.$colsVisibility, [positions.xStart, positions.xEnd], [leftSplit, rightSplit], columns.length);
+        return rowInRange && colInRange;
+    });
+    // const currentSpans = spans;
     var fixedColumns = {
         left: getCurrFixedCols(config, types_1.Split.left),
         right: getCurrFixedCols(config, types_1.Split.right),
@@ -4146,7 +4213,7 @@ function getRenderConfig(obj, data, wrapperSizes) {
         top: data.slice(0, config.topSplit || 0),
         bottom: config.bottomSplit ? data.slice(-config.bottomSplit) : [],
     };
-    return __assign(__assign({}, config), { data: data, columns: config.columns, scroll: obj._scroll, $positions: positions, headerHeight: config.$headerHeight, footerHeight: config.$footerHeight, firstColId: filteredColumns[0] && filteredColumns[0].id, events: obj.events, _events: obj._events, filteredColumns: filteredColumns, currentColumns: currentColumns, currentRows: currentRows, fixedColumns: fixedColumns, fixedRows: fixedRows, sortBy: obj._sortBy, sortDir: obj._sortDir, content: obj.content, gridId: obj._uid, $renderFrom: "render" });
+    return __assign(__assign({}, config), { data: data, columns: config.columns, scroll: obj._scroll, $positions: positions, headerHeight: config.$headerHeight, footerHeight: config.$footerHeight, firstColId: filteredColumns[0] && filteredColumns[0].id, events: obj.events, _events: obj._events, filteredColumns: filteredColumns, currentColumns: currentColumns, currentRows: currentRows, currentSpans: currentSpans, fixedColumns: fixedColumns, fixedRows: fixedRows, sortBy: obj._sortBy, sortDir: obj._sortDir, content: obj.content, gridId: obj._uid, $renderFrom: "render" });
 }
 exports.getRenderConfig = getRenderConfig;
 function getElementSizes(element) {
@@ -4213,90 +4280,60 @@ function getContentHeight(renderConfig, isSticky, wrapperSizes) {
             : contentHeight - renderConfig.footerHeight
         : contentHeight);
 }
-function applyAutoWidth(config, wrapperSizes, firstApply, resizer, scrollViewConfig) {
-    if (firstApply === void 0) { firstApply = true; }
-    if (resizer === void 0) { resizer = false; }
+function applyAutoWidth(config, wrapperSizes, scrollViewConfig) {
     if (scrollViewConfig === void 0) { scrollViewConfig = false; }
-    var scrollbarY = !scrollViewConfig && config.$totalHeight >= wrapperSizes.height - config.$headerHeight
+    var scrollbarY = !scrollViewConfig &&
+        config.$totalHeight >= wrapperSizes.height - (config.$headerHeight || 0)
         ? (0, html_1.getScrollbarWidth)()
         : 0;
-    var newTotalWidth = wrapperSizes.width - exports.BORDERS - scrollbarY;
-    var columns = config.columns.filter(function (col) { return !col.hidden; });
-    var growingColumns = columns.filter(function (col) { return !col.width && !col.$fixed && (0, main_1.isAutoWidth)(config, col); });
-    var nonGrowingColumnsWidth = (0, main_1.getTotalWidth)(columns.filter(function (col) { return col.width || col.$fixed || !(0, main_1.isAutoWidth)(config, col); }));
-    var fullGravity = growingColumns.reduce(function (gravity, col) { return gravity + (col.gravity || 1); }, 0);
-    if (newTotalWidth < config.$totalWidth) {
-        var growingColumnsWidth_1 = growingColumns.reduce(function (width, col) { return width + (col.maxWidth || col.$width); }, 0);
-        if (growingColumns.length) {
-            growingColumns.forEach(function (col) {
-                var newWidth = 0;
-                if (firstApply) {
-                    newWidth =
-                        Math.abs(newTotalWidth - growingColumnsWidth_1) * ((col.gravity || 1) / fullGravity);
-                }
-                else {
-                    newWidth =
-                        Math.abs(newTotalWidth - nonGrowingColumnsWidth) * ((col.gravity || 1) / fullGravity);
-                }
-                var wrongMin = newWidth < col.minWidth || col.minWidth < col.$width;
-                var wrongMax = newWidth > col.maxWidth;
-                if (!wrongMin && !wrongMax) {
-                    col.$width = newWidth;
-                }
-                else if (wrongMin) {
-                    nonGrowingColumnsWidth += col.$width - newWidth;
-                    col.$fixed = true;
-                }
-                else if (wrongMax) {
-                    col.$width = col.maxWidth;
-                    col.$fixed = true;
-                }
-                if (col.$width < 20)
-                    col.$width = 20;
-            });
+    var totalWidth = wrapperSizes.width - exports.BORDERS - scrollbarY;
+    if (totalWidth < 0) {
+        return;
+    }
+    var columns = (config.columns || []).filter(function (col) { return !col.hidden; });
+    var fixedColumns = [];
+    var flexibleColumns = [];
+    columns.forEach(function (col) {
+        if (!col.width && !col.$fixedWidth && (0, main_1.isAutoWidth)(config, col)) {
+            flexibleColumns.push(col);
         }
-    }
-    else {
-        growingColumns.forEach(function (col) {
-            var newWidth = Math.abs(newTotalWidth - nonGrowingColumnsWidth) * ((col.gravity || 1) / fullGravity);
-            var wrongMin = newWidth < col.minWidth || col.minWidth < col.$width;
-            var wrongMax = newWidth > col.maxWidth;
-            if (!wrongMin && !wrongMax) {
-                col.$width = newWidth;
-            }
-            else if (wrongMin) {
-                nonGrowingColumnsWidth += col.$width - newWidth;
-                if (resizer)
-                    col.$fixed = true;
-            }
-            else if (wrongMax) {
-                col.$width = col.maxWidth;
-                if (resizer)
-                    col.$fixed = true;
-            }
-            if (col.$width < 20)
-                col.$width = 20;
-            if (!firstApply && col.$fixed) {
-                delete col.$fixed;
-            }
-        });
-    }
-    if (firstApply) {
-        applyAutoWidth(config, wrapperSizes, false, resizer, scrollViewConfig);
-    }
+        else {
+            fixedColumns.push(col);
+        }
+    });
+    var fullGravity = flexibleColumns.reduce(function (gravity, col) { return gravity + (col.gravity || 1); }, 0);
+    var fixedWidth = (0, main_1.getTotalWidth)(fixedColumns);
+    flexibleColumns.forEach(function (col) {
+        var width = totalWidth > fixedWidth ? (totalWidth - fixedWidth) * ((col.gravity || 1) / fullGravity) : 0;
+        var minLimit = col.minWidth && width < (col.minWidth || 0);
+        var maxLimit = col.maxWidth && width > (col.maxWidth || 0);
+        if (minLimit) {
+            col.$width = col.minWidth;
+            fixedWidth += (col.$width || 0) - width;
+            flexibleColumns = flexibleColumns.filter(function (c) { return c.id != col.id; });
+            fixedColumns.push(col);
+        }
+        else if (maxLimit) {
+            col.$width = col.maxWidth;
+            fixedWidth += (col.$width || 0) - width;
+            flexibleColumns = flexibleColumns.filter(function (c) { return c.id != col.id; });
+            fixedColumns.push(col);
+        }
+    });
+    fullGravity = flexibleColumns.reduce(function (gravity, col) { return gravity + (col.gravity || 1); }, 0);
+    fixedWidth = (0, main_1.getTotalWidth)(fixedColumns);
+    flexibleColumns.forEach(function (col) {
+        var width = totalWidth > fixedWidth ? (totalWidth - fixedWidth) * ((col.gravity || 1) / fullGravity) : 0;
+        col.$width = width;
+    });
 }
 exports.applyAutoWidth = applyAutoWidth;
 function render(vm, obj, htmlEvents, selection, uid) {
-    if (!obj._container) {
-        obj.config.$width = 1;
-        obj.config.$height = 1;
-    }
+    var parentSizes = getElementSizes(obj._container);
     // if grid placed inside another component, it will fit to its container
     if (vm && vm.node && vm.node.parent && vm.node.parent.el) {
         var parentNode = vm.node.parent.el;
-        var parentSizes = getElementSizes(parentNode);
-        obj.config.$width = parentSizes.width;
-        obj.config.$height = parentSizes.height;
+        parentSizes = getElementSizes(parentNode);
     }
     var config = obj.config;
     // when grid is destructing and user try to repaint it
@@ -4320,21 +4357,8 @@ function render(vm, obj, htmlEvents, selection, uid) {
             return (total += $height || 0);
         }, 0);
     }
-    var width, height;
-    var sizes = getElementSizes(obj._container);
-    if (config.$width) {
-        width = config.$width;
-    }
-    else {
-        width = config.width && typeof config.width === "number" ? config.width : sizes === null || sizes === void 0 ? void 0 : sizes.width;
-    }
-    if (config.$height) {
-        height = config.$height;
-    }
-    else {
-        height =
-            config.height && typeof config.height === "number" ? config.height : sizes === null || sizes === void 0 ? void 0 : sizes.height;
-    }
+    var width = config.width && typeof config.width === "number" ? config.width : parentSizes === null || parentSizes === void 0 ? void 0 : parentSizes.width;
+    var height = config.height && typeof config.height === "number" ? config.height : parentSizes === null || parentSizes === void 0 ? void 0 : parentSizes.height;
     var wrapperSizes = { width: width || 0, height: height || 0 };
     // TODO: Remove scroll
     if ((0, main_1.isAutoWidth)(config)) {
@@ -4381,20 +4405,8 @@ function render(vm, obj, htmlEvents, selection, uid) {
     return (0, dom_1.el)(".dhx_grid.dhx_widget", __assign({ class: (renderConfig.css || "") +
             (!isSticky ? " dhx_grid_border" : "") +
             (config.multiselection ? " dhx_no-select--pointer" : ""), "data-dhx-widget-id": uid, "data-dhx-root-id": config.rootParent }, getGridAriaAttrs(renderConfig.data, config.columns, renderConfig.editable, renderConfig.multiselection)), [
-        (0, dom_1.resizer)(function (changeWith) {
-            if ((0, main_1.isAutoWidth)(obj.config) && !!changeWith) {
-                config.$totalWidth = 0;
-                applyAutoWidth(config, wrapperSizes, true, true);
-            }
-            return obj.paint();
-        }),
-        (0, dom_1.el)(".dhx_grid-content", {
-            style: __assign({}, wrapperSizes),
-            onclick: htmlEvents.onclick,
-            onmouseover: htmlEvents.onmouseover,
-            class: "".concat(lessByWidth, " ").concat(lessByHeight, " ").concat(fixedRight, " ").concat(fixedBottom).trim(),
-            role: "presentation",
-        }, [
+        (0, dom_1.resizer)(function () { return obj.paint(); }),
+        (0, dom_1.el)(".dhx_grid-content", __assign(__assign({ style: __assign({}, wrapperSizes) }, htmlEvents), { class: "".concat(lessByWidth, " ").concat(lessByHeight, " ").concat(fixedRight, " ").concat(fixedBottom).trim(), role: "presentation" }), [
             isSticky ? null : header,
             (0, dom_1.el)(".dhx_grid-body", {
                 style: {
@@ -4424,17 +4436,11 @@ function render(vm, obj, htmlEvents, selection, uid) {
 exports.render = render;
 function proRender(vm, obj, htmlEvents, selection, uid) {
     var _a;
-    if (!obj._container) {
-        obj.config.$width = 1;
-        obj.config.$height = 1;
-    }
-    var parentSizes;
+    var parentSizes = getElementSizes(obj._container);
     // if grid placed inside another component, it will fit to its container
     if (vm && vm.node && vm.node.parent && vm.node.parent.el) {
         var parentNode = vm.node.parent.el;
         parentSizes = getElementSizes(parentNode);
-        obj.config.$width = parentSizes.width;
-        obj.config.$height = parentSizes.height;
     }
     var config = obj.config;
     // when grid is destructing and user try to repaint it
@@ -4458,32 +4464,19 @@ function proRender(vm, obj, htmlEvents, selection, uid) {
             return (total += $height || 0);
         }, 0);
     }
-    var width, height;
     var wrapperAutoHeight;
-    var sizes = getElementSizes(obj._container);
     if (obj.config.height === "auto") {
-        wrapperAutoHeight = getWrapperAutoHeight(obj, config, parentSizes ? parentSizes : sizes);
+        wrapperAutoHeight = getWrapperAutoHeight(obj, config, parentSizes);
     }
-    if (config.$width) {
-        width = config.$width;
-    }
-    else {
-        width = config.width && typeof config.width === "number" ? config.width : sizes === null || sizes === void 0 ? void 0 : sizes.width;
-    }
-    if (config.$height) {
-        height = config.$height;
-    }
-    else {
-        height =
-            config.height && typeof config.height === "number" ? config.height : sizes === null || sizes === void 0 ? void 0 : sizes.height;
-    }
+    var width = config.width && typeof config.width === "number" ? config.width : parentSizes === null || parentSizes === void 0 ? void 0 : parentSizes.width;
+    var height = config.height && typeof config.height === "number" ? config.height : parentSizes === null || parentSizes === void 0 ? void 0 : parentSizes.height;
     var wrapperSizes = {
         width: width || 0,
         height: (obj.config.height === "auto" ? wrapperAutoHeight : height) || 0,
     };
     // TODO: Remove scroll
     if ((0, main_1.isAutoWidth)(config)) {
-        applyAutoWidth(config, wrapperSizes, true, false, obj.scrollView && obj.scrollView.config.enable);
+        applyAutoWidth(config, wrapperSizes, obj.scrollView && obj.scrollView.config.enable);
         config.$totalWidth = (0, main_1.getTotalWidth)(config.columns.filter(function (col) { return !col.hidden; }));
     }
     config.$width = wrapperSizes.width;
@@ -4534,20 +4527,8 @@ function proRender(vm, obj, htmlEvents, selection, uid) {
         "aria-rowcount": renderConfig.data.length,
         "aria-colcount": config.columns.filter(function (col) { return !col.hidden; }).length,
     }, [
-        (0, dom_1.resizer)(function (changeWith) {
-            if ((0, main_1.isAutoWidth)(obj.config) && !!changeWith) {
-                config.$totalWidth = 0;
-                applyAutoWidth(config, wrapperSizes, true, true);
-            }
-            return obj.paint();
-        }),
-        (0, dom_1.el)(".dhx_grid-content", {
-            style: __assign({}, wrapperSizes),
-            onclick: htmlEvents.onclick,
-            onmouseover: htmlEvents.onmouseover,
-            class: "".concat(lessByWidth, " ").concat(lessByHeight, " ").concat(fixedRight, " ").concat(fixedBottom).trim(),
-            role: "presentation",
-        }, [
+        (0, dom_1.resizer)(function () { return obj.paint(); }),
+        (0, dom_1.el)(".dhx_grid-content", __assign(__assign({ style: __assign({}, wrapperSizes) }, htmlEvents), { class: "".concat(lessByWidth, " ").concat(lessByHeight, " ").concat(fixedRight, " ").concat(fixedBottom).trim(), role: "presentation" }), [
             isSticky ? null : header,
             (0, dom_1.el)(".dhx_grid-body", {
                 style: {
@@ -4582,6 +4563,65 @@ exports.proRender = proRender;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.normalizeCell = exports.getReducedRowspan = exports.getReducedColspan = exports.getHeight = exports.getWidth = void 0;
+function getWidth(columns, colspan, index) {
+    return columns
+        .slice(index, index + (colspan || 1))
+        .filter(function (col) { return !col.hidden; })
+        .reduce(function (width, col) { return width + col.$width; }, 0);
+}
+exports.getWidth = getWidth;
+function getHeight(rows, span) {
+    var range = span.$rowsVisibility;
+    return rows.slice(range[0], range[1] + 1).reduce(function (height, row) { return height + row.$height; }, 0);
+}
+exports.getHeight = getHeight;
+function getReducedColspan(columns, colId, colspan) {
+    var index = columns.findIndex(function (item) { return item.id === colId; });
+    return columns.slice(index, index + (colspan || 1)).filter(function (col) { return !col.hidden; }).length;
+}
+exports.getReducedColspan = getReducedColspan;
+function getReducedRowspan(initialRows, currRows, rowIndex, span) {
+    var _a;
+    var spanHeight = span.rowspan || 1;
+    if (initialRows.length === currRows.length)
+        return spanHeight;
+    var initialRowIndex = (_a = initialRows === null || initialRows === void 0 ? void 0 : initialRows.findIndex(function (i) { return i.id === span.row; })) !== null && _a !== void 0 ? _a : -1;
+    var rowCount = 0;
+    if (initialRowIndex !== -1) {
+        for (var i = 1; i < spanHeight; i++) {
+            var curRow = currRows[rowIndex - rowCount + i];
+            var initialRow = initialRows[initialRowIndex + i];
+            if ((curRow === null || curRow === void 0 ? void 0 : curRow.id) !== (initialRow === null || initialRow === void 0 ? void 0 : initialRow.id)) {
+                rowCount++;
+            }
+        }
+    }
+    return spanHeight - rowCount;
+}
+exports.getReducedRowspan = getReducedRowspan;
+function normalizeCell(cell, grid) {
+    if (!cell)
+        return;
+    var row = cell.row, column = cell.column;
+    var span = grid.getSpan(row.id, column.id);
+    if (!span)
+        return cell;
+    return {
+        row: row.id === span.row ? row : grid.data.getItem(span.row),
+        column: column.id === span.column ? column : grid.config.columns.find(function (col) { return col.id === span.column; }),
+    };
+}
+exports.normalizeCell = normalizeCell;
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChartEvents = void 0;
 var ChartEvents;
 (function (ChartEvents) {
@@ -4597,7 +4637,7 @@ var ChartEvents;
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4607,6 +4647,7 @@ exports.DataProxy = void 0;
 var ajax_1 = __webpack_require__(41);
 var DataProxy = /** @class */ (function () {
     function DataProxy(url, config) {
+        if (config === void 0) { config = {}; }
         this.url = this._url = url;
         this.config = config;
     }
@@ -4621,17 +4662,17 @@ var DataProxy = /** @class */ (function () {
         this.url = this.url.slice(0, -1);
     };
     DataProxy.prototype.load = function () {
-        return ajax_1.ajax.get(this.url, undefined, { responseType: "text" });
+        return ajax_1.ajax.get(this.url, undefined, this.config);
     };
     DataProxy.prototype.save = function (data, mode) {
         switch (mode) {
             case "delete":
-                return ajax_1.ajax.delete(this.url, data);
+                return ajax_1.ajax.delete(this.url, data, this.config);
             case "update":
-                return ajax_1.ajax.put(this.url, data);
+                return ajax_1.ajax.put(this.url, data, this.config);
             case "insert":
             default:
-                return ajax_1.ajax.post(this.url, data);
+                return ajax_1.ajax.post(this.url, data, this.config);
         }
     };
     return DataProxy;
@@ -4640,7 +4681,7 @@ exports.DataProxy = DataProxy;
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4660,7 +4701,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.normalizeSpan = exports.getShifts = exports.getSpans = exports.getCells = exports.getTreeCell = exports.getHandlers = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var cells_1 = __webpack_require__(32);
+var cells_1 = __webpack_require__(25);
 var main_1 = __webpack_require__(15);
 var types_1 = __webpack_require__(9);
 var editors_1 = __webpack_require__(132);
@@ -4827,20 +4868,20 @@ function getCells(conf) {
                             attrs["tabindex"] = 0;
                             // one-time event - only on first focus
                             // FIXME: crutch-solution
-                            attrs["onfocus"] = function (e) {
+                            attrs["onkeydown"] = function (e) {
                                 // FIXME: issue with samples that already setCell from index.html, rendered twice
                                 // TODO: not here BUT if first cell is not in viewport -> scroll to it to set focus
-                                if (conf.selection && !selectedCell) {
+                                if (conf.selection && !selectedCell && e.key === "Tab") {
                                     var rowId = e.target.parentNode.getAttribute("data-dhx-id");
                                     var colId = e.target.getAttribute("data-dhx-col-id");
                                     if (colId && rowId) {
                                         conf.selection.setCell(rowId, colId);
                                         selectedCell = conf.selection.getCell();
                                     }
+                                    isFirstTabindex = false;
                                 }
                             };
                         }
-                        isFirstTabindex = false;
                         return attrs;
                     };
                     var getEditBtnAriaAttrs = function () { return ({
@@ -4925,7 +4966,7 @@ function getReverseScrollState(config) {
 function getSpans(config, mode) {
     var _a, _b;
     var spanCells = [];
-    var columns = config.columns, filteredColumns = config.filteredColumns, data = config.data, rSpans = config.spans, bottomSplit = config.bottomSplit;
+    var columns = config.columns, filteredColumns = config.filteredColumns, data = config.data, rSpans = config.currentSpans, _c = config.bottomSplit, bottomSplit = _c === void 0 ? 0 : _c;
     if (!filteredColumns.length || !rSpans)
         return null;
     var rightSplit = config.fixedColumns.right.length;
@@ -4938,16 +4979,14 @@ function getSpans(config, mode) {
     var _loop_1 = function (i) {
         var row = spans[i].row;
         var col = spans[i].column;
-        var spanHeight = spans[i].rowspan || 1;
-        var spanWidth = spans[i].colspan || 1;
+        var spanHeight = spans[i].$rowsVisibility[1] - spans[i].$rowsVisibility[0] + 1;
+        var spanWidth = spans[i].$colsVisibility[1] - spans[i].$colsVisibility[0] + 1;
         var spanText = spans[i].text;
         var spanCss = spans[i].css;
-        var markCss = spans[i].$markCss;
-        var spanType = spans[i].$type;
         var isFixedColsByBottomSplit = mode === types_1.Split.bottom && config.$renderFrom.endsWith("FixedCols");
         var rows = isFixedColsByBottomSplit ? config.$data : data;
-        var colIndex = (0, core_1.findIndex)(filteredColumns, function (item) { return "".concat(item.id) === "".concat(col); });
-        var rowIndex = (0, core_1.findIndex)(rows, function (item) { return "".concat(item.id) === "".concat(row); });
+        var colIndex = filteredColumns === null || filteredColumns === void 0 ? void 0 : filteredColumns.findIndex(function (i) { return "".concat(i.id) === "".concat(col); });
+        var rowIndex = rows === null || rows === void 0 ? void 0 : rows.findIndex(function (i) { return "".concat(i.id) === "".concat(row); });
         if (colIndex < 0 || rowIndex < 0) {
             return "continue";
         }
@@ -4958,6 +4997,8 @@ function getSpans(config, mode) {
         }
         var currCol = filteredColumns[colIndex];
         var currRow = rows[rowIndex];
+        var cellCss = currCol.$cellCss[row];
+        var spanType = (0, core_1.isDefined)(spans[i].text) ? "string" : currCol.type;
         if (currCol.hidden) {
             return "continue";
         }
@@ -5004,14 +5045,14 @@ function getSpans(config, mode) {
         }
         var isExpandingSpan = currRow.$items && colIndex === 0;
         var rowspanWithLastCol = colIndex === filteredColumns.length - 1;
-        var colspanWithLastCol = colIndex + (0, cells_1.getReducedColspan)(columns, col, spanWidth) === filteredColumns.length;
+        var colspanWithLastCol = colIndex + spanWidth === filteredColumns.length;
         var firstRightFixedCol = rightSplit && colIndex === filteredColumns.length - rightSplit;
         var allFixedSpanByBottomFixedRows = mode === types_1.Split.bottom && config.fixedRows.bottom.find(function (item) { return item.id === row; });
-        var bottomFixedRowWithPartSpan = bottomSplit && rowIndex + spanHeight > rows.length - bottomSplit;
-        var spanBeforeFixedCol = rightSplit && colIndex + spanWidth === filteredColumns.length - rightSplit;
+        var bottomFixedRowWithPartSpan = !!bottomSplit && rowIndex + spanHeight > rows.length - bottomSplit;
+        var spanBeforeFixedCol = !!rightSplit && colIndex + spanWidth === filteredColumns.length - rightSplit;
         var css = currCol.header[0].text ? " dhx_span-cell" : " dhx_span-cell dhx_span-cell--title";
         css += isExpandingSpan ? " dhx_span-expand-cell" : "";
-        css += markCss ? " ".concat(markCss) : "";
+        css += cellCss ? " ".concat(cellCss) : "";
         css += spanCss ? " ".concat(spanCss) : "";
         css += rowIndex === 0 ? " dhx_span-first-row" : "";
         css += rowIndex + spanHeight === rows.length ? " dhx_grid__span_bottom--last-row" : "";
@@ -5022,11 +5063,17 @@ function getSpans(config, mode) {
         css += allFixedSpanByBottomFixedRows ? " dhx_grid__span_bottom--all-fixed" : "";
         css += bottomFixedRowWithPartSpan ? " dhx_grid__span_bottom--part-fixed" : "";
         css += spanBeforeFixedCol ? " dhx_grid__span_right--before-fixed" : "";
-        var rColIndex = (0, core_1.findIndex)(columns, function (item) { return item.id === col; });
-        var width = spanWidth > 1 ? (0, cells_1.getWidth)(columns, spanWidth, rColIndex) : currCol.$width;
+        var width = void 0;
+        if (spanWidth > 1) {
+            var rColIndex = columns.findIndex(function (item) { return item.id === col; });
+            width = (0, cells_1.getWidth)(columns, spans[i].colspan, rColIndex);
+        }
+        else {
+            width = currCol.$width;
+        }
         var height = void 0;
         if (spanHeight > 1) {
-            height = (0, cells_1.getHeight)(rows, spanHeight, rowIndex);
+            height = (0, cells_1.getHeight)(rows, spans[i]);
             if (mode === types_1.Split.top && config.$renderFrom.endsWith("FixedCols")) {
                 var delta = rowIndex + spanHeight - rows.length;
                 if (delta > 0) {
@@ -5043,15 +5090,14 @@ function getSpans(config, mode) {
             (currCol.type === "boolean" &&
                 ((config.editable && ((_b = currCol.editable) !== null && _b !== void 0 ? _b : true)) || (!config.editable && currCol.editable)));
         if (isEditable) {
-            var topSplit = config.topSplit;
+            var _d = config.topSplit, topSplit = _d === void 0 ? 0 : _d;
             var leftSplit = config.fixedColumns.left.length;
             var allFixedByCol = (leftSplit && colIndex + spanWidth <= leftSplit) ||
                 (rightSplit && colIndex >= filteredColumns.length - rightSplit);
-            var fixedByRow = rowIndex < (topSplit || 0) || rowIndex + spanHeight > rows.length - (bottomSplit || 0);
+            var fixedByRow = rowIndex < topSplit || rowIndex + spanHeight > rows.length - bottomSplit;
             var allFixedByRow = (topSplit && rowIndex + spanHeight <= topSplit) ||
                 (bottomSplit && rowIndex >= rows.length - bottomSplit);
-            var fixedByCol = colIndex < (leftSplit || 0) ||
-                colIndex + spanWidth > filteredColumns.length - (rightSplit || 0);
+            var fixedByCol = colIndex < leftSplit || colIndex + spanWidth > filteredColumns.length - rightSplit;
             if (config.$renderFrom === "render" ||
                 (allFixedByCol && !fixedByRow) ||
                 (allFixedByRow && !fixedByCol)) {
@@ -5191,57 +5237,63 @@ function getShifts(conf) {
     };
 }
 exports.getShifts = getShifts;
-function normalizeSpan(span, config) {
-    var _a = config.topSplit, topSplit = _a === void 0 ? 0 : _a, _b = config.bottomSplit, bottomSplit = _b === void 0 ? 0 : _b, data = config.data, columns = config.columns;
-    var leftSplit = (0, render_1.getCurrFixedCols)(config, types_1.Split.left).length;
-    var rightSplit = (0, render_1.getCurrFixedCols)(config, types_1.Split.right).length;
+function normalizeSpan(span, config, data) {
+    var _a = config.topSplit, topSplit = _a === void 0 ? 0 : _a, _b = config.bottomSplit, bottomSplit = _b === void 0 ? 0 : _b, columns = config.columns;
     var column = span.column, row = span.row, colspan = span.colspan, rowspan = span.rowspan;
-    var colIndexStart = columns.findIndex(function (c) { return c.id == column; });
-    var $type = (0, core_1.isDefined)(span.text) ? "string" : columns[colIndexStart].type;
-    var rowIndexStart = data.findIndex(function (r) { return r.id == row; });
-    var colIndexEnd = colIndexStart + (colspan ? colspan - 1 : 0);
-    var rowIndexEnd = rowIndexStart + (rowspan ? rowspan - 1 : 0);
+    var rows = data.getRawData(0, -1, null, 2);
+    var filteredColumns = columns.filter(function (col) { return !col.hidden; });
+    var colIndexStart = filteredColumns.findIndex(function (c) { return c.id == column; });
+    var rowIndexStart = rows.findIndex(function (i) { return i.id == row; });
+    var colIndexEnd = colIndexStart + (colspan ? (0, cells_1.getReducedColspan)(columns, column, colspan) - 1 : 0);
+    var rowIndexEnd = rowIndexStart +
+        (rowspan ? (0, cells_1.getReducedRowspan)(data.getInitialData(), rows, rowIndexStart, span) - 1 : 0);
+    var colIndexVisibility = colIndexStart === -1 ? [] : [colIndexStart, colIndexEnd];
+    var rowsIndexVisibility = rowIndexStart === -1 ? [] : [rowIndexStart, rowIndexEnd];
     var $renderFrom = [];
-    var fixedLeftByStart = colIndexStart < leftSplit;
-    var fixedTopByStart = rowIndexStart < topSplit;
-    var fixedRightByEnd = colIndexEnd >= columns.length - rightSplit;
-    var fixedBottomByEnd = rowIndexEnd >= data.length - bottomSplit;
-    // if the span is not fully fixed
-    if (colIndexEnd >= leftSplit &&
-        rowIndexEnd >= topSplit &&
-        colIndexStart < columns.length - rightSplit &&
-        rowIndexStart < data.length - bottomSplit) {
-        $renderFrom.push("render");
+    if (colIndexStart !== -1 && rowIndexStart !== -1) {
+        var leftSplit = (0, render_1.getCurrFixedCols)(config, types_1.Split.left).length;
+        var rightSplit = (0, render_1.getCurrFixedCols)(config, types_1.Split.right).length;
+        var fixedLeftByStart = colIndexStart < leftSplit;
+        var fixedTopByStart = rowIndexStart < topSplit;
+        var fixedRightByEnd = colIndexEnd >= filteredColumns.length - rightSplit;
+        var fixedBottomByEnd = rowIndexEnd >= rows.length - bottomSplit;
+        // if the span is not fully fixed
+        if (colIndexEnd >= leftSplit &&
+            rowIndexEnd >= topSplit &&
+            colIndexStart < filteredColumns.length - rightSplit &&
+            rowIndexStart < rows.length - bottomSplit) {
+            $renderFrom.push("render");
+        }
+        // if the span is fixed left
+        if (fixedLeftByStart) {
+            $renderFrom.push("leftFixedCols");
+        }
+        // if the span is fixed right
+        if (fixedRightByEnd) {
+            $renderFrom.push("rightFixedCols");
+        }
+        // if the span isn't fixed left or right and fixed top
+        if (fixedTopByStart && !fixedLeftByStart && !fixedRightByEnd) {
+            $renderFrom.push("topFixedRows");
+        }
+        else if (fixedTopByStart && !$renderFrom.includes("render")) {
+            $renderFrom.push("render");
+        }
+        // if the span isn't fixed left or right and fixed bottom
+        if (fixedBottomByEnd && !fixedLeftByStart && !fixedRightByEnd) {
+            $renderFrom.push("bottomFixedRows");
+        }
+        else if (fixedBottomByEnd && !$renderFrom.includes("render")) {
+            $renderFrom.push("render");
+        }
     }
-    // if the span is fixed left
-    if (fixedLeftByStart) {
-        $renderFrom.push("leftFixedCols");
-    }
-    // if the span is fixed right
-    if (fixedRightByEnd) {
-        $renderFrom.push("rightFixedCols");
-    }
-    // if the span isn't fixed left or right and fixed top
-    if (fixedTopByStart && !fixedLeftByStart && !fixedRightByEnd) {
-        $renderFrom.push("topFixedRows");
-    }
-    else if (fixedTopByStart && !$renderFrom.includes("render")) {
-        $renderFrom.push("render");
-    }
-    // if the span isn't fixed left or right and fixed bottom
-    if (fixedBottomByEnd && !fixedLeftByStart && !fixedRightByEnd) {
-        $renderFrom.push("bottomFixedRows");
-    }
-    else if (fixedBottomByEnd && !$renderFrom.includes("render")) {
-        $renderFrom.push("render");
-    }
-    return __assign(__assign({}, span), { $renderFrom: $renderFrom, $type: $type });
+    return __assign(__assign({}, span), { $renderFrom: $renderFrom, $rowsVisibility: rowsIndexVisibility, $colsVisibility: colIndexVisibility });
 }
 exports.normalizeSpan = normalizeSpan;
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5258,7 +5310,7 @@ var SelectionEvents;
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5368,7 +5420,7 @@ exports.getNavbarButtonCSS = getNavbarButtonCSS;
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5534,14 +5586,14 @@ exports.radarScale = radarScale;
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
-var types_1 = __webpack_require__(25);
+var types_1 = __webpack_require__(26);
 var common_1 = __webpack_require__(5);
 var line_1 = __webpack_require__(89);
 var date_1 = __webpack_require__(16);
@@ -5658,43 +5710,6 @@ exports.default = BaseSeria;
 
 
 /***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getReducedColspan = exports.getHeight = exports.getWidth = void 0;
-function getWidth(columns, colspan, index) {
-    return columns
-        .slice(index, index + (colspan || 1))
-        .filter(function (col) { return !col.hidden; })
-        .reduce(function (width, col) { return width + col.$width; }, 0);
-}
-exports.getWidth = getWidth;
-function getHeight(dataRows, rowspan, index) {
-    var rows = dataRows.filter(function (_a) {
-        var hidden = _a.hidden;
-        return !hidden;
-    });
-    if (!rowspan) {
-        return rows[index].$height;
-    }
-    return rows.reduce(function (height, _a, i) {
-        var $height = _a.$height;
-        height += i >= index && i < index + rowspan ? $height : 0;
-        return height;
-    }, 0);
-}
-exports.getHeight = getHeight;
-function getReducedColspan(columns, colId, colspan) {
-    var index = columns.findIndex(function (item) { return item.id === colId; });
-    return columns.slice(index, index + (colspan || 1)).filter(function (col) { return !col.hidden; }).length;
-}
-exports.getReducedColspan = getReducedColspan;
-
-
-/***/ }),
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5769,7 +5784,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(75), exports);
 __exportStar(__webpack_require__(150), exports);
 __exportStar(__webpack_require__(76), exports);
-__exportStar(__webpack_require__(49), exports);
+__exportStar(__webpack_require__(48), exports);
 
 
 /***/ }),
@@ -5997,23 +6012,25 @@ var Input = /** @class */ (function (_super) {
     Input.prototype.isDisabled = function () {
         return !!this.config.disabled;
     };
-    Input.prototype.validate = function (silent, value) {
+    Input.prototype.validate = function (silent) {
         if (silent === void 0) { silent = false; }
-        if (value === void 0) { value = this.getValue(); }
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        var value = args.length ? args[0] : this.getValue();
         if (!silent && !this.events.fire(types_1.ItemEvent.beforeValidate, [value])) {
             return false;
         }
-        var isValid = this.config.validation
+        var valid = this.config.validation
             ? (0, helper_1.validateInput)(value, this.config.validation)
-            : this.config.required
-                ? !!((0, helper_1.baseInputValidate)(value, this.config) && String(value).trim().length)
-                : (0, helper_1.baseInputValidate)(value, this.config);
+            : (0, helper_1.baseInputValidate)(value, this.config);
         if (!silent) {
-            this.setValidationStatus(isValid ? "success" : "error");
-            this.events.fire(types_1.ItemEvent.afterValidate, [value, isValid]);
+            this.setValidationStatus(valid ? "success" : "error");
+            this.events.fire(types_1.ItemEvent.afterValidate, [value, valid]);
             !this.isFocused() && this.paint();
         }
-        return isValid;
+        return valid;
     };
     Input.prototype.clearValidate = function () {
         this.setValidationStatus();
@@ -6065,7 +6082,6 @@ var Input = /** @class */ (function (_super) {
         });
     };
     Input.prototype._initView = function (config) {
-        var _this = this;
         if ((0, core_1.isEmptyObj)(config)) {
             throw new Error("Check the configuration is correct");
         }
@@ -6073,6 +6089,7 @@ var Input = /** @class */ (function (_super) {
             type: "input",
             id: config.id,
             name: config.name,
+            value: "",
             disabled: false,
             hidden: false,
             inputType: "text",
@@ -6097,11 +6114,6 @@ var Input = /** @class */ (function (_super) {
                 this.config[key] = config[key];
             }
         }
-        if (this.config.hidden) {
-            (0, dom_1.awaitRedraw)().then(function () {
-                _this.hide(true);
-            });
-        }
         this._value = this.config.value;
         this.paint();
     };
@@ -6116,8 +6128,12 @@ var Input = /** @class */ (function (_super) {
         var _this = this;
         return {
             oninput: function (e) {
+                if (e.isComposing)
+                    return;
                 _this._value = e.target.value;
-                _this.events.fire(types_1.ItemEvent.input, [_this._value]);
+                _this.events.fire(types_1.ItemEvent.input, [
+                    _this.config.inputType === "number" ? Number(_this._value) : _this._value,
+                ]);
             },
             onchange: function (e) {
                 _this._value = e.target.value;
@@ -6144,7 +6160,6 @@ var Input = /** @class */ (function (_super) {
         };
     };
     Input.prototype._draw = function () {
-        var _this = this;
         var _a = this.config, id = _a.id, disabled = _a.disabled, name = _a.name, icon = _a.icon, placeholder = _a.placeholder, required = _a.required, inputType = _a.inputType, hidden = _a.hidden, autocomplete = _a.autocomplete, readOnly = _a.readOnly, maxlength = _a.maxlength, minlength = _a.minlength, max = _a.max, min = _a.min, label = _a.label, helpMessage = _a.helpMessage, value = _a.value;
         var visibility = hidden ? " dhx_form-group--hidden" : "";
         return (0, dom_1.el)("div.dhx_form-group", {
@@ -6162,8 +6177,9 @@ var Input = /** @class */ (function (_super) {
                         type: ["text", "number", "password"].includes(inputType) ? inputType : "text",
                         "data-dhx-id": name || id,
                         id: id || this._uid,
+                        _key: id || this._uid,
                         placeholder: placeholder || "",
-                        value: value || "",
+                        value: value,
                         name: name || "",
                         disabled: disabled,
                         required: required,
@@ -6182,19 +6198,31 @@ var Input = /** @class */ (function (_super) {
                         _ref: "input",
                         "aria-label": label || helpMessage || "type ".concat(name || inputType || "text"),
                         "aria-describedby": helpMessage ? "dhx_label__help_".concat(id || this._uid) : null,
-                        _hooks: {
-                            didRecycle: function (_oldNode, newNode) {
-                                if (_this.isFocused() && _this._value) {
-                                    newNode.el.value = _this._value;
-                                }
-                            },
-                        },
+                        _hooks: this._getHooks(),
                     }),
                 ]),
                 (0, helper_1.getValidationMessage)(this.config) &&
                     (0, dom_1.el)("span.dhx_input__caption", (0, helper_1.getValidationMessage)(this.config)),
             ]),
         ]);
+    };
+    Input.prototype._getHooks = function () {
+        var _this = this;
+        var handler = this._handlers.oninput;
+        return {
+            didRecycle: function (_oldNode, newNode) {
+                if (_this.isFocused() && (0, core_1.isDefined)(_this._value)) {
+                    newNode.el.value = _this._value;
+                }
+            },
+            didInsert: function (node) {
+                node.el.addEventListener("compositionend", handler);
+            },
+            willRemove: function (node) {
+                node.el.removeEventListener("compositionend", handler);
+                handler = null;
+            },
+        };
     };
     return Input;
 }(label_1.Label));
@@ -6437,38 +6465,6 @@ exports.ajax = {
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTreeCell = void 0;
-__exportStar(__webpack_require__(65), exports);
-__exportStar(__webpack_require__(160), exports);
-__exportStar(__webpack_require__(9), exports);
-__exportStar(__webpack_require__(32), exports);
-var Cells_1 = __webpack_require__(27);
-Object.defineProperty(exports, "getTreeCell", { enumerable: true, get: function () { return Cells_1.getTreeCell; } });
-__exportStar(__webpack_require__(18), exports);
-__exportStar(__webpack_require__(15), exports);
-
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessageContainerPosition = exports.Position = exports.RealPosition = void 0;
 var RealPosition;
@@ -6497,7 +6493,7 @@ var MessageContainerPosition;
 
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6511,7 +6507,7 @@ exports.default = locale;
 
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6536,7 +6532,7 @@ __exportStar(__webpack_require__(72), exports);
 
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6558,7 +6554,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Layout = void 0;
-var types_1 = __webpack_require__(47);
+var types_1 = __webpack_require__(46);
 var Cell_1 = __webpack_require__(68);
 var dom_1 = __webpack_require__(0);
 var Layout = /** @class */ (function (_super) {
@@ -6579,19 +6575,21 @@ var Layout = /** @class */ (function (_super) {
             _this._isViewLayout = true;
         }
         if (!config.parent) {
-            var view = (0, dom_1.create)({ render: function () { return _this.toVDOM(); } }, _this);
+            var view = (0, dom_1.create)({ render: function () { return _this._root && _this.toVDOM(); } }, _this);
             _this.mount(parent, view);
         }
         return _this;
     }
     Layout.prototype.destructor = function () {
-        for (var _i = 0, _a = this._all; _i < _a.length; _i++) {
-            var key = _a[_i];
-            this._all[key].destructor();
-        }
-        this.config = this._cells = this._root = this._xLayout = this._isViewLayout = null;
-        this._all = {};
         this.unmount();
+        if (this.config) {
+            for (var _i = 0, _a = this._cells; _i < _a.length; _i++) {
+                var cell = _a[_i];
+                cell === null || cell === void 0 ? void 0 : cell.destructor();
+            }
+            this.config = this._cells = this._root = this._xLayout = this._isViewLayout = null;
+            this._all = {};
+        }
     };
     Layout.prototype.toVDOM = function () {
         var _a;
@@ -6653,7 +6651,8 @@ var Layout = /** @class */ (function (_super) {
         return this._cells[index] ? this._cells[index].id : undefined;
     };
     Layout.prototype.getRefs = function (name) {
-        return this._root.getRootView().refs[name];
+        var _a;
+        return (_a = this._root.getRootView().refs) === null || _a === void 0 ? void 0 : _a[name];
     };
     Layout.prototype.getCell = function (id) {
         var _a;
@@ -6690,6 +6689,34 @@ var Layout = /** @class */ (function (_super) {
     Layout.prototype.progressHide = function () {
         this._progress = false;
         this.paint();
+    };
+    Layout.prototype._initHandlers = function () {
+        var _this = this;
+        this._handlers = {
+            enterCollapse: function (e) {
+                if (e.keyCode === 13) {
+                    _this._handlers.toggle();
+                }
+            },
+            collapse: function () {
+                if (!_this.config.collapsable) {
+                    return;
+                }
+                _this.collapse();
+            },
+            expand: function () {
+                if (!_this.config.collapsable) {
+                    return;
+                }
+                _this.expand();
+            },
+            toggle: function () {
+                if (!_this.config.collapsable) {
+                    return;
+                }
+                _this.toggle();
+            },
+        };
     };
     Layout.prototype._getCss = function (content) {
         var layoutCss = this._xLayout ? "dhx_layout-columns" : "dhx_layout-rows";
@@ -6762,7 +6789,7 @@ exports.Layout = Layout;
 
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6790,7 +6817,7 @@ var LayoutEvents;
 
 
 /***/ }),
-/* 48 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6815,7 +6842,7 @@ __exportStar(__webpack_require__(70), exports);
 
 
 /***/ }),
-/* 49 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6839,7 +6866,7 @@ var ListEvents;
 
 
 /***/ }),
-/* 50 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6855,7 +6882,7 @@ exports.default = {
 
 
 /***/ }),
-/* 51 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6882,7 +6909,7 @@ exports.default = locale;
 
 
 /***/ }),
-/* 52 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6906,13 +6933,13 @@ exports.locale = void 0;
 __exportStar(__webpack_require__(182), exports);
 __exportStar(__webpack_require__(83), exports);
 __exportStar(__webpack_require__(82), exports);
-__exportStar(__webpack_require__(53), exports);
-var en_1 = __webpack_require__(54);
+__exportStar(__webpack_require__(52), exports);
+var en_1 = __webpack_require__(53);
 Object.defineProperty(exports, "locale", { enumerable: true, get: function () { return en_1.default; } });
 
 
 /***/ }),
-/* 53 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7053,7 +7080,7 @@ exports.getAlpha = getAlpha;
 
 
 /***/ }),
-/* 54 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7070,7 +7097,7 @@ exports.default = en;
 
 
 /***/ }),
-/* 55 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7230,7 +7257,7 @@ exports.Scale = Scale;
 
 
 /***/ }),
-/* 56 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7252,7 +7279,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var common_1 = __webpack_require__(5);
-var BaseSeria_1 = __webpack_require__(31);
+var BaseSeria_1 = __webpack_require__(32);
 var ScaleSeria = /** @class */ (function (_super) {
     __extends(ScaleSeria, _super);
     function ScaleSeria() {
@@ -7306,7 +7333,7 @@ exports.default = ScaleSeria;
 
 
 /***/ }),
-/* 57 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7339,7 +7366,7 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var common_1 = __webpack_require__(5);
-var BaseSeria_1 = __webpack_require__(31);
+var BaseSeria_1 = __webpack_require__(32);
 var NoScaleSeria = /** @class */ (function (_super) {
     __extends(NoScaleSeria, _super);
     function NoScaleSeria() {
@@ -7430,7 +7457,7 @@ exports.default = NoScaleSeria;
 
 
 /***/ }),
-/* 58 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7464,7 +7491,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
 var common_1 = __webpack_require__(5);
-var ScaleSeria_1 = __webpack_require__(56);
+var ScaleSeria_1 = __webpack_require__(55);
 var Line = /** @class */ (function (_super) {
     __extends(Line, _super);
     function Line() {
@@ -7551,7 +7578,7 @@ exports.default = Line;
 
 
 /***/ }),
-/* 59 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7571,13 +7598,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(60), exports);
+__exportStar(__webpack_require__(59), exports);
 __exportStar(__webpack_require__(164), exports);
 __exportStar(__webpack_require__(36), exports);
 
 
 /***/ }),
-/* 60 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7878,7 +7905,7 @@ exports.Uploader = Uploader;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(17)))
 
 /***/ }),
-/* 61 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7908,7 +7935,7 @@ exports.DataCollection = void 0;
 var events_1 = __webpack_require__(2);
 var loader_1 = __webpack_require__(121);
 var sort_1 = __webpack_require__(124);
-var dataproxy_1 = __webpack_require__(26);
+var dataproxy_1 = __webpack_require__(27);
 var helpers_1 = __webpack_require__(23);
 var types_1 = __webpack_require__(22);
 var core_1 = __webpack_require__(1);
@@ -8031,7 +8058,7 @@ var DataCollection = /** @class */ (function () {
         if (!(0, core_1.isId)(id) || !(0, core_1.isDefined)(this._pull[id])) {
             return -1;
         }
-        return (0, core_1.findIndex)(this._order, function (item) { return item && item.id.toString() === id.toString(); });
+        return this._order.findIndex(function (i) { return (i === null || i === void 0 ? void 0 : i.id) == id; });
     };
     DataCollection.prototype.getId = function (index) {
         if (!this._order[index]) {
@@ -8056,10 +8083,6 @@ var DataCollection = /** @class */ (function () {
     };
     DataCollection.prototype.filter = function (rule, config, silent) {
         var _a;
-        if (!this.isDataLoaded()) {
-            (0, helpers_1.dhxWarning)("the method doesn't work with lazyLoad");
-            return;
-        }
         if (config === null || config === void 0 ? void 0 : config.$restore) {
             rule = this._normalizeFilters(rule || this._filters);
         }
@@ -8202,6 +8225,12 @@ var DataCollection = /** @class */ (function () {
         if (typeof url === "string") {
             this.dataProxy = url = new dataproxy_1.DataProxy(url);
         }
+        if (typeof driver === "string") {
+            var driverName = driver.toLocaleLowerCase();
+            if (driverName === "xml" || driverName === "csv") {
+                url.config.responseType = url.config.responseType || "text";
+            }
+        }
         this.dataProxy = url;
         return this._loader.load(url, driver);
     };
@@ -8216,7 +8245,7 @@ var DataCollection = /** @class */ (function () {
         }
         this._parse_data(data);
         this._reapplyFilters(true);
-        this.events.fire(types_1.DataEvents.change, ["load"]);
+        this.events.fire(types_1.DataEvents.change, [undefined, "load"]);
         this.events.fire(types_1.DataEvents.load);
     };
     DataCollection.prototype.save = function (url) {
@@ -8227,10 +8256,6 @@ var DataCollection = /** @class */ (function () {
     };
     DataCollection.prototype.changeId = function (id, newId, silent) {
         if (newId === void 0) { newId = (0, core_1.uid)(); }
-        if (!silent && !this.isDataLoaded()) {
-            (0, helpers_1.dhxWarning)("the method doesn't work with lazyLoad");
-            return;
-        }
         var item = this.getItem(id);
         if (!item) {
             (0, helpers_1.dhxWarning)("item not found");
@@ -8349,20 +8374,12 @@ var DataCollection = /** @class */ (function () {
         return slice;
     };
     DataCollection.prototype._add = function (newItem, index) {
-        if (!this.isDataLoaded()) {
-            (0, helpers_1.dhxWarning)("the method doesn't work with lazyLoad");
-            return;
-        }
         var id = this._addCore(newItem, index);
         this._onChange("add", newItem.id, newItem);
         this.events.fire(types_1.DataEvents.afterAdd, [newItem]);
         return id;
     };
     DataCollection.prototype._remove = function (id) {
-        if (!this.isDataLoaded()) {
-            (0, helpers_1.dhxWarning)("the method doesn't work with lazyLoad");
-            return;
-        }
         var removedItem = this._pull[id];
         if (removedItem) {
             if (!this.events.fire(types_1.DataEvents.beforeRemove, [removedItem])) {
@@ -8374,10 +8391,6 @@ var DataCollection = /** @class */ (function () {
         this.events.fire(types_1.DataEvents.afterRemove, [removedItem]);
     };
     DataCollection.prototype._copy = function (id, index, target, targetId, key) {
-        if (!this.isDataLoaded()) {
-            (0, helpers_1.dhxWarning)("the method doesn't work with lazyLoad");
-            return;
-        }
         if (!this.exists(id)) {
             return null;
         }
@@ -8403,10 +8416,6 @@ var DataCollection = /** @class */ (function () {
         return newid;
     };
     DataCollection.prototype._move = function (id, index, target, targetId, key, newId) {
-        if (!this.isDataLoaded()) {
-            (0, helpers_1.dhxWarning)("the method doesn't work with lazyLoad");
-            return;
-        }
         if (key) {
             index = index === -1 ? -1 : index + key;
         }
@@ -8606,7 +8615,7 @@ exports.DataCollection = DataCollection;
 
 
 /***/ }),
-/* 62 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8624,8 +8633,8 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dataDriversPro = exports.dataDrivers = void 0;
-var JsonDriver_1 = __webpack_require__(63);
-var CsvDriver_1 = __webpack_require__(64);
+var JsonDriver_1 = __webpack_require__(62);
+var CsvDriver_1 = __webpack_require__(63);
 var XMLDriver_1 = __webpack_require__(122);
 exports.dataDrivers = {
     json: JsonDriver_1.JsonDriver,
@@ -8635,7 +8644,7 @@ exports.dataDriversPro = __assign(__assign({}, exports.dataDrivers), { xml: XMLD
 
 
 /***/ }),
-/* 63 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8663,7 +8672,7 @@ exports.JsonDriver = JsonDriver;
 
 
 /***/ }),
-/* 64 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8730,9 +8739,7 @@ var CsvDriver = /** @class */ (function () {
         var header = data[0]
             ? Object.keys(data[0])
                 .filter(function (key) { return !key.startsWith("$"); })
-                .join(this.config.columnDelimiter) +
-                this.config.columnDelimiter +
-                this.config.rowDelimiter
+                .join(this.config.columnDelimiter) + this.config.rowDelimiter
             : "";
         var readyData = this._serialize(data);
         if (withoutHeader) {
@@ -8743,11 +8750,13 @@ var CsvDriver = /** @class */ (function () {
     CsvDriver.prototype._serialize = function (data) {
         var _this = this;
         return data.reduce(function (csv, row) {
-            var cells = Object.keys(row).reduce(function (total, key, i) {
+            var keys = Object.keys(row);
+            var cells = keys.reduce(function (total, key, i) {
+                var _a, _b;
                 if (key.startsWith("$") || key === "items") {
                     return total;
                 }
-                return "".concat(total).concat(row[key].replaceAll(/[,;"]/gi, function (match) { return "\"".concat(match, "\""); })).concat(i === row.length - 1 ? "" : _this.config.columnDelimiter);
+                return "".concat(total).concat(((_b = (_a = row[key]) === null || _a === void 0 ? void 0 : _a.toString()) !== null && _b !== void 0 ? _b : "").replaceAll(/[,;"]/gi, function (match) { return "\"".concat(match, "\""); })).concat(i === keys.length - 1 ? "" : _this.config.columnDelimiter);
             }, "");
             if (row.items) {
                 return "".concat(csv).concat(csv ? "\n" : "").concat(cells).concat(_this._serialize(row.items));
@@ -8758,6 +8767,38 @@ var CsvDriver = /** @class */ (function () {
     return CsvDriver;
 }());
 exports.CsvDriver = CsvDriver;
+
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getTreeCell = void 0;
+__exportStar(__webpack_require__(65), exports);
+__exportStar(__webpack_require__(160), exports);
+__exportStar(__webpack_require__(9), exports);
+__exportStar(__webpack_require__(25), exports);
+var Cells_1 = __webpack_require__(28);
+Object.defineProperty(exports, "getTreeCell", { enumerable: true, get: function () { return Cells_1.getTreeCell; } });
+__exportStar(__webpack_require__(18), exports);
+__exportStar(__webpack_require__(15), exports);
 
 
 /***/ }),
@@ -8823,7 +8864,7 @@ var view_1 = __webpack_require__(8);
 var ts_data_1 = __webpack_require__(7);
 var Exporter_1 = __webpack_require__(127);
 var data_1 = __webpack_require__(18);
-var cells_1 = __webpack_require__(32);
+var cells_1 = __webpack_require__(25);
 var main_1 = __webpack_require__(15);
 var Selection_1 = __webpack_require__(131);
 var types_1 = __webpack_require__(9);
@@ -8833,7 +8874,7 @@ var content_1 = __webpack_require__(154);
 var columnsResizer_1 = __webpack_require__(158);
 var keys_1 = __webpack_require__(159);
 var FocusManager_1 = __webpack_require__(19);
-var Cells_1 = __webpack_require__(27);
+var Cells_1 = __webpack_require__(28);
 var Grid = /** @class */ (function (_super) {
     __extends(Grid, _super);
     function Grid(container, config) {
@@ -8845,7 +8886,7 @@ var Grid = /** @class */ (function (_super) {
             start: false,
         };
         _this._destructed = false;
-        _this.version = "8.3.0";
+        _this.version = "8.4.0";
         _this.config = (0, core_1.extend)({
             rowHeight: 40,
             headerRowHeight: 40,
@@ -8903,8 +8944,9 @@ var Grid = /** @class */ (function (_super) {
                 else if (checkIsExistValue() && column.template) {
                     value_1 = column.template(value_1, row, column);
                 }
-                checkIsExistValue() &&
-                    (0, main_1.showTooltip)({ value: value_1, node: node, htmlEnable: (0, main_1.isHtmlEnable)(_this.config, column) });
+                if (checkIsExistValue()) {
+                    (0, main_1.showTooltip)(value_1, __assign({ node: node, htmlEnable: (0, main_1.isHtmlEnable)(_this.config, column) }, (0, main_1.getTooltipConfig)(_this.config, column)));
+                }
             }
         };
         var showContentTooltip = function (event, type) {
@@ -8931,23 +8973,25 @@ var Grid = /** @class */ (function (_super) {
                 value = column.template(value, cell, column);
             }
             if (value === null || value === void 0 ? void 0 : value.toString().length) {
-                (0, main_1.showTooltip)({ value: value, node: node, htmlEnable: (0, main_1.isHtmlEnable)(_this.config, column, cell) });
+                (0, main_1.showTooltip)(value, __assign({ node: node, htmlEnable: (0, main_1.isHtmlEnable)(_this.config, column, cell) }, (0, main_1.getTooltipConfig)(_this.config, column, cell, type)));
             }
         };
         _this._htmlEvents = {
             onclick: (0, html_1.eventHandler)(function (e) { return (0, html_1.locate)(e); }, {
                 "dhx_grid-header-cell--sortable": function (e, id) {
-                    var _a;
                     var isResizable = e.target.getAttribute("dhx_resized");
                     var column = _this.getColumn(id);
                     if (column &&
                         (0, main_1.isSortable)(_this.config, column) &&
                         !isResizable &&
-                        _this.events.fire(types_1.GridEvents.beforeSort, [column, _this._sortDir ? "asc" : "desc"])) {
-                        var text_1 = (_a = (0, html_1.locateNodeByClassName)(e, "dhx_grid-header-cell")) === null || _a === void 0 ? void 0 : _a.querySelector(".dhx_grid-header-cell-text_content").innerHTML;
-                        var cellConfig = text_1 ? column.header.find(function (item) { return item.text === text_1; }) : null;
+                        _this.events.fire(types_1.GridEvents.beforeSort, [
+                            column,
+                            _this._sortDir === "asc" ? "desc" : "asc",
+                        ])) {
+                        var textId_1 = (0, html_1.locate)(e, "data-dhx-text-id");
+                        var cell = column.header.find(function (item) { return item.id === textId_1; });
                         var dir = _this._sortDir === "asc" && _this._sortBy === id ? "desc" : "asc";
-                        _this._sort(id, dir, cellConfig === null || cellConfig === void 0 ? void 0 : cellConfig.sortAs);
+                        _this._sort(id, dir, cell.sortAs);
                     }
                 },
                 "dhx_grid-expand-cell": function (e, rowId) {
@@ -8993,7 +9037,7 @@ var Grid = /** @class */ (function (_super) {
                     var column = _this.getColumn(path[2].getAttribute("data-dhx-col-id"));
                     showCellTooltip(row, column, path[2]);
                 },
-                ".dhx_span-cell:not(.dhx_grid-header-cell)": function (e) {
+                ".dhx_span-cell:not(.dhx_grid-header-cell):not(.dhx_grid-footer-cell)": function (e) {
                     var node = e.target;
                     var row = _this.data.getItem(node.getAttribute("data-dhx-id"));
                     var column = _this.getColumn(node.getAttribute("data-dhx-col-id"));
@@ -9006,7 +9050,9 @@ var Grid = /** @class */ (function (_super) {
                         else if (column.template) {
                             value = column.template(value, row, column);
                         }
-                        value && (0, main_1.showTooltip)({ value: value, node: node, htmlEnable: (0, main_1.isHtmlEnable)(_this.config, column) });
+                        if (value) {
+                            (0, main_1.showTooltip)(value, __assign({ node: node, htmlEnable: (0, main_1.isHtmlEnable)(_this.config, column) }, (0, main_1.getTooltipConfig)(_this.config, null, span)));
+                        }
                     }
                 },
                 ".dhx_grid-header-cell": function (event) { return showContentTooltip(event, "header"); },
@@ -9079,9 +9125,13 @@ var Grid = /** @class */ (function (_super) {
         this._destroyContent();
         this.config.columns = columns;
         this._parseColumns(true);
+        if ((0, main_1.isAutoWidth)(this.config)) {
+            this._applyAutoWidth();
+        }
         this._adjustColumns();
         this._checkFilters();
         this._checkMarks();
+        this._normalizeSpans();
         this.paint();
         if (this.config.keyNavigation) {
             (0, dom_1.awaitRedraw)().then(function () {
@@ -9106,26 +9156,16 @@ var Grid = /** @class */ (function (_super) {
     };
     Grid.prototype.addCellCss = function (rowId, colId, css) {
         var column = this.getColumn(colId);
-        var span = this.config.spans ? this.getSpan(rowId, colId) : null;
-        if (span || column) {
-            var cellStyle = span ? span.css : column.$cellCss[rowId];
+        if (column) {
+            column.$cellCss = column.$cellCss || {};
+            var cellStyle = column.$cellCss[rowId];
             if (cellStyle) {
                 // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
                 var newClass = cellStyle.match(new RegExp(css, "g")) ? "" : " ".concat(css);
-                if (span) {
-                    span.css += newClass;
-                }
-                else {
-                    column.$cellCss[rowId] += newClass;
-                }
+                column.$cellCss[rowId] += newClass;
             }
             else if (this.data.getItem(rowId)) {
-                if (span) {
-                    span.css = "".concat(css, " ");
-                }
-                else {
-                    column.$cellCss[rowId] = "".concat(css, " ");
-                }
+                column.$cellCss[rowId] = "".concat(css, " ");
             }
             this.paint();
         }
@@ -9151,6 +9191,8 @@ var Grid = /** @class */ (function (_super) {
             return;
         column.hidden = false;
         this.config.$totalWidth += column.$width;
+        this._parseColumns();
+        this.config.data = this._prepareData(this.data);
         var filter = this._hiddenFilters && this._hiddenFilters[column.id];
         if (filter) {
             this._activeFilters[column.id] = filter;
@@ -9158,6 +9200,7 @@ var Grid = /** @class */ (function (_super) {
             this._checkFilters();
             this._checkSelectFilterValue();
         }
+        this._normalizeSpans();
         this.paint();
         this.events.fire(types_1.GridEvents.afterColumnShow, [column]);
     };
@@ -9170,6 +9213,8 @@ var Grid = /** @class */ (function (_super) {
             return;
         column.hidden = true;
         this.config.$totalWidth -= column.$width;
+        this._parseColumns();
+        this.config.data = this._prepareData(this.data);
         var filter = this._activeFilters && this._activeFilters[column.id];
         if (filter) {
             if (!this._hiddenFilters) {
@@ -9179,6 +9224,7 @@ var Grid = /** @class */ (function (_super) {
             delete this._activeFilters[column.id];
             this._checkFilters();
         }
+        this._normalizeSpans();
         this.paint();
         this.events.fire(types_1.GridEvents.afterColumnHide, [column]);
     };
@@ -9244,27 +9290,55 @@ var Grid = /** @class */ (function (_super) {
         this.paint();
     };
     Grid.prototype.scrollTo = function (rowId, colId) {
-        var selectedCell = this.selection.getCell();
-        var columns = this.config.columns.filter(function (col) { return !col.hidden; });
-        var colInd = (0, core_1.findIndex)(columns, function (_a) {
-            var id = _a.id;
-            return id == colId;
-        });
-        var prevCol = selectedCell ? selectedCell.column : this.config.columns[0];
-        var prevColInd = (0, core_1.findIndex)(columns, function (obj) { return obj.id == prevCol.id; });
-        var fixedColsWidth = this.config.leftSplit
-            ? (0, main_1.getTotalWidth)(columns.slice(0, this.config.leftSplit))
-            : 0;
-        var x = (0, main_1.getTotalWidth)(columns.slice(0, colInd)) - (colInd - prevColInd < 0 ? fixedColsWidth : 0);
-        var rows = this.data.getRawData(0, -1);
-        var rowInd = (0, core_1.findIndex)(rows, function (_a) {
-            var id = _a.id;
-            return id == rowId;
-        });
-        var y = (0, main_1.getTotalHeight)(rows.slice(0, rowInd));
+        var _a = this.config, topSplit = _a.topSplit, bottomSplit = _a.bottomSplit, columns = _a.columns, $width = _a.$width, $height = _a.$height, $headerHeight = _a.$headerHeight;
+        var filteredColumns = columns.filter(function (col) { return !col.hidden; });
+        var rows = this.data.getRawData(0, -1, null, 2);
+        var colInd = filteredColumns.findIndex(function (col) { return col.id == colId; });
+        var rowInd = rows.findIndex(function (row) { return row.id == rowId; });
+        if (!(0, core_1.isDefined)(colInd) || !(0, core_1.isDefined)(rowInd))
+            return;
         var scrollState = this.getScrollState();
-        var gridRight = this.config.$width + scrollState.x;
-        var gridBottom = this.config.$height + scrollState.y - this.config.$headerHeight;
+        var selectedCell = this.selection.getCell();
+        var prevColInd = selectedCell && columns.findIndex(function (col) { return col.id == selectedCell.column.id; });
+        var prevRowInd = selectedCell && rows.findIndex(function (row) { return row.id == selectedCell.row.id; });
+        var leftSplit = (0, render_1.getCurrFixedCols)(this.config, types_1.Split.left).length;
+        var rightSplit = (0, render_1.getCurrFixedCols)(this.config, types_1.Split.right).length;
+        var isFixedLeft = leftSplit && prevColInd < leftSplit;
+        var isFixedRight = rightSplit && prevColInd >= columns.length - rightSplit;
+        var isFixedTop = topSplit && prevRowInd < topSplit;
+        var isFixedBottom = bottomSplit && prevRowInd >= rows.length - bottomSplit;
+        var x = (0, main_1.getTotalWidth)(filteredColumns.slice(0, colInd));
+        var y = (0, main_1.getTotalHeight)(rows.slice(0, rowInd));
+        if (leftSplit) {
+            var leftFixedColsWidth = (0, main_1.getTotalWidth)((0, render_1.getCurrFixedCols)(this.config, types_1.Split.left));
+            if ((!isFixedLeft && !isFixedRight && colInd < prevColInd) ||
+                x - scrollState.x - leftFixedColsWidth < 0) {
+                x -= leftFixedColsWidth;
+            }
+        }
+        if (rightSplit) {
+            var rightFixedColsWidth = (0, main_1.getTotalWidth)((0, render_1.getCurrFixedCols)(this.config, types_1.Split.right));
+            if ((!isFixedLeft && !isFixedRight && colInd > prevColInd) ||
+                $width + scrollState.x - x - filteredColumns[colInd].$width - rightFixedColsWidth < 0) {
+                x += rightFixedColsWidth;
+            }
+        }
+        if (topSplit) {
+            var topFixedRowsHeight = (0, main_1.getTotalHeight)(rows.slice(0, topSplit));
+            if ((!isFixedTop && !isFixedBottom && rowInd < prevRowInd) ||
+                y - scrollState.y - topFixedRowsHeight < 0) {
+                y -= topFixedRowsHeight;
+            }
+        }
+        if (bottomSplit) {
+            var bottomFixedRowsHeight = (0, main_1.getTotalHeight)(rows.slice(-bottomSplit));
+            if ((!isFixedTop && !isFixedBottom && rowInd > prevRowInd) ||
+                $height + scrollState.y - $headerHeight - y - rows[rowInd].$height - bottomFixedRowsHeight < 0) {
+                y += bottomFixedRowsHeight;
+            }
+        }
+        var gridRight = $width + scrollState.x;
+        var gridBottom = $height + scrollState.y - $headerHeight;
         var cellTop = y - scrollState.y - rows[rowInd].$height;
         var cellLeft = x - scrollState.x - columns[colInd].$width;
         var cellBottom = y + rows[rowInd].$height * 2 + 18 - gridBottom;
@@ -9285,7 +9359,7 @@ var Grid = /** @class */ (function (_super) {
         });
         this.config.$totalWidth = columns.reduce(function (totalWidth, column) {
             if (totalCols[column.id]) {
-                column.$fixed = true;
+                column.$fixedWidth = true;
                 var max = column.maxWidth;
                 var min = column.minWidth;
                 var width = totalCols[column.id];
@@ -9302,26 +9376,21 @@ var Grid = /** @class */ (function (_super) {
         this.paint();
     };
     Grid.prototype.getCellRect = function (rowId, colId) {
+        var _a, _b;
         var columns = this.config.columns.filter(function (col) { return !col.hidden; });
         var rows = this.data.getRawData(0, -1);
         var span = this.getSpan(rowId, colId);
-        var colInd = (0, core_1.findIndex)(columns, function (obj) { return obj.id == (span ? span.column : colId); });
-        var rowInd = (0, core_1.findIndex)(rows, function (obj) { return obj.id == (span ? span.row : rowId); });
+        var colInd = columns.findIndex(function (obj) { return obj.id == (span ? span.column : colId); });
+        var rowInd = rows.findIndex(function (obj) { return obj.id == (span ? span.row : rowId); });
         var x = (0, main_1.getTotalWidth)(columns.slice(0, colInd));
         var y = (0, main_1.getTotalHeight)(rows.slice(0, rowInd));
         return {
             x: x,
             y: y,
-            height: (span === null || span === void 0 ? void 0 : span.rowspan)
-                ? (0, cells_1.getHeight)(rows, span.rowspan, rowInd)
-                : rows[rowInd]
-                    ? rows[rowInd].$height
-                    : 0,
-            width: (span === null || span === void 0 ? void 0 : span.colspan)
-                ? (0, cells_1.getWidth)(this.config.columns, span.colspan, (0, core_1.findIndex)(this.config.columns, function (item) { return item.id === span.column; }))
-                : columns[colInd]
-                    ? columns[colInd].$width
-                    : 0,
+            height: (span === null || span === void 0 ? void 0 : span.rowspan) > 1 ? (0, cells_1.getHeight)(rows, span) : ((_a = rows[rowInd]) === null || _a === void 0 ? void 0 : _a.$height) || 0,
+            width: (span === null || span === void 0 ? void 0 : span.colspan) > 1
+                ? (0, cells_1.getWidth)(this.config.columns, span.colspan, this.config.columns.findIndex(function (item) { return item.id === span.column; }))
+                : ((_b = columns[colInd]) === null || _b === void 0 ? void 0 : _b.$width) || 0,
         };
     };
     Grid.prototype.getColumn = function (colId) {
@@ -9340,7 +9409,7 @@ var Grid = /** @class */ (function (_super) {
             this.config.spans[index] = spanObj;
             return;
         }
-        this.config.spans.push((0, Cells_1.normalizeSpan)(spanObj, this.config));
+        this.config.spans.push((0, Cells_1.normalizeSpan)(spanObj, this.config, this.data));
         this._checkMarks();
         this.paint();
     };
@@ -9475,21 +9544,20 @@ var Grid = /** @class */ (function (_super) {
     };
     Grid.prototype._parseColumns = function (configChanged) {
         if (configChanged === void 0) { configChanged = false; }
-        this.normalizeColumns(this.config, configChanged);
         var columns = this.config.columns.filter(function (col) { return !col.hidden; });
+        this.normalizeColumns({ config: this.config, columns: columns, configChanged: configChanged });
         (0, data_1.countColumns)(this.config, columns);
     };
-    Grid.prototype.normalizeColumns = function (config, configChanged) {
+    Grid.prototype.normalizeColumns = function (_a) {
         var _this = this;
-        var _a, _b, _c;
-        if (configChanged === void 0) { configChanged = false; }
-        var columns = config.columns, htmlEnable = config.htmlEnable;
+        var _b, _c, _d;
+        var config = _a.config, columns = _a.columns, configChanged = _a.configChanged;
         config.$headerHeightMap = [];
         config.$footerHeightMap = [];
         config.$headerHeight = config.$footerHeight = 0;
-        for (var _i = 0, _d = columns; _i < _d.length; _i++) {
-            var col = _d[_i];
-            col.htmlEnable = (_a = col.htmlEnable) !== null && _a !== void 0 ? _a : htmlEnable;
+        for (var _i = 0, columns_1 = columns; _i < columns_1.length; _i++) {
+            var col = columns_1[_i];
+            col.htmlEnable = (_b = col.htmlEnable) !== null && _b !== void 0 ? _b : config.htmlEnable;
             col.$cellCss = col.$cellCss || {};
             (0, data_1.normalizeArray)(col, "header");
             (0, data_1.normalizeArray)(col, "footer");
@@ -9527,7 +9595,7 @@ var Grid = /** @class */ (function (_super) {
             }
         }
         var _loop_1 = function (col) {
-            if ((_b = col.header) === null || _b === void 0 ? void 0 : _b.length) {
+            if ((_c = col.header) === null || _c === void 0 ? void 0 : _c.length) {
                 var currentHeight_1 = 0;
                 col.header.forEach(function (header, index) {
                     if (config.headerAutoHeight) {
@@ -9541,7 +9609,7 @@ var Grid = /** @class */ (function (_super) {
                     }
                 });
             }
-            if ((_c = col.footer) === null || _c === void 0 ? void 0 : _c.length) {
+            if ((_d = col.footer) === null || _d === void 0 ? void 0 : _d.length) {
                 var currentHeight_2 = 0;
                 col.footer.forEach(function (footer, index) {
                     if (config.footerAutoHeight) {
@@ -9556,8 +9624,8 @@ var Grid = /** @class */ (function (_super) {
                 });
             }
         };
-        for (var _e = 0, _f = columns; _e < _f.length; _e++) {
-            var col = _f[_e];
+        for (var _e = 0, columns_2 = columns; _e < columns_2.length; _e++) {
+            var col = columns_2[_e];
             _loop_1(col);
         }
         config.$headerHeight = config.$headerHeightMap.reduce(function (acc, cur) { return (acc += cur); }, 0);
@@ -9571,9 +9639,8 @@ var Grid = /** @class */ (function (_super) {
         this.config.data = this.data.map(function (row) { return row; });
         this.config.data = this._prepareData(this.data);
         this._checkMarks();
-        this.data.filter(function (i) { return !i.hidden; }, { $local: true, permanent: true }, true);
+        this._applyLocalFilter();
         this._checkFilters();
-        this._render();
     };
     Grid.prototype._createCollection = function (prep) {
         this.data = new ts_data_1.DataCollection({ prep: prep }, this.events);
@@ -9593,16 +9660,24 @@ var Grid = /** @class */ (function (_super) {
             }
         };
         this.data.events.on(ts_data_1.DataEvents.load, function () {
-            _this.data.filter(function (i) { return i; }, { $local: true }, true);
+            _this._applyLocalFilter(true);
             _this._parseData();
+            _this._parseColumns();
+            if (_this.config.autoEmptyRow) {
+                _this._addEmptyRow();
+            }
             if (_this.config.data instanceof ts_data_1.DataCollection) {
                 (0, dom_1.awaitRedraw)().then(function () { return _this._normalizeSpans(); });
             }
             else {
                 _this._normalizeSpans();
             }
+            _this.paint();
         });
         this.data.events.on(ts_data_1.DataEvents.change, function (id, status, obj) {
+            if (status === "load") {
+                return;
+            }
             if (status === "setPage") {
                 (0, dom_1.awaitRedraw)().then(function () {
                     var colVisible = _this.config.columns.find(function (col) { return col.hidden !== true; });
@@ -9656,11 +9731,17 @@ var Grid = /** @class */ (function (_super) {
                     _this._addEmptyRow();
                 }
             }
+            switch (status) {
+                case "add":
+                case "remove":
+                case "sort":
+                    _this._normalizeSpans();
+            }
             _this._render();
         });
         this.data.events.on(ts_data_1.DataEvents.filter, function (filters) {
             if (!filters && !_this.data.getRawFilters({ permanent: true })) {
-                _this.data.filter(function (i) { return !i.hidden; }, { $local: true, permanent: true }, true);
+                _this._applyLocalFilter();
             }
             if (!filters || (0, ts_data_1.isOnlyPermanentFilters)(filters)) {
                 _this._filterData = _this.data.map(function (el) { return el; }) || [];
@@ -9670,6 +9751,9 @@ var Grid = /** @class */ (function (_super) {
             else {
                 _this._checkFilters();
             }
+            _this._removeMarks();
+            _this._checkMarks();
+            _this._normalizeSpans();
             _this.paint();
         });
         this.data.events.on(ts_data_1.DataEvents.removeAll, function () {
@@ -9828,6 +9912,7 @@ var Grid = /** @class */ (function (_super) {
             }
             _this.config.data = _this._prepareData(_this.data instanceof Array ? _this.data.map(function (i) { return i; }) : _this.data.getInitialData() || _this.data);
             _this.data.parse(_this.config.data);
+            _this._normalizeSpans();
         });
         // TODO: When introducing touch events, remove system events
         this.events.on(types_1.GridEvents.cellMouseDown, function (row, col, e) {
@@ -10094,7 +10179,8 @@ var Grid = /** @class */ (function (_super) {
             col.header.forEach(function (cell) {
                 if (cell.content && (cell.content === "selectFilter" || cell.content === "comboFilter")) {
                     var multi = col.header.some(function (i) { var _a; return (_a = i.filterConfig) === null || _a === void 0 ? void 0 : _a.multiselection; });
-                    if (!sync || (sync && !multi)) {
+                    var customFilter = col.header.some(function (i) { var _a; return (_a = i.filterConfig) === null || _a === void 0 ? void 0 : _a.filter; });
+                    if (!sync || (sync && !multi && !customFilter)) {
                         var unique = (0, data_1.getUnique)(_this._filterData, col.id, multi);
                         var options_2 = (0, data_1.getEditorOptions)(col);
                         if ((col.editorType === "combobox" ||
@@ -10166,7 +10252,7 @@ var Grid = /** @class */ (function (_super) {
                 totalCols: columns,
             });
             this.config.$totalWidth = columns.reduce(function (totalWidth, column) {
-                column.$fixed = true;
+                column.$fixedWidth = true;
                 var max = column.maxWidth;
                 var min = column.minWidth;
                 var width = totalCols_1[column.id];
@@ -10211,7 +10297,7 @@ var Grid = /** @class */ (function (_super) {
         if (adjust === "header" || adjust === true) {
             var currentCols = cols.filter(function (col) { return col.header; });
             var data = (0, data_1.getMaxColsWidth)(this._prepareColumnData(currentCols, "header"), currentCols, {
-                font: "bold 14.4px Arial",
+                font: "normal 14.4px Arial",
             }, "header");
             if (data) {
                 for (var _i = 0, _f = Object.entries(data); _i < _f.length; _i++) {
@@ -10225,7 +10311,7 @@ var Grid = /** @class */ (function (_super) {
         if (adjust === "footer" || adjust === true) {
             var currentCols = cols.filter(function (col) { return col.footer; });
             var data = (0, data_1.getMaxColsWidth)(this._prepareColumnData(currentCols, "footer"), currentCols, {
-                font: "bold 14.4px Arial",
+                font: "normal 14.4px Arial",
             }, "footer");
             if (data) {
                 for (var _h = 0, _j = Object.entries(data); _h < _j.length; _h++) {
@@ -10321,13 +10407,9 @@ var Grid = /** @class */ (function (_super) {
         var _this = this;
         return {
             didMount: function () {
-                var _a;
                 if (_this._canDataParse(true)) {
                     if (!_this._container) {
-                        var parentNode = _this.getRootView().node.parent.el;
-                        var parentSizes = (0, render_1.getElementSizes)(parentNode);
-                        var scrollView = (_a = _this.scrollView) === null || _a === void 0 ? void 0 : _a.config.enable;
-                        (0, render_1.applyAutoWidth)(_this.config, parentSizes, true, false, scrollView);
+                        _this._applyAutoWidth();
                     }
                     _this.data.parse(_this.config.data);
                 }
@@ -10359,6 +10441,26 @@ var Grid = /** @class */ (function (_super) {
                 }
             }
         });
+    };
+    Grid.prototype._applyLocalFilter = function (beforePrepareData) {
+        if (beforePrepareData === void 0) { beforePrepareData = false; }
+        var filterConfig = { add: true, permanent: true, $local: true };
+        var filters = this.data.getRawFilters();
+        var localFilter = Object.keys(filters || {}).find(function (key) { return filters[key].config.$local; });
+        if (localFilter) {
+            filterConfig.id = localFilter;
+        }
+        if (beforePrepareData) {
+            this.data.filter(function (i) { return i; }, filterConfig, true);
+        }
+        else {
+            this.data.filter(function (i) { return i && !i.hidden; }, filterConfig, true);
+        }
+    };
+    Grid.prototype._normalizeSpans = function () {
+        var _this = this;
+        var _a;
+        this.config.spans = (_a = this.config.spans) === null || _a === void 0 ? void 0 : _a.map(function (span) { return (0, Cells_1.normalizeSpan)(span, _this.config, _this.data); });
     };
     Grid.prototype._canDataParse = function (afterMount) {
         var _a;
@@ -10393,36 +10495,22 @@ var Grid = /** @class */ (function (_super) {
         this._createCollection(prep);
     };
     Grid.prototype._setMarks = function (col, func) {
-        var colCells = this.data.map(function (row) { return ({
-            id: row.id,
-            data: row[col.id],
-            row: row,
-        }); });
-        var colCellsData = this.data.map(function (row) { return row[col.id]; });
-        var _loop_3 = function (cell) {
+        var colCellsData = [];
+        var colCells = this.data.map(function (row) {
+            colCellsData.push(row[col.id]);
+            return {
+                id: row.id,
+                data: row[col.id],
+                row: row,
+            };
+        });
+        for (var _i = 0, colCells_1 = colCells; _i < colCells_1.length; _i++) {
+            var cell = colCells_1[_i];
             var css = func(cell.data, colCellsData, cell.row, col);
             if (css) {
                 col.$cellCss = col.$cellCss || {};
-                var cellCss_1 = (col.$cellCss[cell.id] || "").split(" ");
-                css.split(" ").map(function (item) {
-                    if (!cellCss_1.includes(item)) {
-                        cellCss_1.push(item);
-                    }
-                });
-                var cellCssStr = cellCss_1.join(" ");
-                var span = this_1.getSpan(cell.id, col.id);
-                col.$cellCss[cell.id] = cellCssStr;
-                if (span &&
-                    (span.rowspan || (span.colspan && span.column === col.id)) &&
-                    span.$markCss !== cellCssStr) {
-                    span.$markCss = cellCssStr;
-                }
+                col.$cellCss[cell.id] += " " + css;
             }
-        };
-        var this_1 = this;
-        for (var _i = 0, colCells_1 = colCells; _i < colCells_1.length; _i++) {
-            var cell = colCells_1[_i];
-            _loop_3(cell);
         }
     };
     Grid.prototype._checkMarks = function () {
@@ -10456,15 +10544,9 @@ var Grid = /** @class */ (function (_super) {
         });
     };
     Grid.prototype._removeMarks = function () {
-        var _a;
         this.config.columns.forEach(function (col) {
             if (col.mark) {
                 col.$cellCss = {};
-            }
-        });
-        (_a = this.config.spans) === null || _a === void 0 ? void 0 : _a.forEach(function (span) {
-            if (span.$markCss) {
-                delete span.$markCss;
             }
         });
     };
@@ -10512,11 +10594,6 @@ var Grid = /** @class */ (function (_super) {
                 delete config[key];
         });
         return config;
-    };
-    Grid.prototype._normalizeSpans = function () {
-        var _this = this;
-        var _a;
-        this.config.spans = (_a = this.config.spans) === null || _a === void 0 ? void 0 : _a.map(function (span) { return (0, Cells_1.normalizeSpan)(span, _this.config); });
     };
     Grid.prototype._autoScroll = function (mode) {
         var _a, _b, _c;
@@ -10592,6 +10669,15 @@ var Grid = /** @class */ (function (_super) {
             }, { once: true });
         }
     };
+    Grid.prototype._applyAutoWidth = function () {
+        var _a, _b;
+        var parentNode = this._container || ((_a = this.getRootView().node.parent) === null || _a === void 0 ? void 0 : _a.el);
+        if (!parentNode)
+            return;
+        var parentSizes = (0, render_1.getElementSizes)(parentNode);
+        var scrollView = (_b = this.scrollView) === null || _b === void 0 ? void 0 : _b.config.enable;
+        (0, render_1.applyAutoWidth)(this.config, parentSizes, scrollView);
+    };
     return Grid;
 }(view_1.View));
 exports.Grid = Grid;
@@ -10648,7 +10734,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.disableTooltip = exports.enableTooltip = exports.tooltip = exports.getZIndex = exports.findPosition = void 0;
 var html_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(43);
+var types_1 = __webpack_require__(42);
 var DEFAULT_SHOW_DELAY = 750;
 var DEFAULT_HIDE_DELAY = 200;
 function findPosition(targetRect, position, width, height, margin, recursion) {
@@ -10660,13 +10746,17 @@ function findPosition(targetRect, position, width, height, margin, recursion) {
     if (recursion > 1) {
         position = types_1.Position.center;
     }
+    if (position !== "top" && position !== "bottom") {
+        var topOffset = targetRect.top + (targetRect.height - height) / 2;
+        var isShift = topOffset < 0 && window.pageYOffset + topOffset + height < scrollY + window.innerHeight;
+        top = window.pageYOffset + (isShift ? 0 : topOffset);
+    }
     switch (position) {
         case types_1.Position.center:
             left = targetRect.left + window.pageXOffset + (targetRect.width - width) / 2;
             if (left + margin < window.pageXOffset) {
                 left = targetRect.left + window.pageXOffset;
             }
-            top = targetRect.top + window.pageYOffset + (targetRect.height - height) / 2;
             pos = types_1.RealPosition.center;
             return { left: left, top: top, pos: pos };
         case types_1.Position.right:
@@ -10676,7 +10766,6 @@ function findPosition(targetRect, position, width, height, margin, recursion) {
                 // // set left
                 return findPosition(targetRect, types_1.Position.left, width, height, margin, ++recursion);
             }
-            top = window.pageYOffset + targetRect.top + (targetRect.height - height) / 2;
             return { left: left, top: top, pos: pos };
         case types_1.Position.left:
             pos = types_1.RealPosition.left;
@@ -10685,7 +10774,6 @@ function findPosition(targetRect, position, width, height, margin, recursion) {
                 // // set right
                 return findPosition(targetRect, types_1.Position.right, width, height, margin, ++recursion);
             }
-            top = window.pageYOffset + targetRect.top + (targetRect.height - height) / 2;
             return { left: left, top: top, pos: pos };
         case types_1.Position.top:
             pos = types_1.RealPosition.top;
@@ -10696,11 +10784,11 @@ function findPosition(targetRect, position, width, height, margin, recursion) {
             else if (left < 0) {
                 left = 0;
             }
-            top = window.pageYOffset + targetRect.top - height - margin;
-            if (top - height < 0) {
+            if (targetRect.top < height) {
                 // // set bottom
                 return findPosition(targetRect, types_1.Position.bottom, width, height, margin, ++recursion);
             }
+            top = window.pageYOffset + targetRect.top - height - margin;
             return { left: left, top: top, pos: pos };
         case types_1.Position.bottom:
         default:
@@ -10751,6 +10839,7 @@ function getZIndex(node) {
 }
 exports.getZIndex = getZIndex;
 function showTooltip(node, text, position, css, force, margin, htmlEnable) {
+    if (css === void 0) { css = ""; }
     if (force === void 0) { force = false; }
     if (margin === void 0) { margin = 8; }
     var rects = node.getBoundingClientRect();
@@ -10760,8 +10849,10 @@ function showTooltip(node, text, position, css, force, margin, htmlEnable) {
     else {
         tooltipText.textContent = text;
     }
+    tooltipBox.style.left = null;
+    tooltipBox.style.top = null;
     document.body.appendChild(tooltipBox);
-    tooltipBox.className = "dhx_widget dhx_tooltip" + (force ? " dhx_tooltip--forced" : "");
+    tooltipBox.className = "dhx_widget dhx_tooltip ".concat(force ? " dhx_tooltip--forced" : "", " ").concat(css);
     var _a = tooltipBox.getBoundingClientRect(), width = _a.width, height = _a.height;
     var _b = findPosition(rects, position, width, height, margin), left = _b.left, top = _b.top, pos = _b.pos;
     var zIndex = getZIndex(node);
@@ -10790,7 +10881,7 @@ function showTooltip(node, text, position, css, force, margin, htmlEnable) {
             tooltipBox.style.top = top + "px";
             break;
     }
-    tooltipBox.className += " dhx_tooltip--".concat(pos, " ").concat(css || "");
+    tooltipBox.className += " dhx_tooltip--".concat(pos);
     isActive = true;
     if (!force) {
         setTimeout(function () {
@@ -10911,11 +11002,10 @@ exports.Cell = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var view_1 = __webpack_require__(8);
-var types_1 = __webpack_require__(47);
+var types_1 = __webpack_require__(46);
 var helpers_1 = __webpack_require__(138);
 var events_1 = __webpack_require__(2);
-var ts_grid_1 = __webpack_require__(42);
-var Layout_1 = __webpack_require__(46);
+var Layout_1 = __webpack_require__(45);
 var Cell = /** @class */ (function (_super) {
     __extends(Cell, _super);
     function Cell(parent, config) {
@@ -10940,8 +11030,8 @@ var Cell = /** @class */ (function (_super) {
                     _this.config.headerImage)
                 : _this.config.full;
         _this._afterWindowResized = _this._resizedWindow.bind(_this);
-        _this._initHandlers();
         _this.id = _this.config.id || (0, core_1.uid)();
+        _this._initHandlers();
         _this._progress = !!_this.config.progressDefault;
         _this._stopProgressDefault = false;
         if (_this._isXDirection() && !config.width)
@@ -10991,7 +11081,6 @@ var Cell = /** @class */ (function (_super) {
         this.events.fire(types_1.LayoutEvents.afterHide, [this.id]);
     };
     Cell.prototype.show = function () {
-        var _this = this;
         if (!this.events.fire(types_1.LayoutEvents.beforeShow, [this.id])) {
             return;
         }
@@ -11005,13 +11094,6 @@ var Cell = /** @class */ (function (_super) {
             this._parent.show();
         }
         this.paint();
-        // [dirty]
-        if (this._ui instanceof ts_grid_1.Grid && this._ui.config.keyNavigation) {
-            (0, dom_1.awaitRedraw)().then(function () {
-                _this._ui.setColumns(_this._ui.config.columns);
-                _this.paint();
-            });
-        }
         this.events.fire(types_1.LayoutEvents.afterShow, [this.id]);
     };
     Cell.prototype.expand = function () {
@@ -11061,8 +11143,8 @@ var Cell = /** @class */ (function (_super) {
         var _a;
         this.events && this.events.clear();
         window.removeEventListener("resize", this._afterWindowResized);
-        if (typeof ((_a = this.getWidget()) === null || _a === void 0 ? void 0 : _a.destructor) === "function") {
-            this.getWidget().destructor();
+        if (this._ui && this._ui.config && typeof ((_a = this._ui) === null || _a === void 0 ? void 0 : _a.destructor) === "function") {
+            this._ui.destructor();
         }
         this.config = this.events = this.id = this._parent = this._handlers = this._uid = this._disabled = this._resizerHandlers = null;
         this.unmount();
@@ -11074,7 +11156,6 @@ var Cell = /** @class */ (function (_super) {
         return this._parent && this._parent.getRefs(this._uid);
     };
     Cell.prototype.attach = function (component, config) {
-        var _this = this;
         this.config.html = null;
         if (typeof component === "object") {
             this._ui = component;
@@ -11095,13 +11176,6 @@ var Cell = /** @class */ (function (_super) {
             }
         }
         this.paint();
-        // [dirty]
-        if (this._ui instanceof ts_grid_1.Grid && this._ui.config.keyNavigation) {
-            (0, dom_1.awaitRedraw)().then(function () {
-                _this._ui.setColumns(_this._ui.config.columns);
-                _this.paint();
-            });
-        }
         return this._ui;
     };
     Cell.prototype.attachHTML = function (html) {
@@ -11132,7 +11206,8 @@ var Cell = /** @class */ (function (_super) {
     };
     Cell.prototype.toVDOM = function (nodes) {
         var _a;
-        var _b;
+        var _b, _c;
+        this._saveTheme();
         if (this.config === null) {
             this.config = {};
         }
@@ -11147,6 +11222,7 @@ var Cell = /** @class */ (function (_super) {
                 : { padding: this.config.padding }
             : "";
         var fullStyle = this.config.full || this.config.html ? style : __assign(__assign({}, style), stylePadding);
+        var progressBar = this._checkProgress() ? this._getProgressBar() : null;
         var kids;
         if (!this.config.html) {
             if (this._ui) {
@@ -11192,104 +11268,105 @@ var Cell = /** @class */ (function (_super) {
                     break;
             }
         }
-        var cell = (0, dom_1.el)("div", __assign(__assign((_a = { _key: this._uid, _ref: this._uid }, _a["aria-label"] = this.config.id ? "tab-content-" + this.config.id : null, _a["data-cell-id"] = (_b = this.config.id) !== null && _b !== void 0 ? _b : null, _a), handlers), { class: this._getCss(false) +
+        var cellContent = isFieldset
+            ? (0, dom_1.el)("fieldset.dhx_form-fieldset", {
+                class: (this.config.$disabled && " dhx_form-fieldset--disabled") || "",
+                style: stylePadding,
+                disabled: this.config.$disabled,
+            }, [
+                (0, dom_1.el)("legend.dhx_form-fieldset-legend", {
+                    class: "dhx_form-fieldset-legend--".concat(this.config.labelAlignment || "left"),
+                }, this.config.label),
+                (0, dom_1.el)(".dhx_layout-cell-content", {
+                    class: this._getCss(false),
+                }, [].concat(kids)),
+            ])
+            : this.config.full
+                ? [
+                    (0, dom_1.el)("div", {
+                        tabindex: this.config.collapsable ? "0" : "-1",
+                        role: this.config.collapsable ? "button" : null,
+                        "aria-label": this.config.collapsable
+                            ? "click to ".concat(this.config.collapsed ? "expand" : "collapse")
+                            : null,
+                        class: "dhx_layout-cell-header" +
+                            (this._isXDirection()
+                                ? " dhx_layout-cell-header--col"
+                                : " dhx_layout-cell-header--row") +
+                            (this.config.collapsable ? " dhx_layout-cell-header--collapseble" : "") +
+                            (this.config.collapsed ? " dhx_layout-cell-header--collapsed" : "") +
+                            (((this.getParent() || {}).config || {}).isAccordion
+                                ? " dhx_layout-cell-header--accordion"
+                                : ""),
+                        style: {
+                            height: this.config.headerHeight,
+                        },
+                        onclick: this._handlers.toggle,
+                        onkeydown: this._handlers.enterCollapse,
+                    }, [
+                        this.config.headerIcon &&
+                            (0, dom_1.el)("span.dhx_layout-cell-header__icon", {
+                                class: this.config.headerIcon,
+                            }),
+                        this.config.headerImage &&
+                            (0, dom_1.el)(".dhx_layout-cell-header__image-wrapper", [
+                                (0, dom_1.el)("img", {
+                                    src: this.config.headerImage,
+                                    class: "dhx_layout-cell-header__image",
+                                }),
+                            ]),
+                        this.config.header && (0, dom_1.el)("h3.dhx_layout-cell-header__title", this.config.header),
+                        this.config.collapsable
+                            ? (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
+                                class: this._getCollapseIcon(),
+                            })
+                            : (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
+                                class: "dxi dxi-empty",
+                            }),
+                    ]),
+                    !this.config.collapsed
+                        ? (0, dom_1.el)("div", {
+                            style: __assign(__assign({}, stylePadding), { height: "calc(100% - ".concat(this.config.headerHeight || 37, "px)") }),
+                            class: this._getCss(true) +
+                                " dhx_layout-cell-content" +
+                                (this.config.type ? typeClass : ""),
+                        }, this.config.html
+                            ? [
+                                (0, dom_1.el)("div", {
+                                    ".innerHTML": this.config.html,
+                                    class: "dhx_layout-cell dhx_layout-cell-inner_html",
+                                }),
+                            ]
+                            : kids)
+                        : null,
+                ]
+                : this.config.html &&
+                    !(this.config.rows &&
+                        this.config.cols &&
+                        this.config.views)
+                    ? [
+                        !this.config.collapsed
+                            ? (0, dom_1.el)(".dhx_layout-cell-content", { style: stylePadding }, [
+                                (0, dom_1.el)(".dhx_layout-cell-inner_html", {
+                                    ".innerHTML": this.config.html,
+                                }),
+                            ])
+                            : null,
+                    ]
+                    : kids;
+        var cell = (0, dom_1.el)("div", __assign(__assign((_a = { _key: this._uid, _ref: this._uid }, _a["aria-label"] = this.config.id ? "tab-content-" + this.config.id : null, _a["data-cell-id"] = (_b = this.config.id) !== null && _b !== void 0 ? _b : null, _a["data-dhx-theme"] = (_c = this._theme) !== null && _c !== void 0 ? _c : null, _a), handlers), { class: this._getCss(false) +
                 (this.config.css ? " " + this.config.css : "") +
                 (this.config.collapsed ? " dhx_layout-cell--collapsed" : "") +
                 (this.config.resizable ? " dhx_layout-cell--resizable" : "") +
-                (this.config.type && !this.config.full ? typeClass : ""), style: isFieldset ? style : fullStyle }), [
-            isFieldset
-                ? (0, dom_1.el)("fieldset.dhx_form-fieldset", {
-                    class: (this.config.$disabled && " dhx_form-fieldset--disabled") || "",
-                    style: stylePadding,
-                    disabled: this.config.$disabled,
-                }, [
-                    (0, dom_1.el)("legend.dhx_form-fieldset-legend", {
-                        class: "dhx_form-fieldset-legend--".concat(this.config.labelAlignment ||
-                            "left"),
-                    }, this.config.label),
-                    (0, dom_1.el)(".dhx_layout-cell-content", {
-                        class: this._getCss(false),
-                    }, [kids]),
-                ])
-                : this.config.full
-                    ? [
-                        (0, dom_1.el)("div", {
-                            tabindex: this.config.collapsable ? "0" : "-1",
-                            role: this.config.collapsable ? "button" : null,
-                            "aria-label": this.config.collapsable
-                                ? "click to ".concat(this.config.collapsed ? "expand" : "collapse")
-                                : null,
-                            class: "dhx_layout-cell-header" +
-                                (this._isXDirection()
-                                    ? " dhx_layout-cell-header--col"
-                                    : " dhx_layout-cell-header--row") +
-                                (this.config.collapsable
-                                    ? " dhx_layout-cell-header--collapseble"
-                                    : "") +
-                                (this.config.collapsed ? " dhx_layout-cell-header--collapsed" : "") +
-                                (((this.getParent() || {}).config || {}).isAccordion
-                                    ? " dhx_layout-cell-header--accordion"
-                                    : ""),
-                            style: {
-                                height: this.config.headerHeight,
-                            },
-                            onclick: this._handlers.toggle,
-                            onkeydown: this._handlers.enterCollapse,
-                        }, [
-                            this.config.headerIcon &&
-                                (0, dom_1.el)("span.dhx_layout-cell-header__icon", {
-                                    class: this.config.headerIcon,
-                                }),
-                            this.config.headerImage &&
-                                (0, dom_1.el)(".dhx_layout-cell-header__image-wrapper", [
-                                    (0, dom_1.el)("img", {
-                                        src: this.config.headerImage,
-                                        class: "dhx_layout-cell-header__image",
-                                    }),
-                                ]),
-                            this.config.header &&
-                                (0, dom_1.el)("h3.dhx_layout-cell-header__title", this.config.header),
-                            this.config.collapsable
-                                ? (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
-                                    class: this._getCollapseIcon(),
-                                })
-                                : (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
-                                    class: "dxi dxi-empty",
-                                }),
-                        ]),
-                        !this.config.collapsed
-                            ? (0, dom_1.el)("div", {
-                                style: __assign(__assign({}, stylePadding), { height: "calc(100% - ".concat(this.config.headerHeight || 37, "px)") }),
-                                class: this._getCss(true) +
-                                    " dhx_layout-cell-content" +
-                                    (this.config.type ? typeClass : ""),
-                            }, this.config.html
-                                ? [
-                                    (0, dom_1.el)("div", {
-                                        ".innerHTML": this.config.html,
-                                        class: "dhx_layout-cell dhx_layout-cell-inner_html",
-                                    }),
-                                ]
-                                : kids)
-                            : null,
-                    ]
-                    : this.config.html &&
-                        !(this.config.rows &&
-                            this.config.cols &&
-                            this.config.views)
-                        ? [
-                            !this.config.collapsed
-                                ? (0, dom_1.el)(".dhx_layout-cell-content", { style: stylePadding }, [
-                                    (0, dom_1.el)(".dhx_layout-cell-inner_html", {
-                                        ".innerHTML": this.config.html,
-                                    }),
-                                ])
-                                : null,
-                        ]
-                        : kids,
-            this._checkProgress() && this._getProgressBar(),
-        ]);
-        return resizer ? [cell, resizer] : cell;
+                (this.config.type && !this.config.full ? typeClass : ""), style: isFieldset ? style : fullStyle }), cellContent || progressBar ? [].concat(cellContent, progressBar) : null);
+        return resizer ? [].concat(cell, resizer) : cell;
+    };
+    Cell.prototype._saveTheme = function () {
+        var _a;
+        var cellEl = (_a = this.getCellView()) === null || _a === void 0 ? void 0 : _a.el;
+        if (cellEl) {
+            this._theme = cellEl.getAttribute("data-dhx-theme");
+        }
     };
     Cell.prototype._getProgressBar = function () {
         return (0, dom_1.el)("span", {
@@ -11870,8 +11947,8 @@ var ts_layout_1 = __webpack_require__(12);
 var ts_list_1 = __webpack_require__(35);
 var ts_popup_1 = __webpack_require__(13);
 var keyListener_1 = __webpack_require__(151);
-var en_1 = __webpack_require__(50);
-var types_1 = __webpack_require__(28);
+var en_1 = __webpack_require__(49);
+var types_1 = __webpack_require__(29);
 var helper_1 = __webpack_require__(77);
 var types_2 = __webpack_require__(78);
 function itemsCountTemplate(count, templateFN) {
@@ -11903,7 +11980,6 @@ var Combobox = /** @class */ (function (_super) {
     function Combobox(element, config) {
         var _this = _super.call(this, element, (0, core_1.extend)({
             listHeight: 224,
-            itemHeight: 36,
             disabled: false,
             readOnly: false,
             newOptions: false,
@@ -12037,6 +12113,7 @@ var Combobox = /** @class */ (function (_super) {
         this.list && this.list.destructor();
         this._helper && this._helper.destructor();
         this._layout && this._layout.destructor();
+        this._keyListener && this._keyListener.destructor();
         this.config = this.events = this.list = this.popup = null;
         this._helper = this._keyListener = this._handlers = this._state = this._uid = this._isPopupConfiqureted = null;
         this.unmount();
@@ -12096,6 +12173,7 @@ var Combobox = /** @class */ (function (_super) {
             itemHeight: this.config.itemHeight,
             height: this.config.listHeight,
             data: this.data,
+            eventHandlers: this.config.eventHandlers,
         }));
         var layout = (this._layout = new ts_layout_1.Layout(this.popup.getContainer(), {
             css: "dhx_combobox-options dhx_combobox__options",
@@ -12239,7 +12317,6 @@ var Combobox = /** @class */ (function (_super) {
                 var value = input.value;
                 _this.events.fire(types_2.ComboboxEvents.input, [value]);
                 _this._state.value = value;
-                _this._filter();
                 if (!value.length) {
                     _this._state.ignoreNext = true;
                     _this._state.canDelete = true;
@@ -12249,8 +12326,8 @@ var Combobox = /** @class */ (function (_super) {
                 }
                 if (!_this.config.multiselection) {
                     _this.list.selection.remove();
-                    _this.paint();
                 }
+                _this._filter(true);
                 if (!_this.popup.isVisible()) {
                     _this._showOptions();
                 }
@@ -12307,6 +12384,7 @@ var Combobox = /** @class */ (function (_super) {
             if (_this.config.value) {
                 _this._setValue(_this.config.value, true);
             }
+            _this._filter();
         });
         this.data.events.on(ts_data_1.DataEvents.afterAdd, function () {
             if (!_this.config.multiselection) {
@@ -12340,8 +12418,6 @@ var Combobox = /** @class */ (function (_super) {
         });
         this.list.selection.events.on(types_1.SelectionEvents.afterUnSelect, function () {
             var multi = _this.config.multiselection;
-            if (_this.config.readOnly && !multi)
-                return;
             var value = _this.getValue(multi);
             _this.events.fire(types_2.ComboboxEvents.change, [value]);
             if (multi)
@@ -12353,18 +12429,19 @@ var Combobox = /** @class */ (function (_super) {
                 return false;
             }
         });
-        if (this.config.readOnly) {
-            this.popup.events.on(ts_popup_1.PopupEvents.afterShow, function () {
+        this.popup.events.on(ts_popup_1.PopupEvents.afterShow, function () {
+            if (_this.config.readOnly) {
                 if (_this._state.value) {
                     var id = _this.list.selection.getId();
                     _this.list.setFocus(id);
                 }
                 else {
-                    _this.list.setFocus(_this.data.getId(0));
+                    _this.list.resetFocus();
                 }
                 _this._keyListener.startNewListen(function (val) { return _this._findBest(val); });
-            });
-        }
+            }
+            _this.list.scrollTo(_this.list.getFocus());
+        });
     };
     Combobox.prototype._showOptions = function () {
         if (!this.events.fire(types_2.ComboboxEvents.beforeOpen)) {
@@ -12398,32 +12475,34 @@ var Combobox = /** @class */ (function (_super) {
         if (this.config.readOnly) {
             this._keyListener.endListen();
         }
-        this.list.setFocus(this.data.getId(0));
         if (!this.config.multiselection && !this.config.readOnly && !this.list.selection.contains()) {
             this._state.value = "";
         }
         (0, dom_1.awaitRedraw)().then(function () { return _this.popup.isVisible() && _this.popup.hide(); });
         this.events.fire(types_2.ComboboxEvents.afterClose);
         this.events.fire(types_2.ComboboxEvents.close); // TODO: remove suite_7.0
+        this.data.resetFilter();
         this._filter();
         this.paint();
     };
-    Combobox.prototype._filter = function () {
+    Combobox.prototype._filter = function (baseFilter) {
         var _this = this;
+        if (baseFilter === void 0) { baseFilter = false; }
         if (this.config.readOnly) {
             return;
         }
-        this.data.filter(function (item) {
-            return _this.config.filter
-                ? _this.config.filter(item, _this._state.value)
-                : (0, core_1.isEqualString)(_this._state.value, _this._getItemText(item));
-        });
-        if (this.config.multiselection) {
-            this.list.setFocus(this.data.getId(0));
+        if (this.config.filter) {
+            this.data.filter(function (item) { return _this.config.filter(item, _this._state.value); });
+        }
+        else if (baseFilter) {
+            this.data.filter(function (item) { return (0, core_1.isExistValue)(_this._getItemText(item) || "", _this._state.value); });
+        }
+        var selectedItemId = this.list.selection.getId();
+        if (!selectedItemId || this.config.multiselection) {
+            this.list.resetFocus();
         }
         else {
-            var index = this.data.getIndex(this.list.selection.getId());
-            this.list.setFocus(this.data.getId(index > -1 ? index : 0));
+            this.list.setFocus(selectedItemId);
         }
         var listCell = this._layout.getCell("list");
         var notFoundCell = this._layout.getCell("not-found");
@@ -12466,7 +12545,7 @@ var Combobox = /** @class */ (function (_super) {
     };
     Combobox.prototype._findBest = function (value) {
         var _this = this;
-        var best = this.data.find(function (item) { return (0, core_1.isEqualString)(value, _this._getItemText(item)); });
+        var best = this.data.find(function (item) { return (0, core_1.isExistValue)(_this._getItemText(item) || "", value); });
         if (!best) {
             return;
         }
@@ -12484,10 +12563,11 @@ var Combobox = /** @class */ (function (_super) {
         return this.data.exists(id);
     };
     Combobox.prototype._draw = function () {
+        var _a;
         if (!this.config) {
             return (0, dom_1.el)("div");
         }
-        var _a = this.config, multiselection = _a.multiselection, labelPosition = _a.labelPosition, hiddenLabel = _a.hiddenLabel, required = _a.required, disabled = _a.disabled, css = _a.css, helpMessage = _a.helpMessage, readOnly = _a.readOnly, placeholder = _a.placeholder;
+        var _b = this.config, multiselection = _b.multiselection, labelPosition = _b.labelPosition, hiddenLabel = _b.hiddenLabel, required = _b.required, disabled = _b.disabled, css = _b.css, helpMessage = _b.helpMessage, readOnly = _b.readOnly, placeholder = _b.placeholder;
         var item = multiselection ? null : this.data.getItem(this.list.selection.getId());
         var showPlaceholder = !this.list.selection.getId() ||
             (typeof this.list.selection.getId() === "object" &&
@@ -12568,13 +12648,15 @@ var Combobox = /** @class */ (function (_super) {
                                     : this._state.value,
                                 readOnly: readOnly || disabled,
                                 required: required,
+                                role: "combobox",
                                 "aria-label": readOnly
                                     ? "Select value"
                                     : "Type or select value",
                                 "aria-describedby": helpMessage
                                     ? "dhx_label__help_".concat(this._uid)
                                     : null,
-                                "aria-expanded": true,
+                                "aria-expanded": this.popup.isVisible().toString(),
+                                "aria-controls": (_a = this.list.getRootView().node) === null || _a === void 0 ? void 0 : _a.attrs.id,
                             }),
                         ]),
                     ], false)),
@@ -12649,6 +12731,7 @@ var Combobox = /** @class */ (function (_super) {
             if (this._state.value) {
                 this._state.value = "";
                 this._state.canDelete = id.length === 0;
+                this.data.resetFilter();
                 this._filter();
             }
         }
@@ -12668,18 +12751,6 @@ var Combobox = /** @class */ (function (_super) {
     Combobox.prototype._updatePopup = function () {
         var holderNode = this.getRootView().refs.holder.el;
         this.popup.getContainer().style.width = holderNode.offsetWidth + "px";
-        var itemsHeight = this.data.getLength() * (this.config.itemHeight || 36);
-        this.config.listHeight = parseFloat(this.config.listHeight);
-        var listHeight = itemsHeight < this.config.listHeight ? itemsHeight : this.config.listHeight;
-        this.popup.getContainer().style.height =
-            Number(listHeight) +
-                (this.config.selectAllButton &&
-                    this.config.multiselection &&
-                    this._layout.getCell("select-unselect-all").isVisible()
-                    ? 33
-                    : 0) +
-                (this._state.creatingState ? this._layout.getCell("not-found").height : 0) +
-                "px";
         this.popup.show(holderNode, {
             mode: "bottom",
             theme: this.getRootNode(),
@@ -12737,11 +12808,11 @@ var core_1 = __webpack_require__(1);
 var ts_data_1 = __webpack_require__(7);
 var dom_1 = __webpack_require__(0);
 var KeyManager_1 = __webpack_require__(14);
-var types_1 = __webpack_require__(28);
+var types_1 = __webpack_require__(29);
 var view_1 = __webpack_require__(8);
 var Selection_1 = __webpack_require__(76);
 var html_1 = __webpack_require__(3);
-var types_2 = __webpack_require__(49);
+var types_2 = __webpack_require__(48);
 var editors_1 = __webpack_require__(148);
 exports.MOVE_UP = 1;
 exports.MOVE_DOWN = 2;
@@ -12925,11 +12996,12 @@ var List = /** @class */ (function (_super) {
         // do nothing
     };
     List.prototype._dblClick = function (e) {
+        var _a;
         var id = (0, html_1.locate)(e);
         if (!id) {
             return;
         }
-        id = this.data.getItem(id).id;
+        id = (_a = this.data.getItem(id)) === null || _a === void 0 ? void 0 : _a.id;
         if (this.config.editable) {
             this.editItem(id);
         }
@@ -13007,6 +13079,12 @@ var List = /** @class */ (function (_super) {
             this.paint();
         }
     };
+    List.prototype.resetFocus = function () {
+        this._focus = undefined;
+        this.events.fire(types_2.ListEvents.focusChange);
+        this.scrollTo(this.data.getId(0));
+        this.paint();
+    };
     List.prototype.getFocus = function () {
         return this._focus;
     };
@@ -13048,6 +13126,9 @@ var List = /** @class */ (function (_super) {
         }
     };
     List.prototype._renderItem = function (item, index) {
+        var addEmpty = function (node) {
+            node.class += " dhx_list-item--empty";
+        };
         var itemHeight = this.config.itemHeight;
         if (item.$empty) {
             return (0, dom_1.el)("li", {
@@ -13087,10 +13168,14 @@ var List = /** @class */ (function (_super) {
             }
         }
         else if (this.config.$template) {
+            if (!item.value)
+                addEmpty(node);
             return (0, dom_1.el)("li", node, [this.config.$template(item)]);
         }
         else {
             var value = item.text || item.value;
+            if (!value)
+                addEmpty(node);
             if (this.config.htmlEnable) {
                 node[".innerHTML"] = value;
             }
@@ -13115,7 +13200,7 @@ var List = /** @class */ (function (_super) {
         return (0, dom_1.el)("ul.dhx_widget.dhx_list", __assign(__assign({ style: {
                 "max-height": this.config.height,
                 position: "relative",
-            }, tabindex: 0, class: (this.config.css ? this.config.css : "") +
+            }, tabindex: 0, id: this._uid, class: (this.config.css ? this.config.css : "") +
                 (this.config.multiselection && this.selection.getItem() ? " dhx_no-select--pointer" : ""), "data-dhx-widget-id": this._uid }, this._handlers), this._getListAriaAttrs(this.config, this.data.getLength())), kids);
     };
     List.prototype.moveFocus = function (mode, step) {
@@ -13237,7 +13322,7 @@ var List = /** @class */ (function (_super) {
                 }
                 : {};
         };
-        return __assign(__assign({ role: "option", "aria-selected": item.$selected ? "true" : "false" }, getAriaGrabbed(context, item)), getAriaRoleDescription(context));
+        return __assign(__assign({ role: "option", "aria-selected": item.id === this._focus ? "true" : "false" }, getAriaGrabbed(context, item)), getAriaRoleDescription(context));
     };
     List.prototype._getListAriaAttrs = function (config, dataLength) {
         return {
@@ -13260,7 +13345,7 @@ exports.List = List;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Selection = void 0;
-var types_1 = __webpack_require__(28);
+var types_1 = __webpack_require__(29);
 var ts_data_1 = __webpack_require__(7);
 var core_1 = __webpack_require__(1);
 var Selection = /** @class */ (function () {
@@ -13426,7 +13511,7 @@ exports.Selection = Selection;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.emptyListHeight = exports.emptyListView = exports.unselectAllView = exports.selectAllView = void 0;
 var dom_1 = __webpack_require__(0);
-var en_1 = __webpack_require__(50);
+var en_1 = __webpack_require__(49);
 function selectAllView() {
     return (0, dom_1.el)(".dhx_list-item.dhx_combobox-options__item.dhx_combobox-options__item--select-all.dhx_combobox__action-select-all", en_1.default.selectAll);
 }
@@ -13516,7 +13601,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getFixedCols = exports.getFixedColsHeader = void 0;
 var dom_1 = __webpack_require__(0);
 var types_1 = __webpack_require__(9);
-var Cells_1 = __webpack_require__(27);
+var Cells_1 = __webpack_require__(28);
 var FixedRows_1 = __webpack_require__(80);
 var main_1 = __webpack_require__(15);
 var render_1 = __webpack_require__(24);
@@ -13674,10 +13759,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getFixedDataRows = exports.getFixedRows = exports.getFixedSpans = exports.getRows = void 0;
 var dom_1 = __webpack_require__(0);
-var cells_1 = __webpack_require__(32);
+var cells_1 = __webpack_require__(25);
 var main_1 = __webpack_require__(15);
 var types_1 = __webpack_require__(9);
-var Cells_1 = __webpack_require__(27);
+var Cells_1 = __webpack_require__(28);
 var FixedCols_1 = __webpack_require__(79);
 var core_1 = __webpack_require__(1);
 var BORDERS = 2;
@@ -13970,7 +14055,7 @@ function getFixedSpans(config, rowsConfig, mode) {
                     !nCell.colspan
                     ? "dhx_align-right"
                     : "dhx_align-left";
-            var css = "dhx_grid-header-cell ".concat(isFirstCol, " ").concat(isLastCol, " ").concat(nCell.rowspan ? "dhx_span-cell__rowspan" : "", " ").concat(nCell.align ? "dhx_align-".concat(nCell.align) : cellAlign, " ").concat(nCell.css ? nCell.css : "");
+            var css = "dhx_grid-".concat(rowName, "-cell ").concat(isFirstCol, " ").concat(isLastCol, " ").concat(nCell.rowspan ? "dhx_span-cell__rowspan" : "", " ").concat(nCell.align ? "dhx_align-".concat(nCell.align) : cellAlign, " ").concat(nCell.css ? nCell.css : "");
             if (sortIconVisible) {
                 css += " dhx_grid-header-cell--sortable";
             }
@@ -14263,7 +14348,12 @@ var Toolbar = /** @class */ (function (_super) {
                         break;
                     case "datePicker":
                         if (item.$calendar) {
-                            item.$calendar.setValue(state[key]);
+                            if (state[key]) {
+                                item.$calendar.setValue(state[key]);
+                            }
+                            else {
+                                item.$calendar.clear();
+                            }
                         }
                         else {
                             this_1.data.update(key, { value: state[key] });
@@ -14362,7 +14452,7 @@ var Toolbar = /** @class */ (function (_super) {
             style: { height: toolbarHeight },
             class: this.config.css ? this.config.css : "",
         }, [
-            (0, dom_1.el)("ul.dhx_navbar.dhx_navbar--horizontal", __assign(__assign({ "data-dhx-widget-id": this._uid, tabindex: 0 }, getAriaAttrs(element)), { onclick: this._handlers.onclick, onmousedown: this._handlers.onmousedown, oninput: this._handlers.input, onmouseover: this._handlers.tooltip, onkeydown: this._handlers.onkeydown, _hooks: {
+            (0, dom_1.el)("ul.dhx_navbar.dhx_navbar--horizontal", __assign(__assign({ "data-dhx-widget-id": this._uid, tabindex: 0 }, getAriaAttrs(element)), { onclick: this._handlers.onclick, onmousedown: this._handlers.onmousedown, oninput: this._handlers.input, onmouseover: this._handlers.tooltip, onkeydown: this._handlers.onkeydown, onmousemove: this._handlers.onmousemove, onmouseleave: this._handlers.onmouseleave, _hooks: {
                     didInsert: function (node) {
                         node.el.addEventListener("keyup", function (e) {
                             if (e.which !== 9) {
@@ -14502,7 +14592,7 @@ var view_1 = __webpack_require__(8);
 var ts_data_1 = __webpack_require__(7);
 var ComposeLayer_1 = __webpack_require__(186);
 var Legend_1 = __webpack_require__(85);
-var types_1 = __webpack_require__(25);
+var types_1 = __webpack_require__(26);
 var index_1 = __webpack_require__(189);
 var index_2 = __webpack_require__(87);
 var Stacker_1 = __webpack_require__(92);
@@ -14846,7 +14936,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Legend = void 0;
 var ts_data_1 = __webpack_require__(7);
-var types_1 = __webpack_require__(25);
+var types_1 = __webpack_require__(26);
 var dom_1 = __webpack_require__(0);
 var common_1 = __webpack_require__(5);
 var legend_1 = __webpack_require__(188);
@@ -15481,7 +15571,7 @@ var Area_1 = __webpack_require__(88);
 var Bar_1 = __webpack_require__(90);
 var BarX_1 = __webpack_require__(193);
 var Donut_1 = __webpack_require__(194);
-var Line_1 = __webpack_require__(58);
+var Line_1 = __webpack_require__(57);
 var Pie_1 = __webpack_require__(195);
 var Pie3D_1 = __webpack_require__(196);
 var Radar_1 = __webpack_require__(197);
@@ -15543,7 +15633,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
 var common_1 = __webpack_require__(5);
-var ScaleSeria_1 = __webpack_require__(56);
+var ScaleSeria_1 = __webpack_require__(55);
 var Area = /** @class */ (function (_super) {
     __extends(Area, _super);
     function Area() {
@@ -15843,7 +15933,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var common_1 = __webpack_require__(5);
-var ScaleSeria_1 = __webpack_require__(56);
+var ScaleSeria_1 = __webpack_require__(55);
 var Bar = /** @class */ (function (_super) {
     __extends(Bar, _super);
     function Bar() {
@@ -16688,10 +16778,15 @@ var Form = /** @class */ (function (_super) {
         }
     };
     Form.prototype.destructor = function () {
+        this.unmount();
+        for (var key in this._attachments) {
+            if (typeof this._attachments[key].destructor === "function") {
+                this._attachments[key].destructor();
+            }
+        }
         this.events && this.events.clear();
         this.layout && this.layout.destructor();
         this.config = this._attachments = this._state = this._uid = this.container = this.events = this._isValid = null;
-        this.unmount();
     };
     Form.prototype.getRootView = function () {
         return this.layout.getRootView();
@@ -16700,22 +16795,15 @@ var Form = /** @class */ (function (_super) {
         var id = (item.id = item.id || (0, core_1.uid)());
         var name = (item.name = item.name || id.toString());
         item.type = item.type && item.type.toLowerCase();
-        var css = item.css, padding = item.padding, config = __rest(item, ["css", "padding"]);
+        var padding = item.padding, config = __rest(item, ["padding"]);
         var width = item.width, height = item.height;
-        var classList = css ? css + " dhx_form-element" : "dhx_form-element";
         var autoSize = item.type !== "spacer";
-        if (autoSize && !width)
-            width = "content";
         if (autoSize && !height)
             height = "content";
         switch (config.type) {
             case "button":
-                if (config.full)
-                    classList += " dhx_button--full-gravity";
-                break;
-            case "text":
-                if (width === "content")
-                    classList += " dhx_form-element--fit-content";
+            case "togglegroup":
+                width = config.width || (!config.full && "content");
                 break;
             case "simplevault":
                 config.$vaultHeight = height;
@@ -16727,7 +16815,8 @@ var Form = /** @class */ (function (_super) {
             width: width,
             height: height,
             padding: padding,
-            css: classList,
+            hidden: config.hidden,
+            css: this.getCellCSS(config),
         };
         if (item.type === "fieldset") {
             cell.$fieldset = true;
@@ -16742,98 +16831,98 @@ var Form = /** @class */ (function (_super) {
         switch (item.type) {
             case "avatar":
                 {
-                    var avatar = (this._attachments[name] = new avatar_1.Avatar(null, item));
-                    this._state[name] = avatar.getValue();
-                    avatar.events.on(types_1.ItemEvent.beforeChange, function (value) {
+                    var avatar_2 = (this._attachments[name] = new avatar_1.Avatar(null, item));
+                    this._state[name] = avatar_2.getValue();
+                    avatar_2.events.on(types_1.ItemEvent.beforeChange, function (value) {
                         return _this.events.fire(types_1.FormEvents.beforeChange, [name, value]);
                     });
-                    avatar.events.on(types_1.ItemEvent.change, function (value) {
+                    avatar_2.events.on(types_1.ItemEvent.change, function (value) {
                         _this._state[name] = value;
                         _this.events.fire(types_1.FormEvents.change, [name, value]);
                     });
-                    avatar.events.on(types_1.ItemEvent.beforeHide, function (value, init) {
+                    avatar_2.events.on(types_1.ItemEvent.beforeHide, function (value, init) {
                         if (!init) {
                             return _this.events.fire(types_1.FormEvents.beforeHide, [name, value]);
                         }
                     });
-                    avatar.events.on(types_1.ItemEvent.beforeShow, function (value) {
+                    avatar_2.events.on(types_1.ItemEvent.beforeShow, function (value) {
                         return _this.events.fire(types_1.FormEvents.beforeShow, [name, value]);
                     });
-                    avatar.events.on(types_1.ItemEvent.afterHide, function (value, init) {
+                    avatar_2.events.on(types_1.ItemEvent.afterHide, function (value, init) {
                         _this.layout.getCell(name).hide();
                         !init && _this.events.fire(types_1.FormEvents.afterHide, [name, value]);
                     });
-                    avatar.events.on(types_1.ItemEvent.afterShow, function (value) {
+                    avatar_2.events.on(types_1.ItemEvent.afterShow, function (value) {
                         _this.layout.getCell(name).show();
                         _this.events.fire(types_1.FormEvents.afterShow, [name, value]);
                     });
-                    avatar.events.on(types_1.ItemEvent.beforeValidate, function (value) {
+                    avatar_2.events.on(types_1.ItemEvent.beforeValidate, function (value) {
                         return _this.events.fire(types_1.FormEvents.beforeValidate, [name, value]);
                     });
-                    avatar.events.on(types_1.ItemEvent.afterValidate, function (value, isValid) {
+                    avatar_2.events.on(types_1.ItemEvent.afterValidate, function (value, isValid) {
                         _this.events.fire(types_1.FormEvents.afterValidate, [name, value, isValid]);
                     });
-                    avatar.events.on(types_1.ItemEvent.beforeChangeProperties, function (props) {
+                    avatar_2.events.on(types_1.ItemEvent.beforeChangeProperties, function (props) {
                         return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, props]);
                     });
-                    avatar.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
-                        _this._changeProps(name, props);
+                    avatar_2.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
+                        _this._changeProps(name, props, avatar_2.config);
                         _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, props]);
                         _this.paint();
                     });
-                    avatar.events.on(types_1.ItemEvent.focus, function (value) {
+                    avatar_2.events.on(types_1.ItemEvent.focus, function (value) {
                         _this.events.fire(types_1.FormEvents.focus, [name, value]);
                     });
-                    avatar.events.on(types_1.ItemEvent.blur, function (value) {
+                    avatar_2.events.on(types_1.ItemEvent.blur, function (value) {
                         _this.events.fire(types_1.FormEvents.blur, [name, value]);
                     });
-                    avatar.events.on(types_1.ItemEvent.keydown, function (event) {
+                    avatar_2.events.on(types_1.ItemEvent.keydown, function (event) {
                         _this.events.fire(types_1.FormEvents.keydown, [event, name]);
                     });
                 }
                 break;
             case "toggle":
                 {
-                    var toggle = (this._attachments[name] = new ToggleButton_1.ToggleButton(null, item));
-                    this._state[name] = toggle.getValue();
-                    toggle.events.on(types_1.ItemEvent.beforeChange, function (value) {
+                    var toggle_1 = (this._attachments[name] = new ToggleButton_1.ToggleButton(null, item));
+                    this._state[name] = toggle_1.getValue();
+                    toggle_1.events.on(types_1.ItemEvent.beforeChange, function (value) {
                         return _this.events.fire(types_1.FormEvents.beforeChange, [name, value]);
                     });
-                    toggle.events.on(types_1.ItemEvent.change, function (value) {
+                    toggle_1.events.on(types_1.ItemEvent.change, function (value) {
                         _this._state[name] = value;
                         _this.events.fire(types_1.FormEvents.change, [name, value]);
                     });
-                    toggle.events.on(types_1.ItemEvent.beforeHide, function (value, init) {
+                    toggle_1.events.on(types_1.ItemEvent.beforeHide, function (value, init) {
                         if (!init) {
                             return _this.events.fire(types_1.FormEvents.beforeHide, [name, value]);
                         }
                     });
-                    toggle.events.on(types_1.ItemEvent.beforeShow, function (value) {
+                    toggle_1.events.on(types_1.ItemEvent.beforeShow, function (value) {
                         return _this.events.fire(types_1.FormEvents.beforeShow, [name, value]);
                     });
-                    toggle.events.on(types_1.ItemEvent.afterHide, function (value, init) {
+                    toggle_1.events.on(types_1.ItemEvent.afterHide, function (value, init) {
                         _this.layout.getCell(name).hide();
                         !init && _this.events.fire(types_1.FormEvents.afterHide, [name, value]);
                     });
-                    toggle.events.on(types_1.ItemEvent.afterShow, function (value) {
+                    toggle_1.events.on(types_1.ItemEvent.afterShow, function (value) {
                         _this.layout.getCell(name).show();
                         _this.events.fire(types_1.FormEvents.afterShow, [name, value]);
                     });
-                    toggle.events.on(types_1.ItemEvent.beforeChangeProperties, function (config) {
+                    toggle_1.events.on(types_1.ItemEvent.beforeChangeProperties, function (config) {
                         return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, config]);
                     });
-                    toggle.events.on(types_1.ItemEvent.afterChangeProperties, function (config) {
-                        _this._changeProps(name, config);
+                    toggle_1.events.on(types_1.ItemEvent.afterChangeProperties, function (config) {
+                        _this._changeProps(name, config, toggle_1.config);
                         _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, config]);
                         _this.paint();
                     });
-                    toggle.events.on(types_1.ItemEvent.focus, function (value) {
+                    toggle_1.events.on(types_1.ItemEvent.focus, function (value) {
                         _this.events.fire(types_1.FormEvents.focus, [name, value]);
                     });
-                    toggle.events.on(types_1.ItemEvent.blur, function (value) {
+                    toggle_1.events.on(types_1.ItemEvent.blur, function (value) {
                         _this.events.fire(types_1.FormEvents.blur, [name, value]);
                     });
-                    toggle.events.on(types_1.ItemEvent.keydown, function (event) {
+                    toggle_1.events.on(types_1.ItemEvent.keydown, function (event) {
                         _this.events.fire(types_1.FormEvents.keydown, [event, name]);
                     });
                 }
@@ -16869,7 +16958,7 @@ var Form = /** @class */ (function (_super) {
                         return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, config]);
                     });
                     toggleGroup_1.events.on(types_1.ItemEvent.afterChangeProperties, function (config) {
-                        _this._changeProps(name, config);
+                        _this._changeProps(name, config, toggleGroup_1.config);
                         _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, config]);
                         _this.paint();
                     });
@@ -16891,7 +16980,7 @@ var Form = /** @class */ (function (_super) {
                         return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, props]);
                     });
                     button_2.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
-                        _this._changeProps(name, props);
+                        _this._changeProps(name, props, button_2.config);
                         _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, props]);
                         _this.paint();
                     });
@@ -16937,7 +17026,7 @@ var Form = /** @class */ (function (_super) {
                     return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, props]);
                 });
                 datePicker_1.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
-                    _this._changeProps(name, props);
+                    _this._changeProps(name, props, datePicker_1.config);
                     _this._state[name] = datePicker_1.getValue(item.valueFormat === "Date");
                     _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, props]);
                     _this.paint();
@@ -16989,7 +17078,7 @@ var Form = /** @class */ (function (_super) {
                     return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, props]);
                 });
                 checkbox_2.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
-                    _this._changeProps(name, props);
+                    _this._changeProps(name, props, checkbox_2.config);
                     _this._state[name] = checkbox_2.getValue();
                     _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, props]);
                     _this.paint();
@@ -17041,7 +17130,7 @@ var Form = /** @class */ (function (_super) {
                     return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, props]);
                 });
                 checkboxGroup_2.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
-                    _this._changeProps(name, props);
+                    _this._changeProps(name, props, checkboxGroup_2.config);
                     _this._state[name] = checkboxGroup_2.getValue();
                     _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, props]);
                     _this.paint();
@@ -17093,7 +17182,7 @@ var Form = /** @class */ (function (_super) {
                     return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, props]);
                 });
                 combo_2.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
-                    _this._changeProps(name, props);
+                    _this._changeProps(name, props, combo_2.config);
                     _this._state[name] = combo_2.getValue();
                     _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, props]);
                     _this.paint();
@@ -17145,7 +17234,7 @@ var Form = /** @class */ (function (_super) {
                     return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, props]);
                 });
                 input_2.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
-                    _this._changeProps(name, props);
+                    _this._changeProps(name, props, input_2.config);
                     _this._state[name] = input_2.getValue();
                     _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, props]);
                     _this.paint();
@@ -17197,7 +17286,7 @@ var Form = /** @class */ (function (_super) {
                     return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, props]);
                 });
                 radioGroup_2.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
-                    _this._changeProps(name, props);
+                    _this._changeProps(name, props, radioGroup_2.config);
                     _this._state[name] = radioGroup_2.getValue();
                     _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, props]);
                     _this.paint();
@@ -17249,7 +17338,7 @@ var Form = /** @class */ (function (_super) {
                     return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, props]);
                 });
                 select_2.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
-                    _this._changeProps(name, props);
+                    _this._changeProps(name, props, select_2.config);
                     _this._state[name] = select_2.getValue();
                     _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, props]);
                     _this.paint();
@@ -17304,7 +17393,7 @@ var Form = /** @class */ (function (_super) {
                     return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, props]);
                 });
                 simpleVault_1.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
-                    _this._changeProps(name, props);
+                    _this._changeProps(name, props, simpleVault_1.config);
                     _this._state[name] = simpleVault_1.getValue();
                     _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, props]);
                     _this.paint();
@@ -17384,7 +17473,7 @@ var Form = /** @class */ (function (_super) {
                     return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, props]);
                 });
                 textarea_2.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
-                    _this._changeProps(name, props);
+                    _this._changeProps(name, props, textarea_2.config);
                     _this._state[name] = textarea_2.getValue();
                     _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, props]);
                     _this.paint();
@@ -17436,7 +17525,7 @@ var Form = /** @class */ (function (_super) {
                     return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, props]);
                 });
                 text_1.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
-                    _this._changeProps(name, props);
+                    _this._changeProps(name, props, text_1.config);
                     _this._state[name] = text_1.getValue();
                     _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, props]);
                     _this.paint();
@@ -17480,7 +17569,7 @@ var Form = /** @class */ (function (_super) {
                     return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, props]);
                 });
                 timePicker_1.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
-                    _this._changeProps(name, props);
+                    _this._changeProps(name, props, timePicker_1.config);
                     _this._state[name] = timePicker_1.getValue(item.valueFormat === "timeObject");
                     _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, props]);
                     _this.paint();
@@ -17532,7 +17621,7 @@ var Form = /** @class */ (function (_super) {
                     return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, props]);
                 });
                 colorPicker_1.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
-                    _this._changeProps(name, props);
+                    _this._changeProps(name, props, colorPicker_1.config);
                     _this._state[name] = colorPicker_1.getValue();
                     _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, props]);
                     _this.paint();
@@ -17578,12 +17667,12 @@ var Form = /** @class */ (function (_super) {
                 break;
             }
             case "fieldset": {
-                var fieldset = (this._attachments[name] = new fieldset_1.Fieldset(item));
-                fieldset.events.on(types_1.ItemEvent.beforeChangeProperties, function (props) {
+                var fieldset_2 = (this._attachments[name] = new fieldset_1.Fieldset(item));
+                fieldset_2.events.on(types_1.ItemEvent.beforeChangeProperties, function (props) {
                     return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, props]);
                 });
-                fieldset.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
-                    _this._changeProps(name, props);
+                fieldset_2.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
+                    _this._changeProps(name, props, fieldset_2.config);
                     _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, props]);
                     _this.paint();
                 });
@@ -17591,28 +17680,28 @@ var Form = /** @class */ (function (_super) {
             }
             case "spacer":
             default: {
-                var spacer = (this._attachments[name] = new spacer_1.Spacer(null, item));
-                spacer.events.on(types_1.ItemEvent.beforeChangeProperties, function (props) {
+                var spacer_2 = (this._attachments[name] = new spacer_1.Spacer(null, item));
+                spacer_2.events.on(types_1.ItemEvent.beforeChangeProperties, function (props) {
                     return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, props]);
                 });
-                spacer.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
-                    _this._changeProps(name, props);
+                spacer_2.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
+                    _this._changeProps(name, props, spacer_2.config);
                     _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, props]);
                     _this.paint();
                 });
-                spacer.events.on(types_1.ItemEvent.beforeHide, function (init) {
+                spacer_2.events.on(types_1.ItemEvent.beforeHide, function (init) {
                     if (!init) {
                         return _this.events.fire(types_1.FormEvents.beforeHide, [name]);
                     }
                 });
-                spacer.events.on(types_1.ItemEvent.beforeShow, function () {
+                spacer_2.events.on(types_1.ItemEvent.beforeShow, function () {
                     return _this.events.fire(types_1.FormEvents.beforeShow, [name]);
                 });
-                spacer.events.on(types_1.ItemEvent.afterHide, function (init) {
+                spacer_2.events.on(types_1.ItemEvent.afterHide, function (init) {
                     _this.layout.getCell(name).hide();
                     !init && _this.events.fire(types_1.FormEvents.afterHide, [name]);
                 });
-                spacer.events.on(types_1.ItemEvent.afterShow, function () {
+                spacer_2.events.on(types_1.ItemEvent.afterShow, function () {
                     _this.layout.getCell(name).show();
                     _this.events.fire(types_1.FormEvents.afterShow, [name]);
                 });
@@ -17620,13 +17709,34 @@ var Form = /** @class */ (function (_super) {
             }
         }
     };
-    Form.prototype._changeProps = function (name, props) {
+    Form.prototype._changeProps = function (name, props, config) {
         var properties = ["width", "height", "css", "padding", "label", "labelAlignment", "align"];
         for (var key in props) {
-            if (properties.includes(key)) {
-                this.layout.getCell(name).config[key] = props[key];
+            if (properties.includes(key) && (0, core_1.isDefined)(props[key])) {
+                if (key === "css") {
+                    this.layout.getCell(name).config[key] = this.getCellCSS(config);
+                }
+                else {
+                    this.layout.getCell(name).config[key] = props[key];
+                }
             }
         }
+    };
+    Form.prototype.getCellCSS = function (config) {
+        var classList = config.css ? config.css + " dhx_form-element" : "dhx_form-element";
+        switch (config.type) {
+            case "button":
+            case "togglegroup":
+                if (config.full && !config.width) {
+                    classList += " dhx_button--full-gravity";
+                }
+                break;
+            case "text":
+                if (config.width === "content")
+                    classList += " dhx_form-element--fit-content";
+                break;
+        }
+        return classList;
     };
     Form.prototype._addLayoutItems = function (items) {
         var _this = this;
@@ -17849,13 +17959,15 @@ var Checkbox = /** @class */ (function (_super) {
         if (!silent && !this.events.fire(types_1.ItemEvent.beforeValidate, [value])) {
             return false;
         }
-        var isValid = !!((this.config.required || this.config.$required) && this.config.checked);
+        var valid = true;
+        if (this.config.required || this.config.$required)
+            valid = !!this.config.checked;
         if (!silent) {
-            this.setValidationStatus(isValid ? "success" : "error");
-            this.events.fire(types_1.ItemEvent.afterValidate, [value, isValid]);
+            this.setValidationStatus(valid ? "success" : "error");
+            this.events.fire(types_1.ItemEvent.afterValidate, [value, valid]);
             this.paint();
         }
-        return isValid;
+        return valid;
     };
     Checkbox.prototype.clearValidate = function () {
         this.setValidationStatus();
@@ -17922,6 +18034,7 @@ var Checkbox = /** @class */ (function (_super) {
                 type: config.type,
                 id: config.id,
                 name: config.name,
+                checked: false,
                 disabled: false,
                 required: false,
                 label: "",
@@ -18011,11 +18124,6 @@ var Checkbox = /** @class */ (function (_super) {
                 },
             };
         }
-        if (this.config.hidden) {
-            (0, dom_1.awaitRedraw)().then(function () {
-                _this.hide(true);
-            });
-        }
     };
     Checkbox.prototype._initHandlers = function () {
         var _this = this;
@@ -18034,6 +18142,7 @@ var Checkbox = /** @class */ (function (_super) {
                             type: "checkbox",
                             "data-dhx-id": name || id,
                             id: id,
+                            _key: id || this._uid,
                             value: value,
                             name: name,
                             disabled: disabled,
@@ -18131,7 +18240,7 @@ var events_1 = __webpack_require__(2);
 var html_1 = __webpack_require__(3);
 var core_1 = __webpack_require__(1);
 var ts_data_1 = __webpack_require__(7);
-var ts_vault_1 = __webpack_require__(59);
+var ts_vault_1 = __webpack_require__(58);
 var ts_popup_1 = __webpack_require__(13);
 var helper_1 = __webpack_require__(6);
 var en_1 = __webpack_require__(98);
@@ -18237,21 +18346,27 @@ var SimpleVault = /** @class */ (function (_super) {
     SimpleVault.prototype.isVisible = function () {
         return !this.config.hidden;
     };
-    SimpleVault.prototype.validate = function (silent, value) {
+    SimpleVault.prototype.validate = function (silent) {
         if (silent === void 0) { silent = false; }
-        if (value === void 0) { value = this.getValue(); }
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        var value = args.length ? args[0] : this.getValue();
         if (!silent && !this.events.fire(types_1.ItemEvent.beforeValidate, [value])) {
             return false;
         }
-        var isValid = !!(typeof this.config.validation === "function"
-            ? this.config.validation(value)
-            : value.length);
+        var valid = true;
+        if (this.config.required)
+            valid = !!value.length;
+        if (typeof this.config.validation === "function")
+            valid = this.config.validation(value);
         if (!silent) {
-            this.setValidationStatus(isValid ? "success" : "error");
-            this.events.fire(types_1.ItemEvent.afterValidate, [value, isValid]);
+            this.setValidationStatus(valid ? "success" : "error");
+            this.events.fire(types_1.ItemEvent.afterValidate, [value, valid]);
             this.paint();
         }
-        return isValid;
+        return valid;
     };
     SimpleVault.prototype.clearValidate = function () {
         this.setValidationStatus();
@@ -18569,11 +18684,6 @@ var ToggleButton = /** @class */ (function (_super) {
             "text",
             "full",
         ], false);
-        if (_this.config.hidden) {
-            (0, dom_1.awaitRedraw)().then(function () {
-                _this.hide(true);
-            });
-        }
         _this.initHandlers();
         var render = function () { return _this.draw(); };
         _this.mount(container, (0, dom_1.create)({ render: render }));
@@ -18819,7 +18929,12 @@ var Ribbon = /** @class */ (function (_super) {
                         break;
                     case "datePicker":
                         if (item.$calendar) {
-                            item.$calendar.setValue(state[key]);
+                            if (state[key]) {
+                                item.$calendar.setValue(state[key]);
+                            }
+                            else {
+                                item.$calendar.clear();
+                            }
                         }
                         else {
                             this.data.update(key, { value: state[key] });
@@ -19546,6 +19661,7 @@ var Window = /** @class */ (function () {
         this.config.node.appendChild(this._popup);
         this._popup.focus();
         this._isActive = true;
+        this._layout.getCell("content").paint();
         this.events.fire(types_1.WindowEvents.afterShow, [{ left: left, top: top }]);
         FocusManager_1.focusManager.setFocusId(this._uid);
     };
@@ -20337,7 +20453,7 @@ var dom_1 = __webpack_require__(0);
 Object.defineProperty(exports, "awaitRedraw", { enumerable: true, get: function () { return dom_1.awaitRedraw; } });
 Object.defineProperty(exports, "resizeHandler", { enumerable: true, get: function () { return dom_1.resizeHandler; } });
 Object.defineProperty(exports, "setTheme", { enumerable: true, get: function () { return dom_1.setTheme; } });
-var ts_vault_1 = __webpack_require__(59);
+var ts_vault_1 = __webpack_require__(58);
 Object.defineProperty(exports, "Uploader", { enumerable: true, get: function () { return ts_vault_1.Uploader; } });
 var ts_data_1 = __webpack_require__(7);
 Object.defineProperty(exports, "DataCollection", { enumerable: true, get: function () { return ts_data_1.DataCollection; } });
@@ -20352,7 +20468,7 @@ var ts_list_1 = __webpack_require__(35);
 Object.defineProperty(exports, "List", { enumerable: true, get: function () { return ts_list_1.List; } });
 var ts_calendar_1 = __webpack_require__(33);
 Object.defineProperty(exports, "Calendar", { enumerable: true, get: function () { return ts_calendar_1.Calendar; } });
-var ts_colorpicker_1 = __webpack_require__(52);
+var ts_colorpicker_1 = __webpack_require__(51);
 Object.defineProperty(exports, "Colorpicker", { enumerable: true, get: function () { return ts_colorpicker_1.Colorpicker; } });
 var ts_chart_1 = __webpack_require__(185);
 Object.defineProperty(exports, "Chart", { enumerable: true, get: function () { return ts_chart_1.Chart; } });
@@ -20362,7 +20478,7 @@ var ts_dataview_1 = __webpack_require__(206);
 Object.defineProperty(exports, "DataView", { enumerable: true, get: function () { return ts_dataview_1.DataView; } });
 var ts_form_1 = __webpack_require__(210);
 Object.defineProperty(exports, "Form", { enumerable: true, get: function () { return ts_form_1.Form; } });
-var ts_grid_1 = __webpack_require__(42);
+var ts_grid_1 = __webpack_require__(64);
 Object.defineProperty(exports, "Grid", { enumerable: true, get: function () { return ts_grid_1.Grid; } });
 var ts_message_1 = __webpack_require__(11);
 Object.defineProperty(exports, "message", { enumerable: true, get: function () { return ts_message_1.message; } });
@@ -20380,11 +20496,11 @@ var ts_ribbon_1 = __webpack_require__(232);
 Object.defineProperty(exports, "Ribbon", { enumerable: true, get: function () { return ts_ribbon_1.Ribbon; } });
 var ts_sidebar_1 = __webpack_require__(234);
 Object.defineProperty(exports, "Sidebar", { enumerable: true, get: function () { return ts_sidebar_1.Sidebar; } });
-var ts_slider_1 = __webpack_require__(48);
+var ts_slider_1 = __webpack_require__(47);
 Object.defineProperty(exports, "Slider", { enumerable: true, get: function () { return ts_slider_1.Slider; } });
 var ts_tabbar_1 = __webpack_require__(236);
 Object.defineProperty(exports, "Tabbar", { enumerable: true, get: function () { return ts_tabbar_1.Tabbar; } });
-var ts_timepicker_1 = __webpack_require__(45);
+var ts_timepicker_1 = __webpack_require__(44);
 Object.defineProperty(exports, "Timepicker", { enumerable: true, get: function () { return ts_timepicker_1.Timepicker; } });
 var ts_toolbar_1 = __webpack_require__(37);
 Object.defineProperty(exports, "Toolbar", { enumerable: true, get: function () { return ts_toolbar_1.Toolbar; } });
@@ -20393,20 +20509,16 @@ Object.defineProperty(exports, "Tree", { enumerable: true, get: function () { re
 var ts_window_1 = __webpack_require__(240);
 Object.defineProperty(exports, "Window", { enumerable: true, get: function () { return ts_window_1.Window; } });
 // TOOLS
-var ts_colorpicker_2 = __webpack_require__(52);
-var en_1 = __webpack_require__(44);
+var ts_colorpicker_2 = __webpack_require__(51);
+var en_1 = __webpack_require__(43);
 var date_1 = __webpack_require__(16);
-var en_2 = __webpack_require__(50);
+var en_2 = __webpack_require__(49);
 var en_3 = __webpack_require__(98);
 var en_4 = __webpack_require__(71);
+var locale_1 = __webpack_require__(244);
 var w = window;
 exports.i18n = w.dhx && w.dhx.i18n ? w.dhx.i18n : {};
-exports.i18n.setLocale = function (component, value) {
-    var target = exports.i18n[component];
-    for (var key in value) {
-        target[key] = value[key];
-    }
-};
+exports.i18n.setLocale = locale_1.setLocale;
 exports.i18n.colorpicker = exports.i18n.colorpicker || ts_colorpicker_2.locale;
 exports.i18n.message = exports.i18n.message || en_1.default;
 exports.i18n.calendar = exports.i18n.calendar || date_1.locale;
@@ -23404,8 +23516,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TreeCollection = void 0;
 var core_1 = __webpack_require__(1);
-var datacollection_1 = __webpack_require__(61);
-var dataproxy_1 = __webpack_require__(26);
+var datacollection_1 = __webpack_require__(60);
+var dataproxy_1 = __webpack_require__(27);
 var helpers_1 = __webpack_require__(23);
 var types_1 = __webpack_require__(22);
 function addToOrder(store, obj, parent, index) {
@@ -23499,7 +23611,7 @@ var TreeCollection = /** @class */ (function (_super) {
         if (!parent || !this._childs[parent]) {
             return -1;
         }
-        return (0, core_1.findIndex)(this._childs[parent], function (item) { return item.id === id; });
+        return this._childs[parent].findIndex(function (i) { return (i === null || i === void 0 ? void 0 : i.id) == id; });
     };
     TreeCollection.prototype.sort = function (rule) {
         var _this = this;
@@ -24102,14 +24214,26 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dragManager = void 0;
 var html_1 = __webpack_require__(3);
-var ts_grid_1 = __webpack_require__(42);
+var ts_grid_1 = __webpack_require__(64);
 var CollectionStore_1 = __webpack_require__(161);
 var types_1 = __webpack_require__(22);
 var helpers_1 = __webpack_require__(23);
 var core_1 = __webpack_require__(1);
+function getElementFromPoint(e) {
+    var clientX = e.targetTouches
+        ? e.targetTouches[0].clientX
+        : e.clientX;
+    var clientY = e.targetTouches
+        ? e.targetTouches[0].clientY
+        : e.clientY;
+    var el = document.elementFromPoint(clientX, clientY);
+    return (el === null || el === void 0 ? void 0 : el.shadowRoot) ? el.shadowRoot.elementFromPoint(clientX, clientY) : el;
+}
 function getPosition(e) {
-    var y = e.clientY;
-    var element = (0, html_1.locateNode)(e);
+    var y = e.targetTouches
+        ? e.targetTouches[0].clientY
+        : e.clientY;
+    var element = (0, html_1.locateNode)(getElementFromPoint(e));
     if (!element) {
         return null;
     }
@@ -24222,9 +24346,10 @@ var DragManager = /** @class */ (function () {
             document.addEventListener("touchmove", this._onMouseMove, false);
             document.addEventListener("touchend", this._onMouseUp, false);
         }
-        var item = (0, html_1.locateNode)(event, "data-dhx-id");
+        var element = getElementFromPoint(event);
+        var item = (0, html_1.locateNode)(element, "data-dhx-id");
         var id = item && item.getAttribute("data-dhx-id");
-        var componentId = (0, html_1.locate)(event, "data-dhx-widget-id");
+        var componentId = (0, html_1.locate)(element, "data-dhx-widget-id");
         if (Array.isArray(source) && source.includes(id)) {
             this._transferData.source = __spreadArray([], source, true);
             this._itemsForGhost = itemsForGhost;
@@ -24333,20 +24458,18 @@ var DragManager = /** @class */ (function () {
         return ghost;
     };
     DragManager.prototype._onDrag = function (e) {
-        var clientX = e.targetTouches ? e.targetTouches[0].clientX : e.clientX;
-        var clientY = e.targetTouches ? e.targetTouches[0].clientY : e.clientY;
-        var element = document.elementFromPoint(clientX, clientY);
+        var element = getElementFromPoint(e);
         var collectionId = (0, html_1.locate)(element, "data-dhx-widget-id");
-        if (!collectionId) {
+        var component = CollectionStore_1.collectionStore.getItem(collectionId);
+        if (!component) {
             if (this._canMove) {
                 this.cancelCanDrop(e);
             }
             return;
         }
-        var component = CollectionStore_1.collectionStore.getItem(collectionId);
         var isTreeHeaderOrFooter = !!(0, html_1.locateNodeByClassName)(element, "dhx_grid-header") ||
             !!(0, html_1.locateNodeByClassName)(element, "dhx_grid-footer");
-        var gridConfig = component && component.config.columns
+        var gridConfig = component.config.columns
             ? component.config
             : undefined;
         var isColumnDrag = gridConfig && (gridConfig.dragItem === "both" || gridConfig.dragItem === "column");
@@ -24677,6 +24800,7 @@ var Exporter = /** @class */ (function () {
         return csv;
     };
     Exporter.prototype._export = function (config) {
+        var _this = this;
         if (config === void 0) { config = {}; }
         var configCols = this._view.config.columns.filter(function (i) { return !i.hidden; });
         var rowsIndexMap = {};
@@ -24692,7 +24816,12 @@ var Exporter = /** @class */ (function () {
         };
         var cells = [];
         var columnsIndexMap = {};
+        var rowCss = {};
         var data = this._view.data.serialize().map(function (row, i) {
+            var item = _this._view.data.getItem(row.id);
+            if (item.$css) {
+                rowCss[item.id] = item.$css;
+            }
             rowsIndexMap[row.id] = i;
             var rowData = configCols.map(function (col, k) {
                 columnsIndexMap[col.id] = k;
@@ -24755,23 +24884,35 @@ var Exporter = /** @class */ (function () {
             var align = col.type === "number" || col.type === "percent" ? "right" : col.align;
             columns.push({ width: col.$width, align: align });
             for (var key in col.$cellCss) {
-                var colStyle = col.$cellCss[key].trim();
-                var colStyleHash = colStyle
-                    .split("")
-                    .reduce(function (h, letter) {
-                    var hh = (h << 5) - h + letter.charCodeAt(0);
-                    return Math.abs(hh & hh);
-                }, 0)
-                    .toString();
+                var colStyle = "dhx_grid-cell ".concat(col.$cellCss[key].trim());
+                var colStyleHash = this_1._getHash(colStyle);
+                var rowStyles = "dhx_grid-row";
+                if (rowCss[key]) {
+                    rowStyles += " ".concat(rowCss[key].trim());
+                }
                 if (!uniqStyles[colStyleHash]) {
-                    var cont = document.body;
-                    var css = (0, main_1.getStyleByClass)(colStyle, cont, "dhx_grid-row", uniqStyles.default);
+                    var css = (0, main_1.getStyleByClass)(colStyle, rowStyles, uniqStyles.default);
                     if (css) {
                         uniqStyles[colStyleHash] = css;
                     }
                 }
                 if (uniqStyles[colStyleHash]) {
                     cells.push([rowsIndexMap[key], configCols.indexOf(col), colStyleHash]);
+                }
+            }
+            for (var key in rowCss) {
+                if (col.$cellCss[key])
+                    continue;
+                var rowStyleHash = this_1._getHash(rowCss[key]);
+                var rowStyles = "dhx_grid-row ".concat(rowCss[key].trim());
+                if (!uniqStyles[rowStyleHash]) {
+                    var css = (0, main_1.getStyleByClass)("dhx_grid-cell", rowStyles, uniqStyles.default);
+                    if (css) {
+                        uniqStyles[rowStyleHash] = css;
+                    }
+                }
+                if (uniqStyles[rowStyleHash]) {
+                    cells.push([rowsIndexMap[key], configCols.indexOf(col), rowStyleHash]);
                 }
             }
         };
@@ -24892,18 +25033,21 @@ var Exporter = /** @class */ (function () {
             var col = columns[index];
             viewColumns.push(__assign(__assign({}, col), { width: col.$width }));
         }
-        var viewConfig = __assign(__assign({}, view.config), { width: width, height: height, columns: viewColumns, data: view.data.getRawData(), keyNavigation: false, selection: false, resizable: false });
+        var viewConfig = __assign(__assign({}, view.config), { width: width, height: height, columns: viewColumns, data: view.data.getRawData(0, -1, null, 2), keyNavigation: false, selection: false, resizable: false });
         var $view = new view.constructor(viewContainer, (0, core_1.getCloneObject)(viewConfig));
         (0, dom_1.awaitRedraw)()
             .then(function () {
-            var _a;
             if (exportStyles === true) {
                 styles = "".concat((0, html_1.getPageLinksCss)(), "<style>").concat((0, html_1.getPageInlineCss)(), "</style>");
             }
             else if (Array.isArray(exportStyles) && exportStyles.length) {
                 styles = "".concat((0, html_1.getPageLinksCss)(exportStyles));
             }
-            (_a = viewContainer.children[0]) === null || _a === void 0 ? void 0 : _a.setAttribute("data-dhx-theme", config.theme || "light");
+            var child = viewContainer.children[0];
+            child === null || child === void 0 ? void 0 : child.setAttribute("data-dhx-theme", config.theme || "light");
+            if (mode === "png") {
+                child === null || child === void 0 ? void 0 : child.setAttribute("style", "width: ".concat(width, "px;"));
+            }
             var html = "\n\t\t\t\t\t".concat(styles, "\n\t\t\t\t\t").concat(viewContainer.innerHTML, "\n\t\t\t\t");
             var form = document.createElement("form");
             form.setAttribute("method", "POST");
@@ -24926,6 +25070,15 @@ var Exporter = /** @class */ (function () {
             (_a = viewContainer.parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(viewContainer);
         });
     };
+    Exporter.prototype._getHash = function (str) {
+        return str
+            .split("")
+            .reduce(function (h, letter) {
+            var hh = (h << 5) - h + letter.charCodeAt(0);
+            return Math.abs(hh & hh);
+        }, 0)
+            .toString();
+    };
     return Exporter;
 }());
 exports.Exporter = Exporter;
@@ -24941,7 +25094,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.message = void 0;
 var core_1 = __webpack_require__(1);
 var html_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(43);
+var types_1 = __webpack_require__(42);
 var nodeTimeout = new WeakMap();
 var containers = new Map();
 function createMessageContainer(parent, position) {
@@ -25051,7 +25204,7 @@ exports.message = message;
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.alert = void 0;
-var en_1 = __webpack_require__(44);
+var en_1 = __webpack_require__(43);
 var common_1 = __webpack_require__(66);
 var core_1 = __webpack_require__(1);
 function alert(props) {
@@ -25109,7 +25262,7 @@ exports.alert = alert;
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.confirm = void 0;
-var en_1 = __webpack_require__(44);
+var en_1 = __webpack_require__(43);
 var common_1 = __webpack_require__(66);
 var core_1 = __webpack_require__(1);
 function confirm(props) {
@@ -25204,6 +25357,7 @@ var FocusManager_1 = __webpack_require__(19);
 var render_1 = __webpack_require__(24);
 var render_2 = __webpack_require__(24);
 var main_1 = __webpack_require__(15);
+var cells_1 = __webpack_require__(25);
 var Selection = /** @class */ (function () {
     function Selection(grid, config, events, gridId) {
         var types = ["cell", "row", "complex"];
@@ -25222,30 +25376,42 @@ var Selection = /** @class */ (function () {
     Selection.prototype.setCell = function (row, col, ctrlUp, shiftUp) {
         var _a, _b;
         var _this = this;
-        var _c, _d, _e, _f, _g, _h, _j;
+        var _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
         if (ctrlUp === void 0) { ctrlUp = false; }
         if (shiftUp === void 0) { shiftUp = false; }
         var isTree = this._grid.config.type === "tree";
         if (this._gridId && FocusManager_1.focusManager.getFocusId() !== this._gridId) {
             FocusManager_1.focusManager.setFocusId(this._gridId);
         }
-        if (this.config.disabled ||
-            this._grid.config.$editable ||
-            (((_c = this._selectedCells[0]) === null || _c === void 0 ? void 0 : _c.row.id) === ((row === null || row === void 0 ? void 0 : row.id) || row) &&
-                ((_d = this._selectedCells[0]) === null || _d === void 0 ? void 0 : _d.column.id) === ((col === null || col === void 0 ? void 0 : col.id) || col))) {
+        if ((this._type === "row" && ((_c = this._selectedCells[0]) === null || _c === void 0 ? void 0 : _c.row.id) === ((row === null || row === void 0 ? void 0 : row.id) || row)) ||
+            (this._type !== "row" &&
+                ((_d = this._selectedCells[0]) === null || _d === void 0 ? void 0 : _d.row.id) === ((row === null || row === void 0 ? void 0 : row.id) || row) &&
+                ((_e = this._selectedCells[0]) === null || _e === void 0 ? void 0 : _e.column.id) === ((col === null || col === void 0 ? void 0 : col.id) || col))) {
+            if (ctrlUp) {
+                this._removeCell((_f = this._selectedCells[0]) === null || _f === void 0 ? void 0 : _f.row, (_g = this._selectedCells[0]) === null || _g === void 0 ? void 0 : _g.column);
+                (0, dom_1.awaitRedraw)().then(function () {
+                    _this._grid.paint();
+                    _this._setBrowserFocus();
+                });
+            }
             return;
         }
-        if (!this._multiselection &&
-            this._selectedCells.length &&
-            !this._removeCell((_e = this._selectedCell) === null || _e === void 0 ? void 0 : _e.row, (_f = this._selectedCell) === null || _f === void 0 ? void 0 : _f.column)) {
+        if (this.config.disabled ||
+            this._grid.config.$editable ||
+            (!this._multiselection &&
+                this._selectedCells.length &&
+                !this._removeCell((_h = this._selectedCell) === null || _h === void 0 ? void 0 : _h.row, (_j = this._selectedCell) === null || _j === void 0 ? void 0 : _j.column))) {
             return;
         }
         if (this._multiselection) {
             if (!ctrlUp && !shiftUp)
                 this._removeCells();
             if (this._selectedCells.find(function (item) {
-                return item.row.id === ((row === null || row === void 0 ? void 0 : row.id) || row) &&
-                    item.column.id === ((col === null || col === void 0 ? void 0 : col.id) || col);
+                if (_this._type === "row") {
+                    return item.row.id === ((row === null || row === void 0 ? void 0 : row.id) || row);
+                }
+                return (item.row.id === ((row === null || row === void 0 ? void 0 : row.id) || row) &&
+                    item.column.id === ((col === null || col === void 0 ? void 0 : col.id) || col));
             })) {
                 this.removeCell((row === null || row === void 0 ? void 0 : row.id) || row, (col === null || col === void 0 ? void 0 : col.id) || col);
                 return;
@@ -25259,7 +25425,7 @@ var Selection = /** @class */ (function () {
             }
         }
         row = this._grid.data.getItem((row && row.id) || row);
-        var columns = (_h = (_g = this._grid.config) === null || _g === void 0 ? void 0 : _g.columns) === null || _h === void 0 ? void 0 : _h.filter(function (col) { return !col.hidden; });
+        var columns = (_l = (_k = this._grid.config) === null || _k === void 0 ? void 0 : _k.columns) === null || _l === void 0 ? void 0 : _l.filter(function (col) { return !col.hidden; });
         if (!col)
             col = columns === null || columns === void 0 ? void 0 : columns[0];
         col = this._grid.getColumn(col.id || col);
@@ -25267,7 +25433,7 @@ var Selection = /** @class */ (function () {
             return;
         }
         if (this._multiselection && shiftUp && this._selectedCells.length && !isTree) {
-            var startCell = (_j = this._selectedCells) === null || _j === void 0 ? void 0 : _j[0];
+            var startCell = (_m = this._selectedCells) === null || _m === void 0 ? void 0 : _m[0];
             var startRowIndex = this._grid.data.getIndex(startCell.row.id);
             var endRowIndex = this._grid.data.getIndex(row.id);
             if (startRowIndex > endRowIndex) {
@@ -25357,14 +25523,14 @@ var Selection = /** @class */ (function () {
             var selection_1 = [];
             var selectedRows_1 = {};
             this._selectedCells.forEach(function (cell, index, array) {
-                var nCell = _this._normalizeCell(cell);
+                var nCell = (0, cells_1.normalizeCell)(cell, _this._grid);
                 selection_1.push(_this._toHTML(nCell.row, nCell.column, index === array.length - 1 || _this._type === "cell" || _this._type === "complex", selectedRows_1[cell.row.id]));
                 selectedRows_1[cell.row.id] = true;
             });
             return selection_1;
         }
         else {
-            var nCell = this._normalizeCell(this._selectedCell);
+            var nCell = (0, cells_1.normalizeCell)(this._selectedCell, this._grid);
             return this._toHTML(nCell.row, nCell.column, true);
         }
     };
@@ -25709,16 +25875,6 @@ var Selection = /** @class */ (function () {
             y: totalScrollY > 0 ? totalScrollY - scrollState.y : 0,
         };
     };
-    Selection.prototype._normalizeCell = function (cell) {
-        var row = cell.row, column = cell.column;
-        var span = this._grid.getSpan(row.id, column.id);
-        return {
-            row: span && row.id !== span.row ? this._grid.data.getItem(span.row) : row,
-            column: span && column.id !== span.column
-                ? this._grid.config.columns.find(function (col) { return col.id === span.column; })
-                : column,
-        };
-    };
     return Selection;
 }());
 exports.Selection = Selection;
@@ -25822,27 +25978,30 @@ var InputEditor = /** @class */ (function () {
         this._initHandlers();
     }
     InputEditor.prototype.endEdit = function (withoutSave) {
+        if (!this._config.$editable)
+            return;
         var value;
         if (!withoutSave) {
             value = this._input.value;
-        }
-        if (this.type === "number") {
-            value = parseFloat(value);
-            if (Number.isNaN(value)) {
-                value = "";
-            }
-            else {
-                var config = this._cell.col.editorConfig;
-                var min = parseFloat(config === null || config === void 0 ? void 0 : config.min);
-                var max = parseFloat(config === null || config === void 0 ? void 0 : config.max);
-                if ((0, core_1.isDefined)(config === null || config === void 0 ? void 0 : config.min) && value < min)
-                    value = min;
-                if ((0, core_1.isDefined)(config === null || config === void 0 ? void 0 : config.max) && value > max)
-                    value = max;
+            if (this.type === "number") {
+                value = parseFloat(value);
+                if (Number.isNaN(value)) {
+                    value = "";
+                }
+                else {
+                    var config = this._cell.col.editorConfig;
+                    var min = parseFloat(config === null || config === void 0 ? void 0 : config.min);
+                    var max = parseFloat(config === null || config === void 0 ? void 0 : config.max);
+                    if ((0, core_1.isDefined)(config === null || config === void 0 ? void 0 : config.min) && value < min)
+                        value = min;
+                    if ((0, core_1.isDefined)(config === null || config === void 0 ? void 0 : config.max) && value > max)
+                        value = max;
+                }
             }
         }
         if (this._config.events.fire(types_1.GridEvents.beforeEditEnd, [value, this._cell.row, this._cell.col])) {
             this._cell.row = this._config.datacollection.getItem(this._cell.row.id);
+            this._config.$editable = null;
             this._config.events.fire(types_1.GridEvents.afterEditEnd, [value, this._cell.row, this._cell.col]);
         }
         else {
@@ -25902,14 +26061,13 @@ var InputEditor = /** @class */ (function () {
     };
     InputEditor.prototype.isValidWord = function (word) {
         var _a;
-        var regNumber = new RegExp(/^-?\d+\.?(\d+)?([eE][+-]?\d+)?$/gm);
         var lastWord = (_a = word[word.length - 1]) === null || _a === void 0 ? void 0 : _a.toLocaleLowerCase();
         var countChar = function (string, char) {
             return string.toLocaleLowerCase().split(char.toLocaleLowerCase()).length - 1;
         };
         return (!word.length ||
             word === "-" ||
-            regNumber.test(word) ||
+            (!isNaN(Number(word)) && word.trim().length === word.length) ||
             (word.replace("-", "").length > 1 && lastWord === "e" && !countChar(this.prevValue, "e")) ||
             (word.replace("-", "").length > 1 && lastWord === "e" && countChar(word, "e") === 1));
     };
@@ -25952,6 +26110,8 @@ var SelectEditor = /** @class */ (function () {
         this._initHandlers();
     }
     SelectEditor.prototype.endEdit = function (withoutSave) {
+        if (!this._config.$editable)
+            return;
         var value;
         if (!withoutSave) {
             value = this._input.value;
@@ -25960,6 +26120,7 @@ var SelectEditor = /** @class */ (function () {
             this._input.removeEventListener("blur", this._handlers.onBlur);
             this._input.removeEventListener("keydown", this._handlers.onkeydown);
             this._cell.row = this._config.datacollection.getItem(this._cell.row.id);
+            this._config.$editable = null;
             this._config.events.fire(types_1.GridEvents.afterEditEnd, [value, this._cell.row, this._cell.col]);
         }
         else {
@@ -26064,7 +26225,7 @@ var DateEditor = /** @class */ (function () {
     }
     DateEditor.prototype.endEdit = function (withoutSave, calendarChange) {
         var _this = this;
-        if (!this._handlers) {
+        if (!this._handlers || !this._config.$editable) {
             return;
         }
         var format = this._calendar.config.dateFormat;
@@ -26091,6 +26252,7 @@ var DateEditor = /** @class */ (function () {
                 _this._calendar.destructor();
             });
             this._cell.row = this._config.datacollection.getItem(this._cell.row.id);
+            this._config.$editable = null;
             this._config.events.fire(types_1.GridEvents.afterEditEnd, [this._value, this._cell.row, this._cell.col]);
         }
         else {
@@ -26204,7 +26366,7 @@ var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(2);
 var view_1 = __webpack_require__(8);
-var ts_timepicker_1 = __webpack_require__(45);
+var ts_timepicker_1 = __webpack_require__(44);
 var helper_1 = __webpack_require__(144);
 var date_1 = __webpack_require__(16);
 var types_1 = __webpack_require__(73);
@@ -27021,7 +27183,7 @@ var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(2);
 var view_1 = __webpack_require__(8);
 var ts_layout_1 = __webpack_require__(12);
-var ts_slider_1 = __webpack_require__(48);
+var ts_slider_1 = __webpack_require__(47);
 var en_1 = __webpack_require__(71);
 var helper_1 = __webpack_require__(143);
 var types_1 = __webpack_require__(72);
@@ -27322,6 +27484,8 @@ var Timepicker = /** @class */ (function (_super) {
         });
     };
     Timepicker.prototype._draw = function () {
+        this._minutesSlider.config.label = en_1.default.minutes;
+        this._hoursSlider.config.label = en_1.default.hours;
         return (0, dom_1.el)(".dhx_timepicker-inputs", __assign({}, this._handlers), [
             (0, dom_1.el)("input.dhx_timepicker-input.dhx_timepicker-input--hour", {
                 _key: "hour",
@@ -27410,7 +27574,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProLayout = void 0;
-var Layout_1 = __webpack_require__(46);
+var Layout_1 = __webpack_require__(45);
 var ProCell_1 = __webpack_require__(140);
 var ProLayout = /** @class */ (function (_super) {
     __extends(ProLayout, _super);
@@ -27493,7 +27657,8 @@ var ProCell = /** @class */ (function (_super) {
     };
     ProCell.prototype.toVDOM = function (nodes) {
         var _a;
-        var _b;
+        var _b, _c;
+        this._saveTheme();
         if (this.config === null) {
             this.config = {};
         }
@@ -27508,6 +27673,7 @@ var ProCell = /** @class */ (function (_super) {
                 : { padding: this.config.padding }
             : "";
         var fullStyle = this.config.full || this.config.html ? style : __assign(__assign({}, style), stylePadding);
+        var progressBar = this._checkProgress() ? this._getProgressBar() : null;
         var kids;
         if (!this.config.html) {
             if (this._ui) {
@@ -27563,98 +27729,92 @@ var ProCell = /** @class */ (function (_super) {
                 ".innerHTML": this.config.html,
             }),
         ]);
-        var cell = (0, dom_1.el)("div", __assign(__assign((_a = { _key: this._uid, _ref: this._uid }, _a["aria-label"] = this.config.id ? "tab-content-" + this.config.id : null, _a["data-cell-id"] = (_b = this.config.id) !== null && _b !== void 0 ? _b : null, _a), handlers), { class: this._getCss(false) +
+        var cellContent = isFieldset
+            ? (0, dom_1.el)("fieldset.dhx_form-fieldset", {
+                class: (this.config.$disabled && " dhx_form-fieldset--disabled") || "",
+                style: stylePadding,
+                disabled: this.config.$disabled,
+            }, [
+                (0, dom_1.el)("legend.dhx_form-fieldset-legend", {
+                    class: "dhx_form-fieldset-legend--".concat(this.config.labelAlignment || "left"),
+                }, this.config.label),
+                (0, dom_1.el)(".dhx_layout-cell-content", {
+                    class: this._getCss(false),
+                }, [].concat(kids)),
+            ])
+            : this.config.full
+                ? [
+                    (0, dom_1.el)("div", {
+                        tabindex: this.config.collapsable ? "0" : "-1",
+                        class: "dhx_layout-cell-header" +
+                            (this._isXDirection()
+                                ? " dhx_layout-cell-header--col"
+                                : " dhx_layout-cell-header--row") +
+                            (this.config.collapsable ? " dhx_layout-cell-header--collapseble" : "") +
+                            (this.config.collapsed ? " dhx_layout-cell-header--collapsed" : "") +
+                            (((this.getParent() || {}).config || {}).isAccordion
+                                ? " dhx_layout-cell-header--accordion"
+                                : ""),
+                        style: {
+                            height: this.config.headerHeight,
+                        },
+                        onclick: this._handlers.toggle,
+                        onkeydown: this._handlers.enterCollapse,
+                    }, [
+                        this.config.headerIcon &&
+                            (0, dom_1.el)("span.dhx_layout-cell-header__icon", {
+                                class: this.config.headerIcon,
+                            }),
+                        this.config.headerImage &&
+                            (0, dom_1.el)(".dhx_layout-cell-header__image-wrapper", [
+                                (0, dom_1.el)("img", {
+                                    src: this.config.headerImage,
+                                    class: "dhx_layout-cell-header__image",
+                                }),
+                            ]),
+                        this.config.header && (0, dom_1.el)("h3.dhx_layout-cell-header__title", this.config.header),
+                        this.config.collapsable
+                            ? (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
+                                class: this._getCollapseIcon(),
+                            })
+                            : (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
+                                class: "dxi dxi-empty",
+                            }),
+                    ]),
+                    !this.config.collapsed
+                        ? (0, dom_1.el)("div", {
+                            style: __assign(__assign({}, stylePadding), { height: "calc(100% - ".concat(this.config.headerHeight || 37, "px)") }),
+                            class: this._getCss(true) +
+                                " dhx_layout-cell-content" +
+                                (this.config.type ? typeClass : ""),
+                        }, this.config.html
+                            ? [
+                                (0, dom_1.el)("div", {
+                                    ".innerHTML": this.config.html,
+                                    class: "dhx_layout-cell dhx_layout-cell-inner_html",
+                                }),
+                            ]
+                            : kids)
+                        : null,
+                ]
+                : this.config.html &&
+                    !(this.config.rows &&
+                        this.config.cols &&
+                        this.config.views)
+                    ? [
+                        !this.config.collapsed
+                            ? this.scrollView && this.scrollView.config.enable
+                                ? this.scrollView.render([htmlContent], this._uid)
+                                : htmlContent
+                            : null,
+                    ]
+                    : kids;
+        var cell = (0, dom_1.el)("div", __assign(__assign((_a = { _key: this._uid, _ref: this._uid }, _a["aria-label"] = this.config.id ? "tab-content-" + this.config.id : null, _a["data-cell-id"] = (_b = this.config.id) !== null && _b !== void 0 ? _b : null, _a["data-dhx-theme"] = (_c = this._theme) !== null && _c !== void 0 ? _c : null, _a), handlers), { class: this._getCss(false) +
                 (this.config.css ? " " + this.config.css : "") +
                 (this.config.collapsed ? " dhx_layout-cell--collapsed" : "") +
                 (this.config.resizable ? " dhx_layout-cell--resizable" : "") +
-                (this.config.type && !this.config.full ? typeClass : ""), style: isFieldset ? style : fullStyle }), [
-            isFieldset
-                ? (0, dom_1.el)("fieldset.dhx_form-fieldset", {
-                    class: (this.config.$disabled && " dhx_form-fieldset--disabled") || "",
-                    style: stylePadding,
-                    disabled: this.config.$disabled,
-                }, [
-                    (0, dom_1.el)("legend.dhx_form-fieldset-legend", {
-                        class: "dhx_form-fieldset-legend--".concat(this.config.labelAlignment ||
-                            "left"),
-                    }, this.config.label),
-                    (0, dom_1.el)(".dhx_layout-cell-content", {
-                        class: this._getCss(false),
-                    }, [kids]),
-                ])
-                : this.config.full
-                    ? [
-                        (0, dom_1.el)("div", {
-                            tabindex: this.config.collapsable ? "0" : "-1",
-                            class: "dhx_layout-cell-header" +
-                                (this._isXDirection()
-                                    ? " dhx_layout-cell-header--col"
-                                    : " dhx_layout-cell-header--row") +
-                                (this.config.collapsable
-                                    ? " dhx_layout-cell-header--collapseble"
-                                    : "") +
-                                (this.config.collapsed ? " dhx_layout-cell-header--collapsed" : "") +
-                                (((this.getParent() || {}).config || {}).isAccordion
-                                    ? " dhx_layout-cell-header--accordion"
-                                    : ""),
-                            style: {
-                                height: this.config.headerHeight,
-                            },
-                            onclick: this._handlers.toggle,
-                            onkeydown: this._handlers.enterCollapse,
-                        }, [
-                            this.config.headerIcon &&
-                                (0, dom_1.el)("span.dhx_layout-cell-header__icon", {
-                                    class: this.config.headerIcon,
-                                }),
-                            this.config.headerImage &&
-                                (0, dom_1.el)(".dhx_layout-cell-header__image-wrapper", [
-                                    (0, dom_1.el)("img", {
-                                        src: this.config.headerImage,
-                                        class: "dhx_layout-cell-header__image",
-                                    }),
-                                ]),
-                            this.config.header &&
-                                (0, dom_1.el)("h3.dhx_layout-cell-header__title", this.config.header),
-                            this.config.collapsable
-                                ? (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
-                                    class: this._getCollapseIcon(),
-                                })
-                                : (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
-                                    class: "dxi dxi-empty",
-                                }),
-                        ]),
-                        !this.config.collapsed
-                            ? (0, dom_1.el)("div", {
-                                style: __assign(__assign({}, stylePadding), { height: "calc(100% - ".concat(this.config.headerHeight || 37, "px)") }),
-                                class: this._getCss(true) +
-                                    " dhx_layout-cell-content" +
-                                    (this.config.type ? typeClass : ""),
-                            }, this.config.html
-                                ? [
-                                    (0, dom_1.el)("div", {
-                                        ".innerHTML": this.config.html,
-                                        class: "dhx_layout-cell dhx_layout-cell-inner_html",
-                                    }),
-                                ]
-                                : kids)
-                            : null,
-                    ]
-                    : this.config.html &&
-                        !(this.config.rows &&
-                            this.config.cols &&
-                            this.config.views)
-                        ? [
-                            !this.config.collapsed
-                                ? this.scrollView && this.scrollView.config.enable
-                                    ? this.scrollView.render([htmlContent], this._uid)
-                                    : htmlContent
-                                : null,
-                        ]
-                        : kids,
-            this._checkProgress() && this._getProgressBar(),
-        ]);
-        return resizer ? [cell, resizer] : cell;
+                (this.config.type && !this.config.full ? typeClass : ""), style: isFieldset ? style : fullStyle }), cellContent || progressBar ? [].concat(cellContent, progressBar) : null);
+        return resizer ? [].concat(cell, resizer) : cell;
     };
     return ProCell;
 }(Cell_1.Cell));
@@ -28183,6 +28343,9 @@ var Slider = /** @class */ (function (_super) {
                 (majorTick ? " dhx_slider--major-ticks" : "") +
                 (css ? " " + css : "") +
                 (this._disabled ? " dhx_slider--disabled" : ""),
+            style: {
+                paddingBottom: this.config.tick ? "16px" : null,
+            },
         }, [
             labelStyle
                 ? (0, dom_1.el)("label.dhx_label.dhx_slider__label", {
@@ -28791,6 +28954,8 @@ var ComboboxEditor = /** @class */ (function () {
     }
     ComboboxEditor.prototype.endEdit = function (withoutSave) {
         var _this = this;
+        if (!this._config.$editable)
+            return;
         var value;
         if (!withoutSave) {
             var val = this._input.getValue();
@@ -28812,6 +28977,7 @@ var ComboboxEditor = /** @class */ (function () {
                     _this._cell.col.$customOptions.push(_this._input.data.getItem(val));
                 }
             });
+            this._config.$editable = null;
             this._config.events.fire(types_1.GridEvents.afterEditEnd, [value, this._cell.row, this._cell.col]);
         }
         else {
@@ -28924,7 +29090,7 @@ exports.getEditor = getEditor;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InputEditor = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(49);
+var types_1 = __webpack_require__(48);
 var InputEditor = /** @class */ (function () {
     function InputEditor(item, list) {
         var _this = this;
@@ -29098,7 +29264,7 @@ var ProList = /** @class */ (function (_super) {
         return (0, dom_1.el)("ul.dhx_widget.dhx_list", __assign(__assign({ style: {
                 "max-height": this.config.height,
                 position: "relative",
-            }, class: currentClass, "data-dhx-widget-id": this._uid }, this._handlers), this._getListAriaAttrs(this.config, this.data.getLength())), scrollViewEnable ? [].concat(this.scrollView.render(kids)) : kids);
+            }, id: this._uid, class: currentClass, "data-dhx-widget-id": this._uid }, this._handlers), this._getListAriaAttrs(this.config, this.data.getLength())), scrollViewEnable ? [].concat(this.scrollView.render(kids)) : kids);
     };
     return ProList;
 }(List_1.List));
@@ -29117,12 +29283,11 @@ var CLEAR_TIMEOUT = 2000;
 var KeyListener = /** @class */ (function () {
     function KeyListener() {
         var _this = this;
-        this._sequence = "";
-        document.addEventListener("keydown", function (e) {
+        this._handler = function (event) {
             if (!_this._isActive) {
                 return;
             }
-            var key = e.key;
+            var key = event.key;
             if (key === "Backspace" && _this._sequence.length > 0) {
                 _this._sequence = _this._sequence.slice(0, _this._sequence.length - 1);
                 _this._change();
@@ -29132,7 +29297,9 @@ var KeyListener = /** @class */ (function () {
                 _this._sequence += key;
                 _this._change();
             }
-        });
+        };
+        this._sequence = "";
+        document.addEventListener("keydown", this._handler);
     }
     KeyListener.prototype.startNewListen = function (action) {
         this._isActive = true;
@@ -29146,6 +29313,9 @@ var KeyListener = /** @class */ (function () {
     };
     KeyListener.prototype.reset = function () {
         this._sequence = "";
+    };
+    KeyListener.prototype.destructor = function () {
+        document.removeEventListener("keydown", this._handler);
     };
     KeyListener.prototype._change = function () {
         this._currentAction(this._sequence);
@@ -29209,6 +29379,7 @@ var ProCombobox = /** @class */ (function (_super) {
             itemHeight: this.config.itemHeight,
             height: this.config.listHeight,
             data: this.data,
+            eventHandlers: this.config.eventHandlers,
         }));
         var layout = (this._layout = new ts_layout_1.ProLayout(this.popup.getContainer(), {
             css: "dhx_combobox-options dhx_combobox__options",
@@ -29277,17 +29448,20 @@ var TextAreaEditor = /** @class */ (function () {
         this._initHandlers();
     }
     TextAreaEditor.prototype.endEdit = function (withoutSave) {
+        if (!this._config.$editable)
+            return;
         var value;
         if (!withoutSave) {
             value = this._editor.value;
-        }
-        if (this.type === "number") {
-            value = parseFloat(value);
-            if (Number.isNaN(value))
-                value = "";
+            if (this.type === "number") {
+                value = parseFloat(value);
+                if (Number.isNaN(value))
+                    value = "";
+            }
         }
         if (this._config.events.fire(types_1.GridEvents.beforeEditEnd, [value, this._cell.row, this._cell.col])) {
             this._cell.row = this._config.datacollection.getItem(this._cell.row.id);
+            this._config.$editable = null;
             this._config.events.fire(types_1.GridEvents.afterEditEnd, [value, this._cell.row, this._cell.col]);
         }
         else {
@@ -29403,19 +29577,13 @@ var SelectFilter_1 = __webpack_require__(156);
 var InputFilter_1 = __webpack_require__(157);
 function parseItemValue(column, item) {
     var value = item[column.id];
-    if (column.editorType === "select" && column.type === "number") {
-        return parseFloat(value);
-    }
-    else if (column.editorType === "combobox") {
-        var options = (0, data_1.getEditorOptions)(column, item);
-        var option = options.find(function (option) { return option instanceof Object && option.id == value; });
-        var val = option ? option.value : value;
-        return column.type === "number" ? parseFloat(val) : val;
+    if (column.editorType === "combobox") {
+        parseFloat((0, data_1.getEditorValue)(value, (0, data_1.getEditorOptions)(column, item)));
     }
     else if (column.editorType === "multiselect") {
         return NaN;
     }
-    return value;
+    return parseFloat(value);
 }
 function applyMathMethod(column, config, method, validate) {
     if (!column || !config || !method) {
@@ -29425,26 +29593,27 @@ function applyMathMethod(column, config, method, validate) {
         ? validate(column.id, config.data)
         : config.data.reduce(function (items, item) {
             var val = parseItemValue(column, item);
-            if ((0, core_1.isDefined)(val) && val !== "" && !isNaN(val)) {
-                items.push(parseFloat(val));
-            }
+            if (!isNaN(val))
+                items.push(val);
             return items;
         }, []);
     // [todo] move to treegrid
     var roots = columnData;
     if (config.type === "tree") {
         roots = config.data.reduce(function (total, item) {
+            var _a;
             if (item.$level === 0) {
                 var val = parseItemValue(column, item);
-                if ((0, core_1.isDefined)(val) && val !== "" && !isNaN(val)) {
-                    total.push(parseFloat(val));
+                if (!isNaN(val)) {
+                    total.push(val);
                 }
                 else {
                     var value_1 = 0;
-                    config.datacollection.eachChild(item.id, function (cell) {
+                    (_a = config.datacollection) === null || _a === void 0 ? void 0 : _a.eachChild(item.id, function (cell) {
                         if (!config.datacollection.haveItems(cell.id)) {
                             var val_1 = parseItemValue(column, cell);
-                            value_1 += parseFloat(val_1);
+                            if (!isNaN(val_1))
+                                value_1 += val_1;
                         }
                     });
                     total.push(value_1);
@@ -29694,6 +29863,9 @@ var ComboFilter = /** @class */ (function () {
                 this.filterConfig.template = function (item) { return item.value; };
             }
         }
+        if (!this.filterConfig.filter) {
+            this.filterConfig.filter = function (item, val) { return (0, core_1.isExistValue)(item.value, val); };
+        }
         this.initFilter();
         this.config && this.initHandlers();
     }
@@ -29860,8 +30032,20 @@ var ComboFilter = /** @class */ (function () {
         var _this = this;
         if (active === void 0) { active = false; }
         var parseData = function () {
-            var data = _this.column.$activeFilterData || _this.column.$uniqueData;
-            _this._filter.data.parse(data.map(function (value) { return ({ value: value }); }));
+            var uniqueData = _this.column.$activeFilterData || _this.column.$uniqueData;
+            if (_this.column.header.some(function (col) { var _a; return (_a = col.filterConfig) === null || _a === void 0 ? void 0 : _a.filter; })) {
+                var data_1 = _this._filter.data.reduce(function (obj, item) {
+                    obj[item.value] = item.id;
+                    return obj;
+                }, {});
+                var newData = uniqueData.map(function (value) {
+                    return data_1[value] ? { id: data_1[value], value: value } : { value: value };
+                });
+                _this._filter.data.parse(newData);
+            }
+            else {
+                _this._filter.data.parse(uniqueData.map(function (value) { return ({ value: value }); }));
+            }
         };
         if (this.value === undefined) {
             parseData();
@@ -30095,15 +30279,12 @@ var InputFilter = /** @class */ (function () {
         var _a, _b, _c;
         this._handlers = {
             onchange: function (e) {
-                var handler = function () {
-                    var _a, _b, _c, _d;
-                    var value = ((_a = e.target) === null || _a === void 0 ? void 0 : _a.value) || ((_c = (_b = e.composedPath()) === null || _b === void 0 ? void 0 : _b[0]) === null || _c === void 0 ? void 0 : _c.value) || ((_d = e.explicitOriginalTarget) === null || _d === void 0 ? void 0 : _d.value);
-                    _this.setValue(value);
-                };
+                var _a, _b, _c, _d;
+                var value = ((_a = e.target) === null || _a === void 0 ? void 0 : _a.value) || ((_c = (_b = e.composedPath()) === null || _b === void 0 ? void 0 : _b[0]) === null || _c === void 0 ? void 0 : _c.value) || ((_d = e.explicitOriginalTarget) === null || _d === void 0 ? void 0 : _d.value);
                 if (_this._inputDelay) {
                     clearTimeout(_this._inputDelay);
                 }
-                _this._inputDelay = setTimeout(handler, 500);
+                _this._inputDelay = setTimeout(function () { return _this.setValue(value); }, 500);
             },
             onfocus: function () {
                 _this._isFocused = true;
@@ -30165,6 +30346,7 @@ function startResize(grid, column, ev, cb) {
     var initWidth = 0;
     grid.config.$resizing = column;
     var moveHandler = function (e) {
+        var _a;
         var i = (0, core_1.findIndex)(columns, function (obj) {
             return obj.id === column;
         });
@@ -30196,7 +30378,12 @@ function startResize(grid, column, ev, cb) {
             final = size;
         }
         cols[i].$width = final;
-        cols[i].$fixed = true;
+        for (var index = 0; index < cols.length; index++) {
+            var adjust = (_a = cols[index].adjust) !== null && _a !== void 0 ? _a : grid.config.adjust;
+            if (!adjust) {
+                cols[index].$fixedWidth = index <= i;
+            }
+        }
         grid.events.fire(types_1.GridEvents.resize, [columns[i], e]);
         grid.paint();
     };
@@ -30245,8 +30432,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getKeysHandlers = exports.selectionMove = void 0;
 var types_1 = __webpack_require__(9);
 var html_1 = __webpack_require__(3);
-var main_1 = __webpack_require__(15);
-var core_1 = __webpack_require__(1);
+var cells_1 = __webpack_require__(25);
 function selectionMove(e, grid, dir, range, toEnd, ctrlUp, shiftUp) {
     if (toEnd === void 0) { toEnd = false; }
     if (ctrlUp === void 0) { ctrlUp = false; }
@@ -30265,29 +30451,29 @@ function selectionMove(e, grid, dir, range, toEnd, ctrlUp, shiftUp) {
                 var newItem = range === 1
                     ? grid.data.getItem(grid.data.getId(grid.data.getLength() - 1))
                     : grid.data.getItem(grid.data.getId(0));
-                grid.selection.setCell(newItem.id, selected.column.id, ctrlUp, shiftUp);
                 grid.scrollTo(newItem.id.toString(), selected.column.id.toString());
+                grid.selection.setCell(newItem.id, selected.column.id, ctrlUp, shiftUp);
             }
             else {
                 var index = grid.data.getIndex(selected.row.id.toString());
                 if (index + range >= 0 && index + range < grid.data.getLength()) {
                     var newItem = grid.data.getItem(grid.data.getId(index + range));
-                    grid.selection.setCell(newItem.id, selected.column.id, ctrlUp, shiftUp);
                     grid.scrollTo(newItem.id.toString(), selected.column.id.toString());
+                    grid.selection.setCell(newItem.id, selected.column.id, ctrlUp, shiftUp);
                 }
             }
         }
         else {
             if (toEnd) {
                 var newItem = range === 1 ? columns[columns.length - 1] : columns[0];
-                grid.selection.setCell(selected.row.id, newItem.id, ctrlUp, shiftUp);
                 grid.scrollTo(selected.row.id.toString(), newItem.id.toString());
+                grid.selection.setCell(selected.row.id, newItem.id, ctrlUp, shiftUp);
             }
             else {
                 var index = columns.indexOf(selected.column);
                 if (index + range >= 0 && index + range < columns.length) {
-                    grid.selection.setCell(selected.row.id, columns[index + range].id, ctrlUp, shiftUp);
                     grid.scrollTo(selected.row.id.toString(), columns[index + range].id.toString());
+                    grid.selection.setCell(selected.row.id, columns[index + range].id, ctrlUp, shiftUp);
                 }
             }
         }
@@ -30295,12 +30481,13 @@ function selectionMove(e, grid, dir, range, toEnd, ctrlUp, shiftUp) {
 }
 exports.selectionMove = selectionMove;
 function getRange(grid, direction) {
+    var _a, _b;
     var selectedCell = grid.selection.getCell();
     var span = selectedCell && grid.getSpan(selectedCell.row.id, selectedCell.column.id);
     if (span) {
         if (direction === "up" || direction === "down") {
-            var spanIndex = (0, core_1.findIndex)(grid.config.data, function (item) { return item.id === span.row; });
-            var cellIndex = (0, core_1.findIndex)(grid.config.data, function (item) { return item.id === selectedCell.row.id; });
+            var spanIndex = (_a = grid.config.data) === null || _a === void 0 ? void 0 : _a.findIndex(function (item) { return item.id === span.row; });
+            var cellIndex = (_b = grid.config.data) === null || _b === void 0 ? void 0 : _b.findIndex(function (item) { return item.id === selectedCell.row.id; });
             if (direction === "up")
                 return spanIndex - cellIndex - 1;
             else
@@ -30308,8 +30495,8 @@ function getRange(grid, direction) {
         }
         else {
             var columns = grid.config.columns.filter(function (col) { return !col.hidden; });
-            var spanIndex = (0, core_1.findIndex)(columns, function (item) { return item.id === span.column; });
-            var cellIndex = (0, core_1.findIndex)(columns, function (item) { return item.id === selectedCell.column.id; });
+            var spanIndex = columns.findIndex(function (item) { return item.id === span.column; });
+            var cellIndex = columns.findIndex(function (item) { return item.id === selectedCell.column.id; });
             if (direction === "left")
                 return spanIndex - cellIndex - 1;
             else
@@ -30353,21 +30540,9 @@ function getKeysHandlers(grid) {
             },
         };
     }
-    return __assign({ enter: function (e) {
-            var $col = (0, html_1.locateNodeByClassName)(e, "dhx_grid-header-cell");
-            if ($col) {
-                // sort by enter on header
-                var id = $col.getAttribute("data-dhx-id");
-                var isResizable = e.target.getAttribute("dhx_resized");
-                if (id) {
-                    var column = grid.getColumn(id);
-                    if (column && (0, main_1.isSortable)(grid.config, column) && !isResizable) {
-                        grid.events.fire(types_1.GridEvents.afterSort, [id]);
-                    }
-                }
-            }
+    return __assign({ enter: function () {
             if (cellSelection) {
-                var selected = grid.selection.getCell();
+                var selected = (0, cells_1.normalizeCell)(grid.selection.getCell(), grid);
                 if (selected &&
                     ((selected.column.editable !== false && grid.config.editable) || selected.column.editable)) {
                     if (!grid.config.$editable) {
@@ -30411,7 +30586,7 @@ function getKeysHandlers(grid) {
             }
         }, space: function (e) {
             var _a;
-            var selected = grid.selection.getCell();
+            var selected = (0, cells_1.normalizeCell)(grid.selection.getCell(), grid);
             if (cellSelection &&
                 ((_a = selected === null || selected === void 0 ? void 0 : selected.column.editable) !== null && _a !== void 0 ? _a : grid.config.editable) &&
                 !grid.config.$editable) {
@@ -30451,18 +30626,18 @@ function getKeysHandlers(grid) {
             var selected = grid.selection.getCell();
             var columns = grid.config.columns.filter(function (col) { return !col.hidden; });
             if (selected) {
-                var index = columns.indexOf(selected.column) + 1;
+                var index = columns.indexOf(selected.column) + getRange(grid, "right");
                 if (index >= 0 && index < columns.length) {
                     e && e.preventDefault();
-                    grid.selection.setCell(selected.row.id, columns[index].id);
                     grid.scrollTo(selected.row.id.toString(), columns[index].id.toString());
+                    grid.selection.setCell(selected.row.id, columns[index].id);
                 }
                 else if (index >= 0) {
                     var newLineIndex = grid.data.getIndex(selected.row.id.toString()) + 1;
                     if (newLineIndex < grid.data.getLength()) {
                         e && e.preventDefault();
-                        grid.selection.setCell(grid.data.getId(newLineIndex), columns[0].id);
                         grid.scrollTo(grid.data.getId(newLineIndex).toString(), columns[0].id.toString());
+                        grid.selection.setCell(grid.data.getId(newLineIndex), columns[0].id);
                     }
                 }
             }
@@ -30476,18 +30651,18 @@ function getKeysHandlers(grid) {
             var selected = grid.selection.getCell();
             var columns = grid.config.columns.filter(function (col) { return !col.hidden; });
             if (selected) {
-                var index = columns.indexOf(selected.column) - 1;
+                var index = columns.indexOf(selected.column) + getRange(grid, "left");
                 if (index >= 0 && index < columns.length) {
                     e && e.preventDefault();
-                    grid.selection.setCell(selected.row.id, columns[index].id);
                     grid.scrollTo(selected.row.id.toString(), columns[index].id.toString());
+                    grid.selection.setCell(selected.row.id, columns[index].id);
                 }
                 else if (index < grid.data.getLength()) {
                     var newLineIndex = grid.data.getIndex(selected.row.id.toString()) - 1;
                     if (newLineIndex >= 0) {
                         e && e.preventDefault();
-                        grid.selection.setCell(grid.data.getId(newLineIndex), columns[columns.length - 1].id);
                         grid.scrollTo(grid.data.getId(newLineIndex).toString(), columns[columns.length - 1].id.toString());
+                        grid.selection.setCell(grid.data.getId(newLineIndex), columns[columns.length - 1].id);
                     }
                 }
             }
@@ -30706,24 +30881,17 @@ var ProGrid = /** @class */ (function (_super) {
             text: text,
             width: width - HORIZONTAL_OFFSET,
             htmlEnable: (0, main_1.isHtmlEnable)(config, col, row),
-            font: "bold 14px Arial",
+            font: "normal 14.4px Arial",
         }) + VERTICAL_OFFSET);
     };
     ProGrid.prototype._prepareData = function (data) {
         var _this = this;
         this._normalizeDataType();
         this._adjustColumns();
-        var convertedData;
-        if (Array.isArray(data) || (0, ts_data_1.isTreeCollection)(data)) {
-            convertedData = data;
-        }
-        else {
-            var initData = data.getInitialData() || [];
-            convertedData = initData.length !== 0 ? initData : data.getRawData(0, data.getLength());
-        }
-        return convertedData.map(function (row) {
+        return data.map(function (row) {
             if (_this.config.autoHeight && typeof row.height === "undefined") {
-                var height = (0, data_1.getMaxRowHeight)(row, _this.config.columns);
+                var columns = _this.config.columns.filter(function (col) { return !col.hidden; });
+                var height = (0, data_1.getMaxRowHeight)(row, columns);
                 row.$height =
                     (0, data_1.getCalculatedRowHeight)(height, {
                         rowHeight: _this.config.rowHeight,
@@ -30880,6 +31048,7 @@ exports.ProGrid = ProGrid;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.collectionStore = void 0;
+var core_1 = __webpack_require__(1);
 var CollectionStore = /** @class */ (function () {
     function CollectionStore() {
         this._store = {};
@@ -30888,7 +31057,7 @@ var CollectionStore = /** @class */ (function () {
         this._store[id] = target;
     };
     CollectionStore.prototype.getItem = function (id) {
-        if (!this._store[id]) {
+        if (!(0, core_1.isId)(id) || !this._store[id]) {
             return null;
         }
         return this._store[id];
@@ -30923,7 +31092,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LazyDataProxy = void 0;
-var dataproxy_1 = __webpack_require__(26);
+var dataproxy_1 = __webpack_require__(27);
 var core_1 = __webpack_require__(1);
 var ajax_1 = __webpack_require__(41);
 var LazyDataProxy = /** @class */ (function (_super) {
@@ -30981,7 +31150,7 @@ exports.LazyDataProxy = LazyDataProxy;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Selection = void 0;
 var events_1 = __webpack_require__(2);
-var types_1 = __webpack_require__(28);
+var types_1 = __webpack_require__(29);
 var types_2 = __webpack_require__(22);
 var core_1 = __webpack_require__(1);
 var Selection = /** @class */ (function () {
@@ -31107,9 +31276,9 @@ var ts_layout_1 = __webpack_require__(12);
 var ts_message_1 = __webpack_require__(11);
 var ts_toolbar_1 = __webpack_require__(37);
 var ts_navbar_1 = __webpack_require__(21);
-var en_1 = __webpack_require__(51);
+var en_1 = __webpack_require__(50);
 var types_1 = __webpack_require__(36);
-var Uploader_1 = __webpack_require__(60);
+var Uploader_1 = __webpack_require__(59);
 var configs_1 = __webpack_require__(178);
 var helper_1 = __webpack_require__(179);
 var ProgressBar_1 = __webpack_require__(180);
@@ -31647,11 +31816,13 @@ var Navbar = /** @class */ (function (_super) {
                 var supportsTouch = "ontouchstart" in window || navigator.msMaxTouchPoints;
                 document.removeEventListener("click", _this._documentClick);
                 _this._documentHaveListener = false;
+                if ((0, core_1.isId)(id) && _this._currentRoot === id)
+                    return;
                 if ((((supportsTouch && !element_1) || !_this._isContextMenu) &&
                     (root === parent_1 || !parent_1 || !_this.data.getItem(id))) ||
                     !parent_1 ||
                     !_this.data.getItem(id) ||
-                    root !== (0, html_1.locate)(e, "data-dhx-widget-id")) {
+                    (_this._isContextMenu && root !== (0, html_1.locate)(e, "data-dhx-widget-id"))) {
                     _this._close(e);
                 }
             }
@@ -31856,6 +32027,7 @@ var Navbar = /** @class */ (function (_super) {
                         if (!_this._vpopups) {
                             _this._init();
                         }
+                        _this._setRoot(id);
                         var position = (0, html_1.getRealPosition)(elem);
                         _this.data.update(id, { $position: position }, false);
                     }
@@ -31902,12 +32074,16 @@ var Navbar = /** @class */ (function (_super) {
                 if (item === null || item === void 0 ? void 0 : item.multiClick) {
                     return;
                 }
+                if (_this._currentRoot === id) {
+                    _this.events.fire(types_1.NavigationBarEvents.click, [id, e]);
+                    if (_this.config.navigationType === "click") {
+                        _this._close(e);
+                    }
+                    return;
+                }
                 if (_this.data.haveItems(id)) {
                     if (!_this._vpopups) {
                         _this._init();
-                    }
-                    if (id === _this._currentRoot) {
-                        return;
                     }
                     if (!_this._isActive) {
                         _this._isActive = true;
@@ -32200,7 +32376,7 @@ var separator_1 = __webpack_require__(173);
 var spacer_1 = __webpack_require__(174);
 var title_1 = __webpack_require__(175);
 var datePicker_1 = __webpack_require__(176);
-var helpers_1 = __webpack_require__(29);
+var helpers_1 = __webpack_require__(30);
 function itemfactory(item, events, widgetName, props) {
     switch (item.type) {
         case "navItem":
@@ -32330,7 +32506,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.button = void 0;
 var dom_1 = __webpack_require__(0);
-var helpers_1 = __webpack_require__(29);
+var helpers_1 = __webpack_require__(30);
 function button(item, widgetName) {
     var getAriaAttrs = function (item) {
         var isItemActivated = item.active || item.$activeParent;
@@ -32390,7 +32566,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.navItem = void 0;
 var dom_1 = __webpack_require__(0);
-var helpers_1 = __webpack_require__(29);
+var helpers_1 = __webpack_require__(30);
 function navItem(item, widgetName, collapsed) {
     var getAriaAttrs = function (item) {
         var attrs = {
@@ -32507,7 +32683,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.imageButton = void 0;
 var dom_1 = __webpack_require__(0);
-var helpers_1 = __webpack_require__(29);
+var helpers_1 = __webpack_require__(30);
 function imageButton(item, widgetName) {
     var getAriaAttrs = function (item) {
         var attrs = {
@@ -32649,7 +32825,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.menuItem = void 0;
 var dom_1 = __webpack_require__(0);
-var helpers_1 = __webpack_require__(29);
+var helpers_1 = __webpack_require__(30);
 var core_1 = __webpack_require__(1);
 function menuItem(item, widgetName, asMenuItem) {
     var getAriaAttrs = function (item) {
@@ -32936,7 +33112,7 @@ var ProToolbar = /** @class */ (function (_super) {
             }, 0) + 24
             : null;
         var navBar = [
-            (0, dom_1.el)("ul.dhx_navbar.dhx_navbar--horizontal", __assign(__assign({ "data-dhx-widget-id": this._uid, tabindex: 0 }, getAriaAttrs(element)), { onclick: this._handlers.onclick, onmousedown: this._handlers.onmousedown, oninput: this._handlers.input, onmouseover: this._handlers.tooltip, onkeydown: this._handlers.onkeydown, _hooks: {
+            (0, dom_1.el)("ul.dhx_navbar.dhx_navbar--horizontal", __assign(__assign({ "data-dhx-widget-id": this._uid, tabindex: 0 }, getAriaAttrs(element)), { onclick: this._handlers.onclick, onmousedown: this._handlers.onmousedown, oninput: this._handlers.input, onmouseover: this._handlers.tooltip, onkeydown: this._handlers.onkeydown, onmousemove: this._handlers.onmousemove, onmouseleave: this._handlers.onmouseleave, _hooks: {
                     didInsert: function (node) {
                         node.el.addEventListener("keyup", function (e) {
                             if (e.which !== 9) {
@@ -33011,7 +33187,7 @@ exports.layoutConfigWithoutTopbar = {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isImage = exports.getFileClassName = exports.getFileType = exports.FileType = exports.calculateCover = exports.truncateWord = exports.getBasis = void 0;
-var en_1 = __webpack_require__(51);
+var en_1 = __webpack_require__(50);
 var basis = ["byte", "kilobyte", "megabyte", "gigabyte"];
 function getBasis(size, current) {
     if (size === void 0) { size = 0; }
@@ -33265,7 +33441,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProgressBar = void 0;
 var dom_1 = __webpack_require__(0);
 var view_1 = __webpack_require__(8);
-var en_1 = __webpack_require__(51);
+var en_1 = __webpack_require__(50);
 var types_1 = __webpack_require__(36);
 var ProgressBar = /** @class */ (function (_super) {
     __extends(ProgressBar, _super);
@@ -33406,9 +33582,9 @@ var events_1 = __webpack_require__(2);
 var html_1 = __webpack_require__(3);
 var view_1 = __webpack_require__(8);
 var core_1 = __webpack_require__(1);
-var color_1 = __webpack_require__(53);
+var color_1 = __webpack_require__(52);
 var colors_1 = __webpack_require__(82);
-var en_1 = __webpack_require__(54);
+var en_1 = __webpack_require__(53);
 var types_1 = __webpack_require__(83);
 // tslint:disable-next-line
 var tooltip_1 = __webpack_require__(67);
@@ -33456,6 +33632,7 @@ var Colorpicker = /** @class */ (function (_super) {
             if (!_this.events.fire(types_1.ColorpickerEvents.beforeChange, [color]))
                 return;
             _this._selected = color;
+            _this._focusColor(color);
             _this.events.fire(types_1.ColorpickerEvents.change, [_this._selected]);
             _this.events.fire(types_1.ColorpickerEvents.colorChange, [_this._selected]); // TODO: remove suite_7.0
         };
@@ -33491,8 +33668,9 @@ var Colorpicker = /** @class */ (function (_super) {
         return _this;
     }
     Colorpicker.prototype.destructor = function () {
+        this._keyManager && this._keyManager.destructor();
         this.events && this.events.clear();
-        this.config = this.events = this._selected = this._handlers = this._pickerState = this._inputTimeout = null;
+        this.config = this.events = this._selected = this._handlers = this._pickerState = this._inputTimeout = this._keyManager = null;
         this.unmount();
     };
     Colorpicker.prototype.clear = function () {
@@ -33806,9 +33984,9 @@ exports.Colorpicker = Colorpicker;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.calculatePaletteGrip = exports.getPicker = void 0;
-var color_1 = __webpack_require__(53);
+var color_1 = __webpack_require__(52);
 var dom_1 = __webpack_require__(0);
-var en_1 = __webpack_require__(54);
+var en_1 = __webpack_require__(53);
 function getPicker(colorpicker, pickerState, handlers) {
     var rgb = (0, color_1.HSVtoRGB)(pickerState.hsv);
     pickerState.background = (0, color_1.RGBToHex)(rgb);
@@ -33996,7 +34174,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(84), exports);
 __exportStar(__webpack_require__(205), exports);
-__exportStar(__webpack_require__(25), exports);
+__exportStar(__webpack_require__(26), exports);
 
 
 /***/ }),
@@ -34253,7 +34431,7 @@ exports.legendTicks = legendTicks;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var RadialScale_1 = __webpack_require__(190);
-var Scale_1 = __webpack_require__(55);
+var Scale_1 = __webpack_require__(54);
 var TextScale_1 = __webpack_require__(192);
 var scaleTypes = {
     radial: RadialScale_1.RadialScale,
@@ -34286,8 +34464,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RadialScale = void 0;
-var circle_1 = __webpack_require__(30);
-var Scale_1 = __webpack_require__(55);
+var circle_1 = __webpack_require__(31);
+var Scale_1 = __webpack_require__(54);
 var RadialScale = /** @class */ (function (_super) {
     __extends(RadialScale, _super);
     function RadialScale(_data, config) {
@@ -34458,7 +34636,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TextScale = void 0;
 var common_1 = __webpack_require__(5);
-var Scale_1 = __webpack_require__(55);
+var Scale_1 = __webpack_require__(54);
 var SvgScales_1 = __webpack_require__(86);
 var renderScale = {
     left: SvgScales_1.left,
@@ -34678,9 +34856,9 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var circle_1 = __webpack_require__(30);
+var circle_1 = __webpack_require__(31);
 var common_1 = __webpack_require__(5);
-var NoScaleSeria_1 = __webpack_require__(57);
+var NoScaleSeria_1 = __webpack_require__(56);
 var Donut = /** @class */ (function (_super) {
     __extends(Donut, _super);
     function Donut() {
@@ -34699,7 +34877,7 @@ var Donut = /** @class */ (function (_super) {
         var getChartAriaAttrs = function (cfg) { return ({
             "aria-label": "chart ".concat(cfg.text || ""),
         }); };
-        var _a = this.config, stroke = _a.stroke, strokeWidth = _a.strokeWidth, useLines = _a.useLines, subType = _a.subType;
+        var _a = this.config, stroke = _a.stroke, strokeWidth = _a.strokeWidth, useLines = _a.useLines, subType = _a.subType, valueTemplate = _a.valueTemplate;
         var defaultStrokeWidth = !strokeWidth || strokeWidth < 1 ? 4 : strokeWidth > 15 ? 15 : strokeWidth;
         var radius;
         if (height > width) {
@@ -34740,6 +34918,9 @@ var Donut = /** @class */ (function (_super) {
                 (0, circle_1.getCoordinates)(avPercent, radius + startPart, radius + startPart),
                 (0, circle_1.getCoordinates)(avPercent, radius + endPart, radius + endPart),
             ], linkStart = _g[0], linkEnd = _g[1];
+            var totalValue = typeof valueTemplate === "function"
+                ? valueTemplate(percent)
+                : Math.round(percent * 100) + "%";
             switch (_this.config.subType) {
                 case "basic": {
                     var className = isRight ? "donut-value-title start-text" : "donut-value-title end-text";
@@ -34819,7 +35000,7 @@ var Donut = /** @class */ (function (_super) {
                         }
                     }
                     textPoints.push(currentText_1);
-                    var text3 = (0, dom_1.sv)("text", __assign({ x: (middleLine[0] * 7) / 9, y: (middleLine[1] * 7) / 9, class: "pie-inner-value" }, getPointAriaAttrs(value, text, percent)), [(0, common_1.verticalCenteredText)(Math.round(percent * 100) + "%")]);
+                    var text3 = (0, dom_1.sv)("text", __assign({ x: (middleLine[0] * 7) / 9, y: (middleLine[1] * 7) / 9, class: "pie-inner-value" }, getPointAriaAttrs(value, text, percent)), [(0, common_1.verticalCenteredText)(totalValue)]);
                     link.push((0, dom_1.sv)("g", {
                         id: "".concat(id, "-text"),
                         class: "chart donut",
@@ -34833,7 +35014,7 @@ var Donut = /** @class */ (function (_super) {
                     break;
                 }
                 case "percentOnly": {
-                    var percentText = (0, dom_1.sv)("text", __assign(__assign({ x: (middleLine[0] * 7) / 9, y: (middleLine[1] * 7) / 9, class: "pie-inner-value" }, getPointAriaAttrs(value, text, percent)), { tabindex: 0 }), [(0, common_1.verticalCenteredText)(Math.round(percent * 100) + "%")]);
+                    var percentText = (0, dom_1.sv)("text", __assign(__assign({ x: (middleLine[0] * 7) / 9, y: (middleLine[1] * 7) / 9, class: "pie-inner-value" }, getPointAriaAttrs(value, text, percent)), { tabindex: 0 }), [(0, common_1.verticalCenteredText)(totalValue)]);
                     link.push(percentText);
                     break;
                 }
@@ -34926,9 +35107,9 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var circle_1 = __webpack_require__(30);
+var circle_1 = __webpack_require__(31);
 var common_1 = __webpack_require__(5);
-var NoScaleSeria_1 = __webpack_require__(57);
+var NoScaleSeria_1 = __webpack_require__(56);
 var Pie = /** @class */ (function (_super) {
     __extends(Pie, _super);
     function Pie() {
@@ -34945,7 +35126,7 @@ var Pie = /** @class */ (function (_super) {
         var getChartAriaAttrs = function (cfg) { return ({
             "aria-label": "chart ".concat(cfg.text || ""),
         }); };
-        var _a = this.config, stroke = _a.stroke, strokeWidth = _a.strokeWidth, gradient = _a.gradient, useLines = _a.useLines, showText = _a.showText, showTextTemplate = _a.showTextTemplate, subType = _a.subType;
+        var _a = this.config, stroke = _a.stroke, strokeWidth = _a.strokeWidth, gradient = _a.gradient, useLines = _a.useLines, showText = _a.showText, showTextTemplate = _a.showTextTemplate, subType = _a.subType, valueTemplate = _a.valueTemplate;
         var defaultStrokeWidth = !strokeWidth || strokeWidth < 1 ? 4 : strokeWidth > 15 ? 15 : strokeWidth;
         var radius;
         if (height > width) {
@@ -35010,6 +35191,9 @@ var Pie = /** @class */ (function (_super) {
                 ]);
                 link.push(linkText);
             }
+            var totalValue = typeof valueTemplate === "function"
+                ? valueTemplate(percent)
+                : Math.round(percent * 100) + "%";
             switch (_this.config.subType) {
                 case "basic": {
                     var textPadding = 10;
@@ -35093,7 +35277,7 @@ var Pie = /** @class */ (function (_super) {
                         y: middleLine[1] * 0.5,
                         class: "pie-inner-value",
                         "aria-hidden": "true",
-                    }, [(0, common_1.verticalCenteredText)(Math.round(percent * 100) + "%")]);
+                    }, [(0, common_1.verticalCenteredText)(totalValue)]);
                     link.push((0, dom_1.sv)("g", {
                         id: "".concat(id, "-text"),
                         class: "chart donut",
@@ -35117,7 +35301,7 @@ var Pie = /** @class */ (function (_super) {
                         y: middleLine[1] * 0.5,
                         class: "pie-inner-value",
                         "aria-hidden": "true",
-                    }, [(0, common_1.verticalCenteredText)(Math.round(percent * 100) + "%")]);
+                    }, [(0, common_1.verticalCenteredText)(totalValue)]);
                     link.push(percentText);
                     break;
                 }
@@ -35204,9 +35388,9 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var circle_1 = __webpack_require__(30);
+var circle_1 = __webpack_require__(31);
 var common_1 = __webpack_require__(5);
-var NoScaleSeria_1 = __webpack_require__(57);
+var NoScaleSeria_1 = __webpack_require__(56);
 var Pie = /** @class */ (function (_super) {
     __extends(Pie, _super);
     function Pie() {
@@ -35223,7 +35407,7 @@ var Pie = /** @class */ (function (_super) {
         var getChartAriaAttrs = function (cfg) { return ({
             "aria-label": "chart ".concat(cfg.text || ""),
         }); };
-        var _a = this.config, subType = _a.subType, useLines = _a.useLines, showText = _a.showText, showTextTemplate = _a.showTextTemplate;
+        var _a = this.config, subType = _a.subType, useLines = _a.useLines, showText = _a.showText, showTextTemplate = _a.showTextTemplate, valueTemplate = _a.valueTemplate;
         var radiusX;
         if (height > width) {
             radiusX = width / 2;
@@ -35258,6 +35442,9 @@ var Pie = /** @class */ (function (_super) {
             var isRight = avPercent > -0.25 && avPercent < 0.25;
             var isUp = avPercent > 0.5 || avPercent < 0;
             var className = isRight ? "pie-value start-text" : "pie-value end-text";
+            var totalValue = typeof valueTemplate === "function"
+                ? valueTemplate(percent)
+                : Math.round(percent * 100) + "%";
             switch (_this.config.subType) {
                 case "basic": {
                     var textPadding = 10;
@@ -35296,7 +35483,7 @@ var Pie = /** @class */ (function (_super) {
                         y: middleLine[1] * 0.5,
                         class: "pie-inner-value",
                         "aria-hidden": "true",
-                    }, [(0, common_1.verticalCenteredText)(Math.round(percent * 100) + "%")]);
+                    }, [(0, common_1.verticalCenteredText)(totalValue)]);
                     _a = (0, common_1.getSizesSVGText)(text.toString(), {
                         font: "normal 14px Roboto",
                         lineHeight: 14,
@@ -35363,7 +35550,7 @@ var Pie = /** @class */ (function (_super) {
                         y: middleLine[1] * 0.5,
                         class: "pie-inner-value",
                         "aria-hidden": "true",
-                    }, [(0, common_1.verticalCenteredText)(Math.round(percent * 100) + "%")]);
+                    }, [(0, common_1.verticalCenteredText)(totalValue)]);
                     links.push(percentText);
                     break;
                 }
@@ -35479,9 +35666,9 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var circle_1 = __webpack_require__(30);
+var circle_1 = __webpack_require__(31);
 var common_1 = __webpack_require__(5);
-var BaseSeria_1 = __webpack_require__(31);
+var BaseSeria_1 = __webpack_require__(32);
 var Radar = /** @class */ (function (_super) {
     __extends(Radar, _super);
     function Radar() {
@@ -35649,7 +35836,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Line_1 = __webpack_require__(58);
+var Line_1 = __webpack_require__(57);
 var common_1 = __webpack_require__(5);
 var Scatter = /** @class */ (function (_super) {
     __extends(Scatter, _super);
@@ -35708,7 +35895,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
 var spline_1 = __webpack_require__(91);
-var Line_1 = __webpack_require__(58);
+var Line_1 = __webpack_require__(57);
 var Spline = /** @class */ (function (_super) {
     __extends(Spline, _super);
     function Spline() {
@@ -35837,8 +36024,8 @@ var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var ts_data_1 = __webpack_require__(7);
 var common_1 = __webpack_require__(5);
-var types_1 = __webpack_require__(25);
-var BaseSeria_1 = __webpack_require__(31);
+var types_1 = __webpack_require__(26);
+var BaseSeria_1 = __webpack_require__(32);
 var TreeMap = /** @class */ (function (_super) {
     __extends(TreeMap, _super);
     function TreeMap() {
@@ -36407,7 +36594,7 @@ var date_1 = __webpack_require__(16);
 var dom_1 = __webpack_require__(0);
 var ts_data_1 = __webpack_require__(7);
 var common_1 = __webpack_require__(5);
-var BaseSeria_1 = __webpack_require__(31);
+var BaseSeria_1 = __webpack_require__(32);
 var CalendarHeatMap = /** @class */ (function (_super) {
     __extends(CalendarHeatMap, _super);
     function CalendarHeatMap() {
@@ -36724,7 +36911,7 @@ exports.Tooltip = void 0;
 var ts_message_1 = __webpack_require__(11);
 var common_1 = __webpack_require__(5);
 var line_1 = __webpack_require__(89);
-var types_1 = __webpack_require__(25);
+var types_1 = __webpack_require__(26);
 var Tooltip = /** @class */ (function () {
     function Tooltip(chart) {
         this._chart = chart;
@@ -36973,7 +37160,7 @@ var Exporter = /** @class */ (function () {
     function Exporter(_name, _view) {
         this._name = _name;
         this._view = _view;
-        this._version = "8.3.0";
+        this._version = "8.4.0";
     }
     Exporter.prototype.pdf = function (config) {
         this._rawExport(config, "pdf", this._view);
@@ -37561,12 +37748,12 @@ var DatePicker = /** @class */ (function (_super) {
         return _this;
     }
     DatePicker.prototype.destructor = function () {
-        this.events && this.events.clear();
-        this.calendar && this.calendar.destructor();
         this._popup && this._popup.destructor();
-        this.events = this._uid = this._propsCalendar = this._propsItem = this._props = null;
+        this._keyManager && this._keyManager.destructor();
+        this.calendar && this.calendar.destructor();
+        this.events && this.events.clear();
+        this.events = this._uid = this._propsCalendar = this._propsItem = this._props = this._keyManager = null;
         _super.prototype._destructor.call(this);
-        this.unmount();
     };
     DatePicker.prototype.setProperties = function (propertyConfig) {
         if (!propertyConfig ||
@@ -37625,23 +37812,31 @@ var DatePicker = /** @class */ (function (_super) {
     DatePicker.prototype.isDisabled = function () {
         return !!this.config.disabled;
     };
-    DatePicker.prototype.validate = function (silent, value) {
+    DatePicker.prototype.validate = function (silent) {
         var _a;
         if (silent === void 0) { silent = false; }
-        if (value === void 0) { value = this.getValue(); }
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        var value = args.length ? args[0] : this.getValue();
         var checkValue = ((_a = this.config.valueFormat) === null || _a === void 0 ? void 0 : _a.toLowerCase()) === "date"
             ? value instanceof Date
             : (0, date_1.stringToDate)(value, this.calendar.config.dateFormat, true);
         if (!silent && !this.events.fire(types_1.ItemEvent.beforeValidate, [value])) {
             return false;
         }
-        var isValid = this.config.validation ? this.config.validation(value) : !!checkValue;
+        var valid = true;
+        if (this.config.required || args.length)
+            valid = !!checkValue;
+        if (typeof this.config.validation === "function")
+            valid = this.config.validation(value);
         if (!silent) {
-            this.setValidationStatus(isValid ? "success" : "error");
-            this.events.fire(types_1.ItemEvent.afterValidate, [value, isValid]);
+            this.setValidationStatus(valid ? "success" : "error");
+            this.events.fire(types_1.ItemEvent.afterValidate, [value, valid]);
             this.paint();
         }
-        return isValid;
+        return valid;
     };
     DatePicker.prototype.clearValidate = function () {
         this.setValidationStatus();
@@ -37678,7 +37873,6 @@ var DatePicker = /** @class */ (function (_super) {
         return this.calendar;
     };
     DatePicker.prototype._initView = function (config) {
-        var _this = this;
         if ((0, core_1.isEmptyObj)(config)) {
             throw new Error("Check the configuration is correct");
         }
@@ -37726,11 +37920,6 @@ var DatePicker = /** @class */ (function (_super) {
         this._popup = new ts_popup_1.Popup();
         this.calendar = new ts_calendar_1.Calendar(null, (0, helper_1.widgetConfig)(config));
         this._popup.attach(this.calendar);
-        if (this.config.hidden) {
-            (0, dom_1.awaitRedraw)().then(function () {
-                _this.hide(true);
-            });
-        }
     };
     DatePicker.prototype._initHandlers = function () {
         var _this = this;
@@ -37766,20 +37955,6 @@ var DatePicker = /** @class */ (function (_super) {
             }
             _this.paint();
         });
-        document.addEventListener("keydown", function (event) {
-            var _a, _b, _c;
-            var activeEl = document.activeElement;
-            var element = (_c = (_b = (_a = _this.getRootView()) === null || _a === void 0 ? void 0 : _a.refs) === null || _b === void 0 ? void 0 : _b.input) === null || _c === void 0 ? void 0 : _c.el;
-            if (element === activeEl || _this._popup.isVisible()) {
-                _this.events.fire(types_1.ItemEvent.keydown, [event]);
-            }
-        });
-        document.addEventListener("mousedown", function () {
-            var popup = _this._popup.getContainer();
-            var activeEl = document.activeElement;
-            if (popup !== activeEl)
-                _this._popupIsFocus = false;
-        });
     };
     DatePicker.prototype._getHandlers = function () {
         var _this = this;
@@ -37813,6 +37988,20 @@ var DatePicker = /** @class */ (function (_super) {
                 else if (value === "") {
                     _this.clear();
                 }
+            },
+            onkeydown: function (event) {
+                var _a, _b, _c;
+                var activeEl = document.activeElement;
+                var element = (_c = (_b = (_a = _this.getRootView()) === null || _a === void 0 ? void 0 : _a.refs) === null || _b === void 0 ? void 0 : _b.input) === null || _c === void 0 ? void 0 : _c.el;
+                if (element === activeEl || _this._popup.isVisible()) {
+                    _this.events.fire(types_1.ItemEvent.keydown, [event]);
+                }
+            },
+            onmousedown: function () {
+                var popup = _this._popup.getContainer();
+                var activeEl = document.activeElement;
+                if (popup !== activeEl)
+                    _this._popupIsFocus = false;
             },
         };
     };
@@ -37884,6 +38073,8 @@ var DatePicker = /** @class */ (function (_super) {
                         oninput: this._handlers.oninput,
                         onchange: this._handlers.onchange,
                         onblur: this._handlers.onblur,
+                        onkeydown: this._handlers.onkeydown,
+                        onmousedown: this._handlers.onmousedown,
                         autocomplete: "off",
                         readOnly: !editable,
                         "aria-label": label || "".concat(editable ? "type or" : "", " select date"),
@@ -37960,7 +38151,7 @@ var helper_1 = __webpack_require__(6);
 var Button = /** @class */ (function (_super) {
     __extends(Button, _super);
     function Button(container, config) {
-        var _this = _super.call(this, container, __assign({ disabled: false, hidden: false, submit: false, full: false, circle: false, loading: false, view: "flat", size: "medium", color: "primary", width: "content", height: "content", url: "", text: "", icon: "" }, config)) || this;
+        var _this = _super.call(this, container, __assign({ disabled: false, hidden: false, submit: false, full: false, circle: false, loading: false, view: "flat", size: "medium", color: "primary", height: "content", url: "", text: "", icon: "" }, config)) || this;
         _this._propsItem = [
             "submit",
             "url",
@@ -37982,11 +38173,6 @@ var Button = /** @class */ (function (_super) {
             onfocus: function () { return _this.events.fire(types_1.ItemEvent.focus, [_this.config.text]); },
             onkeydown: function (event) { return _this.events.fire(types_1.ItemEvent.keydown, [event]); },
         };
-        if (_this.config.hidden) {
-            (0, dom_1.awaitRedraw)().then(function () {
-                _this.hide(true);
-            });
-        }
         var render = function () { return _this._draw(); };
         _this.mount(container, (0, dom_1.create)({ render: render }));
         return _this;
@@ -38064,7 +38250,7 @@ var Button = /** @class */ (function (_super) {
         });
     };
     Button.prototype._draw = function () {
-        var _a = this.config, color = _a.color, size = _a.size, view = _a.view, full = _a.full, loading = _a.loading, circle = _a.circle, icon = _a.icon, text = _a.text, disabled = _a.disabled, submit = _a.submit, id = _a.id, name = _a.name;
+        var _a = this.config, color = _a.color, size = _a.size, view = _a.view, loading = _a.loading, circle = _a.circle, icon = _a.icon, text = _a.text, disabled = _a.disabled, submit = _a.submit, id = _a.id, name = _a.name, full = _a.full;
         var colorsCss = {
             danger: " dhx_button--color_danger",
             secondary: " dhx_button--color_secondary",
@@ -38092,12 +38278,12 @@ var Button = /** @class */ (function (_super) {
             onblur: this._handlers.onblur,
             onkeydown: this._handlers.onkeydown,
             type: submit ? "submit" : "button",
-            class: "dhx_button" +
+            class: "dhx_button " +
                 colorsCss +
                 sizeCss +
                 viewCss +
-                fullCss +
                 circleCss +
+                fullCss +
                 loadingCss +
                 iconViewCss,
             _ref: "button",
@@ -38253,11 +38439,12 @@ var CheckboxGroup = /** @class */ (function (_super) {
         if (typeof newValue === "undefined" || (0, core_1.isEmptyObj)(newValue))
             return;
         var currentValue = this.getValue();
+        var updatedValue = __assign({}, currentValue);
         var _loop_1 = function (id, value) {
             var checkbox = this_1._buttons.find(function (i) { return i.config.id === id; });
             if (checkbox) {
                 var checkboxValue = checkbox.config.value;
-                currentValue[id] =
+                updatedValue[id] =
                     typeof checkboxValue === "string" ? (value && checkboxValue) || "" : !!value;
             }
         };
@@ -38266,7 +38453,8 @@ var CheckboxGroup = /** @class */ (function (_super) {
             var _b = _a[_i], id = _b[0], value = _b[1];
             _loop_1(id, value);
         }
-        if (!this.events.fire(types_1.ItemEvent.beforeChange, [currentValue])) {
+        var isSameValue = (0, core_1.compare)(currentValue, updatedValue);
+        if (isSameValue || !this.events.fire(types_1.ItemEvent.beforeChange, [updatedValue])) {
             return;
         }
         var _loop_2 = function (id, value) {
@@ -38432,17 +38620,19 @@ var CheckboxGroup = /** @class */ (function (_super) {
         if (!silent && !this.events.fire(types_1.ItemEvent.beforeValidate, [value])) {
             return false;
         }
-        var isValid = !!(this.config.required &&
-            this._buttons.some(function (element) { return element.config.$required && !!element.config.checked; }));
+        var valid = true;
+        if (this.config.required) {
+            valid = this._buttons.some(function (element) { return element.config.$required && !!element.config.checked; });
+        }
         if (!silent) {
             this._buttons.forEach(function (element) {
-                element.setValidationStatus(isValid ? "success" : "error");
+                element.setValidationStatus(valid ? "success" : "error");
             });
-            this.setValidationStatus(isValid ? "success" : "error");
-            this.events.fire(types_1.ItemEvent.afterValidate, [value, isValid]);
+            this.setValidationStatus(valid ? "success" : "error");
+            this.events.fire(types_1.ItemEvent.afterValidate, [value, valid]);
             this.paint();
         }
-        return isValid;
+        return valid;
     };
     CheckboxGroup.prototype.clearValidate = function () {
         this.setValidationStatus();
@@ -38541,8 +38731,6 @@ var CheckboxGroup = /** @class */ (function (_super) {
             this._buttons.every(function (item) { return item.config.disabled; })) {
             this.config.disabled = true;
         }
-        if (this.config.hidden)
-            (0, dom_1.awaitRedraw)().then(function () { return _this.hide(undefined, true); });
     };
     CheckboxGroup.prototype._initHandlers = function () {
         var _this = this;
@@ -38559,6 +38747,7 @@ var CheckboxGroup = /** @class */ (function (_super) {
                 class: (0, helper_1.getFormItemCss)(this.config, (0, helper_1.isVerify)(this.config)) + visibility,
                 "data-dhx-id": name || id,
                 role: "radiogroup",
+                _key: id || this._uid,
             }, [
                 label || labelWidth || helpMessage || required ? this._drawLabel() : null,
                 (0, dom_1.el)("div.dhx_checkbox-group--container", {}, [
@@ -38851,17 +39040,19 @@ var RadioGroup = /** @class */ (function (_super) {
         if (!silent && !this.events.fire(types_1.ItemEvent.beforeValidate, [value])) {
             return false;
         }
-        var isValid = !!(this.config.required &&
-            this._buttons.some(function (element) { return _this.config.required && !!element.config.checked; }));
+        var valid = true;
+        if (this.config.required) {
+            valid = this._buttons.some(function (element) { return _this.config.required && !!element.config.checked; });
+        }
         if (!silent) {
             this._buttons.forEach(function (element) {
-                element.setValidationStatus(isValid ? "success" : "error");
+                element.setValidationStatus(valid ? "success" : "error");
             });
-            this.setValidationStatus(isValid ? "success" : "error");
-            this.events.fire(types_1.ItemEvent.afterValidate, [value, isValid]);
+            this.setValidationStatus(valid ? "success" : "error");
+            this.events.fire(types_1.ItemEvent.afterValidate, [value, valid]);
             this.paint();
         }
-        return isValid;
+        return valid;
     };
     RadioGroup.prototype.clearValidate = function () {
         this.setValidationStatus();
@@ -38888,6 +39079,7 @@ var RadioGroup = /** @class */ (function (_super) {
             type: config.type,
             id: config.id,
             name: config.name,
+            value: "",
             disabled: false,
             hidden: false,
             options: {},
@@ -38908,8 +39100,6 @@ var RadioGroup = /** @class */ (function (_super) {
                 this.config[key] = config[key];
             }
         }
-        if (this.config.hidden)
-            (0, dom_1.awaitRedraw)().then(function () { return _this.hide(undefined, true); });
         var radioButtonsConfig = this.config.options.rows || this.config.options.cols;
         radioButtonsConfig === null || radioButtonsConfig === void 0 ? void 0 : radioButtonsConfig.forEach(function (option) {
             option.id = option.id || (0, core_1.uid)();
@@ -38970,8 +39160,9 @@ var RadioGroup = /** @class */ (function (_super) {
             (0, dom_1.el)("div.dhx_form-group.dhx_form-group--radio-group", {
                 class: (0, helper_1.getFormItemCss)(this.config, (0, helper_1.isVerify)(this.config)) + visibility,
                 "data-dhx-id": name || id,
+                _key: id || this._uid,
             }, [
-                label || labelWidth || helpMessage || required ? [this._drawLabel()] : null,
+                label || labelWidth || helpMessage || required ? this._drawLabel() : null,
                 (0, dom_1.el)("div.dhx_radio-group--container", {}, [
                     this.layout && (0, dom_1.inject)(this.layout.getRootView()),
                     required &&
@@ -39057,7 +39248,7 @@ var RadioButton = /** @class */ (function (_super) {
     __extends(RadioButton, _super);
     function RadioButton(container, config) {
         if (config === void 0) { config = {}; }
-        var _this = _super.call(this, container, __assign({ text: "", width: "content", height: "content" }, config)) || this;
+        var _this = _super.call(this, container, __assign({ text: "", width: "content", height: "content", checked: false }, config)) || this;
         _this._propsItem = ["text"];
         _this._props = __spreadArray(__spreadArray([], helper_1.baseProps, true), _this._propsItem, true);
         _this._handlers = {
@@ -39179,6 +39370,7 @@ var RadioButton = /** @class */ (function (_super) {
             (0, dom_1.el)("input.dhx_radiobutton__input", {
                 type: "radio",
                 id: id,
+                _key: id || this._uid,
                 value: value || "",
                 name: $name || "",
                 disabled: disabled,
@@ -39367,15 +39559,17 @@ var Select = /** @class */ (function (_super) {
         if (!silent && !this.events.fire(types_1.ItemEvent.beforeValidate, [value])) {
             return false;
         }
-        var isValid = typeof this.config.validation === "function"
-            ? this.config.validation(value)
-            : typeof value !== "undefined" && !!String(value).length;
+        var valid = true;
+        if (this.config.required)
+            valid = (0, core_1.isDefined)(value);
+        if (typeof this.config.validation === "function")
+            valid = this.config.validation(value);
         if (!silent) {
-            this.setValidationStatus(isValid ? "success" : "error");
-            this.events.fire(types_1.ItemEvent.afterValidate, [value, isValid]);
+            this.setValidationStatus(valid ? "success" : "error");
+            this.events.fire(types_1.ItemEvent.afterValidate, [value, valid]);
             this.paint();
         }
-        return isValid;
+        return valid;
     };
     Select.prototype.clearValidate = function () {
         this.setValidationStatus();
@@ -39436,7 +39630,6 @@ var Select = /** @class */ (function (_super) {
         return this.config.options;
     };
     Select.prototype._initView = function (config) {
-        var _this = this;
         if ((0, core_1.isEmptyObj)(config)) {
             throw new Error("Check the configuration is correct");
         }
@@ -39472,8 +39665,6 @@ var Select = /** @class */ (function (_super) {
             this.config.options.every(function (option) { return option.disabled; })) {
             this.config.disabled = true;
         }
-        if (this.config.hidden)
-            (0, dom_1.awaitRedraw)().then(function () { return _this.hide(true); });
         this.paint();
     };
     Select.prototype._getHandlers = function () {
@@ -39517,6 +39708,7 @@ var Select = /** @class */ (function (_super) {
                     }),
                     (0, dom_1.el)("select.dhx_select.dhx_input", {
                         id: id,
+                        _key: id || this._uid,
                         "data-dhx-id": name || id,
                         tabindex: 0,
                         class: activeFocus && "dhx_input--focus",
@@ -39576,6 +39768,17 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -39657,7 +39860,6 @@ var Textarea = /** @class */ (function (_super) {
         return obj;
     };
     Textarea.prototype._initView = function (config) {
-        var _this = this;
         if ((0, core_1.isEmptyObj)(config)) {
             throw new Error("Check the configuration is correct");
         }
@@ -39686,11 +39888,6 @@ var Textarea = /** @class */ (function (_super) {
             if (key !== "id" && key !== "type" && key !== "name") {
                 this.config[key] = config[key];
             }
-        }
-        if (this.config.hidden) {
-            (0, dom_1.awaitRedraw)().then(function () {
-                _this.hide(true);
-            });
         }
         this.paint();
     };
@@ -39721,19 +39918,13 @@ var Textarea = /** @class */ (function (_super) {
                     onchange: this._handlers.onchange,
                     onfocus: this._handlers.onfocus,
                     onkeydown: this._handlers.onkeydown,
-                    _hooks: {
-                        didInsert: function (node) {
+                    _hooks: __assign(__assign({}, this._getHooks()), { didInsert: function (node) {
                             if (height === "content") {
                                 var textarea = node.el;
                                 textarea.style.height = textarea.scrollHeight + "px";
                             }
-                        },
-                        didRecycle: function (_oldNode, newNode) {
-                            if (_this.isFocused() && _this._value) {
-                                newNode.el.value = _this._value;
-                            }
-                        },
-                    },
+                            node.el.addEventListener("compositionend", _this._handlers.oninput);
+                        } }),
                     style: {
                         resize: resizable ? "both" : "none",
                     },
@@ -39825,7 +40016,6 @@ var Text = /** @class */ (function (_super) {
         return obj;
     };
     Text.prototype._initView = function (config) {
-        var _this = this;
         if ((0, core_1.isEmptyObj)(config)) {
             throw new Error("Check the configuration is correct");
         }
@@ -39849,11 +40039,6 @@ var Text = /** @class */ (function (_super) {
             if (key !== "id" && key !== "type" && key !== "name") {
                 this.config[key] = config[key];
             }
-        }
-        if (this.config.hidden) {
-            (0, dom_1.awaitRedraw)().then(function () {
-                _this.hide(true);
-            });
         }
         this.paint();
     };
@@ -40048,15 +40233,19 @@ var Combo = /** @class */ (function (_super) {
         }
     };
     Combo.prototype.setValue = function (value) {
-        if (typeof value === "undefined" || value === this.config.value)
+        if (typeof value === "undefined" || value.toString() === this.config.value.toString())
             return;
         this._isClear = false;
         this.combobox.setValue(value);
     };
-    Combo.prototype.validate = function (silent, value) {
+    Combo.prototype.validate = function (silent) {
         var _this = this;
         if (silent === void 0) { silent = false; }
-        if (value === void 0) { value = this.getValue(); }
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        var value = args.length ? args[0] : this.getValue();
         if (!silent && !this.events.fire(types_1.ItemEvent.beforeValidate, [value])) {
             return false;
         }
@@ -40067,16 +40256,20 @@ var Combo = /** @class */ (function (_super) {
         else {
             text = this._getItemText(value) || "";
         }
-        var isValid = typeof this.config.validation === "function"
-            ? this.config.validation(value, text)
-            : this._existData(value);
+        var valid = true;
+        if (this.config.required || args.length) {
+            valid = this._existData(value);
+        }
+        if (typeof this.config.validation === "function") {
+            valid = this.config.validation(value, text);
+        }
         if (!silent) {
-            this.setValidationStatus(isValid ? "success" : "error");
+            this.setValidationStatus(valid ? "success" : "error");
             this.config.required && this._validationStatus();
-            this.events.fire(types_1.ItemEvent.afterValidate, [value, isValid]);
+            this.events.fire(types_1.ItemEvent.afterValidate, [value, valid]);
             this.paint();
         }
-        return isValid;
+        return valid;
     };
     Combo.prototype.clearValidate = function () {
         this.setValidationStatus();
@@ -40099,7 +40292,6 @@ var Combo = /** @class */ (function (_super) {
         });
     };
     Combo.prototype._initView = function (config) {
-        var _this = this;
         if ((0, core_1.isEmptyObj)(config)) {
             throw new Error("Check the configuration is correct");
         }
@@ -40142,11 +40334,6 @@ var Combo = /** @class */ (function (_super) {
             }
         }
         this.combobox = new ts_combobox_1.Combobox(null, comboConfig);
-        if (this.config.hidden) {
-            (0, dom_1.awaitRedraw)().then(function () {
-                _this.hide(true);
-            });
-        }
         this.paint();
     };
     Combo.prototype._initHandlers = function () {
@@ -40286,7 +40473,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SliderForm = void 0;
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var ts_slider_1 = __webpack_require__(48);
+var ts_slider_1 = __webpack_require__(47);
 var events_1 = __webpack_require__(2);
 var label_1 = __webpack_require__(10);
 var types_1 = __webpack_require__(4);
@@ -40391,7 +40578,7 @@ var SliderForm = /** @class */ (function (_super) {
         return this.slider.getValue();
     };
     SliderForm.prototype.setValue = function (value) {
-        if (typeof value === "undefined" || value === this.config.value)
+        if (typeof value === "undefined" || value.toString() === this.config.value.toString())
             return;
         this.slider.setValue(value);
     };
@@ -40411,7 +40598,6 @@ var SliderForm = /** @class */ (function (_super) {
         });
     };
     SliderForm.prototype._initView = function (config) {
-        var _this = this;
         if ((0, core_1.isEmptyObj)(config)) {
             throw new Error("Check the configuration is correct");
         }
@@ -40448,11 +40634,6 @@ var SliderForm = /** @class */ (function (_super) {
         this.slider = new ts_slider_1.Slider(null, sliderConfig);
         this.config.disabled && this.slider.disable();
         this.config.value = this.slider.getValue();
-        if (this.config.hidden) {
-            (0, dom_1.awaitRedraw)().then(function () {
-                _this.hide(true);
-            });
-        }
     };
     SliderForm.prototype._initHandlers = function () {
         var _this = this;
@@ -40524,7 +40705,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TimePicker = void 0;
-var ts_timepicker_1 = __webpack_require__(45);
+var ts_timepicker_1 = __webpack_require__(44);
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
 var label_1 = __webpack_require__(10);
@@ -40572,8 +40753,9 @@ var TimePicker = /** @class */ (function (_super) {
     TimePicker.prototype.destructor = function () {
         this.events && this.events.clear();
         this.timepicker && this.timepicker.destructor();
+        this._keyManager && this._keyManager.destructor();
         this._popup && this._popup.destructor();
-        this.events = this._uid = this._propsItem = this._propsTimepicker = this._props = null;
+        this.events = this._uid = this._propsItem = this._propsTimepicker = this._props = this._keyManager = null;
         _super.prototype._destructor.call(this);
         this.unmount();
     };
@@ -40641,21 +40823,34 @@ var TimePicker = /** @class */ (function (_super) {
     TimePicker.prototype.isDisabled = function () {
         return !!this.config.disabled;
     };
-    TimePicker.prototype.validate = function (silent, value) {
+    TimePicker.prototype.validate = function (silent) {
         if (silent === void 0) { silent = false; }
-        if (value === void 0) { value = this.getValue(this.config.valueFormat === "timeObject"); }
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        var value = args.length ? args[0] : this.getValue(this._isTimeObject());
         if (!silent && !this.events.fire(types_1.ItemEvent.beforeValidate, [value])) {
             return false;
         }
-        var isValid = !!(typeof this.config.validation === "function"
-            ? this.config.validation(value)
-            : (0, helper_1.isTimeFormat)(this.getValue(), this.config.timeFormat));
+        var valid = true;
+        if (this.config.required || args.length) {
+            if (typeof value === "string") {
+                valid = (0, helper_1.isTimeFormat)(value, this.config.timeFormat);
+            }
+            else {
+                valid = (0, helper_1.isTimeFormat)("".concat(value.hour, ":").concat(value.minute).concat((0, core_1.isDefined)(value.AM) ? (value.AM ? "AM" : "PM") : ""), this.config.timeFormat);
+            }
+        }
+        if (typeof this.config.validation === "function") {
+            valid = this.config.validation(value);
+        }
         if (!silent) {
-            this.config.$validationStatus = isValid ? types_1.ValidationStatus.success : types_1.ValidationStatus.error;
-            this.events.fire(types_1.ItemEvent.afterValidate, [value, isValid]);
+            this.config.$validationStatus = valid ? types_1.ValidationStatus.success : types_1.ValidationStatus.error;
+            this.events.fire(types_1.ItemEvent.afterValidate, [value, valid]);
             this.paint();
         }
-        return isValid;
+        return valid;
     };
     TimePicker.prototype.clearValidate = function () {
         this.config.$validationStatus = types_1.ValidationStatus.pre;
@@ -40701,7 +40896,6 @@ var TimePicker = /** @class */ (function (_super) {
         return this.timepicker;
     };
     TimePicker.prototype._initView = function (config) {
-        var _this = this;
         if ((0, core_1.isEmptyObj)(config)) {
             throw new Error("Check the configuration is correct");
         }
@@ -40715,6 +40909,7 @@ var TimePicker = /** @class */ (function (_super) {
             type: config.type,
             id: config.id,
             name: config.name,
+            value: "",
             disabled: false,
             editable: false,
             hidden: false,
@@ -40743,13 +40938,8 @@ var TimePicker = /** @class */ (function (_super) {
         this._popup = new ts_popup_1.Popup();
         this.timepicker = new ts_timepicker_1.Timepicker(null, (0, helper_1.widgetConfig)(config));
         this._popup.attach(this.timepicker);
-        if (this.config.hasOwnProperty("value")) {
+        if (this.config.value) {
             this.config.value = this.timepicker.getValue();
-        }
-        if (this.config.hidden) {
-            (0, dom_1.awaitRedraw)().then(function () {
-                _this.hide(true);
-            });
         }
     };
     TimePicker.prototype._initHandlers = function () {
@@ -40810,20 +41000,6 @@ var TimePicker = /** @class */ (function (_super) {
             _this._popupIsFocus = false;
             _this.paint();
         });
-        document.addEventListener("keydown", function (event) {
-            var _a, _b, _c;
-            var activeEl = document.activeElement;
-            var element = (_c = (_b = (_a = _this.getRootView()) === null || _a === void 0 ? void 0 : _a.refs) === null || _b === void 0 ? void 0 : _b.input) === null || _c === void 0 ? void 0 : _c.el;
-            if (element === activeEl || _this._popup.isVisible()) {
-                _this.events.fire(types_1.ItemEvent.keydown, [event]);
-            }
-        });
-        document.addEventListener("mousedown", function () {
-            var popup = _this._popup.getContainer();
-            var activeEl = document.activeElement;
-            if (popup !== activeEl)
-                _this._popupIsFocus = false;
-        });
     };
     TimePicker.prototype._getHandlers = function () {
         var _this = this;
@@ -40848,6 +41024,20 @@ var TimePicker = /** @class */ (function (_super) {
             oninput: function (e) {
                 var value = e.target.value;
                 _this.events.fire(types_1.ItemEvent.input, [value]);
+            },
+            onkeydown: function (event) {
+                var _a, _b, _c;
+                var activeEl = document.activeElement;
+                var element = (_c = (_b = (_a = _this.getRootView()) === null || _a === void 0 ? void 0 : _a.refs) === null || _b === void 0 ? void 0 : _b.input) === null || _c === void 0 ? void 0 : _c.el;
+                if (element === activeEl || _this._popup.isVisible()) {
+                    _this.events.fire(types_1.ItemEvent.keydown, [event]);
+                }
+            },
+            onmousedown: function () {
+                var popup = _this._popup.getContainer();
+                var activeEl = document.activeElement;
+                if (popup !== activeEl)
+                    _this._popupIsFocus = false;
             },
         };
     };
@@ -40923,6 +41113,8 @@ var TimePicker = /** @class */ (function (_super) {
                         onfocus: this._handlers.onfocus,
                         onblur: this._handlers.onblur,
                         oninput: this._handlers.oninput,
+                        onkeydown: this._handlers.onkeydown,
+                        onmousedown: this._handlers.onmousedown,
                         autocomplete: "off",
                         readOnly: !editable,
                         "aria-label": label || "".concat(editable ? "type or" : "", " select date"),
@@ -41013,7 +41205,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ColorPicker = void 0;
-var ts_colorpicker_1 = __webpack_require__(52);
+var ts_colorpicker_1 = __webpack_require__(51);
 var events_1 = __webpack_require__(2);
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
@@ -41061,8 +41253,9 @@ var ColorPicker = /** @class */ (function (_super) {
     ColorPicker.prototype.destructor = function () {
         this.events && this.events.clear();
         this._popup && this._popup.destructor();
+        this._keyManager && this._keyManager.destructor();
         this.colorpicker && this.colorpicker.destructor();
-        this.events = this._uid = this._propsColorpicker = this._propsItem = this._props = null;
+        this.events = this._uid = this._propsColorpicker = this._propsItem = this._props = this._keyManager = null;
         _super.prototype._destructor.call(this);
         this.unmount();
     };
@@ -41123,19 +41316,29 @@ var ColorPicker = /** @class */ (function (_super) {
     ColorPicker.prototype.isDisabled = function () {
         return !!this.config.disabled;
     };
-    ColorPicker.prototype.validate = function (silent, value) {
+    ColorPicker.prototype.validate = function (silent) {
         if (silent === void 0) { silent = false; }
-        if (value === void 0) { value = this.getValue(); }
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        var value = args.length ? args[0] : this.getValue();
         if (!silent && !this.events.fire(types_1.ItemEvent.beforeValidate, [value])) {
             return false;
         }
-        var isValid = typeof this.config.validation === "function" ? this.config.validation(value) : (0, ts_colorpicker_1.isHex)(value);
+        var valid = true;
+        if (this.config.required || args.length) {
+            valid = (0, ts_colorpicker_1.isHex)(value);
+        }
+        if (typeof this.config.validation === "function") {
+            valid = this.config.validation(value);
+        }
         if (!silent) {
-            this.setValidationStatus(isValid ? "success" : "error");
-            this.events.fire(types_1.ItemEvent.afterValidate, [value, isValid]);
+            this.setValidationStatus(valid ? "success" : "error");
+            this.events.fire(types_1.ItemEvent.afterValidate, [value, valid]);
             this.paint();
         }
-        return isValid;
+        return valid;
     };
     ColorPicker.prototype.clearValidate = function () {
         this.setValidationStatus();
@@ -41171,7 +41374,6 @@ var ColorPicker = /** @class */ (function (_super) {
         });
     };
     ColorPicker.prototype._initView = function (config) {
-        var _this = this;
         if ((0, core_1.isEmptyObj)(config)) {
             throw new Error("Check the configuration is correct");
         }
@@ -41216,12 +41418,8 @@ var ColorPicker = /** @class */ (function (_super) {
         }
         this._popup = new ts_popup_1.Popup();
         this.colorpicker = new ts_colorpicker_1.Colorpicker(null, (0, helper_1.widgetConfig)(config));
+        this.colorpicker.setValue(this.config.value);
         this._popup.attach(this.colorpicker);
-        if (this.config.hidden) {
-            (0, dom_1.awaitRedraw)().then(function () {
-                _this.hide(true);
-            });
-        }
     };
     ColorPicker.prototype._initHandlers = function () {
         var _this = this;
@@ -41251,20 +41449,6 @@ var ColorPicker = /** @class */ (function (_super) {
         this.events.on(types_1.ItemEvent.blur, function () {
             _this._popupIsFocus = false;
             _this.paint();
-        });
-        document.addEventListener("keydown", function (event) {
-            var _a, _b, _c;
-            var activeEl = document.activeElement;
-            var element = (_c = (_b = (_a = _this.getRootView()) === null || _a === void 0 ? void 0 : _a.refs) === null || _b === void 0 ? void 0 : _b.input) === null || _c === void 0 ? void 0 : _c.el;
-            if (element === activeEl || _this._popup.isVisible()) {
-                _this.events.fire(types_1.ItemEvent.keydown, [event]);
-            }
-        });
-        document.addEventListener("mousedown", function () {
-            var popup = _this._popup.getContainer();
-            var activeEl = document.activeElement;
-            if (popup !== activeEl)
-                _this._popupIsFocus = false;
         });
     };
     ColorPicker.prototype._getHandlers = function () {
@@ -41299,6 +41483,20 @@ var ColorPicker = /** @class */ (function (_super) {
                 else if (value === "") {
                     _this.clear();
                 }
+            },
+            onkeydown: function (event) {
+                var _a, _b, _c;
+                var activeEl = document.activeElement;
+                var element = (_c = (_b = (_a = _this.getRootView()) === null || _a === void 0 ? void 0 : _a.refs) === null || _b === void 0 ? void 0 : _b.input) === null || _c === void 0 ? void 0 : _c.el;
+                if (element === activeEl || _this._popup.isVisible()) {
+                    _this.events.fire(types_1.ItemEvent.keydown, [event]);
+                }
+            },
+            onmousedown: function () {
+                var popup = _this._popup.getContainer();
+                var activeEl = document.activeElement;
+                if (popup !== activeEl)
+                    _this._popupIsFocus = false;
             },
         };
     };
@@ -41372,6 +41570,8 @@ var ColorPicker = /** @class */ (function (_super) {
                         oninput: this._handlers.oninput,
                         onchange: this._handlers.onchange,
                         onblur: this._handlers.onblur,
+                        onkeydown: this._handlers.onkeydown,
+                        onmousedown: this._handlers.onmousedown,
                         autocomplete: "off",
                         readOnly: !editable,
                         "aria-label": label || "".concat(editable ? "type or" : "", " select color"),
@@ -41441,11 +41641,6 @@ var Spacer = /** @class */ (function (_super) {
     function Spacer(container, config) {
         var _this = _super.call(this, container, __assign({ disabled: false, hidden: false, width: "content", height: "content" }, config)) || this;
         _this.events = new events_1.EventSystem();
-        if (_this.config.hidden) {
-            (0, dom_1.awaitRedraw)().then(function () {
-                _this.hide(true);
-            });
-        }
         var render = function () { return _this._draw(); };
         _this.mount(container, (0, dom_1.create)({ render: render }));
         return _this;
@@ -41697,15 +41892,17 @@ var Avatar = /** @class */ (function (_super) {
         if (!silent && !this.events.fire(types_1.ItemEvent.beforeValidate, [value])) {
             return false;
         }
-        var isValid = !!(typeof this.config.validation === "function"
-            ? this.config.validation(value)
-            : value.src);
+        var valid = true;
+        if (this.config.required)
+            valid = !!value.src;
+        if (typeof this.config.validation === "function")
+            valid = this.config.validation(value);
         if (!silent) {
-            this.setValidationStatus(isValid ? "success" : "error");
-            this.events.fire(types_1.ItemEvent.afterValidate, [value, isValid]);
+            this.setValidationStatus(valid ? "success" : "error");
+            this.events.fire(types_1.ItemEvent.afterValidate, [value, valid]);
             this.paint();
         }
-        return isValid;
+        return valid;
     };
     Avatar.prototype.clearValidate = function () {
         this.setValidationStatus();
@@ -41852,19 +42049,18 @@ var Avatar = /** @class */ (function (_super) {
     };
     Avatar.prototype._drawPreview = function (_a) {
         var icon = _a.icon, placeholder = _a.placeholder, preview = _a.preview;
+        var nodes = [];
+        if (icon) {
+            nodes.push((0, dom_1.el)("div.dhx_avatar__preview-icon", { class: icon }));
+        }
+        if (placeholder) {
+            nodes.push((0, dom_1.el)("div.dhx_avatar__preview-placeholder", {
+                "aria-placeholder": placeholder,
+            }, placeholder));
+        }
         return (0, dom_1.el)("div.dhx_avatar__preview", {
             style: __assign({}, ((preview && { "background-image": "url(".concat(preview) }) || {})),
-        }, [
-            preview
-                ? null
-                : [
-                    icon && (0, dom_1.el)("div.dhx_avatar__preview-icon", { class: icon }),
-                    placeholder &&
-                        (0, dom_1.el)("div.dhx_avatar__preview-placeholder", {
-                            "aria-placeholder": placeholder,
-                        }, placeholder),
-                ],
-        ]);
+        }, [].concat(nodes));
     };
     Avatar.prototype._drawCover = function (_a) {
         var _this = this;
@@ -41956,17 +42152,8 @@ var Fieldset = /** @class */ (function () {
         this.props = __spreadArray(__spreadArray([], helper_1.baseProps, true), this.propsItem, true);
         this.config = __assign({ disabled: false, hidden: false, width: "content", height: "content", labelAlignment: "left", label: "", css: "" }, config);
         (0, dom_1.awaitRedraw)().then(function () {
-            var _a, _b;
-            if (_this.config.hidden)
-                _this.hide(true);
             if (_this.config.disabled)
                 _this.disable();
-            (_a = _this.cell) === null || _a === void 0 ? void 0 : _a.events.on("afterShow", function () {
-                _this.config.hidden = false;
-            });
-            (_b = _this.cell) === null || _b === void 0 ? void 0 : _b.events.on("afterHide", function () {
-                _this.config.hidden = true;
-            });
         });
     }
     Fieldset.prototype.forEach = function (callback, tree) {
@@ -42133,19 +42320,19 @@ var ToggleGroup = /** @class */ (function (_super) {
         _this.props = __spreadArray(__spreadArray([], helper_1.baseProps, true), ["options", "full", "gap", "multiselect"], false);
         _this.initView();
         _this.initHandlers();
-        if (_this.config.hidden) {
-            (0, dom_1.awaitRedraw)().then(function () {
-                console.log("hidden");
-                _this.hide(undefined, true);
-            });
-        }
         var render = function () { return _this.draw(); };
         _this.mount(container, (0, dom_1.create)({ render: render }));
         return _this;
     }
     ToggleGroup.prototype.setValue = function (value) {
         var _a;
-        if (!value || (0, core_1.isEmptyObj)(value))
+        if (value === void 0) { value = {}; }
+        var currValue = this.getValue();
+        var isSameValue = Object.entries(value).every(function (_a) {
+            var k = _a[0], v = _a[1];
+            return !!v === !!currValue[k];
+        });
+        if (isSameValue)
             return;
         if (!this.config.multiselection) {
             var targetItem = Object.entries(value).find(function (_a) {
@@ -42384,7 +42571,7 @@ var ToggleGroup = /** @class */ (function (_super) {
                 ((full && "dhx_toggle-group--full ") || "") +
                 ((gap && "dhx_toggle-group--segmented ") || "") +
                 (0, helper_1.getFormItemCss)(this.config),
-        }, [elements]);
+        }, [].concat(elements));
     };
     ToggleGroup.prototype.checkVisibleOrder = function (render) {
         var visible = this.items
@@ -42446,28 +42633,28 @@ var ProForm = /** @class */ (function (_super) {
         _super.prototype._initItemHandlers.call(this, item, name);
         switch (item.type) {
             case "container": {
-                var container = (this._attachments[name] = new container_1.Container(null, item));
-                container.events.on(types_1.ItemEvent.beforeChangeProperties, function (props) {
+                var container_2 = (this._attachments[name] = new container_1.Container(null, item));
+                container_2.events.on(types_1.ItemEvent.beforeChangeProperties, function (props) {
                     return _this.events.fire(types_1.FormEvents.beforeChangeProperties, [name, props]);
                 });
-                container.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
-                    _this._changeProps(name, props);
+                container_2.events.on(types_1.ItemEvent.afterChangeProperties, function (props) {
+                    _this._changeProps(name, props, container_2.config);
                     _this.events.fire(types_1.FormEvents.afterChangeProperties, [name, props]);
                     _this.layout.paint();
                 });
-                container.events.on(types_1.ItemEvent.beforeHide, function (init) {
+                container_2.events.on(types_1.ItemEvent.beforeHide, function (init) {
                     if (!init) {
                         return _this.events.fire(types_1.FormEvents.beforeHide, [name]);
                     }
                 });
-                container.events.on(types_1.ItemEvent.beforeShow, function () {
+                container_2.events.on(types_1.ItemEvent.beforeShow, function () {
                     return _this.events.fire(types_1.FormEvents.beforeShow, [name]);
                 });
-                container.events.on(types_1.ItemEvent.afterHide, function (init) {
+                container_2.events.on(types_1.ItemEvent.afterHide, function (init) {
                     _this.layout.getCell(name).hide();
                     !init && _this.events.fire(types_1.FormEvents.afterHide, [name]);
                 });
-                container.events.on(types_1.ItemEvent.afterShow, function () {
+                container_2.events.on(types_1.ItemEvent.afterShow, function () {
                     _this.layout.getCell(name).show();
                     _this.events.fire(types_1.FormEvents.afterShow, [name]);
                 });
@@ -42565,16 +42752,14 @@ var Container = /** @class */ (function (_super) {
             rows: [cellConfig],
         });
         cellConfig.html && _this.container.attachHTML(cellConfig.html);
-        if (_this.config.hidden) {
-            (0, dom_1.awaitRedraw)().then(function () {
-                _this.hide(true);
-            });
-        }
         _this.paint();
         var render = function () { return _this._draw(); };
         _this.mount(container, (0, dom_1.create)({ render: render }));
         return _this;
     }
+    Container.prototype.destructor = function () {
+        this.container.destructor();
+    };
     Container.prototype.attach = function (widget) {
         this.container.attach(widget);
     };
@@ -42818,6 +43003,19 @@ var Menu = /** @class */ (function (_super) {
             allowedTypes: ["menuItem", "spacer", "separator", "customHTML", "customHTMLButton"],
             widgetName: "menu-nav",
         });
+    };
+    Menu.prototype._getMode = function (item, root) {
+        return item.id === root ? "bottom" : "right";
+    };
+    Menu.prototype._close = function (e) {
+        this._activePosition = null;
+        this._currentRoot = null;
+        _super.prototype._close.call(this, e);
+    };
+    Menu.prototype._setRoot = function (id) {
+        if (this.data.getParent(id) === this.data.getRoot()) {
+            this._currentRoot = id;
+        }
     };
     Menu.prototype._draw = function () {
         return (0, dom_1.el)("ul.dhx_widget", {
@@ -43698,10 +43896,10 @@ var Tabbar = /** @class */ (function (_super) {
                 (0, dom_1.awaitRedraw)().then(function () { return _this.paint(); });
             }
             else {
-                var headerWrapper = this.getRootNode() &&
-                    this.getRootNode().getElementsByClassName("dhx_tabbar-header__wrapper")[0];
-                if (headerWrapper && this._tabsContainer !== headerWrapper) {
-                    this._tabsContainer = headerWrapper;
+                var root = this.getRootNode();
+                var headerWrapper = root === null || root === void 0 ? void 0 : root.getElementsByClassName("dhx_tabbar-header__wrapper")[0];
+                if (this._tabsContainer !== headerWrapper) {
+                    this._tabsContainer = headerWrapper || root;
                     this.paint();
                 }
             }
@@ -43827,7 +44025,7 @@ var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(2);
 var html_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(28);
+var types_1 = __webpack_require__(29);
 var view_1 = __webpack_require__(8);
 var ts_data_1 = __webpack_require__(7);
 var Editor_1 = __webpack_require__(104);
@@ -44996,7 +45194,38 @@ var ProWindow = /** @class */ (function (_super) {
 exports.ProWindow = ProWindow;
 
 
+/***/ }),
+/* 244 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.setLocale = void 0;
+function setLocale(component, value) {
+    var target = this[component];
+    if (!target)
+        return;
+    for (var key in value) {
+        target[key] = value[key];
+    }
+}
+exports.setLocale = setLocale;
+;
+
+
 /***/ })
 /******/ ]);
-});if (window.dhx_legacy) { if (window.dhx){ for (var key in dhx) dhx_legacy[key] = dhx[key]; } window.dhx = dhx_legacy; delete window.dhx_legacy; }
+});if (window.dhx_legacy) { 
+					if (window.dhx){
+						for (var key in dhx)
+							if (key === 'i18n') {
+								for (var lang in dhx[key])
+									window.dhx_legacy[key][lang] = dhx[key][lang];
+							} else {
+								dhx_legacy[key] = dhx[key];
+							}
+					}
+					window.dhx = dhx_legacy; delete window.dhx_legacy;
+				}
 //# sourceMappingURL=suite.js.map

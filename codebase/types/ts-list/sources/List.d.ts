@@ -14,7 +14,7 @@ export declare class List extends View implements IList {
     selection: ISelection;
     keyManager: IKeyManager;
     protected _handlers: IHandlers;
-    protected _focus: Id;
+    protected _focus: Id | undefined;
     protected _edited: Id;
     protected _events: IHandlers;
     private _topOffset;
@@ -35,6 +35,7 @@ export declare class List extends View implements IList {
     editEnd(value: any, id?: Id): void;
     getFocusItem(): any;
     setFocus(id: Id): void;
+    resetFocus(): void;
     getFocus(): Id;
     destructor(): void;
     scrollTo(id: Id): void;

@@ -1,3 +1,196 @@
+# Version 8.4 (July 16, 2024)
+
+### New functionality
+
+- Chart. The ability to specify a template for showing percent values for data items on the Pie, Pie3D and Donut charts
+- Chart. The ability to add the header/footer for an exported PNG/PDF file
+- Combobox. The ability to add event handlers to HTML elements of a custom template of Combobox items
+- Form. The ability to add event handlers to HTML elements of a custom template of the Combo control items
+- Grid/TreeGrid. The ability to add event handlers to HTML elements of a custom template of Combobox editor items in a column
+- Grid/TreeGrid. The ability to add the header/footer for an exported PNG/PDF file
+- Toolbar. The ability to expand items by hovering over Toolbar elements with the mouse pointer
+
+### Updates
+
+- Grid/TreeGrid. The ability to use most Data/TreeCollection methods during dynamic loading before data is fully loaded
+- Grid/TreeGrid. The ability to specify Grid/TreeGrid tooltips as objects with settings
+- Grid/TreeGrid. The ability to provide a filtering function for the Combobox editor in a column
+- List. The ability to use most Data/TreeCollection methods during dynamic loading before data is fully loaded
+
+### Fixes
+
+- Grid/TreeGrid. Fix an issue related to updating sizes according to the parent container
+- Navigation. Closing the menu on click in the "click" navigation mode for Toolbar, Menu, Sidebar, Ribbon
+
+# Version 8.3.14 (July 8, 2024)
+
+### Fixes
+
+- Combobox. The accessibility issue in the NVDA screen reader
+- Grid/TreeGrid. Events aren't triggered for the cell template
+- Grid/TreeGrid. The `adjust` property isn't applied to the "id" column
+- Grid/TreeGrid. The value of the `headerAutoHeight` property in combination with the `adjust` one is calculated incorrectly
+- Grid/TreeGrid. Filtering is reset while dragging rows
+- Grid/TreeGrid. The combination of the `minWidth` and `autoWidth` column properties works incorrectly
+- Grid/TreeGrid. The scrolling functionality and key navigation are fixed
+- Grid/TreeGrid. Filtering with the row-spanned data
+- Layout. A theme applied to a Layout cell resets after the cell is collapsed
+
+# Version 8.3.13 (June 24, 2024)
+
+### Fixes
+
+- Window. The [`Tabbar.tabAlign`](/tabbar/api/tabbar_tabalign_config/) property is ignored if the Tabbar is placed within the Window control
+- Form. The `helpMessage` is displayed in the incorrect position if the Form is scrolled to the bottom edge
+- Core. Memory leaks (Layout, Combobox, Form components)
+
+# Version 8.3.12 (May 17, 2024)
+
+### Updates
+
+- Icons. Add new icons
+
+### Fixes
+
+- TreeGrid. Fix the issue with spans not applying to columns
+
+# Version 8.3.11 (May 8, 2024)
+
+### Fixes
+
+- DataCollection/TreeCollection. Fix the work of the `serialize()` method for the CSV format
+- Form. Fix the issue with the `maxlength` property that made inputs to be required
+- Grid/TreeGrid. Fix the drag-n-drop functionality for a grid initialized in a web component
+- Grid/TreeGrid. Fix the functionality of the comboFilter
+- Grid/TreeGrid. Fix the `adjust` property for a cell with the "combobox" editor the options of which are set via the `id` and `value` properties
+- Grid/TreeGrid. Fix the error caused by the call of the `addCellCss()` method for a hidden column
+- Layout. Fix the error caused by the `destructor` call
+
+# Version 8.3.10 (April 3, 2024)
+
+### Fixes
+
+- Calendar. The 29th of February isn't rendered for some date formats
+- Grid/TreeGrid. Row CSS isn't applied in the exported Excel file
+- Grid/TreeGrid. Row autoHeight fails on changing the order of columns by dragging
+- Grid/TreeGrid. Custom header sorting doesn't work for the headers containing HTML
+- Grid/TreeGrid. Incorrect filtering via comboFilter
+
+# Version 8.3.9 (March 18, 2024)
+
+### Fixes
+
+- Date. Сonsole errors when used on iOS 16.3 in Safari
+- Form. Validation for the DatePicker and Select controls
+- Form. False rendering of components with the `hidden:true` property
+- Grid/TreeGrid. Not displaying tooltips in the spanned footer
+- Grid/TreeGrid. Initializing a grid in a web component breaks the inputFilter usage
+- Grid/TreeGrid. Pressing Enter in the input filter triggers the afterSort event
+- Layout. The destructor() method of the parent doesn't destruct the nested components
+
+# Version 8.3.8 (February 26, 2024)
+
+### Fixes
+
+- Calendar. Localization of sliders is fixed
+- Common. Fix i18n import
+- DataCollection/TreeCollection. The DataProxy config for the data driver in the CSV/XML format is replaced
+- DataCollection/TreeCollection. The functionality of the findIndex() method is optimized
+- Form. Incorrect input of CJK characters if the form is placed into a layout
+- Form. Incorrect work of the setProperties() method
+- Form. The padding of the Fieldset control is fixed
+- Form. Incorrect work of the hide() method of the Fieldset control
+- Grid. Navigation through the spanned cells with the Tab key
+- Grid/TreeGrid. Improved performance for a dataset with spans
+- Grid/TreeGrid. Editing of spanned cells
+
+# Version 8.3.7 (February 13, 2024)
+
+### Fixes
+
+- Combobox. Improvements in the filtering logic. The filter type is changed: now search is carried out by comparing all characters of the query string
+- Combobox. Fix the `change` event firing for an empty value
+- Form. Combo control. Fix incorrect clearing of a read-only Combo
+- Form. The `validate()` method returns an incorrect value if there are no validation functions or attributes applied
+- Form. Fix incorrect style of the input icon
+- Form. The `input` event with the `inputType: "number"` returns a string value
+- Grid/TreeGrid. Fix the issue with the comboFilter option size to allow entering a long text
+- Grid/TreeGrid. Incorrect width calculation in case of a big number of columns
+- Message. Fix calculation of the tooltip position
+- Ribbon/Sidebar/Toolbar. Fix the types issue with the IState
+- Ribbon/Toolbar. The DatePicker value can't be clear via the API
+
+# Version 8.3.6 (January 24, 2024)
+
+### Fixes
+
+- Form. Fix Button and ToggleGroup positioning in Layout as well as the functionality of their `width` and `full` properties
+- Form. Fix the size of the Toggle and ToggleGroup controls
+- Form. Fix the error that occurred after destructing an Avatar control
+- Form. Fix incorrect styling of nested controls in the Fieldset control when the `cols` arrangement is applied first
+- Grid/TreeGrid. Optimizing the work of Grid/TreeGrid while loading a great number of spans
+- Grid/TreeGrid. The `mark` property doesn't work when a hidden row is displayed by the `showRow()` call
+- Grid/TreeGrid. Fix a potential regular expression vulnerability in the input editor
+- Tree. Fix a typo in types.ts
+- TreeGrid. Applying grouping to the filtered data leads to losing the initial data
+
+# Version 8.3.5 (January 11, 2024)
+
+### Fixes
+
+- DataCollection/DataProxy. Fix the problem with the header Accept type while sending a request with the `load()` method
+- Form. Fix triggering of the `change` event during the call of `setValue()` for controls
+- Form. The `beforeChange` event doesn't block selection of a radio button, if there hasn't been a selected button in RadioGroup
+- Form. Fix the issue with a numeric filter validating an empty value in an input
+- Grid/TreeGrid. Closing editor in a numeric column cell by pressing the ESC key clears the cell's value
+
+# Version 8.3.4 (January 4, 2024)
+
+### Fixes
+
+- Calendar. The week number at the start of the year calculates incorrectly
+- Colorpicker. Changing the value in the *palette* mode does not change the value in *picker* mode
+- Form. Fix the issue related to the `destructor()` method in DatePicker control (popup is not hidden)
+- Form. Incorrect type for the `hide()` method
+- Form. The *number* input type cannot display the 0 number
+- Form. The `destructor()` method invokes an error, if the popup is open
+- Form. The colorpicker `value` property works incorrectly
+- Form. The timepicker value is displayed incorrectly, if you specify the `value` property without a value
+- Grid/TreeGrid. Fix the issue related to the `autoHeight` property. The Grid takes hidden columns into account
+- Grid/TreeGrid. Fix the issue related to the `beforeSort` event. The sort direction sticks
+- TreeGrid. The footer summary calculates incorrectly in case of the empty value
+- Pagination. Fix the issue related to the `add()` method. Populating data with the `add()` method breaks the pagination
+- Pagination. The applied filter(s) does not refresh pagination
+
+# Version 8.3.3 (December 7, 2023)
+
+### Fixes
+
+- Grid/TreeGrid. Fix the issue with impossibility to unselect the row that was selected first
+- Grid/TreeGrid. Fix the issue with the beforeEditEnd/afterEditEnd events firing twice when the Esc or Enter key is pressed
+
+# Version 8.3.2 (December 4, 2023)
+
+### Fixes
+
+- Layout. Fix incorrect adding of content into a cell
+- Layout. Fix script errors that occurred when Layout was used in a React app
+- Grid/TreeGrid. Fix incorrect header height in case a grid is placed into a Layout cell
+- TreeGrid. Fix the problem with rendering an expanded TreeGrid during export to PDF and PNG
+- TreeGrid. Fix the issue with selection while using TreeGrid with Pagination
+
+# Version 8.3.1 (November 14, 2023)
+
+### Fixes
+
+- DataCollection. Fix an error in the DragManager
+- DataCollection. Fix data serialization to the CSV format
+- Form. Fix the issue with the Slider ticks breaking the default margin between controls
+- Grid/TreeGrid. Fix the width of an exported PNG file
+- Menu. Fix resetting the position of a child on clicking its parent item
+- Tabbar. Fix incorrect work of the tabAlign property
+- TreeGrid. Fix the issue with selection working during pagination only for the first page
+
 # Version 8.3 (October 23, 2023)
 
 ### New functionality

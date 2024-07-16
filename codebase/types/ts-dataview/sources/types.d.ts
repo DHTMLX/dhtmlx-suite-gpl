@@ -1,4 +1,4 @@
-import { DataCollection, DataEvents, DragEvents, IDataEventsHandlersMap, IDragEventsHandlersMap } from "../../ts-data";
+import { DataCollection, DataEvents, DragEvents, IDataEventsHandlersMap, IDataItem, IDragEventsHandlersMap } from "../../ts-data";
 import { IEventSystem } from "../../ts-common/events";
 import { ISelection, MultiselectionMode, IListConfig, IListEventHandlersMap, ListEvents } from "../../ts-list";
 import { ScrollView } from "../../ts-common/ScrollView";
@@ -17,7 +17,7 @@ export interface IDataViewConfig extends IListConfig {
     editable?: boolean;
     eventHandlers?: {
         [eventName: string]: {
-            [className: string]: (event: Event, id: Id) => void;
+            [className: string]: (event: Event, id: Id) => void | boolean;
         };
     };
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
@@ -25,7 +25,7 @@ export interface IDataViewConfig extends IListConfig {
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     multiselectionMode?: MultiselectionMode;
 }
-export interface IDataView<T = any> {
+export interface IDataView<T extends IDataItem = any> {
     config: IDataViewConfig;
     data: DataCollection<T>;
     events: IEventSystem<DataEvents | DragEvents | ListEvents, IDataEventsHandlersMap & IDragEventsHandlersMap & IListEventHandlersMap>;
@@ -35,6 +35,7 @@ export interface IDataView<T = any> {
     editItem(id: Id): void;
     getFocusItem(): T;
     setFocus(id: Id): void;
+    resetFocus(): void;
     getFocus(): Id;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     disableSelection(): void;

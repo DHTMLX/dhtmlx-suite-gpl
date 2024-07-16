@@ -79,7 +79,7 @@ export declare class ColorPicker extends Label implements IColorPicker {
     disable(): void;
     enable(): void;
     isDisabled(): boolean;
-    validate(silent?: boolean, value?: string): boolean;
+    validate(silent?: boolean, ...args: any[]): boolean;
     clearValidate(): void;
     setValue(value: string): void;
     getValue(): string;
@@ -94,6 +94,8 @@ export declare class ColorPicker extends Label implements IColorPicker {
         onfocus: () => void;
         oninput: (e: Event) => void;
         onchange: (e: Event) => void;
+        onkeydown: (event: KeyboardEvent) => void;
+        onmousedown: () => void;
     };
     protected _initHotkeys(): void;
     protected _draw(): any;

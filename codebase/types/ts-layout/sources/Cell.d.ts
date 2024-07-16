@@ -16,6 +16,7 @@ export declare class Cell extends View implements ICell {
     protected _resizerHandlers: any;
     protected _progress: boolean;
     protected _stopProgressDefault: boolean;
+    protected _theme: string;
     private _isLastFlexCell;
     private _afterWindowResized;
     constructor(parent: string | HTMLElement | ILayout, config: ICellConfig);
@@ -38,6 +39,7 @@ export declare class Cell extends View implements ICell {
     progressHide(): void;
     isVisibleProgress(): boolean;
     toVDOM(nodes?: any[]): any;
+    protected _saveTheme(): void;
     protected _getProgressBar(): any;
     protected _getCss(_content?: boolean): string;
     protected _initHandlers(): void;

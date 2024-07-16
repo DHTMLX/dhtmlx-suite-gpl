@@ -43,7 +43,7 @@ export interface ITreeConfig extends IDragConfig {
     template?: (item: ITreeItem, isFolder: boolean) => string;
     eventHandlers?: {
         [eventName: string]: {
-            [className: string]: (event: Event, item: ITree) => void | boolean;
+            [className: string]: (event: Event, item: ITreeItem) => void | boolean;
         };
     };
     collapsed?: boolean;

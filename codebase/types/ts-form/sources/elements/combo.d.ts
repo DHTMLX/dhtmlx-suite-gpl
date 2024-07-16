@@ -86,7 +86,7 @@ export declare class Combo extends Label implements ICombo {
     clear(): void;
     getValue(): Id | Id[];
     setValue(value: Id | Id[]): void;
-    validate(silent?: boolean, value?: Id | Id[]): boolean;
+    validate(silent?: boolean, ...args: any[]): boolean;
     clearValidate(): void;
     getWidget(): Combobox;
     focus(): void;

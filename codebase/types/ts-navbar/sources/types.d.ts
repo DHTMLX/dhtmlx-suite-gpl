@@ -8,7 +8,7 @@ export interface IHtmlExtendable {
     html?: string;
 }
 export interface IState {
-    [key: string]: string;
+    [key: string]: string | boolean;
 }
 export type NavigationType = "pointer" | "click";
 export interface IGroups {

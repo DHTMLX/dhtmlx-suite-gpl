@@ -26,3 +26,4 @@ export declare const getMaxColsWidth: (rows: IRow[], cols: ICol[], config?: ICon
 export declare function toFormat(value: any, type?: colType, format?: string): any;
 export declare function getEditorOptions(col: ICol, row?: IRow): TOption[];
 export declare function getValueForNumberColumn(col: ICol, value: any): any;
+export declare function getEditorValue(value: any, options: TOption[]): any;

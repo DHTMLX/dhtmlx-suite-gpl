@@ -85,7 +85,7 @@ export declare class Input extends Label implements IInput {
     disable(): void;
     enable(): void;
     isDisabled(): boolean;
-    validate(silent?: boolean, value?: string | number): boolean;
+    validate(silent?: boolean, ...args: any[]): boolean;
     clearValidate(): void;
     clear(): void;
     setValue(value: string | number): void;
@@ -103,4 +103,9 @@ export declare class Input extends Label implements IInput {
         onkeydown: (event: KeyboardEvent) => void;
     };
     protected _draw(): any;
+    protected _getHooks(): {
+        didRecycle: (_oldNode: any, newNode: any) => void;
+        didInsert: (node: any) => void;
+        willRemove: (node: any) => void;
+    };
 }

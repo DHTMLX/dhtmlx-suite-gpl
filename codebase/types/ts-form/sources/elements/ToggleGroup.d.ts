@@ -68,7 +68,7 @@ export declare class ToggleGroup extends View implements IToggleGroup {
     private items;
     private props;
     constructor(container: HTMLElement | string | null, config: IToggleGroupConfig);
-    setValue(value: IToggleGroupValue): void | boolean;
+    setValue(value?: IToggleGroupValue): void | boolean;
     getValue(): IToggleGroupValue;
     getValue(id: string): IToggleValue | boolean;
     isSelected(): {

@@ -8,7 +8,7 @@ interface IOBj {
 export declare function copy(source: IOBj, withoutInner?: boolean): IOBj;
 export declare function naturalSort(arr: any): any[];
 export declare function findIndex<T = any>(arr: T[], predicate: (obj: T) => boolean): number;
-export declare function isEqualString(from: string, to: string): boolean;
+export declare function isExistValue(target: number | string, value: number | string): boolean;
 export declare function singleOuterClick(fn: (e: MouseEvent) => boolean): void;
 export declare function detectWidgetClick(widgetId: string, cb: (inner: boolean) => void): () => void;
 export declare function unwrapBox<T>(box: T | T[]): T;

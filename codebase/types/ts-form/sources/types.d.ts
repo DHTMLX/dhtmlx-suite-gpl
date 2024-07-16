@@ -46,7 +46,7 @@ export interface IForm {
     clear(method?: ClearMethod): void;
     setValue(obj: FormData | IAnyObj): void;
     setFocus(name: string): void;
-    blur(name: string): void;
+    blur(name?: string): void;
     getValue(asFormData?: boolean): FormData | IAnyObj;
     getItem(name: string): any;
     forEach(callback: TFormDataCallback): void;

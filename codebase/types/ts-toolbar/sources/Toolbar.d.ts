@@ -1,10 +1,11 @@
 import { Id } from "../../ts-common/types";
 import { TreeCollection } from "../../ts-data";
-import { IState, Navbar, INavbar, IButton, IImageButton, ISelectButton, IInput, ISeparator, ISpacer, ITitle, ICustomHTML, INavItem, IMenuItem, IDatePicker } from "../../ts-navbar";
+import { IState, Navbar, INavbar, IButton, IImageButton, ISelectButton, IInput, ISeparator, ISpacer, ITitle, ICustomHTML, INavItem, IMenuItem, IDatePicker, NavigationType } from "../../ts-navbar";
 export interface IToolbarConfig {
     css?: string;
     menuCss?: string;
     data?: any[] | TreeCollection<IToolbarElement>;
+    navigationType?: NavigationType;
 }
 export interface IToolbar extends INavbar {
     data: TreeCollection<IToolbarElement>;

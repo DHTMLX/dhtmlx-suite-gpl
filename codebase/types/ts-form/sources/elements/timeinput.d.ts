@@ -78,7 +78,7 @@ export declare class TimePicker extends Label implements ITimePicker {
     disable(): void;
     enable(): void;
     isDisabled(): boolean;
-    validate(silent?: boolean, value?: any): boolean;
+    validate(silent?: boolean, ...args: any[]): boolean;
     clearValidate(): void;
     setValue(value: Date | number | string | any[] | ITimeObject): void;
     getValue(asOBject?: boolean): ITimeObject | string | any;
@@ -92,6 +92,8 @@ export declare class TimePicker extends Label implements ITimePicker {
         onfocus: () => void;
         onblur: () => void;
         oninput: (e: Event) => void;
+        onkeydown: (event: KeyboardEvent) => void;
+        onmousedown: () => void;
     };
     protected _initHotkeys(): void;
     protected _draw(): any;

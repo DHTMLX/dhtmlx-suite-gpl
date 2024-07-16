@@ -32,7 +32,7 @@ export declare class Form extends View implements IForm {
     show(): void;
     hide(init?: boolean): void;
     setFocus(name: string): void;
-    blur(name: string): void;
+    blur(name?: string): void;
     isVisible(name?: string): boolean;
     disable(): void;
     enable(): void;
@@ -42,7 +42,8 @@ export declare class Form extends View implements IForm {
     getRootView(): any;
     protected _addLayoutItem(item: IItemConfig): ICellConfig;
     protected _initItemHandlers(item: IItemConfig, name: string): void;
-    protected _changeProps(name: any, props: any): void;
+    protected _changeProps(name: any, props: any, config: any): void;
+    private getCellCSS;
     private _addLayoutItems;
     private _checkLayoutConfig;
     protected _createLayoutConfig(config: IFormConfig, layoutConfig: ILayoutConfig): void;

@@ -28,5 +28,4 @@ export declare class Selection implements ISelection {
     private _findIndex;
     private _setBrowserFocus;
     private _getReverseScrollState;
-    private _normalizeCell;
 }

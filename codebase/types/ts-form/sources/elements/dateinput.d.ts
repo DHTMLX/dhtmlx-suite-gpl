@@ -85,7 +85,7 @@ export declare class DatePicker extends Label implements IDatePicker {
     disable(): void;
     enable(): void;
     isDisabled(): boolean;
-    validate(silent?: boolean, value?: string | Date): boolean;
+    validate(silent?: boolean, ...args: any[]): boolean;
     clearValidate(): void;
     setValue(value: string | Date): void;
     getValue<T extends boolean = false>(asDateObject?: T): string | Date;
@@ -100,6 +100,8 @@ export declare class DatePicker extends Label implements IDatePicker {
         onfocus: () => void;
         oninput: (e: Event) => void;
         onchange: (e: Event) => void;
+        onkeydown: (event: KeyboardEvent) => void;
+        onmousedown: () => void;
     };
     protected _initHotkeys(): void;
     protected _draw(): any;
