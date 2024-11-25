@@ -21,7 +21,6 @@ export declare class Layout extends Cell implements ILayout {
     cell(id: string): any;
     progressShow(): void;
     progressHide(): void;
-    protected _initHandlers(): void;
     protected _getCss(content?: boolean): string;
     private _parseConfig;
     protected _createCell(cell: ILayoutConfig): ICell;

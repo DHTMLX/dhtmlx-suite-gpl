@@ -1,5 +1,5 @@
 import { IContainerConfig } from "../../../ts-common/core";
-import { ICol, IColumnsWidth, IGridConfig, IRow, colType, AdjustTargetType, TOption } from "./../types";
+import { ICol, IColumnsWidth, IGridConfig, IRow, AdjustTargetType, TOption } from "./../types";
 export declare function normalizeArray(obj: any, name: string): void;
 export declare function measureTextHeight({ text, width, lineHeight, font, htmlEnable, }: {
     text?: string;
@@ -21,9 +21,9 @@ export declare const getCalculatedRowHeight: (height: number, config?: {
     rowHeight: number;
     padding?: number;
 }) => number;
-export declare const getTreeCellWidthOffset: (row: IRow) => number;
-export declare const getMaxColsWidth: (rows: IRow[], cols: ICol[], config?: IContainerConfig, target?: AdjustTargetType) => IColumnsWidth;
-export declare function toFormat(value: any, type?: colType, format?: string): any;
+export declare const getTreeCellWidthOffset: (row: IRow, toArrow?: boolean) => number;
+export declare const getMaxColsWidth: (rows: IRow[], cols: ICol[], config: IContainerConfig, target: AdjustTargetType) => IColumnsWidth;
+export declare function applyPattern(value: string | number | boolean, col: ICol): string | number | boolean;
 export declare function getEditorOptions(col: ICol, row?: IRow): TOption[];
 export declare function getValueForNumberColumn(col: ICol, value: any): any;
 export declare function getEditorValue(value: any, options: TOption[]): any;

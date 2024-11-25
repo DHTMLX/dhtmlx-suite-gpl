@@ -3,10 +3,10 @@
 
 <head>
 	<!-- meta block -->
-	<title>Grid with rich configuration - DHTMLX Grid</title>
+	<title>Rich configuration - DHTMLX Grid</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-	
+
 	<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
 	<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
 	<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
@@ -14,20 +14,20 @@
 	<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
 	<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
 	<!-- end meta block -->
-	<script type="text/javascript" src="../../codebase/suite.js?v=8.4.0"></script>
-	<link rel="stylesheet" href="../../codebase/suite.css?v=8.4.0">
-	
-	<link rel="stylesheet" href="../common/index.css?v=8.4.0">
+	<script type="text/javascript" src="../../codebase/suite.js?v=9.0.0"></script>
+	<link rel="stylesheet" href="../../codebase/suite.css?v=9.0.0">
+
+	<link rel="stylesheet" href="../common/index.css?v=9.0.0">
 	<!-- custom sample head -->
-	<script src="./common/data.js?v=8.4.0"></script>
+	<script src="./common/data.js?v=9.0.0"></script>
 
 	<!-- custom styles -->
 	<style>
-		.demo_grid-user {
+		.dhx-demo_grid-user {
 			display: flex;
 		}
 
-		.demo_grid-user-photo {
+		.dhx-demo_grid-user-photo {
 			border-radius: 50%;
 			width: 24px;
 			height: 24px;
@@ -39,6 +39,7 @@
 			font-weight: 500;
 			margin-right: -3px;
 		}
+
 		.dhx-demo_grid-template {
 			width: 100%;
 			height: 100%;
@@ -46,6 +47,7 @@
 			align-items: center;
 			justify-content: flex-start;
 		}
+
 		.dhx-demo_grid-status {
 			width: 15px;
 			height: 15px;
@@ -53,12 +55,15 @@
 			margin-right: 6px;
 			font-size: var(--dhx-font-size-small);
 		}
+
 		.dhx-demo_grid-status--done {
 			background-color: var(--dhx-color-success);
 		}
+
 		.dhx-demo_grid-status--in-progress {
 			background-color: var(--dhx-color-primary);
 		}
+
 		.dhx-demo_grid-status--not-started {
 			background-color: var(--dhx-color-danger);
 		}
@@ -77,139 +82,159 @@
 			</nav>
 			<h1 class="dhx_sample-header__title">
 				<div class="dhx_sample-header__content">
-					Grid with rich configuration
+					Rich configuration
 				</div>
 			</h1>
 		</div>
 	</header>
-	<section class="dhx_sample-container" style="min-height: 400px; height: 400px">
+	<section class="dhx_sample-container">
 		<div style="height: 100%; width: 100%" id="grid"></div>
 	</section>
 	<script>
-		const srcPhoto = "https://snippet.dhtmlx.com/codebase/data/common/img/02/avatar_";	
-		const grid = new dhx.Grid("grid", {
-			columns: [
-				{
-					width: 60,
-					id: "paid",
-					header: [
-						{
-							text: `
-								<label class="dhx_checkbox dhx_cell-editor__checkbox ">
-									<input type="checkbox" class="dhx_checkbox__input dhx_checkbox--check-all">
-									<span class="dhx_checkbox__visual-input "></span>
-								</label>
-							`,
-							rowspan: 2,
-							htmlEnable: true,
-						}
-					],
-					type: "boolean",
-					sortable: false,
+		const srcPhoto = "https://snippet.dhtmlx.com/codebase/data/common/img/02/avatar_";
+		const columns = [
+			{
+				id: "paid",
+				header: [
+					{
+						text: `
+						<label class="dhx_checkbox dhx_cell-editor__checkbox ">
+							<input type="checkbox" class="dhx_checkbox__input dhx_checkbox--check-all">
+							<span class="dhx_checkbox__visual-input "></span>
+						</label>
+					`,
+						rowspan: 2,
+						htmlEnable: true,
+					}
+				],
+				type: "boolean",
+				sortable: false,
+			},
+			{
+				id: "project",
+				header: [
+					{ text: "Project" },
+					{ content: "comboFilter", tooltipTemplate: () => "Choose a project" }
+				],
+				footer: [{ text: "Total" }],
+				resizable: true
+			},
+			{
+				id: "access",
+				header: [
+					{ text: "Access" },
+					{ content: "comboFilter", filterConfig: { multiselection: true } },
+				],
+				editorType: "multiselect",
+				options: users,
+				template: getAccessTemplate,
+				htmlEnable: true,
+			},
+			{
+				id: "status",
+				header: [{ text: "Status" }, { content: "selectFilter" }],
+				editorType: "combobox",
+				options: ["Done", "In Progress", "Not Started"],
+				editorConfig: {
+					template: ({ value }) => getPriorityTemplate(value),
 				},
-				{
-					minWidth: 150,
-					id: "project",
-					header: [
-						{ text: "Project" },
-						{ content: "comboFilter",  tooltipTemplate: () => "Choose a project"}
-					],
-					footer: [{ text: "Total" }],
-					resizable: true
+				template: getPriorityTemplate,
+				htmlEnable: true,
+			},
+			{
+				id: "owner",
+				header: [{ text: "Owner" }, { content: "inputFilter" }],
+			},
+			{
+				id: "balance",
+				header: [{ text: "Balance" }, { content: "inputFilter" }],
+				footer: [{ text: ({ sum }) => sum }],
+				template: (value, { balance }) => balance > 0
+					? `<div style='color:green'>⬆ ${value}</div>`
+					: `<div style='color:red'>⬇ ${value}</div>`,
+				htmlEnable: true,
+				summary: "sum",
+				numberMask: {
+					prefix: "$"
 				},
-				{
-					width: 140,
-					id: "access",
-					header: [{ text: "Access", rowspan: 2 }],
-					template: getAccessTemplate,
-					htmlEnable: true,
-					editable: false,
-				},
-				{
-					width: 140,
-					id: "status",
-					header: [{ text: "Status" }, { content: "selectFilter" }],
-					editorType: "combobox",
-					options: ["Done", "In Progress", "Not Started"],
-					editorConfig: {
-						template: ({ value }) => getPriorityTemplate(value),
-					},
-					template: getPriorityTemplate,
-					htmlEnable: true,
-				},
-				{
-					width: 150,
-					id: "owner",
-					header: [{ text: "Owner" }, { content: "inputFilter" }],
-				},
-				{
-					width: 130,
-					id: "balance",
-					header: [{ text: "Balance" }, { content: "inputFilter" }],
-					footer: [{ content: "sum" }],
-					template: value => value > 0
-						? `<div style='color:green'>⬆ $${value}</div>`
-						: `<div style='color:red'>⬇ $${value}</div>`,
-					htmlEnable: true,
-					format: "#.0",
-				},
-				{
-					width: 140,
-					id: "hours",
-					header: [{ text: "Number of hours" }, { content: "inputFilter" }],
-					footer: [{ content: "sum" }],
-					format: "#"
-				},
-				{
-					width: 160,
-					id: "renewals",
-					header: [{ text: "Number of renewals" }, { content: "comboFilter" }],
-					type: "string",
-					editorType: "combobox",
-					options: ["1 time", "1-2 times", "more than 5 times"]
-				},
-				{
-					width: 130,
-					id: "start_date",
-					header: [{ text: "Calendar", colspan: 2, align: "center" }, { text: "Start date", align: "center" }],
-					type: "date",
-					dateFormat: "%d/%m/%Y",
-					align: "center"
-				},
-				{
-					width: 130,
-					id: "end_date",
-					header: ["", { text: "End date", align: "center" }],
-					type: "date",
-					dateFormat: "%d/%M/%Y",
-					align: "center"
-				},
-				{
-					width: 130,
-					id: "cost",
-					header: [{ text: "Cost" }, { content: "inputFilter" }],
-					footer: [{ content: "sum" }],
-					template: (value) => `$${value}`,
-					format: "#.0",
-				},
-				{
-					width: 130,
-					id: "budget",
-					header: [{ text: "Budget" }, { content: "inputFilter" }],
-					footer: [{ content: "sum" }],
-					template: (value) => `$${value}`,
-					format: "#.0",
+			},
+			{
+				id: "hours",
+				header: [{ text: "Number of hours" }, { content: "inputFilter" }],
+				footer: [{ text: ({ sum }) => sum }],
+				summary: "sum",
+				numberMask: {
+					maxDecLength: 0
 				}
-			],
+			},
+			{
+				id: "renewals",
+				header: [{ text: "Number of renewals" }, { content: "comboFilter" }],
+				type: "string",
+				editorType: "combobox",
+				options: ["1 time", "1-2 times", "more than 5 times"]
+			},
+			{
+				id: "start_date",
+				header: [{ text: "Start date", align: "center" }],
+				align: "center",
+				type: "date",
+				dateFormat: "%d/%m/%Y",
+				editorConfig: {
+					asDateObject: true,
+				}
+			},
+			{
+				id: "end_date",
+				header: [{ text: "End date", align: "center" }],
+				type: "date",
+				align: "center",
+				dateFormat: "%d %M %Y",
+				editorConfig: {
+					asDateObject: true,
+				}
+			},
+			{
+				id: "cost",
+				header: [{ text: "Cost" }, { content: "inputFilter" }],
+				footer: [{ text: ({ sum }) => sum }],
+				summary: "sum",
+				numberMask: {
+					prefix: "$", maxDecLength: 0
+				}
+			},
+			{
+				id: "budget",
+				header: [{ text: "Budget" }, { content: "inputFilter" }],
+				footer: [{ text: ({ sum }) => sum }],
+				summary: "sum",
+				numberMask: {
+					prefix: "$"
+				}
+			},
+			{
+				id: "project_id",
+				header: [{ text: "Project ID", align: "center" }, { content: "inputFilter" }],
+				align: "center",
+				patternMask: "ISS-000.0",
+			}
+		];
+
+		columns.forEach(column => column.minWidth = 150);
+
+		const grid = new dhx.Grid("grid", {
+			columns,
 			data,
 			leftSplit: 1,
 			editable: true,
-			dragItem: "both",
 			keyNavigation: true,
+			autoWidth: true,
+			height: 400,
+			dragItem: "both",
 			selection: "row",
-			eventHandlers: { 
-				onclick: { 
-					"dhx_checkbox--check-all": function(event, data) {
+			eventHandlers: {
+				onclick: {
+					"dhx_checkbox--check-all": function (event, data) {
 						grid.data.forEach(row => {
 							grid.data.update(row.id, {
 								[data.col.id]: event.target.checked,
@@ -220,16 +245,17 @@
 			},
 		});
 
-		function getAccessTemplate(value) {
-			if (!value) return;
-			const photos = value.reduce((total, user) => {
+		function getAccessTemplate(values) {
+			if (!values.length) return "";
+			const photos = values.split(", ").reduce((total, value) => {
+				const user = users.find(i => i.value === value);
 				return total + (user.ava
-					? `<img src=${srcPhoto + user.ava} class="demo_grid-user-photo"/>`
-					: `<div class="demo_grid-user-photo" style="background:${user.color};">${user.name[0]}</div>`)
+					? `<img src=${srcPhoto + user.ava} class="dhx-demo_grid-user-photo"/>`
+					: `<div class="dhx-demo_grid-user-photo" style="background:${user.color};">${user.value[0]}</div>`)
 			}, "");
-			return `<div class="demo_grid-user">${photos}</div>`;
+			return `<div class="dhx-demo_grid-user">${photos}</div>`;
 		}
-		
+
 		function getPriorityTemplate(value) {
 			if (!value) return;
 

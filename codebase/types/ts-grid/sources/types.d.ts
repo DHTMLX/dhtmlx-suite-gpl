@@ -3,154 +3,25 @@ import { IKeyManager } from "../../ts-common/KeyManager";
 import { IAlign } from "../../ts-common/html";
 import { Position } from "../../ts-message";
 import { IDataCollection, IDragConfig, ICsvDriverConfig, IDataItem, IDragInfo, DataCollection } from "../../ts-data";
-import { Exporter } from "./Exporter";
 import { Combobox } from "../../ts-combobox";
 import { IHandlers, Id } from "../../ts-common/types";
 import { ScrollView } from "../../ts-common/ScrollView";
 import { ICalendarConfig } from "../../ts-calendar";
 import { VNode } from "../../ts-common/dom";
-export interface IGridConfig extends IDragConfig {
-    columns?: ICol[];
-    spans?: ISpan[];
-    data?: any[];
-    type?: "tree";
-    width?: number;
-    height?: number | "auto";
-    sortable?: boolean;
-    rowCss?: (row: IRow) => string;
-    leftSplit?: number;
-    topSplit?: number;
-    rightSplit?: number;
-    bottomSplit?: number;
-    selection?: ISelectionType;
-    multiselection?: boolean;
-    dragItem?: IDragType;
-    keyNavigation?: boolean;
-    hotkeys?: IHandlers;
-    css?: string;
-    editable?: boolean;
-    autoEmptyRow?: boolean;
-    resizable?: boolean;
-    htmlEnable?: boolean;
-    tooltip?: boolean | IGridTooltipConfig;
-    headerTooltip?: boolean | IGridTooltipConfig;
-    footerTooltip?: boolean | IGridTooltipConfig;
-    rowHeight?: number;
-    headerRowHeight?: number;
-    footerRowHeight?: number;
-    autoWidth?: boolean;
-    autoHeight?: boolean;
-    headerAutoHeight?: boolean;
-    footerAutoHeight?: boolean;
-    adjust?: IAdjustBy;
-    eventHandlers?: {
-        [eventName: string]: {
-            [className: string]: (event: Event, item: ICellObj) => void;
-        };
-    };
-    exportStyles?: boolean | string[];
-    rootParent?: Id;
-    $width?: number;
-    $height?: number;
-    $headerHeight?: number;
-    $footerHeight?: number;
-    $headerHeightMap?: number[];
-    $footerHeightMap?: number[];
-    $totalWidth?: number;
-    $totalHeight?: number;
-    $positions?: IPositions;
-    $colspans?: boolean;
-    $footer?: boolean;
-    $editable?: {
-        row: any;
-        col: any;
-        isSpan: boolean;
-        editorType?: EditorType;
-        editor?: IEditor;
-    };
-    $resizing?: string | number;
-    $scrollBarWidth?: IScrollBarWidth;
-    $data?: any[];
-    groupTitleTemplate?: (groupName: string, groupItems: IDataItem[]) => string;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
-    editing?: boolean;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
-    headerSort?: boolean;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
-    columnsAutoWidth?: boolean;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
-    fitToContainer?: boolean;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
-    splitAt?: number;
-}
-export interface IGridTooltipConfig {
-    force?: boolean;
-    showDelay?: number;
-    hideDelay?: number;
-    margin?: number;
-    position?: Position;
-    css?: string;
-}
-export interface IScrollBarWidth {
-    x: number;
-    y: number;
-    xState: boolean;
-    yState: boolean;
-}
-interface ICellObj {
-    col: ICol;
-    row: IRow;
-}
-export interface IColumnsWidth {
-    [col: string]: number;
-}
-export interface IScrollState {
-    left: number;
-    top: number;
-}
-interface IFixedColumns {
-    left: ICol[];
-    right: ICol[];
-}
-interface IFixedRows {
-    top: IRow[];
-    bottom: IRow[];
-}
-type RenderFrom = "leftFixedCols" | "rightFixedCols" | "topFixedRows" | "bottomFixedRows" | "render";
-export interface IRendererConfig extends Required<IGridConfig> {
-    scroll?: IScrollState;
-    datacollection: any;
-    filteredColumns?: ICol[];
-    currentColumns?: ICol[];
-    currentRows?: IRow[];
-    currentSpans?: ISpan[];
-    fixedColumns?: IFixedColumns;
-    fixedRows?: IFixedRows;
-    firstColId?: Id;
-    headerHeight?: number;
-    footerHeight?: number;
-    events?: IEventSystem<GridEvents, IEventHandlersMap>;
-    selection: any;
-    sortBy?: Id;
-    sortDir?: string;
-    filterLocation?: string;
-    content?: IContentList;
-    gridId?: string;
-    $renderFrom?: RenderFrom;
-    _events?: IEventSystem<GridSystemEvents>;
-}
-export interface ISortingState {
-    dir: Dirs;
-    by: Id;
-}
+import { INumberMask, IPatternMask } from "../../ts-common/input";
+import { IGroupOrder, TDisplayMode } from "../../ts-data/sources/datacollection/group";
+import { IGroupItem } from "./ui/group/panel";
+import { ITreeGrid, ITreeGridConfig } from "../../ts-treegrid";
+import { ISelection } from "./Selection";
 export interface IGrid {
     data: IDataCollection;
-    export: Exporter;
+    name: "grid" | string;
     config: IGridConfig;
     events: IEventSystem<GridEvents, IEventHandlersMap>;
     selection: ISelection;
     content: IContentList;
     keyManager: IKeyManager;
+    export: any;
     paint(): void;
     destructor(): void;
     setColumns(col: ICol[]): void;
@@ -178,94 +49,59 @@ export interface IGrid {
     editEnd(withoutSave?: boolean): void;
     getSortingState(): ISortingState;
     getHeaderFilter(colId: Id): IHeaderFilter;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
-    edit(rowId: Id, colId: Id, editorType?: EditorType): void;
+    getRootNode(): HTMLElement;
+    getSummary(colId?: Id): ISummaryList;
 }
-export interface IProGrid extends IGrid {
+export interface IExtendedGrid extends IGrid {
+    name: "progrid" | string;
     scrollView: ScrollView;
+    config: IExtendedGridConfig;
 }
-export type EditorType = "input" | "select" | "datePicker" | "checkbox" | "combobox" | "multiselect" | "textarea";
-export interface IComboEditorConfig {
-    newOptions?: boolean;
-    readOnly?: boolean;
-    selectAllButton?: boolean;
-    placeholder?: string;
-    itemHeight?: number | string;
-    listHeight?: number | string;
-    css?: string;
-    template?: (item: {
-        id: Id;
-        value: string;
-    }) => string;
+export interface IProGrid extends ITreeGrid {
+    config: IProGridConfig;
 }
-export interface IInputEditorConfig {
-    min?: number;
-    max?: number;
-}
-export interface IBaseHandlersMap {
-    [key: string]: (...args: any[]) => any;
-}
-export declare enum HeaderFilterEvent {
-    change = "change"
-}
-export interface IHeaderFilter {
-    column: ICol;
-    config: IRendererConfig;
-    value: string | string[];
-    events: IEventSystem<HeaderFilterEvent>;
-    data?: any[];
-    id?: Id;
-    filterConfig?: IComboFilterConfig;
-    getFilter(): VNode | Combobox;
-    setValue(value: string | string[], silent?: boolean): void;
-    clear(silent?: boolean): void;
-    focus(): void;
-    blur(): void;
-}
-export interface ICellRect extends ICoords, ISizes {
-}
-export type colType = "string" | "number" | "boolean" | "date" | "percent" | any;
-export interface IOption {
-    id: Id;
-    value: string;
-}
-export type TOption = IOption | string;
-export interface ICol {
-    id: Id;
+export interface IGridConfig extends IDragConfig {
+    columns?: ICol[];
+    spans?: ISpan[];
+    data?: IRow[];
     width?: number;
-    header?: IHeader[];
-    footer?: IFooter[];
-    minWidth?: number;
-    maxWidth?: number;
-    mark?: IMark | MarkFunction;
-    type?: colType;
-    format?: string;
-    editorType?: EditorType;
-    editorConfig?: IComboEditorConfig | ICalendarConfig | IInputEditorConfig;
+    height?: number | "auto";
+    autoWidth?: boolean;
+    rowHeight?: number;
+    headerRowHeight?: number;
+    footerRowHeight?: number;
+    leftSplit?: number;
+    topSplit?: number;
+    rightSplit?: number;
+    bottomSplit?: number;
+    sortable?: boolean;
     editable?: boolean;
     resizable?: boolean;
-    sortable?: boolean;
-    options?: ((col: ICol, row?: IRow) => TOption[]) | TOption[];
-    draggable?: boolean;
-    htmlEnable?: boolean;
-    template?: (cellValue: any, row: IRow, col: ICol) => string;
-    hidden?: boolean;
-    adjust?: IAdjustBy;
-    autoWidth?: boolean;
-    align?: IAlign;
+    groupable?: boolean;
+    closable?: boolean;
+    css?: string;
+    rowCss?: (row: IRow) => string;
+    exportStyles?: boolean | string[];
+    selection?: ISelectionType;
+    multiselection?: boolean;
+    dragItem?: IDragType;
     tooltip?: boolean | IGridTooltipConfig;
-    tooltipTemplate?: (cellValue: any, row: IRow, col: ICol) => string;
-    gravity?: number;
-    $cellCss?: {
-        [key: string]: string;
+    headerTooltip?: boolean | IGridTooltipConfig;
+    footerTooltip?: boolean | IGridTooltipConfig;
+    keyNavigation?: boolean;
+    autoEmptyRow?: boolean;
+    htmlEnable?: boolean;
+    adjust?: IAdjustBy;
+    eventHandlers?: {
+        [eventName: string]: {
+            [className: string]: (event: Event, item: ICellObj) => void;
+        };
     };
-    $uniqueData?: any[];
-    $activeFilterData?: any[];
-    $width?: number;
-    $fixedWidth?: boolean;
-    $customOptions?: any;
+    summary?: ISummary;
+    hotkeys?: IHandlers;
+    rootParent?: Id;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
-    dateFormat?: string;
+    groupTitleTemplate?: (groupName: string, groupItems: IDataItem[]) => string;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     editing?: boolean;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
@@ -274,92 +110,65 @@ export interface ICol {
     columnsAutoWidth?: boolean;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     fitToContainer?: boolean;
-}
-export type fixedRowContent = "inputFilter" | "selectFilter" | "comboFilter";
-export type footerMethods = "avg" | "sum" | "max" | "min" | "count";
-export interface IContent {
-    id?: string;
-    text?: string;
-    colspan?: number;
-    rowspan?: number;
-    css?: string;
-    align?: IAlign;
-    tooltip?: boolean | IGridTooltipConfig;
-    htmlEnable?: boolean;
-}
-export interface IHeader extends IContent {
-    content?: fixedRowContent | footerMethods;
-    filterConfig?: IComboFilterConfig;
-    customFilter?: (item: any, input: string) => boolean;
-    headerSort?: boolean;
-    sortAs?: SortFunction;
-    tooltipTemplate?: (value: string | undefined, header: IHeader, col: ICol) => string | boolean;
-}
-export interface IFooter extends IContent {
-    content?: footerMethods;
-    tooltipTemplate?: (value: string | undefined, header: IFooter, col: ICol) => string | boolean;
-}
-export interface IComboFilterConfig {
-    data?: DataCollection<any> | any[];
-    readonly?: boolean;
-    template?: (item: any) => string;
-    filter?: (item: any, input: string) => boolean;
-    placeholder?: string;
-    virtual?: boolean;
-    multiselection?: boolean;
-}
-export interface ISpan {
-    row: Id;
-    column: Id;
-    rowspan?: number;
-    colspan?: number;
-    text?: string | number;
-    css?: string;
-    tooltip?: boolean | IGridTooltipConfig;
-    tooltipTemplate?: (spanValue: any, span: ISpan) => string;
-    $rowsVisibility?: number[];
-    $colsVisibility?: number[];
-    $renderFrom?: RenderFrom[];
-}
-export interface IComboFilterConfig {
-    data?: DataCollection<any> | any[];
-    readonly?: boolean;
-    template?: (item: any) => string;
-    filter?: (item: any, input: string) => boolean;
-    placeholder?: string;
-    virtual?: boolean;
-    multiselection?: boolean;
-}
-export type SortFunction = (cellValue: any) => string | number;
-type MarkFunction = (cell: any, columnCells: any[], row: IRow, column: ICol) => string;
-export interface IMark {
-    min?: string;
-    max?: string;
-}
-export interface IPositions {
-    xStart: number;
-    xEnd: number;
-    yStart: number;
-    yEnd: number;
-}
-export interface ICellCss {
-    color?: string;
-    background?: string;
-    fontSize?: number;
-    bold?: boolean;
-}
-export interface IExportData {
-    columns: Array<{
-        width: number;
-    }>;
-    header: string[][];
-    data: any[];
-    styles: {
-        cells: any[];
-        css: {
-            [key: string]: ICellCss;
-        };
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    splitAt?: number;
+    $width?: number;
+    $height?: number;
+    $headerHeight?: number;
+    $footerHeight?: number;
+    $headerHeightMap?: number[];
+    $footerHeightMap?: number[];
+    $totalWidth?: number;
+    $totalHeight?: number;
+    $positions?: IPositions;
+    $colspans?: boolean;
+    $footer?: boolean;
+    $editable?: {
+        row: any;
+        col: any;
+        isSpan: boolean;
+        editorType?: EditorType;
+        editor?: IEditor;
     };
+    $resizing?: string | number;
+    $scrollBarWidth?: IScrollBarWidth;
+    $data?: any[];
+    $grouped?: IGroupItem[];
+}
+export type IProGridConfig = IExtendedGridConfig & ITreeGridConfig;
+export interface IExtendedGridConfig extends IGridConfig {
+    height?: number | "auto";
+    autoHeight?: boolean;
+    headerAutoHeight?: boolean;
+    footerAutoHeight?: boolean;
+    group?: boolean | IGroup;
+    dragItem?: IDragType;
+}
+export interface IRendererConfig extends Required<IProGridConfig> {
+    scroll?: IScrollState;
+    datacollection: any;
+    filteredColumns?: ICol[];
+    currentColumns?: ICol[];
+    currentRows?: IRow[];
+    currentSpans?: ISpan[];
+    fixedColumns?: IFixedColumns;
+    fixedRows?: IFixedRows;
+    firstColId?: Id;
+    headerHeight?: number;
+    footerHeight?: number;
+    events?: IEventSystem<GridEvents, IEventHandlersMap>;
+    selection: any;
+    sortBy?: Id;
+    sortDir?: string;
+    filterLocation?: string;
+    content?: IContentList;
+    gridId?: string;
+    commonSummary: ISummaryList;
+    colSummary: {
+        [colId: string]: ISummaryList;
+    };
+    $renderFrom?: RenderFrom;
+    _events?: IEventSystem<GridSystemEvents>;
 }
 export declare enum GridEvents {
     scroll = "scroll",
@@ -419,81 +228,346 @@ export declare enum GridEvents {
     beforeRowResize = "beforeRowResize",
     afterRowResize = "afterRowResize",
     beforeSort = "beforeSort",
-    afterSort = "afterSort"
+    afterSort = "afterSort",
+    groupPanelItemClick = "groupPanelItemClick",
+    groupPanelItemMouseDown = "groupPanelItemMouseDown"
 }
 export interface IEventHandlersMap {
     [key: string]: (...args: any[]) => any;
     [GridEvents.scroll]: (scrollState: ICoords) => void;
-    [GridEvents.beforeSort]: (col: ICol, dir: Dirs) => void | boolean;
-    [GridEvents.afterSort]: (col: ICol, dir: Dirs) => void;
-    [GridEvents.filterChange]: (value: string | string[], colId: Id, filterId: fixedRowContent, silent?: boolean) => void;
+    [GridEvents.beforeSort]: (column: ICol, dir: Dirs) => void | boolean;
+    [GridEvents.afterSort]: (column: ICol, dir: Dirs) => void;
+    [GridEvents.filterChange]: (value: string | string[], colId: Id, filterId: TContentFilter, silent?: boolean) => void;
     [GridEvents.beforeFilter]: (value: string, colId: Id) => void | boolean;
-    [GridEvents.beforeResizeStart]: (col: ICol, e: MouseEvent) => boolean | void;
-    [GridEvents.resize]: (col: ICol, e: MouseEvent) => void;
-    [GridEvents.afterResizeEnd]: (col: ICol, e: MouseEvent) => void;
-    [GridEvents.cellClick]: (row: IRow, col: ICol, e: MouseEvent) => void;
-    [GridEvents.cellRightClick]: (row: IRow, col: ICol, e: MouseEvent) => void;
-    [GridEvents.cellMouseOver]: (row: IRow, col: ICol, e: MouseEvent) => void;
-    [GridEvents.cellMouseDown]: (row: IRow, col: ICol, e: MouseEvent & TouchEvent) => void;
-    [GridEvents.cellDblClick]: (row: IRow, col: ICol, e: MouseEvent) => void;
-    [GridEvents.headerCellClick]: (col: ICol, e: MouseEvent) => void;
-    [GridEvents.footerCellClick]: (col: ICol, e: MouseEvent) => void;
-    [GridEvents.headerCellMouseOver]: (col: ICol, e: MouseEvent) => void;
-    [GridEvents.footerCellMouseOver]: (col: ICol, e: MouseEvent) => void;
-    [GridEvents.headerCellMouseDown]: (col: ICol, e: MouseEvent & TouchEvent) => void;
-    [GridEvents.footerCellMouseDown]: (col: ICol, e: MouseEvent & TouchEvent) => void;
-    [GridEvents.headerCellDblClick]: (col: ICol, e: MouseEvent) => void;
-    [GridEvents.footerCellDblClick]: (col: ICol, e: MouseEvent) => void;
-    [GridEvents.headerCellRightClick]: (col: ICol, e: MouseEvent) => void;
-    [GridEvents.footerCellRightClick]: (col: ICol, e: MouseEvent) => void;
+    [GridEvents.beforeResizeStart]: (column: ICol, event: MouseEvent) => boolean | void;
+    [GridEvents.resize]: (column: ICol, event: MouseEvent) => void;
+    [GridEvents.afterResizeEnd]: (column: ICol, event: MouseEvent) => void;
+    [GridEvents.cellClick]: (row: IRow, column: ICol, event: MouseEvent) => void;
+    [GridEvents.cellRightClick]: (row: IRow, column: ICol, event: MouseEvent) => void;
+    [GridEvents.cellMouseOver]: (row: IRow, column: ICol, event: MouseEvent) => void;
+    [GridEvents.cellMouseDown]: (row: IRow, column: ICol, event: MouseEvent & TouchEvent) => void;
+    [GridEvents.cellDblClick]: (row: IRow, column: ICol, event: MouseEvent) => void;
+    [GridEvents.headerCellClick]: (cell: IHeader, column: ICol, event: MouseEvent) => void;
+    [GridEvents.footerCellClick]: (cell: IFooter, column: ICol, event: MouseEvent) => void;
+    [GridEvents.headerCellMouseOver]: (cell: IHeader, column: ICol, event: MouseEvent) => void;
+    [GridEvents.footerCellMouseOver]: (cell: IFooter, column: ICol, event: MouseEvent) => void;
+    [GridEvents.headerCellMouseDown]: (cell: IHeader, column: ICol, event: MouseEvent & TouchEvent) => void;
+    [GridEvents.footerCellMouseDown]: (cell: IFooter, column: ICol, event: MouseEvent & TouchEvent) => void;
+    [GridEvents.headerCellDblClick]: (cell: IHeader, column: ICol, event: MouseEvent) => void;
+    [GridEvents.footerCellDblClick]: (cell: IFooter, column: ICol, event: MouseEvent) => void;
+    [GridEvents.headerCellRightClick]: (cell: IHeader, column: ICol, event: MouseEvent) => void;
+    [GridEvents.footerCellRightClick]: (cell: IFooter, column: ICol, event: MouseEvent) => void;
     [GridEvents.beforeEditStart]: (row: IRow, col: ICol, editorType: EditorType) => boolean | void;
     [GridEvents.afterEditStart]: (row: IRow, col: ICol, editorType: EditorType) => void;
-    [GridEvents.beforeEditEnd]: (value: string | number | boolean, row: IRow, col: ICol) => boolean | void;
-    [GridEvents.afterEditEnd]: (value: string | number | boolean, row: IRow, col: ICol) => void;
-    [GridEvents.beforeKeyDown]: (e: Event) => boolean | void;
-    [GridEvents.afterKeyDown]: (e: Event) => void;
-    [GridEvents.beforeColumnHide]: (col: ICol) => boolean | void;
-    [GridEvents.afterColumnHide]: (col: ICol) => void;
-    [GridEvents.beforeColumnShow]: (col: ICol) => boolean | void;
-    [GridEvents.afterColumnShow]: (col: ICol) => void;
+    [GridEvents.beforeEditEnd]: (value: string | number | boolean | Date, row: IRow, column: ICol) => boolean | void;
+    [GridEvents.afterEditEnd]: (value: string | number | boolean | Date, row: IRow, column: ICol) => void;
+    [GridEvents.beforeKeyDown]: (event: Event) => boolean | void;
+    [GridEvents.afterKeyDown]: (event: Event) => void;
+    [GridEvents.beforeColumnHide]: (column: ICol) => boolean | void;
+    [GridEvents.afterColumnHide]: (column: ICol) => void;
+    [GridEvents.beforeColumnShow]: (column: ICol) => boolean | void;
+    [GridEvents.afterColumnShow]: (column: ICol) => void;
     [GridEvents.beforeRowHide]: (row: IRow) => boolean | void;
     [GridEvents.afterRowHide]: (row: IRow) => void;
     [GridEvents.beforeRowShow]: (row: IRow) => boolean | void;
     [GridEvents.afterRowShow]: (row: IRow) => void;
-    [GridEvents.beforeRowDrag]: (data: IDragInfo, events: MouseEvent) => void | boolean;
-    [GridEvents.dragRowStart]: (data: IDragInfo, events: MouseEvent) => void;
-    [GridEvents.dragRowOut]: (data: IDragInfo, events: MouseEvent) => void;
-    [GridEvents.dragRowIn]: (data: IDragInfo, events: MouseEvent) => void;
-    [GridEvents.canRowDrop]: (data: IDragInfo, events: MouseEvent) => void;
-    [GridEvents.cancelRowDrop]: (data: IDragInfo, events: MouseEvent) => void;
-    [GridEvents.beforeRowDrop]: (data: IDragInfo, events: MouseEvent) => void | boolean;
-    [GridEvents.afterRowDrop]: (data: IDragInfo, events: MouseEvent) => void;
-    [GridEvents.afterRowDrag]: (data: IDragInfo, events: MouseEvent) => void;
-    [GridEvents.beforeColumnDrag]: (data: IDragInfo, events: MouseEvent) => void | boolean;
-    [GridEvents.dragColumnStart]: (data: IDragInfo, events: MouseEvent) => void;
-    [GridEvents.dragColumnOut]: (data: IDragInfo, events: MouseEvent) => void;
-    [GridEvents.dragColumnIn]: (data: IDragInfo, events: MouseEvent) => void;
-    [GridEvents.canColumnDrop]: (data: IDragInfo, events: MouseEvent) => void;
-    [GridEvents.cancelColumnDrop]: (data: IDragInfo, events: MouseEvent) => void;
-    [GridEvents.beforeColumnDrop]: (data: IDragInfo, events: MouseEvent) => void | boolean;
-    [GridEvents.afterColumnDrop]: (data: IDragInfo, events: MouseEvent) => void;
-    [GridEvents.afterColumnDrag]: (data: IDragInfo, events: MouseEvent) => void;
-    [GridEvents.beforeRowResize]: (row: IRow, events: Event, currentHeight: number) => boolean;
-    [GridEvents.afterRowResize]: (row: IRow, events: Event, currentHeight: number) => void;
+    [GridEvents.beforeRowDrag]: (data: IDragInfo, event: MouseEvent) => void | boolean;
+    [GridEvents.dragRowStart]: (data: IDragInfo, event: MouseEvent) => void;
+    [GridEvents.dragRowOut]: (data: IDragInfo, event: MouseEvent) => void;
+    [GridEvents.dragRowIn]: (data: IDragInfo, event: MouseEvent) => void;
+    [GridEvents.canRowDrop]: (data: IDragInfo, event: MouseEvent) => void;
+    [GridEvents.cancelRowDrop]: (data: IDragInfo, event: MouseEvent) => void;
+    [GridEvents.beforeRowDrop]: (data: IDragInfo, event: MouseEvent) => void | boolean;
+    [GridEvents.afterRowDrop]: (data: IDragInfo, event: MouseEvent) => void;
+    [GridEvents.afterRowDrag]: (data: IDragInfo, event: MouseEvent) => void;
+    [GridEvents.beforeColumnDrag]: (data: IDragInfo, event: MouseEvent) => void | boolean;
+    [GridEvents.dragColumnStart]: (data: IDragInfo, event: MouseEvent) => void;
+    [GridEvents.dragColumnOut]: (data: IDragInfo, event: MouseEvent) => void;
+    [GridEvents.dragColumnIn]: (data: IDragInfo, event: MouseEvent) => void;
+    [GridEvents.canColumnDrop]: (data: IDragInfo, event: MouseEvent) => void;
+    [GridEvents.cancelColumnDrop]: (data: IDragInfo, event: MouseEvent) => void;
+    [GridEvents.beforeColumnDrop]: (data: IDragInfo, event: MouseEvent) => void | boolean;
+    [GridEvents.afterColumnDrop]: (data: IDragInfo, event: MouseEvent) => void;
+    [GridEvents.afterColumnDrag]: (data: IDragInfo, event: MouseEvent) => void;
+    [GridEvents.beforeRowResize]: (row: IRow, event: Event, currentHeight: number) => boolean;
+    [GridEvents.afterRowResize]: (row: IRow, event: Event, currentHeight: number) => void;
+    [GridEvents.groupPanelItemClick]: (id: string, event: Event) => void;
+    [GridEvents.groupPanelItemMouseDown]: (id: string, event: MouseEvent | TouchEvent) => void;
     [GridEvents.expand]: (rowId: Id) => void;
 }
 export declare enum GridSystemEvents {
     cellTouchMove = "cellTouchMove",
     cellTouchEnd = "cellTouchEnd",
     headerCellTouchMove = "headerCellTouchMove",
-    headerCellTouchEnd = "headerCellTouchEnd"
+    headerCellTouchEnd = "headerCellTouchEnd",
+    groupPanelItemTouchMove = "groupPanelItemTouchMove",
+    groupPanelItemItemTouchEnd = "groupPanelItemItemTouchEnd"
 }
 export interface ISystemEventHandlersMap {
     [key: string]: (...args: any[]) => any;
-    [GridSystemEvents.cellTouchMove]: (row: IRow, col: ICol, e: TouchEvent) => void;
-    [GridSystemEvents.cellTouchEnd]: (row: IRow, col: ICol, e: TouchEvent) => void;
-    [GridSystemEvents.headerCellTouchMove]: (col: ICol, e: TouchEvent) => void;
-    [GridSystemEvents.headerCellTouchEnd]: (col: ICol, e: TouchEvent) => void;
+    [GridSystemEvents.cellTouchMove]: (row: IRow, col: ICol, event: TouchEvent) => void;
+    [GridSystemEvents.cellTouchEnd]: (row: IRow, col: ICol, event: TouchEvent) => void;
+    [GridSystemEvents.headerCellTouchMove]: (cell: IHeader, col: ICol, event: TouchEvent) => void;
+    [GridSystemEvents.headerCellTouchEnd]: (cell: IHeader, col: ICol, event: TouchEvent) => void;
+    [GridSystemEvents.groupPanelItemTouchMove]: (id: string, event: TouchEvent) => void;
+    [GridSystemEvents.groupPanelItemItemTouchEnd]: (id: string, event: TouchEvent) => void;
+}
+export interface ICol {
+    id: Id;
+    type?: colType;
+    header?: IHeader[];
+    footer?: IFooter[];
+    width?: number;
+    minWidth?: number;
+    maxWidth?: number;
+    autoWidth?: boolean;
+    adjust?: IAdjustBy;
+    align?: IAlign;
+    mark?: IMark | MarkFunction;
+    numberMask?: INumberMask | boolean;
+    patternMask?: IPatternMask | string;
+    template?: (cellValue: any, row: IRow, col: ICol) => string;
+    editorType?: EditorType;
+    editorConfig?: IComboEditorConfig | IDatePickerConfig | IInputEditorConfig;
+    options?: ((col: ICol, row?: IRow) => TOption[]) | TOption[];
+    editable?: boolean;
+    resizable?: boolean;
+    sortable?: boolean;
+    draggable?: boolean;
+    groupable?: boolean;
+    closable?: boolean;
+    htmlEnable?: boolean;
+    hidden?: boolean;
+    tooltip?: boolean | IGridTooltipConfig;
+    tooltipTemplate?: (cellValue: any, row: IRow, col: ICol) => string;
+    dateFormat?: string;
+    summary?: TSummary;
+    gravity?: number;
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    format?: string;
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    editing?: boolean;
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    headerSort?: boolean;
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    columnsAutoWidth?: boolean;
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    fitToContainer?: boolean;
+    $cellCss?: {
+        [key: string]: string;
+    };
+    $uniqueData?: any[];
+    $activeFilterData?: any[];
+    $width?: number;
+    $fixedWidth?: boolean;
+    $customOptions?: any;
+    $target?: "left" | "right";
+}
+export interface IRow {
+    id?: Id;
+    height?: number;
+    hidden?: boolean;
+    [key: string]: any;
+    $height?: number;
+}
+export interface ISpan {
+    row: Id;
+    column: Id;
+    rowspan?: number;
+    colspan?: number;
+    text?: string | ((args: ISummaryList) => string);
+    css?: string;
+    tooltip?: boolean | IGridTooltipConfig;
+    tooltipTemplate?: (content: {
+        value: string;
+    } & ISummaryList, span: ISpan) => string | boolean;
+    $rowsVisibility?: number[];
+    $colsVisibility?: number[];
+    $renderFrom?: RenderFrom[];
+}
+export interface IContent {
+    id?: string;
+    text?: string | ((args: ISummaryList) => string);
+    colspan?: number;
+    rowspan?: number;
+    css?: string;
+    align?: IAlign;
+    tooltip?: boolean | IGridTooltipConfig;
+    htmlEnable?: boolean;
+}
+export interface IHeader extends IContent {
+    content?: TContentFilter;
+    filterConfig?: IComboFilterConfig;
+    customFilter?: (item: any, input: string) => boolean;
+    headerSort?: boolean;
+    sortAs?: SortFunction;
+    tooltipTemplate?: (content: {
+        value: string;
+    } & ISummaryList, header: IHeader, column: ICol) => string | boolean;
+}
+export interface IFooter extends IContent {
+    tooltipTemplate?: (content: {
+        value: string;
+    } & ISummaryList, header: IFooter, column: ICol) => string | boolean;
+}
+export interface ISummaryList {
+    [key: string]: string | number | null;
+}
+export type TSummaryMethod = (row: IRow[]) => string | number;
+export interface ISummary {
+    [key: string]: string | [string, string] | TSummaryMethod;
+}
+export type TSummary = ISummary | string;
+export type TGroupType = TDisplayMode;
+export type IGroupOrderItem = string | IGroupOrder | ((row: IRow) => string);
+export interface IGroup {
+    type?: TGroupType;
+    panel?: boolean;
+    panelHeight: number;
+    hideableColumns?: boolean;
+    showMissed?: boolean | string;
+    fields?: {
+        [colId: string]: Omit<IGroupOrder, "by">;
+    };
+    order?: IGroupOrderItem[];
+    column?: string | ICol;
+}
+export interface IGridTooltipConfig {
+    force?: boolean;
+    showDelay?: number;
+    hideDelay?: number;
+    margin?: number;
+    position?: Position;
+    css?: string;
+}
+export interface IScrollBarWidth {
+    x: number;
+    y: number;
+    xState: boolean;
+    yState: boolean;
+}
+interface ICellObj {
+    col: ICol;
+    row: IRow;
+}
+export interface IColumnsWidth {
+    [col: string]: number;
+}
+export interface IScrollState {
+    left: number;
+    top: number;
+}
+interface IFixedColumns {
+    left: ICol[];
+    right: ICol[];
+}
+interface IFixedRows {
+    top: IRow[];
+    bottom: IRow[];
+}
+type RenderFrom = "leftFixedCols" | "rightFixedCols" | "topFixedRows" | "bottomFixedRows" | "render";
+export interface ISortingState {
+    dir: Dirs;
+    by: Id;
+}
+export type EditorType = "input" | "select" | "datePicker" | "checkbox" | "combobox" | "multiselect" | "textarea";
+export interface IComboEditorConfig {
+    newOptions?: boolean;
+    readOnly?: boolean;
+    selectAllButton?: boolean;
+    placeholder?: string;
+    itemHeight?: number | string;
+    listHeight?: number | string;
+    css?: string;
+    template?: (item: {
+        id: Id;
+        value: string;
+    }) => string;
+}
+export interface IInputEditorConfig {
+    min?: number;
+    max?: number;
+}
+export interface IDatePickerConfig extends ICalendarConfig {
+    asDateObject?: boolean;
+}
+export interface IBaseHandlersMap {
+    [key: string]: (...args: any[]) => any;
+}
+export declare enum HeaderFilterEvent {
+    change = "change"
+}
+export interface IHeaderFilter {
+    column: ICol;
+    config: IRendererConfig;
+    value: string | string[];
+    events: IEventSystem<HeaderFilterEvent>;
+    data?: any[];
+    id?: Id;
+    filterConfig?: IComboFilterConfig;
+    getFilter(): VNode | Combobox;
+    setValue(value: string | string[], silent?: boolean): void;
+    clear(silent?: boolean): void;
+    focus(): void;
+    blur(): void;
+}
+export interface ICellRect extends ICoords, ISizes {
+}
+export type colType = "string" | "number" | "boolean" | "date";
+export interface IOption {
+    id: Id;
+    value: string;
+}
+export type TOption = IOption | string;
+export type TContentFilter = "inputFilter" | "selectFilter" | "comboFilter";
+export interface IComboFilterConfig {
+    data?: DataCollection<any> | any[];
+    readonly?: boolean;
+    template?: (item: any) => string;
+    filter?: (item: any, input: string) => boolean;
+    placeholder?: string;
+    virtual?: boolean;
+    multiselection?: boolean;
+}
+export interface IComboFilterConfig {
+    data?: DataCollection<any> | any[];
+    readonly?: boolean;
+    template?: (item: any) => string;
+    filter?: (item: any, input: string) => boolean;
+    placeholder?: string;
+    virtual?: boolean;
+    multiselection?: boolean;
+}
+export type SortFunction = (cellValue: any) => string | number;
+type MarkFunction = (cell: any, columnCells: any[], row: IRow, column: ICol) => string;
+export interface IMark {
+    min?: string;
+    max?: string;
+}
+export interface IPositions {
+    xStart: number;
+    xEnd: number;
+    yStart: number;
+    yEnd: number;
+}
+export interface ICellCss {
+    color?: string;
+    background?: string;
+    fontSize?: number;
+    bold?: boolean;
+}
+export interface IExportData {
+    columns: Array<{
+        width: number;
+    }>;
+    header: string[][];
+    data: any[];
+    styles: {
+        cells: any[];
+        css: {
+            [key: string]: ICellCss;
+        };
+    };
 }
 export interface ICellContent {
     element?: any;
@@ -548,13 +622,6 @@ export interface ICell {
     row: IRow;
     column: ICol;
 }
-export interface IRow {
-    id?: Id;
-    height?: number;
-    hidden?: boolean;
-    $height?: number;
-    [key: string]: any;
-}
 export interface IEditor {
     toHTML(text?: string): any;
     endEdit(withoutSave?: boolean): void;
@@ -570,32 +637,6 @@ export interface IAdjustColumns {
     totalCols?: ICol[];
     adjust?: IAdjustBy;
 }
-export interface ISelectionConfig {
-    disabled?: boolean;
-}
-export interface ISelection {
-    config?: ISelectionConfig;
-    setCell(rowId?: IRow | Id, colId?: ICol | Id, ctrlUp?: boolean, shiftUp?: boolean): void;
-    getCell(): ICell | void;
-    getCells(): ICell[];
-    removeCell(rowId?: Id, colId?: Id): void;
-    disable(): void;
-    enable(): void;
-    toHTML(): VNode | VNode[];
-}
-export declare enum GridSelectionEvents {
-    beforeUnSelect = "beforeUnSelect",
-    afterUnSelect = "afterUnSelect",
-    beforeSelect = "beforeSelect",
-    afterSelect = "afterSelect"
-}
-export interface IGridSelectionEventsHandlersMap {
-    [key: string]: (...args: any[]) => any;
-    [GridSelectionEvents.afterSelect]: (row: IRow, col: ICol) => void;
-    [GridSelectionEvents.afterUnSelect]: (row: IRow, col: ICol) => void;
-    [GridSelectionEvents.beforeSelect]: (row: IRow, col: ICol) => boolean | void;
-    [GridSelectionEvents.beforeUnSelect]: (row: IRow, col: ICol) => boolean | void;
-}
 export type TRowStatus = "firstFilledRow" | "firstEmptyRow";
 export declare enum Split {
     left = "leftSplit",
@@ -604,7 +645,7 @@ export declare enum Split {
     bottom = "bottomSplit"
 }
 export interface INormalizeColumnsParams {
-    config: IGridConfig;
+    config: IGridConfig & IProGridConfig;
     columns: ICol[];
     configChanged?: boolean;
 }

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<!-- meta block -->
+		<title>Grouping (PRO) - DHTMLX Grid</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		
+		<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+		<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+		<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+		<!-- end meta block -->
+		<script type="text/javascript" src="../../codebase/suite.js?v=9.0.0"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css?v=9.0.0">
+		
+		<link rel="stylesheet" href="../common/index.css?v=9.0.0">
+		<!-- external icons -->
+		<link rel="stylesheet" href="//cdn.webix.com/materialdesignicons/5.8.95/css/materialdesignicons.min.css?v=9.0.0" type="text/css" charset="utf-8">
+		<!-- custom sample head -->
+		<script src="./common/data.js?v=9.0.0"></script>
+		<style>
+			.info-template {
+				display: flex;
+				align-items: center;
+			}
+			.info-template__avatar {
+				width: 32px;
+				height: 32px;
+				border-radius: 50%;
+				background-size: cover;
+				margin-right: 10px;
+			}
+			.info-template-tooltip {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-direction: column;
+				padding: 8px 4px;
+			}
+			.info-template-tooltip__avatar {
+				width: 100px;
+				height: 100px;
+				background-size: cover;
+				margin-bottom: 8px;
+			}
+		
+			.task-template {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+			}
+			.task-status {
+				width: 8px;
+				height: 8px;
+				border-radius: 50%;
+				margin-right: 8px;
+				font-size: var(--dhx-font-size-small);
+			}
+			.task-status--completed {
+				background-color: var(--dhx-color-success);
+			}
+			.task-status--in-progress {
+				background-color: var(--dhx-color-primary);
+			}
+			.task-status--open {
+				background-color: var(--dhx-color-danger);
+			}
+			.star-icon {
+				font-size: 20px;
+				color: #edad24;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Grouping (PRO)
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-container" style="height: 80%">
+			<div style="height: 100%; width: 100%" id="grid"></div>
+		</section>
+		<script>
+			const infoTemplate = (value, row) => {
+				if (!value || row?.$group) return "";
+				return `
+					<div class="info-template">
+						<div class="info-template__avatar" style="background-image: url(${row.animal_photo || ''});"></div>
+						<span>${row.animal_name}</span>
+					</div>
+				`
+			};
+
+			const infoTooltipTemplate = (value, row, col) => {
+				if (!value || row?.$group) return "";
+				return `
+					<div class="info-template-tooltip">
+						<div class="info-template-tooltip__avatar" style="background-image: url(${row.animal_photo || ''});"></div>
+						<div class="info-template-tooltip__title">${row.animal_name}</div>
+					</div>
+				`
+			};
+
+			const getStatusTemplate = (value, row) => {
+				if (!value || row?.$group) return;
+				let status = "task-status--open";
+				if (value === "Completed") status = "task-status--completed";
+				if (value === "In Progress") status = "task-status--in-progress";
+				return `
+					<div class='task-template'>
+						<div class='task-status ${status}'></div>
+						<span>${value}</span>
+					</div>
+				`
+			};
+
+			const getExperienceLevelTemplate = (value, row) => {
+				if (value === 0 || !value || row?.$group) return "";
+				value = +value;
+				if (value > 3) value = 3;
+				return `${"<i class='mdi mdi-star star-icon'></i>".repeat(value)}`
+			};
+
+			const cellTemplate = (value, row) => (!row.$group && value || "");
+
+			const columns = [
+				{
+					id: "animal_name",
+					header: [{ text: "Animal name" }],
+					template: infoTemplate,
+					tooltipTemplate: infoTooltipTemplate,
+					htmlEnable: true,
+				},
+				{
+					id: "animal_type",
+					header: [{ text: "Animal type" }],
+					editorType: "combobox",
+					options: ["Cat", "Dog"],
+				},
+				{
+					id: "animal_age",
+					type: "number",
+					header: [{ text: "Age" }],
+				},
+				{
+					id: "task",
+					header: [{ text: "Task" }],
+				},
+				{
+					id: "task_status",
+					header: [{ text: "Task status" }],
+					editorType: "combobox", options: ["Open", "In Progress", "Completed"],
+					editorConfig: {
+						template: ({ value }) => getStatusTemplate(value),
+					},
+					template: getStatusTemplate,
+					htmlEnable: true,
+				},
+				{
+					id: "volunteer_name",
+					header: [{ text: "Volunteer name" }],
+				},
+				{
+					id: "experience_level",
+					type: "number",
+					header: [{ text: "Experience Level", align: "left" }],
+					editorType: "combobox", options: ["1", "2", "3"],
+					editorConfig: {
+						template: ({ value }) => getExperienceLevelTemplate(value),
+					},
+					template: getExperienceLevelTemplate,
+					htmlEnable: true,
+					align: "left",
+				},
+				{
+					id: "contact",
+					header: [{ text: "Contact", align: "right" }],
+					align: "right",
+					patternMask: "(000) 000-0000",
+				},
+				{
+					id: "shelter_location",
+					header: [{ text: "Shelter location" }],
+					editorType: "combobox",
+					options: ["Western Branch", "Eastern Branch", "Northern Branch", "Southern Branch"],
+				},
+				{
+					id: "shift",
+					header: [{ text: "Shift" }],
+				}
+			];
+
+			columns.forEach(column => {
+				column.minWidth = 150;
+				column.template = column.template || cellTemplate;
+			});
+
+			const grid = new dhx.Grid("grid", {
+				columns,
+				group: {
+					order: ["shelter_location"] // Group by the `shelter_location` field
+				},
+				groupable: true, // Enables grouping functionality, false by default
+				autoWidth: true,
+				editable: true,
+				selection: "row",
+				data: animal_dataset
+			});
+
+			grid.data.sort({ by: "shelter_location", dir: "asc" });
+		</script>
+	</body>
+</html>

@@ -54,5 +54,7 @@ export declare class Tree<T extends object = object> extends View implements ITr
     private _drawItems;
     private _updateItemCheck;
     private _updateParents;
+    private _updateCheckedStatus;
+    private _normalizeMark;
     private _initHotkeys;
 }

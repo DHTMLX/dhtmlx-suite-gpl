@@ -4,9 +4,11 @@ import { Id, ITouchParam } from "../../ts-common/types";
 import { View } from "../../ts-common/view";
 import { DataEvents, DragEvents, IDataCollection, IDataEventsHandlersMap, IDataItem, IDragEventsHandlersMap } from "../../ts-data";
 import { Exporter } from "./Exporter";
-import { Dirs, EditorType, GridEvents, IAdjustBy, ICellRect, ICol, IContentList, ICoords, IEventHandlersMap, IGrid, IGridConfig, IRow, IScrollState, ISelection, ISpan, GridSystemEvents, ISystemEventHandlersMap, IColumnsWidth, ISortingState, SortFunction, IHeaderFilter, IAdjustColumns, IFooter, IHeader, INormalizeColumnsParams } from "./types";
+import { ISelection } from "./Selection";
+import { Dirs, EditorType, GridEvents, IAdjustBy, ICellRect, ICol, IContentList, ICoords, IEventHandlersMap, IGrid, IGridConfig, IRow, IScrollState, ISpan, GridSystemEvents, ISystemEventHandlersMap, IColumnsWidth, ISortingState, SortFunction, IHeaderFilter, IAdjustColumns, IDirection, IFooter, IHeader, INormalizeColumnsParams, ISummaryList } from "./types";
 export declare class Grid extends View implements IGrid {
     version: string;
+    name: "grid";
     data: IDataCollection;
     config: IGridConfig;
     events: IEventSystem<DataEvents | GridEvents | DragEvents, IEventHandlersMap & IDataEventsHandlersMap & IDragEventsHandlersMap>;
@@ -15,16 +17,20 @@ export declare class Grid extends View implements IGrid {
     selection: ISelection;
     keyManager: IKeyManager;
     protected _touch: ITouchParam;
+    protected _destructed: boolean;
     protected _scroll: IScrollState;
     protected _events: IEventSystem<GridSystemEvents, ISystemEventHandlersMap>;
     protected _htmlEvents: any;
-    private _sortDir;
-    private _sortBy;
-    private _filterData;
+    protected _sortState: {
+        by: Id;
+        dir: Dirs;
+    };
     protected _activeFilters: object;
+    private _filterData;
     private _hiddenFilters;
-    protected _destructed: boolean;
-    constructor(container: HTMLElement | string, config?: IGridConfig);
+    private _commonSummary;
+    private _colSummary;
+    constructor(container: HTMLElement | string | null, config?: IGridConfig);
     destructor(): void;
     setColumns(columns: ICol[]): void;
     addRowCss(rowId: Id, css: string): void;
@@ -53,6 +59,7 @@ export declare class Grid extends View implements IGrid {
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     edit(rowId: Id, colId: Id, editorType?: EditorType): void;
     paint(): void;
+    getSummary(colId?: Id): ISummaryList;
     protected _createView(): any;
     protected _parseColumns(configChanged?: boolean): void;
     protected normalizeColumns({ config, columns, configChanged }: INormalizeColumnsParams): void;
@@ -62,7 +69,7 @@ export declare class Grid extends View implements IGrid {
     protected _getRowIndex(rowId: Id): number;
     protected _setEventHandlers(): void;
     protected _addEmptyRow(): void;
-    protected _sort(by: Id, dir?: Dirs, sortAs?: SortFunction): void;
+    protected _sort(by: Id, sortAs?: SortFunction): void;
     protected _clearTouchTimer(): void;
     protected _checkFilters(reset?: boolean): void;
     protected _setUniqueData(sync?: boolean): void;
@@ -80,6 +87,10 @@ export declare class Grid extends View implements IGrid {
     protected _normalizeDataType(): void;
     protected _applyLocalFilter(beforePrepareData?: boolean): void;
     protected _normalizeSpans(): void;
+    protected _hideColumn(column: ICol): void;
+    protected _showColumn(column: ICol): void;
+    protected _setSummary(): void;
+    private _applyMethod;
     private _canDataParse;
     private _init;
     private _attachDataCollection;
@@ -91,6 +102,6 @@ export declare class Grid extends View implements IGrid {
     private _render;
     private _initHotKey;
     private _normalizeConfig;
-    private _autoScroll;
+    protected _autoScroll(mode: IDirection): void;
     private _applyAutoWidth;
 }

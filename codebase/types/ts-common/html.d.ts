@@ -66,4 +66,5 @@ export declare function getLabelStyle(config: any): false | {
 };
 export declare function getPageInlineCss(): string;
 export declare function getPageLinksCss(exportStyles?: string[]): string;
+export declare function getElementFromPoint(e: MouseEvent | TouchEvent): Element | null;
 export {};

@@ -1,12 +1,12 @@
 import { IEventSystem } from "../../ts-common/events";
-import { DataCollection } from "./datacollection";
-import { TreeCollection } from "./treecollection";
 import { anyFunction, IAnyObj, Id } from "../../ts-common/types";
+import { IGroupConfig, TGroupOrder } from "./datacollection/group";
+import { TDragItem } from "./DragManager";
 export interface IDataProxy {
     url: string;
     config?: any;
     updateUrl?: (url?: string, params?: any) => void;
-    load?: () => Promise<any[] | void>;
+    load?: () => Promise<any[] | string | void>;
     save?: (data: any, mode: string) => Promise<any>;
 }
 export interface ILazyDataProxy extends IDataProxy {
@@ -74,6 +74,10 @@ export interface IDataConfig {
     approximate?: IApproximate;
     autoload?: string;
     collapsed?: boolean;
+    rootId?: Id;
+}
+export interface IGroupDataConfig extends IGroupConfig {
+    data?: IDataItem[];
 }
 export interface IDataCollection<T extends IDataItem = IDataItem> {
     config: IDataConfig;
@@ -81,8 +85,12 @@ export interface IDataCollection<T extends IDataItem = IDataItem> {
     dataProxy: IDataProxy;
     loadData: Promise<any>;
     saveData: Promise<any>;
+    group(order: TGroupOrder[], config?: IGroupDataConfig): void;
+    ungroup(): void;
+    isGrouped(): boolean;
     load(url: IDataProxy | string, driver?: IDataDriver | DataDriver): Promise<any>;
-    parse(data: T[], driver?: DataDriver | IDataDriver): void;
+    parse(data: T[] | string, driver?: DataDriver | IDataDriver): void;
+    $parse(data: any[]): void;
     add(newItem: IDataItem, index?: number): Id;
     add(newItem: IDataItem[], index?: number): Id[];
     add(newItem: IDataItem | IDataItem[], index?: number): Id | Id[];
@@ -112,7 +120,7 @@ export interface IDataCollection<T extends IDataItem = IDataItem> {
     sort(rule?: ISortMode, config?: ISortConfig): void;
     serialize(driver?: DataDriver): T[];
     copy(id: Id | Id[], index: number, target?: IDataCollection | ITreeCollection, targetId?: Id): Id | Id[];
-    move(id: Id | Id[], index: number, target?: DataCollection | TreeCollection, targetId?: Id): Id | Id[];
+    move(id: Id | Id[], index: number, target?: IDataCollection | ITreeCollection, targetId?: Id): Id | Id[];
     changeId(id: Id, newId?: Id, silent?: boolean): void;
     forEach(callback: DataCallback<T>): void;
     save(url: IDataProxy | string): void;
@@ -194,7 +202,8 @@ export interface IDataItem {
 }
 export type DropPosition = "top" | "bottom" | "in";
 export interface IObjWithData {
-    data: TreeCollection | DataCollection;
+    name?: string;
+    data: ITreeCollection | IDataCollection;
     events: IEventSystem<DragEvents, IDragEventsHandlersMap>;
     config: IDragConfig;
     id?: Id;
@@ -214,6 +223,10 @@ export interface ITransferData {
     start?: Id;
     source?: Id[];
     target?: Id;
+    type?: TDragItem;
+    isWasColumn?: boolean;
+    groupable?: boolean;
+    groupOnly?: boolean;
 }
 export interface IDragConfig {
     dragCopy?: boolean;
@@ -239,7 +252,11 @@ export declare enum DataEvents {
     beforeLazyLoad = "beforelazyload",
     afterLazyLoad = "afterlazyload",
     beforeItemLoad = "beforeItemLoad",
-    afterItemLoad = "afterItemLoad"
+    afterItemLoad = "afterItemLoad",
+    beforeGroup = "beforeGroup",
+    afterGroup = "afterGroup",
+    beforeUnGroup = "beforeUnGroup",
+    afterUnGroup = "afterUnGroup"
 }
 export interface IDataEventsHandlersMap {
     [key: string]: (...args: any[]) => any;
@@ -257,6 +274,10 @@ export interface IDataEventsHandlersMap {
     [DataEvents.afterItemLoad]: (id: Id) => void;
     [DataEvents.beforeLazyLoad]: () => boolean | void;
     [DataEvents.afterLazyLoad]: (from: number, count: number) => void;
+    [DataEvents.beforeGroup]: (config: IGroupConfig) => boolean | void;
+    [DataEvents.afterGroup]: (grouped: string[], config: IGroupConfig) => void;
+    [DataEvents.beforeUnGroup]: (grouped: string[], config: IGroupConfig) => boolean | void;
+    [DataEvents.afterUnGroup]: (grouped: string[], config: IGroupConfig) => void;
 }
 export declare enum DragEvents {
     beforeDrag = "beforeDrag",
@@ -274,21 +295,20 @@ export interface IDragInfo {
     source: Id[];
     target: Id;
     dropPosition?: DropPosition;
-    dragItem?: "row" | "column";
 }
 export type DragMode = "target" | "both" | "source";
 export type DropBehaviour = "child" | "sibling" | "complex";
 export interface IDragEventsHandlersMap {
     [key: string]: (...args: any[]) => any;
-    [DragEvents.beforeDrag]: (data: IDragInfo, events: MouseEvent, ghost: HTMLElement) => void | boolean;
-    [DragEvents.dragStart]: (data: IDragInfo, events: MouseEvent) => void;
-    [DragEvents.dragOut]: (data: IDragInfo, events: MouseEvent) => void;
-    [DragEvents.dragIn]: (data: IDragInfo, events: MouseEvent) => void | boolean;
-    [DragEvents.canDrop]: (data: IDragInfo, events: MouseEvent) => void;
-    [DragEvents.cancelDrop]: (data: IDragInfo, events: MouseEvent) => void;
-    [DragEvents.beforeDrop]: (data: IDragInfo, events: MouseEvent) => void | boolean;
-    [DragEvents.afterDrop]: (data: IDragInfo, events: MouseEvent) => any;
-    [DragEvents.afterDrag]: (data: IDragInfo, events: MouseEvent) => any;
+    [DragEvents.beforeDrag]: (data: IDragInfo, events: MouseEvent, ghost: HTMLElement, type: TDragItem) => void | boolean;
+    [DragEvents.dragStart]: (data: IDragInfo, events: MouseEvent, type: TDragItem) => void;
+    [DragEvents.dragOut]: (data: IDragInfo, events: MouseEvent, type: TDragItem) => void;
+    [DragEvents.dragIn]: (data: IDragInfo, events: MouseEvent, type: TDragItem) => void | boolean;
+    [DragEvents.canDrop]: (data: IDragInfo, events: MouseEvent, type: TDragItem) => void;
+    [DragEvents.cancelDrop]: (data: IDragInfo, events: MouseEvent, type: TDragItem) => void;
+    [DragEvents.beforeDrop]: (data: IDragInfo, events: MouseEvent, type: TDragItem) => void | boolean;
+    [DragEvents.afterDrop]: (data: IDragInfo, events: MouseEvent, type: TDragItem) => any;
+    [DragEvents.afterDrag]: (data: IDragInfo, events: MouseEvent, type: TDragItem) => any;
 }
 export declare enum DataDriver {
     json = "json",

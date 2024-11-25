@@ -1,4 +1,4 @@
-import { Combobox } from "../../../../ts-combobox";
+import { ProCombobox } from "../../../../ts-combobox";
 import { IEventSystem } from "../../../../ts-common/events";
 import { IHeaderFilter, HeaderFilterEvent, ICol, IRendererConfig, IComboFilterConfig } from "../../types";
 export declare class ComboFilter implements IHeaderFilter {
@@ -14,7 +14,7 @@ export declare class ComboFilter implements IHeaderFilter {
     constructor(column: any, config?: any, data?: any, value?: any, conf?: any);
     protected initFilter(): void;
     protected initHandlers(): void;
-    getFilter(): Combobox;
+    getFilter(): ProCombobox;
     setValue(value: string | string[], silent?: boolean): void;
     clear(silent?: boolean): void;
     focus(): void;

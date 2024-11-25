@@ -1,3 +1,4 @@
+import { INumberMask, IPatternMask } from "../../../ts-common/input";
 import { Label } from "./helper/label";
 import { IEventSystem } from "../../../ts-common/events";
 import { ItemEvent, IBaseLayoutItem, ILabel, IMessage, IBaseItem, IBaseState, IBaseHandlersMap } from "../types";
@@ -25,6 +26,8 @@ export interface IInputProps extends IBaseLayoutItem, ILabel, IMessage {
     min?: number | string;
     max?: number | string;
     step?: number | string;
+    numberMask?: INumberMask | boolean;
+    patternMask?: IPatternMask | string;
 }
 export interface IInputConfig extends IBaseItem, IBaseState, IInputProps {
     type: "input";
@@ -45,6 +48,7 @@ export interface IInput {
     clearValidate(): void;
     setValue(value: string | number): void;
     getValue(): string | number;
+    getText(): string;
     isFocused(): boolean;
     focus(): void;
     blur(): void;
@@ -75,6 +79,7 @@ export declare class Input extends Label implements IInput {
     protected _propsItem: string[];
     protected _props: string[];
     protected _value: any;
+    protected _input: HTMLInputElement;
     constructor(container: HTMLElement | string, config?: {});
     destructor(): void;
     setProperties(propertyConfig: IInputProps): void;
@@ -90,6 +95,7 @@ export declare class Input extends Label implements IInput {
     clear(): void;
     setValue(value: string | number): void;
     getValue(): string | number;
+    getText(): string;
     isFocused(): boolean;
     focus(): void;
     blur(): void;
@@ -103,9 +109,6 @@ export declare class Input extends Label implements IInput {
         onkeydown: (event: KeyboardEvent) => void;
     };
     protected _draw(): any;
-    protected _getHooks(): {
-        didRecycle: (_oldNode: any, newNode: any) => void;
-        didInsert: (node: any) => void;
-        willRemove: (node: any) => void;
-    };
+    protected _applyValuePattern(value: string | number, input?: HTMLInputElement | null, onlyView?: boolean): string | number;
+    protected _removeValuePattern(value: string, lastCall?: boolean): string;
 }

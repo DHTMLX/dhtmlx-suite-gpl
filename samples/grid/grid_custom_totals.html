@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<!-- meta block -->
+		<title>Custom totals - DHTMLX Grid</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		
+		<link rel="shortcut icon" href="../common/favicon/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="../common/favicon/icon-16.png" sizes="16x16" />
+		<link rel="icon" href="../common/favicon/icon-32.png" sizes="32x32" />
+		<link rel="icon" href="../common/favicon/icon-48.png" sizes="48x48" />
+		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
+		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
+		<!-- end meta block -->
+		<script type="text/javascript" src="../../codebase/suite.js?v=9.0.0"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css?v=9.0.0">
+		
+		<link rel="stylesheet" href="../common/index.css?v=9.0.0">
+		<!-- custom sample head -->
+		<script src="./common/data.js?v=9.0.0"></script>
+		<style>
+			.footer-content {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				align-items: end;
+			}
+			.footer-cell-content {
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Custom totals
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-container" >
+			<div style="height: 100%; width: 100%" id="grid"></div>
+		</section>
+		<script>
+			const getFooterTemplate = ({ avg, med, max, min, sum }, withSum = true) => `
+				<div class="footer-content">
+					<div class="footer-cell-content"><span>Avg:</span><span>${avg?.toFixed(1)}</span></div>
+					<div class="footer-cell-content"><span>Med:</span><span>${med?.toFixed(1)}</span></div>
+					<div class="footer-cell-content"><span>Max:</span><span>${max?.toFixed(1)}</span></div>
+					<div class="footer-cell-content"><span>Min:</span><span>${min?.toFixed(1)}</span></div>
+					${withSum ? `<div class="footer-cell-content"><span>Sum:</span><span>${sum?.toFixed(1)}</span></div>` : ""}
+				</div>
+			`;
+
+			const calc = (item) => {
+				const avg_day_temperature = (item.max_day_temperature + item.min_day_temperature) / 2;
+				const avg_night_temperature = (item.max_night_temperature + item.min_night_temperature) / 2;
+				return {
+					...item,
+					avg_day_temperature,
+					avg_night_temperature,
+					avg_temperature: (avg_day_temperature + avg_night_temperature) / 2,
+					total_precipitation: item.rainfall + item.snowfall, 
+				};
+			};
+
+			// Method to calculate the median of a field in a dataset
+			dhx.methods.median = (rows, field) => {
+				const values = rows.map(row => row[field]);
+				values.sort((a, b) => a - b);
+				const mid = Math.floor(values.length / 2);
+				return values.length % 2 !== 0 ? values[mid] : (values[mid - 1] + values[mid]) / 2;
+			};
+
+			// Mapping of summary types (average, median, etc.) to their respective calculation methods
+			const summaryMap = {
+				avg: "avg",       // average
+				med: "median",   // median
+				max: "max",       // maximum value
+				min: "min",       // minimum value
+				sum: "sum"        // sum of values
+			};
+
+			// Define column configuration for the grid
+			const columns =  [
+				{ id: "month", header: [{ text: "Month" }], footer: [{ text: "Total" }] },
+				{
+					id: "rainfall",
+					type: "number",
+					header: [{ text: "Rainfall (mm)" }],
+					footer: [{ text: getFooterTemplate,  }],
+				},
+				{
+					id: "snowfall",
+					type: "number",
+					header: [{ text: "Snowfall (mm)" }],
+					footer: [{ text: getFooterTemplate }],
+				},
+				{
+					id: "total_precipitation",
+					type: "number",
+					header: [{ text: "Total precipitation (mm)" }],
+					footer: [{ text: getFooterTemplate }],
+					editable: false,
+				},
+				{
+					id: "max_day_temperature",
+					type: "number",
+					header: [{ text: "Max day temperature" }],
+					footer: [{ text: summary => getFooterTemplate(summary, false) }],
+				},
+				{
+					id: "min_day_temperature",
+					type: "number",
+					header: [{ text: "Min day temperature" }],
+					footer: [{ text: summary => getFooterTemplate(summary, false) }],
+				},
+				{
+					id: "max_night_temperature",
+					type: "number",
+					header: [{ text: "Max night temperature" }],
+					footer: [{ text: summary => getFooterTemplate(summary, false) }],
+				},
+				{
+					id: "min_night_temperature",
+					type: "number",
+					header: [{ text: "Min night temperature" }],
+					footer: [{ text: summary => getFooterTemplate(summary, false) }],
+				},
+				{
+					id: "avg_day_temperature",
+					type: "number",
+					header: [{ text: "Avg day temperature (°C)" }],
+					footer: [{ text: summary => getFooterTemplate(summary, false) }],
+					editable: false,
+				},
+				{
+					id: "avg_night_temperature",
+					type: "number",
+					header: [{ text: "Avg night temperature (°C)" }],
+					footer: [{ text: summary => getFooterTemplate(summary, false) }],
+					editable: false,
+				},
+				{
+					id: "avg_temperature",
+					type: "number",
+					header: [{ text: "Avg temperature (°C)" }],
+					footer: [{ text: summary => getFooterTemplate(summary, false) }],
+					editable: false,
+				},
+			];
+
+			// Set the minimum width for each column and associate the summary map for calculations
+			columns.forEach(column => {
+				column.minWidth = 140;  // Set minimum width of columns to 140px
+				column.summary = summaryMap; // Attach the summary map for each column
+			});
+
+			// Create the grid with the specified configuration
+			const grid = new dhx.Grid("grid", {
+				columns,
+				height: 400,
+				editable: true,
+				htmlEnable: true,
+				autoWidth: true,
+				headerAutoHeight: true,
+				footerRowHeight: 120,
+				leftSplit: 1
+			});
+
+			// Handle the "change" event on the grid: when a cell is added or updated, recalculate the item
+			grid.events.on("change", (id, status) => {
+				if (status === "add" || status === "update") {  // Check if the status is "add" or "update"
+					const item = grid.data.getItem(id);          // Get the updated item from the grid
+					grid.data.update(id, calc(item));            // Recalculate and update the item in the grid
+				}
+			});
+
+			// Parse and populate the grid with the dataset, calculating values for each item using the `calc` method
+			grid.data.parse(weather_dataset.map((item) => item = calc(item)));
+		</script>
+	</body>
+</html>

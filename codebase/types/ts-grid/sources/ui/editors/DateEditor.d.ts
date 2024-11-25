@@ -12,6 +12,7 @@ export declare class DateEditor implements IEditor {
     private _calendar;
     private _popup;
     private _value;
+    private _editorConfig;
     constructor(row: IRow, col: ICol, config: IRendererConfig);
     endEdit(withoutSave?: boolean, calendarChange?: boolean): void;
     toHTML(): any;
@@ -32,4 +33,5 @@ export declare class DateEditor implements IEditor {
         view?: import("../../../../ts-calendar").ViewMode;
     };
     protected _initHandlers(): void;
+    private _getValue;
 }

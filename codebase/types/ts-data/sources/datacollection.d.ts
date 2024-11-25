@@ -1,8 +1,8 @@
 import { IEventSystem } from "../../ts-common/events";
 import { Id } from "../../ts-common/types";
 import { Sort } from "./datacollection/sort";
-import { DataCallback, DataEvents, IDataCollection, IDataItem, IDataProxy, IFilterCallback, IFilterConfig, IFilterMode, ISortMode, ITreeCollection, IUpdateObject, ReduceCallBack, Statuses, IDataEventsHandlersMap, DataDriver, IDataConfig, ISortConfig, IDataDriver, IFilterComplexMode, IFilter, IResetFilterConfig } from "./types";
-import { TreeCollection } from "./treecollection";
+import { DataCallback, DataEvents, IDataCollection, IDataItem, IDataProxy, IFilterCallback, IFilterConfig, IFilterMode, ISortMode, ITreeCollection, IUpdateObject, ReduceCallBack, Statuses, IDataEventsHandlersMap, DataDriver, IDataConfig, ISortConfig, IDataDriver, IFilterComplexMode, IFilter, IResetFilterConfig, IGroupDataConfig } from "./types";
+import { TGroupOrder, IGroup } from "./datacollection/group";
 export declare class DataCollection<T extends IDataItem = IDataItem> implements IDataCollection<T> {
     loadData: Promise<any>;
     saveData: Promise<any>;
@@ -20,10 +20,14 @@ export declare class DataCollection<T extends IDataItem = IDataItem> implements 
     protected _loaded: boolean;
     protected _initOrder: T[];
     protected _filters: IFilter;
+    protected _group: IGroup;
     private _changes;
     private _loader;
     constructor(config?: any, events?: IEventSystem<any>);
     protected _reset(): void;
+    group(order: TGroupOrder[], config?: IGroupDataConfig): void;
+    ungroup(): void;
+    isGrouped(): boolean;
     add(newItem: IDataItem, index?: number): Id;
     add(newItem: IDataItem[], index?: number): Id[];
     remove(id: Id | Id[]): void;
@@ -48,10 +52,10 @@ export declare class DataCollection<T extends IDataItem = IDataItem> implements 
     findAll(conf: IFilterMode | DataCallback<T>): any[];
     sort(rule?: ISortMode, config?: ISortConfig): void;
     copy(id: Id | Id[], index: number, target?: IDataCollection | ITreeCollection, targetId?: Id): Id | Id[];
-    move(id: Id | Id[], index: number, target?: DataCollection | TreeCollection, targetId?: Id, newId?: Id): Id | Id[];
+    move(id: Id | Id[], index: number, target?: IDataCollection | ITreeCollection, targetId?: Id, newId?: Id): Id | Id[];
     forEach(callback: DataCallback<T>): void;
     load(url: IDataProxy | string, driver?: IDataDriver | DataDriver): Promise<any>;
-    parse(data: T[], driver?: DataDriver | IDataDriver): any;
+    parse(data: T[] | string, driver?: DataDriver | IDataDriver): any;
     $parse(data: any[]): void;
     save(url: IDataProxy | string): void;
     changeId(id: Id, newId?: Id, silent?: boolean): void;

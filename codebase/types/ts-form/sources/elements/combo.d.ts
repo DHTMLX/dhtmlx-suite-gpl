@@ -98,4 +98,5 @@ export declare class Combo extends Label implements ICombo {
     protected _draw(): any;
     private _existData;
     private _getItemText;
+    private _isValue;
 }

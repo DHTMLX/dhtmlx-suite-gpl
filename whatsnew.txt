@@ -1,3 +1,116 @@
+# Version 9.0 (November 25, 2024)
+
+### Breaking changes
+
+In this version TreeGrid becomes a part of Grid. Check the Migration guide to keep in step with the latest updates.
+
+### Deprecated
+
+#### Grid
+
+- The column header `content` property doesn't support "avg" | "sum" | "max" | "min" | "count" arguments
+- The column footer `content` property is removed
+- The column `format` property for data format
+- The column `format` property for date format (for columns with type:"date")
+- The column `type: "percent"` property
+- The `groupBy()`, `ungroup()` methods are removed
+- The `groupTitleTemplate` property is removed
+
+### New functionality
+
+#### Common features
+
+- The new helper method `dhx.methods` to define the default data calculation functions used by the library and redefine them to create custom functions
+
+#### DataCollection
+
+- The ability to group data items, aggregate data in a group, adjust the order and configuration of data grouping, render statistics in the summary rows.
+    - new methods: `group()`, `ungroup()`, `isGrouped()`
+    - new events: `beforeGroup`, `afterGroup`, `beforeUnGroup`, `afterUnGroup`
+
+#### Form
+
+- The ability to specify patternMask/numberMask for the Input and Textarea controls
+- The new `getText()` method for getting the text value of an input
+
+#### Grid
+
+- The "tree" mode for Grid (PRO version)
+- Row data grouping (PRO version) with the ability to aggregate data in a group, adjust the appearance, order and configuration of data grouping, render statistics in the summary rows.
+    - new Grid properties: `group`, `groupable`, `closable`
+    - new column properties: `groupable`, `closable`
+    - new events: `groupPanelItemClick`, `groupPanelItemMouseDown`
+- The ability to render custom statistics in the header/footer of columns and Grid spans
+    - the `text` and `tooltipTemplate` properties of a column and of the Grid `spans` configuration object can be set as callback functions to render calculated summary values
+    - new Grid property: `summary`
+    - new method: `getSummary()`
+    - new column property: `summary`
+- The ability to specify patternMask/numberMask for columns
+- Localization for Grid labels is added
+
+### Updates
+
+#### Grid
+
+- The `asDateObject` property is added for the `editorConfig` object of the DatePicker column editor
+to provide the ability to work with a Date object as with a string
+- The `cell` parameter is added for the callback function of the following events:
+`headerCellClick`, `footerCellClick`, `headerCellMouseOver`, `footerCellMouseOver`, `headerCellMouseDown`, `footerCellMouseDown`, `headerCellDblClick`, `footerCellDblClick`, `headerCellRightClick`, `footerCellRightClick`
+- `Ctrl+Enter` shortcut for expanding/collapsing the parent item in the TreeGrid mode
+
+# Version 8.4.6 (October 15, 2024)
+
+### Fixes
+
+- Grid. The issue with opening the Combobox column editor without options
+
+Version 8.4.5 (October 14, 2024)
+----------------------------
+
+# Version 8.4.4 (September 16, 2024)
+
+### Fixes
+
+- Grid. Data is not displayed in the non-PRO version
+
+# Version 8.4.3 (September 10, 2024)
+
+### Fixes
+
+- Grid/TreeGrid. Incorrect span editing
+- Grid/TreeGrid. The callback of the `dragRowIn` event is called with the source id instead of the target id
+- Grid/TreeGrid. Incorrect rendering of header/footer spans
+- Grid/TreeGrid. Canceling editing of a cell in the enabled `autoHeight` mode doesn't revert the value of a cell to the initial state
+- Grid/TreeGrid. The `beforeColumnDrop` event fires after dragging rows
+- Grid/TreeGrid. The `height` property set as a string breaks rendering of the component
+
+# Version 8.4.2 (August 29, 2024)
+
+### Fixes
+
+- Core. Destruction of Layout in the Optimus framework causes an error
+- Form. A number input with the predefined minimal value fails validation in case the input is empty
+- Grid/TreeGrid. Incorrect work of the `comboFilter` input in case entering of HTML content is enabled
+- Grid/TreeGrid. Input of a number starting with a decimal point
+- Grid/TreeGrid. The use of `autoHeight` and `autoEmptyRow` configs prevents appearing of a new empty row
+- Grid/TreeGrid. The `adjust:data` config is applied incorrectly during drag-n-drop
+- Grid/TreeGrid. The `adjust` config of the component takes priority over the `adjust` config of a column
+- Grid/TreeGrid. Parsing data with the `footerAutoHeight: true` config causes a console error
+- Grid/TreeGrid. Dragging adjacent cells from the same column changes their positions relative to each other
+- Layout. Issue with cells resizing
+- Tree. The intermediate state of three-state checkboxes isn't displayed when a dataset is specified in the Tree configuration
+
+# Version 8.4.1 (July 25, 2024)
+
+### Fixes
+
+- Combobox. Custom scroll not working
+- Form. The value selected in the Combo control restores after the options reloading
+- Form. The input destructor issue while using Optimus
+- Form. The `enable()` method fails when a form contains a Fieldset control with a spacer
+- Grid/TreeGrid. Row selection gets lost after dragging a column
+- Tree. Checkbox states are not displayed in the serialized data
+
 # Version 8.4 (July 16, 2024)
 
 ### New functionality

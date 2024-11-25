@@ -1,5 +1,5 @@
-import { IGrid, IDirection } from "../types";
-export declare function selectionMove(e: KeyboardEvent, grid: IGrid, dir: IDirection, range: number, toEnd?: boolean, ctrlUp?: boolean, shiftUp?: boolean): void;
+import { IGrid, IDirection, IProGrid } from "../types";
+export declare function selectionMove(e: KeyboardEvent, grid: IGrid | IProGrid, dir: IDirection, range: number, toEnd?: boolean, ctrlUp?: boolean, shiftUp?: boolean): void;
 export declare function getKeysHandlers(grid: any): {
     enter: () => void;
     space: (e: any) => void;
@@ -7,6 +7,7 @@ export declare function getKeysHandlers(grid: any): {
     tab: (e: any) => void;
     "shift+tab": (e: any) => void;
     arrowUp: (e: any) => void;
+    "ctrl+enter": () => void;
     "ctrl+arrowUp": (e: any) => void;
     "shift+arrowUp": (e: any) => void;
     "ctrl+shift+arrowUp": (e: any) => void;

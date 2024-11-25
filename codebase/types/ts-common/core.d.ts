@@ -1,6 +1,7 @@
 type fn<T extends any[], K> = (...args: T) => K;
 type anyFunction = fn<any[], any>;
 export declare function uid(): string;
+export declare function extendComponent(target: any, source: any): any;
 export declare function extend(target: any, source: any, deep?: boolean): any;
 interface IOBj {
     [key: string]: any;

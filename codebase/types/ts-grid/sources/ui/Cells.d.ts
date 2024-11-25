@@ -25,9 +25,11 @@ export declare function normalizeSpan(span: ISpan, config: IGridConfig, data: ID
     column: import("../../../ts-common/types").Id;
     rowspan?: number;
     colspan?: number;
-    text?: string | number;
+    text?: string | ((args: import("../types").ISummaryList) => string);
     css?: string;
     tooltip?: boolean | import("../types").IGridTooltipConfig;
-    tooltipTemplate?: (spanValue: any, span: ISpan) => string;
+    tooltipTemplate?: (content: {
+        value: string;
+    } & import("../types").ISummaryList, span: ISpan) => string | boolean;
 };
 export {};

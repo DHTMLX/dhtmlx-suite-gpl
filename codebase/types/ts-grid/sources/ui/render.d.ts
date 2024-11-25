@@ -1,10 +1,4 @@
-import { IGrid, IGridConfig, IProGrid, IRendererConfig, IRow, Split, IScrollBarWidth, ICol } from "../types";
-export declare const BORDERS = 2;
-export declare function calcScrollBarWidth(config: IGridConfig | IRendererConfig, customScroll?: boolean, sizes?: {
-    width: number;
-    height: number;
-}): IScrollBarWidth;
-export declare function getCurrFixedCols(config: IGridConfig, split: Split.left | Split.right): ICol[];
+import { IGrid, IGridConfig, IProGrid, IRendererConfig, IRow } from "../types";
 export declare function getRenderConfig(obj: any, data: IRow[], wrapperSizes: any): IRendererConfig;
 export declare function getElementSizes(element: HTMLElement | any): {
     width: number;

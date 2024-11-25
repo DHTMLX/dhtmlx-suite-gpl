@@ -3,7 +3,7 @@ export { cssManager } from "../../ts-common/CssManager";
 export { EventSystem } from "../../ts-common/events";
 export { awaitRedraw, resizeHandler, setTheme } from "../../ts-common/dom";
 export { Uploader } from "../../ts-vault";
-export { DataCollection, TreeCollection, DataProxy, dataDrivers, ajax } from "../../ts-data";
+export { DataCollection, TreeCollection, DataProxy, dataDrivers, ajax, methods } from "../../ts-data";
 export { Layout } from "../../ts-layout";
 export { List } from "../../ts-list";
 export { Calendar } from "../../ts-calendar";

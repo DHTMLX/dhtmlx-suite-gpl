@@ -1,6 +1,7 @@
 import { Input, IInputProps } from "./input";
 import { ItemEvent, ValidationFn, IBaseItem, IBaseState, IBaseLayoutItem, ILabel, IMessage, IBaseHandlersMap } from "../types";
 import { IEventSystem } from "../../../ts-common/events";
+import { INumberMask, IPatternMask } from "../../../ts-common/input";
 import { IFieldset } from "./fieldset";
 export interface ITextAreaProps extends IBaseLayoutItem, ILabel, IMessage {
     validation?: ValidationFn;
@@ -9,6 +10,8 @@ export interface ITextAreaProps extends IBaseLayoutItem, ILabel, IMessage {
     maxlength?: number | string;
     minlength?: number | string;
     resizable?: boolean;
+    numberMask?: INumberMask | boolean;
+    patternMask?: IPatternMask | string;
 }
 export interface ITextAreaConfig extends IBaseItem, IBaseState, ITextAreaProps {
     type: "textarea";
@@ -29,6 +32,7 @@ export interface ITextArea {
     clearValidate(): void;
     setValue(value: string): void;
     getValue(): string;
+    getText(): string;
     focus(): void;
     blur(): void;
     clear(): void;
@@ -60,9 +64,6 @@ export declare class Textarea extends Input implements ITextArea {
     protected _propsItem: string[];
     protected _props: string[];
     getValue(): string;
-    isFocused(): boolean;
-    focus(): void;
-    blur(): void;
     setProperties(propertyConfig: ITextAreaProps & IInputProps): void;
     getProperties(): ITextAreaProps & IInputProps;
     protected _initView(config: ITextAreaConfig): void;

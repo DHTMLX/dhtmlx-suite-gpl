@@ -6,7 +6,7 @@ export declare class Selection implements ISelection {
     config: ISelectionConfig;
     private _selected;
     private _data;
-    constructor(config: ISelectionConfig, data?: DataCollection, events?: IEventSystem<any>);
+    constructor(config: ISelectionConfig, data: DataCollection, events?: IEventSystem<any>);
     getId(): Id;
     getItem(): any;
     remove(id?: Id): boolean;

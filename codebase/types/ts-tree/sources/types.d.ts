@@ -11,8 +11,9 @@ export interface ITreeState {
 export interface ITreeItem extends IDataItem {
     parent: string;
     opened?: boolean;
-    $mark?: SelectStatus;
     checkbox?: boolean;
+    checked?: boolean;
+    $mark?: SelectStatus;
     $autoload?: boolean;
     $selected?: boolean;
     $editor?: boolean;

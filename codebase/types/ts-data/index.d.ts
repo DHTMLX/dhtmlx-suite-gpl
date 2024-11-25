@@ -10,3 +10,4 @@ export * from "./sources/drivers/JsonDriver";
 export * from "./sources/selection";
 export * from "./sources/drivers/drivers";
 export * from "./sources/ajax";
+export * from "./sources/methods";
