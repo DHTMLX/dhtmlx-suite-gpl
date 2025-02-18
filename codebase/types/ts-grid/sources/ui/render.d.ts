@@ -1,5 +1,5 @@
-import { IGrid, IGridConfig, IProGrid, IRendererConfig, IRow } from "../types";
-export declare function getRenderConfig(obj: any, data: IRow[], wrapperSizes: any): IRendererConfig;
+import { IGrid, IGridConfig, IProGrid, IRendererConfig, IRow, ISizes } from "../types";
+export declare function getRenderConfig(obj: any, data: IRow[], wrapperSizes: ISizes): IRendererConfig;
 export declare function getElementSizes(element: HTMLElement | any): {
     width: number;
     height: number;

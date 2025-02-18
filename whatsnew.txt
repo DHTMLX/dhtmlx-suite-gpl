@@ -1,3 +1,77 @@
+# Version 9.1 (February 18, 2025)
+
+### Breaking changes
+
+This version brings some updates in the API methods. Check the Migration guide to keep in step with the latest updates.
+
+### Deprecated
+
+#### Grid
+
+- The `getSortingState()` method of Grid is removed and replaced with the `getSortingStates()` method of DataCollection and TreeCollection
+
+### New functionality
+
+#### Grid
+
+- Row expander with the possibility to insert any Suite widget or HTML content (PRO version)
+- Multi-sorting functionality that allows sorting Grid by several columns (PRO version)
+
+### Fixes
+
+- DataCollection. The `sort()` method called without arguments doesn't reset the applied sorting
+- Grid. Falsy firing of data events on row drag-n-drop
+- Grid. The issue with a gap appearing while calculating the `autoHeight` of a row
+- Toolbar. Incorrect menu items positioning
+- TreeCollection. The `sort()` method called without arguments doesn't reset the applied sorting
+- TreeCollection. The `restoreOrder()` method doesn't reset the applied sorting
+
+# Version 9.0.4 (February 4, 2025)
+
+### Fixes
+
+- Core. Incorrect work of `numberMask` used with the `allowNegative` property on initialization of components
+- Grid. An issue with ignoring the `maxWidth` property specified for a column
+- Window. An issue with restoring of embedded views (Grid scroll)
+
+# Version 9.0.3 (January 13, 2025)
+
+### Fixes
+
+- Chart. Chart bars aren't displayed if the series have the same value
+- Chart. A stacked bar isn't rendered if a data object for some series doesn't contain a value
+- Grid. Sorting the header "selectFilter"/"comboFilter" options with numeric data in the "number" column type
+- Grid. Dragging a child item to the parent item in the TreeGrid mode
+
+# Version 9.0.2 (December 23, 2024)
+
+### Fixes
+
+- Grid. The `input` editor doesn't work when `selection:"row"` is specified
+- Grid. `autoEmptyRow` creates an additional empty row on loading external data
+
+# Version 9.0.1 (December 10, 2024)
+
+### Fixes
+
+- Core. The issue with the local trial package during import to frameworks
+- DataCollection. Adding multiple elements at index -1 will distribute the elements throughout the collection
+- DataCollection. The `find()`/`findAll()` method miss the `index` and `array` arguments, when the parameter is set as a function
+- DataCollection. The `add()` method mutates the added object
+- DataCollection. Data preparation in the config is removed (old realization)
+- DataCollection. After parsing the grouped data, the old data is displayed
+- Form. The issue with the destruction of items in Optimus
+- Grid. Multiselection. Reselection of the first selected row doesn't work
+- Grid. The export module typization is added
+- Grid. The use of `footerAutoHeight` with `summary` causes an error
+- Message. Incorrect text wrapping
+- Tree. Selection isn't applied after dragging an item to another Tree
+- TreeCollection. The `smartSorting` property is missed in the configuration of the `sort()` method
+- TreeCollection. The `filter()` method allows specifying an invalid configuration
+- TreeCollection. The `move()` method calculates the movements incorrectly when moving an array of elements
+- TreeCollection. The `move()` method doesn't allow being called without additional arguments
+- TreeCollection. The ability to create a non-existent parent
+
 # Version 9.0 (November 25, 2024)
 
 ### Breaking changes

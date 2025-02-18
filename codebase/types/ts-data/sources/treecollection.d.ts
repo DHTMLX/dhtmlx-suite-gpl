@@ -1,6 +1,6 @@
 import { IEventSystem } from "../../ts-common/events";
 import { DataCollection } from "./datacollection";
-import { DataCallback, DataEvents, IDataCollection, IDataItem, ITreeCollection, IFilterCallback, IFilterMode, IFilterComplexMode, ITreeFilterConfig, DataDriver, ISortMode, IDataDriver } from "./types";
+import { DataCallback, DataEvents, IDataCollection, IDataItem, ITreeCollection, IFilterCallback, IFilterMode, IFilterComplexMode, ITreeFilterConfig, DataDriver, ISortMode, IDataDriver, IUpdateObject, ISortConfig } from "./types";
 import { Id } from "../../ts-common/types";
 export declare class TreeCollection<T extends IDataItem = IDataItem> extends DataCollection<T> implements ITreeCollection<T> {
     protected _childs: {
@@ -16,8 +16,9 @@ export declare class TreeCollection<T extends IDataItem = IDataItem> extends Dat
     getItems(id: Id): T[];
     getLength(id?: Id): number;
     removeAll(id?: Id): void;
+    update(id: Id, newItem: IUpdateObject, silent?: boolean): void;
     getIndex(id: Id): number;
-    sort(rule?: ISortMode): void;
+    sort(rule?: ISortMode, config?: ISortConfig, ignore?: boolean): void;
     filter(rule?: IFilterMode | IFilterComplexMode | IFilterCallback, config?: ITreeFilterConfig, silent?: boolean): string;
     restoreOrder(): void;
     copy(id: Id, index: number, target?: IDataCollection | ITreeCollection, targetId?: Id): Id;
@@ -41,13 +42,19 @@ export declare class TreeCollection<T extends IDataItem = IDataItem> extends Dat
     protected _setParent(item: IDataItem, parent: Id): void;
     protected _copy(id: Id, index: number, target?: IDataCollection | ITreeCollection, targetId?: Id, key?: number): Id;
     protected _move(id: Id, index: number, target?: ITreeCollection | IDataCollection, targetId?: Id, key?: number): Id;
-    protected _reset(id?: Id): void;
+    protected _reset(config: {
+        id?: Id;
+        grouping: any;
+    }): void;
     protected _removeCore(id: any): void;
     protected _addToOrder(_order: any, obj: any, index: number): void;
     protected _parse_data(data: any, parent?: Id): void;
+    protected _parseItem(item: any): void;
     private _fastDeleteChilds;
     private _recursiveFilter;
     private _serialize;
     private _applyFilter;
     protected _normalizeFilters(filters: any): any;
+    protected _checkFilterRule(rule: IFilterMode | IFilterComplexMode | IFilterCallback): boolean;
+    protected _applySorters(by?: ISortMode): void;
 }

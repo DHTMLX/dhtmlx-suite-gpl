@@ -3,7 +3,7 @@ import { DataProxy } from "./dataproxy";
 import { IFilterCallback, IFilterMode, IDataCollection, IDataItem, ITreeCollection, DataDriver, IDataDriver, IFilter } from "./types";
 export declare function isEqualObj(a: any, b: any): boolean;
 export declare function naturalCompare(a: any, b: any): any;
-export declare function findByConf(item: any, conf: IFilterMode | IFilterCallback): any;
+export declare function findByConf(item: IDataItem, conf: IFilterMode | IFilterCallback, index?: number, array?: IDataItem[]): IDataItem;
 export declare function isDebug(): boolean;
 export declare function dhxWarning(msg: string): void;
 export declare function dhxError(msg: string): void;

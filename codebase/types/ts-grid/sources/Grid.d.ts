@@ -2,10 +2,10 @@ import { IEventSystem } from "../../ts-common/events";
 import { IKeyManager } from "../../ts-common/KeyManager";
 import { Id, ITouchParam } from "../../ts-common/types";
 import { View } from "../../ts-common/view";
-import { DataEvents, DragEvents, IDataCollection, IDataEventsHandlersMap, IDataItem, IDragEventsHandlersMap } from "../../ts-data";
+import { DataEvents, DragEvents, IDataCollection, IDataEventsHandlersMap, IDataItem, IDragEventsHandlersMap, TSortDir } from "../../ts-data";
 import { Exporter } from "./Exporter";
 import { ISelection } from "./Selection";
-import { Dirs, EditorType, GridEvents, IAdjustBy, ICellRect, ICol, IContentList, ICoords, IEventHandlersMap, IGrid, IGridConfig, IRow, IScrollState, ISpan, GridSystemEvents, ISystemEventHandlersMap, IColumnsWidth, ISortingState, SortFunction, IHeaderFilter, IAdjustColumns, IDirection, IFooter, IHeader, INormalizeColumnsParams, ISummaryList } from "./types";
+import { EditorType, GridEvents, IAdjustBy, ICellRect, ICol, IContentList, ICoords, IEventHandlersMap, IGrid, IGridConfig, IRow, IScrollState, ISpan, GridSystemEvents, ISystemEventHandlersMap, IColumnsWidth, SortFunction, IHeaderFilter, IAdjustColumns, IDirection, IFooter, IHeader, INormalizeColumnsParams, ISummaryList, ISortingStates } from "./types";
 export declare class Grid extends View implements IGrid {
     version: string;
     name: "grid";
@@ -21,10 +21,7 @@ export declare class Grid extends View implements IGrid {
     protected _scroll: IScrollState;
     protected _events: IEventSystem<GridSystemEvents, ISystemEventHandlersMap>;
     protected _htmlEvents: any;
-    protected _sortState: {
-        by: Id;
-        dir: Dirs;
-    };
+    protected _sortingStates: ISortingStates;
     protected _activeFilters: object;
     private _filterData;
     private _hiddenFilters;
@@ -54,22 +51,25 @@ export declare class Grid extends View implements IGrid {
     removeSpan(rowId: Id, colId: Id): void;
     editCell(rowId: Id, colId: Id, editorType?: EditorType): void;
     editEnd(withoutSave?: boolean): void;
-    getSortingState(): ISortingState;
     getHeaderFilter(colId: Id): IHeaderFilter;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
-    edit(rowId: Id, colId: Id, editorType?: EditorType): void;
-    paint(): void;
     getSummary(colId?: Id): ISummaryList;
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/ */
+    getSortingState(): {
+        dir?: TSortDir;
+        by?: Id;
+    };
     protected _createView(): any;
     protected _parseColumns(configChanged?: boolean): void;
     protected normalizeColumns({ config, columns, configChanged }: INormalizeColumnsParams): void;
     protected getNormalizeContentHeight(row: IFooter | IHeader, col: ICol, config: IGridConfig): number;
     protected _parseData(): void;
-    protected _createCollection(prep: (data: any[]) => any[]): void;
+    protected _createCollection(): void;
     protected _getRowIndex(rowId: Id): number;
+    protected _setHTMLEventHandlers(): void;
     protected _setEventHandlers(): void;
     protected _addEmptyRow(): void;
-    protected _sort(by: Id, sortAs?: SortFunction): void;
+    protected _sort(by: Id, sortAs?: SortFunction, smartSorting?: boolean): void;
+    protected _setSort(): void;
     protected _clearTouchTimer(): void;
     protected _checkFilters(reset?: boolean): void;
     protected _setUniqueData(sync?: boolean): void;

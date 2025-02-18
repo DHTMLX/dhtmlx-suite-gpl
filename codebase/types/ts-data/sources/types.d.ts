@@ -18,12 +18,14 @@ export interface ILazyConfig {
     delay?: number;
     prepare?: number;
 }
+export type TSortDir = "asc" | "desc";
 export interface ISortMode {
     by?: string | number;
-    dir?: string;
+    dir?: TSortDir;
     as?: (a: any) => any;
     rule?: (a: any, b: any) => number;
 }
+export type ISortingState = ISortMode & ISortConfig;
 export type IFilterCallback = (obj: any) => boolean;
 export interface IFilterMode {
     by?: Id;
@@ -68,7 +70,6 @@ export interface IApproximate {
     maxNum: number;
 }
 export interface IDataConfig {
-    prep?: anyFunction;
     init?: anyFunction;
     update?: anyFunction;
     approximate?: IApproximate;
@@ -118,6 +119,7 @@ export interface IDataCollection<T extends IDataItem = IDataItem> {
     map(callback: DataCallback<T>): T[];
     mapRange(from: number, to: number, callback: DataCallback<T>): T[];
     sort(rule?: ISortMode, config?: ISortConfig): void;
+    getSortingStates(): ISortingState[];
     serialize(driver?: DataDriver): T[];
     copy(id: Id | Id[], index: number, target?: IDataCollection | ITreeCollection, targetId?: Id): Id | Id[];
     move(id: Id | Id[], index: number, target?: IDataCollection | ITreeCollection, targetId?: Id): Id | Id[];
@@ -178,7 +180,7 @@ export interface ITreeCollection<T extends IDataItem = IDataItem> extends IDataC
     getLength(id?: Id): number;
     getIndex(id: Id): number;
     getItems(id: Id): T[];
-    sort(rule?: ISortMode): void;
+    sort(rule?: ISortMode, config?: ISortConfig): void;
     map(callback: DataCallback<T>, parent?: Id, direct?: boolean): any;
     filter(rule?: IFilterMode | IFilterCallback, config?: ITreeFilterConfig, silent?: boolean): string;
     restoreOrder(): void;

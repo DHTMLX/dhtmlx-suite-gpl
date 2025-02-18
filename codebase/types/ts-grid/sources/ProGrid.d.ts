@@ -1,15 +1,15 @@
 import { ScrollView } from "../../ts-common/ScrollView";
-import { ITreeEventHandlersMap, TreeGridCollection, TreeGridEvents } from "../../ts-treegrid";
-import { EditorType, GridEvents, IAdjustBy, ICellRect, ICol, IContentList, ICoords, IEventHandlersMap, IHeaderFilter, IProGrid, IProGridConfig, ISortingState, ISpan, ISummaryList } from "./types";
+import { TreeGridCollection } from "../../ts-treegrid";
+import { EditorType, GridEvents, IAdjustBy, ICellRect, ICol, IContentList, ICoords, IEventHandlersMap, IHeaderFilter, IProGrid, IProGridConfig, ISpan, ISubViewCell, ISummaryList } from "./types";
 import { IKeyManager } from "../../ts-common/KeyManager";
 import { IEventSystem } from "../../ts-common/events";
 import { Id } from "../../ts-common/types";
-import { DataEvents, DragEvents, IDataEventsHandlersMap, IDragEventsHandlersMap, IDataCollection, IDataItem } from "../../ts-data";
+import { DataEvents, DragEvents, IDataEventsHandlersMap, IDragEventsHandlersMap, IDataCollection, IDataItem, TSortDir } from "../../ts-data";
 import { ISelection } from "./Selection";
 export declare class ProGrid implements IProGrid {
     config: IProGridConfig;
     scrollView: ScrollView;
-    events: IEventSystem<GridEvents | DataEvents | DragEvents | TreeGridEvents, IEventHandlersMap & IDataEventsHandlersMap & IDragEventsHandlersMap & ITreeEventHandlersMap>;
+    events: IEventSystem<GridEvents | DataEvents | DragEvents, IEventHandlersMap & IDataEventsHandlersMap & IDragEventsHandlersMap>;
     name: string;
     data: IDataCollection<IDataItem> & TreeGridCollection;
     selection: ISelection;
@@ -45,9 +45,14 @@ export declare class ProGrid implements IProGrid {
     removeSpan(rowId: Id, colId: Id): void;
     editCell(rowId: Id, colId: Id, editorType?: EditorType): void;
     editEnd(withoutSave?: boolean): void;
-    getSortingState(): ISortingState;
     getHeaderFilter(colId: Id): IHeaderFilter;
     getSummary(colId?: Id): ISummaryList;
+    getSubRow(id: Id): ISubViewCell | null;
     getRootNode(): HTMLElement;
     getRootView(): void;
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/ */
+    getSortingState(): {
+        dir?: TSortDir;
+        by?: Id;
+    };
 }

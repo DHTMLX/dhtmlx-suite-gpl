@@ -52,7 +52,7 @@ export interface ILayoutConfig extends ICellConfig {
 }
 export type IViewFn = (cfg: any) => VNode;
 export interface IViewConstructor {
-    new: (container: HTMLElement | string, config: any) => IView;
+    new: (container: HTMLElement | string | null, config: any) => IView;
 }
 export interface ICell extends IView {
     id: string;

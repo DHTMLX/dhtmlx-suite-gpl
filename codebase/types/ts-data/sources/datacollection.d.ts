@@ -1,7 +1,7 @@
 import { IEventSystem } from "../../ts-common/events";
 import { Id } from "../../ts-common/types";
 import { Sort } from "./datacollection/sort";
-import { DataCallback, DataEvents, IDataCollection, IDataItem, IDataProxy, IFilterCallback, IFilterConfig, IFilterMode, ISortMode, ITreeCollection, IUpdateObject, ReduceCallBack, Statuses, IDataEventsHandlersMap, DataDriver, IDataConfig, ISortConfig, IDataDriver, IFilterComplexMode, IFilter, IResetFilterConfig, IGroupDataConfig } from "./types";
+import { DataCallback, DataEvents, IDataCollection, IDataItem, IDataProxy, IFilterCallback, IFilterConfig, IFilterMode, ISortMode, ITreeCollection, IUpdateObject, ReduceCallBack, Statuses, IDataEventsHandlersMap, DataDriver, IDataConfig, ISortConfig, IDataDriver, IFilterComplexMode, IFilter, IResetFilterConfig, IGroupDataConfig, ISortingState } from "./types";
 import { TGroupOrder, IGroup } from "./datacollection/group";
 export declare class DataCollection<T extends IDataItem = IDataItem> implements IDataCollection<T> {
     loadData: Promise<any>;
@@ -18,13 +18,17 @@ export declare class DataCollection<T extends IDataItem = IDataItem> implements 
     protected _meta: any;
     protected _range: [number, number];
     protected _loaded: boolean;
-    protected _initOrder: T[];
+    protected _initFilterOrder: T[];
+    protected _initSortOrder: T[];
     protected _filters: IFilter;
     protected _group: IGroup;
+    protected _sortingStates: ISortingState[];
     private _changes;
     private _loader;
     constructor(config?: any, events?: IEventSystem<any>);
-    protected _reset(): void;
+    protected _reset(config?: {
+        grouping?: boolean;
+    }): void;
     group(order: TGroupOrder[], config?: IGroupDataConfig): void;
     ungroup(): void;
     isGrouped(): boolean;
@@ -50,7 +54,8 @@ export declare class DataCollection<T extends IDataItem = IDataItem> implements 
     }): IFilter;
     find(conf: IFilterMode | DataCallback<T>): any;
     findAll(conf: IFilterMode | DataCallback<T>): any[];
-    sort(rule?: ISortMode, config?: ISortConfig): void;
+    sort(rule?: ISortMode, config?: ISortConfig, ignore?: boolean): void;
+    getSortingStates(): ISortMode[];
     copy(id: Id | Id[], index: number, target?: IDataCollection | ITreeCollection, targetId?: Id): Id | Id[];
     move(id: Id | Id[], index: number, target?: IDataCollection | ITreeCollection, targetId?: Id, newId?: Id): Id | Id[];
     forEach(callback: DataCallback<T>): void;
@@ -70,11 +75,11 @@ export declare class DataCollection<T extends IDataItem = IDataItem> implements 
     getMetaMap(obj: T): any;
     setRange(from: number, to: number): void;
     getRawData(from: number, to: number, order?: T[], mode?: number): T[];
-    protected _add(newItem: IDataItem, index: number): Id;
+    protected _add(newItem: IDataItem, index?: number): Id;
     protected _remove(id: Id): void;
     protected _copy(id: Id, index: number, target?: IDataCollection | ITreeCollection, targetId?: Id, key?: number): Id;
     protected _move(id: Id, index: number, target?: IDataCollection | ITreeCollection, targetId?: Id, key?: number, newId?: Id): Id;
-    protected _addCore(obj: IDataItem, index: number): Id;
+    protected _addCore(obj: IDataItem, index?: number): Id;
     protected _removeCore(id: Id): void;
     protected _parse_data(data: any[]): void;
     protected _approximate(data: any[], values: string[], maxNum: number): any[];
@@ -82,8 +87,10 @@ export declare class DataCollection<T extends IDataItem = IDataItem> implements 
     protected _addToOrder(array: any[], obj: any, index?: number): void;
     protected _applySorters(by?: ISortMode): void;
     protected _applyFilters(rule?: IFilterMode | IFilterCallback): void;
-    protected _reapplyFilters(sort?: boolean): void;
+    protected _reapplyFilters(): void;
     protected _getRuleCallback(rule: IFilterMode): IFilterCallback;
     protected _getPureFilters(filters: IFilter): IFilter;
     protected _normalizeFilters(filters: any): any;
+    protected _checkFilterRule(rule: IFilterMode | IFilterCallback): boolean;
+    private _parse;
 }

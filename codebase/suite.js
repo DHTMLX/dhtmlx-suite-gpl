@@ -1,7 +1,7 @@
 /*
 @license
 
-dhtmlxSuite v.9.0.0 GPL
+dhtmlxSuite v.9.1.0 GPL
 
 This software is covered by GPL license.
 To use it in non-GPL project, you need obtain Commercial or Enterprise license
@@ -102,7 +102,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 115);
+/******/ 	return __webpack_require__(__webpack_require__.s = 116);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -113,7 +113,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setTheme = exports.awaitRedraw = exports.resizeHandler = exports.resizer = exports.disableHelp = exports.KEYED_LIST = exports.inject = exports.create = exports.view = exports.sv = exports.el = void 0;
-var dom = __webpack_require__(127);
+var dom = __webpack_require__(128);
 var html_1 = __webpack_require__(2);
 exports.el = dom.defineElement;
 exports.sv = dom.defineSvgElement;
@@ -1082,16 +1082,16 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(22), exports);
-__exportStar(__webpack_require__(62), exports);
-__exportStar(__webpack_require__(133), exports);
-__exportStar(__webpack_require__(134), exports);
-__exportStar(__webpack_require__(27), exports);
-__exportStar(__webpack_require__(136), exports);
 __exportStar(__webpack_require__(23), exports);
+__exportStar(__webpack_require__(62), exports);
+__exportStar(__webpack_require__(134), exports);
+__exportStar(__webpack_require__(135), exports);
+__exportStar(__webpack_require__(27), exports);
+__exportStar(__webpack_require__(137), exports);
+__exportStar(__webpack_require__(24), exports);
 __exportStar(__webpack_require__(65), exports);
 __exportStar(__webpack_require__(64), exports);
-__exportStar(__webpack_require__(137), exports);
+__exportStar(__webpack_require__(138), exports);
 __exportStar(__webpack_require__(63), exports);
 __exportStar(__webpack_require__(42), exports);
 __exportStar(__webpack_require__(66), exports);
@@ -1647,6 +1647,10 @@ var GridEvents;
     GridEvents["afterRowHide"] = "afterRowHide";
     GridEvents["beforeRowShow"] = "beforeRowShow";
     GridEvents["afterRowShow"] = "afterRowShow";
+    GridEvents["beforeCollapse"] = "beforeCollapse";
+    GridEvents["afterCollapse"] = "afterCollapse";
+    GridEvents["beforeExpand"] = "beforeExpand";
+    GridEvents["afterExpand"] = "afterExpand";
     GridEvents["beforeRowDrag"] = "beforeRowDrag";
     GridEvents["dragRowStart"] = "dragRowStart";
     GridEvents["dragRowOut"] = "dragRowOut";
@@ -1899,7 +1903,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(43), exports);
-__exportStar(__webpack_require__(140), exports);
+__exportStar(__webpack_require__(141), exports);
 __exportStar(__webpack_require__(44), exports);
 
 
@@ -1927,7 +1931,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(142), exports);
 __exportStar(__webpack_require__(143), exports);
 __exportStar(__webpack_require__(144), exports);
-__exportStar(__webpack_require__(69), exports);
+__exportStar(__webpack_require__(70), exports);
 __exportStar(__webpack_require__(45), exports);
 
 
@@ -1953,7 +1957,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(160), exports);
-__exportStar(__webpack_require__(71), exports);
+__exportStar(__webpack_require__(72), exports);
 
 
 /***/ }),
@@ -1964,7 +1968,7 @@ __exportStar(__webpack_require__(71), exports);
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.KeyManager = void 0;
-var FocusManager_1 = __webpack_require__(21);
+var FocusManager_1 = __webpack_require__(22);
 var html_1 = __webpack_require__(2);
 function getHotKeyCode(code) {
     var matches = code.toLowerCase().match(/\w+/g);
@@ -2078,6 +2082,643 @@ exports.KeyManager = KeyManager;
 
 /***/ }),
 /* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getEditorValue = exports.getValueForNumberColumn = exports.getEditorOptions = exports.applyPattern = exports.getMaxColsWidth = exports.getTreeCellWidthOffset = exports.getCalculatedRowHeight = exports.getMaxRowHeight = exports.getUnique = exports.calculateVisibleRange = exports.countColumns = exports.measureTextHeight = exports.normalizeArray = exports.getTotalRowHeight = void 0;
+var core_1 = __webpack_require__(1);
+var main_1 = __webpack_require__(16);
+var date_1 = __webpack_require__(17);
+var input_1 = __webpack_require__(39);
+var common_1 = __webpack_require__(19);
+function getTotalRowHeight(row) {
+    return (row === null || row === void 0 ? void 0 : row.$height) + (((row === null || row === void 0 ? void 0 : row.$opened) && (row === null || row === void 0 ? void 0 : row.$subRowHeight)) || 0) || 0;
+}
+exports.getTotalRowHeight = getTotalRowHeight;
+function normalizeArray(obj, name) {
+    if (!obj[name]) {
+        return;
+    }
+    if (typeof obj[name] === "string") {
+        obj[name] = [
+            {
+                text: "".concat(obj[name]),
+            },
+        ];
+    }
+    else {
+        obj[name] = obj[name].map(function (el) {
+            if (typeof el === "string") {
+                el = { text: el };
+            }
+            return el;
+        });
+    }
+}
+exports.normalizeArray = normalizeArray;
+function measureTextHeight(_a) {
+    var _b = _a.text, text = _b === void 0 ? "" : _b, _c = _a.width, width = _c === void 0 ? 0 : _c, _d = _a.lineHeight, lineHeight = _d === void 0 ? 20 : _d, _e = _a.font, font = _e === void 0 ? "14px Arial" : _e, _f = _a.htmlEnable, htmlEnable = _f === void 0 ? false : _f;
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d", {
+        alpha: false,
+    });
+    ctx.font = font;
+    var defaultLineBreak = [];
+    var mathLineBreak = [];
+    if (htmlEnable)
+        text = (0, main_1.removeHTMLTags)(text);
+    var lineBreak = Math.ceil(ctx.measureText(text).width / width);
+    if (lineBreak > 1)
+        lineBreak = (0, core_1.getTextLines)(ctx, text, width).length;
+    mathLineBreak.push(lineBreak);
+    defaultLineBreak.push(text.split("\n").length);
+    var maxRows = Math.max((0, core_1.getMaxArrayNumber)(defaultLineBreak), (0, core_1.getMaxArrayNumber)(mathLineBreak));
+    canvas.remove();
+    return maxRows * lineHeight;
+}
+exports.measureTextHeight = measureTextHeight;
+function countColumns(config, columns) {
+    var headerRowsCount = 0;
+    var footerRowsCount = 0;
+    var totalWidth = 0;
+    var colspans = false;
+    var rowsHeadersCount = 0;
+    var footer = false;
+    columns.forEach(function (col) {
+        headerRowsCount = Math.max(headerRowsCount, col.header.length);
+        totalWidth += col.$width;
+        if (col.footer) {
+            footerRowsCount = Math.max(footerRowsCount, col.footer.length);
+            if (!footer) {
+                footer = true;
+            }
+        }
+        if (!colspans) {
+            for (var _i = 0, _a = col.header; _i < _a.length; _i++) {
+                var head = _a[_i];
+                if (head.colspan) {
+                    colspans = true;
+                    return;
+                }
+            }
+        }
+    });
+    // fill missing cells
+    columns.forEach(function (col) {
+        if (footer) {
+            col.footer = col.footer || [];
+        }
+        if (col.header.length < headerRowsCount) {
+            for (var i = 0; i < headerRowsCount; i++) {
+                col.header[i] = col.header[i] || { text: "" };
+            }
+        }
+        if (col.footer) {
+            if (col.footer.length < footerRowsCount) {
+                for (var i = 0; i < footerRowsCount; i++) {
+                    col.footer[i] = col.footer[i] || { text: "" };
+                }
+            }
+            for (var i = 0; i < col.footer.length; i++) {
+                if (!col.footer[i].id)
+                    col.footer[i].id = (0, core_1.uid)();
+            }
+        }
+        col.header = col.header.map(function (head) {
+            if (typeof head !== "object") {
+                head = { text: head };
+            }
+            head.css = head.css || "";
+            if (!head.text && !head.css.includes("dhx_cell-empty")) {
+                head.css += " dhx_cell-empty";
+            }
+            if (!head.id)
+                head.id = (0, core_1.uid)();
+            return head;
+        });
+        // find header columns indexes
+        if (col.header[0].text === "") {
+            rowsHeadersCount++;
+        }
+    });
+    config.$totalWidth = totalWidth;
+    config.$colspans = colspans;
+    config.$footer = footer;
+    return rowsHeadersCount;
+}
+exports.countColumns = countColumns;
+function getVisibleRange(viewportSize, scrollPosition, items, sizeProperty) {
+    if (items === void 0) { items = []; }
+    var start = -1;
+    var end = -1;
+    var accumulatedSize = 0;
+    var currentIndex = 0;
+    for (var index = 0; index < items.length; index++) {
+        if (items[index].hidden)
+            continue;
+        var size = sizeProperty === "$width" ? items[index][sizeProperty] : getTotalRowHeight(items[index]);
+        if (accumulatedSize + size >= scrollPosition && start === -1) {
+            start = currentIndex;
+        }
+        if (accumulatedSize >= scrollPosition + viewportSize) {
+            end = currentIndex;
+            break;
+        }
+        accumulatedSize += size;
+        currentIndex++;
+    }
+    if (end === -1)
+        end = currentIndex;
+    return { start: start, end: end };
+}
+function calculateVisibleRange(viewPortSize, scroll, config, data) {
+    var range = { xStart: 0, xEnd: 0, yStart: 0, yEnd: 0 };
+    var adjustedViewportHeight = viewPortSize.height - (config.$headerHeight || 0) - (config.$footerHeight || 0);
+    var adjustedViewportWidth = viewPortSize.width;
+    var yPosition = getVisibleRange(adjustedViewportHeight, scroll.top, data, "$height");
+    var xPosition = getVisibleRange(adjustedViewportWidth, scroll.left, config.columns, "$width");
+    var yStart = yPosition.start;
+    var yEnd = yPosition.end;
+    var xStart = xPosition.start;
+    var xEnd = xPosition.end;
+    if (config.topSplit) {
+        if (yStart < config.topSplit) {
+            yStart = config.topSplit;
+        }
+    }
+    if (config.bottomSplit) {
+        var remainingRows = data.length - config.bottomSplit;
+        if (yEnd > remainingRows) {
+            yEnd = Math.max(yEnd - config.bottomSplit, yStart);
+        }
+    }
+    if (config.leftSplit) {
+        var leftSplit = config.leftSplit
+            ? config.columns.slice(0, config.leftSplit).filter(function (col) { return !col.hidden; }).length
+            : 0;
+        if (xStart < leftSplit) {
+            xStart = leftSplit;
+        }
+    }
+    if (config.rightSplit) {
+        var rightSplit = config.rightSplit
+            ? config.columns.slice(-config.rightSplit).filter(function (col) { return !col.hidden; }).length
+            : 0;
+        if (xEnd > rightSplit) {
+            xEnd = Math.max(xEnd - rightSplit, xStart);
+        }
+    }
+    range.xStart = xStart;
+    range.xEnd = xEnd;
+    range.yStart = yStart;
+    range.yEnd = yEnd;
+    return range;
+}
+exports.calculateVisibleRange = calculateVisibleRange;
+function getUnique(arr, name, multiselection) {
+    var allItems = arr.map(function (item) { return item[name]; });
+    if (multiselection) {
+        allItems.forEach(function (item, index) {
+            if (typeof item === "string" && item.includes(", ")) {
+                item.split(", ").forEach(function (i) { return allItems.push(i); });
+                delete allItems[index];
+            }
+        });
+    }
+    return allItems
+        .filter(function (item, i, array) { return array.indexOf(item) === i && (0, core_1.isDefined)(item); })
+        .sort(function (a, b) {
+        var numA = parseFloat(a);
+        var numB = parseFloat(b);
+        if (!isNaN(numA) && !isNaN(numB)) {
+            return numA === numB ? a.toString().localeCompare(b.toString()) : numA - numB;
+        }
+        a = typeof a === "boolean" ? a.toString() : a;
+        b = typeof b === "boolean" ? b.toString() : b;
+        if (isNaN(a) && isNaN(b))
+            return a.localeCompare(b);
+        return a === "" ? -1 : b === "" ? 1 : isNaN(a) ? 1 : -1;
+    });
+}
+exports.getUnique = getUnique;
+var getMaxRowHeight = function (row, cols, config) {
+    var _a, _b;
+    if (config === void 0) { config = { font: "14.4px Arial", lineHeight: 20 }; }
+    var HORIZONTAL_OFFSET = 24 + common_1.BORDERS;
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d", {
+        alpha: false,
+    });
+    ctx.font = config.font;
+    var definedColumns = {};
+    var colLength = cols.length;
+    for (var index = 0; index < colLength; index++) {
+        definedColumns[cols[index].id] = {
+            width: cols[index].$width - HORIZONTAL_OFFSET || 0,
+            col: cols[index],
+        };
+    }
+    var defaultLineBreak = [];
+    var mathLineBreak = [];
+    // eslint-disable-next-line prefer-const
+    for (var _i = 0, _c = Object.entries(row); _i < _c.length; _i++) {
+        var _d = _c[_i], key = _d[0], value = _d[1];
+        var column = (_a = definedColumns[key]) === null || _a === void 0 ? void 0 : _a.col;
+        if (column &&
+            key !== "height" &&
+            !key.startsWith("$") &&
+            (typeof value === "string" ||
+                typeof value === "number" ||
+                value instanceof Date ||
+                Array.isArray(value))) {
+            value =
+                column.editorType === "combobox" || column.editorType === "multiselect"
+                    ? getComboEditorValue(value, column, row)
+                    : applyPattern(value, column);
+            var currentValue = "";
+            if (typeof column.template === "function") {
+                var templateValue = column.template(value, row, definedColumns[key].col);
+                currentValue = column.htmlEnable ? (0, main_1.removeHTMLTags)(templateValue) : templateValue.toString();
+            }
+            else if (typeof value === "string") {
+                if (column.htmlEnable) {
+                    currentValue = (0, main_1.removeHTMLTags)(value);
+                }
+                else {
+                    currentValue = value;
+                }
+            }
+            else {
+                currentValue = value.toString();
+            }
+            var lineBreak = Math.ceil(ctx.measureText(currentValue).width / definedColumns[key].width);
+            if (lineBreak > 1) {
+                lineBreak = (0, core_1.getTextLines)(ctx, currentValue, (_b = definedColumns[key]) === null || _b === void 0 ? void 0 : _b.width).length;
+            }
+            mathLineBreak.push(lineBreak);
+            defaultLineBreak.push(currentValue.split("\n").length);
+        }
+    }
+    var maxRows = Math.max((0, core_1.getMaxArrayNumber)(defaultLineBreak), (0, core_1.getMaxArrayNumber)(mathLineBreak));
+    canvas.remove();
+    return maxRows * config.lineHeight;
+};
+exports.getMaxRowHeight = getMaxRowHeight;
+var getCalculatedRowHeight = function (height, config) {
+    config = __assign({ rowHeight: 40, verticalOffset: 10 }, config);
+    var calculateHeight = config.rowHeight < 40 ? height : height + config.verticalOffset * 2;
+    return height < config.rowHeight ? config.rowHeight : calculateHeight;
+};
+exports.getCalculatedRowHeight = getCalculatedRowHeight;
+var getTreeCellWidthOffset = function (row, toArrow) {
+    if (toArrow === void 0) { toArrow = false; }
+    return 20 + row.$level * 20 - (toArrow && row.$items ? 20 : 0);
+};
+exports.getTreeCellWidthOffset = getTreeCellWidthOffset;
+var getMaxColsWidth = function (rows, cols, config, target) {
+    var _a;
+    if (config === void 0) { config = {
+        font: "normal 14.4px Arial",
+    }; }
+    if (!rows.length || !cols.length) {
+        return {};
+    }
+    var definedColumns = {};
+    var colLength = cols.length;
+    var rowsLength = rows.length;
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d", {
+        alpha: false,
+    });
+    ctx.font = config.font;
+    for (var index = 0; index < colLength; index++) {
+        definedColumns[cols[index].id] = {
+            width: 20,
+            col: cols[index],
+        };
+    }
+    for (var index = 0; index < rowsLength; index++) {
+        // eslint-disable-next-line prefer-const
+        for (var _i = 0, _b = Object.entries(rows[index]); _i < _b.length; _i++) {
+            var _c = _b[_i], key = _c[0], value = _c[1];
+            var column = (_a = definedColumns[key]) === null || _a === void 0 ? void 0 : _a.col;
+            if (column &&
+                key !== "height" &&
+                !key.startsWith("$") &&
+                (typeof value === "string" ||
+                    typeof value === "number" ||
+                    value instanceof Date ||
+                    Array.isArray(value))) {
+                value =
+                    column.editorType === "combobox" || column.editorType === "multiselect"
+                        ? getComboEditorValue(value, column, rows[index])
+                        : value;
+                if (target !== "header") {
+                    value = applyPattern(value, column);
+                }
+                var currentValue = void 0;
+                if (typeof (column === null || column === void 0 ? void 0 : column.template) === "function" && target === "data") {
+                    var templateValue = column.template(value, rows[index], column);
+                    currentValue = column.htmlEnable ? (0, main_1.removeHTMLTags)(templateValue) : templateValue;
+                }
+                else {
+                    currentValue = column.htmlEnable ? (0, main_1.removeHTMLTags)(value) : value.toString();
+                }
+                var width = ctx.measureText(currentValue).width;
+                if (width > definedColumns[key].width)
+                    definedColumns[key].width = width;
+            }
+        }
+    }
+    canvas.remove();
+    var totalColumns = {};
+    for (var _d = 0, _e = Object.entries(definedColumns); _d < _e.length; _d++) {
+        var _f = _e[_d], key = _f[0], value = _f[1];
+        totalColumns[key] = Math.ceil(value.width);
+    }
+    return totalColumns;
+};
+exports.getMaxColsWidth = getMaxColsWidth;
+function applyPattern(value, col) {
+    if (!(0, core_1.isDefined)(value) || typeof value === "boolean" || value === "") {
+        return value;
+    }
+    if (col.type === "date") {
+        var dateFormat = col.dateFormat || "%M %d %Y";
+        if (typeof value === "string") {
+            if (!(0, date_1.stringToDate)(value, dateFormat, true)) {
+                var date = new Date(value);
+                if (date === null || date === void 0 ? void 0 : date.valueOf()) {
+                    value = (0, date_1.getFormattedDate)(dateFormat, date);
+                }
+            }
+        }
+        else if (typeof value === "object") {
+            value = (0, date_1.getFormattedDate)(dateFormat, value);
+        }
+        return value;
+    }
+    if (col.type === "number" || col.numberMask) {
+        value = parseFloat(value);
+        if (isNaN(value)) {
+            return value;
+        }
+    }
+    if (col.numberMask) {
+        var maxDecLength = col.numberMask.maxDecLength;
+        if ((0, core_1.isDefined)(maxDecLength)) {
+            value = +value.toFixed(maxDecLength);
+        }
+        return (0, input_1.numberMask)(value, __assign(__assign({}, col.numberMask), { onlyView: true }));
+    }
+    if (col.patternMask) {
+        return (0, input_1.patternMask)(value, col.patternMask);
+    }
+    return value;
+}
+exports.applyPattern = applyPattern;
+function getEditorOptions(col, row) {
+    return __spreadArray(__spreadArray([], ((typeof col.options === "function" ? col.options(col, row) : col.options) || []), true), (col.$customOptions || []), true);
+}
+exports.getEditorOptions = getEditorOptions;
+function getValueForNumberColumn(col, value) {
+    if (!(0, core_1.isDefined)(value) ||
+        value === "" ||
+        typeof value === "number" ||
+        ["select", "combobox", "multiselect"].includes(col.editorType)) {
+        return value;
+    }
+    else if (typeof value === "string") {
+        return parseFloat(value);
+    }
+    else {
+        return NaN;
+    }
+}
+exports.getValueForNumberColumn = getValueForNumberColumn;
+function getComboEditorValue(value, col, row) {
+    var options = getEditorOptions(col, row);
+    return col.editorType === "multiselect" && typeof value === "string"
+        ? value
+            .split(",")
+            .map(function (val) { return getEditorValue(val.trim(), options); })
+            .join(", ")
+        : getEditorValue(value, options);
+}
+function getEditorValue(value, options) {
+    var option = options.find(function (option) { return option instanceof Object && option.id == value; });
+    return option ? option.value : value;
+}
+exports.getEditorValue = getEditorValue;
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.scrollFixedColsAndRows = exports.getTotalHeight = exports.getTotalWidth = exports.isHtmlEnable = exports.isTooltip = exports.getTooltipConfig = exports.isContentTooltip = exports.showTooltip = exports.isAutoWidth = exports.isSortable = exports.isRowEmpty = exports.isCssSupport = exports.removeHTMLTags = exports.getStyleByClass = exports.transpose = void 0;
+var core_1 = __webpack_require__(1);
+var html_1 = __webpack_require__(2);
+var ts_message_1 = __webpack_require__(12);
+var data_1 = __webpack_require__(15);
+function transpose(arr, transform) {
+    var columns = [];
+    for (var i = 0; i < arr.length; i++) {
+        var row = arr[i];
+        for (var cellInd = 0; cellInd < row.length; cellInd++) {
+            columns[cellInd] = columns[cellInd] || [];
+            var cell = transform ? transform(row[cellInd]) : row[cellInd];
+            columns[cellInd].push(cell);
+        }
+    }
+    return columns;
+}
+exports.transpose = transpose;
+function insert(node, newone) {
+    if (typeof newone === "string") {
+        node.insertAdjacentHTML("beforeend", newone);
+        return node.lastChild;
+    }
+    else {
+        node.appendChild(newone);
+        return newone;
+    }
+}
+function getStyleByClass(cssClass, targetClass, def, container) {
+    if (container === void 0) { container = document.body; }
+    var cont = container.querySelector("." + targetClass.trim().replace(/\s/g, "."));
+    var testDiv = insert(cont, "<div class=\"".concat(cssClass, "\"></div>"));
+    var styles = window.getComputedStyle(testDiv);
+    var TRANSPARENT = "rgba(0, 0, 0, 0)";
+    var background;
+    if (styles.backgroundColor === TRANSPARENT) {
+        var contStyles = window.getComputedStyle(cont);
+        background =
+            contStyles.backgroundColor === TRANSPARENT
+                ? def.background
+                : (0, core_1.rgbToHex)(contStyles.backgroundColor);
+    }
+    else {
+        background = (0, core_1.rgbToHex)(styles.backgroundColor);
+    }
+    var result = {
+        color: styles.color === "rgb(0, 0, 0)" ? def.color : (0, core_1.rgbToHex)(styles.color),
+        background: background,
+        fontSize: Math.round(parseFloat(styles.fontSize)),
+        bold: ["bold", "700", "600", "500"].includes(styles.fontWeight),
+    };
+    cont.removeChild(testDiv);
+    if ((0, core_1.compare)(result, def))
+        return null;
+    return result;
+}
+exports.getStyleByClass = getStyleByClass;
+function removeHTMLTags(str) {
+    if (typeof str !== "string" && typeof str !== "number" && typeof str !== "boolean") {
+        return "";
+    }
+    return "".concat(str === undefined || str === null ? "" : str)
+        .replace(/<[^>]*>/g, "")
+        .replace(/["]/g, "&quot;")
+        .trim();
+}
+exports.removeHTMLTags = removeHTMLTags;
+function isCssSupport(property, value) {
+    try {
+        return CSS.supports(property, value);
+    }
+    catch (err) {
+        var el = document.createElement("div");
+        el.style[property] = value;
+        return el.style[property] === value;
+    }
+}
+exports.isCssSupport = isCssSupport;
+function isRowEmpty(row) {
+    if (!row) {
+        return;
+    }
+    return Object.keys(row).reduce(function (acc, col) {
+        if (col === "id" || col.startsWith("$")) {
+            return acc;
+        }
+        if (acc && row[col] !== undefined && row[col] !== "") {
+            return;
+        }
+        return acc;
+    }, true);
+}
+exports.isRowEmpty = isRowEmpty;
+function isSortable(config, col) {
+    return (col.sortable !== false && config.sortable) || col.sortable;
+}
+exports.isSortable = isSortable;
+function isAutoWidth(config, col) {
+    if (col) {
+        return (col.autoWidth !== false && config.autoWidth) || col.autoWidth;
+    }
+    var check = false;
+    config.columns.map(function (col) {
+        if ((col.autoWidth !== false && config.autoWidth) || col.autoWidth) {
+            check = true;
+            return;
+        }
+    });
+    return check;
+}
+exports.isAutoWidth = isAutoWidth;
+function showTooltip(value, config) {
+    if (!config.node)
+        return;
+    (0, ts_message_1.tooltip)(value.toString(), __assign(__assign({}, config), { css: "dhx_grid_tooltip " + (config.css || "") }));
+}
+exports.showTooltip = showTooltip;
+function isContentTooltip(config, col, cell, type) {
+    var isEnable = false;
+    var cellProp = type === "header" ? config.headerTooltip : config.footerTooltip;
+    var prop = [config.tooltip, cellProp, col.tooltip, cell === null || cell === void 0 ? void 0 : cell.tooltip];
+    for (var index = 0; index < prop.length; index++) {
+        if (prop[index] || typeof prop[index] === "boolean") {
+            isEnable = !!prop[index];
+        }
+    }
+    return isEnable;
+}
+exports.isContentTooltip = isContentTooltip;
+function getTooltipConfig(config, col, cell, type) {
+    return ([
+        cell === null || cell === void 0 ? void 0 : cell.tooltip,
+        col === null || col === void 0 ? void 0 : col.tooltip,
+        type && (type === "header" ? config.headerTooltip : config.footerTooltip),
+        config.tooltip,
+    ].find(function (tooltip) { return tooltip instanceof Object; }) || {});
+}
+exports.getTooltipConfig = getTooltipConfig;
+function isTooltip(config, element) {
+    return (element.tooltip !== false && config.tooltip) || element.tooltip;
+}
+exports.isTooltip = isTooltip;
+function isHtmlEnable(config, col, content) {
+    var _a, _b;
+    return !!((_b = (_a = content === null || content === void 0 ? void 0 : content.htmlEnable) !== null && _a !== void 0 ? _a : col.htmlEnable) !== null && _b !== void 0 ? _b : config.htmlEnable);
+}
+exports.isHtmlEnable = isHtmlEnable;
+function getTotalWidth(columns) {
+    return columns.reduce(function (total, col) { return total + (col.$width || 0); }, 0);
+}
+exports.getTotalWidth = getTotalWidth;
+function getTotalHeight(rows) {
+    return rows.reduce(function (total, row) { return total + (0, data_1.getTotalRowHeight)(row); }, 0);
+}
+exports.getTotalHeight = getTotalHeight;
+function scrollFixedColsAndRows(e) {
+    var grid = (0, html_1.locateNode)(e, "data-dhx-widget-id");
+    var gridBody = grid.querySelector(".dhx_grid-body");
+    var delta = e.deltaY;
+    var position = e.shiftKey ? [delta, 0] : [0, delta];
+    gridBody === null || gridBody === void 0 ? void 0 : gridBody.scrollBy.apply(gridBody, position);
+}
+exports.scrollFixedColsAndRows = scrollFixedColsAndRows;
+
+
+/***/ }),
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2542,657 +3183,6 @@ var DateHelper = exports.DateHelper = /** @class */ (function () {
 
 
 /***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.scrollFixedColsAndRows = exports.getTotalHeight = exports.getTotalWidth = exports.isHtmlEnable = exports.isTooltip = exports.getTooltipConfig = exports.isContentTooltip = exports.showTooltip = exports.isAutoWidth = exports.isSortable = exports.isRowEmpty = exports.isCssSupport = exports.removeHTMLTags = exports.getStyleByClass = exports.transpose = void 0;
-var core_1 = __webpack_require__(1);
-var html_1 = __webpack_require__(2);
-var ts_message_1 = __webpack_require__(12);
-function transpose(arr, transform) {
-    var columns = [];
-    for (var i = 0; i < arr.length; i++) {
-        var row = arr[i];
-        for (var cellInd = 0; cellInd < row.length; cellInd++) {
-            columns[cellInd] = columns[cellInd] || [];
-            var cell = transform ? transform(row[cellInd]) : row[cellInd];
-            columns[cellInd].push(cell);
-        }
-    }
-    return columns;
-}
-exports.transpose = transpose;
-function insert(node, newone) {
-    if (typeof newone === "string") {
-        node.insertAdjacentHTML("beforeend", newone);
-        return node.lastChild;
-    }
-    else {
-        node.appendChild(newone);
-        return newone;
-    }
-}
-function getStyleByClass(cssClass, targetClass, def, container) {
-    if (container === void 0) { container = document.body; }
-    var cont = container.querySelector("." + targetClass.trim().replace(/\s/g, "."));
-    var testDiv = insert(cont, "<div class=\"".concat(cssClass, "\"></div>"));
-    var styles = window.getComputedStyle(testDiv);
-    var TRANSPARENT = "rgba(0, 0, 0, 0)";
-    var background;
-    if (styles.backgroundColor === TRANSPARENT) {
-        var contStyles = window.getComputedStyle(cont);
-        background =
-            contStyles.backgroundColor === TRANSPARENT
-                ? def.background
-                : (0, core_1.rgbToHex)(contStyles.backgroundColor);
-    }
-    else {
-        background = (0, core_1.rgbToHex)(styles.backgroundColor);
-    }
-    var result = {
-        color: styles.color === "rgb(0, 0, 0)" ? def.color : (0, core_1.rgbToHex)(styles.color),
-        background: background,
-        fontSize: Math.round(parseFloat(styles.fontSize)),
-        bold: ["bold", "700", "600", "500"].includes(styles.fontWeight),
-    };
-    cont.removeChild(testDiv);
-    if ((0, core_1.compare)(result, def))
-        return null;
-    return result;
-}
-exports.getStyleByClass = getStyleByClass;
-function removeHTMLTags(str) {
-    if (typeof str !== "string" && typeof str !== "number" && typeof str !== "boolean") {
-        return "";
-    }
-    return "".concat(str === undefined || str === null ? "" : str)
-        .replace(/<[^>]*>/g, "")
-        .replace(/["]/g, "&quot;")
-        .trim();
-}
-exports.removeHTMLTags = removeHTMLTags;
-function isCssSupport(property, value) {
-    try {
-        return CSS.supports(property, value);
-    }
-    catch (err) {
-        var el = document.createElement("div");
-        el.style[property] = value;
-        return el.style[property] === value;
-    }
-}
-exports.isCssSupport = isCssSupport;
-function isRowEmpty(row) {
-    if (!row) {
-        return;
-    }
-    return Object.keys(row).reduce(function (acc, col) {
-        if (col === "id" || col.startsWith("$")) {
-            return acc;
-        }
-        if (acc && row[col] !== undefined && row[col] !== "") {
-            return;
-        }
-        return acc;
-    }, true);
-}
-exports.isRowEmpty = isRowEmpty;
-function isSortable(config, col) {
-    return (col.sortable !== false && config.sortable) || col.sortable;
-}
-exports.isSortable = isSortable;
-function isAutoWidth(config, col) {
-    if (col) {
-        return (col.autoWidth !== false && config.autoWidth) || col.autoWidth;
-    }
-    var check = false;
-    config.columns.map(function (col) {
-        if ((col.autoWidth !== false && config.autoWidth) || col.autoWidth) {
-            check = true;
-            return;
-        }
-    });
-    return check;
-}
-exports.isAutoWidth = isAutoWidth;
-function showTooltip(value, config) {
-    if (!config.node)
-        return;
-    (0, ts_message_1.tooltip)(value.toString(), __assign(__assign({}, config), { css: "dhx_grid_tooltip " + (config.css || "") }));
-}
-exports.showTooltip = showTooltip;
-function isContentTooltip(config, col, cell, type) {
-    var isEnable = false;
-    var cellProp = type === "header" ? config.headerTooltip : config.footerTooltip;
-    var prop = [config.tooltip, cellProp, col.tooltip, cell === null || cell === void 0 ? void 0 : cell.tooltip];
-    for (var index = 0; index < prop.length; index++) {
-        if (prop[index] || typeof prop[index] === "boolean") {
-            isEnable = !!prop[index];
-        }
-    }
-    return isEnable;
-}
-exports.isContentTooltip = isContentTooltip;
-function getTooltipConfig(config, col, cell, type) {
-    return ([
-        cell === null || cell === void 0 ? void 0 : cell.tooltip,
-        col === null || col === void 0 ? void 0 : col.tooltip,
-        type && (type === "header" ? config.headerTooltip : config.footerTooltip),
-        config.tooltip,
-    ].find(function (tooltip) { return tooltip instanceof Object; }) || {});
-}
-exports.getTooltipConfig = getTooltipConfig;
-function isTooltip(config, element) {
-    return (element.tooltip !== false && config.tooltip) || element.tooltip;
-}
-exports.isTooltip = isTooltip;
-function isHtmlEnable(config, col, content) {
-    var _a, _b;
-    return !!((_b = (_a = content === null || content === void 0 ? void 0 : content.htmlEnable) !== null && _a !== void 0 ? _a : col.htmlEnable) !== null && _b !== void 0 ? _b : config.htmlEnable);
-}
-exports.isHtmlEnable = isHtmlEnable;
-function getTotalWidth(columns) {
-    return columns.reduce(function (total, col) { return total + (col.$width || 0); }, 0);
-}
-exports.getTotalWidth = getTotalWidth;
-function getTotalHeight(rows) {
-    return rows.reduce(function (total, row) { return total + (row.$height || 0); }, 0);
-}
-exports.getTotalHeight = getTotalHeight;
-function scrollFixedColsAndRows(e) {
-    var grid = (0, html_1.locateNode)(e, "data-dhx-widget-id");
-    var gridBody = grid.querySelector(".dhx_grid-body");
-    var delta = e.deltaY;
-    var position = e.shiftKey ? [delta, 0] : [0, delta];
-    gridBody === null || gridBody === void 0 ? void 0 : gridBody.scrollBy.apply(gridBody, position);
-}
-exports.scrollFixedColsAndRows = scrollFixedColsAndRows;
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getEditorValue = exports.getValueForNumberColumn = exports.getEditorOptions = exports.applyPattern = exports.getMaxColsWidth = exports.getTreeCellWidthOffset = exports.getCalculatedRowHeight = exports.getMaxRowHeight = exports.getUnique = exports.calculatePositions = exports.countColumns = exports.measureTextHeight = exports.normalizeArray = void 0;
-var core_1 = __webpack_require__(1);
-var main_1 = __webpack_require__(16);
-var date_1 = __webpack_require__(15);
-var input_1 = __webpack_require__(39);
-function normalizeArray(obj, name) {
-    if (!obj[name]) {
-        return;
-    }
-    if (typeof obj[name] === "string") {
-        obj[name] = [
-            {
-                text: "".concat(obj[name]),
-            },
-        ];
-    }
-    else {
-        obj[name] = obj[name].map(function (el) {
-            if (typeof el === "string") {
-                el = { text: el };
-            }
-            return el;
-        });
-    }
-}
-exports.normalizeArray = normalizeArray;
-function measureTextHeight(_a) {
-    var _b = _a.text, text = _b === void 0 ? "" : _b, _c = _a.width, width = _c === void 0 ? 0 : _c, _d = _a.lineHeight, lineHeight = _d === void 0 ? 20 : _d, _e = _a.font, font = _e === void 0 ? "14px Arial" : _e, _f = _a.htmlEnable, htmlEnable = _f === void 0 ? false : _f;
-    var canvas = document.createElement("canvas");
-    var ctx = canvas.getContext("2d", {
-        alpha: false,
-    });
-    ctx.font = font;
-    var defaultLineBreak = [];
-    var mathLineBreak = [];
-    if (htmlEnable)
-        text = (0, main_1.removeHTMLTags)(text);
-    var lineBreak = Math.ceil(ctx.measureText(text).width / width);
-    if (lineBreak > 1)
-        lineBreak = (0, core_1.getTextLines)(ctx, text, width).length;
-    mathLineBreak.push(lineBreak);
-    defaultLineBreak.push(text.split("\n").length);
-    var maxRows = Math.max((0, core_1.getMaxArrayNumber)(defaultLineBreak), (0, core_1.getMaxArrayNumber)(mathLineBreak));
-    canvas.remove();
-    return maxRows * lineHeight;
-}
-exports.measureTextHeight = measureTextHeight;
-function countColumns(config, columns) {
-    var headerRowsCount = 0;
-    var footerRowsCount = 0;
-    var totalWidth = 0;
-    var colspans = false;
-    var rowsHeadersCount = 0;
-    var footer = false;
-    columns.forEach(function (col) {
-        headerRowsCount = Math.max(headerRowsCount, col.header.length);
-        totalWidth += col.$width;
-        if (col.footer) {
-            footerRowsCount = Math.max(footerRowsCount, col.footer.length);
-            if (!footer) {
-                footer = true;
-            }
-        }
-        if (!colspans) {
-            for (var _i = 0, _a = col.header; _i < _a.length; _i++) {
-                var head = _a[_i];
-                if (head.colspan) {
-                    colspans = true;
-                    return;
-                }
-            }
-        }
-    });
-    // fill missing cells
-    columns.forEach(function (col) {
-        if (footer) {
-            col.footer = col.footer || [];
-        }
-        if (col.header.length < headerRowsCount) {
-            for (var i = 0; i < headerRowsCount; i++) {
-                col.header[i] = col.header[i] || { text: "" };
-            }
-        }
-        if (col.footer) {
-            if (col.footer.length < footerRowsCount) {
-                for (var i = 0; i < footerRowsCount; i++) {
-                    col.footer[i] = col.footer[i] || { text: "" };
-                }
-            }
-            for (var i = 0; i < col.footer.length; i++) {
-                if (!col.footer[i].id)
-                    col.footer[i].id = (0, core_1.uid)();
-            }
-        }
-        col.header = col.header.map(function (head) {
-            if (typeof head !== "object") {
-                head = { text: head };
-            }
-            head.css = head.css || "";
-            if (!head.text && !head.css.includes("dhx_cell-empty")) {
-                head.css += " dhx_cell-empty";
-            }
-            if (!head.id)
-                head.id = (0, core_1.uid)();
-            return head;
-        });
-        // find header columns indexes
-        if (col.header[0].text === "") {
-            rowsHeadersCount++;
-        }
-    });
-    config.$totalWidth = totalWidth;
-    config.$colspans = colspans;
-    config.$footer = footer;
-    return rowsHeadersCount;
-}
-exports.countColumns = countColumns;
-function calculatePositions(width, height, scroll, conf, data) {
-    var _a, _b, _c;
-    var columns = conf.columns || [];
-    var columnsLength = columns.length;
-    var rows = data || [];
-    var rowsLength = rows.length;
-    var leftSplit = conf.leftSplit
-        ? conf.columns.slice(0, conf.leftSplit).filter(function (col) { return !col.hidden; }).length
-        : 0;
-    var topSplit = (_a = conf.topSplit) !== null && _a !== void 0 ? _a : 0;
-    var rightSplit = (_b = conf.rightSplit) !== null && _b !== void 0 ? _b : 0;
-    var bottomSplit = (_c = conf.bottomSplit) !== null && _c !== void 0 ? _c : 0;
-    var x = 0;
-    var hiddenColCount = 0;
-    var scrollLeft = scroll.left;
-    var avrColWidth = conf.$totalWidth / columnsLength;
-    for (var i = 0; i < columnsLength; i++) {
-        var col = columns[i];
-        if (col.hidden) {
-            hiddenColCount++;
-            continue;
-        }
-        scrollLeft = scrollLeft - col.$width;
-        if (scrollLeft + avrColWidth / 2 > 0) {
-            x++;
-        }
-        else {
-            break;
-        }
-    }
-    var y = 0;
-    var hiddenRowCount = 0;
-    var scrollTop = scroll.top;
-    var avrRowHeight = conf.$totalHeight / rowsLength;
-    for (var i = 0; i < rowsLength; i++) {
-        var row = rows[i];
-        if (row.hidden) {
-            hiddenRowCount++;
-            continue;
-        }
-        scrollTop = scrollTop - row.$height;
-        if (scrollTop + avrRowHeight / 2 > 0) {
-            y++;
-        }
-        else {
-            break;
-        }
-    }
-    var sizeByWidth = 0;
-    var itemsTotalByWidth = 0;
-    var maxWidth = -Infinity;
-    var minWidth = +Infinity;
-    var xStartIdx = x + hiddenColCount;
-    for (var index = 0; index < columnsLength; index++) {
-        var column = columns[index];
-        if (index >= xStartIdx && sizeByWidth < width && !column.hidden) {
-            sizeByWidth += column.$width;
-            itemsTotalByWidth++;
-        }
-        if (column.$width > maxWidth)
-            maxWidth = column.$width;
-        if (column.$width < minWidth)
-            minWidth = column.$width;
-    }
-    var sizeByHeight = 0;
-    var itemsTotalByHeight = 0;
-    var maxHeight = -Infinity;
-    var minHeight = +Infinity;
-    var yStartIdx = y + hiddenRowCount;
-    for (var index = 0; index < rowsLength; index++) {
-        var row = rows[index];
-        if (index >= yStartIdx && sizeByHeight < height && !row.hidden) {
-            sizeByHeight += row.$height;
-            itemsTotalByHeight++;
-        }
-        if (row.$height > maxHeight)
-            maxHeight = row.$height;
-        if (row.$height < minHeight)
-            minHeight = row.$height;
-    }
-    minHeight = minHeight < conf.rowHeight ? minHeight : conf.rowHeight;
-    var xReserve = Math.round(maxWidth / minWidth);
-    var yReserve = Math.round(maxHeight / minHeight);
-    var xStart = x - xReserve >= leftSplit ? x - xReserve : leftSplit;
-    var xTotal = x + itemsTotalByWidth + xReserve;
-    var leftSplitHidden = (conf.leftSplit || 0) - leftSplit;
-    var colIndexStartSplit = columns.length - rightSplit - leftSplitHidden;
-    var xEnd = xTotal < colIndexStartSplit ? xTotal : colIndexStartSplit;
-    var yStart = y - yReserve >= topSplit ? y - yReserve : topSplit;
-    var yTotal = y + itemsTotalByHeight + yReserve;
-    var rowIndexStartSplit = rows.length - bottomSplit;
-    var yEnd = yTotal < rowIndexStartSplit ? yTotal : rowIndexStartSplit;
-    return {
-        xStart: xStart,
-        xEnd: xEnd,
-        yStart: yStart,
-        yEnd: yEnd,
-    };
-}
-exports.calculatePositions = calculatePositions;
-function getUnique(arr, name, multiselection) {
-    var allItems = arr.map(function (item) { return item[name]; });
-    if (multiselection) {
-        allItems.forEach(function (item, index) {
-            if (typeof item === "string" && item.includes(", ")) {
-                item.split(", ").forEach(function (i) { return allItems.push(i); });
-                delete allItems[index];
-            }
-        });
-    }
-    return allItems.filter(function (item, i, array) { return array.indexOf(item) === i && (0, core_1.isDefined)(item); }).sort();
-}
-exports.getUnique = getUnique;
-var getMaxRowHeight = function (row, cols, config) {
-    var _a, _b;
-    if (config === void 0) { config = { font: "14px Arial", lineHeight: 20 }; }
-    var HORIZONTAL_OFFSET = 24;
-    var VERTICAL_OFFSET = 8;
-    var canvas = document.createElement("canvas");
-    var ctx = canvas.getContext("2d", {
-        alpha: false,
-    });
-    ctx.font = config.font;
-    var definedColumns = {};
-    var colLength = cols.length;
-    for (var index = 0; index < colLength; index++) {
-        definedColumns[cols[index].id] = {
-            width: cols[index].$width - HORIZONTAL_OFFSET || 0,
-            col: cols[index],
-        };
-    }
-    var defaultLineBreak = [];
-    var mathLineBreak = [];
-    // eslint-disable-next-line prefer-const
-    for (var _i = 0, _c = Object.entries(row); _i < _c.length; _i++) {
-        var _d = _c[_i], key = _d[0], value = _d[1];
-        var column = (_a = definedColumns[key]) === null || _a === void 0 ? void 0 : _a.col;
-        if (column &&
-            key !== "height" &&
-            !key.startsWith("$") &&
-            (typeof value === "string" ||
-                typeof value === "number" ||
-                value instanceof Date ||
-                Array.isArray(value))) {
-            value =
-                column.editorType === "combobox" || column.editorType === "multiselect"
-                    ? getComboEditorValue(value, column, row)
-                    : applyPattern(value, column);
-            var currentValue = "";
-            if (typeof column.template === "function") {
-                var templateValue = column.template(value, row, definedColumns[key].col);
-                currentValue = column.htmlEnable ? (0, main_1.removeHTMLTags)(templateValue) : templateValue.toString();
-            }
-            else if (typeof value === "string") {
-                if (column.htmlEnable) {
-                    currentValue = (0, main_1.removeHTMLTags)(value);
-                }
-                else {
-                    currentValue = value;
-                }
-            }
-            else {
-                currentValue = value.toString();
-            }
-            var lineBreak = Math.ceil(ctx.measureText(currentValue).width / definedColumns[key].width);
-            if (lineBreak > 1) {
-                lineBreak = (0, core_1.getTextLines)(ctx, currentValue, (_b = definedColumns[key]) === null || _b === void 0 ? void 0 : _b.width).length;
-            }
-            mathLineBreak.push(lineBreak);
-            defaultLineBreak.push(currentValue.split("\n").length);
-        }
-    }
-    var maxRows = Math.max((0, core_1.getMaxArrayNumber)(defaultLineBreak), (0, core_1.getMaxArrayNumber)(mathLineBreak));
-    canvas.remove();
-    return maxRows * config.lineHeight + VERTICAL_OFFSET;
-};
-exports.getMaxRowHeight = getMaxRowHeight;
-var getCalculatedRowHeight = function (height, config) {
-    config = __assign({ rowHeight: 40, padding: 12 }, config);
-    var calculateHeight = config.rowHeight < 40 ? height : height + config.padding * 2;
-    return height < config.rowHeight ? config.rowHeight : calculateHeight;
-};
-exports.getCalculatedRowHeight = getCalculatedRowHeight;
-var getTreeCellWidthOffset = function (row, toArrow) {
-    if (toArrow === void 0) { toArrow = false; }
-    return 20 + row.$level * 20 - (toArrow && row.$items ? 20 : 0);
-};
-exports.getTreeCellWidthOffset = getTreeCellWidthOffset;
-var getMaxColsWidth = function (rows, cols, config, target) {
-    var _a;
-    if (config === void 0) { config = {
-        font: "normal 14.4px Arial",
-    }; }
-    if (!rows.length || !cols.length) {
-        return {};
-    }
-    var definedColumns = {};
-    var colLength = cols.length;
-    var rowsLength = rows.length;
-    var canvas = document.createElement("canvas");
-    var ctx = canvas.getContext("2d", {
-        alpha: false,
-    });
-    ctx.font = config.font;
-    for (var index = 0; index < colLength; index++) {
-        definedColumns[cols[index].id] = {
-            width: 20,
-            col: cols[index],
-        };
-    }
-    for (var index = 0; index < rowsLength; index++) {
-        // eslint-disable-next-line prefer-const
-        for (var _i = 0, _b = Object.entries(rows[index]); _i < _b.length; _i++) {
-            var _c = _b[_i], key = _c[0], value = _c[1];
-            var column = (_a = definedColumns[key]) === null || _a === void 0 ? void 0 : _a.col;
-            if (column &&
-                key !== "height" &&
-                !key.startsWith("$") &&
-                (typeof value === "string" ||
-                    typeof value === "number" ||
-                    value instanceof Date ||
-                    Array.isArray(value))) {
-                value =
-                    column.editorType === "combobox" || column.editorType === "multiselect"
-                        ? getComboEditorValue(value, column, rows[index])
-                        : value;
-                if (target !== "header") {
-                    value = applyPattern(value, column);
-                }
-                var currentValue = void 0;
-                if (typeof (column === null || column === void 0 ? void 0 : column.template) === "function" && target === "data") {
-                    var templateValue = column.template(value, rows[index], column);
-                    currentValue = column.htmlEnable ? (0, main_1.removeHTMLTags)(templateValue) : templateValue;
-                }
-                else {
-                    currentValue = column.htmlEnable ? (0, main_1.removeHTMLTags)(value) : value.toString();
-                }
-                var width = ctx.measureText(currentValue).width;
-                if (width > definedColumns[key].width)
-                    definedColumns[key].width = width;
-            }
-        }
-    }
-    canvas.remove();
-    var totalColumns = {};
-    for (var _d = 0, _e = Object.entries(definedColumns); _d < _e.length; _d++) {
-        var _f = _e[_d], key = _f[0], value = _f[1];
-        totalColumns[key] = Math.ceil(value.width);
-    }
-    return totalColumns;
-};
-exports.getMaxColsWidth = getMaxColsWidth;
-function applyPattern(value, col) {
-    if (!(0, core_1.isDefined)(value) || typeof value === "boolean" || value === "") {
-        return value;
-    }
-    if (col.type === "date") {
-        var dateFormat = col.dateFormat || "%M %d %Y";
-        if (typeof value === "string") {
-            if (!(0, date_1.stringToDate)(value, dateFormat, true)) {
-                var date = new Date(value);
-                if (date === null || date === void 0 ? void 0 : date.valueOf()) {
-                    value = (0, date_1.getFormattedDate)(dateFormat, date);
-                }
-            }
-        }
-        else if (typeof value === "object") {
-            value = (0, date_1.getFormattedDate)(dateFormat, value);
-        }
-        return value;
-    }
-    if (col.type === "number" || col.numberMask) {
-        value = parseFloat(value);
-        if (isNaN(value)) {
-            return value;
-        }
-    }
-    if (col.numberMask) {
-        var maxDecLength = col.numberMask.maxDecLength;
-        if ((0, core_1.isDefined)(maxDecLength)) {
-            value = +value.toFixed(maxDecLength);
-        }
-        return (0, input_1.numberMask)(value, __assign(__assign({}, col.numberMask), { onlyView: true }));
-    }
-    if (col.patternMask) {
-        return (0, input_1.patternMask)(value, col.patternMask);
-    }
-    return value;
-}
-exports.applyPattern = applyPattern;
-function getEditorOptions(col, row) {
-    return __spreadArray(__spreadArray([], ((typeof col.options === "function" ? col.options(col, row) : col.options) || []), true), (col.$customOptions || []), true);
-}
-exports.getEditorOptions = getEditorOptions;
-function getValueForNumberColumn(col, value) {
-    if (!(0, core_1.isDefined)(value) ||
-        value === "" ||
-        typeof value === "number" ||
-        ["select", "combobox", "multiselect"].includes(col.editorType)) {
-        return value;
-    }
-    else if (typeof value === "string") {
-        return parseFloat(value);
-    }
-    else {
-        return NaN;
-    }
-}
-exports.getValueForNumberColumn = getValueForNumberColumn;
-function getComboEditorValue(value, col, row) {
-    var options = getEditorOptions(col, row);
-    return col.editorType === "multiselect" && typeof value === "string"
-        ? value
-            .split(",")
-            .map(function (val) { return getEditorValue(val.trim(), options); })
-            .join(", ")
-        : getEditorValue(value, options);
-}
-function getEditorValue(value, options) {
-    var option = options.find(function (option) { return option instanceof Object && option.id == value; });
-    return option ? option.value : value;
-}
-exports.getEditorValue = getEditorValue;
-
-
-/***/ }),
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3513,10 +3503,42 @@ exports.getEditorValue = getEditorValue;
   } else {}
 })()
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(41), __webpack_require__(124).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(41), __webpack_require__(125).setImmediate))
 
 /***/ }),
 /* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getCurrFixedCols = exports.calcScrollBarWidth = exports.BORDERS = void 0;
+var html_1 = __webpack_require__(2);
+var types_1 = __webpack_require__(8);
+exports.BORDERS = 2;
+function calcScrollBarWidth(config, customScroll, sizes) {
+    var _a, _b;
+    if (customScroll === void 0) { customScroll = false; }
+    var yState = config.$totalHeight + config.$headerHeight + config.$footerHeight + exports.BORDERS >
+        ((_a = sizes === null || sizes === void 0 ? void 0 : sizes.height) !== null && _a !== void 0 ? _a : config.$height);
+    var scrollbarY = !yState || customScroll ? 0 : (0, html_1.getScrollbarWidth)();
+    var xState = config.$totalWidth + exports.BORDERS + scrollbarY > ((_b = sizes === null || sizes === void 0 ? void 0 : sizes.width) !== null && _b !== void 0 ? _b : config.$width);
+    var scrollbarX = !xState || customScroll ? 0 : (0, html_1.getScrollbarWidth)();
+    return { x: scrollbarX, y: scrollbarY, xState: xState, yState: yState };
+}
+exports.calcScrollBarWidth = calcScrollBarWidth;
+function getCurrFixedCols(config, split) {
+    if (!config[split])
+        return [];
+    return (split === types_1.Split.left
+        ? config.columns.slice(0, config.leftSplit)
+        : config.columns.slice(-config.rightSplit)).filter(function (col) { return !col.hidden; });
+}
+exports.getCurrFixedCols = getCurrFixedCols;
+
+
+/***/ }),
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3855,7 +3877,7 @@ exports.ScrollView = ScrollView;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3881,7 +3903,7 @@ __exportStar(__webpack_require__(34), exports);
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3926,7 +3948,7 @@ exports.focusManager = new FocusManager();
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3981,7 +4003,7 @@ var DataDriver;
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4023,9 +4045,9 @@ function naturalCompare(a, b) {
     return a - b;
 }
 exports.naturalCompare = naturalCompare;
-function findByConf(item, conf) {
+function findByConf(item, conf, index, array) {
     if (typeof conf === "function") {
-        if (conf.call(this, item)) {
+        if (conf.call(this, item, index, array)) {
             return item;
         }
     }
@@ -4125,38 +4147,6 @@ exports.isOnlyPermanentFilters = isOnlyPermanentFilters;
 
 
 /***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCurrFixedCols = exports.calcScrollBarWidth = exports.BORDERS = void 0;
-var html_1 = __webpack_require__(2);
-var types_1 = __webpack_require__(8);
-exports.BORDERS = 2;
-function calcScrollBarWidth(config, customScroll, sizes) {
-    var _a, _b;
-    if (customScroll === void 0) { customScroll = false; }
-    var yState = config.$totalHeight + config.$headerHeight + config.$footerHeight + exports.BORDERS >
-        ((_a = sizes === null || sizes === void 0 ? void 0 : sizes.height) !== null && _a !== void 0 ? _a : config.$height);
-    var scrollbarY = !yState || customScroll ? 0 : (0, html_1.getScrollbarWidth)();
-    var xState = config.$totalWidth + exports.BORDERS + scrollbarY > ((_b = sizes === null || sizes === void 0 ? void 0 : sizes.width) !== null && _b !== void 0 ? _b : config.$width);
-    var scrollbarX = !xState || customScroll ? 0 : (0, html_1.getScrollbarWidth)();
-    return { x: scrollbarX, y: scrollbarY, xState: xState, yState: yState };
-}
-exports.calcScrollBarWidth = calcScrollBarWidth;
-function getCurrFixedCols(config, split) {
-    if (!config[split])
-        return [];
-    return (split === types_1.Split.left
-        ? config.columns.slice(0, config.leftSplit)
-        : config.columns.slice(-config.rightSplit)).filter(function (col) { return !col.hidden; });
-}
-exports.getCurrFixedCols = getCurrFixedCols;
-
-
-/***/ }),
 /* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4184,7 +4174,7 @@ var ChartEvents;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.normalizeCell = exports.getReducedRowspan = exports.getReducedColspan = exports.getHeight = exports.getWidth = void 0;
+exports.normalizeCell = exports.getReducedRowspan = exports.getReducedColspan = exports.getSpanHeight = exports.getWidth = void 0;
 function getWidth(columns, colspan, index) {
     return columns
         .slice(index, index + (colspan || 1))
@@ -4192,11 +4182,11 @@ function getWidth(columns, colspan, index) {
         .reduce(function (width, col) { return width + col.$width; }, 0);
 }
 exports.getWidth = getWidth;
-function getHeight(rows, span) {
+function getSpanHeight(rows, span) {
     var range = span.$rowsVisibility;
     return rows.slice(range[0], range[1] + 1).reduce(function (height, row) { return height + row.$height; }, 0);
 }
-exports.getHeight = getHeight;
+exports.getSpanHeight = getSpanHeight;
 function getReducedColspan(columns, colId, colspan) {
     var index = columns.findIndex(function (item) { return item.id === colId; });
     return columns.slice(index, index + (colspan || 1)).filter(function (col) { return !col.hidden; }).length;
@@ -4583,8 +4573,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var types_1 = __webpack_require__(25);
 var common_1 = __webpack_require__(6);
-var line_1 = __webpack_require__(85);
-var date_1 = __webpack_require__(15);
+var line_1 = __webpack_require__(86);
+var date_1 = __webpack_require__(17);
 var BaseSeria = /** @class */ (function () {
     function BaseSeria(_data, config, other) {
         var _this = this;
@@ -4754,7 +4744,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(70), exports);
+__exportStar(__webpack_require__(71), exports);
 __exportStar(__webpack_require__(163), exports);
 
 
@@ -4805,7 +4795,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(157), exports);
-__exportStar(__webpack_require__(75), exports);
+__exportStar(__webpack_require__(76), exports);
 
 
 /***/ }),
@@ -4829,9 +4819,9 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(76), exports);
-__exportStar(__webpack_require__(170), exports);
 __exportStar(__webpack_require__(77), exports);
+__exportStar(__webpack_require__(170), exports);
+__exportStar(__webpack_require__(78), exports);
 __exportStar(__webpack_require__(50), exports);
 
 
@@ -4856,9 +4846,9 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(89), exports);
+__exportStar(__webpack_require__(90), exports);
 __exportStar(__webpack_require__(197), exports);
-__exportStar(__webpack_require__(91), exports);
+__exportStar(__webpack_require__(92), exports);
 
 
 /***/ }),
@@ -4959,9 +4949,9 @@ var Input = /** @class */ (function (_super) {
         var _a;
         (_a = this._input) === null || _a === void 0 ? void 0 : _a.removeEventListener("compositionend", this._handlers.oninput);
         this.events && this.events.clear();
-        this.events = this._uid = this._propsItem = this._propsItem = this.config = this._handlers = null;
-        _super.prototype._destructor.call(this);
         this.unmount();
+        _super.prototype._destructor.call(this);
+        this.events = this._uid = this._propsItem = this._propsItem = this.config = this._handlers = null;
     };
     Input.prototype.setProperties = function (propertyConfig) {
         if (!propertyConfig ||
@@ -5294,10 +5284,18 @@ function numberMask(value, options, input) {
     var decSeparator = typeof maxDecLength === "number" && !maxDecLength ? "" : (_b = options.decSeparator) !== null && _b !== void 0 ? _b : ".";
     var limit = false;
     var numericValue = value.toString();
+    var isNegative = numericValue[0] === "-";
+    if (isNegative && options.allowNegative === false) {
+        numericValue = numericValue.slice(1);
+        isNegative = false;
+    }
     var parts = numericValue.split(".");
-    if ((0, core_1.isDefined)(maxIntLength) && parts[0].length > maxIntLength) {
-        parts[0] = parts[0].slice(0, maxIntLength);
-        limit = true;
+    if ((0, core_1.isDefined)(maxIntLength)) {
+        var lengthLimit = maxIntLength + (isNegative ? 1 : 0);
+        if (parts[0].length > lengthLimit) {
+            parts[0] = parts[0].slice(0, lengthLimit);
+            limit = true;
+        }
     }
     if ((0, core_1.isDefined)(maxDecLength) && ((_c = parts[1]) === null || _c === void 0 ? void 0 : _c.length) > maxDecLength) {
         parts[1] = parts[1].slice(0, maxDecLength);
@@ -5321,13 +5319,13 @@ function numberMask(value, options, input) {
         var changeInLength = maskedValue.length - lastLength;
         var position = lastPosition + changeInLength;
         var firstCharIndex = 0;
-        if (numericValue[firstCharIndex] === "-" && numericValue[firstCharIndex + 2] !== decSeparator)
+        if (isNegative && numericValue[firstCharIndex + 2] !== decSeparator)
             ++firstCharIndex;
         if (numericValue[firstCharIndex] === "0" && numericValue.length > 1 && numericValue[1] !== decSeparator) {
             maskedValue = prefix + "0" + suffix;
         }
         if (numericValue[firstCharIndex] === decSeparator) {
-            if (numericValue[0] === "-") {
+            if (isNegative) {
                 maskedValue = prefix + "-0" + decSeparator + suffix;
             }
             else {
@@ -5537,7 +5535,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.normalizeSpan = exports.getShifts = exports.getSpans = exports.getCells = exports.getTreeCell = exports.getHandlers = void 0;
+exports.normalizeSpan = exports.getShifts = exports.getSpans = exports.getCells = exports.getHandlers = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var cells_1 = __webpack_require__(26);
@@ -5545,8 +5543,8 @@ var main_1 = __webpack_require__(16);
 var types_1 = __webpack_require__(8);
 var editors_1 = __webpack_require__(223);
 var html_1 = __webpack_require__(2);
-var data_1 = __webpack_require__(17);
-var common_1 = __webpack_require__(24);
+var data_1 = __webpack_require__(15);
+var common_1 = __webpack_require__(19);
 function handleMouse(rowStart, colStart, conf, type, e) {
     colStart = (0, html_1.locateNodeByClassName)(e.target, "dhx_grid-fixed-cols-wrap") ? 0 : colStart;
     var target = (0, html_1.locateNodeByClassName)(e.target, "dhx_grid-cell");
@@ -5580,7 +5578,8 @@ function getHandlers(row, column, conf) {
     };
 }
 exports.getHandlers = getHandlers;
-function getTreeCell(content, row, col, conf) {
+function getTreeCell(content, row, col, conf, isToggleSubRow) {
+    if (isToggleSubRow === void 0) { isToggleSubRow = false; }
     var getCellAriaAttrs = function (col, ind) { return ({
         role: "gridcell",
         "aria-colindex": ind,
@@ -5595,7 +5594,7 @@ function getTreeCell(content, row, col, conf) {
     var css = "";
     if (isFilledCell) {
         css = "dhx_tree-cell ".concat(col.$cellCss[row.id] || "", " ").concat(cellAlign);
-        if (row.$items)
+        if (row.$items || isToggleSubRow)
             css += " dhx_grid-expand-cell";
         if (isEditable)
             css += " dhx_tree-editing-cell";
@@ -5612,7 +5611,7 @@ function getTreeCell(content, row, col, conf) {
             padding: !row.$items ? "0 0 0 ".concat(parentPadding, "px") : 0,
         }, "data-dhx-col-id": col.id }, getCellAriaAttrs(col, 1)), isFilledCell
         ? [
-            row.$items
+            row.$items || isToggleSubRow
                 ? (0, dom_1.el)(".dhx_grid-expand-cell-icon", __assign(__assign({ class: row.$opened ? "dxi dxi-chevron-down" : "dxi dxi-chevron-right", "data-dhx-id": row.id }, getToggleAriaAttrs(row)), { style: {
                         padding: row.$level ? "0 0 0 ".concat(4 + parentPadding, "px") : "0 0 0 4px",
                     } }))
@@ -5623,7 +5622,6 @@ function getTreeCell(content, row, col, conf) {
         ]
         : null);
 }
-exports.getTreeCell = getTreeCell;
 function getEditorCell(row, col, conf, span) {
     return (0, editors_1.getEditor)(row, col, conf, span);
 }
@@ -5636,7 +5634,8 @@ function getCells(conf) {
         "aria-rowindex": ind,
     }); };
     var pos = conf.$positions;
-    var data = conf.data ? conf.data.slice(pos.yStart, pos.yEnd) : [];
+    var isFixed = conf.$renderFrom !== "render";
+    var data = (isFixed ? conf.data.slice(pos.yStart, pos.yEnd) : conf.currentRows) || [];
     var columns = conf.filteredColumns.slice(pos.xStart, pos.xEnd);
     var selectedCell = conf.selection.getCell();
     var isFirstTabindex = true;
@@ -5654,8 +5653,10 @@ function getCells(conf) {
         }
     }
     return data.map(function (row, index) {
+        var _a;
         var isFilteredDragRow = filteredDragRows === null || filteredDragRows === void 0 ? void 0 : filteredDragRows.some(function (item) { return item.id === row.id; });
         var isLastRow = data.length - 1 === index;
+        var subRow = (_a = conf.$subRowCells) === null || _a === void 0 ? void 0 : _a.get(row.id);
         var rowCss = "";
         if (conf.rowCss) {
             rowCss = conf.rowCss(row);
@@ -5663,10 +5664,7 @@ function getCells(conf) {
         if (row.$css) {
             rowCss += row.$css;
         }
-        return (0, dom_1.el)(".dhx_grid-row", __assign({ style: {
-                height: isLastRow ? row.$height + 1 : row.$height,
-                display: isFilteredDragRow ? "none" : null,
-            }, "data-dhx-id": row.id, class: rowCss, _key: row.id, _flags: dom_1.KEYED_LIST }, (isFilteredDragRow ? {} : getRowAriaAttrs(pos.yStart + index + 1))), columns.map(function (col, colIndex) {
+        var cells = columns.map(function (col, colIndex) {
             var _a;
             if (!col.hidden) {
                 var initValue = row[col.id];
@@ -5684,8 +5682,7 @@ function getCells(conf) {
                         .map(function (item) {
                         var _a, _b;
                         return ((_b = (_a = options_1.find(function (option) {
-                            return option.id &&
-                                option.id.toString() === item;
+                            return option.id && option.id.toString() === item;
                         })) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : item);
                     })
                         .join(", ");
@@ -5742,8 +5739,9 @@ function getCells(conf) {
                         colWidth -= 1;
                     }
                 }
-                if (conf.type === "tree" && conf.firstColId === col.id) {
-                    return getTreeCell(content, row, col, conf);
+                var isToggleSubRow = conf.firstColId === col.id && (subRow === null || subRow === void 0 ? void 0 : subRow.toggleIcon) && !!(subRow === null || subRow === void 0 ? void 0 : subRow.height);
+                if ((conf.type === "tree" && conf.firstColId === col.id) || isToggleSubRow) {
+                    return getTreeCell(content, row, col, conf, isToggleSubRow);
                 }
                 if (conf.dragMode && !isEditable) {
                     css +=
@@ -5764,7 +5762,12 @@ function getCells(conf) {
                         height: row.$height + "px",
                     }, _key: col.id, "data-dhx-col-id": col.id }, getCellAriaAttrs(col, pos.xStart + colIndex + 1, index, conf.editable)), [content]);
             }
-        }));
+        });
+        var rowHeight = (0, data_1.getTotalRowHeight)(row);
+        return (0, dom_1.el)(".dhx_grid-row", __assign({ style: {
+                height: isLastRow ? rowHeight + 1 : rowHeight,
+                display: isFilteredDragRow ? "none" : null,
+            }, "data-dhx-id": row.id, class: rowCss, _key: row.id, _flags: dom_1.KEYED_LIST }, (isFilteredDragRow ? {} : getRowAriaAttrs(pos.yStart + index + 1))), cells);
     });
 }
 exports.getCells = getCells;
@@ -5903,7 +5906,7 @@ function getSpans(config, mode) {
         }
         var height = void 0;
         if (spanHeight > 1) {
-            height = (0, cells_1.getHeight)(rows, spans[i]);
+            height = (0, cells_1.getSpanHeight)(rows, spans[i]);
             if (mode === types_1.Split.top && config.$renderFrom.endsWith("FixedCols")) {
                 var delta = rowIndex + spanHeight - rows.length;
                 if (delta > 0) {
@@ -5958,7 +5961,7 @@ function getSpans(config, mode) {
                     }
                 }
                 if (config.$renderFrom === "render") {
-                    zIndex = 12;
+                    zIndex = 14;
                     if (fixedColumns.left.find(function (i) { return i.id === col; })) {
                         left = scroll_1.left + (0, main_1.getTotalWidth)(fixedColumns.left.slice(0, colIndex));
                         if (!allFixedByCol) {
@@ -6036,7 +6039,7 @@ function getSpans(config, mode) {
             },
             "data-dhx-col-id": col,
             "data-dhx-id": row,
-            "aria-hidden": "true",
+            "aria-instead": "true",
         }, [
             isExpandingSpan
                 ? (0, dom_1.el)(".dhx_span-expand-cell-icon", {
@@ -6156,8 +6159,8 @@ module.exports = g;
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ajax = void 0;
-var types_1 = __webpack_require__(22);
-var helpers_1 = __webpack_require__(23);
+var types_1 = __webpack_require__(23);
+var helpers_1 = __webpack_require__(24);
 function toQueryString(data) {
     return Object.keys(data)
         .reduce(function (entries, key) {
@@ -6678,7 +6681,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(158), exports);
-__exportStar(__webpack_require__(74), exports);
+__exportStar(__webpack_require__(75), exports);
 
 
 /***/ }),
@@ -6703,7 +6706,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(159), exports);
-__exportStar(__webpack_require__(72), exports);
+__exportStar(__webpack_require__(73), exports);
 
 
 /***/ }),
@@ -6780,8 +6783,8 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.locale = void 0;
 __exportStar(__webpack_require__(171), exports);
+__exportStar(__webpack_require__(80), exports);
 __exportStar(__webpack_require__(79), exports);
-__exportStar(__webpack_require__(78), exports);
 __exportStar(__webpack_require__(52), exports);
 var en_1 = __webpack_require__(53);
 Object.defineProperty(exports, "locale", { enumerable: true, get: function () { return en_1.default; } });
@@ -6965,7 +6968,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Scale = void 0;
 var AxisCreator_1 = __webpack_require__(180);
-var SvgScales_1 = __webpack_require__(82);
+var SvgScales_1 = __webpack_require__(83);
 var common_1 = __webpack_require__(6);
 var renderScale = {
     left: SvgScales_1.left,
@@ -7155,7 +7158,7 @@ var ScaleSeria = /** @class */ (function (_super) {
         this._points = this._data.map(function (item, index) {
             // raw values
             var x = _this._xLocator(item);
-            var y = _this._yLocator(item);
+            var y = _this._yLocator(item) || 0;
             var set = [x, y, item.id, x, y];
             if (prev) {
                 set[1] += prev[index][1];
@@ -7480,7 +7483,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(61), exports);
-__exportStar(__webpack_require__(138), exports);
+__exportStar(__webpack_require__(139), exports);
 __exportStar(__webpack_require__(32), exports);
 
 
@@ -7814,17 +7817,18 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DataCollection = void 0;
 var events_1 = __webpack_require__(3);
-var loader_1 = __webpack_require__(128);
-var sort_1 = __webpack_require__(131);
+var loader_1 = __webpack_require__(129);
+var sort_1 = __webpack_require__(132);
 var dataproxy_1 = __webpack_require__(27);
-var helpers_1 = __webpack_require__(23);
-var types_1 = __webpack_require__(22);
+var helpers_1 = __webpack_require__(24);
+var types_1 = __webpack_require__(23);
 var core_1 = __webpack_require__(1);
-var group_1 = __webpack_require__(132);
+var group_1 = __webpack_require__(133);
 var DataCollection = /** @class */ (function () {
     function DataCollection(config, events) {
         var _this = this;
         this._filters = {};
+        this._sortingStates = [];
         this._changes = { order: [] };
         this.config = config || {};
         this._group = new group_1.Group();
@@ -7850,11 +7854,14 @@ var DataCollection = /** @class */ (function () {
         });
         this._reset();
     }
-    DataCollection.prototype._reset = function () {
+    DataCollection.prototype._reset = function (config) {
+        if (config === void 0) { config = {}; }
+        if (!config.grouping)
+            this.ungroup();
         this._order = [];
         this._pull = {};
         this._changes = { order: [] };
-        this._initOrder = null;
+        this._initFilterOrder = this._initSortOrder = null;
         this._meta = new WeakMap();
         this._loaded = false;
     };
@@ -7875,7 +7882,7 @@ var DataCollection = /** @class */ (function () {
         if (!this.events.fire(types_1.DataEvents.beforeGroup, [groupConfig])) {
             return;
         }
-        this.parse(this._group.group(order, (config === null || config === void 0 ? void 0 : config.data) || this._order, config));
+        this._parse(this._group.group(order, (config === null || config === void 0 ? void 0 : config.data) || this._order, config), types_1.DataDriver.json, true);
         this.events.fire(types_1.DataEvents.afterGroup, [this._group.getGroupedFields(), groupConfig]);
     };
     DataCollection.prototype.ungroup = function () {
@@ -7887,7 +7894,7 @@ var DataCollection = /** @class */ (function () {
         if (!this.events.fire(types_1.DataEvents.beforeUnGroup, [grouped, groupConfig])) {
             return;
         }
-        this.parse(this._group.ungroup(this._order));
+        this._parse(this._group.ungroup(this._order));
         this.events.fire(types_1.DataEvents.afterUnGroup, [grouped, groupConfig]);
     };
     DataCollection.prototype.isGrouped = function () {
@@ -7901,16 +7908,16 @@ var DataCollection = /** @class */ (function () {
         var out;
         if (Array.isArray(newItem)) {
             out = newItem.map(function (element, key) {
-                if (key !== 0) {
+                if (key !== 0 && index >= 0) {
                     index = index + 1;
                 }
-                return _this._add(element, index);
+                return _this._add((0, core_1.copy)(element), index);
             });
         }
         else {
-            out = this._add(newItem, index);
+            out = this._add((0, core_1.copy)(newItem), index);
         }
-        this._reapplyFilters(true);
+        this._reapplyFilters();
         return out;
     };
     DataCollection.prototype.remove = function (id) {
@@ -7967,7 +7974,7 @@ var DataCollection = /** @class */ (function () {
                     this._onChange("update", id, this._pull[id]);
                 }
             }
-            this._reapplyFilters(true);
+            this._reapplyFilters();
         }
         else {
             (0, helpers_1.dhxWarning)("item not found");
@@ -8006,8 +8013,8 @@ var DataCollection = /** @class */ (function () {
             rule = this._normalizeFilters(rule || this._filters);
         }
         if (!(config === null || config === void 0 ? void 0 : config.add)) {
-            this._order = this._initOrder || this._order;
-            this._initOrder = null;
+            this._order = this._initFilterOrder || this._order;
+            this._initFilterOrder = null;
             if (!(config === null || config === void 0 ? void 0 : config.$restore)) {
                 for (var key in this._filters) {
                     var filter = this._filters[key];
@@ -8082,8 +8089,9 @@ var DataCollection = /** @class */ (function () {
         return (0, core_1.isEmptyObj)(filters) ? null : filters;
     };
     DataCollection.prototype.find = function (conf) {
-        for (var key in this._pull) {
-            var res = (0, helpers_1.findByConf)(this._pull[key], conf);
+        var data = this._initFilterOrder || this._order;
+        for (var i = 0; i < data.length; i++) {
+            var res = (0, helpers_1.findByConf)(data[i], conf, i, data);
             if (res) {
                 return res;
             }
@@ -8091,27 +8099,66 @@ var DataCollection = /** @class */ (function () {
         return null;
     };
     DataCollection.prototype.findAll = function (conf) {
+        var data = this._initFilterOrder || this._order;
         var res = [];
-        for (var key in this._pull) {
-            var item = (0, helpers_1.findByConf)(this._pull[key], conf);
+        for (var i = 0; i < data.length; i++) {
+            var item = (0, helpers_1.findByConf)(data[i], conf, i, data);
             if (item) {
                 res.push(item);
             }
         }
         return res;
     };
-    DataCollection.prototype.sort = function (rule, config) {
+    DataCollection.prototype.sort = function (rule, config, ignore) {
+        var _this = this;
+        var _a, _b;
+        if (ignore === void 0) { ignore = false; }
         if (!this.isDataLoaded()) {
             (0, helpers_1.dhxWarning)("the method doesn't work with lazyLoad");
             return;
         }
-        if (config && config.smartSorting) {
+        if (config === null || config === void 0 ? void 0 : config.smartSorting) {
             this._sorter = rule;
         }
+        if (!ignore &&
+            (!this._sortingStates.length ||
+                (config === null || config === void 0 ? void 0 : config.smartSorting) ||
+                (!((_a = this._sortingStates[0]) === null || _a === void 0 ? void 0 : _a.smartSorting) && !(config === null || config === void 0 ? void 0 : config.smartSorting)))) {
+            this._sortingStates = [__assign(__assign({}, rule), config)];
+        }
         if (rule) {
+            if (!ignore) {
+                this._initSortOrder = this._initSortOrder || __spreadArray([], (this._initFilterOrder || this._order), true);
+                if (!(config === null || config === void 0 ? void 0 : config.smartSorting) && ((_b = this._sortingStates[0]) === null || _b === void 0 ? void 0 : _b.smartSorting)) {
+                    var sortIndex = this._sortingStates.findIndex(function (i) { return i.by == rule.by; });
+                    if (sortIndex !== -1) {
+                        this._sortingStates[sortIndex].dir = rule.dir;
+                        this._sortingStates.forEach(function (sort, index) {
+                            _this.sort(sort, { smartSorting: !index }, true);
+                        });
+                    }
+                    else {
+                        this._sortingStates.push(rule);
+                    }
+                }
+            }
             this._applySorters(rule);
         }
-        this.events.fire(types_1.DataEvents.change, [undefined, "sort", rule]);
+        else if (this._initSortOrder) {
+            this._sortingStates = [];
+            this._order = this._initSortOrder;
+            this._sorter = this._initSortOrder = null;
+            if (this._initFilterOrder) {
+                this._initFilterOrder = null;
+                this.filter(null, { $restore: true }, true);
+            }
+        }
+        if (!ignore) {
+            this.events.fire(types_1.DataEvents.change, [undefined, "sort", rule]);
+        }
+    };
+    DataCollection.prototype.getSortingStates = function () {
+        return this._sortingStates;
     };
     DataCollection.prototype.copy = function (id, index, target, targetId) {
         var _this = this;
@@ -8154,8 +8201,7 @@ var DataCollection = /** @class */ (function () {
         return this._loader.load(url, driver);
     };
     DataCollection.prototype.parse = function (data, driver) {
-        this._reset();
-        return this._loader.parse(data, driver);
+        return this._parse(data, driver);
     };
     DataCollection.prototype.$parse = function (data) {
         var apx = this.config.approximate;
@@ -8163,7 +8209,7 @@ var DataCollection = /** @class */ (function () {
             data = this._approximate(data, apx.value, apx.maxNum);
         }
         this._parse_data(data);
-        this._reapplyFilters(true);
+        this._reapplyFilters();
         this.events.fire(types_1.DataEvents.change, [undefined, "load"]);
         this.events.fire(types_1.DataEvents.load);
     };
@@ -8249,7 +8295,7 @@ var DataCollection = /** @class */ (function () {
         }
     };
     DataCollection.prototype.getInitialData = function () {
-        return this._initOrder;
+        return this._initFilterOrder;
     };
     DataCollection.prototype.setMeta = function (obj, key, value) {
         if (!obj)
@@ -8381,27 +8427,29 @@ var DataCollection = /** @class */ (function () {
             (0, helpers_1.dhxError)("Item ".concat(obj.id, " already exist"));
         }
         // todo: not ideal solution
-        if (this._initOrder && !(0, helpers_1.isTreeCollection)(this)) {
-            this._addToOrder(this._initOrder, obj, index);
+        if (this._initFilterOrder && !(0, helpers_1.isTreeCollection)(this)) {
+            this._addToOrder(this._initFilterOrder, obj, index);
+        }
+        if (this._initSortOrder) {
+            this._addToOrder(this._initSortOrder, obj, index);
         }
         this._addToOrder(this._order, obj, index);
         return obj.id;
     };
     DataCollection.prototype._removeCore = function (id) {
-        if (this.getIndex(id) >= 0) {
+        if (this._pull[id]) {
             this._order = this._order.filter(function (el) { return el.id !== id; });
-            delete this._pull[id];
-        }
-        if (this._initOrder && this._initOrder.length) {
-            this._initOrder = this._initOrder.filter(function (el) { return el.id !== id; });
+            if (this._initFilterOrder && this._initFilterOrder.length) {
+                this._initFilterOrder = this._initFilterOrder.filter(function (el) { return el.id !== id; });
+            }
+            if (this._initSortOrder && this._initSortOrder.length) {
+                this._initSortOrder = this._initSortOrder.filter(function (el) { return el.id !== id; });
+            }
             delete this._pull[id];
         }
     };
     DataCollection.prototype._parse_data = function (data) {
         var index = this._order.length;
-        if (this.config.prep) {
-            data = this.config.prep(data);
-        }
         for (var _i = 0, data_1 = data; _i < data_1.length; _i++) {
             var obj = data_1[_i];
             this._addCore(obj, index++);
@@ -8474,27 +8522,29 @@ var DataCollection = /** @class */ (function () {
     DataCollection.prototype._applySorters = function (by) {
         this._sort.sort(this._order, by, this._sorter);
         // sort the not-filtered dataset
-        if (this._initOrder && this._initOrder.length) {
-            this._sort.sort(this._initOrder, by, this._sorter);
+        if (this._initFilterOrder && this._initFilterOrder.length) {
+            this._sort.sort(this._initFilterOrder, by, this._sorter);
         }
     };
     DataCollection.prototype._applyFilters = function (rule) {
         if (!rule)
             return;
+        if (!this._checkFilterRule(rule)) {
+            throw new Error("Invalid filter rule");
+        }
         var filter = typeof rule !== "function" ? this._getRuleCallback(rule) : rule;
         var fOrder = this._order.filter(function (item) { return filter(item); });
-        if (!this._initOrder) {
-            this._initOrder = this._order;
+        if (!this._initFilterOrder) {
+            this._initFilterOrder = this._order;
         }
         this._order = fOrder;
     };
-    DataCollection.prototype._reapplyFilters = function (sort) {
-        if (sort === void 0) { sort = false; }
+    DataCollection.prototype._reapplyFilters = function () {
         var permFilters = this.getFilters({ permanent: true });
         if (permFilters) {
             this.filter(permFilters, { $restore: true, add: true }, true);
         }
-        if (sort && this._sorter) {
+        if (this._sorter) {
             this._applySorters();
         }
     };
@@ -8534,6 +8584,15 @@ var DataCollection = /** @class */ (function () {
         }
         return __assign({}, rules);
     };
+    DataCollection.prototype._checkFilterRule = function (rule) {
+        return typeof rule === "function" || ((0, core_1.isDefined)(rule.by) && (0, core_1.isDefined)(rule.match));
+    };
+    DataCollection.prototype._parse = function (data, driver, grouping) {
+        if (driver === void 0) { driver = types_1.DataDriver.json; }
+        if (grouping === void 0) { grouping = false; }
+        this._reset({ grouping: grouping });
+        return this._loader.parse(data, driver);
+    };
     return DataCollection;
 }());
 exports.DataCollection = DataCollection;
@@ -8560,7 +8619,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.dataDriversPro = exports.dataDrivers = void 0;
 var JsonDriver_1 = __webpack_require__(64);
 var CsvDriver_1 = __webpack_require__(65);
-var XMLDriver_1 = __webpack_require__(129);
+var XMLDriver_1 = __webpack_require__(130);
 exports.dataDrivers = {
     json: JsonDriver_1.JsonDriver,
     csv: CsvDriver_1.CsvDriver,
@@ -8763,7 +8822,7 @@ var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var view_1 = __webpack_require__(9);
 var types_1 = __webpack_require__(44);
-var helpers_1 = __webpack_require__(139);
+var helpers_1 = __webpack_require__(140);
 var events_1 = __webpack_require__(3);
 var Layout_1 = __webpack_require__(43);
 var Cell = /** @class */ (function (_super) {
@@ -9114,7 +9173,7 @@ var Cell = /** @class */ (function (_super) {
                             : null,
                     ]
                     : kids;
-        var cell = (0, dom_1.el)("div", __assign(__assign((_a = { _key: this._uid, _ref: this._uid }, _a["aria-label"] = this.config.id ? "tab-content-" + this.config.id : null, _a["data-cell-id"] = (_b = this.config.id) !== null && _b !== void 0 ? _b : null, _a["data-dhx-theme"] = (_c = this._theme) !== null && _c !== void 0 ? _c : null, _a), handlers), { class: this._getCss(false) +
+        var cell = (0, dom_1.el)("div", __assign(__assign((_a = { _key: this.config.id || this._uid, _ref: this._uid }, _a["aria-label"] = this.config.id ? "tab-content-" + this.config.id : null, _a["data-cell-id"] = (_b = this.config.id) !== null && _b !== void 0 ? _b : null, _a["data-dhx-theme"] = (_c = this._theme) !== null && _c !== void 0 ? _c : null, _a), handlers), { class: this._getCss(false) +
                 (this.config.css ? " " + this.config.css : "") +
                 (this.config.collapsed ? " dhx_layout-cell--collapsed" : "") +
                 (this.config.resizable ? " dhx_layout-cell--resizable" : "") +
@@ -9573,6 +9632,229 @@ exports.Cell = Cell;
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ProCell = void 0;
+var core_1 = __webpack_require__(1);
+var dom_1 = __webpack_require__(0);
+var ScrollView_1 = __webpack_require__(20);
+var Cell_1 = __webpack_require__(67);
+var ProCell = /** @class */ (function (_super) {
+    __extends(ProCell, _super);
+    function ProCell(parent, config) {
+        var _this = _super.call(this, parent, config) || this;
+        _this.scrollView = new ScrollView_1.ScrollView(function () {
+            return _this._getFirstRootView();
+        });
+        if (!parent) {
+            var view = (0, dom_1.create)({ render: function () { return _this.toVDOM(); } }, _this);
+            _this.mount(parent, view);
+        }
+        return _this;
+    }
+    ProCell.prototype._getFirstRootView = function (self) {
+        if (self === void 0) { self = this; }
+        return self.getParent() && self.getParent().getRootView()
+            ? self.getParent().getRootView()
+            : this._getFirstRootView(self.getParent());
+    };
+    ProCell.prototype.toVDOM = function (nodes) {
+        var _a;
+        var _b, _c;
+        this._saveTheme();
+        if (this.config === null) {
+            this.config = {};
+        }
+        if (this.config.hidden) {
+            return;
+        }
+        var isFieldset = this.config.$fieldset;
+        var style = this._calculateStyle();
+        var stylePadding = (0, core_1.isDefined)(this.config.padding)
+            ? !isNaN(Number(this.config.padding))
+                ? { padding: "".concat(this.config.padding, "px") }
+                : { padding: this.config.padding }
+            : "";
+        var fullStyle = this.config.full || this.config.html ? style : __assign(__assign({}, style), stylePadding);
+        var progressBar = this._checkProgress() ? this._getProgressBar() : null;
+        var kids;
+        if (!this.config.html) {
+            if (this._ui) {
+                var view = this._ui.getRootView();
+                if (view.render) {
+                    view = (0, dom_1.inject)(view);
+                }
+                // kids = [view];
+                kids = view ? [this.scrollView.render(view)] : view || null;
+            }
+            else {
+                // kids = nodes || null;
+                kids = nodes ? this.scrollView.render([nodes]) : nodes || null;
+            }
+        }
+        var resizer = this.config.resizable && !this._isLastCell() && this._getNextCell() && !this.config.collapsed
+            ? (0, dom_1.el)(".dhx_layout-resizer." +
+                (this._isXDirection() ? "dhx_layout-resizer--x" : "dhx_layout-resizer--y"), __assign(__assign({}, this._resizerHandlers), { _ref: "resizer_" + this._uid }), [
+                (0, dom_1.el)("span.dhx_layout-resizer__icon", {
+                    class: "dxi " +
+                        (this._isXDirection() ? "dxi-dots-vertical" : "dxi-dots-horizontal"),
+                }),
+            ])
+            : null;
+        var handlers = {};
+        if (this.config.on) {
+            for (var key in this.config.on) {
+                handlers["on" + key] = this.config.on[key];
+            }
+        }
+        var typeClass = "";
+        var isParent = this.config.cols || this.config.rows;
+        if (this.config.type && isParent) {
+            switch (this.config.type) {
+                case "line":
+                    typeClass = " dhx_layout-line";
+                    break;
+                case "wide":
+                    typeClass = " dhx_layout-wide";
+                    break;
+                case "space":
+                    typeClass = " dhx_layout-space";
+                    break;
+                default:
+                    break;
+            }
+        }
+        var htmlContent = (0, dom_1.el)(".dhx_layout-cell-content", {
+            _key: "".concat(this._uid, "_html"),
+            style: stylePadding,
+        }, [
+            (0, dom_1.el)(".dhx_layout-cell-inner_html", {
+                ".innerHTML": this.config.html,
+            }),
+        ]);
+        var cellContent = isFieldset
+            ? (0, dom_1.el)("fieldset.dhx_form-fieldset", {
+                class: (this.config.$disabled && " dhx_form-fieldset--disabled") || "",
+                style: stylePadding,
+                disabled: this.config.$disabled,
+            }, [
+                (0, dom_1.el)("legend.dhx_form-fieldset-legend", {
+                    class: "dhx_form-fieldset-legend--".concat(this.config.labelAlignment || "left"),
+                }, this.config.label),
+                (0, dom_1.el)(".dhx_layout-cell-content", {
+                    class: this._getCss(false),
+                }, [].concat(kids)),
+            ])
+            : this.config.full
+                ? [
+                    (0, dom_1.el)("div", {
+                        tabindex: this.config.collapsable ? "0" : "-1",
+                        class: "dhx_layout-cell-header" +
+                            (this._isXDirection()
+                                ? " dhx_layout-cell-header--col"
+                                : " dhx_layout-cell-header--row") +
+                            (this.config.collapsable ? " dhx_layout-cell-header--collapseble" : "") +
+                            (this.config.collapsed ? " dhx_layout-cell-header--collapsed" : "") +
+                            (((this.getParent() || {}).config || {}).isAccordion
+                                ? " dhx_layout-cell-header--accordion"
+                                : ""),
+                        style: {
+                            height: this.config.headerHeight,
+                        },
+                        onclick: this._handlers.toggle,
+                        onkeydown: this._handlers.enterCollapse,
+                    }, [
+                        this.config.headerIcon &&
+                            (0, dom_1.el)("span.dhx_layout-cell-header__icon", {
+                                class: this.config.headerIcon,
+                            }),
+                        this.config.headerImage &&
+                            (0, dom_1.el)(".dhx_layout-cell-header__image-wrapper", [
+                                (0, dom_1.el)("img", {
+                                    src: this.config.headerImage,
+                                    class: "dhx_layout-cell-header__image",
+                                }),
+                            ]),
+                        this.config.header && (0, dom_1.el)("h3.dhx_layout-cell-header__title", this.config.header),
+                        this.config.collapsable
+                            ? (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
+                                class: this._getCollapseIcon(),
+                            })
+                            : (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
+                                class: "dxi dxi-empty",
+                            }),
+                    ]),
+                    !this.config.collapsed
+                        ? (0, dom_1.el)("div", {
+                            style: __assign(__assign({}, stylePadding), { height: "calc(100% - ".concat(this.config.headerHeight || 37, "px)") }),
+                            class: this._getCss(true) +
+                                " dhx_layout-cell-content" +
+                                (this.config.type ? typeClass : ""),
+                        }, this.config.html
+                            ? [
+                                (0, dom_1.el)("div", {
+                                    ".innerHTML": this.config.html,
+                                    class: "dhx_layout-cell dhx_layout-cell-inner_html",
+                                }),
+                            ]
+                            : kids)
+                        : null,
+                ]
+                : this.config.html &&
+                    !(this.config.rows &&
+                        this.config.cols &&
+                        this.config.views)
+                    ? [
+                        !this.config.collapsed
+                            ? this.scrollView && this.scrollView.config.enable
+                                ? this.scrollView.render([htmlContent], this._uid)
+                                : htmlContent
+                            : null,
+                    ]
+                    : kids;
+        var cell = (0, dom_1.el)("div", __assign(__assign((_a = { _key: this.config.id || this._uid, _ref: this._uid }, _a["aria-label"] = this.config.id ? "tab-content-" + this.config.id : null, _a["data-cell-id"] = (_b = this.config.id) !== null && _b !== void 0 ? _b : null, _a["data-dhx-theme"] = (_c = this._theme) !== null && _c !== void 0 ? _c : null, _a), handlers), { class: this._getCss(false) +
+                (this.config.css ? " " + this.config.css : "") +
+                (this.config.collapsed ? " dhx_layout-cell--collapsed" : "") +
+                (this.config.resizable ? " dhx_layout-cell--resizable" : "") +
+                (this.config.type && !this.config.full ? typeClass : ""), style: isFieldset ? style : fullStyle }), cellContent || progressBar ? [].concat(cellContent, progressBar) : null);
+        return resizer ? [].concat(cell, resizer) : cell;
+    };
+    return ProCell;
+}(Cell_1.Cell));
+exports.ProCell = ProCell;
+
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.blockScreen = void 0;
 function blockKeys(e) {
@@ -9599,7 +9881,7 @@ exports.blockScreen = blockScreen;
 
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9850,7 +10132,7 @@ exports.disableTooltip = disableTooltip;
 
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9887,7 +10169,7 @@ var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var html_1 = __webpack_require__(2);
 var ts_message_1 = __webpack_require__(12);
-var ts_navbar_1 = __webpack_require__(20);
+var ts_navbar_1 = __webpack_require__(21);
 var Toolbar = /** @class */ (function (_super) {
     __extends(Toolbar, _super);
     function Toolbar(element, config) {
@@ -10096,7 +10378,7 @@ exports.Toolbar = Toolbar;
 
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10114,7 +10396,7 @@ var PopupEvents;
 
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10134,7 +10416,7 @@ var SliderEvents;
 
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10149,7 +10431,7 @@ exports.default = locale;
 
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10174,7 +10456,7 @@ var TimepickerEvents;
 
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10196,7 +10478,7 @@ var CalendarEvents;
 
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10244,7 +10526,7 @@ var dom_1 = __webpack_require__(0);
 var KeyManager_1 = __webpack_require__(14);
 var types_1 = __webpack_require__(28);
 var view_1 = __webpack_require__(9);
-var Selection_1 = __webpack_require__(77);
+var Selection_1 = __webpack_require__(78);
 var html_1 = __webpack_require__(2);
 var types_2 = __webpack_require__(50);
 var editors_1 = __webpack_require__(168);
@@ -10777,7 +11059,7 @@ exports.List = List;
 
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10942,7 +11224,7 @@ exports.Selection = Selection;
 
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10976,7 +11258,7 @@ exports.palette = [
 
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11000,7 +11282,7 @@ var ColorpickerEvents;
 
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11038,11 +11320,11 @@ var events_1 = __webpack_require__(3);
 var view_1 = __webpack_require__(9);
 var ts_data_1 = __webpack_require__(5);
 var ComposeLayer_1 = __webpack_require__(175);
-var Legend_1 = __webpack_require__(81);
+var Legend_1 = __webpack_require__(82);
 var types_1 = __webpack_require__(25);
 var index_1 = __webpack_require__(178);
-var index_2 = __webpack_require__(83);
-var Stacker_1 = __webpack_require__(88);
+var index_2 = __webpack_require__(84);
+var Stacker_1 = __webpack_require__(89);
 var common_1 = __webpack_require__(6);
 var Tooltip_1 = __webpack_require__(192);
 var core_1 = __webpack_require__(1);
@@ -11364,7 +11646,7 @@ exports.Chart = Chart;
 
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11687,7 +11969,7 @@ exports.Legend = Legend;
 
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12008,14 +12290,14 @@ exports.rightGrid = rightGrid;
 
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Area_1 = __webpack_require__(84);
-var Bar_1 = __webpack_require__(86);
+var Area_1 = __webpack_require__(85);
+var Bar_1 = __webpack_require__(87);
 var BarX_1 = __webpack_require__(182);
 var Donut_1 = __webpack_require__(183);
 var Line_1 = __webpack_require__(57);
@@ -12046,7 +12328,7 @@ exports.default = seriesTypes;
 
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12195,7 +12477,7 @@ exports.default = Area;
 
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12345,7 +12627,7 @@ exports.getShadeHTMLHelper = getShadeHTMLHelper;
 
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12520,7 +12802,7 @@ exports.default = Bar;
 
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12577,7 +12859,7 @@ exports.default = spline;
 
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12631,7 +12913,7 @@ exports.default = Stacker;
 
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12675,8 +12957,8 @@ var ts_popup_1 = __webpack_require__(13);
 var keyListener_1 = __webpack_require__(196);
 var en_1 = __webpack_require__(58);
 var types_1 = __webpack_require__(28);
-var helper_1 = __webpack_require__(90);
-var types_2 = __webpack_require__(91);
+var helper_1 = __webpack_require__(91);
+var types_2 = __webpack_require__(92);
 function itemsCountTemplate(count, templateFN) {
     if (typeof templateFN === "function") {
         return templateFN(count);
@@ -13500,7 +13782,7 @@ exports.Combobox = Combobox;
 
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13536,7 +13818,7 @@ exports.emptyListHeight = emptyListHeight;
 
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13569,7 +13851,7 @@ var ComboState;
 
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13780,7 +14062,7 @@ exports.DataView = DataView;
 
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13804,7 +14086,7 @@ var DataViewEvents;
 
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13863,7 +14145,7 @@ var ts_layout_1 = __webpack_require__(11);
 var core_1 = __webpack_require__(1);
 var dateinput_1 = __webpack_require__(203);
 var button_1 = __webpack_require__(204);
-var checkbox_1 = __webpack_require__(95);
+var checkbox_1 = __webpack_require__(96);
 var checkboxGroup_1 = __webpack_require__(205);
 var input_1 = __webpack_require__(38);
 var radioGroup_1 = __webpack_require__(206);
@@ -13873,13 +14155,13 @@ var textinput_1 = __webpack_require__(210);
 var combo_1 = __webpack_require__(211);
 var sliderform_1 = __webpack_require__(212);
 var helper_1 = __webpack_require__(7);
-var simplevault_1 = __webpack_require__(96);
+var simplevault_1 = __webpack_require__(97);
 var timeinput_1 = __webpack_require__(213);
 var colorpicker_1 = __webpack_require__(214);
 var spacer_1 = __webpack_require__(215);
 var avatar_1 = __webpack_require__(216);
 var fieldset_1 = __webpack_require__(217);
-var ToggleButton_1 = __webpack_require__(98);
+var ToggleButton_1 = __webpack_require__(99);
 var ToggleGroup_1 = __webpack_require__(218);
 var types_1 = __webpack_require__(4);
 var dom_1 = __webpack_require__(0);
@@ -15221,7 +15503,7 @@ exports.Form = Form;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(18)))
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15578,7 +15860,7 @@ exports.Checkbox = Checkbox;
 
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15628,7 +15910,7 @@ var ts_data_1 = __webpack_require__(5);
 var ts_vault_1 = __webpack_require__(60);
 var ts_popup_1 = __webpack_require__(13);
 var helper_1 = __webpack_require__(7);
-var en_1 = __webpack_require__(97);
+var en_1 = __webpack_require__(98);
 var types_1 = __webpack_require__(4);
 var label_1 = __webpack_require__(10);
 var FileStatus;
@@ -15995,7 +16277,7 @@ exports.SimpleVault = SimpleVault;
 
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16008,7 +16290,7 @@ exports.default = {
 
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16210,7 +16492,7 @@ exports.ToggleButton = ToggleButton;
 
 
 /***/ }),
-/* 99 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16230,17 +16512,17 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(100), exports);
-__exportStar(__webpack_require__(104), exports);
+__exportStar(__webpack_require__(101), exports);
+__exportStar(__webpack_require__(106), exports);
 __exportStar(__webpack_require__(238), exports);
 __exportStar(__webpack_require__(8), exports);
 __exportStar(__webpack_require__(26), exports);
-__exportStar(__webpack_require__(17), exports);
+__exportStar(__webpack_require__(15), exports);
 __exportStar(__webpack_require__(16), exports);
 
 
 /***/ }),
-/* 100 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16301,19 +16583,18 @@ var KeyManager_1 = __webpack_require__(14);
 var view_1 = __webpack_require__(9);
 var ts_data_1 = __webpack_require__(5);
 var Exporter_1 = __webpack_require__(221);
-var data_1 = __webpack_require__(17);
+var data_1 = __webpack_require__(15);
 var cells_1 = __webpack_require__(26);
 var main_1 = __webpack_require__(16);
 var Selection_1 = __webpack_require__(222);
 var types_1 = __webpack_require__(8);
-var render_1 = __webpack_require__(101);
-var common_1 = __webpack_require__(24);
-var date_1 = __webpack_require__(15);
-var content_1 = __webpack_require__(231);
-var columnsResizer_1 = __webpack_require__(235);
-var keys_1 = __webpack_require__(236);
-var FocusManager_1 = __webpack_require__(21);
+var render_1 = __webpack_require__(102);
+var common_1 = __webpack_require__(19);
+var content_1 = __webpack_require__(232);
+var columnsResizer_1 = __webpack_require__(236);
+var keys_1 = __webpack_require__(237);
 var Cells_1 = __webpack_require__(40);
+var date_1 = __webpack_require__(17);
 var Grid = /** @class */ (function (_super) {
     __extends(Grid, _super);
     function Grid(container, config) {
@@ -16326,10 +16607,10 @@ var Grid = /** @class */ (function (_super) {
             start: false,
         };
         _this._destructed = false;
-        _this._sortState = { by: undefined, dir: undefined };
+        _this._sortingStates = [];
         _this._commonSummary = {};
         _this._colSummary = {};
-        _this.version = "9.0.0";
+        _this.version = "9.1.0";
         _this.name = "grid";
         _this.config = (0, core_1.extend)({
             rowHeight: 40,
@@ -16355,147 +16636,7 @@ var Grid = /** @class */ (function (_super) {
             if (col.type === "date" && col.format)
                 col.dateFormat = col.format;
         });
-        var showCellTooltip = function (row, column, node) {
-            var _a;
-            if (row && column && (0, main_1.isTooltip)(_this.config, column)) {
-                var editorOption = void 0;
-                if (column.editorType === "combobox" || column.editorType === "select") {
-                    var option = (0, data_1.getEditorOptions)(column, row).find(function (item) {
-                        var _a;
-                        var value = item instanceof Object ? item.id.toString() : item;
-                        return value === ((_a = row[column.id]) === null || _a === void 0 ? void 0 : _a.toString());
-                    });
-                    editorOption = option instanceof Object ? option.value : option;
-                }
-                else if (column.editorType === "multiselect") {
-                    var values_1 = (_a = row[column.id]) === null || _a === void 0 ? void 0 : _a.toString().split(", ");
-                    if (values_1 === null || values_1 === void 0 ? void 0 : values_1.length) {
-                        var options = (0, data_1.getEditorOptions)(column, row).filter(function (item) {
-                            return values_1.includes(item instanceof Object ? item.id.toString() : item);
-                        });
-                        editorOption = options
-                            .map(function (item) {
-                            return item instanceof Object ? item.value : item;
-                        })
-                            .join(", ");
-                    }
-                }
-                var value_1 = (0, data_1.applyPattern)(editorOption || row[column.id], column);
-                var checkIsExistValue = function () { return !!value_1 || typeof value_1 === "boolean"; };
-                if (column.tooltipTemplate) {
-                    value_1 = column.tooltipTemplate(value_1, row, column) || null;
-                }
-                else if (checkIsExistValue() && column.template) {
-                    value_1 = column.template(value_1, row, column);
-                }
-                if (checkIsExistValue()) {
-                    (0, main_1.showTooltip)(value_1, __assign({ node: node, htmlEnable: (0, main_1.isHtmlEnable)(_this.config, column) }, (0, main_1.getTooltipConfig)(_this.config, column)));
-                }
-            }
-        };
-        var showContentTooltip = function (event, type) {
-            var _a;
-            if (type === void 0) { type = "header"; }
-            var node = event.target;
-            var id = node.getAttribute("data-dhx-text-id");
-            var column = _this.getColumn(node.getAttribute("data-dhx-id"));
-            if (!id || !column) {
-                return;
-            }
-            var cell = (_a = column[type]) === null || _a === void 0 ? void 0 : _a.find(function (c) { return c.id === id; });
-            if (!(0, main_1.isContentTooltip)(_this.config, column, cell, type)) {
-                return;
-            }
-            var value = cell === null || cell === void 0 ? void 0 : cell.text;
-            var summary = _this.getSummary(column.id);
-            if (typeof value === "function") {
-                value = value(summary);
-            }
-            if (typeof (cell === null || cell === void 0 ? void 0 : cell.tooltipTemplate) === "function") {
-                value = cell.tooltipTemplate(__assign({ value: value }, summary), cell, column) || null;
-            }
-            if (value === null || value === void 0 ? void 0 : value.toString().length) {
-                (0, main_1.showTooltip)(value, __assign({ node: node, htmlEnable: (0, main_1.isHtmlEnable)(_this.config, column, cell) }, (0, main_1.getTooltipConfig)(_this.config, column, cell, type)));
-            }
-        };
-        _this._htmlEvents = {
-            onclick: (0, html_1.eventHandler)(function (e) { return (0, html_1.locate)(e); }, {
-                "dhx_grid-header-cell--sortable": function (e, id) {
-                    var isResizable = e.target.getAttribute("dhx_resized");
-                    var column = _this.getColumn(id);
-                    if (column && (0, main_1.isSortable)(_this.config, column) && !isResizable) {
-                        var textId_1 = (0, html_1.locate)(e, "data-dhx-text-id");
-                        var cell = column.header.find(function (item) { return item.id === textId_1; });
-                        _this._sort(id, cell.sortAs);
-                    }
-                },
-                "dhx_grid-expand-cell": function (e, rowId) {
-                    if (e.target.classList.contains("dhx_grid-expand-cell-icon")) {
-                        _this.events.fire(types_1.GridEvents.expand, [rowId]);
-                    }
-                },
-                "dhx_span-expand-cell": function (e, rowId) {
-                    if (e.target.classList.contains("dhx_span-expand-cell-icon")) {
-                        _this.events.fire(types_1.GridEvents.expand, [rowId]);
-                    }
-                },
-            }),
-            onscroll: function (e) {
-                _this.events.fire(types_1.GridEvents.scroll, [
-                    {
-                        y: e.target.scrollTop,
-                        x: e.target.scrollLeft,
-                    },
-                ]);
-            },
-            onmouseover: {
-                ".dhx_grid-cell.dhx_boolean-cell .dhx_checkbox.dhx_cell-editor__checkbox": function (e) {
-                    var path = e.composedPath();
-                    var row = _this.data.getItem(path[2].getAttribute("data-dhx-id"));
-                    var column = _this.getColumn(path[1].getAttribute("data-dhx-col-id"));
-                    showCellTooltip(row, column, e.target);
-                },
-                ".dhx_grid-cell:not(.dhx_boolean-cell)": function (e) {
-                    var row = _this.data.getItem(e.composedPath()[1].getAttribute("data-dhx-id"));
-                    var column = _this.getColumn(e.target.getAttribute("data-dhx-col-id"));
-                    showCellTooltip(row, column, e.target);
-                },
-                ".dhx_grid-cell:not(.dhx_tree-cell) .dhx_grid-cell__content, .dhx_tree-cell :not(.dhx_grid-cell__content)": function (e) {
-                    var path = e.composedPath();
-                    var row = _this.data.getItem(path[2].getAttribute("data-dhx-id"));
-                    var column = _this.getColumn(path[1].getAttribute("data-dhx-col-id"));
-                    showCellTooltip(row, column, e.target);
-                },
-                ".dhx_grid-cell.dhx_tree-cell .dhx_grid-cell__content": function (e) {
-                    var path = e.composedPath();
-                    var row = _this.data.getItem(path[3].getAttribute("data-dhx-id"));
-                    var column = _this.getColumn(path[2].getAttribute("data-dhx-col-id"));
-                    showCellTooltip(row, column, path[2]);
-                },
-                ".dhx_span-cell:not(.dhx_grid-header-cell):not(.dhx_grid-footer-cell)": function (e) {
-                    var node = e.target;
-                    var row = _this.data.getItem(node.getAttribute("data-dhx-id"));
-                    var column = _this.getColumn(node.getAttribute("data-dhx-col-id"));
-                    var span = _this.getSpan(row.id, column.id);
-                    if (row && span && (0, main_1.isTooltip)(_this.config, span)) {
-                        var summary = _this.getSummary(column.id);
-                        var text = typeof span.text === "function" ? span.text(summary) : span.text;
-                        var value = (text || (0, data_1.applyPattern)(row[column.id], column)).toString();
-                        if (span.tooltipTemplate) {
-                            value = span.tooltipTemplate(__assign({ value: value }, summary), span) || null;
-                        }
-                        else if (column.template) {
-                            value = column.template(value, row, column);
-                        }
-                        if (value) {
-                            (0, main_1.showTooltip)(value, __assign({ node: node, htmlEnable: (0, main_1.isHtmlEnable)(_this.config, column) }, (0, main_1.getTooltipConfig)(_this.config, null, span)));
-                        }
-                    }
-                },
-                ".dhx_grid-header-cell": function (event) { return showContentTooltip(event, "header"); },
-                ".dhx_grid-footer-cell": function (event) { return showContentTooltip(event, "footer"); },
-            },
-        };
+        _this._setHTMLEventHandlers();
         if (_this.config.eventHandlers) {
             for (var _i = 0, _a = Object.entries(_this.config.eventHandlers); _i < _a.length; _i++) {
                 var _b = _a[_i], name_1 = _b[0], events = _b[1];
@@ -16528,19 +16669,6 @@ var Grid = /** @class */ (function (_super) {
             disabled: !_this.config.selection,
         }, _this.events, _this._uid);
         _this.mount(container, _this._createView());
-        (0, dom_1.awaitRedraw)().then(function () {
-            if (_this.config.keyNavigation) {
-                _this.keyManager = new KeyManager_1.KeyManager(function (e, focusId) {
-                    if (focusId === _this._uid && _this.events.fire(types_1.GridEvents.beforeKeyDown, [e])) {
-                        _this.events.fire(types_1.GridEvents.afterKeyDown, [e]);
-                        return true;
-                    }
-                    return false;
-                });
-                _this._initHotKey();
-                FocusManager_1.focusManager.setFocusId(_this._uid);
-            }
-        });
         if (config.autoEmptyRow && _this.data.getLength() === 0) {
             _this._addEmptyRow();
             _this.paint();
@@ -16548,13 +16676,18 @@ var Grid = /** @class */ (function (_super) {
         return _this;
     }
     Grid.prototype.destructor = function () {
+        var _a;
         this._destructed = true;
         this._destroyContent();
+        (_a = this.config.$subRowCells) === null || _a === void 0 ? void 0 : _a.forEach(function (view) {
+            var _a;
+            (_a = view.cell) === null || _a === void 0 ? void 0 : _a.destructor();
+        });
         this.keyManager && this.keyManager.destructor();
         this.events && this.events.clear();
         this._events && this._events.clear();
         this.export = this.content = this.selection = null;
-        this._activeFilters = this._filterData = this._scroll = this._touch = this._htmlEvents = this._hiddenFilters = null;
+        this._activeFilters = this._filterData = this._scroll = this._touch = this._htmlEvents = this._hiddenFilters = this.config.$subRowCells = null;
         this.unmount();
     };
     Grid.prototype.setColumns = function (columns) {
@@ -16721,6 +16854,7 @@ var Grid = /** @class */ (function (_super) {
         var isFixedBottom = bottomSplit && prevRowInd >= rows.length - bottomSplit;
         var x = (0, main_1.getTotalWidth)(filteredColumns.slice(0, colInd));
         var y = (0, main_1.getTotalHeight)(rows.slice(0, rowInd));
+        var rowHeight = (0, data_1.getTotalRowHeight)(rows[rowInd]);
         if (leftSplit) {
             var leftFixedColsWidth = (0, main_1.getTotalWidth)((0, common_1.getCurrFixedCols)(this.config, types_1.Split.left));
             if ((!isFixedLeft && !isFixedRight && colInd < prevColInd) ||
@@ -16745,15 +16879,15 @@ var Grid = /** @class */ (function (_super) {
         if (bottomSplit) {
             var bottomFixedRowsHeight = (0, main_1.getTotalHeight)(rows.slice(-bottomSplit));
             if ((!isFixedTop && !isFixedBottom && rowInd > prevRowInd) ||
-                $height + scrollState.y - $headerHeight - y - rows[rowInd].$height - bottomFixedRowsHeight < 0) {
+                $height + scrollState.y - $headerHeight - y - rowHeight - bottomFixedRowsHeight < 0) {
                 y += bottomFixedRowsHeight;
             }
         }
         var gridRight = $width + scrollState.x;
         var gridBottom = $height + scrollState.y - $headerHeight;
-        var cellTop = y - scrollState.y - rows[rowInd].$height;
+        var cellTop = y - scrollState.y - rowHeight;
         var cellLeft = x - scrollState.x - columns[colInd].$width;
-        var cellBottom = y + rows[rowInd].$height * 2 + 18 - gridBottom;
+        var cellBottom = y + rowHeight * 2 + 18 - gridBottom;
         var cellRight = x + columns[colInd].$width * 2 + 18 - gridRight;
         var scrollTop = cellTop > 0 && cellBottom < 0 ? 0 : cellTop < 0 ? cellTop : cellBottom;
         var scrollLeft = cellLeft > 0 && cellRight < 0 ? 0 : cellLeft < 0 ? cellLeft : cellRight;
@@ -16788,7 +16922,7 @@ var Grid = /** @class */ (function (_super) {
         this.paint();
     };
     Grid.prototype.getCellRect = function (rowId, colId) {
-        var _a, _b;
+        var _a;
         var columns = this.config.columns.filter(function (col) { return !col.hidden; });
         var rows = this.data.getRawData(0, -1);
         var span = this.getSpan(rowId, colId);
@@ -16799,10 +16933,10 @@ var Grid = /** @class */ (function (_super) {
         return {
             x: x,
             y: y,
-            height: (span === null || span === void 0 ? void 0 : span.rowspan) > 1 ? (0, cells_1.getHeight)(rows, span) : ((_a = rows[rowInd]) === null || _a === void 0 ? void 0 : _a.$height) || 0,
+            height: (span === null || span === void 0 ? void 0 : span.rowspan) > 1 ? (0, cells_1.getSpanHeight)(rows, span) : (0, data_1.getTotalRowHeight)(rows[rowInd]) || 0,
             width: (span === null || span === void 0 ? void 0 : span.colspan) > 1
                 ? (0, cells_1.getWidth)(this.config.columns, span.colspan, this.config.columns.findIndex(function (item) { return item.id === span.column; }))
-                : ((_b = columns[colInd]) === null || _b === void 0 ? void 0 : _b.$width) || 0,
+                : ((_a = columns[colInd]) === null || _a === void 0 ? void 0 : _a.$width) || 0,
         };
     };
     Grid.prototype.getColumn = function (colId) {
@@ -16919,9 +17053,6 @@ var Grid = /** @class */ (function (_super) {
             this.config.$editable.editor.endEdit(withoutSave);
         }
     };
-    Grid.prototype.getSortingState = function () {
-        return this._sortState;
-    };
     Grid.prototype.getHeaderFilter = function (colId) {
         var _this = this;
         var col = this.getColumn(colId);
@@ -16936,19 +17067,14 @@ var Grid = /** @class */ (function (_super) {
         });
         return filter;
     };
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
-    Grid.prototype.edit = function (rowId, colId, editorType) {
-        this.editCell(rowId, colId, editorType);
-    };
-    Grid.prototype.paint = function () {
-        var customHotkeysLength = this.config.hotkeys ? Object.keys(this.config.hotkeys).length : 0;
-        if (this.keyManager && !(this.keyManager.getKeyStorageLength() - customHotkeysLength)) {
-            this._initHotKey(true);
-        }
-        _super.prototype.paint.call(this);
-    };
     Grid.prototype.getSummary = function (colId) {
         return __assign(__assign({}, this._commonSummary), (colId ? this._colSummary[colId] : {}));
+    };
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/ */
+    Grid.prototype.getSortingState = function () {
+        var _a;
+        var state = (_a = this._sortingStates) === null || _a === void 0 ? void 0 : _a[0];
+        return { dir: state.dir, by: state.by };
     };
     Grid.prototype._createView = function () {
         var _this = this;
@@ -17061,21 +17187,167 @@ var Grid = /** @class */ (function (_super) {
         this._applyLocalFilter();
         this._checkFilters();
     };
-    Grid.prototype._createCollection = function (prep) {
-        this.data = new ts_data_1.DataCollection({ prep: prep }, this.events);
+    Grid.prototype._createCollection = function () {
+        this.data = new ts_data_1.DataCollection(null, this.events);
     };
     Grid.prototype._getRowIndex = function (rowId) {
         return this.data.getIndex(rowId);
+    };
+    Grid.prototype._setHTMLEventHandlers = function () {
+        var _this = this;
+        var showCellTooltip = function (row, column, node) {
+            var _a;
+            if (row && column && (0, main_1.isTooltip)(_this.config, column)) {
+                var editorOption = void 0;
+                if (column.editorType === "combobox" || column.editorType === "select") {
+                    var option = (0, data_1.getEditorOptions)(column, row).find(function (item) {
+                        var _a;
+                        var value = item instanceof Object ? item.id.toString() : item;
+                        return value === ((_a = row[column.id]) === null || _a === void 0 ? void 0 : _a.toString());
+                    });
+                    editorOption = option instanceof Object ? option.value : option;
+                }
+                else if (column.editorType === "multiselect") {
+                    var values_1 = (_a = row[column.id]) === null || _a === void 0 ? void 0 : _a.toString().split(", ");
+                    if (values_1 === null || values_1 === void 0 ? void 0 : values_1.length) {
+                        var options = (0, data_1.getEditorOptions)(column, row).filter(function (item) {
+                            return values_1.includes(item instanceof Object ? item.id.toString() : item);
+                        });
+                        editorOption = options
+                            .map(function (item) {
+                            return item instanceof Object ? item.value : item;
+                        })
+                            .join(", ");
+                    }
+                }
+                var value_1 = (0, data_1.applyPattern)(editorOption || row[column.id], column);
+                var checkIsExistValue = function () { return !!value_1 || typeof value_1 === "boolean"; };
+                if (column.tooltipTemplate) {
+                    value_1 = column.tooltipTemplate(value_1, row, column) || null;
+                }
+                else if (checkIsExistValue() && column.template) {
+                    value_1 = column.template(value_1, row, column);
+                }
+                if (checkIsExistValue()) {
+                    (0, main_1.showTooltip)(value_1, __assign({ node: node, htmlEnable: (0, main_1.isHtmlEnable)(_this.config, column) }, (0, main_1.getTooltipConfig)(_this.config, column)));
+                }
+            }
+        };
+        var showContentTooltip = function (event, type) {
+            var _a;
+            if (type === void 0) { type = "header"; }
+            var node = event.target;
+            var id = node.getAttribute("data-dhx-text-id");
+            var column = _this.getColumn(node.getAttribute("data-dhx-id"));
+            if (!id || !column) {
+                return;
+            }
+            var cell = (_a = column[type]) === null || _a === void 0 ? void 0 : _a.find(function (c) { return c.id === id; });
+            if (!(0, main_1.isContentTooltip)(_this.config, column, cell, type)) {
+                return;
+            }
+            var value = cell === null || cell === void 0 ? void 0 : cell.text;
+            var summary = _this.getSummary(column.id);
+            if (typeof value === "function") {
+                value = value(summary);
+            }
+            if (typeof (cell === null || cell === void 0 ? void 0 : cell.tooltipTemplate) === "function") {
+                value = cell.tooltipTemplate(__assign({ value: value }, summary), cell, column) || null;
+            }
+            if (value === null || value === void 0 ? void 0 : value.toString().length) {
+                (0, main_1.showTooltip)(value, __assign({ node: node, htmlEnable: (0, main_1.isHtmlEnable)(_this.config, column, cell) }, (0, main_1.getTooltipConfig)(_this.config, column, cell, type)));
+            }
+        };
+        this._htmlEvents = {
+            onclick: (0, html_1.eventHandler)(function (e) { return (0, html_1.locate)(e); }, {
+                "dhx_grid-header-cell--sortable": function (e, id) {
+                    var isResizable = e.target.getAttribute("dhx_resized");
+                    var column = _this.getColumn(id);
+                    if (column && (0, main_1.isSortable)(_this.config, column) && !isResizable) {
+                        var textId_1 = (0, html_1.locate)(e, "data-dhx-text-id");
+                        var cell = column.header.find(function (item) { return item.id === textId_1; });
+                        _this._sort(id, cell.sortAs);
+                    }
+                },
+                "dhx_grid-expand-cell": function (e, rowId) {
+                    if (e.target.classList.contains("dhx_grid-expand-cell-icon")) {
+                        _this.events.fire(types_1.GridEvents.expand, [rowId]);
+                    }
+                },
+                "dhx_span-expand-cell": function (e, rowId) {
+                    if (e.target.classList.contains("dhx_span-expand-cell-icon")) {
+                        _this.events.fire(types_1.GridEvents.expand, [rowId]);
+                    }
+                },
+            }),
+            onscroll: function (e) {
+                _this.events.fire(types_1.GridEvents.scroll, [
+                    {
+                        y: e.target.scrollTop,
+                        x: e.target.scrollLeft,
+                    },
+                ]);
+            },
+            onmouseover: {
+                ".dhx_grid-cell.dhx_boolean-cell .dhx_checkbox.dhx_cell-editor__checkbox": function (e) {
+                    var path = e.composedPath();
+                    var row = _this.data.getItem(path[2].getAttribute("data-dhx-id"));
+                    var column = _this.getColumn(path[1].getAttribute("data-dhx-col-id"));
+                    showCellTooltip(row, column, e.target);
+                },
+                ".dhx_grid-cell:not(.dhx_boolean-cell)": function (e) {
+                    var row = _this.data.getItem(e.composedPath()[1].getAttribute("data-dhx-id"));
+                    var column = _this.getColumn(e.target.getAttribute("data-dhx-col-id"));
+                    showCellTooltip(row, column, e.target);
+                },
+                ".dhx_grid-cell:not(.dhx_tree-cell) .dhx_grid-cell__content, .dhx_tree-cell :not(.dhx_grid-cell__content)": function (e) {
+                    var path = e.composedPath();
+                    var row = _this.data.getItem(path[2].getAttribute("data-dhx-id"));
+                    var column = _this.getColumn(path[1].getAttribute("data-dhx-col-id"));
+                    showCellTooltip(row, column, e.target);
+                },
+                ".dhx_grid-cell.dhx_tree-cell .dhx_grid-cell__content": function (e) {
+                    var path = e.composedPath();
+                    var row = _this.data.getItem(path[3].getAttribute("data-dhx-id"));
+                    var column = _this.getColumn(path[2].getAttribute("data-dhx-col-id"));
+                    showCellTooltip(row, column, path[2]);
+                },
+                ".dhx_span-cell:not(.dhx_grid-header-cell):not(.dhx_grid-footer-cell)": function (e) {
+                    var node = e.target;
+                    var row = _this.data.getItem(node.getAttribute("data-dhx-id"));
+                    var column = _this.getColumn(node.getAttribute("data-dhx-col-id"));
+                    var span = _this.getSpan(row.id, column.id);
+                    if (row && span && (0, main_1.isTooltip)(_this.config, span)) {
+                        var summary = _this.getSummary(column.id);
+                        var text = typeof span.text === "function" ? span.text(summary) : span.text;
+                        var value = (text || (0, data_1.applyPattern)(row[column.id], column)).toString();
+                        if (span.tooltipTemplate) {
+                            value = span.tooltipTemplate(__assign({ value: value }, summary), span) || null;
+                        }
+                        else if (column.template) {
+                            value = column.template(value, row, column);
+                        }
+                        if (value) {
+                            (0, main_1.showTooltip)(value, __assign({ node: node, htmlEnable: (0, main_1.isHtmlEnable)(_this.config, column) }, (0, main_1.getTooltipConfig)(_this.config, null, span)));
+                        }
+                    }
+                },
+                ".dhx_grid-header-cell": function (event) { return showContentTooltip(event, "header"); },
+                ".dhx_grid-footer-cell": function (event) { return showContentTooltip(event, "footer"); },
+            },
+        };
     };
     Grid.prototype._setEventHandlers = function () {
         var _this = this;
         var updater = function (_a) {
             var source = _a.source, target = _a.target, updateObj = __rest(_a, ["source", "target"]);
             if (source === null || source === void 0 ? void 0 : source.length) {
-                source.map(function (selectedId) { return _this.data.exists(selectedId) && _this.data.update(selectedId, updateObj); });
+                source.map(function (selectedId) {
+                    return _this.data.exists(selectedId) && _this.data.update(selectedId, updateObj, true);
+                });
             }
             if (_this.data.exists(target)) {
-                _this.data.update(target, updateObj);
+                _this.data.update(target, updateObj, true);
             }
         };
         this.data.events.on(ts_data_1.DataEvents.load, function () {
@@ -17083,7 +17355,13 @@ var Grid = /** @class */ (function (_super) {
             _this._parseData();
             _this._parseColumns();
             if (_this.config.autoEmptyRow) {
-                _this._addEmptyRow();
+                var emptyRow = _this.data.find({ by: "$emptyRow", match: true });
+                if (emptyRow) {
+                    _this.data.move(emptyRow.id, _this.data.getLength() - 1);
+                }
+                else {
+                    _this._addEmptyRow();
+                }
             }
             if (_this.config.data instanceof ts_data_1.DataCollection) {
                 (0, dom_1.awaitRedraw)().then(function () { return _this._normalizeSpans(); });
@@ -17106,18 +17384,7 @@ var Grid = /** @class */ (function (_super) {
                 return;
             }
             if (status === "sort") {
-                if (!obj.dir) {
-                    if (_this._sortState.by === obj.by) {
-                        _this._sortState.dir = _this._sortState.dir === "asc" ? "desc" : "asc";
-                    }
-                    else {
-                        _this._sortState.dir = "asc";
-                    }
-                }
-                else {
-                    _this._sortState.dir = obj.dir;
-                }
-                _this._sortState.by = obj.by;
+                _this._setSort();
             }
             else if (status === "add" || status === "update" || status === "remove") {
                 if ((0, core_1.isId)(id) && status === "remove") {
@@ -17403,6 +17670,9 @@ var Grid = /** @class */ (function (_super) {
             _this.paint();
         });
         this.events.on(types_1.GridEvents.cellDblClick, function (row, col, e) {
+            if (!row) {
+                return;
+            }
             var targetCheckbox = (0, html_1.locateNodeByClassName)(e, "dhx_boolean-cell");
             if (targetCheckbox || row.hasOwnProperty("$group"))
                 return;
@@ -17510,14 +17780,17 @@ var Grid = /** @class */ (function (_super) {
             }, { $emptyRow: true }));
         }
     };
-    Grid.prototype._sort = function (by, sortAs) {
+    Grid.prototype._sort = function (by, sortAs, smartSorting) {
+        if (smartSorting === void 0) { smartSorting = this.config.multiSort; }
         var column = this.getColumn(by);
-        if (!this.events.fire(types_1.GridEvents.beforeSort, [column, this._sortState.dir === "asc" ? "desc" : "asc"])) {
+        var state = this._sortingStates;
+        var current = state.find(function (state) { return state.by == by; });
+        if (!this.events.fire(types_1.GridEvents.beforeSort, [column, (current === null || current === void 0 ? void 0 : current.dir) === "asc" ? "desc" : "asc"])) {
             return;
         }
         var dir = "asc";
-        if (this._sortState.by === by) {
-            dir = this._sortState.dir === "asc" ? "desc" : "asc";
+        if ((current === null || current === void 0 ? void 0 : current.by) === by) {
+            dir = current.dir === "asc" ? "desc" : "asc";
         }
         var defaultAs = function (item) {
             if (item && column.type === "date") {
@@ -17527,12 +17800,13 @@ var Grid = /** @class */ (function (_super) {
             }
             return item ? "".concat(item) : "";
         };
-        this.data.sort({
-            by: by,
-            dir: dir,
-            as: sortAs !== null && sortAs !== void 0 ? sortAs : defaultAs,
-        });
+        this.data.sort({ by: by, dir: dir, as: sortAs !== null && sortAs !== void 0 ? sortAs : defaultAs }, { smartSorting: smartSorting });
         this.events.fire(types_1.GridEvents.afterSort, [column, dir]);
+    };
+    Grid.prototype._setSort = function () {
+        var _a;
+        var state = (_a = this.data.getSortingStates()) === null || _a === void 0 ? void 0 : _a[0];
+        this._sortingStates = (state && [state]) || [];
     };
     Grid.prototype._clearTouchTimer = function () {
         if (this._touch.timer) {
@@ -17817,6 +18091,16 @@ var Grid = /** @class */ (function (_super) {
                 if (_this.config.autoWidth) {
                     _this._parseColumns();
                 }
+                if (_this.config.keyNavigation) {
+                    _this.keyManager = new KeyManager_1.KeyManager(function (e, focusId) {
+                        if (focusId === _this._uid && _this.events.fire(types_1.GridEvents.beforeKeyDown, [e])) {
+                            _this.events.fire(types_1.GridEvents.afterKeyDown, [e]);
+                            return true;
+                        }
+                        return false;
+                    });
+                    _this._initHotKey();
+                }
             },
         };
     };
@@ -17956,21 +18240,13 @@ var Grid = /** @class */ (function (_super) {
         this._setEventHandlers();
     };
     Grid.prototype._attachDataCollection = function () {
-        var _this = this;
-        var prep = function (data) {
-            if (data.spans) {
-                _this.config.spans = data.spans;
-                data = data.data;
-            }
-            return data;
-        };
         if (this.config.data instanceof ts_data_1.DataCollection) {
             this.data = this.config.data;
             this.data.config.collapsed = this.config.collapsed;
             this.config.data = this.data.serialize();
             return;
         }
-        this._createCollection(prep);
+        this._createCollection();
     };
     Grid.prototype._setMarks = function (col, func) {
         var colCellsData = [];
@@ -18162,7 +18438,7 @@ exports.Grid = Grid;
 
 
 /***/ }),
-/* 101 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18182,15 +18458,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.proRender = exports.render = exports.applyAutoWidth = exports.getElementSizes = exports.getRenderConfig = void 0;
 var dom_1 = __webpack_require__(0);
 var html_1 = __webpack_require__(2);
-var data_1 = __webpack_require__(17);
+var data_1 = __webpack_require__(15);
 var main_1 = __webpack_require__(16);
 var types_1 = __webpack_require__(8);
 var Cells_1 = __webpack_require__(40);
-var FixedCols_1 = __webpack_require__(102);
-var FixedRows_1 = __webpack_require__(103);
+var FixedCols_1 = __webpack_require__(103);
+var FixedRows_1 = __webpack_require__(104);
 var core_1 = __webpack_require__(1);
-var common_1 = __webpack_require__(24);
+var common_1 = __webpack_require__(19);
 var panel_1 = __webpack_require__(230);
+var SubRows_1 = __webpack_require__(231);
 function getWrapperAutoHeight(grid, config, wrapperSizes) {
     var _a, _b;
     var container = grid._container;
@@ -18228,7 +18505,7 @@ function getRenderConfig(obj, data, wrapperSizes) {
     var config = obj.config;
     var _a = config.spans, spans = _a === void 0 ? [] : _a, columns = config.columns, _b = config.leftSplit, leftSplit = _b === void 0 ? 0 : _b, _c = config.topSplit, topSplit = _c === void 0 ? 0 : _c, _d = config.rightSplit, rightSplit = _d === void 0 ? 0 : _d, _e = config.bottomSplit, bottomSplit = _e === void 0 ? 0 : _e;
     var filteredColumns = columns.filter(function (col) { return !col.hidden; });
-    var positions = (0, data_1.calculatePositions)(wrapperSizes.width, wrapperSizes.height, obj._scroll, config, data);
+    var positions = (0, data_1.calculateVisibleRange)(wrapperSizes, obj._scroll, config, data);
     var currentColumns = filteredColumns.slice(positions.xStart, positions.xEnd);
     var currentRows = data.slice(positions.yStart, positions.yEnd);
     var currentSpans = spans.filter(function (span) {
@@ -18239,7 +18516,6 @@ function getRenderConfig(obj, data, wrapperSizes) {
         var colInRange = isSpanVisible(span.$colsVisibility, [positions.xStart, positions.xEnd], [leftSplit, rightSplit], columns.length);
         return rowInRange && colInRange;
     });
-    // const currentSpans = spans;
     var fixedColumns = {
         left: (0, common_1.getCurrFixedCols)(config, types_1.Split.left),
         right: (0, common_1.getCurrFixedCols)(config, types_1.Split.right),
@@ -18248,7 +18524,9 @@ function getRenderConfig(obj, data, wrapperSizes) {
         top: data.slice(0, config.topSplit || 0),
         bottom: config.bottomSplit ? data.slice(-config.bottomSplit) : [],
     };
-    return __assign(__assign({}, config), { data: data, columns: config.columns, scroll: obj._scroll, $positions: positions, headerHeight: config.$headerHeight, footerHeight: config.$footerHeight, firstColId: filteredColumns[0] && filteredColumns[0].id, events: obj.events, _events: obj._events, filteredColumns: filteredColumns, currentColumns: currentColumns, currentRows: currentRows, currentSpans: currentSpans, fixedColumns: fixedColumns, fixedRows: fixedRows, sortBy: obj._sortState.by, sortDir: obj._sortState.dir, content: obj.content, gridId: obj._uid, commonSummary: obj._commonSummary, colSummary: obj._colSummary, $renderFrom: "render" });
+    if (obj.config.$subRowCells)
+        (0, SubRows_1.setSubRowCell)(obj, currentRows);
+    return __assign(__assign({}, config), { data: data, columns: config.columns, scroll: obj._scroll, $positions: positions, headerHeight: config.$headerHeight, footerHeight: config.$footerHeight, firstColId: filteredColumns[0] && filteredColumns[0].id, events: obj.events, _events: obj._events, filteredColumns: filteredColumns, currentColumns: currentColumns, currentRows: currentRows, currentSpans: currentSpans, fixedColumns: fixedColumns, fixedRows: fixedRows, sort: obj._sortingStates, content: obj.content, gridId: obj._uid, commonSummary: obj._commonSummary, colSummary: obj._colSummary, $renderFrom: "render" });
 }
 exports.getRenderConfig = getRenderConfig;
 function getElementSizes(element) {
@@ -18267,7 +18545,7 @@ function getElementSizes(element) {
     };
 }
 exports.getElementSizes = getElementSizes;
-function getGridData(renderConfig, shifts) {
+function getGridData(renderConfig, shifts, scroll) {
     var content = (0, Cells_1.getCells)(renderConfig);
     var filteredColumns = renderConfig.filteredColumns, $resizing = renderConfig.$resizing, $totalHeight = renderConfig.$totalHeight, $totalWidth = renderConfig.$totalWidth, leftSplit = renderConfig.leftSplit, data = renderConfig.data, $positions = renderConfig.$positions;
     var contentSpans = (0, Cells_1.getSpans)(renderConfig);
@@ -18302,6 +18580,7 @@ function getGridData(renderConfig, shifts) {
         "data-dhx-drop-area": "row",
     }, [
         (0, dom_1.el)(".dhx_grid_data".concat(leftSplit ? ".dhx_grid_fixed_left" : ""), __assign(__assign({ _flags: dom_1.KEYED_LIST }, (0, Cells_1.getHandlers)(pos.yStart, pos.xStart, renderConfig)), getRowAriaAttrs(data.length)), content),
+        (0, SubRows_1.getSubRowContent)(renderConfig),
         (0, dom_1.el)(".dhx_span-spans", __assign({ role: "presentation" }, (0, Cells_1.getHandlers)(pos.yStart, pos.xStart, renderConfig)), contentSpans),
         (0, dom_1.el)(".dhx_grid_selection", { _ref: "selection", "aria-hidden": "true" }, [].concat(selection, resizedLine)),
     ]);
@@ -18329,6 +18608,7 @@ function applyAutoWidth(config, wrapperSizes, scrollViewConfig) {
     var columns = (config.columns || []).filter(function (col) { return !col.hidden; });
     var fixedColumns = [];
     var flexibleColumns = [];
+    var checkLimit = false;
     columns.forEach(function (col) {
         if (!col.width && !col.$fixedWidth && (0, main_1.isAutoWidth)(config, col)) {
             flexibleColumns.push(col);
@@ -18337,31 +18617,30 @@ function applyAutoWidth(config, wrapperSizes, scrollViewConfig) {
             fixedColumns.push(col);
         }
     });
-    var fullGravity = flexibleColumns.reduce(function (gravity, col) { return gravity + (col.gravity || 1); }, 0);
-    var fixedWidth = (0, main_1.getTotalWidth)(fixedColumns);
-    flexibleColumns.forEach(function (col) {
-        var width = totalWidth > fixedWidth ? (totalWidth - fixedWidth) * ((col.gravity || 1) / fullGravity) : 0;
-        var minLimit = col.minWidth && width < (col.minWidth || 0);
-        var maxLimit = col.maxWidth && width > (col.maxWidth || 0);
-        if (minLimit) {
-            col.$width = col.minWidth;
-            fixedWidth += (col.$width || 0) - width;
-            flexibleColumns = flexibleColumns.filter(function (c) { return c.id != col.id; });
-            fixedColumns.push(col);
+    do {
+        checkLimit = false;
+        var fullGravity = flexibleColumns.reduce(function (gravity, col) { return gravity + (col.gravity || 1); }, 0);
+        var fixedWidth = (0, main_1.getTotalWidth)(fixedColumns);
+        var _loop_1 = function (col) {
+            var width = totalWidth > fixedWidth ? (totalWidth - fixedWidth) * ((col.gravity || 1) / fullGravity) : 0;
+            var minLimit = col.minWidth && width < col.minWidth;
+            var maxLimit = col.maxWidth && width > col.maxWidth;
+            if (minLimit || maxLimit) {
+                checkLimit = true;
+                col.$width = minLimit ? col.minWidth : col.maxWidth;
+                flexibleColumns = flexibleColumns.filter(function (c) { return c.id != col.id; });
+                fixedColumns.push(col);
+                return "break";
+            }
+            col.$width = width;
+        };
+        for (var _i = 0, flexibleColumns_1 = flexibleColumns; _i < flexibleColumns_1.length; _i++) {
+            var col = flexibleColumns_1[_i];
+            var state_1 = _loop_1(col);
+            if (state_1 === "break")
+                break;
         }
-        else if (maxLimit) {
-            col.$width = col.maxWidth;
-            fixedWidth += (col.$width || 0) - width;
-            flexibleColumns = flexibleColumns.filter(function (c) { return c.id != col.id; });
-            fixedColumns.push(col);
-        }
-    });
-    fullGravity = flexibleColumns.reduce(function (gravity, col) { return gravity + (col.gravity || 1); }, 0);
-    fixedWidth = (0, main_1.getTotalWidth)(fixedColumns);
-    flexibleColumns.forEach(function (col) {
-        var width = totalWidth > fixedWidth ? (totalWidth - fixedWidth) * ((col.gravity || 1) / fullGravity) : 0;
-        col.$width = width;
-    });
+    } while (checkLimit);
 }
 exports.applyAutoWidth = applyAutoWidth;
 function render(vm, obj, htmlEvents, selection, uid) {
@@ -18493,13 +18772,29 @@ function proRender(vm, obj, htmlEvents, selection, uid) {
         });
     }
     var data = obj.data.getRawData(0, -1, null, 2);
+    var topSplit = config.topSplit || 0;
+    var bottomSplit = config.bottomSplit || 0;
+    var topFixedCount = 0;
+    var bottomFixedCount = 0;
     if (config.columns.reduce(function (check, col) { return (check = !col.hidden ? col.hidden : check); }, true)) {
         config.$totalHeight = 0;
     }
     else {
-        config.$totalHeight = data.reduce(function (total, _a) {
-            var $height = _a.$height;
-            return (total += $height || 0);
+        config.$totalHeight = data.reduce(function (total, row, index) {
+            if (topSplit && index < topSplit + topFixedCount) {
+                row.$subRowHeight = 0;
+                row.$opened = false;
+                if (row.hidden)
+                    topFixedCount++;
+            }
+            if (bottomSplit && index >= data.length - bottomSplit - bottomFixedCount) {
+                row.$subRowHeight = 0;
+                row.$opened = false;
+                if (row.hidden)
+                    bottomFixedCount++;
+            }
+            row.$index = index;
+            return (total += (0, data_1.getTotalRowHeight)(row));
         }, 0);
     }
     var wrapperAutoHeight;
@@ -18554,7 +18849,7 @@ function proRender(vm, obj, htmlEvents, selection, uid) {
     }
     var gridContent = (0, dom_1.el)("div", {}, [
         isSticky ? header : null,
-        getGridData(renderConfig, shifts),
+        getGridData(renderConfig, shifts, obj.getScrollState()),
         isSticky ? footer : null,
     ]);
     return (0, dom_1.el)(".dhx_grid.dhx_widget", {
@@ -18568,7 +18863,7 @@ function proRender(vm, obj, htmlEvents, selection, uid) {
         "data-dhx-root-id": config.rootParent,
         role: "grid",
         "aria-rowcount": renderConfig.data.length,
-        "aria-colcount": config.columns.filter(function (col) { return !col.hidden; }).length,
+        "aria-colcount": renderConfig.filteredColumns.length,
         "data-dhx-drop-area": "common",
     }, [
         (isGroupPanelVisible && (0, panel_1.getGroupPanel)(config.$grouped, obj)) || null,
@@ -18602,7 +18897,7 @@ exports.proRender = proRender;
 
 
 /***/ }),
-/* 102 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18632,9 +18927,9 @@ exports.getFixedCols = exports.getFixedColsHeader = void 0;
 var dom_1 = __webpack_require__(0);
 var types_1 = __webpack_require__(8);
 var Cells_1 = __webpack_require__(40);
-var FixedRows_1 = __webpack_require__(103);
+var FixedRows_1 = __webpack_require__(104);
 var main_1 = __webpack_require__(16);
-var common_1 = __webpack_require__(24);
+var common_1 = __webpack_require__(19);
 function getFixedColsHeader(renderConfig, layout, mode) {
     if ((mode === types_1.Split.left &&
         (typeof renderConfig.leftSplit !== "number" || !renderConfig.fixedColumns.left.length)) ||
@@ -18761,7 +19056,7 @@ exports.getFixedCols = getFixedCols;
 
 
 /***/ }),
-/* 103 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18793,10 +19088,10 @@ var cells_1 = __webpack_require__(26);
 var main_1 = __webpack_require__(16);
 var types_1 = __webpack_require__(8);
 var Cells_1 = __webpack_require__(40);
-var FixedCols_1 = __webpack_require__(102);
+var FixedCols_1 = __webpack_require__(103);
 var core_1 = __webpack_require__(1);
-var common_1 = __webpack_require__(24);
-var data_1 = __webpack_require__(17);
+var common_1 = __webpack_require__(19);
+var data_1 = __webpack_require__(15);
 function handleMouse(cell, col, config, type, event) {
     if (!type)
         return;
@@ -18880,11 +19175,12 @@ function getRows(config, rowsConfig) {
                 }
                 text = cell.text(summary);
             }
-            if (config.sortBy && "".concat(column.id) === config.sortBy && !cell.content) {
-                var dir = config.sortDir || "asc";
-                sortIconCss += " dhx_grid-sort-icon--".concat(dir);
+            var sortIndex = config.sort.findIndex(function (i) { return i.by == column.id; });
+            var sort = config.sort[sortIndex];
+            if (sort && !cell.content) {
+                sortIconCss += " dhx_grid-sort-icon--".concat(sort.dir);
                 css += " dhx_grid-".concat(rowName, "-cell--sorted ");
-                ariaSort = dir === "asc" ? "ascending" : "descending";
+                ariaSort = sort.dir === "asc" ? "ascending" : "descending";
             }
             var sortIconVisible = (0, main_1.isSortable)(config, column) &&
                 cell.text &&
@@ -18995,7 +19291,16 @@ function getRows(config, rowsConfig) {
                     (0, dom_1.el)("span", __assign(__assign({ class: cellCss }, getInnerCellAriaAttrs(rowName, text)), { ".innerHTML": isHTMLEnable ? text : null }), isHTMLEnable ? null : text),
                     resizable || null,
                 ]),
-                sortIconVisible && (0, dom_1.el)("div", { class: sortIconCss, "aria-hidden": "true" }),
+                sortIconVisible &&
+                    (0, dom_1.el)("div.dhx_grid-sort", [
+                        (0, dom_1.el)("div", { class: sortIconCss, "aria-hidden": "true" }),
+                        (sort &&
+                            config.sort.length > 1 &&
+                            (0, dom_1.el)("div.dhx_grid-sort-counter", { "aria-hidden": "true" }, [
+                                sortIndex + 1,
+                            ])) ||
+                            null,
+                    ]),
             ]);
         }));
     });
@@ -19072,8 +19377,10 @@ function getFixedSpans(config, rowsConfig, mode) {
                 rowsConfig.name !== "footer" &&
                 nCell.headerSort !== false;
             var sortIconCss = "dxi dxi-arrow-up dhx_grid-sort-icon";
-            if (config.sortBy && "".concat(nCol.id) === config.sortBy && !nCell.content) {
-                sortIconCss += " dhx_grid-sort-icon--".concat(config.sortDir || "asc");
+            var sortIndex = config.sort.findIndex(function (i) { return i.by == nCol.id; });
+            var sort = config.sort[sortIndex];
+            if (sort && !nCell.content) {
+                sortIconCss += " dhx_grid-sort-icon--".concat(sort.dir);
             }
             var cellAlign = nCol.align
                 ? "dhx_align-".concat(nCol.align)
@@ -19137,7 +19444,16 @@ function getFixedSpans(config, rowsConfig, mode) {
                             role: "presentation",
                         }, [spanElement])
                         : spanElement,
-                    sortIconVisible && (0, dom_1.el)("div", { class: sortIconCss }),
+                    sortIconVisible &&
+                        (0, dom_1.el)("div.dhx_grid-sort", [
+                            (0, dom_1.el)("div", { class: sortIconCss, "aria-hidden": "true" }),
+                            (sort &&
+                                config.sort.length > 1 &&
+                                (0, dom_1.el)("div.dhx_grid-sort-counter", { "aria-hidden": "true" }, [
+                                    sortIndex + 1,
+                                ])) ||
+                                null,
+                        ]),
                     (mode === types_1.Split.left &&
                         reducedColspan &&
                         cellIdx + reducedColspan > cols.length) ||
@@ -19241,7 +19557,7 @@ function getFixedDataRows(config, layout, mode) {
     var splitedData = isBottomSplit ? config.fixedRows.bottom : config.fixedRows.top;
     var $renderFrom = isBottomSplit ? "bottomFixedRows" : "topFixedRows";
     var fixedRows = (0, Cells_1.getCells)(__assign(__assign({}, config), { data: splitedData, $renderFrom: $renderFrom, $positions: __assign(__assign({}, $positions), { yStart: 0, yEnd: isBottomSplit ? bottomSplit : topSplit }) }));
-    var fixedRowsHeight = splitedData.reduce(function (acc, item) { return acc + item.$height; }, 0);
+    var fixedRowsHeight = splitedData.reduce(function (acc, row) { return acc + (0, data_1.getTotalRowHeight)(row); }, 0);
     var spans = (0, Cells_1.getSpans)(__assign(__assign({}, config), { $renderFrom: $renderFrom, data: data }), isBottomSplit ? types_1.Split.bottom : types_1.Split.top);
     var bottomSplitHeight = (0, main_1.getTotalHeight)(config.fixedRows.bottom);
     var getCols = function (split) {
@@ -19288,7 +19604,44 @@ exports.getFixedDataRows = getFixedDataRows;
 
 
 /***/ }),
-/* 104 */
+/* 105 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.defaultSubRowConfig = exports.getGroupDefaultConfig = void 0;
+var en_1 = __webpack_require__(59);
+var getGroupDefaultConfig = function (config) {
+    if (typeof config === "boolean") {
+        config = {};
+    }
+    return __assign(__assign({ type: "column", panel: true, panelHeight: 40, hideableColumns: true, showMissed: true }, config), { column: __assign({ id: typeof config.column === "string" ? config.column : null, header: [{ text: en_1.default.groupText }] }, (typeof config.column === "string" ? {} : config.column)) });
+};
+exports.getGroupDefaultConfig = getGroupDefaultConfig;
+exports.defaultSubRowConfig = {
+    height: 200,
+    padding: 8,
+    toggleIcon: true,
+    expanded: false,
+    preserve: false,
+    fullWidth: false,
+};
+
+
+/***/ }),
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19319,6 +19672,17 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -19333,13 +19697,13 @@ exports.ExtendedGrid = void 0;
 var types_1 = __webpack_require__(8);
 var ts_data_1 = __webpack_require__(5);
 var html_1 = __webpack_require__(2);
-var data_1 = __webpack_require__(17);
-var render_1 = __webpack_require__(101);
+var data_1 = __webpack_require__(15);
+var render_1 = __webpack_require__(102);
 var dom_1 = __webpack_require__(0);
-var ScrollView_1 = __webpack_require__(19);
+var ScrollView_1 = __webpack_require__(20);
 var main_1 = __webpack_require__(16);
-var Grid_1 = __webpack_require__(100);
-var default_1 = __webpack_require__(237);
+var Grid_1 = __webpack_require__(101);
+var default_1 = __webpack_require__(105);
 var core_1 = __webpack_require__(1);
 var en_1 = __webpack_require__(59);
 var ExtendedGrid = /** @class */ (function (_super) {
@@ -19347,7 +19711,7 @@ var ExtendedGrid = /** @class */ (function (_super) {
     function ExtendedGrid(container, config) {
         var _this = this;
         var _a, _b;
-        _this = _super.call(this, container, __assign({ autoHeight: false, closable: true, groupable: false, headerAutoHeight: (_a = config === null || config === void 0 ? void 0 : config.headerAutoHeight) !== null && _a !== void 0 ? _a : config === null || config === void 0 ? void 0 : config.autoHeight, footerAutoHeight: (_b = config === null || config === void 0 ? void 0 : config.footerAutoHeight) !== null && _b !== void 0 ? _b : config === null || config === void 0 ? void 0 : config.autoHeight }, config)) || this;
+        _this = _super.call(this, container, __assign({ autoHeight: false, closable: true, groupable: false, subRow: null, multiSort: true, headerAutoHeight: (_a = config === null || config === void 0 ? void 0 : config.headerAutoHeight) !== null && _a !== void 0 ? _a : config === null || config === void 0 ? void 0 : config.autoHeight, footerAutoHeight: (_b = config === null || config === void 0 ? void 0 : config.footerAutoHeight) !== null && _b !== void 0 ? _b : config === null || config === void 0 ? void 0 : config.autoHeight }, config)) || this;
         if (_this.config.group) {
             _this.config.$grouped = [];
             _this.config.group = (0, default_1.getGroupDefaultConfig)(_this.config.group);
@@ -19357,6 +19721,8 @@ var ExtendedGrid = /** @class */ (function (_super) {
             }
             ts_data_1.dragManager.setItem(_this._uid, _this);
         }
+        if (_this.config.subRow)
+            _this.config.$subRowCells = new Map();
         _this.scrollView = new ScrollView_1.ScrollView(function () { return _this.getRootView(); }, {
             scrollHandler: function (e) {
                 return _this.events.fire(types_1.GridEvents.scroll, [
@@ -19369,6 +19735,50 @@ var ExtendedGrid = /** @class */ (function (_super) {
         });
         return _this;
     }
+    ExtendedGrid.prototype.expand = function (rowId) {
+        var row = this.data.getItem(rowId);
+        if (row.$subRowHeight) {
+            if (!this._expand(row)) {
+                return;
+            }
+            this._normalizeSpans();
+            this.paint();
+        }
+    };
+    ExtendedGrid.prototype.collapse = function (rowId) {
+        var row = this.data.getItem(rowId);
+        if (row.$subRowHeight) {
+            if (!this._collapse(row)) {
+                return;
+            }
+            this._normalizeSpans();
+            this.paint();
+        }
+    };
+    ExtendedGrid.prototype.expandAll = function () {
+        var _this = this;
+        this.data.forEach(function (row) {
+            row.$subRowHeight && _this._expand(row);
+        });
+        this._normalizeSpans();
+        this.paint();
+    };
+    ExtendedGrid.prototype.collapseAll = function () {
+        var _this = this;
+        this.data.forEach(function (row) {
+            row.$subRowHeight && _this._collapse(row);
+        });
+        this._normalizeSpans();
+        this.paint();
+    };
+    ExtendedGrid.prototype.getSubRow = function (id) {
+        var _a, _b, _c, _d;
+        if (!((_a = this.config.$subRowCells) === null || _a === void 0 ? void 0 : _a.has(id))) {
+            return null;
+        }
+        var _e = (_b = this.config.$subRowCells) === null || _b === void 0 ? void 0 : _b.get(id), cell = _e.cell, config = __rest(_e, ["cell"]);
+        return __assign(__assign({}, config), { view: (cell === null || cell === void 0 ? void 0 : cell.getWidget()) || (cell === null || cell === void 0 ? void 0 : cell.config.html) || null, element: (_d = (_c = cell === null || cell === void 0 ? void 0 : cell.getRootView()) === null || _c === void 0 ? void 0 : _c.node) === null || _d === void 0 ? void 0 : _d.el });
+    };
     ExtendedGrid.prototype._createView = function () {
         var _this = this;
         return (0, dom_1.create)({
@@ -19380,9 +19790,48 @@ var ExtendedGrid = /** @class */ (function (_super) {
             hooks: this._initHooks(),
         }, this);
     };
+    ExtendedGrid.prototype._setHTMLEventHandlers = function () {
+        var _this = this;
+        _super.prototype._setHTMLEventHandlers.call(this);
+        this._htmlEvents = __assign(__assign({}, this._htmlEvents), { onclick: (0, html_1.eventHandler)(function (e) { return (0, html_1.locate)(e); }, {
+                "dhx_grid-header-cell--sortable": function (e, id) {
+                    var isResizable = e.target.getAttribute("dhx_resized");
+                    var column = _this.getColumn(id);
+                    if (column && (0, main_1.isSortable)(_this.config, column) && !isResizable) {
+                        var textId_1 = (0, html_1.locate)(e, "data-dhx-text-id");
+                        var cell = column.header.find(function (item) { return item.id === textId_1; });
+                        var isCtrlKey = e.ctrlKey || e.metaKey;
+                        var isPermanent = _this.config.multiSort &&
+                            (!isCtrlKey || (isCtrlKey && !_this._sortingStates.length));
+                        _this._sort(id, cell.sortAs, isPermanent);
+                    }
+                },
+                "dhx_grid-expand-cell": function (e, rowId) {
+                    if (e.target.classList.contains("dhx_grid-expand-cell-icon")) {
+                        _this.events.fire(types_1.GridEvents.expand, [rowId]);
+                    }
+                },
+                "dhx_span-expand-cell": function (e, rowId) {
+                    if (e.target.classList.contains("dhx_span-expand-cell-icon")) {
+                        _this.events.fire(types_1.GridEvents.expand, [rowId]);
+                    }
+                },
+            }) });
+    };
     ExtendedGrid.prototype._setEventHandlers = function () {
         var _this = this;
         _super.prototype._setEventHandlers.call(this);
+        this.events.on(types_1.GridEvents.expand, function (rowId) {
+            var item = _this.data.getItem(rowId);
+            if (item) {
+                if (item.$opened) {
+                    _this.collapse(rowId);
+                }
+                else {
+                    _this.expand(rowId);
+                }
+            }
+        });
         this.events.on(types_1.GridEvents.headerCellMouseDown, function (cell, col, event) {
             var _a;
             var targetRow = (0, html_1.locateNodeByClassName)(event, "dhx_header-row");
@@ -19609,7 +20058,9 @@ var ExtendedGrid = /** @class */ (function (_super) {
             }
             if ((0, html_1.locateNodeByClassName)(event, "dhx_grid-group_item-sort") &&
                 (0, main_1.isSortable)(_this.config, _this.getColumn(id))) {
-                _this._sort(id);
+                var isCtrlKey = event.ctrlKey || event.metaKey;
+                var isPermanent = _this.config.multiSort && (!isCtrlKey || (isCtrlKey && !_this._sortingStates.length));
+                _this._sort(id, undefined, isPermanent);
                 _this._changeGroupItemAfterSort();
             }
         });
@@ -19629,7 +20080,8 @@ var ExtendedGrid = /** @class */ (function (_super) {
                     label = label(_this.getSummary(column.id));
                 if ((0, main_1.isHtmlEnable)(_this.config, column))
                     label = (0, main_1.removeHTMLTags)(label);
-                var isSorted = _this._sortState.by == colId;
+                var sortIndex = _this._sortingStates.findIndex(function (i) { return i.by == colId; });
+                var sort = _this._sortingStates[sortIndex];
                 if ((group === null || group === void 0 ? void 0 : group.hideableColumns) && (config === null || config === void 0 ? void 0 : config.displayMode) === "column") {
                     if (!_this.isColumnHidden(colId)) {
                         _this._hideColumn(_this.getColumn(colId));
@@ -19638,7 +20090,8 @@ var ExtendedGrid = /** @class */ (function (_super) {
                 _this.config.$grouped.push({
                     id: colId,
                     label: label,
-                    sort: (isSorted && _this._sortState.dir) || null,
+                    sortDir: (sort === null || sort === void 0 ? void 0 : sort.dir) || null,
+                    sortOrder: (_this._sortingStates.length > 1 && sortIndex + 1) || null,
                     closable: _this._isGroupClosable(column),
                 });
             };
@@ -19693,9 +20146,16 @@ var ExtendedGrid = /** @class */ (function (_super) {
         });
         this.data.events.on(ts_data_1.DataEvents.change, function (id, status, obj) {
             var _a;
-            if (status === "sort" && ((_a = _this.config.$grouped) === null || _a === void 0 ? void 0 : _a.length) && (0, main_1.isSortable)(_this.config, obj.by)) {
-                _this._changeGroupItemAfterSort();
+            if (status === "sort") {
+                if (((_a = _this.config.$grouped) === null || _a === void 0 ? void 0 : _a.length) && (!obj || (0, main_1.isSortable)(_this.config, obj.by))) {
+                    _this._changeGroupItemAfterSort();
+                }
             }
+        });
+    };
+    ExtendedGrid.prototype._setSort = function () {
+        this._sortingStates = this.data.getSortingStates().map(function (sort) {
+            return { by: sort.by, dir: sort.dir, permanent: sort.smartSorting };
         });
     };
     ExtendedGrid.prototype.getNormalizeContentHeight = function (row, col, config) {
@@ -19720,6 +20180,7 @@ var ExtendedGrid = /** @class */ (function (_super) {
         else {
             width += col.$width;
         }
+        text = (text === null || text === void 0 ? void 0 : text.toString()) || "";
         return ((0, data_1.measureTextHeight)({
             text: text,
             htmlEnable: htmlEnable,
@@ -19732,17 +20193,24 @@ var ExtendedGrid = /** @class */ (function (_super) {
         this._normalizeDataType();
         this._setSummary();
         this._adjustColumns();
+        var columns = this.config.columns.filter(function (col) { return !col.hidden; });
         return data.map(function (row) {
+            var _a;
             if (_this.config.autoHeight && typeof row.height === "undefined") {
-                var columns = _this.config.columns.filter(function (col) { return !col.hidden; });
                 var height = (0, data_1.getMaxRowHeight)(row, columns);
                 row.$height =
-                    (0, data_1.getCalculatedRowHeight)(height, {
-                        rowHeight: _this.config.rowHeight,
-                    }) || _this.config.rowHeight;
+                    (0, data_1.getCalculatedRowHeight)(height, { rowHeight: _this.config.rowHeight }) ||
+                        _this.config.rowHeight;
             }
             else {
                 row.$height = Number(row.height) || _this.config.rowHeight;
+            }
+            if (_this.config.subRow) {
+                var config = __assign(__assign({}, default_1.defaultSubRowConfig), ((typeof _this.config.subRowConfig === "function"
+                    ? _this.config.subRowConfig(row)
+                    : _this.config.subRowConfig) || {}));
+                row.$opened = (_a = row.$opened) !== null && _a !== void 0 ? _a : config.expanded;
+                row.$subRowHeight = config.height;
             }
             return row;
         });
@@ -19814,6 +20282,22 @@ var ExtendedGrid = /** @class */ (function (_super) {
             showMissed: group.showMissed,
             field: group.column.id || "group",
         });
+    };
+    ExtendedGrid.prototype._expand = function (row) {
+        if (row.$opened || !this.events.fire(types_1.GridEvents.beforeExpand, [row.id])) {
+            return false;
+        }
+        this.data.update(row.id, { $opened: true }, true);
+        this.events.fire(types_1.GridEvents.afterExpand, [row.id]);
+        return true;
+    };
+    ExtendedGrid.prototype._collapse = function (row) {
+        if (!row.$opened || !this.events.fire(types_1.GridEvents.beforeCollapse, [row.id])) {
+            return false;
+        }
+        this.data.update(row.id, { $opened: false }, true);
+        this.events.fire(types_1.GridEvents.afterCollapse, [row.id]);
+        return true;
     };
     ExtendedGrid.prototype._lazyLoad = function () {
         var _this = this;
@@ -19943,7 +20427,11 @@ var ExtendedGrid = /** @class */ (function (_super) {
     };
     ExtendedGrid.prototype._changeGroupItemAfterSort = function () {
         var _this = this;
-        this.config.$grouped = this.config.$grouped.map(function (i) { return (__assign(__assign({}, i), { sort: (_this._sortState.by == i.id && _this._sortState.dir) || null })); });
+        this.config.$grouped = this.config.$grouped.map(function (i) {
+            var sortIndex = _this._sortingStates.findIndex(function (sort) { return sort.by == i.id; });
+            var sort = _this._sortingStates[sortIndex];
+            return __assign(__assign({}, i), { sortDir: (sort === null || sort === void 0 ? void 0 : sort.dir) || null, sortOrder: (_this._sortingStates.length > 1 && sortIndex + 1) || null });
+        });
     };
     ExtendedGrid.prototype._isGroupableColumn = function (col) {
         var _a;
@@ -19959,7 +20447,7 @@ exports.ExtendedGrid = ExtendedGrid;
 
 
 /***/ }),
-/* 105 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20088,7 +20576,6 @@ var TreeGridCollection = /** @class */ (function (_super) {
     TreeGridCollection.prototype._parse_data = function (data, parent) {
         var _a;
         if (parent === void 0) { parent = this._root; }
-        var index = this._order.length;
         for (var _i = 0, data_1 = data; _i < data_1.length; _i++) {
             var obj = data_1[_i];
             if (this.config.init) {
@@ -20104,12 +20591,7 @@ var TreeGridCollection = /** @class */ (function (_super) {
             if (this._pull[obj.id]) {
                 (0, ts_data_1.dhxError)("Item ".concat(obj.id, " already exist"));
             }
-            this._pull[obj.id] = obj;
-            this._order[index++] = obj;
-            if (!this._childs[obj.parent]) {
-                this._childs[obj.parent] = [];
-            }
-            this._childs[obj.parent].push(obj);
+            this._parseItem(obj);
             if (obj.items && obj.items instanceof Object) {
                 obj.$opened = !this.config.collapsed;
                 this._parse_data(obj.items, obj.id);
@@ -20185,24 +20667,7 @@ exports.TreeGridCollection = TreeGridCollection;
 
 
 /***/ }),
-/* 106 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TreeGridEvents = void 0;
-var TreeGridEvents;
-(function (TreeGridEvents) {
-    TreeGridEvents["beforeCollapse"] = "beforeCollapse";
-    TreeGridEvents["afterCollapse"] = "afterCollapse";
-    TreeGridEvents["beforeExpand"] = "beforeExpand";
-    TreeGridEvents["afterExpand"] = "afterExpand";
-})(TreeGridEvents || (exports.TreeGridEvents = TreeGridEvents = {}));
-
-
-/***/ }),
-/* 107 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20225,7 +20690,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Ribbon = void 0;
 var dom_1 = __webpack_require__(0);
-var ts_navbar_1 = __webpack_require__(20);
+var ts_navbar_1 = __webpack_require__(21);
 var core_1 = __webpack_require__(1);
 var html_1 = __webpack_require__(2);
 var ts_message_1 = __webpack_require__(12);
@@ -20467,7 +20932,7 @@ exports.Ribbon = Ribbon;
 
 
 /***/ }),
-/* 108 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20491,9 +20956,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Sidebar = void 0;
 var dom_1 = __webpack_require__(0);
 var html_1 = __webpack_require__(2);
-var types_1 = __webpack_require__(109);
+var types_1 = __webpack_require__(110);
 var ts_message_1 = __webpack_require__(12);
-var ts_navbar_1 = __webpack_require__(20);
+var ts_navbar_1 = __webpack_require__(21);
 var core_1 = __webpack_require__(1);
 var Sidebar = /** @class */ (function (_super) {
     __extends(Sidebar, _super);
@@ -20650,7 +21115,7 @@ exports.Sidebar = Sidebar;
 
 
 /***/ }),
-/* 109 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20669,7 +21134,7 @@ var SidebarEvents;
 
 
 /***/ }),
-/* 110 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20688,7 +21153,7 @@ var TabbarEvents;
 
 
 /***/ }),
-/* 111 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20824,7 +21289,7 @@ exports.Editor = Editor;
 
 
 /***/ }),
-/* 112 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20859,7 +21324,7 @@ var TreeEvents;
 
 
 /***/ }),
-/* 113 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20870,13 +21335,13 @@ var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
 var KeyManager_1 = __webpack_require__(14);
-var FocusManager_1 = __webpack_require__(21);
+var FocusManager_1 = __webpack_require__(22);
 var ts_layout_1 = __webpack_require__(11);
 var ts_toolbar_1 = __webpack_require__(33);
-var helpers_1 = __webpack_require__(253);
-var types_1 = __webpack_require__(114);
-var WindowController_1 = __webpack_require__(254);
-var ts_navbar_1 = __webpack_require__(20);
+var helpers_1 = __webpack_require__(254);
+var types_1 = __webpack_require__(115);
+var WindowController_1 = __webpack_require__(255);
+var ts_navbar_1 = __webpack_require__(21);
 var Window = /** @class */ (function () {
     function Window(config) {
         var _this = this;
@@ -21031,6 +21496,13 @@ var Window = /** @class */ (function () {
         if (this.config.modal) {
             this._blockScreen();
         }
+        var content = this._layout.getCell("content");
+        if (content.isVisible()) {
+            content.paint();
+        }
+        else {
+            content.show();
+        }
         this._popup.style.width = width + "px";
         this._popup.style.height = height + "px";
         this._popup.style.left = left + "px";
@@ -21038,7 +21510,6 @@ var Window = /** @class */ (function () {
         this.config.node.appendChild(this._popup);
         this._popup.focus();
         this._isActive = true;
-        this._layout.getCell("content").paint();
         this.events.fire(types_1.WindowEvents.afterShow, [{ left: left, top: top }]);
         FocusManager_1.focusManager.setFocusId(this._uid);
     };
@@ -21061,6 +21532,7 @@ var Window = /** @class */ (function () {
             this._blocker = null;
         }
         this.config.node.removeChild(this._popup);
+        this._layout.getCell("content").hide();
         this._isActive = false;
         this.events.fire(types_1.WindowEvents.afterHide, [{ left: this.config.left, top: this.config.top }, e]);
     };
@@ -21443,7 +21915,7 @@ exports.Window = Window;
 
 
 /***/ }),
-/* 114 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21463,19 +21935,19 @@ var WindowEvents;
 
 
 /***/ }),
-/* 115 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(116);
 __webpack_require__(117);
 __webpack_require__(118);
 __webpack_require__(119);
 __webpack_require__(120);
-module.exports = __webpack_require__(121);
+__webpack_require__(121);
+module.exports = __webpack_require__(122);
 
 
 /***/ }),
-/* 116 */
+/* 117 */
 /***/ (function(module, exports) {
 
 Object.values = Object.values
@@ -21546,7 +22018,7 @@ if (!Object.assign) {
 
 
 /***/ }),
-/* 117 */
+/* 118 */
 /***/ (function(module, exports) {
 
 /* eslint-disable prefer-rest-params */
@@ -21658,7 +22130,7 @@ if (!Array.prototype.findIndex) {
 
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports) {
 
 if (!String.prototype.includes) {
@@ -21721,7 +22193,7 @@ if (!String.prototype.padEnd) {
 
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, exports) {
 
 /* eslint-disable @typescript-eslint/no-this-alias */
@@ -21797,7 +22269,7 @@ if (!Event.prototype.composedPath) {
 
 
 /***/ }),
-/* 120 */
+/* 121 */
 /***/ (function(module, exports) {
 
 Math.sign =
@@ -21812,17 +22284,17 @@ Math.sign =
 
 
 /***/ }),
-/* 121 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.i18n = exports.Window = exports.Tree = exports.Toolbar = exports.Timepicker = exports.Tabbar = exports.Slider = exports.Sidebar = exports.Ribbon = exports.Popup = exports.ContextMenu = exports.Menu = exports.tooltip = exports.disableTooltip = exports.enableTooltip = exports.confirm = exports.alert = exports.message = exports.Grid = exports.Form = exports.DataView = exports.Combobox = exports.Chart = exports.Colorpicker = exports.Calendar = exports.List = exports.Layout = exports.methods = exports.ajax = exports.dataDrivers = exports.DataProxy = exports.TreeCollection = exports.DataCollection = exports.Uploader = exports.setTheme = exports.resizeHandler = exports.awaitRedraw = exports.EventSystem = exports.cssManager = void 0;
-__webpack_require__(122);
+__webpack_require__(123);
 // HELPERS
 /* tslint:disable */
-var CssManager_1 = __webpack_require__(123);
+var CssManager_1 = __webpack_require__(124);
 Object.defineProperty(exports, "cssManager", { enumerable: true, get: function () { return CssManager_1.cssManager; } });
 var events_1 = __webpack_require__(3);
 Object.defineProperty(exports, "EventSystem", { enumerable: true, get: function () { return events_1.EventSystem; } });
@@ -21856,7 +22328,7 @@ var ts_dataview_1 = __webpack_require__(198);
 Object.defineProperty(exports, "DataView", { enumerable: true, get: function () { return ts_dataview_1.DataView; } });
 var ts_form_1 = __webpack_require__(202);
 Object.defineProperty(exports, "Form", { enumerable: true, get: function () { return ts_form_1.Form; } });
-var ts_grid_1 = __webpack_require__(99);
+var ts_grid_1 = __webpack_require__(100);
 Object.defineProperty(exports, "Grid", { enumerable: true, get: function () { return ts_grid_1.Grid; } });
 var ts_message_1 = __webpack_require__(12);
 Object.defineProperty(exports, "message", { enumerable: true, get: function () { return ts_message_1.message; } });
@@ -21865,35 +22337,35 @@ Object.defineProperty(exports, "confirm", { enumerable: true, get: function () {
 Object.defineProperty(exports, "enableTooltip", { enumerable: true, get: function () { return ts_message_1.enableTooltip; } });
 Object.defineProperty(exports, "disableTooltip", { enumerable: true, get: function () { return ts_message_1.disableTooltip; } });
 Object.defineProperty(exports, "tooltip", { enumerable: true, get: function () { return ts_message_1.tooltip; } });
-var ts_menu_1 = __webpack_require__(241);
+var ts_menu_1 = __webpack_require__(242);
 Object.defineProperty(exports, "Menu", { enumerable: true, get: function () { return ts_menu_1.Menu; } });
 Object.defineProperty(exports, "ContextMenu", { enumerable: true, get: function () { return ts_menu_1.ContextMenu; } });
 var ts_popup_1 = __webpack_require__(13);
 Object.defineProperty(exports, "Popup", { enumerable: true, get: function () { return ts_popup_1.Popup; } });
-var ts_ribbon_1 = __webpack_require__(244);
+var ts_ribbon_1 = __webpack_require__(245);
 Object.defineProperty(exports, "Ribbon", { enumerable: true, get: function () { return ts_ribbon_1.Ribbon; } });
-var ts_sidebar_1 = __webpack_require__(246);
+var ts_sidebar_1 = __webpack_require__(247);
 Object.defineProperty(exports, "Sidebar", { enumerable: true, get: function () { return ts_sidebar_1.Sidebar; } });
 var ts_slider_1 = __webpack_require__(48);
 Object.defineProperty(exports, "Slider", { enumerable: true, get: function () { return ts_slider_1.Slider; } });
-var ts_tabbar_1 = __webpack_require__(248);
+var ts_tabbar_1 = __webpack_require__(249);
 Object.defineProperty(exports, "Tabbar", { enumerable: true, get: function () { return ts_tabbar_1.Tabbar; } });
 var ts_timepicker_1 = __webpack_require__(47);
 Object.defineProperty(exports, "Timepicker", { enumerable: true, get: function () { return ts_timepicker_1.Timepicker; } });
 var ts_toolbar_1 = __webpack_require__(33);
 Object.defineProperty(exports, "Toolbar", { enumerable: true, get: function () { return ts_toolbar_1.Toolbar; } });
-var ts_tree_1 = __webpack_require__(250);
+var ts_tree_1 = __webpack_require__(251);
 Object.defineProperty(exports, "Tree", { enumerable: true, get: function () { return ts_tree_1.Tree; } });
-var ts_window_1 = __webpack_require__(252);
+var ts_window_1 = __webpack_require__(253);
 Object.defineProperty(exports, "Window", { enumerable: true, get: function () { return ts_window_1.Window; } });
 // TOOLS
 var ts_colorpicker_2 = __webpack_require__(51);
 var en_1 = __webpack_require__(46);
-var date_1 = __webpack_require__(15);
+var date_1 = __webpack_require__(17);
 var en_2 = __webpack_require__(58);
-var en_3 = __webpack_require__(97);
-var en_4 = __webpack_require__(73);
-var locale_1 = __webpack_require__(256);
+var en_3 = __webpack_require__(98);
+var en_4 = __webpack_require__(74);
+var locale_1 = __webpack_require__(257);
 var w = window;
 exports.i18n = w.dhx && w.dhx.i18n ? w.dhx.i18n : {};
 exports.i18n.setLocale = locale_1.setLocale;
@@ -21906,7 +22378,7 @@ exports.i18n.timepicker = exports.i18n.timepicker || en_4.default;
 
 
 /***/ }),
-/* 122 */
+/* 123 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21915,7 +22387,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /***/ }),
-/* 123 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22011,7 +22483,7 @@ exports.cssManager = new CssManager();
 
 
 /***/ }),
-/* 124 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
@@ -22067,7 +22539,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(125);
+__webpack_require__(126);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -22081,7 +22553,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(41)))
 
 /***/ }),
-/* 125 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -22271,10 +22743,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(41), __webpack_require__(126)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(41), __webpack_require__(127)))
 
 /***/ }),
-/* 126 */
+/* 127 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -22464,7 +22936,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 127 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -24405,7 +24877,7 @@ return nano;
 
 
 /***/ }),
-/* 128 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24424,8 +24896,8 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Loader = void 0;
 var core_1 = __webpack_require__(1);
-var helpers_1 = __webpack_require__(23);
-var types_1 = __webpack_require__(22);
+var helpers_1 = __webpack_require__(24);
+var types_1 = __webpack_require__(23);
 var core_2 = __webpack_require__(1);
 var Loader = /** @class */ (function () {
     function Loader(parent, changes) {
@@ -24629,14 +25101,14 @@ exports.Loader = Loader;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(18)))
 
 /***/ }),
-/* 129 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.XMLDriver = void 0;
-var xml_1 = __webpack_require__(130);
+var xml_1 = __webpack_require__(131);
 var ARRAY_NAME = "items";
 var ITEM_NAME = "item";
 // convert xml tag to js object, all subtags and attributes are mapped to the properties of result object
@@ -24768,7 +25240,7 @@ exports.XMLDriver = XMLDriver;
 
 
 /***/ }),
-/* 130 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24809,14 +25281,14 @@ exports.jsonToXML = jsonToXML;
 
 
 /***/ }),
-/* 131 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Sort = void 0;
-var helpers_1 = __webpack_require__(23);
+var helpers_1 = __webpack_require__(24);
 var Sort = /** @class */ (function () {
     function Sort() {
     }
@@ -24876,7 +25348,7 @@ exports.Sort = Sort;
 
 
 /***/ }),
-/* 132 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25073,7 +25545,7 @@ exports.Group = Group;
 
 
 /***/ }),
-/* 133 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25093,6 +25565,17 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -25107,8 +25590,8 @@ exports.TreeCollection = void 0;
 var core_1 = __webpack_require__(1);
 var datacollection_1 = __webpack_require__(62);
 var dataproxy_1 = __webpack_require__(27);
-var helpers_1 = __webpack_require__(23);
-var types_1 = __webpack_require__(22);
+var helpers_1 = __webpack_require__(24);
+var types_1 = __webpack_require__(23);
 function addToOrder(store, obj, parent, index) {
     if (index !== undefined && index !== -1 && store[parent] && store[parent][index]) {
         store[parent].splice(index, 0, obj);
@@ -25152,7 +25635,7 @@ var TreeCollection = /** @class */ (function (_super) {
         else {
             out = this._add(newItem, index, parent);
         }
-        this._reapplyFilters(false);
+        this._reapplyFilters();
         return out;
     };
     TreeCollection.prototype.getRoot = function () {
@@ -25195,6 +25678,14 @@ var TreeCollection = /** @class */ (function (_super) {
             }
         }
     };
+    TreeCollection.prototype.update = function (id, newItem, silent) {
+        var parent = newItem.parent;
+        if ((0, core_1.isDefined)(parent) && !this.exists(parent) && parent !== this._root) {
+            (0, helpers_1.dhxWarning)("Item parent doesn't exist");
+            return;
+        }
+        _super.prototype.update.call(this, id, newItem, silent);
+    };
     TreeCollection.prototype.getIndex = function (id) {
         var parent = this.getParent(id);
         if (!parent || !this._childs[parent]) {
@@ -25202,32 +25693,62 @@ var TreeCollection = /** @class */ (function (_super) {
         }
         return this._childs[parent].findIndex(function (i) { return (i === null || i === void 0 ? void 0 : i.id) == id; });
     };
-    TreeCollection.prototype.sort = function (rule) {
+    TreeCollection.prototype.sort = function (rule, config, ignore) {
         var _this = this;
-        if (!rule) {
-            this._childs = {};
-            // [dirty]
-            this._parse_data(Object.keys(this._pull).map(function (key) { return _this._pull[key]; }));
-            this._reapplyFilters(false);
+        var _a, _b;
+        if (ignore === void 0) { ignore = false; }
+        if (config === null || config === void 0 ? void 0 : config.smartSorting) {
+            this._sorter = rule;
         }
-        else {
-            for (var key in this._childs) {
-                this._sort.sort(this._childs[key], rule);
-            }
-            if (this._initChilds && Object.keys(this._initChilds).length) {
-                for (var key in this._initChilds) {
-                    this._sort.sort(this._initChilds[key], rule);
+        if (!ignore &&
+            (!this._sortingStates.length ||
+                (config === null || config === void 0 ? void 0 : config.smartSorting) ||
+                (!((_a = this._sortingStates[0]) === null || _a === void 0 ? void 0 : _a.smartSorting) && !(config === null || config === void 0 ? void 0 : config.smartSorting)))) {
+            this._sortingStates = [__assign(__assign({}, rule), config)];
+        }
+        if (rule) {
+            if (!ignore) {
+                this._initSortOrder = this._initSortOrder || __spreadArray([], (this._initFilterOrder || this._order), true);
+                if (!(config === null || config === void 0 ? void 0 : config.smartSorting) && ((_b = this._sortingStates[0]) === null || _b === void 0 ? void 0 : _b.smartSorting)) {
+                    var sortIndex = this._sortingStates.findIndex(function (i) { return i.by == rule.by; });
+                    if (sortIndex !== -1) {
+                        this._sortingStates[sortIndex].dir = rule.dir;
+                        this._sortingStates.forEach(function (sort, index) {
+                            _this.sort(sort, { smartSorting: !index }, true);
+                        });
+                    }
+                    else {
+                        this._sortingStates.push(rule);
+                    }
                 }
             }
+            this._applySorters(rule);
         }
-        this.events.fire(types_1.DataEvents.change, [undefined, "sort", rule]);
+        else if (this._initSortOrder) {
+            this._childs = {};
+            this._order = [];
+            this._sortingStates = [];
+            this._initSortOrder.forEach(function (item) { return _this._parseItem(item); });
+            this._sorter = this._initSortOrder = this._initChilds = null;
+            if (this._initFilterOrder) {
+                this._initFilterOrder = null;
+                this.filter(null, { $restore: true }, true);
+            }
+        }
+        if (!ignore) {
+            this._reapplyFilters();
+            this.events.fire(types_1.DataEvents.change, [undefined, "sort", rule]);
+        }
     };
     TreeCollection.prototype.filter = function (rule, config, silent) {
         if (config === null || config === void 0 ? void 0 : config.$restore) {
             rule = this._normalizeFilters(rule || this._filters);
         }
         if (!rule || !(config === null || config === void 0 ? void 0 : config.add)) {
-            this.restoreOrder();
+            if (this._initChilds) {
+                this._childs = this._initChilds;
+                this._initChilds = null;
+            }
             if (!(config === null || config === void 0 ? void 0 : config.$restore)) {
                 for (var key in this._filters) {
                     var _a = this._filters[key], rule_1 = _a.rule, conf = _a.config;
@@ -25261,10 +25782,8 @@ var TreeCollection = /** @class */ (function (_super) {
         return id;
     };
     TreeCollection.prototype.restoreOrder = function () {
-        if (this._initChilds) {
-            this._childs = this._initChilds;
-            this._initChilds = null;
-        }
+        this.resetFilter({ permanent: true }, true);
+        this.sort();
     };
     TreeCollection.prototype.copy = function (id, index, target, targetId) {
         var _this = this;
@@ -25281,8 +25800,8 @@ var TreeCollection = /** @class */ (function (_super) {
     };
     TreeCollection.prototype.move = function (id, index, target, targetId) {
         var _this = this;
-        if (target === void 0) { target = this; }
         if (targetId === void 0) { targetId = this._root; }
+        target = target || this;
         if (id instanceof Array) {
             return id.map(function (elementId, key) {
                 return _this._move(elementId, index, target, targetId, key);
@@ -25534,17 +26053,17 @@ var TreeCollection = /** @class */ (function (_super) {
         this.events.fire(types_1.DataEvents.change, [id, "update", this.getItem(id)]);
         return id;
     };
-    TreeCollection.prototype._reset = function (id) {
+    TreeCollection.prototype._reset = function (config) {
         var _a;
-        if ((0, core_1.isId)(id)) {
-            var childs = __spreadArray([], this._childs[id], true);
+        if ((0, core_1.isId)(config === null || config === void 0 ? void 0 : config.id)) {
+            var childs = __spreadArray([], this._childs[config === null || config === void 0 ? void 0 : config.id], true);
             for (var _i = 0, childs_2 = childs; _i < childs_2.length; _i++) {
                 var child = childs_2[_i];
                 this.remove(child.id);
             }
         }
         else {
-            _super.prototype._reset.call(this);
+            _super.prototype._reset.call(this, config);
             var root = this._root;
             this._initChilds = null;
             this._childs = (_a = {}, _a[root] = [], _a);
@@ -25563,9 +26082,13 @@ var TreeCollection = /** @class */ (function (_super) {
                     delete this._initChilds[parent_1];
                 }
             }
-            if (this._initOrder && this._initOrder.length) {
-                this._initOrder = this._initOrder.filter(function (el) { return el.id !== id; });
+            if (this._initFilterOrder && this._initFilterOrder.length) {
+                this._initFilterOrder = this._initFilterOrder.filter(function (el) { return el.id !== id; });
             }
+            if (this._initSortOrder && this._initSortOrder.length) {
+                this._initSortOrder = this._initSortOrder.filter(function (el) { return el.id !== id; });
+            }
+            this._order = this._order.filter(function (el) { return el.id !== id; });
             this._fastDeleteChilds(this._childs, id);
             if (this._initChilds) {
                 this._fastDeleteChilds(this._initChilds, id);
@@ -25592,7 +26115,6 @@ var TreeCollection = /** @class */ (function (_super) {
     TreeCollection.prototype._parse_data = function (data, parent) {
         var _a;
         if (parent === void 0) { parent = this._root; }
-        var index = this._order.length;
         for (var _i = 0, data_1 = data; _i < data_1.length; _i++) {
             var obj = data_1[_i];
             if (this.config.init) {
@@ -25611,16 +26133,19 @@ var TreeCollection = /** @class */ (function (_super) {
             if (this._pull[obj.id]) {
                 (0, helpers_1.dhxError)("Item ".concat(obj.id, " already exist"));
             }
-            this._pull[obj.id] = obj;
-            this._order[index++] = obj;
-            if (!this._childs[obj.parent]) {
-                this._childs[obj.parent] = [];
-            }
-            this._childs[obj.parent].push(obj);
+            this._parseItem(obj);
             if (obj.items && obj.items instanceof Object) {
                 this._parse_data(obj.items, obj.id);
             }
         }
+    };
+    TreeCollection.prototype._parseItem = function (item) {
+        this._pull[item.id] = item;
+        this._order[this._order.length] = item;
+        if (!this._childs[item.parent]) {
+            this._childs[item.parent] = [];
+        }
+        this._childs[item.parent].push(item);
     };
     TreeCollection.prototype._fastDeleteChilds = function (target, id) {
         if (this._pull[id]) {
@@ -25715,8 +26240,11 @@ var TreeCollection = /** @class */ (function (_super) {
         var _this = this;
         if (!rule || (typeof rule !== "function" && (0, core_1.isEmptyObj)(rule)))
             return;
-        if (!this._initOrder) {
-            this._initOrder = this._order;
+        if (!this._checkFilterRule(rule)) {
+            throw new Error("Invalid filter rule");
+        }
+        if (!this._initFilterOrder) {
+            this._initFilterOrder = this._order;
         }
         if (!this._initChilds) {
             this._initChilds = this._childs;
@@ -25761,13 +26289,28 @@ var TreeCollection = /** @class */ (function (_super) {
         }
         return rules;
     };
+    TreeCollection.prototype._checkFilterRule = function (rule) {
+        var _this = this;
+        return (_super.prototype._checkFilterRule.call(this, rule) ||
+            Object.values(rule).every(function (value) { return typeof value !== "function" && _super.prototype._checkFilterRule.call(_this, value); }));
+    };
+    TreeCollection.prototype._applySorters = function (by) {
+        for (var key in this._childs) {
+            this._sort.sort(this._childs[key], by, this._sorter);
+        }
+        if (this._initChilds && Object.keys(this._initChilds).length) {
+            for (var key in this._initChilds) {
+                this._sort.sort(this._initChilds[key], by, this._sorter);
+            }
+        }
+    };
     return TreeCollection;
 }(datacollection_1.DataCollection));
 exports.TreeCollection = TreeCollection;
 
 
 /***/ }),
-/* 134 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25795,9 +26338,9 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dragManager = void 0;
 var html_1 = __webpack_require__(2);
-var CollectionStore_1 = __webpack_require__(135);
-var types_1 = __webpack_require__(22);
-var helpers_1 = __webpack_require__(23);
+var CollectionStore_1 = __webpack_require__(136);
+var types_1 = __webpack_require__(23);
+var helpers_1 = __webpack_require__(24);
 var core_1 = __webpack_require__(1);
 function getVerticalPosition(e) {
     var y = e.targetTouches
@@ -25996,7 +26539,6 @@ var DragManager = /** @class */ (function () {
     };
     DragManager.prototype.cancelCanDrop = function (event) {
         this._canMove = false;
-        this._isDrag = false;
         var _a = this._transferData, start = _a.start, source = _a.source, target = _a.target, dropComponentId = _a.dropComponentId, type = _a.type;
         var data = {
             start: start,
@@ -26111,8 +26653,7 @@ var DragManager = /** @class */ (function () {
         var _a = this._transferData, dropComponentId = _a.dropComponentId, start = _a.start, source = _a.source, target = _a.target, componentId = _a.componentId, dropPosition = _a.dropPosition;
         if (component.config.dropBehaviour === "complex") {
             var pos = getVerticalPosition(e);
-            // TODO: Fix after merge ProGrid with TreeGrid
-            if (component.name === "progrid") {
+            if (component.config.group) {
                 if (pos <= 0.5) {
                     this._transferData.dropPosition = "top";
                 }
@@ -26328,6 +26869,7 @@ var DragManager = /** @class */ (function () {
         }
         this.cancelCanDrop(e);
         this._canMove = true;
+        this._isDrag = false;
         this._lastOverItemId = null;
         this._transferData = {};
         this._transferData.target = null;
@@ -26373,7 +26915,7 @@ exports.dragManager = dhx.dragManager;
 
 
 /***/ }),
-/* 135 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26403,7 +26945,7 @@ exports.collectionStore = dhx.collectionStore;
 
 
 /***/ }),
-/* 136 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26475,7 +27017,7 @@ exports.LazyDataProxy = LazyDataProxy;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(18)))
 
 /***/ }),
-/* 137 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26484,7 +27026,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Selection = void 0;
 var events_1 = __webpack_require__(3);
 var types_1 = __webpack_require__(28);
-var types_2 = __webpack_require__(22);
+var types_2 = __webpack_require__(23);
 var core_1 = __webpack_require__(1);
 var Selection = /** @class */ (function () {
     function Selection(config, data, events) {
@@ -26557,7 +27099,7 @@ exports.Selection = Selection;
 
 
 /***/ }),
-/* 138 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26603,13 +27145,13 @@ var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
 var html_1 = __webpack_require__(2);
-var ScrollView_1 = __webpack_require__(19);
+var ScrollView_1 = __webpack_require__(20);
 var view_1 = __webpack_require__(9);
 var ts_data_1 = __webpack_require__(5);
 var ts_layout_1 = __webpack_require__(11);
 var ts_message_1 = __webpack_require__(12);
 var ts_toolbar_1 = __webpack_require__(33);
-var ts_navbar_1 = __webpack_require__(20);
+var ts_navbar_1 = __webpack_require__(21);
 var en_1 = __webpack_require__(49);
 var types_1 = __webpack_require__(32);
 var Uploader_1 = __webpack_require__(61);
@@ -27060,7 +27602,7 @@ exports.Vault = Vault;
 
 
 /***/ }),
-/* 139 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27094,7 +27636,7 @@ exports.getMarginSize = getMarginSize;
 
 
 /***/ }),
-/* 140 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27117,7 +27659,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProLayout = void 0;
 var Layout_1 = __webpack_require__(43);
-var ProCell_1 = __webpack_require__(141);
+var ProCell_1 = __webpack_require__(68);
 var ProLayout = /** @class */ (function (_super) {
     __extends(ProLayout, _super);
     function ProLayout(parent, config) {
@@ -27142,225 +27684,6 @@ var ProLayout = /** @class */ (function (_super) {
     return ProLayout;
 }(Layout_1.Layout));
 exports.ProLayout = ProLayout;
-
-
-/***/ }),
-/* 141 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProCell = void 0;
-var core_1 = __webpack_require__(1);
-var dom_1 = __webpack_require__(0);
-var ScrollView_1 = __webpack_require__(19);
-var Cell_1 = __webpack_require__(67);
-var ProCell = /** @class */ (function (_super) {
-    __extends(ProCell, _super);
-    function ProCell(parent, config) {
-        var _this = _super.call(this, parent, config) || this;
-        _this.scrollView = new ScrollView_1.ScrollView(function () {
-            return _this._getFirstRootView();
-        });
-        return _this;
-    }
-    ProCell.prototype._getFirstRootView = function (self) {
-        if (self === void 0) { self = this; }
-        return self.getParent() && self.getParent().getRootView()
-            ? self.getParent().getRootView()
-            : this._getFirstRootView(self.getParent());
-    };
-    ProCell.prototype.toVDOM = function (nodes) {
-        var _a;
-        var _b, _c;
-        this._saveTheme();
-        if (this.config === null) {
-            this.config = {};
-        }
-        if (this.config.hidden) {
-            return;
-        }
-        var isFieldset = this.config.$fieldset;
-        var style = this._calculateStyle();
-        var stylePadding = (0, core_1.isDefined)(this.config.padding)
-            ? !isNaN(Number(this.config.padding))
-                ? { padding: "".concat(this.config.padding, "px") }
-                : { padding: this.config.padding }
-            : "";
-        var fullStyle = this.config.full || this.config.html ? style : __assign(__assign({}, style), stylePadding);
-        var progressBar = this._checkProgress() ? this._getProgressBar() : null;
-        var kids;
-        if (!this.config.html) {
-            if (this._ui) {
-                var view = this._ui.getRootView();
-                if (view.render) {
-                    view = (0, dom_1.inject)(view);
-                }
-                // kids = [view];
-                kids = view ? [this.scrollView.render(view)] : view || null;
-            }
-            else {
-                // kids = nodes || null;
-                kids = nodes ? this.scrollView.render([nodes]) : nodes || null;
-            }
-        }
-        var resizer = this.config.resizable && !this._isLastCell() && this._getNextCell() && !this.config.collapsed
-            ? (0, dom_1.el)(".dhx_layout-resizer." +
-                (this._isXDirection() ? "dhx_layout-resizer--x" : "dhx_layout-resizer--y"), __assign(__assign({}, this._resizerHandlers), { _ref: "resizer_" + this._uid }), [
-                (0, dom_1.el)("span.dhx_layout-resizer__icon", {
-                    class: "dxi " +
-                        (this._isXDirection() ? "dxi-dots-vertical" : "dxi-dots-horizontal"),
-                }),
-            ])
-            : null;
-        var handlers = {};
-        if (this.config.on) {
-            for (var key in this.config.on) {
-                handlers["on" + key] = this.config.on[key];
-            }
-        }
-        var typeClass = "";
-        var isParent = this.config.cols || this.config.rows;
-        if (this.config.type && isParent) {
-            switch (this.config.type) {
-                case "line":
-                    typeClass = " dhx_layout-line";
-                    break;
-                case "wide":
-                    typeClass = " dhx_layout-wide";
-                    break;
-                case "space":
-                    typeClass = " dhx_layout-space";
-                    break;
-                default:
-                    break;
-            }
-        }
-        var htmlContent = (0, dom_1.el)(".dhx_layout-cell-content", {
-            _key: "".concat(this._uid, "_html"),
-            style: stylePadding,
-        }, [
-            (0, dom_1.el)(".dhx_layout-cell-inner_html", {
-                ".innerHTML": this.config.html,
-            }),
-        ]);
-        var cellContent = isFieldset
-            ? (0, dom_1.el)("fieldset.dhx_form-fieldset", {
-                class: (this.config.$disabled && " dhx_form-fieldset--disabled") || "",
-                style: stylePadding,
-                disabled: this.config.$disabled,
-            }, [
-                (0, dom_1.el)("legend.dhx_form-fieldset-legend", {
-                    class: "dhx_form-fieldset-legend--".concat(this.config.labelAlignment || "left"),
-                }, this.config.label),
-                (0, dom_1.el)(".dhx_layout-cell-content", {
-                    class: this._getCss(false),
-                }, [].concat(kids)),
-            ])
-            : this.config.full
-                ? [
-                    (0, dom_1.el)("div", {
-                        tabindex: this.config.collapsable ? "0" : "-1",
-                        class: "dhx_layout-cell-header" +
-                            (this._isXDirection()
-                                ? " dhx_layout-cell-header--col"
-                                : " dhx_layout-cell-header--row") +
-                            (this.config.collapsable ? " dhx_layout-cell-header--collapseble" : "") +
-                            (this.config.collapsed ? " dhx_layout-cell-header--collapsed" : "") +
-                            (((this.getParent() || {}).config || {}).isAccordion
-                                ? " dhx_layout-cell-header--accordion"
-                                : ""),
-                        style: {
-                            height: this.config.headerHeight,
-                        },
-                        onclick: this._handlers.toggle,
-                        onkeydown: this._handlers.enterCollapse,
-                    }, [
-                        this.config.headerIcon &&
-                            (0, dom_1.el)("span.dhx_layout-cell-header__icon", {
-                                class: this.config.headerIcon,
-                            }),
-                        this.config.headerImage &&
-                            (0, dom_1.el)(".dhx_layout-cell-header__image-wrapper", [
-                                (0, dom_1.el)("img", {
-                                    src: this.config.headerImage,
-                                    class: "dhx_layout-cell-header__image",
-                                }),
-                            ]),
-                        this.config.header && (0, dom_1.el)("h3.dhx_layout-cell-header__title", this.config.header),
-                        this.config.collapsable
-                            ? (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
-                                class: this._getCollapseIcon(),
-                            })
-                            : (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
-                                class: "dxi dxi-empty",
-                            }),
-                    ]),
-                    !this.config.collapsed
-                        ? (0, dom_1.el)("div", {
-                            style: __assign(__assign({}, stylePadding), { height: "calc(100% - ".concat(this.config.headerHeight || 37, "px)") }),
-                            class: this._getCss(true) +
-                                " dhx_layout-cell-content" +
-                                (this.config.type ? typeClass : ""),
-                        }, this.config.html
-                            ? [
-                                (0, dom_1.el)("div", {
-                                    ".innerHTML": this.config.html,
-                                    class: "dhx_layout-cell dhx_layout-cell-inner_html",
-                                }),
-                            ]
-                            : kids)
-                        : null,
-                ]
-                : this.config.html &&
-                    !(this.config.rows &&
-                        this.config.cols &&
-                        this.config.views)
-                    ? [
-                        !this.config.collapsed
-                            ? this.scrollView && this.scrollView.config.enable
-                                ? this.scrollView.render([htmlContent], this._uid)
-                                : htmlContent
-                            : null,
-                    ]
-                    : kids;
-        var cell = (0, dom_1.el)("div", __assign(__assign((_a = { _key: this._uid, _ref: this._uid }, _a["aria-label"] = this.config.id ? "tab-content-" + this.config.id : null, _a["data-cell-id"] = (_b = this.config.id) !== null && _b !== void 0 ? _b : null, _a["data-dhx-theme"] = (_c = this._theme) !== null && _c !== void 0 ? _c : null, _a), handlers), { class: this._getCss(false) +
-                (this.config.css ? " " + this.config.css : "") +
-                (this.config.collapsed ? " dhx_layout-cell--collapsed" : "") +
-                (this.config.resizable ? " dhx_layout-cell--resizable" : "") +
-                (this.config.type && !this.config.full ? typeClass : ""), style: isFieldset ? style : fullStyle }), cellContent || progressBar ? [].concat(cellContent, progressBar) : null);
-        return resizer ? [].concat(cell, resizer) : cell;
-    };
-    return ProCell;
-}(Cell_1.Cell));
-exports.ProCell = ProCell;
 
 
 /***/ }),
@@ -27484,7 +27807,7 @@ exports.message = message;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.alert = void 0;
 var en_1 = __webpack_require__(46);
-var common_1 = __webpack_require__(68);
+var common_1 = __webpack_require__(69);
 var core_1 = __webpack_require__(1);
 function alert(props) {
     var apply = props.buttons && props.buttons[0] ? props.buttons[0] : en_1.default.apply;
@@ -27542,7 +27865,7 @@ exports.alert = alert;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.confirm = void 0;
 var en_1 = __webpack_require__(46);
-var common_1 = __webpack_require__(68);
+var common_1 = __webpack_require__(69);
 var core_1 = __webpack_require__(1);
 function confirm(props) {
     props.buttonsAlignment = props.buttonsAlignment || "right";
@@ -27933,6 +28256,7 @@ var Navbar = /** @class */ (function (_super) {
                                 if (!_this._vpopups) {
                                     _this._init();
                                 }
+                                _this._setRoot(id);
                                 var position = (0, html_1.getRealPosition)(element);
                                 _this.data.update(id, { $position: position }, false);
                                 _this._activeItemChange(id, e);
@@ -28834,7 +29158,7 @@ var dom_1 = __webpack_require__(0);
 var ts_calendar_1 = __webpack_require__(35);
 var ts_popup_1 = __webpack_require__(13);
 var types_1 = __webpack_require__(34);
-var date_1 = __webpack_require__(15);
+var date_1 = __webpack_require__(17);
 var html_1 = __webpack_require__(2);
 function onBlur(events, item, e) {
     var element = e.target;
@@ -28981,8 +29305,8 @@ var events_1 = __webpack_require__(3);
 var view_1 = __webpack_require__(9);
 var ts_timepicker_1 = __webpack_require__(47);
 var helper_1 = __webpack_require__(162);
-var date_1 = __webpack_require__(15);
-var types_1 = __webpack_require__(75);
+var date_1 = __webpack_require__(17);
+var types_1 = __webpack_require__(76);
 var html_1 = __webpack_require__(2);
 var Calendar = /** @class */ (function (_super) {
     __extends(Calendar, _super);
@@ -29797,9 +30121,9 @@ var events_1 = __webpack_require__(3);
 var view_1 = __webpack_require__(9);
 var ts_layout_1 = __webpack_require__(11);
 var ts_slider_1 = __webpack_require__(48);
-var en_1 = __webpack_require__(73);
+var en_1 = __webpack_require__(74);
 var helper_1 = __webpack_require__(161);
-var types_1 = __webpack_require__(74);
+var types_1 = __webpack_require__(75);
 var html_1 = __webpack_require__(2);
 function validate(value, max) {
     if (isNaN(value)) {
@@ -30170,7 +30494,7 @@ var events_1 = __webpack_require__(3);
 var KeyManager_1 = __webpack_require__(14);
 var view_1 = __webpack_require__(9);
 var ts_popup_1 = __webpack_require__(13);
-var types_1 = __webpack_require__(72);
+var types_1 = __webpack_require__(73);
 var html_1 = __webpack_require__(2);
 function normalizeValue(value, min, max) {
     if (value < min) {
@@ -30881,7 +31205,7 @@ var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
 var html_1 = __webpack_require__(2);
 var view_1 = __webpack_require__(9);
-var types_1 = __webpack_require__(71);
+var types_1 = __webpack_require__(72);
 var Popup = /** @class */ (function (_super) {
     __extends(Popup, _super);
     function Popup(config) {
@@ -30993,6 +31317,7 @@ var Popup = /** @class */ (function (_super) {
         }, [view]);
     };
     Popup.prototype.destructor = function () {
+        this.events && this.events.clear();
         this.hide();
         if (this._outerClickDestructor) {
             this._outerClickDestructor();
@@ -31175,8 +31500,8 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProToolbar = void 0;
-var Toolbar_1 = __webpack_require__(70);
-var ScrollView_1 = __webpack_require__(19);
+var Toolbar_1 = __webpack_require__(71);
+var ScrollView_1 = __webpack_require__(20);
 var dom_1 = __webpack_require__(0);
 var html_1 = __webpack_require__(2);
 var ts_message_1 = __webpack_require__(12);
@@ -31792,8 +32117,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProList = void 0;
 var dom_1 = __webpack_require__(0);
-var ScrollView_1 = __webpack_require__(19);
-var List_1 = __webpack_require__(76);
+var ScrollView_1 = __webpack_require__(20);
+var List_1 = __webpack_require__(77);
 var ProList = /** @class */ (function (_super) {
     __extends(ProList, _super);
     function ProList(container, config) {
@@ -31882,17 +32207,17 @@ var html_1 = __webpack_require__(2);
 var view_1 = __webpack_require__(9);
 var core_1 = __webpack_require__(1);
 var color_1 = __webpack_require__(52);
-var colors_1 = __webpack_require__(78);
+var colors_1 = __webpack_require__(79);
 var en_1 = __webpack_require__(53);
-var types_1 = __webpack_require__(79);
+var types_1 = __webpack_require__(80);
 // tslint:disable-next-line
-var tooltip_1 = __webpack_require__(69);
+var tooltip_1 = __webpack_require__(70);
 // tslint:disable-next-line
 var ts_message_1 = __webpack_require__(12);
 var picker_1 = __webpack_require__(172);
 var calculations_1 = __webpack_require__(173);
 var KeyManager_1 = __webpack_require__(14);
-var FocusManager_1 = __webpack_require__(21);
+var FocusManager_1 = __webpack_require__(22);
 var core_2 = __webpack_require__(1);
 var Colorpicker = /** @class */ (function (_super) {
     __extends(Colorpicker, _super);
@@ -32471,7 +32796,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(80), exports);
+__exportStar(__webpack_require__(81), exports);
 __exportStar(__webpack_require__(194), exports);
 __exportStar(__webpack_require__(25), exports);
 
@@ -32820,6 +33145,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AxisCreator = void 0;
 var common_1 = __webpack_require__(6);
+var core_1 = __webpack_require__(1);
 var allowedBases = [1, 2, 3, 5, 10];
 var AxisCreator = /** @class */ (function () {
     function AxisCreator(_data, conf) {
@@ -32841,6 +33167,13 @@ var AxisCreator = /** @class */ (function () {
             maxTicks: this._data.length < 20 ? this._data.length : 20,
         };
         this.config = __assign(__assign({}, defaults), conf);
+        if (this.config.type !== "radial" && !(0, core_1.isDefined)(conf.min)) {
+            var min = this.config.min;
+            var newMin = min - this._getStep();
+            if ((min > 0 && newMin >= 0) || min < 0) {
+                this.config.min = newMin;
+            }
+        }
         if (this.config.padding) {
             this._addPadding();
         }
@@ -32936,7 +33269,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TextScale = void 0;
 var common_1 = __webpack_require__(6);
 var Scale_1 = __webpack_require__(54);
-var SvgScales_1 = __webpack_require__(82);
+var SvgScales_1 = __webpack_require__(83);
 var renderScale = {
     left: SvgScales_1.left,
     right: SvgScales_1.right,
@@ -33055,7 +33388,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Bar_1 = __webpack_require__(86);
+var Bar_1 = __webpack_require__(87);
 var BarX = /** @class */ (function (_super) {
     __extends(BarX, _super);
     function BarX() {
@@ -34193,7 +34526,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var spline_1 = __webpack_require__(87);
+var spline_1 = __webpack_require__(88);
 var Line_1 = __webpack_require__(57);
 var Spline = /** @class */ (function (_super) {
     __extends(Spline, _super);
@@ -34240,8 +34573,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var spline_1 = __webpack_require__(87);
-var Area_1 = __webpack_require__(84);
+var spline_1 = __webpack_require__(88);
+var Area_1 = __webpack_require__(85);
 var SplineArea = /** @class */ (function (_super) {
     __extends(SplineArea, _super);
     function SplineArea() {
@@ -34889,7 +35222,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
-var date_1 = __webpack_require__(15);
+var date_1 = __webpack_require__(17);
 var dom_1 = __webpack_require__(0);
 var ts_data_1 = __webpack_require__(5);
 var common_1 = __webpack_require__(6);
@@ -35209,7 +35542,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Tooltip = void 0;
 var ts_message_1 = __webpack_require__(12);
 var common_1 = __webpack_require__(6);
-var line_1 = __webpack_require__(85);
+var line_1 = __webpack_require__(86);
 var types_1 = __webpack_require__(25);
 var Tooltip = /** @class */ (function () {
     function Tooltip(chart) {
@@ -35459,7 +35792,7 @@ var Exporter = /** @class */ (function () {
     function Exporter(_name, _view) {
         this._name = _name;
         this._view = _view;
-        this._version = "9.0.0";
+        this._version = "9.1.0";
     }
     Exporter.prototype.pdf = function (config) {
         this._rawExport(config, "pdf", this._view);
@@ -35546,12 +35879,12 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProChart = void 0;
-var Stacker_1 = __webpack_require__(88);
-var index_1 = __webpack_require__(83);
+var Stacker_1 = __webpack_require__(89);
+var index_1 = __webpack_require__(84);
 var core_1 = __webpack_require__(1);
 var common_1 = __webpack_require__(6);
-var Legend_1 = __webpack_require__(81);
-var Chart_1 = __webpack_require__(80);
+var Legend_1 = __webpack_require__(82);
+var Chart_1 = __webpack_require__(81);
 var ProChart = /** @class */ (function (_super) {
     __extends(ProChart, _super);
     function ProChart(node, config) {
@@ -35793,10 +36126,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProCombobox = void 0;
-var Combobox_1 = __webpack_require__(89);
+var Combobox_1 = __webpack_require__(90);
 var ts_list_1 = __webpack_require__(36);
 var ts_layout_1 = __webpack_require__(11);
-var helper_1 = __webpack_require__(90);
+var helper_1 = __webpack_require__(91);
 var ProCombobox = /** @class */ (function (_super) {
     __extends(ProCombobox, _super);
     function ProCombobox(element, config) {
@@ -35866,9 +36199,9 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(92), exports);
-__exportStar(__webpack_require__(201), exports);
 __exportStar(__webpack_require__(93), exports);
+__exportStar(__webpack_require__(201), exports);
+__exportStar(__webpack_require__(94), exports);
 
 
 /***/ }),
@@ -35895,7 +36228,7 @@ exports.getEditor = getEditor;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InputEditor = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(93);
+var types_1 = __webpack_require__(94);
 var InputEditor = /** @class */ (function () {
     function InputEditor(item, dataView) {
         var _this = this;
@@ -36030,8 +36363,8 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProDataView = void 0;
-var ScrollView_1 = __webpack_require__(19);
-var DataView_1 = __webpack_require__(92);
+var ScrollView_1 = __webpack_require__(20);
+var DataView_1 = __webpack_require__(93);
 var dom_1 = __webpack_require__(0);
 var ProDataView = /** @class */ (function (_super) {
     __extends(ProDataView, _super);
@@ -36111,7 +36444,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(94), exports);
+__exportStar(__webpack_require__(95), exports);
 __exportStar(__webpack_require__(219), exports);
 __exportStar(__webpack_require__(4), exports);
 
@@ -36149,7 +36482,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DatePicker = void 0;
 var ts_calendar_1 = __webpack_require__(35);
-var date_1 = __webpack_require__(15);
+var date_1 = __webpack_require__(17);
 var events_1 = __webpack_require__(3);
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
@@ -36208,10 +36541,11 @@ var DatePicker = /** @class */ (function (_super) {
     DatePicker.prototype.destructor = function () {
         this._popup && this._popup.destructor();
         this._keyManager && this._keyManager.destructor();
-        this.calendar && this.calendar.destructor();
         this.events && this.events.clear();
-        this.events = this._uid = this._propsCalendar = this._propsItem = this._props = this._keyManager = null;
+        this.unmount();
         _super.prototype._destructor.call(this);
+        this.calendar && this.calendar.destructor();
+        this.events = this._uid = this._propsCalendar = this._propsItem = this._props = this._keyManager = null;
     };
     DatePicker.prototype.setProperties = function (propertyConfig) {
         if (!propertyConfig ||
@@ -36418,10 +36752,12 @@ var DatePicker = /** @class */ (function (_super) {
         var _this = this;
         return {
             onblur: function () {
-                if (!_this._popup.isVisible()) {
+                if (_this._popup.isVisible()) {
+                    _this.paint();
+                }
+                else {
                     _this.events.fire(types_1.ItemEvent.blur, [_this.getValue()]);
                 }
-                _this.paint();
             },
             onfocus: function () {
                 if (_this._popup.isVisible()) {
@@ -36637,8 +36973,8 @@ var Button = /** @class */ (function (_super) {
     }
     Button.prototype.destructor = function () {
         this.events && this.events.clear();
-        this.config = this._propsItem = this._props = this.events = this._handlers = this._uid = null;
         this.unmount();
+        this.config = this._propsItem = this._props = this.events = this._handlers = this._uid = null;
     };
     Button.prototype.setProperties = function (propertyConfig) {
         if (!propertyConfig ||
@@ -36806,7 +37142,7 @@ exports.CheckboxGroup = void 0;
 var dom_1 = __webpack_require__(0);
 var ts_layout_1 = __webpack_require__(11);
 var events_1 = __webpack_require__(3);
-var checkbox_1 = __webpack_require__(95);
+var checkbox_1 = __webpack_require__(96);
 var label_1 = __webpack_require__(10);
 var types_1 = __webpack_require__(4);
 var core_1 = __webpack_require__(1);
@@ -39210,12 +39546,12 @@ var TimePicker = /** @class */ (function (_super) {
     }
     TimePicker.prototype.destructor = function () {
         this.events && this.events.clear();
-        this.timepicker && this.timepicker.destructor();
         this._keyManager && this._keyManager.destructor();
         this._popup && this._popup.destructor();
-        this.events = this._uid = this._propsItem = this._propsTimepicker = this._props = this._keyManager = null;
-        _super.prototype._destructor.call(this);
         this.unmount();
+        _super.prototype._destructor.call(this);
+        this.timepicker && this.timepicker.destructor();
+        this.events = this._uid = this._propsItem = this._propsTimepicker = this._props = this._keyManager = null;
     };
     TimePicker.prototype.setProperties = function (propertyConfig) {
         var _this = this;
@@ -39474,10 +39810,12 @@ var TimePicker = /** @class */ (function (_super) {
                 _this.paint();
             },
             onblur: function () {
-                if (!_this._popup.isVisible()) {
+                if (_this._popup.isVisible()) {
+                    _this.paint();
+                }
+                else {
                     _this.events.fire(types_1.ItemEvent.blur, [_this.getValue()]);
                 }
-                _this.paint();
             },
             oninput: function (e) {
                 var value = e.target.value;
@@ -39712,10 +40050,10 @@ var ColorPicker = /** @class */ (function (_super) {
         this.events && this.events.clear();
         this._popup && this._popup.destructor();
         this._keyManager && this._keyManager.destructor();
-        this.colorpicker && this.colorpicker.destructor();
-        this.events = this._uid = this._propsColorpicker = this._propsItem = this._props = this._keyManager = null;
         _super.prototype._destructor.call(this);
         this.unmount();
+        this.colorpicker && this.colorpicker.destructor();
+        this.events = this._uid = this._propsColorpicker = this._propsItem = this._props = this._keyManager = null;
     };
     ColorPicker.prototype.setProperties = function (propertyConfig) {
         if (!propertyConfig ||
@@ -39913,10 +40251,12 @@ var ColorPicker = /** @class */ (function (_super) {
         var _this = this;
         return {
             onblur: function () {
-                if (!_this._popup.isVisible()) {
+                if (_this._popup.isVisible()) {
+                    _this.paint();
+                }
+                else {
                     _this.events.fire(types_1.ItemEvent.blur, [_this.getValue()]);
                 }
-                _this.paint();
             },
             onfocus: function () {
                 if (_this._popup.isVisible()) {
@@ -40205,7 +40545,7 @@ var events_1 = __webpack_require__(3);
 var label_1 = __webpack_require__(10);
 var types_1 = __webpack_require__(4);
 var helper_1 = __webpack_require__(7);
-var simplevault_1 = __webpack_require__(96);
+var simplevault_1 = __webpack_require__(97);
 var Avatar = /** @class */ (function (_super) {
     __extends(Avatar, _super);
     function Avatar(container, config) {
@@ -40404,8 +40744,8 @@ var Avatar = /** @class */ (function (_super) {
     };
     Avatar.prototype.destructor = function () {
         this.events && this.events.clear();
-        _super.prototype._destructor.call(this);
         this.unmount();
+        _super.prototype._destructor.call(this);
     };
     Avatar.prototype._initView = function (config) {
         this.config = __assign({ size: "medium", labelPosition: "top", width: "content", height: "content", accept: "image/*", fieldName: "file", target: "", alt: "", css: "", label: "", errorMessage: "", successMessage: "", helpMessage: "", icon: "", labelWidth: "", placeholder: "", preMessage: "", removeIcon: true, circle: false, readOnly: false, hiddenLabel: false, autosend: false, updateFromResponse: true }, config);
@@ -40763,7 +41103,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ToggleGroup = void 0;
 var types_1 = __webpack_require__(4);
-var ToggleButton_1 = __webpack_require__(98);
+var ToggleButton_1 = __webpack_require__(99);
 var view_1 = __webpack_require__(9);
 var dom_1 = __webpack_require__(0);
 var helper_1 = __webpack_require__(7);
@@ -41076,7 +41416,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProForm = void 0;
-var Form_1 = __webpack_require__(94);
+var Form_1 = __webpack_require__(95);
 var types_1 = __webpack_require__(4);
 var ts_layout_1 = __webpack_require__(11);
 var container_1 = __webpack_require__(220);
@@ -41324,7 +41664,7 @@ exports.Exporter = void 0;
 var main_1 = __webpack_require__(16);
 var ts_data_1 = __webpack_require__(5);
 var core_1 = __webpack_require__(1);
-var date_1 = __webpack_require__(15);
+var date_1 = __webpack_require__(17);
 var html_1 = __webpack_require__(2);
 var dom_1 = __webpack_require__(0);
 function fillArray(arr, value) {
@@ -41641,10 +41981,11 @@ var ts_data_1 = __webpack_require__(5);
 var core_1 = __webpack_require__(1);
 var events_1 = __webpack_require__(3);
 var types_1 = __webpack_require__(8);
-var FocusManager_1 = __webpack_require__(21);
-var common_1 = __webpack_require__(24);
+var FocusManager_1 = __webpack_require__(22);
+var common_1 = __webpack_require__(19);
 var main_1 = __webpack_require__(16);
 var cells_1 = __webpack_require__(26);
+var data_1 = __webpack_require__(15);
 var GridSelectionEvents;
 (function (GridSelectionEvents) {
     GridSelectionEvents["beforeUnSelect"] = "beforeUnSelect";
@@ -41687,8 +42028,10 @@ var Selection = /** @class */ (function () {
                     _this._grid.paint();
                     _this._setBrowserFocus();
                 });
+                return;
             }
-            return;
+            if (!this._multiselection || (this._multiselection && this._selectedCells.length === 1))
+                return;
         }
         if (this.config.disabled ||
             this._grid.config.$editable ||
@@ -41933,10 +42276,13 @@ var Selection = /** @class */ (function () {
             right: (_d = fixedCols === null || fixedCols === void 0 ? void 0 : fixedCols.right) === null || _d === void 0 ? void 0 : _d.reduce(function (total, coll) { return (total += coll.$width || 0); }, 0),
         };
         var fixedRowsHeight = {
-            top: fixedRows.top.reduce(function (total, row) { return (total += row.$height); }, 0),
-            bottom: fixedRows.bottom.reduce(function (total, row) { return (total += row.$height); }, 0),
+            top: fixedRows.top.reduce(function (total, row) { return (total += (0, data_1.getTotalRowHeight)(row)); }, 0),
+            bottom: fixedRows.bottom.reduce(function (total, row) { return (total += (0, data_1.getTotalRowHeight)(row)); }, 0),
         };
         var cellRect = this._grid.getCellRect(row.id, column.id);
+        if (row.$subRowHeight && row.$opened) {
+            cellRect.height = cellRect.height - row.$subRowHeight;
+        }
         var scrollState = this._grid.getScrollState();
         var top = cellRect.y;
         var isTopFixedRow = (_e = fixedRowsIds.top) === null || _e === void 0 ? void 0 : _e.includes(row.id);
@@ -42437,7 +42783,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SelectEditor = void 0;
 var dom_1 = __webpack_require__(0);
 var types_1 = __webpack_require__(8);
-var data_1 = __webpack_require__(17);
+var data_1 = __webpack_require__(15);
 var SelectEditor = /** @class */ (function () {
     function SelectEditor(row, col, config) {
         this._config = config;
@@ -42533,7 +42879,7 @@ exports.DateEditor = void 0;
 var dom_1 = __webpack_require__(0);
 var types_1 = __webpack_require__(8);
 var ts_calendar_1 = __webpack_require__(35);
-var date_1 = __webpack_require__(15);
+var date_1 = __webpack_require__(17);
 var ts_popup_1 = __webpack_require__(13);
 var DateEditor = /** @class */ (function () {
     function DateEditor(row, col, config) {
@@ -42779,8 +43125,8 @@ exports.ComboboxEditor = void 0;
 var dom_1 = __webpack_require__(0);
 var types_1 = __webpack_require__(8);
 var ts_combobox_1 = __webpack_require__(37);
-var FocusManager_1 = __webpack_require__(21);
-var data_1 = __webpack_require__(17);
+var FocusManager_1 = __webpack_require__(22);
+var data_1 = __webpack_require__(15);
 var ComboboxEditor = /** @class */ (function () {
     function ComboboxEditor(row, col, config) {
         this._config = config;
@@ -42905,7 +43251,7 @@ exports.TextAreaEditor = void 0;
 var dom_1 = __webpack_require__(0);
 var types_1 = __webpack_require__(8);
 var core_1 = __webpack_require__(1);
-var data_1 = __webpack_require__(17);
+var data_1 = __webpack_require__(15);
 var input_1 = __webpack_require__(39);
 var TextAreaEditor = /** @class */ (function () {
     function TextAreaEditor(row, col, config, span) {
@@ -43161,7 +43507,7 @@ var groupHandlers = {
     },
 };
 function getGroupItem(_a) {
-    var id = _a.id, label = _a.label, sort = _a.sort, _b = _a.mode, mode = _b === void 0 ? "basic" : _b, _c = _a.sortable, sortable = _c === void 0 ? true : _c, _d = _a.closable, closable = _d === void 0 ? true : _d;
+    var id = _a.id, label = _a.label, sortDir = _a.sortDir, sortOrder = _a.sortOrder, _b = _a.mode, mode = _b === void 0 ? "basic" : _b, _c = _a.sortable, sortable = _c === void 0 ? true : _c, _d = _a.closable, closable = _d === void 0 ? true : _d;
     return (0, dom_1.el)("div", {
         role: "option",
         class: "dhx_grid-group_item dhx_grid-group_item--".concat(mode),
@@ -43170,8 +43516,13 @@ function getGroupItem(_a) {
         _key: id,
     }, [
         (sortable &&
-            ((sort &&
-                (0, dom_1.el)("i.dxi.dxi-arrow-up.dhx_grid-group_item-sort.dhx_grid-group_item-sort--".concat(sort))) ||
+            ((sortDir &&
+                (0, dom_1.el)("div.dhx_grid-sort", [
+                    (0, dom_1.el)("i.dxi.dxi-arrow-up.dhx_grid-group_item-sort.dhx_grid-group_item-sort--".concat(sortDir), { "aria-hidden": "true" }),
+                    (sortOrder &&
+                        (0, dom_1.el)("div.dhx_grid-sort-counter", { "aria-hidden": "true" }, [sortOrder])) ||
+                        null,
+                ])) ||
                 (0, dom_1.el)("i.dxi.dxi-sort.dhx_grid-group_item-sort.dhx_grid-group_item-unsorted"))) ||
             null,
         (0, dom_1.el)("span.dhx_grid-group_item-label", label),
@@ -43223,14 +43574,123 @@ exports.getGroupPanel = getGroupPanel;
 
 "use strict";
 
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.setSubRowCell = exports.getSubRowContent = void 0;
+var dom_1 = __webpack_require__(0);
+var main_1 = __webpack_require__(16);
+var default_1 = __webpack_require__(105);
+var ProCell_1 = __webpack_require__(68);
+var common_1 = __webpack_require__(19);
+function getSubRowContent(config) {
+    var _a;
+    var subRowContent = [];
+    var isFullWidth = (_a = config.subRowConfig) === null || _a === void 0 ? void 0 : _a.fullWidth;
+    if (config.$subRowCells) {
+        config.currentRows.forEach(function (row) {
+            var _a;
+            if (row.$opened) {
+                var subRow = config.$subRowCells.get(row.id);
+                var view = (_a = subRow === null || subRow === void 0 ? void 0 : subRow.cell) === null || _a === void 0 ? void 0 : _a.getRootView();
+                if (view) {
+                    var positionY = (0, main_1.getTotalHeight)(config.data.slice(0, row.$index)) + row.$height;
+                    subRowContent.push((0, dom_1.el)(".dhx_grid_subrow__container", {
+                        _key: "sub" + row.id,
+                        role: "region",
+                        "aria-labelledby": "row-".concat(row.id),
+                        "data-dhx-id": row.id,
+                        "data-dhx-root-widget-id": config.gridId,
+                        tabindex: 0,
+                        style: {
+                            position: "absolute",
+                            top: positionY,
+                            width: isFullWidth
+                                ? config.$totalWidth
+                                : config.$width - config.$scrollBarWidth.y - common_1.BORDERS,
+                        },
+                    }, [(0, dom_1.inject)(view)]));
+                }
+            }
+        });
+    }
+    return subRowContent.length
+        ? (0, dom_1.el)(".dhx_grid_subrow__data", {
+            _flags: dom_1.KEYED_LIST,
+            style: {
+                left: isFullWidth ? 0 : config.scroll.left,
+            },
+            role: "presentation",
+        }, subRowContent)
+        : [];
+}
+exports.getSubRowContent = getSubRowContent;
+function setSubRowCell(grid, rows) {
+    var _a = grid.config, subRowConfig = _a.subRowConfig, $subRowCells = _a.$subRowCells, subRow = _a.subRow;
+    var curRowSet = new Map();
+    for (var index = 0; index < rows.length; index++) {
+        var row = rows[index];
+        if (!$subRowCells.has(row.id) || !$subRowCells.get(row.id).cell) {
+            var config = __assign(__assign({}, default_1.defaultSubRowConfig), ((typeof subRowConfig === "function" ? subRowConfig(row) : subRowConfig) || {}));
+            $subRowCells.set(row.id, config);
+            if ((row.$opened || config.preserve) && row.$subRowHeight) {
+                addSubRowCell(row, subRow, config, $subRowCells);
+            }
+        }
+        curRowSet.set(row.id, row.$opened);
+    }
+    $subRowCells.forEach(function (cell, id) {
+        var _a;
+        if (!cell.preserve) {
+            if (!curRowSet.has(id))
+                $subRowCells.delete(id);
+            if (!curRowSet.get(id)) {
+                (cell === null || cell === void 0 ? void 0 : cell.cell) && ((_a = cell.cell) === null || _a === void 0 ? void 0 : _a.destructor());
+                delete cell.cell;
+            }
+        }
+    });
+}
+exports.setSubRowCell = setSubRowCell;
+function addSubRowCell(row, subRow, config, cellMap) {
+    var view = subRow(row);
+    var cell = new ProCell_1.ProCell(null, {
+        id: "cell" + row.id,
+        css: "dhx_grid_subrow " + (config.css || ""),
+        html: (typeof view === "string" && view) || null,
+        height: row.$subRowHeight,
+        padding: config.padding,
+    });
+    cellMap.set(row.id, __assign(__assign(__assign({}, default_1.defaultSubRowConfig), config), { cell: cell }));
+    if (typeof (view === null || view === void 0 ? void 0 : view.paint) === "function") {
+        cell.attach(view);
+    }
+}
+
+
+/***/ }),
+/* 232 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getContent = void 0;
 var dom_1 = __webpack_require__(0);
-var data_1 = __webpack_require__(17);
+var data_1 = __webpack_require__(15);
 var core_1 = __webpack_require__(1);
-var ComboFilter_1 = __webpack_require__(232);
-var SelectFilter_1 = __webpack_require__(233);
-var InputFilter_1 = __webpack_require__(234);
+var ComboFilter_1 = __webpack_require__(233);
+var SelectFilter_1 = __webpack_require__(234);
+var InputFilter_1 = __webpack_require__(235);
 function getContent() {
     return {
         inputFilter: {
@@ -43356,7 +43816,7 @@ exports.getContent = getContent;
 
 
 /***/ }),
-/* 232 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43608,7 +44068,7 @@ exports.ComboFilter = ComboFilter;
 
 
 /***/ }),
-/* 233 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43731,7 +44191,7 @@ exports.SelectFilter = SelectFilter;
 
 
 /***/ }),
-/* 234 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43846,7 +44306,7 @@ exports.InputFilter = InputFilter;
 
 
 /***/ }),
-/* 235 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43864,7 +44324,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.startResize = void 0;
 var core_1 = __webpack_require__(1);
 var types_1 = __webpack_require__(8);
-var common_1 = __webpack_require__(24);
+var common_1 = __webpack_require__(19);
 function startResize(grid, column, ev, cb) {
     var _a;
     var rightSplit = grid.config.rightSplit;
@@ -43947,7 +44407,7 @@ exports.startResize = startResize;
 
 
 /***/ }),
-/* 236 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43968,6 +44428,7 @@ exports.getKeysHandlers = exports.selectionMove = void 0;
 var types_1 = __webpack_require__(8);
 var html_1 = __webpack_require__(2);
 var cells_1 = __webpack_require__(26);
+var FocusManager_1 = __webpack_require__(22);
 var getClosestTop = function (id, data) {
     var index = data.getIndex(id);
     var parent = data.getParent(id);
@@ -44233,6 +44694,17 @@ function getKeysHandlers(grid) {
             var selected = grid.selection.getCell();
             var columns = grid.config.columns.filter(function (col) { return !col.hidden; });
             if (selected) {
+                if (selected.row.$opened && selected.row.$subRowHeight) {
+                    var _a = grid.getSubRow(selected.row.id), view = _a.view, element = _a.element;
+                    if (view === null || view === void 0 ? void 0 : view.name.includes("grid")) {
+                        view.selection.setCell(view.data.getId(0));
+                        FocusManager_1.focusManager.setFocusId(view._uid);
+                    }
+                    else {
+                        element.focus();
+                    }
+                    return;
+                }
                 var index = columns.indexOf(selected.column) + getRange(grid, "right");
                 if (index >= 0 && index < columns.length) {
                     e && e.preventDefault();
@@ -44249,6 +44721,7 @@ function getKeysHandlers(grid) {
                 }
             }
         }, "shift+tab": function (e) {
+            var _a, _b, _c;
             if (!grid.config.selection || (0, html_1.locateNodeByClassName)(e, "dhx_grid-header-cell")) {
                 return;
             }
@@ -44258,6 +44731,11 @@ function getKeysHandlers(grid) {
             var selected = grid.selection.getCell();
             var columns = grid.config.columns.filter(function (col) { return !col.hidden; });
             if (selected) {
+                var rootGridId = (0, html_1.locate)((_c = (_b = (_a = grid.getRootView().node) === null || _a === void 0 ? void 0 : _a.parent) === null || _b === void 0 ? void 0 : _b.parent) === null || _c === void 0 ? void 0 : _c.el, "data-dhx-root-widget-id");
+                if (rootGridId) {
+                    FocusManager_1.focusManager.setFocusId(rootGridId);
+                    return;
+                }
                 var index = columns.indexOf(selected.column) + getRange(grid, "left");
                 if (index >= 0 && index < columns.length) {
                     e && e.preventDefault();
@@ -44276,15 +44754,14 @@ function getKeysHandlers(grid) {
         }, arrowUp: function (e) {
             selectionMove(e, grid, "vertical", getRange(grid, "up"));
         }, "ctrl+enter": function () {
-            if (grid.config.type !== "tree") {
-                return;
-            }
             var selected = (0, cells_1.normalizeCell)(grid.selection.getCell(), grid);
-            if (selected.row.$opened) {
-                grid.collapse(selected.row.id);
-            }
-            else {
-                grid.expand(selected.row.id);
+            if (selected) {
+                if (selected.row.$opened) {
+                    grid.collapse(selected.row.id);
+                }
+                else {
+                    grid.expand(selected.row.id);
+                }
             }
         }, "ctrl+arrowUp": function (e) {
             selectionMove(e, grid, "vertical", -1, true);
@@ -44338,35 +44815,6 @@ exports.getKeysHandlers = getKeysHandlers;
 
 
 /***/ }),
-/* 237 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getGroupDefaultConfig = void 0;
-var en_1 = __webpack_require__(59);
-var getGroupDefaultConfig = function (config) {
-    if (typeof config === "boolean") {
-        config = {};
-    }
-    return __assign(__assign({ type: "column", panel: true, panelHeight: 40, hideableColumns: true, showMissed: true }, config), { column: __assign({ id: typeof config.column === "string" ? config.column : null, header: [{ text: en_1.default.groupText }] }, (typeof config.column === "string" ? {} : config.column)) });
-};
-exports.getGroupDefaultConfig = getGroupDefaultConfig;
-
-
-/***/ }),
 /* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -44376,7 +44824,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProGrid = void 0;
 var core_1 = __webpack_require__(1);
 var ts_treegrid_1 = __webpack_require__(239);
-var ExtendedGrid_1 = __webpack_require__(104);
+var ExtendedGrid_1 = __webpack_require__(106);
 var ProGrid = /** @class */ (function () {
     function ProGrid(container, config) {
         if (config === void 0) { config = {}; }
@@ -44474,13 +44922,13 @@ var ProGrid = /** @class */ (function () {
     ProGrid.prototype.editEnd = function (withoutSave) {
         throw new Error("Method not implemented.");
     };
-    ProGrid.prototype.getSortingState = function () {
-        throw new Error("Method not implemented.");
-    };
     ProGrid.prototype.getHeaderFilter = function (colId) {
         throw new Error("Method not implemented.");
     };
     ProGrid.prototype.getSummary = function (colId) {
+        throw new Error("Method not implemented.");
+    };
+    ProGrid.prototype.getSubRow = function (id) {
         throw new Error("Method not implemented.");
     };
     // Non public API
@@ -44488,6 +44936,10 @@ var ProGrid = /** @class */ (function () {
         throw new Error("Method not implemented.");
     };
     ProGrid.prototype.getRootView = function () {
+        throw new Error("Method not implemented.");
+    };
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/ */
+    ProGrid.prototype.getSortingState = function () {
         throw new Error("Method not implemented.");
     };
     return ProGrid;
@@ -44517,8 +44969,8 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(__webpack_require__(240), exports);
-__exportStar(__webpack_require__(106), exports);
-__exportStar(__webpack_require__(105), exports);
+__exportStar(__webpack_require__(241), exports);
+__exportStar(__webpack_require__(107), exports);
 
 
 /***/ }),
@@ -44555,47 +45007,45 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TreeGrid = void 0;
-var ts_grid_1 = __webpack_require__(99);
+var ts_grid_1 = __webpack_require__(100);
 var core_1 = __webpack_require__(1);
 var ts_data_1 = __webpack_require__(5);
-var TreeGridCollection_1 = __webpack_require__(105);
-var types_1 = __webpack_require__(106);
+var TreeGridCollection_1 = __webpack_require__(107);
 var TreeGrid = /** @class */ (function (_super) {
     __extends(TreeGrid, _super);
     function TreeGrid(container, config) {
-        return _super.call(this, container, __assign({ type: "tree", dropBehaviour: "complex", dragExpand: true }, config)) || this;
+        var _this = _super.call(this, container, __assign({ type: "tree", dropBehaviour: "complex", dragExpand: true }, config)) || this;
+        if (_this.config.subRow)
+            _this.config.subRow = null;
+        return _this;
     }
     TreeGrid.prototype.expand = function (rowId) {
         if (this.data.haveItems(rowId)) {
-            if (!this.events.fire(types_1.TreeGridEvents.beforeExpand, [rowId])) {
+            if (!this._expand(this.data.getItem(rowId))) {
                 return;
             }
-            this.data.update(rowId, { $opened: true }, true);
             this._normalizeSpans();
             this.paint();
-            this.events.fire(types_1.TreeGridEvents.afterExpand, [rowId]);
         }
     };
     TreeGrid.prototype.collapse = function (rowId) {
         if (this.data.haveItems(rowId)) {
-            if (!this.events.fire(types_1.TreeGridEvents.beforeCollapse, [rowId])) {
+            if (!this._collapse(this.data.getItem(rowId))) {
                 return;
             }
-            this.data.update(rowId, { $opened: false }, true);
             this._normalizeSpans();
             this.paint();
-            this.events.fire(types_1.TreeGridEvents.afterCollapse, [rowId]);
         }
     };
     TreeGrid.prototype.expandAll = function () {
         var _this = this;
-        this.data.eachChild(this.data.getRoot(), function (item) { return _this._expand(item.id); });
+        this.data.eachChild(this.data.getRoot(), function (row) { return _this.data.haveItems(row.id) && _this._expand(row); });
         this._normalizeSpans();
         this.paint();
     };
     TreeGrid.prototype.collapseAll = function () {
         var _this = this;
-        this.data.forEach(function (item) { return _this._collapse(item.id); });
+        this.data.forEach(function (row) { return _this.data.haveItems(row.id) && _this._collapse(row); });
         this._normalizeSpans();
         this.paint();
     };
@@ -44639,7 +45089,7 @@ var TreeGrid = /** @class */ (function (_super) {
         this.events.fire(ts_grid_1.GridEvents.afterRowHide, [row]);
     };
     TreeGrid.prototype.getCellRect = function (rowId, colId) {
-        var _a, _b;
+        var _a;
         var columns = this.config.columns.filter(function (col) { return !col.hidden; });
         var rows = this.data.mapVisible(function (i) { return i; });
         var span = this.getSpan(rowId, colId);
@@ -44650,10 +45100,10 @@ var TreeGrid = /** @class */ (function (_super) {
         return {
             x: x,
             y: y,
-            height: (span === null || span === void 0 ? void 0 : span.rowspan) > 1 ? (0, ts_grid_1.getHeight)(rows, span) : ((_a = rows[rowInd]) === null || _a === void 0 ? void 0 : _a.$height) || 0,
+            height: (span === null || span === void 0 ? void 0 : span.rowspan) > 1 ? (0, ts_grid_1.getSpanHeight)(rows, span) : (0, ts_grid_1.getTotalRowHeight)(rows[rowInd]) || 0,
             width: (span === null || span === void 0 ? void 0 : span.colspan) > 1
                 ? (0, ts_grid_1.getWidth)(this.config.columns, span.colspan, this.config.columns.findIndex(function (item) { return item.id === span.column; }))
-                : ((_b = columns[colInd]) === null || _b === void 0 ? void 0 : _b.$width) || 0,
+                : ((_a = columns[colInd]) === null || _a === void 0 ? void 0 : _a.$width) || 0,
         };
     };
     TreeGrid.prototype.getSpan = function (rowId, colId) {
@@ -44776,9 +45226,8 @@ var TreeGrid = /** @class */ (function (_super) {
         }
         return columnsWidth;
     };
-    TreeGrid.prototype._createCollection = function (prep) {
+    TreeGrid.prototype._createCollection = function () {
         this.data = new TreeGridCollection_1.TreeGridCollection({
-            prep: prep,
             rootId: this.config.rootParent,
             collapsed: this.config.collapsed,
         }, this.events);
@@ -44810,15 +45259,6 @@ var TreeGrid = /** @class */ (function (_super) {
             var row = _this.data.getItem(target);
             if (row && !row.$opened)
                 _this.expand(target);
-        });
-        this.events.on(ts_grid_1.GridEvents.expand, function (rowId) {
-            var item = _this.data.getItem(rowId);
-            if (item.$opened) {
-                _this.collapse(rowId);
-            }
-            else {
-                _this.expand(rowId);
-            }
         });
         this.events.detach(ts_grid_1.GridEvents.filterChange, this);
         this.events.on(ts_grid_1.GridEvents.filterChange, function (val, colId, filter, silent) {
@@ -44891,20 +45331,6 @@ var TreeGrid = /** @class */ (function (_super) {
             return dataDriver.serialize(data);
         }
     };
-    TreeGrid.prototype._expand = function (rowId) {
-        if (!this.data.haveItems(rowId) || !this.events.fire(types_1.TreeGridEvents.beforeExpand, [rowId])) {
-            return;
-        }
-        this.data.update(rowId, { $opened: true }, true);
-        this.events.fire(types_1.TreeGridEvents.afterExpand, [rowId]);
-    };
-    TreeGrid.prototype._collapse = function (rowId) {
-        if (!this.data.haveItems(rowId) || !this.events.fire(types_1.TreeGridEvents.beforeCollapse, [rowId])) {
-            return;
-        }
-        this.data.update(rowId, { $opened: false }, true);
-        this.events.fire(types_1.TreeGridEvents.afterCollapse, [rowId]);
-    };
     return TreeGrid;
 }(ts_grid_1.ExtendedGrid));
 exports.TreeGrid = TreeGrid;
@@ -44912,6 +45338,15 @@ exports.TreeGrid = TreeGrid;
 
 /***/ }),
 /* 241 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+/***/ }),
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44931,12 +45366,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(242), exports);
 __exportStar(__webpack_require__(243), exports);
+__exportStar(__webpack_require__(244), exports);
 
 
 /***/ }),
-/* 242 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44961,7 +45396,7 @@ exports.ContextMenu = void 0;
 var core_1 = __webpack_require__(1);
 var html_1 = __webpack_require__(2);
 var ts_message_1 = __webpack_require__(12);
-var ts_navbar_1 = __webpack_require__(20);
+var ts_navbar_1 = __webpack_require__(21);
 var ContextMenu = /** @class */ (function (_super) {
     __extends(ContextMenu, _super);
     function ContextMenu(element, config) {
@@ -45036,7 +45471,7 @@ exports.ContextMenu = ContextMenu;
 
 
 /***/ }),
-/* 243 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45060,7 +45495,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Menu = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var ts_navbar_1 = __webpack_require__(20);
+var ts_navbar_1 = __webpack_require__(21);
 var Menu = /** @class */ (function (_super) {
     __extends(Menu, _super);
     function Menu(element, config) {
@@ -45109,7 +45544,7 @@ exports.Menu = Menu;
 
 
 /***/ }),
-/* 244 */
+/* 245 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45129,12 +45564,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(107), exports);
-__exportStar(__webpack_require__(245), exports);
+__exportStar(__webpack_require__(108), exports);
+__exportStar(__webpack_require__(246), exports);
 
 
 /***/ }),
-/* 245 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45156,8 +45591,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProRibbon = void 0;
-var Ribbon_1 = __webpack_require__(107);
-var ScrollView_1 = __webpack_require__(19);
+var Ribbon_1 = __webpack_require__(108);
+var ScrollView_1 = __webpack_require__(20);
 var dom_1 = __webpack_require__(0);
 var html_1 = __webpack_require__(2);
 var ts_message_1 = __webpack_require__(12);
@@ -45225,7 +45660,7 @@ exports.ProRibbon = ProRibbon;
 
 
 /***/ }),
-/* 246 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45245,13 +45680,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(108), exports);
-__exportStar(__webpack_require__(247), exports);
 __exportStar(__webpack_require__(109), exports);
+__exportStar(__webpack_require__(248), exports);
+__exportStar(__webpack_require__(110), exports);
 
 
 /***/ }),
-/* 247 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45275,8 +45710,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProSidebar = void 0;
 var dom_1 = __webpack_require__(0);
 var html_1 = __webpack_require__(2);
-var ScrollView_1 = __webpack_require__(19);
-var Sidebar_1 = __webpack_require__(108);
+var ScrollView_1 = __webpack_require__(20);
+var Sidebar_1 = __webpack_require__(109);
 var ts_message_1 = __webpack_require__(12);
 var ProSidebar = /** @class */ (function (_super) {
     __extends(ProSidebar, _super);
@@ -45336,7 +45771,7 @@ exports.ProSidebar = ProSidebar;
 
 
 /***/ }),
-/* 248 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45356,12 +45791,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(249), exports);
-__exportStar(__webpack_require__(110), exports);
+__exportStar(__webpack_require__(250), exports);
+__exportStar(__webpack_require__(111), exports);
 
 
 /***/ }),
-/* 249 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45408,9 +45843,9 @@ var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
 var html_1 = __webpack_require__(2);
 var KeyManager_1 = __webpack_require__(14);
-var FocusManager_1 = __webpack_require__(21);
+var FocusManager_1 = __webpack_require__(22);
 var ts_layout_1 = __webpack_require__(11);
-var types_1 = __webpack_require__(110);
+var types_1 = __webpack_require__(111);
 var Tabbar = /** @class */ (function (_super) {
     __extends(Tabbar, _super);
     function Tabbar(container, config) {
@@ -46037,7 +46472,7 @@ exports.Tabbar = Tabbar;
 
 
 /***/ }),
-/* 250 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46057,13 +46492,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(251), exports);
-__exportStar(__webpack_require__(111), exports);
+__exportStar(__webpack_require__(252), exports);
 __exportStar(__webpack_require__(112), exports);
+__exportStar(__webpack_require__(113), exports);
 
 
 /***/ }),
-/* 251 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46103,10 +46538,10 @@ var html_1 = __webpack_require__(2);
 var types_1 = __webpack_require__(28);
 var view_1 = __webpack_require__(9);
 var ts_data_1 = __webpack_require__(5);
-var Editor_1 = __webpack_require__(111);
+var Editor_1 = __webpack_require__(112);
 var KeyManager_1 = __webpack_require__(14);
-var FocusManager_1 = __webpack_require__(21);
-var types_2 = __webpack_require__(112);
+var FocusManager_1 = __webpack_require__(22);
+var types_2 = __webpack_require__(113);
 function getSelectionIndent(level) {
     return level * 20;
 }
@@ -46215,7 +46650,7 @@ var Tree = /** @class */ (function (_super) {
         this.events && this.events.clear();
         this._keyManager && this._keyManager.destructor();
         this.config = this.events = this.selection = null;
-        this._editor = this._handlers = this._root = this._focusId = this._right = this._keyManager = this._touch = this._isDraget = null;
+        this._editor = this._handlers = this._root = this._focusId = this._right = this._keyManager = this._touch = null;
         this.unmount();
     };
     Tree.prototype.editItem = function (id, config) {
@@ -46457,7 +46892,6 @@ var Tree = /** @class */ (function (_super) {
         });
         this.events.on(ts_data_1.DragEvents.afterDrag, function (drag) {
             _this._isSelectionActive = true;
-            _this._isDraget = true;
             if (_this.data.exists(drag.start)) {
                 _this.selection.add(drag.start);
             }
@@ -46534,13 +46968,14 @@ var Tree = /** @class */ (function (_super) {
     };
     Tree.prototype._initHandlers = function () {
         var _this = this;
+        var preventClick = false;
         this._handlers = {
             onmouseleave: function (e) {
                 ts_data_1.dragManager.cancelCanDrop(e);
             },
             onclick: function (e) {
-                if (_this._isDraget) {
-                    _this._isDraget = false;
+                if (preventClick) {
+                    preventClick = false;
                     return;
                 }
                 var id = (0, html_1.locate)(e);
@@ -46577,7 +47012,13 @@ var Tree = /** @class */ (function (_super) {
                 e.preventDefault();
             },
             onmousedown: function (e) {
+                preventClick = false;
                 _this._dragStart(e);
+            },
+            onmouseup: function () {
+                if (ts_data_1.dragManager.isDrag()) {
+                    preventClick = true;
+                }
             },
             ontouchstart: function (e) {
                 _this._touch.timer = setTimeout(function () {
@@ -46604,6 +47045,9 @@ var Tree = /** @class */ (function (_super) {
             ontouchend: function () {
                 _this._touch.start = false;
                 _this._clearTouchTimer();
+                if (ts_data_1.dragManager.isDrag()) {
+                    preventClick = true;
+                }
             },
             oncontextmenu: function (e) {
                 var id = (0, html_1.locate)(e);
@@ -46977,7 +47421,7 @@ exports.Tree = Tree;
 
 
 /***/ }),
-/* 252 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46997,12 +47441,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(113), exports);
-__exportStar(__webpack_require__(255), exports);
+__exportStar(__webpack_require__(114), exports);
+__exportStar(__webpack_require__(256), exports);
 
 
 /***/ }),
-/* 253 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47037,7 +47481,7 @@ exports.detectDrag = detectDrag;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(18)))
 
 /***/ }),
-/* 254 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47084,7 +47528,7 @@ exports.default = {
 
 
 /***/ }),
-/* 255 */
+/* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47106,11 +47550,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProWindow = void 0;
-var Window_1 = __webpack_require__(113);
+var Window_1 = __webpack_require__(114);
 var ts_toolbar_1 = __webpack_require__(33);
 var ts_layout_1 = __webpack_require__(11);
-var ts_navbar_1 = __webpack_require__(20);
-var types_1 = __webpack_require__(114);
+var ts_navbar_1 = __webpack_require__(21);
+var types_1 = __webpack_require__(115);
 var ProWindow = /** @class */ (function (_super) {
     __extends(ProWindow, _super);
     function ProWindow(config) {
@@ -47310,7 +47754,7 @@ exports.ProWindow = ProWindow;
 
 
 /***/ }),
-/* 256 */
+/* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

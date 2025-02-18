@@ -1,29 +1,33 @@
-import { ICsvExportConfig, IGrid, IXlsxExportConfig } from "./types";
+import { ICsvExportConfig, IGrid, IXlsxExportConfig, ICellCss } from "./types";
 import { IPDFConfig, IPNGConfig, TExportType } from "../../ts-common/types";
-export declare class Exporter {
+export interface IExportData {
+    name: string;
+    columns: Array<{
+        width: number;
+    }>;
+    header: string[][];
+    data: any[];
+    styles: {
+        cells: any[];
+        css: {
+            [key: string]: ICellCss;
+        };
+    };
+}
+export interface IExporter {
+    pdf: (config?: IPDFConfig) => void;
+    png: (config?: IPNGConfig) => void;
+    xlsx: (config?: IXlsxExportConfig) => IExportData;
+    csv: (config?: ICsvExportConfig) => string;
+}
+export declare class Exporter implements IExporter {
     private _name;
     private _version;
     private _view;
     constructor(_name: string, _version: string, _view: IGrid);
     pdf(config?: IPDFConfig): void;
     png(config?: IPNGConfig): void;
-    xlsx(config?: IXlsxExportConfig): {
-        name: string;
-        columns: any[];
-        header: any[][];
-        data: string[][];
-        styles: {
-            cells: any[];
-            css: {
-                default: {
-                    color: string;
-                    background: string;
-                    fontSize: number;
-                    bold: boolean;
-                };
-            };
-        };
-    };
+    xlsx(config?: IXlsxExportConfig): IExportData;
     csv(config?: ICsvExportConfig): string;
     private _export;
     private getFlatCSV;

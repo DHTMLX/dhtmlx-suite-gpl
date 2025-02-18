@@ -1,5 +1,6 @@
 import { IContainerConfig } from "../../../ts-common/core";
-import { ICol, IColumnsWidth, IGridConfig, IRow, AdjustTargetType, TOption } from "./../types";
+import { ICol, IColumnsWidth, IGridConfig, IRow, AdjustTargetType, TOption, IScrollState, IRange, ISizes } from "./../types";
+export declare function getTotalRowHeight(row: IRow): number;
 export declare function normalizeArray(obj: any, name: string): void;
 export declare function measureTextHeight({ text, width, lineHeight, font, htmlEnable, }: {
     text?: string;
@@ -9,17 +10,12 @@ export declare function measureTextHeight({ text, width, lineHeight, font, htmlE
     htmlEnable?: boolean;
 }): number;
 export declare function countColumns(config: IGridConfig, columns: ICol[]): number;
-export declare function calculatePositions(width: number, height: number, scroll: any, conf: IGridConfig, data: IRow[]): {
-    xStart: number;
-    xEnd: number;
-    yStart: number;
-    yEnd: number;
-};
+export declare function calculateVisibleRange(viewPortSize: ISizes, scroll: IScrollState, config: IGridConfig, data: IRow[]): IRange;
 export declare function getUnique(arr: any[], name: string, multiselection: boolean): any[];
 export declare const getMaxRowHeight: (row: IRow, cols: ICol[], config?: IContainerConfig) => number;
 export declare const getCalculatedRowHeight: (height: number, config?: {
     rowHeight: number;
-    padding?: number;
+    verticalOffset?: number;
 }) => number;
 export declare const getTreeCellWidthOffset: (row: IRow, toArrow?: boolean) => number;
 export declare const getMaxColsWidth: (rows: IRow[], cols: ICol[], config: IContainerConfig, target: AdjustTargetType) => IColumnsWidth;

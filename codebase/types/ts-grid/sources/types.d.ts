@@ -2,7 +2,7 @@ import { IEventSystem } from "../../ts-common/events";
 import { IKeyManager } from "../../ts-common/KeyManager";
 import { IAlign } from "../../ts-common/html";
 import { Position } from "../../ts-message";
-import { IDataCollection, IDragConfig, ICsvDriverConfig, IDataItem, IDragInfo, DataCollection } from "../../ts-data";
+import { IDataCollection, IDragConfig, ICsvDriverConfig, IDataItem, IDragInfo, DataCollection, ISortMode, TSortDir } from "../../ts-data";
 import { Combobox } from "../../ts-combobox";
 import { IHandlers, Id } from "../../ts-common/types";
 import { ScrollView } from "../../ts-common/ScrollView";
@@ -13,6 +13,7 @@ import { IGroupOrder, TDisplayMode } from "../../ts-data/sources/datacollection/
 import { IGroupItem } from "./ui/group/panel";
 import { ITreeGrid, ITreeGridConfig } from "../../ts-treegrid";
 import { ISelection } from "./Selection";
+import { IProCell, IViewConstructor } from "../../ts-layout";
 export interface IGrid {
     data: IDataCollection;
     name: "grid" | string;
@@ -47,15 +48,24 @@ export interface IGrid {
     removeSpan(rowId: Id, colId: Id): void;
     editCell(rowId: Id, colId: Id, editorType?: EditorType): void;
     editEnd(withoutSave?: boolean): void;
-    getSortingState(): ISortingState;
     getHeaderFilter(colId: Id): IHeaderFilter;
     getRootNode(): HTMLElement;
     getSummary(colId?: Id): ISummaryList;
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/suite/migration/ */
+    getSortingState(): {
+        dir?: TSortDir;
+        by?: Id;
+    };
 }
 export interface IExtendedGrid extends IGrid {
     name: "progrid" | string;
     scrollView: ScrollView;
     config: IExtendedGridConfig;
+    getSubRow(id: Id): ISubViewCell | null;
+    expand(rowId: Id): void;
+    collapse(rowId: Id): void;
+    expandAll(): void;
+    collapseAll(): void;
 }
 export interface IProGrid extends ITreeGrid {
     config: IProGridConfig;
@@ -75,6 +85,7 @@ export interface IGridConfig extends IDragConfig {
     rightSplit?: number;
     bottomSplit?: number;
     sortable?: boolean;
+    multiSort?: boolean;
     editable?: boolean;
     resizable?: boolean;
     groupable?: boolean;
@@ -100,17 +111,17 @@ export interface IGridConfig extends IDragConfig {
     summary?: ISummary;
     hotkeys?: IHandlers;
     rootParent?: Id;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/ */
     groupTitleTemplate?: (groupName: string, groupItems: IDataItem[]) => string;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/ */
     editing?: boolean;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/ */
     headerSort?: boolean;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/ */
     columnsAutoWidth?: boolean;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/ */
     fitToContainer?: boolean;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/ */
     splitAt?: number;
     $width?: number;
     $height?: number;
@@ -134,15 +145,19 @@ export interface IGridConfig extends IDragConfig {
     $scrollBarWidth?: IScrollBarWidth;
     $data?: any[];
     $grouped?: IGroupItem[];
+    $subRowCells?: Map<Id, ISubRowCell>;
 }
 export type IProGridConfig = IExtendedGridConfig & ITreeGridConfig;
 export interface IExtendedGridConfig extends IGridConfig {
+    subRowConfig?: ((row: IRow) => ISubRowConfig) | ISubRowConfig;
+    subRow?: (row: IRow) => string | IViewConstructor;
     height?: number | "auto";
     autoHeight?: boolean;
     headerAutoHeight?: boolean;
     footerAutoHeight?: boolean;
     group?: boolean | IGroup;
     dragItem?: IDragType;
+    multiSort?: boolean;
 }
 export interface IRendererConfig extends Required<IProGridConfig> {
     scroll?: IScrollState;
@@ -158,8 +173,7 @@ export interface IRendererConfig extends Required<IProGridConfig> {
     footerHeight?: number;
     events?: IEventSystem<GridEvents, IEventHandlersMap>;
     selection: any;
-    sortBy?: Id;
-    sortDir?: string;
+    sort: ISortingStates;
     filterLocation?: string;
     content?: IContentList;
     gridId?: string;
@@ -207,6 +221,10 @@ export declare enum GridEvents {
     afterRowHide = "afterRowHide",
     beforeRowShow = "beforeRowShow",
     afterRowShow = "afterRowShow",
+    beforeCollapse = "beforeCollapse",
+    afterCollapse = "afterCollapse",
+    beforeExpand = "beforeExpand",
+    afterExpand = "afterExpand",
     beforeRowDrag = "beforeRowDrag",
     dragRowStart = "dragRowStart",
     dragRowOut = "dragRowOut",
@@ -235,8 +253,8 @@ export declare enum GridEvents {
 export interface IEventHandlersMap {
     [key: string]: (...args: any[]) => any;
     [GridEvents.scroll]: (scrollState: ICoords) => void;
-    [GridEvents.beforeSort]: (column: ICol, dir: Dirs) => void | boolean;
-    [GridEvents.afterSort]: (column: ICol, dir: Dirs) => void;
+    [GridEvents.beforeSort]: (column: ICol, dir: TSortDir) => void | boolean;
+    [GridEvents.afterSort]: (column: ICol, dir: TSortDir) => void;
     [GridEvents.filterChange]: (value: string | string[], colId: Id, filterId: TContentFilter, silent?: boolean) => void;
     [GridEvents.beforeFilter]: (value: string, colId: Id) => void | boolean;
     [GridEvents.beforeResizeStart]: (column: ICol, event: MouseEvent) => boolean | void;
@@ -271,6 +289,10 @@ export interface IEventHandlersMap {
     [GridEvents.afterRowHide]: (row: IRow) => void;
     [GridEvents.beforeRowShow]: (row: IRow) => boolean | void;
     [GridEvents.afterRowShow]: (row: IRow) => void;
+    [GridEvents.beforeCollapse]: (rowId: Id) => boolean | void;
+    [GridEvents.afterCollapse]: (rowId: Id) => void;
+    [GridEvents.beforeExpand]: (rowId: Id) => boolean | void;
+    [GridEvents.afterExpand]: (rowId: Id) => void;
     [GridEvents.beforeRowDrag]: (data: IDragInfo, event: MouseEvent) => void | boolean;
     [GridEvents.dragRowStart]: (data: IDragInfo, event: MouseEvent) => void;
     [GridEvents.dragRowOut]: (data: IDragInfo, event: MouseEvent) => void;
@@ -291,7 +313,7 @@ export interface IEventHandlersMap {
     [GridEvents.afterColumnDrag]: (data: IDragInfo, event: MouseEvent) => void;
     [GridEvents.beforeRowResize]: (row: IRow, event: Event, currentHeight: number) => boolean;
     [GridEvents.afterRowResize]: (row: IRow, event: Event, currentHeight: number) => void;
-    [GridEvents.groupPanelItemClick]: (id: string, event: Event) => void;
+    [GridEvents.groupPanelItemClick]: (id: string, event: MouseEvent | TouchEvent) => void;
     [GridEvents.groupPanelItemMouseDown]: (id: string, event: MouseEvent | TouchEvent) => void;
     [GridEvents.expand]: (rowId: Id) => void;
 }
@@ -343,15 +365,15 @@ export interface ICol {
     dateFormat?: string;
     summary?: TSummary;
     gravity?: number;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/ */
     format?: string;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/ */
     editing?: boolean;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/ */
     headerSort?: boolean;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/ */
     columnsAutoWidth?: boolean;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/ */
     fitToContainer?: boolean;
     $cellCss?: {
         [key: string]: string;
@@ -368,7 +390,10 @@ export interface IRow {
     height?: number;
     hidden?: boolean;
     [key: string]: any;
+    $index?: number;
     $height?: number;
+    $opened?: boolean;
+    $subRowHeight?: number;
 }
 export interface ISpan {
     row: Id;
@@ -409,6 +434,22 @@ export interface IFooter extends IContent {
     tooltipTemplate?: (content: {
         value: string;
     } & ISummaryList, header: IFooter, column: ICol) => string | boolean;
+}
+export interface ISubViewCell extends ISubRowConfig {
+    view: string | any;
+    element: HTMLElement | null;
+}
+export interface ISubRowCell extends ISubRowConfig {
+    cell?: IProCell;
+}
+export interface ISubRowConfig {
+    expanded?: boolean;
+    preserve?: boolean;
+    toggleIcon?: boolean;
+    height?: number;
+    padding?: number | string;
+    fullWidth?: boolean;
+    css?: string;
 }
 export interface ISummaryList {
     [key: string]: string | number | null;
@@ -457,6 +498,12 @@ export interface IScrollState {
     left: number;
     top: number;
 }
+export interface IRange {
+    xStart: number;
+    xEnd: number;
+    yStart: number;
+    yEnd: number;
+}
 interface IFixedColumns {
     left: ICol[];
     right: ICol[];
@@ -466,11 +513,11 @@ interface IFixedRows {
     bottom: IRow[];
 }
 type RenderFrom = "leftFixedCols" | "rightFixedCols" | "topFixedRows" | "bottomFixedRows" | "render";
-export interface ISortingState {
-    dir: Dirs;
-    by: Id;
-}
 export type EditorType = "input" | "select" | "datePicker" | "checkbox" | "combobox" | "multiselect" | "textarea";
+export interface ISort extends Omit<ISortMode, "as" | "rule"> {
+    permanent?: boolean;
+}
+export type ISortingStates = ISort[];
 export interface IComboEditorConfig {
     newOptions?: boolean;
     readOnly?: boolean;
@@ -556,19 +603,6 @@ export interface ICellCss {
     fontSize?: number;
     bold?: boolean;
 }
-export interface IExportData {
-    columns: Array<{
-        width: number;
-    }>;
-    header: string[][];
-    data: any[];
-    styles: {
-        cells: any[];
-        css: {
-            [key: string]: ICellCss;
-        };
-    };
-}
 export interface ICellContent {
     element?: any;
     toHtml: (column: ICol, config: IRendererConfig) => any;
@@ -609,7 +643,6 @@ export interface ICsvExportConfig extends ICsvDriverConfig {
     rowDelimiter?: string;
     columnDelimiter?: string;
 }
-export type Dirs = "asc" | "desc";
 export interface ICoords {
     x: number;
     y: number;

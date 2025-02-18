@@ -4,9 +4,10 @@ export interface IGroupItem {
     label: string;
     closable?: boolean;
     sortable?: boolean;
-    sort?: "asc" | "desc";
+    sortDir?: "asc" | "desc" | null;
+    sortOrder?: number | null;
     mode?: "basic" | "drop";
     notGrouped?: boolean;
 }
-export declare function getGroupItem({ id, label, sort, mode, sortable, closable, }: IGroupItem): any;
+export declare function getGroupItem({ id, label, sortDir, sortOrder, mode, sortable, closable, }: IGroupItem): any;
 export declare function getGroupPanel(grouped: IGroupItem[], grid: IProGrid): any;

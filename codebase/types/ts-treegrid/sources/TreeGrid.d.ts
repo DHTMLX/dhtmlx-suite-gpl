@@ -2,12 +2,12 @@ import { GridEvents, IEventHandlersMap, ExtendedGrid, ICellRect, IColumnsWidth, 
 import { IEventSystem } from "../../ts-common/events";
 import { DataEvents, DragEvents, IDataEventsHandlersMap, IDragEventsHandlersMap } from "../../ts-data";
 import { TreeGridCollection } from "./TreeGridCollection";
-import { ITreeEventHandlersMap, ITreeGrid, ITreeGridConfig, TreeGridEvents } from "./types";
+import { ITreeGrid, ITreeGridConfig } from "./types";
 import { Id } from "../../ts-common/types";
 export declare class TreeGrid extends ExtendedGrid implements ITreeGrid {
     config: ITreeGridConfig;
     data: TreeGridCollection;
-    events: IEventSystem<DataEvents | GridEvents | DragEvents | TreeGridEvents, IEventHandlersMap & IDataEventsHandlersMap & IDragEventsHandlersMap & ITreeEventHandlersMap>;
+    events: IEventSystem<DataEvents | GridEvents | DragEvents, IEventHandlersMap & IDataEventsHandlersMap & IDragEventsHandlersMap>;
     constructor(container: HTMLElement | string | null, config: ITreeGridConfig);
     expand(rowId: Id): void;
     collapse(rowId: Id): void;
@@ -18,11 +18,9 @@ export declare class TreeGrid extends ExtendedGrid implements ITreeGrid {
     getCellRect(rowId: Id, colId: Id): ICellRect;
     getSpan(rowId: Id, colId: Id): ISpan;
     protected _adjustColumnsWidth({ rows, cols, totalCols, adjust, }: IAdjustColumns): IColumnsWidth;
-    protected _createCollection(prep: (data: any[]) => any[]): void;
+    protected _createCollection(): void;
     protected _getRowIndex(rowId: Id): number;
     protected _applyLocalFilter(beforePrepareData?: boolean): void;
     protected _setEventHandlers(): void;
     private _serialize;
-    private _expand;
-    private _collapse;
 }

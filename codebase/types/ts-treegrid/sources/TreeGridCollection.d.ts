@@ -1,9 +1,9 @@
 import { IEventSystem } from "../../ts-common/events";
 import { DataCallback, DataDriver, DataEvents, IDataItem, TreeCollection } from "../../ts-data";
-import { TreeGridEvents } from "./types";
 import { Id } from "../../ts-common/types";
+import { GridEvents } from "../../ts-grid";
 export declare class TreeGridCollection extends TreeCollection {
-    constructor(config?: any, events?: IEventSystem<DataEvents | TreeGridEvents>);
+    constructor(config?: any, events?: IEventSystem<DataEvents | GridEvents>);
     eachChild(id: Id, cb: any, direct?: boolean, checkItem?: (item: IDataItem) => boolean): void;
     getMaxLevel(): number;
     getLevel(id: Id): number;

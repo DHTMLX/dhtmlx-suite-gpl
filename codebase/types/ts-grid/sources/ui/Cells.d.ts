@@ -1,4 +1,4 @@
-import { GridEvents, GridSystemEvents, ICol, ICoords, IGridConfig, IRendererConfig, ISpan, Split } from "../types";
+import { GridEvents, GridSystemEvents, ICoords, IGridConfig, IRendererConfig, ISpan, Split } from "../types";
 import { IDataCollection } from "../../../ts-data";
 type mouseEvents = GridEvents.cellClick | GridEvents.cellMouseOver | GridEvents.cellMouseDown | GridEvents.cellDblClick | GridEvents.cellRightClick;
 type touchEvents = GridSystemEvents.cellTouchEnd | GridSystemEvents.cellTouchMove;
@@ -13,7 +13,6 @@ export declare function getHandlers(row: number, column: number, conf: IRenderer
     ontouchmove: (number | GridSystemEvents | IRendererConfig | typeof handleMouse)[];
     ontouchend: (number | GridSystemEvents | IRendererConfig | typeof handleMouse)[];
 };
-export declare function getTreeCell(content: any, row: any, col: ICol, conf: IRendererConfig): any;
 export declare function getCells(conf: IRendererConfig): any[];
 export declare function getSpans(config: IRendererConfig, mode?: Split): any[];
 export declare function getShifts(conf: IRendererConfig): ICoords;
