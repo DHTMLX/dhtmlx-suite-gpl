@@ -6,6 +6,7 @@ export declare const locale: {
     cancel: string;
 };
 export declare function getFormattedDate(format: string, date: Date): string;
+export declare function getExcelDate(date: Date): number;
 export declare function stringToDate(str: string, format: string, validate?: boolean): any;
 export declare class DateHelper {
     static nullTimestampDate: Date;

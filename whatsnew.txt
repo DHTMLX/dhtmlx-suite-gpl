@@ -1,3 +1,155 @@
+# Version 9.2.0 (July 15, 2025)
+
+### Breaking changes
+
+This version brings some updates in the use of the export module used for exporting Grid data to an Excel file. Check the Migration guide to keep in step with the latest updates.
+
+### New functionality
+
+- Grid. The RangeSelection module is added to provide functionality for managing range selection in Grid (PRO version)
+    - new Grid configuration property: rangeSelection
+	- new methods of the range object: disable(), enable(), getRange(), getRangedCells(), isDisabled(), isRanged(), resetRange(), setRange()
+	- new events of the range object: afterResetRange, afterSetRange, beforeResetRange, beforeSetRange
+- Grid. The BlockSelection module is added to provide functionality for managing block selection in Grid (PRO version)
+	- new Grid configuration property: blockSelection
+	- new methods of the block object: disable(), enable(), isDisabled()
+	- new events of the block object: afterBlockHandleApply, afterBlockSelectionApply, afterBlockSelectionMove, beforeBlockHandleApply, beforeBlockSelectionApply, beforeBlockSelectionMove, blockHandleMouseDown, blockSelectionEnd, blockSelectionStart, blockSelectionValidate
+- Grid. The Clipboard module is added to provide functionality for interacting with the clipboard in Grid (PRO version)
+    - new Grid configuration property: clipboard
+    - new events of the clipboard object: afterCopy, afterPaste, beforeCopy, beforePaste, copyError, pasteError
+- Grid. The DragPanel module is added to provide auxiliary functionality for moving rows in Grid and improve the drag-n-drop visualization (PRO version)
+	- new Grid configuration property: dragPanel
+	- new events: dragPanelItemClick, dragPanelItemMouseDown
+- Grid. The History module is added to provide functionality for managing the history of actions in Grid, including the Undo/Redo functionality (PRO version)
+	- new Grid configuration property: history
+	- new methods of the history object: add(), canRedo(), canUndo(), disable(), enable(), isDisabled(), getHistory(), redo(), remove(), removeAll(), undo()
+	- new events of the history object: afterAdd, afterRedo, afterUndo, beforeAdd, beforeRedo, beforeUndo, error
+- Grid. The isSelected() method is added for the Selection module to check whether the specified cell is selected
+
+### Updates
+
+- Grid. The logic and appearance of the drag-n-drop functionality is improved. Check the related sample
+- Grid. The export to Excel functionality is updated. The Json2Excel module is now used for exporting Grid data to Excel. Check the Migration guide for details
+- Grid. The xlsx() method of the Export module gets two new configuration settings:
+    - tableName - to set the name of a sheet with grid data in the Excel file
+    - dateFormatMask - to set the date format mask for Excel
+- Grid. The possibility to use keyboard navigation for selecting ranges of cells. The following shortcut keys and their combinations are available:
+    - ArrowUp                 resets the selected range and moves the focus to the previous vertical cell, setting the initially selected cell if no selection is active
+    - ArrowDown               resets the selected range and moves the focus to the next vertical cell, setting the initially selected cell if no selection is active
+    - ArrowLeft               resets the selected range and moves the focus to the previous horizontal cell, setting the initially selected cell if no selection is active
+    - ArrowRight              resets the selected range and moves the focus to the next horizontal cell, setting the initially selected cell if no selection is active
+    - Shift+ArrowUp           extends the selected range from the current initial cell to the previous vertical cell
+    - Shift+ArrowDown         extends the selected range from the current initial cell to the next vertical cell
+    - Shift+ArrowLeft         extends the selected range from the current initial cell to the previous horizontal cell
+    - Shift+ArrowRight        extends the selected range from the current initial cell to the next horizontal cell
+    - Ctrl+ArrowUp            resets the selected range and moves the focus to the first vertical cell
+    - Ctrl+ArrowDown          resets the selected range and moves the focus to the last vertical cell
+    - Ctrl+ArrowLeft          resets the selected range and moves the focus to the first horizontal cell
+    - Ctrl+ArrowRight         resets the selected range and moves the focus to the last horizontal cell
+    - Ctrl+Shift+ArrowUp      extends the selected range to the first vertical cell
+    - Ctrl+Shift+ArrowDown    extends the selected range to the last vertical cell
+    - Ctrl+Shift+ArrowLeft    extends the selected range to the first horizontal cell
+    - Ctrl+Shift+ArrowRight   extends the selected range to the last horizontal cell
+- The following shortcut key and mouse combination is available:
+    - Shift + click           sets the end cell of the range, extending the selection from the current initial cell
+- The following shortcut key is available when the editable mode is set for the Grid component and the BlockSelection module is used in the "range" mode:
+    - Delete                  allows clearing the selected cells
+
+### Fixes
+
+- DragManager. Incorrect determining the position for dropping an element during the Drag&Drop operation (child elements) in the TreeGrid mode
+- DragManager. The issue with moving a line to the header/footer area
+- DragManager. The problem with determining the position for dropping above the first element
+- DragManager. The issue associated with the absence or incorrect definition of the drop position for the default mode
+- DragManager. The issue with the dragIn event (the previous reset state was transmitted)
+- DragManager. The dragIn/dragOut events are optimized (false positives are removed)
+- Grid. The issue with falsy selection of fixed cells while selecting unfrozen cells
+- Grid. The issue with dragging unselected items
+- Grid. Sorting of the Date string (ISO) values results in the invalid format error
+- Grid. Export. Double quotes in the cell value are escaped in the exported Excel
+- Grid. The issue with editor closing and saving the entered value on scrolling the grid
+- Grid. The draggable:false setting of a column affects the drag-n-drop of rows
+- Grid. The error that occurred when the value of the parent property was set as a number
+
+### New samples
+
+- Grid (TreeGrid). DragPanel. Initialization (https://snippet.dhtmlx.com/uevdwjuo)
+- Grid. BlockSelection in the "range" mode. Selection with restricted columns (https://snippet.dhtmlx.com/42fp5qvt)
+- Grid. BlockSelection. Work with the handle configuration (https://snippet.dhtmlx.com/sryiguxu)
+- Grid. BlockSelection. Styling (custom CSS) (https://snippet.dhtmlx.com/4k3x4bfm)
+- Grid. Clipboard with notifications (messages) (https://snippet.dhtmlx.com/2nar7ocd)
+- Grid. Clipboard. Custom copy/cut/paste for number and date columns (https://snippet.dhtmlx.com/dfj49xah)
+- Grid. Clipboard. Copy/сut/paste between grids with validation (https://snippet.dhtmlx.com/q1wj772g)
+- Grid. Clipboard between two Grids with modifiers (https://snippet.dhtmlx.com/h3hxcpog)
+- Grid. Clipboard between Grid and Spreadsheet (https://snippet.dhtmlx.com/hx69j42h)
+- Grid. History. Configuration (https://snippet.dhtmlx.com/vznpyeit)
+- Grid. History. Adding a custom action (https://snippet.dhtmlx.com/i9rm4vsd)
+
+# Version 9.1.6 (June 23, 2025)
+
+### Fixes
+
+- Chart. The issue with displaying of the Treemap chart with groups
+- Grid. The `cellValue` parameter of the column `template` property has different values depending on whether a column is editable
+- Grid. The issue with the tooltip showing in case of a custom HTML content taking the full cell's space
+- Grid. The `textarea` editor saves changes made in a cell on closing instead of rendering the initial value
+
+# Version 9.1.5 (June 5, 2025)
+
+### Fixes
+
+- DataCollection/TreeCollection. Fixed sorting method in smart sorting mode when sorting more than three parameters
+- Grid. The `multiselect/select` editor passes the id instead of the value, while exporting data to an .xslx file
+- Grid. Sorting by the third column disregards the prior two-column sort order
+
+# Version 9.1.4 (June 2, 2025)
+
+### Fixes
+
+- Grid. A critical error during cell re-editing after unmounting the component
+- Grid. The value is not saved during manual editing of DateEditor
+- Grid. The issue with group headers rendering the ids instead of values
+- Grid. The localization issue
+- Grid. Incorrect display of a Japanese (Kanji/Kana) text without spaces in a single cell
+- Grid. Issues in the functionality of the `autoHeight` configuration property
+- Grid. Incorrect work of the `adjust` property of a column
+- Layout. A console error on collapsing the first cell
+- TreeCollection. Reloading data after component initialization
+
+# Version 9.1.3 (April 3, 2025)
+
+### Fixes
+
+- DataCollection. The issue with XMLDriver failing with string parameters
+- Form. Updating the input properties will set the default input width, if a different width value hasn't been specified
+- Grid. Incorrect export of values containing CRLF, double quotes and commas to CSV
+- Grid. Resizing of columns with the enabled `rightSplit` option hides the resized column
+- Grid. A script error that occurs on hovering over a group element after going outside the component while dragging a group
+- Grid. The column summary isn't calculated if the grid has been initialized in the collapsed mode
+
+# Version 9.1.2 (March 17, 2025)
+
+### Fixes
+
+- Chart. The default CSS classes aren't applied to the series of the `splineArea` chart type
+- Combobox. Incorrect calculation of the popup position on filtering options
+- Grid. Impossibility to set the left border for the first cells
+- Grid. Incorrect displaying of a row dragged by the frozen part
+- Grid. The script error that occurred while hovering over a span in the "tree" mode
+- TreeCollection. The `move` method doesn't move child elements of an item between collections
+- TreeCollection. After moving elements in `_order` there are duplicates of moved elements
+
+# Version 9.1.1. (February 24, 2025)
+
+### Fixes
+
+- Combobox. Adding a new option in the "multiselection" mode opens the popup list
+- Form. The problem with updating the value of the `preMessage` property of the Textarea control
+- Grid. After editing grouped data with the `adjust:true` option in the Grid configuration, the adjustable cell width is reset on ungrouping data
+- Grid. The issue with using a sub-row when the `dhx.scrollViewConfig.enable` configuration option is set to *true*
+- Grid. An error caused by the use of options containing commas in the "combobox" editor
+- Grid. Incorrect calculation of the row `autoHeight`, if the length of a word in a cell exceeds the column width
+
 # Version 9.1 (February 18, 2025)
 
 ### Breaking changes

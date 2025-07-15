@@ -5,7 +5,11 @@ import { IKeyManager } from "../../ts-common/KeyManager";
 import { IEventSystem } from "../../ts-common/events";
 import { Id } from "../../ts-common/types";
 import { DataEvents, DragEvents, IDataEventsHandlersMap, IDragEventsHandlersMap, IDataCollection, IDataItem, TSortDir } from "../../ts-data";
-import { ISelection } from "./Selection";
+import { ISelection } from "./modules/Selection";
+import { IRange } from "./modules/Range";
+import { IBlockSelection } from "./modules/BlockSelection";
+import { IClipboard } from "./modules/Clipboard";
+import { IHistory } from "./modules/History";
 export declare class ProGrid implements IProGrid {
     config: IProGridConfig;
     scrollView: ScrollView;
@@ -16,6 +20,10 @@ export declare class ProGrid implements IProGrid {
     content: IContentList;
     keyManager: IKeyManager;
     export: any;
+    range: IRange;
+    block: IBlockSelection;
+    clipboard: IClipboard;
+    history: IHistory;
     constructor(container: HTMLElement | string | null, config?: IProGridConfig);
     paint(): void;
     destructor(): void;

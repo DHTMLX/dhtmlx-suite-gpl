@@ -10,10 +10,14 @@ import { ICalendarConfig } from "../../ts-calendar";
 import { VNode } from "../../ts-common/dom";
 import { INumberMask, IPatternMask } from "../../ts-common/input";
 import { IGroupOrder, TDisplayMode } from "../../ts-data/sources/datacollection/group";
-import { IGroupItem } from "./ui/group/panel";
+import { IGroupItem } from "./ui/components/groupPanel";
 import { ITreeGrid, ITreeGridConfig } from "../../ts-treegrid";
-import { ISelection } from "./Selection";
+import { ISelection } from "./modules/Selection";
 import { IProCell, IViewConstructor } from "../../ts-layout";
+import { IRange, IRangeConfig } from "./modules/Range";
+import { IBlockSelection, IBlockSelectionConfig } from "./modules/BlockSelection";
+import { IClipboard, IClipboardConfig } from "./modules/Clipboard";
+import { IHistory, IHistoryConfig } from "./modules/History";
 export interface IGrid {
     data: IDataCollection;
     name: "grid" | string;
@@ -61,6 +65,10 @@ export interface IExtendedGrid extends IGrid {
     name: "progrid" | string;
     scrollView: ScrollView;
     config: IExtendedGridConfig;
+    range: IRange;
+    block: IBlockSelection;
+    clipboard: IClipboard;
+    history: IHistory;
     getSubRow(id: Id): ISubViewCell | null;
     expand(rowId: Id): void;
     collapse(rowId: Id): void;
@@ -95,7 +103,12 @@ export interface IGridConfig extends IDragConfig {
     exportStyles?: boolean | string[];
     selection?: ISelectionType;
     multiselection?: boolean;
+    rangeSelection?: boolean | IRangeConfig;
+    blockSelection?: boolean | IBlockSelectionConfig;
+    clipboard?: boolean | IClipboardConfig;
+    history?: boolean | IHistoryConfig;
     dragItem?: IDragType;
+    dragPanel?: boolean | IDragPanelConfig;
     tooltip?: boolean | IGridTooltipConfig;
     headerTooltip?: boolean | IGridTooltipConfig;
     footerTooltip?: boolean | IGridTooltipConfig;
@@ -157,7 +170,12 @@ export interface IExtendedGridConfig extends IGridConfig {
     footerAutoHeight?: boolean;
     group?: boolean | IGroup;
     dragItem?: IDragType;
+    dragPanel?: boolean | IDragPanelConfig;
     multiSort?: boolean;
+    rangeSelection?: boolean | IRangeConfig;
+    blockSelection?: boolean | IBlockSelectionConfig;
+    clipboard?: boolean | IClipboardConfig;
+    history?: boolean | IHistoryConfig;
 }
 export interface IRendererConfig extends Required<IProGridConfig> {
     scroll?: IScrollState;
@@ -173,6 +191,8 @@ export interface IRendererConfig extends Required<IProGridConfig> {
     footerHeight?: number;
     events?: IEventSystem<GridEvents, IEventHandlersMap>;
     selection: any;
+    dropManager: any;
+    blockSelection: any;
     sort: ISortingStates;
     filterLocation?: string;
     content?: IContentList;
@@ -248,7 +268,9 @@ export declare enum GridEvents {
     beforeSort = "beforeSort",
     afterSort = "afterSort",
     groupPanelItemClick = "groupPanelItemClick",
-    groupPanelItemMouseDown = "groupPanelItemMouseDown"
+    groupPanelItemMouseDown = "groupPanelItemMouseDown",
+    dragPanelItemClick = "dragPanelItemClick",
+    dragPanelItemMouseDown = "dragPanelItemMouseDown"
 }
 export interface IEventHandlersMap {
     [key: string]: (...args: any[]) => any;
@@ -315,6 +337,8 @@ export interface IEventHandlersMap {
     [GridEvents.afterRowResize]: (row: IRow, event: Event, currentHeight: number) => void;
     [GridEvents.groupPanelItemClick]: (id: string, event: MouseEvent | TouchEvent) => void;
     [GridEvents.groupPanelItemMouseDown]: (id: string, event: MouseEvent | TouchEvent) => void;
+    [GridEvents.dragPanelItemClick]: (id: string, event: MouseEvent | TouchEvent) => void;
+    [GridEvents.dragPanelItemMouseDown]: (id: string, event: MouseEvent | TouchEvent) => void;
     [GridEvents.expand]: (rowId: Id) => void;
 }
 export declare enum GridSystemEvents {
@@ -383,7 +407,6 @@ export interface ICol {
     $width?: number;
     $fixedWidth?: boolean;
     $customOptions?: any;
-    $target?: "left" | "right";
 }
 export interface IRow {
     id?: Id;
@@ -394,6 +417,7 @@ export interface IRow {
     $height?: number;
     $opened?: boolean;
     $subRowHeight?: number;
+    $draggable?: boolean;
 }
 export interface ISpan {
     row: Id;
@@ -487,6 +511,11 @@ export interface IScrollBarWidth {
     xState: boolean;
     yState: boolean;
 }
+export interface IDragPanelConfig {
+    css?: string;
+    icon?: string;
+    width?: number;
+}
 interface ICellObj {
     col: ICol;
     row: IRow;
@@ -498,7 +527,7 @@ export interface IScrollState {
     left: number;
     top: number;
 }
-export interface IRange {
+export interface IVisibleRange {
     xStart: number;
     xEnd: number;
     yStart: number;
@@ -635,6 +664,11 @@ export interface IFixedRowsConfig extends ILayoutState {
 export interface IXlsxExportConfig {
     url?: string;
     name?: string;
+    tableName?: string;
+    dateFormatMask?: string;
+    mapToExcelFormulas?: {
+        [key: string]: string;
+    };
 }
 export interface ICsvExportConfig extends ICsvDriverConfig {
     name?: string;
@@ -660,7 +694,7 @@ export interface IEditor {
     endEdit(withoutSave?: boolean): void;
 }
 export type ISelectionType = "cell" | "row" | "complex";
-export type IDirection = "horizontal" | "vertical";
+export type IDirection = "horizontal" | "vertical" | "auto";
 export type IDragType = "row" | "column" | "both";
 export type AdjustTargetType = "data" | "header" | "footer";
 export type IAdjustBy = AdjustTargetType | boolean;
@@ -681,5 +715,9 @@ export interface INormalizeColumnsParams {
     config: IGridConfig & IProGridConfig;
     columns: ICol[];
     configChanged?: boolean;
+}
+export interface IExportGridCell {
+    v: string | number;
+    s: number;
 }
 export {};

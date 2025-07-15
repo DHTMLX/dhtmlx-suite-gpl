@@ -10,8 +10,8 @@ export declare function getHandlers(row: number, column: number, conf: IRenderer
     ondblclick: (number | GridEvents | IRendererConfig | typeof handleMouse)[];
     oncontextmenu: (number | GridEvents | IRendererConfig | typeof handleMouse)[];
     ontouchstart: (number | GridEvents | IRendererConfig | typeof handleMouse)[];
-    ontouchmove: (number | GridSystemEvents | IRendererConfig | typeof handleMouse)[];
-    ontouchend: (number | GridSystemEvents | IRendererConfig | typeof handleMouse)[];
+    ontouchmove: (number | IRendererConfig | GridSystemEvents | typeof handleMouse)[];
+    ontouchend: (number | IRendererConfig | GridSystemEvents | typeof handleMouse)[];
 };
 export declare function getCells(conf: IRendererConfig): any[];
 export declare function getSpans(config: IRendererConfig, mode?: Split): any[];

@@ -1,3 +1,4 @@
+import { IBaseLayoutItem, TItemType } from "./types";
 import { Validation, ValidationInputFn, IInputConfig } from "./elements/input";
 export declare function getFormItemCss(item: any, validate?: boolean, focus?: boolean): string;
 export declare function getValidationMessage(item: any): any;
@@ -10,3 +11,4 @@ export declare function isVerify(config: any): boolean;
 export declare const baseProps: string[];
 export declare const widgetConfig: ({ width, type, id, name, hidden, editable, css, required, helpMessage, preMessage, successMessage, errorMessage, label, labelWidth, labelPosition, hiddenLabel, validation, icon, ...res }: any) => any;
 export declare function setAttacments(attachments: any, layout: any): void;
+export declare function getCellWidth<T extends IBaseLayoutItem["width"]>(element: TItemType, width: T): T | undefined;

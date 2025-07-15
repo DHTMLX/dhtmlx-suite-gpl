@@ -1,5 +1,7 @@
 import { ICellCss, ICol, IFooter, IGridConfig, IGridTooltipConfig, IHeader, IRow, ISpan } from "../types";
 import { ITooltipConfig } from "../../../ts-message";
+import { Id } from "../../../ts-common/types";
+import { ITreeCollection } from "../../../ts-data";
 export declare function transpose(arr: any[][], transform?: any): any[][];
 export declare function getStyleByClass(cssClass: string, targetClass: string, def: ICellCss, container?: HTMLElement): ICellCss;
 export declare function removeHTMLTags(str: string): string;
@@ -15,3 +17,7 @@ export declare function isHtmlEnable(config: IGridConfig, col: ICol, content?: I
 export declare function getTotalWidth(columns: ICol[]): number;
 export declare function getTotalHeight(rows: IRow[]): number;
 export declare function scrollFixedColsAndRows(e: WheelEvent): void;
+export declare function isWasmSupported(): boolean;
+export declare function getLastChild(id: any, data: any, deep?: boolean): Id | null;
+export declare function getClosestTop(id: Id, data: ITreeCollection): Id | null;
+export declare function getClosestBottom(id: Id, data: ITreeCollection, ignore?: boolean): Id | null;

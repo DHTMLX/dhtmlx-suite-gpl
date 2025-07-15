@@ -11,4 +11,5 @@ export default class ScaleSeria extends BaseSeria {
     dataReady(prev?: PointData[]): PointData[];
     protected _calckFinalPoints(width: number, height: number): void;
     protected _defaultLocator(v: any): any[];
+    protected _getCss(): string;
 }

@@ -16,7 +16,7 @@ export default class Bar extends ScaleSeria {
         class: string;
         transform: string;
     };
-    protected _getForm(points: PointData[], css: string, _width: number, height: number, prev: PointData[]): object;
+    protected _getForm(points: PointData[], _width: number, height: number, prev: PointData[]): object;
     protected _getText(item: any): any;
     protected _setDefaults(config: ISeriaConfig): void;
 }

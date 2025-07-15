@@ -17,7 +17,6 @@ export declare abstract class Navbar<T extends IItem = IItem> extends View {
         bottom: number;
         zIndex?: number;
     };
-    protected _isContextMenu: boolean;
     protected _handlers: IHandlers;
     protected _currentRoot: Id;
     protected _factory: (item: T, asMenuItem?: boolean) => any;

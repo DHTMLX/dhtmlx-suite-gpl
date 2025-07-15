@@ -3,8 +3,8 @@ import { IKeyManager } from "../../ts-common/KeyManager";
 import { Id, ITouchParam } from "../../ts-common/types";
 import { View } from "../../ts-common/view";
 import { DataEvents, DragEvents, IDataCollection, IDataEventsHandlersMap, IDataItem, IDragEventsHandlersMap, TSortDir } from "../../ts-data";
-import { Exporter } from "./Exporter";
-import { ISelection } from "./Selection";
+import { Exporter } from "./modules/Exporter";
+import { ISelection } from "./modules/Selection";
 import { EditorType, GridEvents, IAdjustBy, ICellRect, ICol, IContentList, ICoords, IEventHandlersMap, IGrid, IGridConfig, IRow, IScrollState, ISpan, GridSystemEvents, ISystemEventHandlersMap, IColumnsWidth, SortFunction, IHeaderFilter, IAdjustColumns, IDirection, IFooter, IHeader, INormalizeColumnsParams, ISummaryList, ISortingStates } from "./types";
 export declare class Grid extends View implements IGrid {
     version: string;
@@ -23,6 +23,7 @@ export declare class Grid extends View implements IGrid {
     protected _htmlEvents: any;
     protected _sortingStates: ISortingStates;
     protected _activeFilters: object;
+    protected _dropManager: any;
     private _filterData;
     private _hiddenFilters;
     private _commonSummary;
@@ -59,6 +60,7 @@ export declare class Grid extends View implements IGrid {
         by?: Id;
     };
     protected _createView(): any;
+    protected _dragInit(): void;
     protected _parseColumns(configChanged?: boolean): void;
     protected normalizeColumns({ config, columns, configChanged }: INormalizeColumnsParams): void;
     protected getNormalizeContentHeight(row: IFooter | IHeader, col: ICol, config: IGridConfig): number;
@@ -67,6 +69,7 @@ export declare class Grid extends View implements IGrid {
     protected _getRowIndex(rowId: Id): number;
     protected _setHTMLEventHandlers(): void;
     protected _setEventHandlers(): void;
+    protected _afterEditEndProcess(value: any, editableRow: any, editableColumn: any): void;
     protected _addEmptyRow(): void;
     protected _sort(by: Id, sortAs?: SortFunction, smartSorting?: boolean): void;
     protected _setSort(): void;
@@ -80,6 +83,7 @@ export declare class Grid extends View implements IGrid {
     protected _adjustColumnsWidth({ rows, cols, adjust, }: IAdjustColumns): IColumnsWidth;
     protected _prepareColumnData(data: any, type: "header" | "footer"): IRow[];
     protected _dragStart(event: any): void;
+    protected _dragProcess(event: MouseEvent | TouchEvent, row: IRow, column?: ICol): void;
     protected _getRowGhost(ids: Id[]): HTMLDivElement;
     protected _initHooks(): {
         didMount: () => void;

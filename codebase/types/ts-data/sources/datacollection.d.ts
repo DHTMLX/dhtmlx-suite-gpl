@@ -85,7 +85,7 @@ export declare class DataCollection<T extends IDataItem = IDataItem> implements 
     protected _approximate(data: any[], values: string[], maxNum: number): any[];
     protected _onChange(status: Statuses, id: Id, obj: any): void;
     protected _addToOrder(array: any[], obj: any, index?: number): void;
-    protected _applySorters(by?: ISortMode): void;
+    protected _applySorters(): void;
     protected _applyFilters(rule?: IFilterMode | IFilterCallback): void;
     protected _reapplyFilters(): void;
     protected _getRuleCallback(rule: IFilterMode): IFilterCallback;

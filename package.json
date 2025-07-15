@@ -1,11 +1,11 @@
 {
   "name": "dhx-suite-package",
-  "version": "9.1.0",
+  "version": "9.2.0",
   "description": "dhtmlxSuite widget",
-  "homepage": "https://docs.dhtmlx.com",
+  "homepage": "https://docs.dhtmlx.com/suite/",
   "private": true,
   "bugs": {
-    "url": "https://forum.dhtmlx.com",
+    "url": "https://forum.dhtmlx.com/c/suite",
     "email": "support@dhtmlx.com"
   },
   "main": "codebase/suite.js",

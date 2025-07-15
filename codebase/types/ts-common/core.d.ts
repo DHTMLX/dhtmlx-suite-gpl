@@ -32,5 +32,9 @@ export interface IContainerConfig {
 export declare const getStringWidth: (value: string, config?: IContainerConfig) => number;
 export declare const rgbToHex: (color: string) => string;
 export declare function getCloneObject(obj: any): any;
-export declare function getTextLines(ctx: any, text: string, maxWidth: number): string[];
+export declare function getTextLines({ ctx, text, maxWidth }: {
+    ctx: any;
+    text: any;
+    maxWidth: any;
+}): string[];
 export {};

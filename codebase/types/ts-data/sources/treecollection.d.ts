@@ -2,12 +2,15 @@ import { IEventSystem } from "../../ts-common/events";
 import { DataCollection } from "./datacollection";
 import { DataCallback, DataEvents, IDataCollection, IDataItem, ITreeCollection, IFilterCallback, IFilterMode, IFilterComplexMode, ITreeFilterConfig, DataDriver, ISortMode, IDataDriver, IUpdateObject, ISortConfig } from "./types";
 import { Id } from "../../ts-common/types";
+export declare function addToOrder(store: any, obj: object, parent: Id, index: number): void;
 export declare class TreeCollection<T extends IDataItem = IDataItem> extends DataCollection<T> implements ITreeCollection<T> {
     protected _childs: {
         [id: string]: T[];
     };
     protected _root: Id;
-    private _initChilds;
+    protected _initChilds: {
+        [id: string]: T[];
+    };
     constructor(config?: any, events?: IEventSystem<DataEvents>);
     add(newItem: IDataItem, index?: number, parent?: Id): Id;
     add(newItem: IDataItem[], index?: number, parent?: Id): Id[];
@@ -42,6 +45,7 @@ export declare class TreeCollection<T extends IDataItem = IDataItem> extends Dat
     protected _setParent(item: IDataItem, parent: Id): void;
     protected _copy(id: Id, index: number, target?: IDataCollection | ITreeCollection, targetId?: Id, key?: number): Id;
     protected _move(id: Id, index: number, target?: ITreeCollection | IDataCollection, targetId?: Id, key?: number): Id;
+    protected _moveItem(id: any, targetId: any, index: any): void;
     protected _reset(config: {
         id?: Id;
         grouping: any;
@@ -56,5 +60,5 @@ export declare class TreeCollection<T extends IDataItem = IDataItem> extends Dat
     private _applyFilter;
     protected _normalizeFilters(filters: any): any;
     protected _checkFilterRule(rule: IFilterMode | IFilterComplexMode | IFilterCallback): boolean;
-    protected _applySorters(by?: ISortMode): void;
+    protected _applySorters(): void;
 }

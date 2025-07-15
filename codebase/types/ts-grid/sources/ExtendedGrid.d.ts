@@ -3,7 +3,15 @@ import { IDataCollection, IDataItem } from "../../ts-data";
 import { ScrollView } from "../../ts-common/ScrollView";
 import { Id } from "../../ts-common/types";
 import { Grid } from "./Grid";
+import { IRange } from "./modules/Range";
+import { IBlockSelection } from "./modules/BlockSelection";
+import { IClipboard } from "./modules/Clipboard";
+import { IHistory } from "./modules/History";
 export declare class ExtendedGrid extends Grid implements IExtendedGrid {
+    range: IRange;
+    block: IBlockSelection;
+    clipboard: IClipboard;
+    history: IHistory;
     scrollView: ScrollView;
     config: IExtendedGridConfig;
     constructor(container: HTMLElement | string | null, config?: IExtendedGridConfig);
@@ -12,9 +20,12 @@ export declare class ExtendedGrid extends Grid implements IExtendedGrid {
     expandAll(): void;
     collapseAll(): void;
     getSubRow(id: Id): ISubViewCell | null;
+    destructor(): void;
     protected _createView(): any;
+    protected _dragInit(): void;
     protected _setHTMLEventHandlers(): void;
     protected _setEventHandlers(): void;
+    protected _afterEditEndProcess(value: any, editableRow: any, editableColumn: any): void;
     protected _setSort(): void;
     protected getNormalizeContentHeight(row: IFooter | IHeader, col: ICol, config: IGridConfig): number;
     protected _prepareData(data: IDataItem[] | IDataCollection): IDataItem[] | IRow[];

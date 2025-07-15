@@ -14,4 +14,5 @@ export declare class ComboboxEditor implements IEditor {
     endEdit(withoutSave?: boolean): void;
     toHTML(): any;
     protected _initHandlers(): void;
+    private _setCustomOptions;
 }

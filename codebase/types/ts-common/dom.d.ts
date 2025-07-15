@@ -21,3 +21,4 @@ export declare function resizer(handler: any): any;
 export declare function resizeHandler(container: any, handler: any): any;
 export declare function awaitRedraw(): Promise<void>;
 export declare function setTheme(theme: TTheme, container: string | HTMLElement): void;
+export declare function getViewHeight(view: VNode, width: number): number;

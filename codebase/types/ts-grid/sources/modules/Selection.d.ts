@@ -1,9 +1,11 @@
-import { VNode } from "../../ts-common/dom";
-import { IEventSystem } from "../../ts-common/events";
-import { ICell, IGrid, IRow, ICol, IProGrid } from "./types";
-import { Id } from "../../ts-common/types";
+import { VNode } from "../../../ts-common/dom";
+import { IEventSystem } from "../../../ts-common/events";
+import { ICell, IGrid, IRow, ICol, ISelectionType, IProGrid } from "../types";
+import { Id } from "../../../ts-common/types";
 export interface ISelectionConfig {
     disabled?: boolean;
+    type?: ISelectionType;
+    multiSelection?: boolean;
 }
 export interface ISelection {
     config?: ISelectionConfig;
@@ -13,6 +15,7 @@ export interface ISelection {
     removeCell(rowId?: Id, colId?: Id): void;
     disable(): void;
     enable(): void;
+    isSelectedCell(row: IRow | Id, column?: ICol | Id): boolean;
     toHTML(): VNode | VNode[];
 }
 export declare enum GridSelectionEvents {
@@ -35,8 +38,6 @@ export declare class Selection implements ISelection {
     private _gridId;
     private _selectedCell;
     private _selectedCells;
-    private _type;
-    private _multiselection;
     constructor(grid: IGrid | IProGrid, config?: ISelectionConfig, events?: IEventSystem<any>, gridId?: Id);
     setCell(row?: IRow | Id, col?: ICol | Id, ctrlUp?: boolean, shiftUp?: boolean): void;
     removeCell(rowId?: Id, colId?: Id): void;
@@ -45,6 +46,7 @@ export declare class Selection implements ISelection {
     disable(): void;
     enable(): void;
     toHTML(): VNode | VNode[];
+    isSelectedCell(row: IRow | Id, column?: ICol | Id): boolean;
     private _setCell;
     private _removeCell;
     private _removeCells;
@@ -53,5 +55,4 @@ export declare class Selection implements ISelection {
     private _isUnselected;
     private _findIndex;
     private _setBrowserFocus;
-    private _getReverseScrollState;
 }
