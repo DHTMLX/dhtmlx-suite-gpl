@@ -4,11 +4,11 @@ import { DataCallback, DataEvents, IDataCollection, IDataItem, ITreeCollection, 
 import { Id } from "../../ts-common/types";
 export declare function addToOrder(store: any, obj: object, parent: Id, index: number): void;
 export declare class TreeCollection<T extends IDataItem = IDataItem> extends DataCollection<T> implements ITreeCollection<T> {
-    protected _childs: {
+    protected _children: {
         [id: string]: T[];
     };
     protected _root: Id;
-    protected _initChilds: {
+    protected _initChildren: {
         [id: string]: T[];
     };
     constructor(config?: any, events?: IEventSystem<DataEvents>);
@@ -41,7 +41,13 @@ export declare class TreeCollection<T extends IDataItem = IDataItem> extends Dat
     map(callback: DataCallback<T>, parent?: Id, direct?: boolean): any[];
     getRawData(from: number, to: number, order?: T[], mode?: number, parent?: Id): T[];
     protected flatten(input: T[]): T[];
-    protected _add(newItem: IDataItem, index?: number, parent?: Id, key?: number): Id;
+    protected _add({ newItem, index, parent, order, batch, }: {
+        newItem: IDataItem;
+        batch: IDataItem[];
+        index: number;
+        parent: Id;
+        order?: number;
+    }): Id;
     protected _setParent(item: IDataItem, parent: Id): void;
     protected _copy(id: Id, index: number, target?: IDataCollection | ITreeCollection, targetId?: Id, key?: number): Id;
     protected _move(id: Id, index: number, target?: ITreeCollection | IDataCollection, targetId?: Id, key?: number): Id;
@@ -50,11 +56,13 @@ export declare class TreeCollection<T extends IDataItem = IDataItem> extends Dat
         id?: Id;
         grouping: any;
     }): void;
-    protected _removeCore(id: any): void;
+    protected _removeCore(id: Id): void;
+    private _removeFromParentList;
+    private _removeChildren;
+    private _removeFromOrders;
     protected _addToOrder(_order: any, obj: any, index: number): void;
     protected _parse_data(data: any, parent?: Id): void;
     protected _parseItem(item: any): void;
-    private _fastDeleteChilds;
     private _recursiveFilter;
     private _serialize;
     private _applyFilter;

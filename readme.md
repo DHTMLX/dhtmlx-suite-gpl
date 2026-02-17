@@ -1,4 +1,4 @@
-dhtmlxSuite v.9.2 Standard edition
+dhtmlxSuite v.9.3 Standard edition
 ============
 
 

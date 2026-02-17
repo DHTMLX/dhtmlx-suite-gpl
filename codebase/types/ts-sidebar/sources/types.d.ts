@@ -1,14 +1,15 @@
-import { ISpacer, ISeparator, IMenuItem, NavigationBarEvents, DataEvents, INavbar, INavbarEventHandlersMap, ITitle, ICustomHTML, INavItem } from "../../ts-navbar";
+import { ISpacer, ISeparator, IMenuItem, NavigationBarEvents, DataEvents, INavbar, INavbarEventHandlersMap, ITitle, ICustomHTML, INavItem, NavigationType } from "../../ts-navbar";
 import { IEventSystem } from "../../ts-common/events";
-import { IDataEventsHandlersMap, TreeCollection } from "../../ts-data";
+import { IDataEventsHandlersMap, IDataItem, TreeCollection } from "../../ts-data";
 import { ScrollView } from "../../ts-common/ScrollView";
 export interface ISidebarConfig {
-    css?: string;
-    menuCss?: string;
-    data?: any[] | TreeCollection<ISidebarElement>;
+    data?: IDataItem[] | TreeCollection<ISidebarElement>;
     width?: number | string;
     minWidth?: number | string;
+    css?: string;
+    menuCss?: string;
     collapsed?: boolean;
+    navigationType?: NavigationType;
 }
 export type ISidebarElement = ISeparator | ISpacer | ITitle | INavItem | IMenuItem | ICustomHTML;
 export interface ISidebar extends INavbar {

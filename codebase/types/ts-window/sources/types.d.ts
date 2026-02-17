@@ -52,6 +52,7 @@ export interface IWindow {
     isFullScreen(): boolean;
     setFullScreen(): void;
     unsetFullScreen(): void;
+    setActive(): void;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     fullScreen(): void;
 }

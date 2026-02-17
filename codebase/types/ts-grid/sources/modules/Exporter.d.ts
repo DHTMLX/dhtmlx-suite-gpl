@@ -1,5 +1,23 @@
-import { ICsvExportConfig, IExportGridCell, IGrid, IXlsxExportConfig } from "../types";
+import { IExportGridCell, IGrid, IProGrid, IProGridConfig, TExportConfigFunction } from "../types";
+import { ICsvDriverConfig } from "../../../ts-data";
 import { IPDFConfig, IPNGConfig, TExportType } from "../../../ts-common/types";
+export type ExportType = "pdf" | "png" | "csv" | "xlsx";
+export interface IXlsxExportConfig {
+    url?: string;
+    name?: string;
+    tableName?: string;
+    dateFormatMask?: string;
+    mapToExcelFormulas?: {
+        [key: string]: string;
+    };
+}
+export interface ICsvExportConfig extends ICsvDriverConfig {
+    name?: string;
+    asFile?: boolean;
+    flat?: boolean;
+    rowDelimiter?: string;
+    columnDelimiter?: string;
+}
 export interface IExportData {
     data: {
         name: string;
@@ -26,25 +44,37 @@ export interface IExportData {
     }[];
 }
 export interface IExporter {
-    pdf: (config?: IPDFConfig) => void;
-    png: (config?: IPNGConfig) => void;
-    xlsx: (config?: IXlsxExportConfig) => IExportData;
-    csv: (config?: ICsvExportConfig) => string;
+    pdf: (config?: IPDFConfig) => Promise<void>;
+    png: (config?: IPNGConfig) => Promise<void>;
+    xlsx: (config?: IXlsxExportConfig) => Promise<IExportData>;
+    csv: (config?: ICsvExportConfig) => Promise<string>;
+}
+export interface IExportConfig extends IProGridConfig {
+    typeConfig?: IXlsxExportConfig | ICsvExportConfig | IPDFConfig | IPNGConfig;
 }
 export declare class Exporter implements IExporter {
+    private _xlsxWorker;
     private _name;
     private _version;
-    private _view;
-    private _xlsxWorker;
-    constructor(_name: string, _version: string, _view: IGrid);
-    pdf(config?: IPDFConfig): void;
-    png(config?: IPNGConfig): void;
-    xlsx(c?: IXlsxExportConfig): IExportData;
-    csv(config?: ICsvExportConfig): string;
-    private _export;
+    private _grid;
+    private _exportConfigCallback;
+    constructor(config: {
+        name: string;
+        version: string;
+        view: IProGrid | IGrid;
+        export: TExportConfigFunction | null;
+    });
+    pdf(typeConfig?: IPDFConfig): Promise<void>;
+    png(typeConfig?: IPNGConfig): Promise<void>;
+    xlsx(typeConfig?: IXlsxExportConfig): Promise<IExportData>;
+    csv(typeConfig?: ICsvExportConfig): Promise<string>;
+    private _getExportData;
+    private _xlsxExport;
     private getFlatCSV;
     private _getCSV;
-    protected _rawExport(config: IPNGConfig | IPDFConfig, mode: TExportType, view: any): void;
-    private _getHash;
+    protected _rawExport(typeConfig: IPNGConfig | IPDFConfig, mode: TExportType): Promise<void>;
+    private _getExportWidget;
+    private _getExportConfig;
+    private _getCallbackData;
     private _getXlsxWorker;
 }

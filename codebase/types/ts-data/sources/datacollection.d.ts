@@ -75,8 +75,13 @@ export declare class DataCollection<T extends IDataItem = IDataItem> implements 
     getMetaMap(obj: T): any;
     setRange(from: number, to: number): void;
     getRawData(from: number, to: number, order?: T[], mode?: number): T[];
-    protected _add(newItem: IDataItem, index?: number): Id;
-    protected _remove(id: Id): void;
+    protected _add({ newItem, index, order, batch, }: {
+        newItem: IDataItem;
+        batch: IDataItem[];
+        order?: number;
+        index?: number;
+    }): Id;
+    protected _remove(id: Id, batch: Id[], index?: number): void;
     protected _copy(id: Id, index: number, target?: IDataCollection | ITreeCollection, targetId?: Id, key?: number): Id;
     protected _move(id: Id, index: number, target?: IDataCollection | ITreeCollection, targetId?: Id, key?: number, newId?: Id): Id;
     protected _addCore(obj: IDataItem, index?: number): Id;

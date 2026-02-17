@@ -7,6 +7,7 @@ import { IRange } from "./modules/Range";
 import { IBlockSelection } from "./modules/BlockSelection";
 import { IClipboard } from "./modules/Clipboard";
 import { IHistory } from "./modules/History";
+import { IProContentList } from "./ui/proContent";
 export declare class ExtendedGrid extends Grid implements IExtendedGrid {
     range: IRange;
     block: IBlockSelection;
@@ -14,6 +15,7 @@ export declare class ExtendedGrid extends Grid implements IExtendedGrid {
     history: IHistory;
     scrollView: ScrollView;
     config: IExtendedGridConfig;
+    content: IProContentList;
     constructor(container: HTMLElement | string | null, config?: IExtendedGridConfig);
     expand(rowId: Id): void;
     collapse(rowId: Id): void;
@@ -22,6 +24,7 @@ export declare class ExtendedGrid extends Grid implements IExtendedGrid {
     getSubRow(id: Id): ISubViewCell | null;
     destructor(): void;
     protected _createView(): any;
+    protected _init(): void;
     protected _dragInit(): void;
     protected _setHTMLEventHandlers(): void;
     protected _setEventHandlers(): void;

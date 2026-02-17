@@ -1,7 +1,7 @@
 /*
 @license
 
-dhtmlxSuite v.9.2.0 GPL
+dhtmlxSuite v.9.3.0 GPL
 
 This software is covered by GPL license.
 To use it in non-GPL project, you need obtain Commercial or Enterprise license
@@ -102,7 +102,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 120);
+/******/ 	return __webpack_require__(__webpack_require__.s = 122);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -113,8 +113,8 @@ return /******/ (function(modules) { // webpackBootstrap
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getViewHeight = exports.setTheme = exports.awaitRedraw = exports.resizeHandler = exports.resizer = exports.disableHelp = exports.KEYED_LIST = exports.inject = exports.create = exports.view = exports.sv = exports.el = void 0;
-var dom = __webpack_require__(132);
-var html_1 = __webpack_require__(3);
+var dom = __webpack_require__(135);
+var html_1 = __webpack_require__(2);
 exports.el = dom.defineElement;
 exports.sv = dom.defineSvgElement;
 exports.view = dom.defineView;
@@ -221,7 +221,7 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTextLines = exports.getCloneObject = exports.rgbToHex = exports.getStringWidth = exports.getMinArrayNumber = exports.getMaxArrayNumber = exports.isEmptyObj = exports.isType = exports.compare = exports.debounce = exports.downloadFile = exports.isNumeric = exports.range = exports.isId = exports.isDefined = exports.wrapBox = exports.unwrapBox = exports.detectWidgetClick = exports.singleOuterClick = exports.isExistValue = exports.findIndex = exports.naturalSort = exports.copy = exports.extend = exports.extendComponent = exports.uid = void 0;
-var html_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var counter = new Date().valueOf();
 function uid() {
     return "u" + counter++;
@@ -378,24 +378,29 @@ function isNumeric(val) {
 }
 exports.isNumeric = isNumeric;
 function downloadFile(data, filename, mimeType) {
-    if (mimeType === void 0) { mimeType = "text/plain"; }
-    var file = new Blob([data], { type: mimeType });
-    if (window.navigator.msSaveOrOpenBlob) {
-        // IE10+
-        window.navigator.msSaveOrOpenBlob(file, filename);
+    if (mimeType === void 0) { mimeType = "application/octet-stream"; }
+    var url;
+    var isBlob = data instanceof Blob;
+    if (!isBlob) {
+        var blob = new Blob([data], { type: mimeType });
+        if (window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(blob, filename);
+            return;
+        }
+        url = URL.createObjectURL(blob);
     }
     else {
-        var a_1 = document.createElement("a");
-        var url_1 = URL.createObjectURL(file);
-        a_1.href = url_1;
-        a_1.download = filename;
-        document.body.appendChild(a_1);
-        a_1.click();
-        setTimeout(function () {
-            document.body.removeChild(a_1);
-            window.URL.revokeObjectURL(url_1);
-        }, 0);
+        url = URL.createObjectURL(data);
     }
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }, 0);
 }
 exports.downloadFile = downloadFile;
 function debounce(func, wait, immediate) {
@@ -607,65 +612,6 @@ exports.getTextLines = getTextLines;
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.EventsMixin = exports.EventSystem = void 0;
-var EventSystem = /** @class */ (function () {
-    function EventSystem(context) {
-        this.events = {};
-        this.context = context || this;
-    }
-    EventSystem.prototype.on = function (name, callback, context) {
-        var event = name.toLowerCase();
-        this.events[event] = this.events[event] || [];
-        this.events[event].push({ callback: callback, context: context || this.context });
-    };
-    EventSystem.prototype.detach = function (name, context) {
-        var event = name.toLowerCase();
-        var eStack = this.events[event];
-        if (context && eStack && eStack.length) {
-            for (var i = eStack.length - 1; i >= 0; i--) {
-                if (eStack[i].context === context) {
-                    eStack.splice(i, 1);
-                }
-            }
-        }
-        else {
-            this.events[event] = [];
-        }
-    };
-    EventSystem.prototype.fire = function (name, args) {
-        if (typeof args === "undefined") {
-            args = [];
-        }
-        var event = name.toLowerCase();
-        if (this.events[event]) {
-            var res = this.events[event].map(function (e) { return e.callback.apply(e.context, args); });
-            return !res.includes(false);
-        }
-        return true;
-    };
-    EventSystem.prototype.clear = function () {
-        this.events = {};
-    };
-    return EventSystem;
-}());
-exports.EventSystem = EventSystem;
-function EventsMixin(obj) {
-    obj = obj || {};
-    var eventSystem = new EventSystem(obj);
-    obj.detachEvent = eventSystem.detach.bind(eventSystem);
-    obj.attachEvent = eventSystem.on.bind(eventSystem);
-    obj.callEvent = eventSystem.fire.bind(eventSystem);
-}
-exports.EventsMixin = EventsMixin;
-
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1056,49 +1002,72 @@ exports.getNodeOffset = getNodeOffset;
 
 
 /***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EventsMixin = exports.EventSystem = void 0;
+var EventSystem = /** @class */ (function () {
+    function EventSystem(context) {
+        this.events = {};
+        this.context = context || this;
+    }
+    EventSystem.prototype.on = function (name, callback, context) {
+        var event = name.toLowerCase();
+        this.events[event] = this.events[event] || [];
+        this.events[event].push({ callback: callback, context: context || this.context });
+    };
+    EventSystem.prototype.detach = function (name, context) {
+        var event = name.toLowerCase();
+        var eStack = this.events[event];
+        if (context && eStack && eStack.length) {
+            for (var i = eStack.length - 1; i >= 0; i--) {
+                if (eStack[i].context === context) {
+                    eStack.splice(i, 1);
+                }
+            }
+        }
+        else {
+            this.events[event] = [];
+        }
+    };
+    EventSystem.prototype.fire = function (name, args) {
+        if (typeof args === "undefined") {
+            args = [];
+        }
+        var event = name.toLowerCase();
+        if (this.events[event]) {
+            var res = this.events[event].map(function (e) { return e.callback.apply(e.context, args); });
+            return !res.includes(false);
+        }
+        return true;
+    };
+    EventSystem.prototype.clear = function () {
+        this.events = {};
+    };
+    return EventSystem;
+}());
+exports.EventSystem = EventSystem;
+function EventsMixin(obj) {
+    obj = obj || {};
+    var eventSystem = new EventSystem(obj);
+    obj.detachEvent = eventSystem.detach.bind(eventSystem);
+    obj.attachEvent = eventSystem.on.bind(eventSystem);
+    obj.callEvent = eventSystem.fire.bind(eventSystem);
+}
+exports.EventsMixin = EventsMixin;
+
+
+/***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(25), exports);
-__exportStar(__webpack_require__(64), exports);
-__exportStar(__webpack_require__(69), exports);
-__exportStar(__webpack_require__(137), exports);
-__exportStar(__webpack_require__(28), exports);
-__exportStar(__webpack_require__(139), exports);
-__exportStar(__webpack_require__(21), exports);
-__exportStar(__webpack_require__(45), exports);
-__exportStar(__webpack_require__(66), exports);
-__exportStar(__webpack_require__(140), exports);
-__exportStar(__webpack_require__(65), exports);
-__exportStar(__webpack_require__(44), exports);
-__exportStar(__webpack_require__(68), exports);
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Split = exports.HeaderFilterEvent = exports.GridSystemEvents = exports.GridEvents = void 0;
+exports.Split = exports.GridSystemEvents = exports.GridEvents = void 0;
 var GridEvents;
 (function (GridEvents) {
     GridEvents["scroll"] = "scroll";
@@ -1177,10 +1146,6 @@ var GridSystemEvents;
     GridSystemEvents["groupPanelItemTouchMove"] = "groupPanelItemTouchMove";
     GridSystemEvents["groupPanelItemItemTouchEnd"] = "groupPanelItemItemTouchEnd";
 })(GridSystemEvents || (exports.GridSystemEvents = GridSystemEvents = {}));
-var HeaderFilterEvent;
-(function (HeaderFilterEvent) {
-    HeaderFilterEvent["change"] = "change";
-})(HeaderFilterEvent || (exports.HeaderFilterEvent = HeaderFilterEvent = {}));
 var Split;
 (function (Split) {
     Split["left"] = "leftSplit";
@@ -1188,6 +1153,42 @@ var Split;
     Split["top"] = "topSplit";
     Split["bottom"] = "bottomSplit";
 })(Split || (exports.Split = Split = {}));
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+__exportStar(__webpack_require__(25), exports);
+__exportStar(__webpack_require__(65), exports);
+__exportStar(__webpack_require__(70), exports);
+__exportStar(__webpack_require__(140), exports);
+__exportStar(__webpack_require__(29), exports);
+__exportStar(__webpack_require__(142), exports);
+__exportStar(__webpack_require__(21), exports);
+__exportStar(__webpack_require__(46), exports);
+__exportStar(__webpack_require__(67), exports);
+__exportStar(__webpack_require__(143), exports);
+__exportStar(__webpack_require__(66), exports);
+__exportStar(__webpack_require__(45), exports);
+__exportStar(__webpack_require__(69), exports);
 
 
 /***/ }),
@@ -1603,7 +1604,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCellWidth = exports.setAttacments = exports.widgetConfig = exports.baseProps = exports.isVerify = exports.isTimeFormat = exports.baseInputValidate = exports.validateInput = exports.isBlock = exports.validateTemplate = exports.getValidationMessage = exports.getFormItemCss = void 0;
 /* eslint-disable no-useless-escape */
 var types_1 = __webpack_require__(6);
-var input_1 = __webpack_require__(40);
+var input_1 = __webpack_require__(41);
 var core_1 = __webpack_require__(1);
 function getFormItemCss(item, validate, focus) {
     var _a;
@@ -1792,7 +1793,7 @@ exports.getCellWidth = getCellWidth;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.toViewLike = exports.View = void 0;
 var core_1 = __webpack_require__(1);
-var html_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var View = /** @class */ (function () {
     function View(_container, config) {
         var _a;
@@ -1870,8 +1871,8 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getClosestBottom = exports.getClosestTop = exports.getLastChild = exports.isWasmSupported = exports.scrollFixedColsAndRows = exports.getTotalHeight = exports.getTotalWidth = exports.isHtmlEnable = exports.isTooltip = exports.getTooltipConfig = exports.isContentTooltip = exports.showTooltip = exports.isAutoWidth = exports.isSortable = exports.isRowEmpty = exports.isCssSupport = exports.removeHTMLTags = exports.getStyleByClass = exports.transpose = void 0;
 var core_1 = __webpack_require__(1);
-var html_1 = __webpack_require__(3);
-var ts_message_1 = __webpack_require__(14);
+var html_1 = __webpack_require__(2);
+var ts_message_1 = __webpack_require__(13);
 var data_1 = __webpack_require__(11);
 function transpose(arr, transform) {
     var columns = [];
@@ -2135,13 +2136,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getReverseScrollState = exports.getEditorValue = exports.getComboEditorValue = exports.getValueForNumberColumn = exports.getOptionValue = exports.getEditorOptions = exports.applyPattern = exports.getMaxColsWidth = exports.getTreeCellWidthOffset = exports.getCalculatedRowHeight = exports.getMaxRowHeight = exports.getUnique = exports.calculateVisibleRange = exports.countColumns = exports.measureTextHeight = exports.normalizeArray = exports.getTotalRowHeight = void 0;
+exports.getReverseScrollState = exports.getEditorValue = exports.getComboEditorValue = exports.getValueForNumberColumn = exports.getOptionValue = exports.getEditorOptions = exports.applyPattern = exports.getMaxColsWidth = exports.getTreeCellWidthOffset = exports.getCalculatedRowHeight = exports.getMaxRowHeight = exports.getNormalizeFilterData = exports.calculateVisibleRange = exports.countColumns = exports.measureTextHeight = exports.normalizeArray = exports.getTotalRowHeight = void 0;
 var core_1 = __webpack_require__(1);
-var types_1 = __webpack_require__(5);
+var types_1 = __webpack_require__(4);
 var main_1 = __webpack_require__(10);
 var date_1 = __webpack_require__(18);
-var input_1 = __webpack_require__(33);
-var common_1 = __webpack_require__(17);
+var input_1 = __webpack_require__(35);
+var common_1 = __webpack_require__(12);
 function getTotalRowHeight(row) {
     return (row === null || row === void 0 ? void 0 : row.$height) + (((row === null || row === void 0 ? void 0 : row.$opened) && (row === null || row === void 0 ? void 0 : row.$subRowHeight)) || 0) || 0;
 }
@@ -2310,7 +2311,7 @@ function calculateVisibleRange(viewPortSize, scroll, config, data) {
     };
 }
 exports.calculateVisibleRange = calculateVisibleRange;
-function getUnique(arr, name, multiselection, editorType) {
+function getNormalizeFilterData(arr, name, multiselection, editorType) {
     var allItems = arr.map(function (item) { return item[name]; });
     if (multiselection && editorType === "multiselect") {
         allItems.forEach(function (item, index) {
@@ -2335,7 +2336,7 @@ function getUnique(arr, name, multiselection, editorType) {
         return a === "" ? -1 : b === "" ? 1 : isNaN(a) ? 1 : -1;
     });
 }
-exports.getUnique = getUnique;
+exports.getNormalizeFilterData = getNormalizeFilterData;
 var getMaxRowHeight = function (_a) {
     var _b, _c;
     var cols = _a.cols, row = _a.row, _d = _a.config, config = _d === void 0 ? { font: "14.4px Arial", lineHeight: 20 } : _d;
@@ -2582,6 +2583,110 @@ exports.getReverseScrollState = getReverseScrollState;
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getNormalizeDateObject = exports.getCurrFixedCols = exports.calcScrollBarWidth = exports.BORDERS = void 0;
+var html_1 = __webpack_require__(2);
+var types_1 = __webpack_require__(4);
+var date_1 = __webpack_require__(18);
+exports.BORDERS = 2;
+function calcScrollBarWidth(config, customScroll, sizes) {
+    var _a, _b;
+    if (customScroll === void 0) { customScroll = false; }
+    var yState = config.$totalHeight + config.$headerHeight + config.$footerHeight + exports.BORDERS >
+        ((_a = sizes === null || sizes === void 0 ? void 0 : sizes.height) !== null && _a !== void 0 ? _a : config.$height);
+    var scrollbarY = !yState || customScroll ? 0 : (0, html_1.getScrollbarWidth)();
+    var xState = config.$totalWidth + exports.BORDERS + scrollbarY > ((_b = sizes === null || sizes === void 0 ? void 0 : sizes.width) !== null && _b !== void 0 ? _b : config.$width);
+    var scrollbarX = !xState || customScroll ? 0 : (0, html_1.getScrollbarWidth)();
+    return { x: scrollbarX, y: scrollbarY, xState: xState, yState: yState };
+}
+exports.calcScrollBarWidth = calcScrollBarWidth;
+function getCurrFixedCols(config, split) {
+    if (!config[split])
+        return [];
+    return (split === types_1.Split.left
+        ? config.columns.slice(0, config.leftSplit)
+        : config.columns.slice(-config.rightSplit)).filter(function (col) { return !col.hidden; });
+}
+exports.getCurrFixedCols = getCurrFixedCols;
+function getNormalizeDateObject(item, dateFormat) {
+    if (typeof item === "string") {
+        if (!(0, date_1.stringToDate)(item, dateFormat, true)) {
+            var date = new Date(item);
+            if (date === null || date === void 0 ? void 0 : date.valueOf()) {
+                return date;
+            }
+        }
+        else {
+            return (0, date_1.stringToDate)(item, dateFormat);
+        }
+    }
+    else {
+        return item;
+    }
+    return null;
+}
+exports.getNormalizeDateObject = getNormalizeDateObject;
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+__exportStar(__webpack_require__(147), exports);
+__exportStar(__webpack_require__(148), exports);
+__exportStar(__webpack_require__(149), exports);
+__exportStar(__webpack_require__(74), exports);
+__exportStar(__webpack_require__(49), exports);
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+__exportStar(__webpack_require__(165), exports);
+__exportStar(__webpack_require__(76), exports);
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -2611,9 +2716,9 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Label = void 0;
 var dom_1 = __webpack_require__(0);
-var html_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var view_1 = __webpack_require__(9);
-var ts_popup_1 = __webpack_require__(15);
+var ts_popup_1 = __webpack_require__(14);
 var types_1 = __webpack_require__(6);
 var Label = /** @class */ (function (_super) {
     __extends(Label, _super);
@@ -2693,7 +2798,7 @@ exports.Label = Label;
 
 
 /***/ }),
-/* 13 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2713,66 +2818,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(46), exports);
-__exportStar(__webpack_require__(143), exports);
 __exportStar(__webpack_require__(47), exports);
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(144), exports);
-__exportStar(__webpack_require__(145), exports);
 __exportStar(__webpack_require__(146), exports);
-__exportStar(__webpack_require__(73), exports);
 __exportStar(__webpack_require__(48), exports);
 
 
 /***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(162), exports);
-__exportStar(__webpack_require__(75), exports);
-
-
-/***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2780,7 +2832,7 @@ __exportStar(__webpack_require__(75), exports);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.KeyManager = void 0;
 var FocusManager_1 = __webpack_require__(20);
-var html_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 function getHotKeyCode(code) {
     var matches = code.toLowerCase().match(/\w+/g);
     var comp = 0;
@@ -2892,45 +2944,13 @@ exports.KeyManager = KeyManager;
 
 
 /***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCurrFixedCols = exports.calcScrollBarWidth = exports.BORDERS = void 0;
-var html_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(5);
-exports.BORDERS = 2;
-function calcScrollBarWidth(config, customScroll, sizes) {
-    var _a, _b;
-    if (customScroll === void 0) { customScroll = false; }
-    var yState = config.$totalHeight + config.$headerHeight + config.$footerHeight + exports.BORDERS >
-        ((_a = sizes === null || sizes === void 0 ? void 0 : sizes.height) !== null && _a !== void 0 ? _a : config.$height);
-    var scrollbarY = !yState || customScroll ? 0 : (0, html_1.getScrollbarWidth)();
-    var xState = config.$totalWidth + exports.BORDERS + scrollbarY > ((_b = sizes === null || sizes === void 0 ? void 0 : sizes.width) !== null && _b !== void 0 ? _b : config.$width);
-    var scrollbarX = !xState || customScroll ? 0 : (0, html_1.getScrollbarWidth)();
-    return { x: scrollbarX, y: scrollbarY, xState: xState, yState: yState };
-}
-exports.calcScrollBarWidth = calcScrollBarWidth;
-function getCurrFixedCols(config, split) {
-    if (!config[split])
-        return [];
-    return (split === types_1.Split.left
-        ? config.columns.slice(0, config.leftSplit)
-        : config.columns.slice(-config.rightSplit)).filter(function (col) { return !col.hidden; });
-}
-exports.getCurrFixedCols = getCurrFixedCols;
-
-
-/***/ }),
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DateHelper = exports.stringToDate = exports.getExcelDate = exports.getFormattedDate = exports.locale = void 0;
+exports.stripTime = exports.DateHelper = exports.stringToDate = exports.getExcelDate = exports.getFormattedDate = exports.locale = void 0;
 var core_1 = __webpack_require__(1);
 var core_2 = __webpack_require__(1);
 exports.locale = {
@@ -3303,7 +3323,7 @@ function stringToDate(str, format, validate) {
     return validate ? true : date;
 }
 exports.stringToDate = stringToDate;
-var DateHelper = exports.DateHelper = /** @class */ (function () {
+var DateHelper = /** @class */ (function () {
     function DateHelper() {
     }
     DateHelper.copy = function (d) {
@@ -3393,6 +3413,14 @@ var DateHelper = exports.DateHelper = /** @class */ (function () {
     DateHelper.nullTimestampDate = new Date(0);
     return DateHelper;
 }());
+exports.DateHelper = DateHelper;
+function stripTime(d, full) {
+    if (full === void 0) { full = false; }
+    return full
+        ? new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes())
+        : new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+exports.stripTime = stripTime;
 
 
 /***/ }),
@@ -3716,7 +3744,7 @@ var DateHelper = exports.DateHelper = /** @class */ (function () {
   } else {}
 })()
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(43), __webpack_require__(129).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(44), __webpack_require__(129).setImmediate))
 
 /***/ }),
 /* 20 */
@@ -3726,7 +3754,7 @@ var DateHelper = exports.DateHelper = /** @class */ (function () {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.focusManager = void 0;
-var html_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var FocusManager = /** @class */ (function () {
     function FocusManager() {
         var _this = this;
@@ -3772,8 +3800,8 @@ exports.focusManager = new FocusManager();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.splitCsv = exports.throwMoveWarning = exports.isOnlyPermanentFilters = exports.hasJsonOrArrayStructure = exports.isTreeCollection = exports.copyWithoutInner = exports.toDataDriver = exports.toProxy = exports.dhxError = exports.dhxWarning = exports.isDebug = exports.findByConf = exports.naturalCompare = exports.isEqualObj = void 0;
 var core_1 = __webpack_require__(1);
-var dataproxy_1 = __webpack_require__(28);
-var drivers_1 = __webpack_require__(65);
+var dataproxy_1 = __webpack_require__(29);
+var drivers_1 = __webpack_require__(66);
 function isEqualObj(a, b) {
     for (var key in a) {
         if (a[key] !== b[key] || Array.isArray(a[key])) {
@@ -3927,7 +3955,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ScrollView = exports.scrollViewConfig = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var html_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 exports.scrollViewConfig = {
     enable: false,
     autoHide: true,
@@ -3937,8 +3965,8 @@ exports.scrollViewConfig = {
 var ScrollView = /** @class */ (function () {
     function ScrollView(getRootView, config) {
         var _a;
-        if (config === void 0) { config = {}; }
         var _this = this;
+        if (config === void 0) { config = {}; }
         this.config = (0, core_1.extend)({
             enable: exports.scrollViewConfig.enable,
             autoHide: exports.scrollViewConfig.autoHide,
@@ -4157,6 +4185,7 @@ var ScrollView = /** @class */ (function () {
             : null;
         return (0, dom_1.el)(".scroll-view-wrapper", [
             (0, dom_1.el)(".scroll-view", {
+                class: (!this._scrollWidth && "scroll-view--overlay") || "",
                 onscroll: this._handlers.onscroll,
                 _ref: uid ? "scroll-view-".concat(uid) : "scroll-view",
                 _hooks: {
@@ -4277,9 +4306,9 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(147), exports);
-__exportStar(__webpack_require__(148), exports);
-__exportStar(__webpack_require__(36), exports);
+__exportStar(__webpack_require__(150), exports);
+__exportStar(__webpack_require__(151), exports);
+__exportStar(__webpack_require__(38), exports);
 
 
 /***/ }),
@@ -4520,7 +4549,7 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.defaultHistoryConfig = exports.defaultDragPanelConfig = exports.defaultSubRowConfig = exports.getGroupDefaultConfig = void 0;
-var en_1 = __webpack_require__(42);
+var en_1 = __webpack_require__(43);
 var getGroupDefaultConfig = function (config) {
     if (typeof config === "boolean") {
         config = {};
@@ -4552,8 +4581,171 @@ exports.defaultHistoryConfig = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getContent = exports.HeaderFilterEvent = void 0;
+var dom_1 = __webpack_require__(0);
+var data_1 = __webpack_require__(11);
+var core_1 = __webpack_require__(1);
+var ComboFilter_1 = __webpack_require__(237);
+var SelectFilter_1 = __webpack_require__(238);
+var InputFilter_1 = __webpack_require__(239);
+var HeaderFilterEvent;
+(function (HeaderFilterEvent) {
+    HeaderFilterEvent["change"] = "change";
+})(HeaderFilterEvent || (exports.HeaderFilterEvent = HeaderFilterEvent = {}));
+function getContent(grid) {
+    return {
+        inputFilter: {
+            element: {},
+            value: {},
+            toHtml: function (column, config) {
+                var _this = this;
+                var id = (0, core_1.uid)();
+                var colId = column.id.toString();
+                var filter = this.element[colId];
+                if (!filter) {
+                    var headerConfig = column.header.find(function (item) { return item.filterConfig !== undefined; });
+                    filter = new InputFilter_1.InputFilter({
+                        column: column,
+                        config: config,
+                        id: id,
+                        value: this.value[colId],
+                        headerConfig: headerConfig,
+                        grid: grid,
+                    });
+                    filter.events.on("change", function (value) {
+                        _this.value[colId] = value;
+                    });
+                    this.element[colId] = filter;
+                }
+                else {
+                    filter.value = this.value[colId];
+                }
+                return filter.toHTML();
+            },
+            match: function (_a) {
+                var val = _a.val, match = _a.match, col = _a.col;
+                if (!(0, core_1.isDefined)(val))
+                    return false;
+                var search = String(match).toLowerCase();
+                if (!search)
+                    return true;
+                var formattedValue = (0, data_1.applyPattern)(val, col);
+                var rawValue = val.toString();
+                return ((formattedValue &&
+                    String(formattedValue)
+                        .toLowerCase()
+                        .includes(search)) ||
+                    (rawValue && rawValue.toLowerCase().includes(search)));
+            },
+        },
+        selectFilter: {
+            element: {},
+            value: {},
+            toHtml: function (column, config) {
+                var _this = this;
+                var colId = column.id.toString();
+                var filter = this.element[colId];
+                if (!filter) {
+                    filter = new SelectFilter_1.SelectFilter({
+                        column: column,
+                        config: config,
+                        value: this.value[colId],
+                        uniqueData: column.$uniqueData,
+                        grid: grid,
+                    });
+                    filter.events.on("change", function (value) {
+                        _this.value[colId] = value;
+                    });
+                    this.element[colId] = filter;
+                }
+                else {
+                    filter.value = this.value[colId];
+                    filter.data = column.$activeFilterData || column.$uniqueData || [];
+                }
+                return filter.toHTML();
+            },
+            match: function (_a) {
+                var val = _a.val, match = _a.match, col = _a.col;
+                var value = (0, data_1.applyPattern)(val, col);
+                return match ? (value || typeof value === "boolean") && value.toString() == match : true;
+            },
+        },
+        comboFilter: {
+            element: {},
+            value: {},
+            toHtml: function (column, config) {
+                var _this = this;
+                var colId = column.id.toString();
+                var filter = this.element[colId];
+                if (!filter) {
+                    var headerConfig = column.header.find(function (item) { return item.filterConfig !== undefined; });
+                    filter = new ComboFilter_1.ComboFilter({
+                        column: column,
+                        config: config,
+                        headerConfig: headerConfig,
+                        uniqueData: column.$uniqueData,
+                        value: this.value[colId],
+                        grid: grid,
+                    });
+                    filter.events.on("change", function (value) {
+                        _this.value[colId] = value;
+                    });
+                    this.element[colId] = filter;
+                }
+                else {
+                    filter.data = column.$uniqueData || [];
+                }
+                return (0, dom_1.inject)(filter.getFilter().getRootView());
+            },
+            match: function (_a) {
+                var val = _a.val, _b = _a.match, match = _b === void 0 ? "" : _b, _c = _a.multi, multi = _c === void 0 ? false : _c, col = _a.col;
+                var value = (0, data_1.applyPattern)(val, col);
+                if (Array.isArray(match)) {
+                    var result = false;
+                    var _loop_1 = function (i) {
+                        result =
+                            multi && typeof value === "string"
+                                ? value.split(", ").some(function (item) { return item === match[i]; })
+                                : match[i] === value;
+                        if (result)
+                            return "break";
+                    };
+                    for (var i = 0; i < match.length; i++) {
+                        var state_1 = _loop_1(i);
+                        if (state_1 === "break")
+                            break;
+                    }
+                    return match && match.length ? result : true;
+                }
+                else {
+                    return match !== undefined ? value === match : true;
+                }
+            },
+            destructor: function () {
+                this.value = {};
+                var filters = this.element;
+                if (filters) {
+                    for (var colId in filters) {
+                        filters[colId].destructor();
+                        delete filters[colId];
+                    }
+                }
+            },
+        },
+    };
+}
+exports.getContent = getContent;
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.DataProxy = void 0;
-var ajax_1 = __webpack_require__(44);
+var ajax_1 = __webpack_require__(45);
 var DataProxy = /** @class */ (function () {
     function DataProxy(url, config) {
         if (config === void 0) { config = {}; }
@@ -4590,7 +4782,7 @@ exports.DataProxy = DataProxy;
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4607,7 +4799,7 @@ var SelectionEvents;
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4717,7 +4909,32 @@ exports.getNavbarButtonCSS = getNavbarButtonCSS;
 
 
 /***/ }),
-/* 31 */
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+__exportStar(__webpack_require__(162), exports);
+__exportStar(__webpack_require__(80), exports);
+
+
+/***/ }),
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4883,7 +5100,7 @@ exports.radarScale = radarScale;
 
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4892,7 +5109,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var types_1 = __webpack_require__(26);
 var common_1 = __webpack_require__(7);
-var line_1 = __webpack_require__(89);
+var line_1 = __webpack_require__(90);
 var date_1 = __webpack_require__(18);
 var BaseSeria = /** @class */ (function () {
     function BaseSeria(_data, config, other) {
@@ -5007,7 +5224,7 @@ exports.default = BaseSeria;
 
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5271,14 +5488,14 @@ exports.removePatternMask = removePatternMask;
 
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VaultMode = exports.ProgressBarEvents = exports.UploaderEvents = exports.FileStatus = void 0;
-var ts_data_1 = __webpack_require__(4);
+var ts_data_1 = __webpack_require__(5);
 var FileStatus;
 (function (FileStatus) {
     FileStatus["queue"] = "queue";
@@ -5307,56 +5524,6 @@ var VaultMode;
 
 
 /***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(74), exports);
-__exportStar(__webpack_require__(165), exports);
-
-
-/***/ }),
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.NavigationBarEvents = exports.DataEvents = void 0;
-var ts_data_1 = __webpack_require__(4);
-Object.defineProperty(exports, "DataEvents", { enumerable: true, get: function () { return ts_data_1.DataEvents; } });
-var NavigationBarEvents;
-(function (NavigationBarEvents) {
-    NavigationBarEvents["inputCreated"] = "inputCreated";
-    NavigationBarEvents["click"] = "click";
-    NavigationBarEvents["openMenu"] = "openMenu";
-    NavigationBarEvents["beforeHide"] = "beforeHide";
-    NavigationBarEvents["afterHide"] = "afterHide";
-    NavigationBarEvents["inputFocus"] = "inputFocus";
-    NavigationBarEvents["inputBlur"] = "inputBlur";
-    NavigationBarEvents["inputChange"] = "inputChange";
-    NavigationBarEvents["input"] = "input";
-    NavigationBarEvents["keydown"] = "keydown";
-})(NavigationBarEvents || (exports.NavigationBarEvents = NavigationBarEvents = {}));
-
-
-/***/ }),
 /* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5377,8 +5544,8 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(159), exports);
-__exportStar(__webpack_require__(79), exports);
+__exportStar(__webpack_require__(75), exports);
+__exportStar(__webpack_require__(168), exports);
 
 
 /***/ }),
@@ -5387,25 +5554,23 @@ __exportStar(__webpack_require__(79), exports);
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(80), exports);
-__exportStar(__webpack_require__(172), exports);
-__exportStar(__webpack_require__(81), exports);
-__exportStar(__webpack_require__(53), exports);
+exports.NavigationBarEvents = exports.DataEvents = void 0;
+var ts_data_1 = __webpack_require__(5);
+Object.defineProperty(exports, "DataEvents", { enumerable: true, get: function () { return ts_data_1.DataEvents; } });
+var NavigationBarEvents;
+(function (NavigationBarEvents) {
+    NavigationBarEvents["inputCreated"] = "inputCreated";
+    NavigationBarEvents["click"] = "click";
+    NavigationBarEvents["openMenu"] = "openMenu";
+    NavigationBarEvents["beforeHide"] = "beforeHide";
+    NavigationBarEvents["afterHide"] = "afterHide";
+    NavigationBarEvents["inputFocus"] = "inputFocus";
+    NavigationBarEvents["inputBlur"] = "inputBlur";
+    NavigationBarEvents["inputChange"] = "inputChange";
+    NavigationBarEvents["input"] = "input";
+    NavigationBarEvents["keydown"] = "keydown";
+})(NavigationBarEvents || (exports.NavigationBarEvents = NavigationBarEvents = {}));
 
 
 /***/ }),
@@ -5429,13 +5594,40 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(93), exports);
-__exportStar(__webpack_require__(199), exports);
-__exportStar(__webpack_require__(95), exports);
+__exportStar(__webpack_require__(81), exports);
+__exportStar(__webpack_require__(175), exports);
+__exportStar(__webpack_require__(82), exports);
+__exportStar(__webpack_require__(54), exports);
 
 
 /***/ }),
 /* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+__exportStar(__webpack_require__(94), exports);
+__exportStar(__webpack_require__(202), exports);
+__exportStar(__webpack_require__(96), exports);
+
+
+/***/ }),
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5479,10 +5671,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Input = exports.Validation = void 0;
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var input_1 = __webpack_require__(33);
+var input_1 = __webpack_require__(35);
 var helper_1 = __webpack_require__(8);
-var label_1 = __webpack_require__(12);
-var events_1 = __webpack_require__(2);
+var label_1 = __webpack_require__(15);
+var events_1 = __webpack_require__(3);
 var types_1 = __webpack_require__(6);
 var Validation;
 (function (Validation) {
@@ -5614,8 +5806,11 @@ var Input = /** @class */ (function (_super) {
         this.paint();
     };
     Input.prototype.clear = function () {
-        if (this.config.value === "" || !this.events.fire(types_1.ItemEvent.beforeChange, [""]))
+        if (this.config.value === "" || !this.events.fire(types_1.ItemEvent.beforeChange, [""])) {
+            this._value = this.config.value;
+            this.paint();
             return;
+        }
         this.config.value = "";
         this.events.fire(types_1.ItemEvent.change, [this.getValue()]);
         (0, helper_1.isVerify)(this.config) && this.setValidationStatus(this.validate(true) ? "success" : "error");
@@ -5623,8 +5818,11 @@ var Input = /** @class */ (function (_super) {
     Input.prototype.setValue = function (value) {
         if (typeof value === "undefined" ||
             this.config.value === value ||
-            !this.events.fire(types_1.ItemEvent.beforeChange, [value]))
+            !this.events.fire(types_1.ItemEvent.beforeChange, [value])) {
+            this._value = this.config.value;
+            this.paint();
             return;
+        }
         this.config.value = value;
         this.events.fire(types_1.ItemEvent.change, [this.getValue()]);
         (0, helper_1.isVerify)(this.config) && this.validate();
@@ -5837,7 +6035,7 @@ exports.Input = Input;
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5859,11 +6057,11 @@ var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var cells_1 = __webpack_require__(24);
 var main_1 = __webpack_require__(10);
-var types_1 = __webpack_require__(5);
-var editors_1 = __webpack_require__(225);
-var html_1 = __webpack_require__(3);
+var types_1 = __webpack_require__(4);
+var editors_1 = __webpack_require__(227);
+var html_1 = __webpack_require__(2);
 var data_1 = __webpack_require__(11);
-var common_1 = __webpack_require__(17);
+var common_1 = __webpack_require__(12);
 function handleMouse(rowStart, colStart, conf, type, e) {
     colStart = (0, html_1.locateNodeByClassName)(e.target, "dhx_grid-fixed-cols-wrap") ? 0 : colStart;
     var target = (0, html_1.locateNodeByClassName)(e.target, "dhx_grid-cell");
@@ -6010,7 +6208,7 @@ function getCells(conf) {
                 var getCellAriaAttrs = function (col, colIndex, rowIndex, isEditable) { return (__assign({ role: "gridcell", "aria-colindex": colIndex, "aria-readonly": isEditable ? "false" : "true" }, getTabIndex_1(col, row))); };
                 var defaultTemplate = function (text) {
                     if (typeof text === "boolean" || col.type === "boolean") {
-                        if (typeof text !== "string") {
+                        if (typeof text !== "string" && !row.$group) {
                             return "".concat(Boolean(text));
                         }
                     }
@@ -6034,7 +6232,8 @@ function getCells(conf) {
                 var leftSplit = conf.leftSplit, filteredColumns = conf.filteredColumns;
                 if (isEditable ||
                     (col.type === "boolean" &&
-                        ((conf.editable && ((_a = col.editable) !== null && _a !== void 0 ? _a : true)) || (!conf.editable && col.editable)))) {
+                        ((conf.editable && ((_a = col.editable) !== null && _a !== void 0 ? _a : true)) || (!conf.editable && col.editable)) &&
+                        !row.$group)) {
                     content = getEditorCell(row, col, conf).toHTML();
                     css += " dhx_grid-cell__editable";
                     if (leftSplit === filteredColumns.indexOf(col) + 1) {
@@ -6426,7 +6625,7 @@ exports.normalizeSpan = normalizeSpan;
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6442,7 +6641,7 @@ exports.default = locale;
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports) {
 
 var g;
@@ -6468,7 +6667,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6672,7 +6871,7 @@ exports.ajax = {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6769,7 +6968,7 @@ exports.CsvDriver = CsvDriver;
 
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6791,8 +6990,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Layout = void 0;
-var types_1 = __webpack_require__(47);
-var Cell_1 = __webpack_require__(70);
+var types_1 = __webpack_require__(48);
+var Cell_1 = __webpack_require__(71);
 var dom_1 = __webpack_require__(0);
 var Layout = /** @class */ (function (_super) {
     __extends(Layout, _super);
@@ -6866,21 +7065,6 @@ var Layout = /** @class */ (function (_super) {
         }
         this.events.fire(types_1.LayoutEvents.afterRemove, [id]);
     };
-    Layout.prototype.addCell = function (config, index) {
-        if (index === void 0) { index = -1; }
-        if (!this.events.fire(types_1.LayoutEvents.beforeAdd, [config.id])) {
-            return;
-        }
-        var view = this._createCell(config);
-        if (index < 0) {
-            index = this._cells.length + index + 1;
-        }
-        this._cells.splice(index, 0, view);
-        this.paint();
-        if (!this.events.fire(types_1.LayoutEvents.afterAdd, [config.id])) {
-            return;
-        }
-    };
     Layout.prototype.getId = function (index) {
         if (index < 0) {
             index = this._cells.length + index;
@@ -6926,6 +7110,21 @@ var Layout = /** @class */ (function (_super) {
     Layout.prototype.progressHide = function () {
         this._progress = false;
         this.paint();
+    };
+    Layout.prototype._addCell = function (config, index) {
+        if (index === void 0) { index = -1; }
+        if (!this.events.fire(types_1.LayoutEvents.beforeAdd, [config.id])) {
+            return;
+        }
+        var view = this._createCell(config);
+        if (index < 0) {
+            index = this._cells.length + index + 1;
+        }
+        this._cells.splice(index, 0, view);
+        this.paint();
+        if (!this.events.fire(types_1.LayoutEvents.afterAdd, [config.id])) {
+            return;
+        }
     };
     Layout.prototype._getCss = function (content) {
         var layoutCss = this._xLayout ? "dhx_layout-columns" : "dhx_layout-rows";
@@ -6998,7 +7197,7 @@ exports.Layout = Layout;
 
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7026,7 +7225,7 @@ var LayoutEvents;
 
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7059,7 +7258,7 @@ var MessageContainerPosition;
 
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7070,31 +7269,6 @@ var locale = {
     reject: "reject",
 };
 exports.default = locale;
-
-
-/***/ }),
-/* 50 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(160), exports);
-__exportStar(__webpack_require__(78), exports);
 
 
 /***/ }),
@@ -7118,12 +7292,37 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(161), exports);
-__exportStar(__webpack_require__(76), exports);
+__exportStar(__webpack_require__(163), exports);
+__exportStar(__webpack_require__(79), exports);
 
 
 /***/ }),
 /* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+__exportStar(__webpack_require__(164), exports);
+__exportStar(__webpack_require__(77), exports);
+
+
+/***/ }),
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7150,7 +7349,7 @@ exports.default = locale;
 
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7174,7 +7373,7 @@ var ListEvents;
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7195,16 +7394,16 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.locale = void 0;
-__exportStar(__webpack_require__(173), exports);
+__exportStar(__webpack_require__(176), exports);
+__exportStar(__webpack_require__(84), exports);
 __exportStar(__webpack_require__(83), exports);
-__exportStar(__webpack_require__(82), exports);
-__exportStar(__webpack_require__(55), exports);
-var en_1 = __webpack_require__(56);
+__exportStar(__webpack_require__(56), exports);
+var en_1 = __webpack_require__(57);
 Object.defineProperty(exports, "locale", { enumerable: true, get: function () { return en_1.default; } });
 
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7345,7 +7544,7 @@ exports.getAlpha = getAlpha;
 
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7362,7 +7561,7 @@ exports.default = en;
 
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7380,8 +7579,8 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Scale = void 0;
-var AxisCreator_1 = __webpack_require__(182);
-var SvgScales_1 = __webpack_require__(86);
+var AxisCreator_1 = __webpack_require__(185);
+var SvgScales_1 = __webpack_require__(87);
 var common_1 = __webpack_require__(7);
 var renderScale = {
     left: SvgScales_1.left,
@@ -7522,7 +7721,7 @@ exports.Scale = Scale;
 
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7544,7 +7743,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var common_1 = __webpack_require__(7);
-var BaseSeria_1 = __webpack_require__(32);
+var BaseSeria_1 = __webpack_require__(34);
 var ScaleSeria = /** @class */ (function (_super) {
     __extends(ScaleSeria, _super);
     function ScaleSeria() {
@@ -7601,7 +7800,7 @@ exports.default = ScaleSeria;
 
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7634,7 +7833,7 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var common_1 = __webpack_require__(7);
-var BaseSeria_1 = __webpack_require__(32);
+var BaseSeria_1 = __webpack_require__(34);
 var NoScaleSeria = /** @class */ (function (_super) {
     __extends(NoScaleSeria, _super);
     function NoScaleSeria() {
@@ -7725,7 +7924,7 @@ exports.default = NoScaleSeria;
 
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7759,7 +7958,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
 var common_1 = __webpack_require__(7);
-var ScaleSeria_1 = __webpack_require__(58);
+var ScaleSeria_1 = __webpack_require__(59);
 var Line = /** @class */ (function (_super) {
     __extends(Line, _super);
     function Line() {
@@ -7845,7 +8044,7 @@ exports.default = Line;
 
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7861,7 +8060,7 @@ exports.default = {
 
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7881,13 +8080,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(63), exports);
-__exportStar(__webpack_require__(141), exports);
-__exportStar(__webpack_require__(34), exports);
+__exportStar(__webpack_require__(64), exports);
+__exportStar(__webpack_require__(144), exports);
+__exportStar(__webpack_require__(36), exports);
 
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7896,9 +8095,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Uploader = void 0;
 /* eslint-disable @typescript-eslint/unbound-method */
 var core_1 = __webpack_require__(1);
-var html_1 = __webpack_require__(3);
-var ts_data_1 = __webpack_require__(4);
-var types_1 = __webpack_require__(34);
+var html_1 = __webpack_require__(2);
+var ts_data_1 = __webpack_require__(5);
+var types_1 = __webpack_require__(36);
 var Uploader = /** @class */ (function () {
     function Uploader(config, data, events) {
         if (config === void 0) { config = {}; }
@@ -8188,7 +8387,7 @@ exports.Uploader = Uploader;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8215,16 +8414,16 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DataCollection = void 0;
-var events_1 = __webpack_require__(2);
-var loader_1 = __webpack_require__(133);
-var sort_1 = __webpack_require__(135);
-var dataproxy_1 = __webpack_require__(28);
+var events_1 = __webpack_require__(3);
+var loader_1 = __webpack_require__(136);
+var sort_1 = __webpack_require__(138);
+var dataproxy_1 = __webpack_require__(29);
 var helpers_1 = __webpack_require__(21);
 var types_1 = __webpack_require__(25);
 var core_1 = __webpack_require__(1);
-var group_1 = __webpack_require__(136);
-var CsvDriver_1 = __webpack_require__(45);
-var XMLDriver_1 = __webpack_require__(67);
+var group_1 = __webpack_require__(139);
+var CsvDriver_1 = __webpack_require__(46);
+var XMLDriver_1 = __webpack_require__(68);
 var DataCollection = /** @class */ (function () {
     function DataCollection(config, events) {
         var _this = this;
@@ -8303,20 +8502,26 @@ var DataCollection = /** @class */ (function () {
     };
     DataCollection.prototype.add = function (newItem, index) {
         var _this = this;
-        if (!this.events.fire(types_1.DataEvents.beforeAdd, [newItem])) {
-            return;
-        }
         var out;
         if (Array.isArray(newItem)) {
             out = newItem.map(function (element, key) {
                 if (key !== 0 && index >= 0) {
                     index = index + 1;
                 }
-                return _this._add((0, core_1.copy)(element), index);
+                return _this._add({
+                    newItem: (0, core_1.copy)(element),
+                    batch: newItem,
+                    index: index,
+                    order: key,
+                });
             });
         }
         else {
-            out = this._add((0, core_1.copy)(newItem), index);
+            out = this._add({
+                newItem: (0, core_1.copy)(newItem),
+                batch: [newItem],
+                index: index,
+            });
         }
         this._reapplyFilters();
         return out;
@@ -8324,12 +8529,12 @@ var DataCollection = /** @class */ (function () {
     DataCollection.prototype.remove = function (id) {
         var _this = this;
         if (id instanceof Array) {
-            __spreadArray([], id, true).map(function (elementId) {
-                _this._remove(elementId);
+            __spreadArray([], id, true).forEach(function (elementId, index) {
+                _this._remove(elementId, id, index);
             });
         }
         else if ((0, core_1.isId)(id)) {
-            this._remove(id);
+            this._remove(id, [id]);
         }
     };
     DataCollection.prototype.removeAll = function () {
@@ -8752,22 +8957,29 @@ var DataCollection = /** @class */ (function () {
         }
         return slice;
     };
-    DataCollection.prototype._add = function (newItem, index) {
+    DataCollection.prototype._add = function (_a) {
+        var newItem = _a.newItem, index = _a.index, _b = _a.order, order = _b === void 0 ? 0 : _b, batch = _a.batch;
+        if (!this.events.fire(types_1.DataEvents.beforeAdd, [newItem, batch, order])) {
+            return;
+        }
         var id = this._addCore(newItem, index);
         this._onChange("add", newItem.id, newItem);
-        this.events.fire(types_1.DataEvents.afterAdd, [newItem]);
+        this.events.fire(types_1.DataEvents.afterAdd, [newItem, batch, order]);
         return id;
     };
-    DataCollection.prototype._remove = function (id) {
+    DataCollection.prototype._remove = function (id, batch, index) {
+        var _this = this;
+        if (index === void 0) { index = 0; }
         var removedItem = this._pull[id];
-        if (removedItem) {
-            if (!this.events.fire(types_1.DataEvents.beforeRemove, [removedItem])) {
-                return;
-            }
-            this._removeCore(removedItem.id);
-            this._onChange("remove", id, removedItem);
+        if (!removedItem)
+            return;
+        var removedItems = batch.map(function (i) { return _this._pull[i]; });
+        if (!this.events.fire(types_1.DataEvents.beforeRemove, [removedItem, removedItems, index])) {
+            return;
         }
-        this.events.fire(types_1.DataEvents.afterRemove, [removedItem]);
+        this._removeCore(removedItem.id);
+        this._onChange("remove", id, removedItem);
+        this.events.fire(types_1.DataEvents.afterRemove, [removedItem, removedItems, index]);
     };
     DataCollection.prototype._copy = function (id, index, target, targetId, key) {
         if (!this.exists(id)) {
@@ -9011,7 +9223,7 @@ exports.DataCollection = DataCollection;
 
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9029,9 +9241,9 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dataDriversPro = exports.dataDrivers = void 0;
-var JsonDriver_1 = __webpack_require__(66);
-var CsvDriver_1 = __webpack_require__(45);
-var XMLDriver_1 = __webpack_require__(67);
+var JsonDriver_1 = __webpack_require__(67);
+var CsvDriver_1 = __webpack_require__(46);
+var XMLDriver_1 = __webpack_require__(68);
 exports.dataDrivers = {
     json: JsonDriver_1.JsonDriver,
     csv: CsvDriver_1.CsvDriver,
@@ -9040,7 +9252,7 @@ exports.dataDriversPro = __assign(__assign({}, exports.dataDrivers), { xml: XMLD
 
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9068,14 +9280,14 @@ exports.JsonDriver = JsonDriver;
 
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.XMLDriver = void 0;
-var xml_1 = __webpack_require__(134);
+var xml_1 = __webpack_require__(137);
 var ARRAY_NAME = "items";
 var ITEM_NAME = "item";
 // convert xml tag to js object, all subtags and attributes are mapped to the properties of result object
@@ -9207,7 +9419,7 @@ exports.XMLDriver = XMLDriver;
 
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9236,7 +9448,7 @@ exports.methods = {
 
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9279,8 +9491,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TreeCollection = exports.addToOrder = void 0;
 var core_1 = __webpack_require__(1);
-var datacollection_1 = __webpack_require__(64);
-var dataproxy_1 = __webpack_require__(28);
+var datacollection_1 = __webpack_require__(65);
+var dataproxy_1 = __webpack_require__(29);
 var helpers_1 = __webpack_require__(21);
 var types_1 = __webpack_require__(25);
 function addToOrder(store, obj, parent, index) {
@@ -9300,32 +9512,35 @@ var TreeCollection = /** @class */ (function (_super) {
     function TreeCollection(config, events) {
         var _a;
         var _this = _super.call(this, config, events) || this;
-        _this._childs = {};
+        _this._children = {};
         var root = (_this._root = (config && config.rootId) || "_ROOT_" + (0, core_1.uid)());
-        _this._childs = (_a = {}, _a[root] = [], _a);
-        _this._initChilds = null;
+        _this._children = (_a = {}, _a[root] = [], _a);
+        _this._initChildren = null;
         return _this;
     }
     TreeCollection.prototype.add = function (newItem, index, parent) {
         var _this = this;
         if (index === void 0) { index = -1; }
         if (parent === void 0) { parent = this._root; }
-        if (!this.events.fire(types_1.DataEvents.beforeAdd, [newItem])) {
-            return;
-        }
-        if (typeof newItem !== "object") {
-            newItem = {
-                value: newItem,
-            };
-        }
         var out;
         if (Array.isArray(newItem)) {
             out = newItem.map(function (element, key) {
-                return _this._add(element, index, parent, key);
+                return _this._add({
+                    newItem: element,
+                    batch: newItem,
+                    index: index,
+                    parent: parent,
+                    order: key,
+                });
             });
         }
         else {
-            out = this._add(newItem, index, parent);
+            out = this._add({
+                newItem: newItem,
+                batch: [newItem],
+                index: index,
+                parent: parent,
+            });
         }
         this._reapplyFilters();
         return out;
@@ -9342,30 +9557,30 @@ var TreeCollection = /** @class */ (function (_super) {
         return asObj ? this._pull[parent] : parent;
     };
     TreeCollection.prototype.getItems = function (id) {
-        if (this._childs && this._childs[id]) {
-            return this._childs[id];
+        if (this._children && this._children[id]) {
+            return this._children[id];
         }
         return [];
     };
     TreeCollection.prototype.getLength = function (id) {
         if (id === void 0) { id = this._root; }
-        if (!this._childs[id]) {
+        if (!this._children[id]) {
             return null;
         }
-        return this._childs[id].length;
+        return this._children[id].length;
     };
     TreeCollection.prototype.removeAll = function (id) {
         var _a;
         if (!(0, core_1.isId)(id)) {
             _super.prototype.removeAll.call(this);
             var root = this._root;
-            this._initChilds = null;
-            this._childs = (_a = {}, _a[root] = [], _a);
+            this._initChildren = null;
+            this._children = (_a = {}, _a[root] = [], _a);
         }
-        else if (this._childs[id]) {
-            var childs = __spreadArray([], this._childs[id], true);
-            for (var _i = 0, childs_1 = childs; _i < childs_1.length; _i++) {
-                var child = childs_1[_i];
+        else if (this._children[id]) {
+            var children = __spreadArray([], this._children[id], true);
+            for (var _i = 0, children_1 = children; _i < children_1.length; _i++) {
+                var child = children_1[_i];
                 this.remove(child.id);
             }
         }
@@ -9380,10 +9595,10 @@ var TreeCollection = /** @class */ (function (_super) {
     };
     TreeCollection.prototype.getIndex = function (id) {
         var parent = this.getParent(id);
-        if (!parent || !this._childs[parent]) {
+        if (!parent || !this._children[parent]) {
             return -1;
         }
-        return this._childs[parent].findIndex(function (i) { return (i === null || i === void 0 ? void 0 : i.id) == id; });
+        return this._children[parent].findIndex(function (i) { return (i === null || i === void 0 ? void 0 : i.id) == id; });
     };
     TreeCollection.prototype.sort = function (rule, config, ignore) {
         var _this = this;
@@ -9414,11 +9629,11 @@ var TreeCollection = /** @class */ (function (_super) {
             this._applySorters();
         }
         else if (this._initSortOrder) {
-            this._childs = {};
+            this._children = {};
             this._order = [];
             this._sortingStates = [];
             this._initSortOrder.forEach(function (item) { return _this._parseItem(item); });
-            this._sorter = this._initSortOrder = this._initChilds = null;
+            this._sorter = this._initSortOrder = this._initChildren = null;
             if (this._initFilterOrder) {
                 this._initFilterOrder = null;
                 this.filter(null, { $restore: true }, true);
@@ -9434,9 +9649,9 @@ var TreeCollection = /** @class */ (function (_super) {
             rule = this._normalizeFilters(rule || this._filters);
         }
         if (!rule || !(config === null || config === void 0 ? void 0 : config.add)) {
-            if (this._initChilds) {
-                this._childs = this._initChilds;
-                this._initChilds = null;
+            if (this._initChildren) {
+                this._children = this._initChildren;
+                this._initChildren = null;
             }
             if (!(config === null || config === void 0 ? void 0 : config.$restore)) {
                 for (var key in this._filters) {
@@ -9514,7 +9729,7 @@ var TreeCollection = /** @class */ (function (_super) {
         if (!this.haveItems(parent) || level < 1) {
             return;
         }
-        var array = this._childs[parent];
+        var array = this._children[parent];
         for (var i = 0; i < array.length; i++) {
             callback.call(this, array[i], i, array);
             if (this.haveItems(array[i].id)) {
@@ -9528,10 +9743,10 @@ var TreeCollection = /** @class */ (function (_super) {
         if (!this.haveItems(id)) {
             return;
         }
-        for (var i = 0; i < this._childs[id].length; i++) {
-            callback.call(this, this._childs[id][i], i);
-            if (direct && checkItem(this._childs[id][i])) {
-                this.eachChild(this._childs[id][i].id, callback, direct, checkItem);
+        for (var i = 0; i < this._children[id].length; i++) {
+            callback.call(this, this._children[id][i], i);
+            if (direct && checkItem(this._children[id][i])) {
+                this.eachChild(this._children[id][i].id, callback, direct, checkItem);
             }
         }
     };
@@ -9582,7 +9797,7 @@ var TreeCollection = /** @class */ (function (_super) {
         this.eachParent(item.parent, callback);
     };
     TreeCollection.prototype.haveItems = function (id) {
-        return id in this._childs;
+        return id in this._children;
     };
     TreeCollection.prototype.canCopy = function (id, target) {
         if (id === target) {
@@ -9602,10 +9817,10 @@ var TreeCollection = /** @class */ (function (_super) {
     };
     TreeCollection.prototype.getId = function (index, parent) {
         if (parent === void 0) { parent = this._root; }
-        if (!this._childs[parent] || !this._childs[parent][index]) {
+        if (!this._children[parent] || !this._children[parent][index]) {
             return;
         }
-        return this._childs[parent][index].id;
+        return this._children[parent][index].id;
     };
     TreeCollection.prototype.map = function (callback, parent, direct) {
         if (parent === void 0) { parent = this._root; }
@@ -9614,10 +9829,10 @@ var TreeCollection = /** @class */ (function (_super) {
         if (!this.haveItems(parent)) {
             return result;
         }
-        for (var i = 0; i < this._childs[parent].length; i++) {
-            result.push(callback.call(this, this._childs[parent][i], i, this._childs));
+        for (var i = 0; i < this._children[parent].length; i++) {
+            result.push(callback.call(this, this._children[parent][i], i, this._children));
             if (direct) {
-                var childResult = this.map(callback, this._childs[parent][i].id, direct);
+                var childResult = this.map(callback, this._children[parent][i].id, direct);
                 result = result.concat(childResult);
             }
         }
@@ -9626,12 +9841,12 @@ var TreeCollection = /** @class */ (function (_super) {
     TreeCollection.prototype.getRawData = function (from, to, order, mode, parent) {
         parent = parent !== null && parent !== void 0 ? parent : this._root;
         var out;
-        if (!this._childs[parent])
+        if (!this._children[parent])
             return [];
         if (parent === this._root)
-            out = _super.prototype.getRawData.call(this, from, to, this._childs[parent]);
+            out = _super.prototype.getRawData.call(this, from, to, this._children[parent]);
         else
-            out = this._childs[parent];
+            out = this._children[parent];
         if (mode === 2) {
             return this.flatten(out);
         }
@@ -9642,24 +9857,28 @@ var TreeCollection = /** @class */ (function (_super) {
         var out = [];
         input.forEach(function (a) {
             out.push(a);
-            var kids = _this._childs[a.id];
+            var kids = _this._children[a.id];
             if (kids && a.$opened) {
                 out = out.concat(_this.flatten(kids));
             }
         });
         return out;
     };
-    TreeCollection.prototype._add = function (newItem, index, parent, key) {
-        if (index === void 0) { index = -1; }
-        if (parent === void 0) { parent = this._root; }
-        this._setParent(newItem, parent);
-        if (key > 0 && index !== -1) {
+    TreeCollection.prototype._add = function (_a) {
+        var newItem = _a.newItem, _b = _a.index, index = _b === void 0 ? -1 : _b, _c = _a.parent, parent = _c === void 0 ? this._root : _c, _d = _a.order, order = _d === void 0 ? 0 : _d, batch = _a.batch;
+        if (order > 0 && index !== -1) {
             index = index + 1;
         }
-        var id = _super.prototype._add.call(this, newItem, index);
+        if (!this.events.fire(types_1.DataEvents.beforeAdd, [newItem, batch, order])) {
+            return;
+        }
+        this._setParent(newItem, parent);
+        var id = this._addCore(newItem, index);
+        this._onChange("add", newItem.id, newItem);
+        this.events.fire(types_1.DataEvents.afterAdd, [newItem, batch, order]);
         if (Array.isArray(newItem.items)) {
-            for (var _i = 0, _a = newItem.items; _i < _a.length; _i++) {
-                var item = _a[_i];
+            for (var _i = 0, _e = newItem.items; _i < _e.length; _i++) {
+                var item = _e[_i];
                 this.add(item, -1, newItem.id);
             }
         }
@@ -9678,7 +9897,7 @@ var TreeCollection = /** @class */ (function (_super) {
         if (!this.exists(id)) {
             return null;
         }
-        var currentChilds = this._childs[id];
+        var currentChildren = this._children[id];
         if (key) {
             index = index === -1 ? -1 : index + key;
         }
@@ -9701,9 +9920,9 @@ var TreeCollection = /** @class */ (function (_super) {
             target.add(itemCopy, index);
             id = itemCopy.id;
         }
-        if (currentChilds) {
-            for (var _i = 0, currentChilds_1 = currentChilds; _i < currentChilds_1.length; _i++) {
-                var child = currentChilds_1[_i];
+        if (currentChildren) {
+            for (var _i = 0, currentChildren_1 = currentChildren; _i < currentChildren_1.length; _i++) {
+                var child = currentChildren_1[_i];
                 var childId = child.id;
                 var childIndex = this.getIndex(childId);
                 this.copy(childId, childIndex, target, id);
@@ -9741,8 +9960,8 @@ var TreeCollection = /** @class */ (function (_super) {
     };
     TreeCollection.prototype._moveItem = function (id, targetId, index) {
         var parentId = this.getParent(id);
-        var childs = this._initChilds || this._childs;
-        [this._childs, this._initChilds].forEach(function (store) {
+        var children = this._initChildren || this._children;
+        [this._children, this._initChildren].forEach(function (store) {
             if (!store || !store[parentId])
                 return;
             var i = store[parentId].findIndex(function (item) { return item.id === id; });
@@ -9756,8 +9975,8 @@ var TreeCollection = /** @class */ (function (_super) {
         });
         if (parentId !== this._root && parentId !== targetId) {
             var parent_1 = this.getItem(parentId);
-            if (childs[parentId]) {
-                parent_1.items = __spreadArray([], childs[parentId], true);
+            if (children[parentId]) {
+                parent_1.items = __spreadArray([], children[parentId], true);
             }
             else {
                 delete parent_1.items;
@@ -9765,47 +9984,85 @@ var TreeCollection = /** @class */ (function (_super) {
         }
         if (targetId !== this._root) {
             var target = this.getItem(targetId);
-            target.items = __spreadArray([], (childs[targetId] || []), true);
+            target.items = __spreadArray([], (children[targetId] || []), true);
         }
     };
     TreeCollection.prototype._reset = function (config) {
         var _a;
         if ((0, core_1.isId)(config === null || config === void 0 ? void 0 : config.id)) {
-            var childs = __spreadArray([], this._childs[config === null || config === void 0 ? void 0 : config.id], true);
-            for (var _i = 0, childs_2 = childs; _i < childs_2.length; _i++) {
-                var child = childs_2[_i];
+            var children = __spreadArray([], this._children[config === null || config === void 0 ? void 0 : config.id], true);
+            for (var _i = 0, children_2 = children; _i < children_2.length; _i++) {
+                var child = children_2[_i];
                 this.remove(child.id);
             }
         }
         else {
             _super.prototype._reset.call(this, config);
             var root = this._root;
-            this._initChilds = null;
-            this._childs = (_a = {}, _a[root] = [], _a);
+            this._initChildren = null;
+            this._children = (_a = {}, _a[root] = [], _a);
         }
     };
     TreeCollection.prototype._removeCore = function (id) {
+        var _a;
+        if (!this._pull[id]) {
+            return;
+        }
+        var parentId = this.getParent(id);
+        this._removeFromParentList(this._children, parentId, id);
+        if (this._initChildren) {
+            this._removeFromParentList(this._initChildren, parentId, id);
+        }
+        if ((_a = this._pull[parentId]) === null || _a === void 0 ? void 0 : _a.items) {
+            var parent_2 = this._pull[parentId];
+            parent_2.items = parent_2.items.filter(function (item) { return item.id !== id; });
+        }
+        var removedIds = new Set();
+        this._removeChildren(this._children, id, removedIds);
+        if (this._initChildren) {
+            this._removeChildren(this._initChildren, id, removedIds);
+        }
+        this._removeFromOrders(removedIds);
+    };
+    TreeCollection.prototype._removeFromParentList = function (target, parentId, childId) {
+        if (!target[parentId])
+            return;
+        target[parentId] = target[parentId].filter(function (item) { return item.id !== childId; });
+        if (parentId !== this._root && target[parentId].length === 0) {
+            delete target[parentId];
+        }
+    };
+    TreeCollection.prototype._removeChildren = function (target, id, collectedIds) {
         if (this._pull[id]) {
-            var parent_2 = this.getParent(id);
-            this._childs[parent_2] = this._childs[parent_2].filter(function (item) { return item.id !== id; });
-            if (parent_2 !== this._root && !this._childs[parent_2].length) {
-                delete this._childs[parent_2];
+            collectedIds.add(id);
+            delete this._pull[id];
+        }
+        var children = target[id];
+        if (children) {
+            for (var i = 0; i < children.length; i++) {
+                this._removeChildren(target, children[i].id, collectedIds);
             }
-            if (this._initChilds && this._initChilds[parent_2]) {
-                this._initChilds[parent_2] = this._initChilds[parent_2].filter(function (item) { return item.id !== id; });
-                if (parent_2 !== this._root && !this._initChilds[parent_2].length) {
-                    delete this._initChilds[parent_2];
-                }
-            }
-            this._fastDeleteChilds(this._childs, id);
-            if (this._initChilds) {
-                this._fastDeleteChilds(this._initChilds, id);
-            }
+            delete target[id];
+        }
+    };
+    TreeCollection.prototype._removeFromOrders = function (removedIds) {
+        var _a, _b;
+        if (removedIds.size === 0)
+            return;
+        var filterFn = function (i) { return !removedIds.has(i.id); };
+        if (this._order) {
+            this._order = this._order.filter(filterFn);
+        }
+        if ((_a = this._initFilterOrder) === null || _a === void 0 ? void 0 : _a.length) {
+            this._initFilterOrder = this._initFilterOrder.filter(filterFn);
+        }
+        if ((_b = this._initSortOrder) === null || _b === void 0 ? void 0 : _b.length) {
+            this._initSortOrder = this._initSortOrder.filter(filterFn);
         }
     };
     TreeCollection.prototype._addToOrder = function (_order, obj, index) {
-        var childs = this._childs;
-        var initChilds = this._initChilds;
+        var children = this._children;
+        var initChildren = this._initChildren;
         var parent = obj.parent;
         this._pull[obj.id] = obj;
         if (obj.parent &&
@@ -9815,9 +10072,9 @@ var TreeCollection = /** @class */ (function (_super) {
             this._pull[obj.parent].items.push(obj);
         }
         _super.prototype._addToOrder.call(this, _order, obj, index);
-        addToOrder(childs, obj, parent, index);
-        if (initChilds) {
-            addToOrder(initChilds, obj, parent, index);
+        addToOrder(children, obj, parent, index);
+        if (initChildren) {
+            addToOrder(initChildren, obj, parent, index);
         }
     };
     TreeCollection.prototype._parse_data = function (data, parent) {
@@ -9847,35 +10104,15 @@ var TreeCollection = /** @class */ (function (_super) {
     TreeCollection.prototype._parseItem = function (item) {
         this._pull[item.id] = item;
         this._order[this._order.length] = item;
-        if (!this._childs[item.parent]) {
-            this._childs[item.parent] = [];
+        if (!this._children[item.parent]) {
+            this._children[item.parent] = [];
         }
-        this._childs[item.parent].push(item);
+        this._children[item.parent].push(item);
     };
-    TreeCollection.prototype._fastDeleteChilds = function (target, id) {
-        var _a, _b;
-        if (this._pull[id]) {
-            if ((_a = this._initFilterOrder) === null || _a === void 0 ? void 0 : _a.length) {
-                this._initFilterOrder = this._initFilterOrder.filter(function (el) { return el.id !== id; });
-            }
-            if ((_b = this._initSortOrder) === null || _b === void 0 ? void 0 : _b.length) {
-                this._initSortOrder = this._initSortOrder.filter(function (el) { return el.id !== id; });
-            }
-            this._order = this._order.filter(function (el) { return el.id !== id; });
-            delete this._pull[id];
-        }
-        if (!target[id]) {
-            return;
-        }
-        for (var i = 0; i < target[id].length; i++) {
-            this._fastDeleteChilds(target, target[id][i].id);
-        }
-        delete target[id];
-    };
-    TreeCollection.prototype._recursiveFilter = function (rule, config, current, level, newChilds) {
+    TreeCollection.prototype._recursiveFilter = function (rule, config, current, level, newChildren) {
         var _this = this;
-        var childs = this._childs[current];
-        if (!childs) {
+        var children = this._children[current];
+        if (!children) {
             return;
         }
         var condition = function (item) {
@@ -9893,12 +10130,12 @@ var TreeCollection = /** @class */ (function (_super) {
         };
         if (typeof rule === "function") {
             var customRule = function (item) { return condition(item) && rule(item); };
-            var filtered = childs.filter(customRule);
+            var filtered = children.filter(customRule);
             if (filtered.length) {
-                newChilds[current] = filtered;
+                newChildren[current] = filtered;
             }
             else if (current === this._root) {
-                newChilds[current] = [];
+                newChildren[current] = [];
             }
         }
         else {
@@ -9916,17 +10153,17 @@ var TreeCollection = /** @class */ (function (_super) {
                 }
                 return condition(item) && responseOfRule;
             };
-            var filtered = childs.filter(customRule);
+            var filtered = children.filter(customRule);
             if (filtered.length) {
-                newChilds[current] = filtered;
+                newChildren[current] = filtered;
             }
             else if (current === this._root) {
-                newChilds[current] = [];
+                newChildren[current] = [];
             }
         }
-        for (var _i = 0, childs_3 = childs; _i < childs_3.length; _i++) {
-            var child = childs_3[_i];
-            this._recursiveFilter(rule, config, child.id, level + 1, newChilds);
+        for (var _i = 0, children_3 = children; _i < children_3.length; _i++) {
+            var child = children_3[_i];
+            this._recursiveFilter(rule, config, child.id, level + 1, newChildren);
         }
     };
     TreeCollection.prototype._serialize = function (parent, fn) {
@@ -9959,11 +10196,11 @@ var TreeCollection = /** @class */ (function (_super) {
         if (!this._initFilterOrder) {
             this._initFilterOrder = this._order;
         }
-        if (!this._initChilds) {
-            this._initChilds = this._childs;
+        if (!this._initChildren) {
+            this._initChildren = this._children;
         }
         var filter;
-        var newChilds = {};
+        var newChildren = {};
         if (typeof rule !== "function") {
             filter = {};
             if ((0, core_1.isDefined)(rule.by)) {
@@ -9978,22 +10215,22 @@ var TreeCollection = /** @class */ (function (_super) {
         else {
             filter = rule;
         }
-        this._recursiveFilter(filter, config, this._root, 0, newChilds);
-        Object.keys(newChilds).forEach(function (key) {
+        this._recursiveFilter(filter, config, this._root, 0, newChildren);
+        Object.keys(newChildren).forEach(function (key) {
             var parentId = _this.getParent(key);
             var current = _this.getItem(key);
             while (parentId) {
-                if (!newChilds[parentId]) {
-                    newChilds[parentId] = [];
+                if (!newChildren[parentId]) {
+                    newChildren[parentId] = [];
                 }
-                if (current && !newChilds[parentId].find(function (x) { return x.id === current.id; })) {
-                    newChilds[parentId].push(current);
+                if (current && !newChildren[parentId].find(function (x) { return x.id === current.id; })) {
+                    newChildren[parentId].push(current);
                 }
                 current = _this.getItem(parentId);
                 parentId = _this.getParent(parentId);
             }
         });
-        this._childs = newChilds;
+        this._children = newChildren;
     };
     TreeCollection.prototype._normalizeFilters = function (filters) {
         var rules = {};
@@ -10008,12 +10245,12 @@ var TreeCollection = /** @class */ (function (_super) {
             Object.values(rule).every(function (value) { return typeof value !== "function" && _super.prototype._checkFilterRule.call(_this, value); }));
     };
     TreeCollection.prototype._applySorters = function () {
-        for (var key in this._childs) {
-            this._sort.sort(this._childs[key], this._sortingStates);
+        for (var key in this._children) {
+            this._sort.sort(this._children[key], this._sortingStates);
         }
-        if (this._initChilds && Object.keys(this._initChilds).length) {
-            for (var key in this._initChilds) {
-                this._sort.sort(this._initChilds[key], this._sortingStates);
+        if (this._initChildren && Object.keys(this._initChildren).length) {
+            for (var key in this._initChildren) {
+                this._sort.sort(this._initChildren[key], this._sortingStates);
             }
         }
     };
@@ -10023,7 +10260,7 @@ exports.TreeCollection = TreeCollection;
 
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10059,10 +10296,10 @@ exports.Cell = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var view_1 = __webpack_require__(9);
-var types_1 = __webpack_require__(47);
-var helpers_1 = __webpack_require__(142);
-var events_1 = __webpack_require__(2);
-var Layout_1 = __webpack_require__(46);
+var types_1 = __webpack_require__(48);
+var helpers_1 = __webpack_require__(145);
+var events_1 = __webpack_require__(3);
+var Layout_1 = __webpack_require__(47);
 var Cell = /** @class */ (function (_super) {
     __extends(Cell, _super);
     function Cell(parent, config) {
@@ -10523,25 +10760,16 @@ var Cell = /** @class */ (function (_super) {
                 _this.events.fire(types_1.LayoutEvents.resize, [_this.id]);
             }
         };
-        var iframesInfo = {};
         var resizeEnd = function (event) {
             blockOpts.isActive = false;
             document.body.classList.remove("dhx_no-select--resize");
             if (!event.targetTouches) {
                 document.removeEventListener("mouseup", resizeEnd);
                 document.removeEventListener("mousemove", resizeMove);
-                for (var index in iframesInfo) {
-                    iframesInfo[index].node.contentWindow.document.removeEventListener("mouseup", resizeEnd);
-                    iframesInfo[index].node.contentWindow.document.removeEventListener("mousemove", iframesInfo[index].listener);
-                }
             }
             else {
                 document.removeEventListener("touchend", resizeEnd);
                 document.removeEventListener("touchmove", resizeMove);
-                for (var index in iframesInfo) {
-                    iframesInfo[index].node.contentWindow.document.removeEventListener("touchend", resizeEnd);
-                    iframesInfo[index].node.contentWindow.document.removeEventListener("touchmove", iframesInfo[index].listener);
-                }
             }
             _this.events.fire(types_1.LayoutEvents.afterResizeEnd, [_this.id]);
         };
@@ -10581,45 +10809,11 @@ var Cell = /** @class */ (function (_super) {
                 resizeStart(e);
                 document.addEventListener("mouseup", resizeEnd);
                 document.addEventListener("mousemove", resizeMove);
-                var iframes = document.querySelectorAll("iframe");
-                if (iframes.length) {
-                    iframes.forEach(function (iframe, index) {
-                        var iframeCoords = {
-                            x: iframe.getBoundingClientRect().x,
-                            y: iframe.getBoundingClientRect().y,
-                        };
-                        iframesInfo[index] = {
-                            node: iframe,
-                            listener: function (event) { return resizeMove(event, iframeCoords); },
-                        };
-                    });
-                    for (var index in iframesInfo) {
-                        iframesInfo[index].node.contentWindow.document.addEventListener("mouseup", resizeEnd);
-                        iframesInfo[index].node.contentWindow.document.addEventListener("mousemove", iframesInfo[index].listener);
-                    }
-                }
             },
             ontouchstart: function (e) {
                 resizeStart(e);
                 document.addEventListener("touchend", resizeEnd);
                 document.addEventListener("touchmove", resizeMove);
-                var iframes = document.querySelectorAll("iframe");
-                if (iframes.length) {
-                    iframes.forEach(function (iframe, index) {
-                        var iframeCoords = {
-                            x: iframe.getBoundingClientRect().x,
-                            y: iframe.getBoundingClientRect().y,
-                        };
-                        iframesInfo[index] = {
-                            node: iframe,
-                            listener: function (event) { return resizeMove(event, iframeCoords); },
-                        };
-                    });
-                    for (var index in iframesInfo) {
-                        iframesInfo[index].node.contentWindow.document.addEventListener("touchend", resizeEnd);
-                        iframesInfo[index].node.contentWindow.document.addEventListener("touchmove", iframesInfo[index].listener);
-                    }
-                }
             },
             ondragstart: function (e) { return e.preventDefault(); },
         };
@@ -10865,7 +11059,7 @@ exports.Cell = Cell;
 
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10901,7 +11095,7 @@ exports.ProCell = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var ScrollView_1 = __webpack_require__(22);
-var Cell_1 = __webpack_require__(70);
+var Cell_1 = __webpack_require__(71);
 var ProCell = /** @class */ (function (_super) {
     __extends(ProCell, _super);
     function ProCell(parent, config) {
@@ -11088,7 +11282,7 @@ exports.ProCell = ProCell;
 
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11119,7 +11313,7 @@ exports.blockScreen = blockScreen;
 
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11137,8 +11331,8 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.disableTooltip = exports.enableTooltip = exports.tooltip = exports.getZIndex = exports.findPosition = void 0;
-var html_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(48);
+var html_1 = __webpack_require__(2);
+var types_1 = __webpack_require__(49);
 var DEFAULT_SHOW_DELAY = 750;
 var DEFAULT_HIDE_DELAY = 200;
 function findPosition(targetRect, position, width, height, margin, recursion) {
@@ -11370,7 +11564,7 @@ exports.disableTooltip = disableTooltip;
 
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11405,8 +11599,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Toolbar = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var html_1 = __webpack_require__(3);
-var ts_message_1 = __webpack_require__(14);
+var html_1 = __webpack_require__(2);
+var ts_message_1 = __webpack_require__(13);
 var ts_navbar_1 = __webpack_require__(23);
 var Toolbar = /** @class */ (function (_super) {
     __extends(Toolbar, _super);
@@ -11616,7 +11810,7 @@ exports.Toolbar = Toolbar;
 
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11634,7 +11828,7 @@ var PopupEvents;
 
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11654,7 +11848,7 @@ var SliderEvents;
 
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11669,7 +11863,7 @@ exports.default = locale;
 
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11694,7 +11888,7 @@ var TimepickerEvents;
 
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11716,7 +11910,7 @@ var CalendarEvents;
 
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11759,22 +11953,22 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.List = exports.MOVE_DOWN = exports.MOVE_UP = void 0;
 var core_1 = __webpack_require__(1);
-var ts_data_1 = __webpack_require__(4);
+var ts_data_1 = __webpack_require__(5);
 var dom_1 = __webpack_require__(0);
-var KeyManager_1 = __webpack_require__(16);
-var types_1 = __webpack_require__(29);
+var KeyManager_1 = __webpack_require__(17);
+var types_1 = __webpack_require__(30);
 var view_1 = __webpack_require__(9);
-var Selection_1 = __webpack_require__(81);
-var html_1 = __webpack_require__(3);
-var types_2 = __webpack_require__(53);
-var editors_1 = __webpack_require__(170);
+var Selection_1 = __webpack_require__(82);
+var html_1 = __webpack_require__(2);
+var types_2 = __webpack_require__(54);
+var editors_1 = __webpack_require__(173);
 exports.MOVE_UP = 1;
 exports.MOVE_DOWN = 2;
 var List = /** @class */ (function (_super) {
     __extends(List, _super);
     function List(node, config) {
-        if (config === void 0) { config = {}; }
         var _this = this;
+        if (config === void 0) { config = {}; }
         var itemHeight = config.itemHeight || (config.virtual ? 37 : null);
         if (itemHeight && typeof itemHeight === "number") {
             itemHeight = itemHeight.toString() + "px";
@@ -12151,9 +12345,9 @@ var List = /** @class */ (function (_super) {
         var kids = data.map(function (obj, index) { return _this._renderItem(obj, index); });
         if (this.config.virtual) {
             kids = __spreadArray(__spreadArray([
-                (0, dom_1.el)(".div", { style: { height: range[2] + "px" } })
+                (0, dom_1.el)(".div", { style: { height: range[2] + "px", _key: "start-key" } })
             ], kids, true), [
-                (0, dom_1.el)(".div", { style: { height: range[3] + "px" } }),
+                (0, dom_1.el)(".div", { style: { height: range[3] + "px", _key: "end-key" } }),
             ], false);
         }
         return (0, dom_1.el)("ul.dhx_widget.dhx_list", __assign(__assign({ style: {
@@ -12182,7 +12376,7 @@ var List = /** @class */ (function (_super) {
         if (this.config.virtual) {
             var overscanCount = 5;
             var visibleHeight = this._visibleHeight || parseInt(this.config.height);
-            var itemHeight = parseInt(this.config.itemHeight);
+            var itemHeight = parseInt(this.config.itemHeight) || 37;
             var total = this.data.getRawData(0, -1).length;
             var totalHeight = total * itemHeight;
             var position = this._topOffset;
@@ -12297,15 +12491,15 @@ exports.List = List;
 
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Selection = void 0;
-var types_1 = __webpack_require__(29);
-var ts_data_1 = __webpack_require__(4);
+var types_1 = __webpack_require__(30);
+var ts_data_1 = __webpack_require__(5);
 var core_1 = __webpack_require__(1);
 var Selection = /** @class */ (function () {
     function Selection(config, data, events) {
@@ -12462,7 +12656,7 @@ exports.Selection = Selection;
 
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12496,7 +12690,7 @@ exports.palette = [
 
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12520,7 +12714,7 @@ var ColorpickerEvents;
 
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12554,26 +12748,25 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Chart = void 0;
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var view_1 = __webpack_require__(9);
-var ts_data_1 = __webpack_require__(4);
-var ComposeLayer_1 = __webpack_require__(177);
-var Legend_1 = __webpack_require__(85);
+var ts_data_1 = __webpack_require__(5);
+var ComposeLayer_1 = __webpack_require__(180);
+var Legend_1 = __webpack_require__(86);
 var types_1 = __webpack_require__(26);
-var index_1 = __webpack_require__(180);
-var index_2 = __webpack_require__(87);
-var Stacker_1 = __webpack_require__(92);
+var index_1 = __webpack_require__(183);
+var index_2 = __webpack_require__(88);
+var Stacker_1 = __webpack_require__(93);
 var common_1 = __webpack_require__(7);
-var Tooltip_1 = __webpack_require__(194);
+var Tooltip_1 = __webpack_require__(197);
 var core_1 = __webpack_require__(1);
-var Export_1 = __webpack_require__(195);
+var Export_1 = __webpack_require__(198);
 var Chart = /** @class */ (function (_super) {
     __extends(Chart, _super);
     function Chart(node, config) {
         if (config === void 0) { config = {}; }
-        var _this = this;
         var _a;
-        _this = _super.call(this, null, config) || this;
+        var _this = _super.call(this, null, config) || this;
         // using zero values ensure that widget will not attempt to render self in the hidden state
         _this._width = 0;
         _this._height = 0;
@@ -12884,7 +13077,7 @@ exports.Chart = Chart;
 
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12902,11 +13095,11 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Legend = void 0;
-var ts_data_1 = __webpack_require__(4);
+var ts_data_1 = __webpack_require__(5);
 var types_1 = __webpack_require__(26);
 var dom_1 = __webpack_require__(0);
 var common_1 = __webpack_require__(7);
-var legend_1 = __webpack_require__(179);
+var legend_1 = __webpack_require__(182);
 var core_1 = __webpack_require__(1);
 function getDefaultMargin(halign, valign, isTreeMap, form) {
     switch (valign) {
@@ -13207,7 +13400,7 @@ exports.Legend = Legend;
 
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13528,25 +13721,25 @@ exports.rightGrid = rightGrid;
 
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Area_1 = __webpack_require__(88);
-var Bar_1 = __webpack_require__(90);
-var BarX_1 = __webpack_require__(184);
-var Donut_1 = __webpack_require__(185);
-var Line_1 = __webpack_require__(60);
-var Pie_1 = __webpack_require__(186);
-var Pie3D_1 = __webpack_require__(187);
-var Radar_1 = __webpack_require__(188);
-var Scatter_1 = __webpack_require__(189);
-var Spline_1 = __webpack_require__(190);
-var SplineArea_1 = __webpack_require__(191);
-var TreeMap_1 = __webpack_require__(192);
-var CalendarHeatMap_1 = __webpack_require__(193);
+var Area_1 = __webpack_require__(89);
+var Bar_1 = __webpack_require__(91);
+var BarX_1 = __webpack_require__(187);
+var Donut_1 = __webpack_require__(188);
+var Line_1 = __webpack_require__(61);
+var Pie_1 = __webpack_require__(189);
+var Pie3D_1 = __webpack_require__(190);
+var Radar_1 = __webpack_require__(191);
+var Scatter_1 = __webpack_require__(192);
+var Spline_1 = __webpack_require__(193);
+var SplineArea_1 = __webpack_require__(194);
+var TreeMap_1 = __webpack_require__(195);
+var CalendarHeatMap_1 = __webpack_require__(196);
 var seriesTypes = {
     line: Line_1.default,
     spline: Spline_1.default,
@@ -13566,7 +13759,7 @@ exports.default = seriesTypes;
 
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13600,7 +13793,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
 var common_1 = __webpack_require__(7);
-var ScaleSeria_1 = __webpack_require__(58);
+var ScaleSeria_1 = __webpack_require__(59);
 var Area = /** @class */ (function (_super) {
     __extends(Area, _super);
     function Area() {
@@ -13714,7 +13907,7 @@ exports.default = Area;
 
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13864,7 +14057,7 @@ exports.getShadeHTMLHelper = getShadeHTMLHelper;
 
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13899,7 +14092,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var common_1 = __webpack_require__(7);
-var ScaleSeria_1 = __webpack_require__(58);
+var ScaleSeria_1 = __webpack_require__(59);
 var Bar = /** @class */ (function (_super) {
     __extends(Bar, _super);
     function Bar() {
@@ -14038,7 +14231,7 @@ exports.default = Bar;
 
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14095,7 +14288,7 @@ exports.default = spline;
 
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14149,7 +14342,7 @@ exports.default = Stacker;
 
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14182,19 +14375,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Combobox = exports.$template = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
-var keycodes_1 = __webpack_require__(197);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
+var keycodes_1 = __webpack_require__(200);
 var view_1 = __webpack_require__(9);
-var ts_data_1 = __webpack_require__(4);
-var ts_layout_1 = __webpack_require__(13);
-var ts_list_1 = __webpack_require__(38);
-var ts_popup_1 = __webpack_require__(15);
-var keyListener_1 = __webpack_require__(198);
-var en_1 = __webpack_require__(61);
-var types_1 = __webpack_require__(29);
-var helper_1 = __webpack_require__(94);
-var types_2 = __webpack_require__(95);
+var ts_data_1 = __webpack_require__(5);
+var ts_layout_1 = __webpack_require__(16);
+var ts_list_1 = __webpack_require__(39);
+var ts_popup_1 = __webpack_require__(14);
+var keyListener_1 = __webpack_require__(201);
+var en_1 = __webpack_require__(62);
+var types_1 = __webpack_require__(30);
+var helper_1 = __webpack_require__(95);
+var types_2 = __webpack_require__(96);
 function itemsCountTemplate(count, templateFN) {
     if (typeof templateFN === "function") {
         return templateFN(count);
@@ -15010,7 +15203,10 @@ var Combobox = /** @class */ (function (_super) {
         var popupNode = this.popup.getContainer();
         var holderNode = this.getRootView().refs.holder.el;
         popupNode.style.width = holderNode.offsetWidth + "px";
-        var listHeight = (0, dom_1.getViewHeight)(this.list._renderList(), holderNode.offsetWidth);
+        var listHeight = parseInt(this.config.listHeight);
+        if (this.data.getLength() <= 10) {
+            listHeight = (0, dom_1.getViewHeight)(this.list._renderList(), holderNode.offsetWidth);
+        }
         var selectAllCellHeight = this._layout.getCell("select-unselect-all").isVisible() ? 33 : 0;
         var notFoundCellHeight = this._state.creatingState ? this._layout.getCell("not-found").height : 0;
         popupNode.style.height = listHeight + selectAllCellHeight + notFoundCellHeight + "px";
@@ -15025,7 +15221,7 @@ exports.Combobox = Combobox;
 
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15033,7 +15229,7 @@ exports.Combobox = Combobox;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.emptyListHeight = exports.emptyListView = exports.unselectAllView = exports.selectAllView = void 0;
 var dom_1 = __webpack_require__(0);
-var en_1 = __webpack_require__(61);
+var en_1 = __webpack_require__(62);
 function selectAllView() {
     return (0, dom_1.el)(".dhx_list-item.dhx_combobox-options__item.dhx_combobox-options__item--select-all.dhx_combobox__action-select-all", en_1.default.selectAll);
 }
@@ -15061,7 +15257,7 @@ exports.emptyListHeight = emptyListHeight;
 
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15094,7 +15290,7 @@ var ComboState;
 
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15129,8 +15325,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DataView = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var ts_list_1 = __webpack_require__(38);
-var editors_1 = __webpack_require__(201);
+var ts_list_1 = __webpack_require__(39);
+var editors_1 = __webpack_require__(204);
 var DataView = /** @class */ (function (_super) {
     __extends(DataView, _super);
     function DataView(node, config) {
@@ -15305,7 +15501,7 @@ exports.DataView = DataView;
 
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15329,7 +15525,7 @@ var DataViewEvents;
 
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15382,30 +15578,30 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Form = void 0;
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var view_1 = __webpack_require__(9);
-var ts_layout_1 = __webpack_require__(13);
+var ts_layout_1 = __webpack_require__(16);
 var core_1 = __webpack_require__(1);
-var dateinput_1 = __webpack_require__(205);
-var button_1 = __webpack_require__(206);
-var checkbox_1 = __webpack_require__(99);
-var checkboxGroup_1 = __webpack_require__(207);
-var input_1 = __webpack_require__(40);
-var radioGroup_1 = __webpack_require__(208);
-var select_1 = __webpack_require__(210);
-var textarea_1 = __webpack_require__(211);
-var textinput_1 = __webpack_require__(212);
-var combo_1 = __webpack_require__(213);
-var sliderform_1 = __webpack_require__(214);
+var dateinput_1 = __webpack_require__(208);
+var button_1 = __webpack_require__(209);
+var checkbox_1 = __webpack_require__(100);
+var checkboxGroup_1 = __webpack_require__(210);
+var input_1 = __webpack_require__(41);
+var radioGroup_1 = __webpack_require__(211);
+var select_1 = __webpack_require__(213);
+var textarea_1 = __webpack_require__(214);
+var textinput_1 = __webpack_require__(215);
+var combo_1 = __webpack_require__(216);
+var sliderform_1 = __webpack_require__(217);
 var helper_1 = __webpack_require__(8);
-var simplevault_1 = __webpack_require__(100);
-var timeinput_1 = __webpack_require__(215);
-var colorpicker_1 = __webpack_require__(216);
-var spacer_1 = __webpack_require__(217);
-var avatar_1 = __webpack_require__(218);
-var fieldset_1 = __webpack_require__(219);
-var ToggleButton_1 = __webpack_require__(102);
-var ToggleGroup_1 = __webpack_require__(220);
+var simplevault_1 = __webpack_require__(101);
+var timeinput_1 = __webpack_require__(218);
+var colorpicker_1 = __webpack_require__(219);
+var spacer_1 = __webpack_require__(220);
+var avatar_1 = __webpack_require__(221);
+var fieldset_1 = __webpack_require__(222);
+var ToggleButton_1 = __webpack_require__(103);
+var ToggleGroup_1 = __webpack_require__(223);
 var types_1 = __webpack_require__(6);
 var dom_1 = __webpack_require__(0);
 var Form = /** @class */ (function (_super) {
@@ -16750,7 +16946,7 @@ exports.Form = Form;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
 
 /***/ }),
-/* 99 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16782,11 +16978,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Checkbox = void 0;
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var helper_1 = __webpack_require__(8);
-var ts_popup_1 = __webpack_require__(15);
+var ts_popup_1 = __webpack_require__(14);
 var types_1 = __webpack_require__(6);
-var label_1 = __webpack_require__(12);
+var label_1 = __webpack_require__(15);
 var core_1 = __webpack_require__(1);
 var Checkbox = /** @class */ (function (_super) {
     __extends(Checkbox, _super);
@@ -17107,7 +17303,7 @@ exports.Checkbox = Checkbox;
 
 
 /***/ }),
-/* 100 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17150,16 +17346,16 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SimpleVault = exports.FileStatus = void 0;
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var core_1 = __webpack_require__(1);
-var ts_data_1 = __webpack_require__(4);
-var ts_vault_1 = __webpack_require__(62);
-var ts_popup_1 = __webpack_require__(15);
+var ts_data_1 = __webpack_require__(5);
+var ts_vault_1 = __webpack_require__(63);
+var ts_popup_1 = __webpack_require__(14);
 var helper_1 = __webpack_require__(8);
-var en_1 = __webpack_require__(101);
+var en_1 = __webpack_require__(102);
 var types_1 = __webpack_require__(6);
-var label_1 = __webpack_require__(12);
+var label_1 = __webpack_require__(15);
 var FileStatus;
 (function (FileStatus) {
     FileStatus["queue"] = "queue";
@@ -17524,7 +17720,7 @@ exports.SimpleVault = SimpleVault;
 
 
 /***/ }),
-/* 101 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17537,7 +17733,7 @@ exports.default = {
 
 
 /***/ }),
-/* 102 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17582,7 +17778,7 @@ exports.ToggleButton = void 0;
 var types_1 = __webpack_require__(6);
 var view_1 = __webpack_require__(9);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var helper_1 = __webpack_require__(8);
 var core_1 = __webpack_require__(1);
 var ToggleButton = /** @class */ (function (_super) {
@@ -17739,7 +17935,7 @@ exports.ToggleButton = ToggleButton;
 
 
 /***/ }),
-/* 103 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17759,17 +17955,17 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(104), exports);
-__exportStar(__webpack_require__(109), exports);
-__exportStar(__webpack_require__(245), exports);
-__exportStar(__webpack_require__(5), exports);
+__exportStar(__webpack_require__(105), exports);
+__exportStar(__webpack_require__(111), exports);
+__exportStar(__webpack_require__(248), exports);
+__exportStar(__webpack_require__(4), exports);
 __exportStar(__webpack_require__(24), exports);
 __exportStar(__webpack_require__(11), exports);
 __exportStar(__webpack_require__(10), exports);
 
 
 /***/ }),
-/* 104 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17812,27 +18008,26 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Grid = void 0;
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var core_1 = __webpack_require__(1);
-var KeyManager_1 = __webpack_require__(16);
+var KeyManager_1 = __webpack_require__(17);
 var view_1 = __webpack_require__(9);
-var ts_data_1 = __webpack_require__(4);
-var Exporter_1 = __webpack_require__(223);
+var ts_data_1 = __webpack_require__(5);
+var Exporter_1 = __webpack_require__(106);
 var data_1 = __webpack_require__(11);
 var cells_1 = __webpack_require__(24);
 var main_1 = __webpack_require__(10);
-var Selection_1 = __webpack_require__(224);
-var types_1 = __webpack_require__(5);
-var render_1 = __webpack_require__(105);
-var common_1 = __webpack_require__(17);
-var content_1 = __webpack_require__(235);
-var Resizer_1 = __webpack_require__(239);
-var keys_1 = __webpack_require__(240);
-var _ells_1 = __webpack_require__(41);
-var date_1 = __webpack_require__(18);
-var DropManager_1 = __webpack_require__(108);
-var dom_2 = __webpack_require__(241);
+var Selection_1 = __webpack_require__(226);
+var types_1 = __webpack_require__(4);
+var render_1 = __webpack_require__(107);
+var common_1 = __webpack_require__(12);
+var content_1 = __webpack_require__(28);
+var Resizer_1 = __webpack_require__(240);
+var keys_1 = __webpack_require__(241);
+var cells_2 = __webpack_require__(42);
+var DropManager_1 = __webpack_require__(110);
+var dom_2 = __webpack_require__(242);
 var default_1 = __webpack_require__(27);
 var Grid = /** @class */ (function (_super) {
     __extends(Grid, _super);
@@ -17850,7 +18045,7 @@ var Grid = /** @class */ (function (_super) {
         _this._dropManager = null;
         _this._commonSummary = {};
         _this._colSummary = {};
-        _this.version = "9.2.0";
+        _this.version = "9.3.0";
         _this.name = "grid";
         _this.config = (0, core_1.extend)({
             rowHeight: 40,
@@ -17863,7 +18058,7 @@ var Grid = /** @class */ (function (_super) {
             tooltip: true,
             rootParent: (typeof container === "string" && container) || _this._uid,
         }, _this._normalizeConfig(config));
-        _this.content = (0, content_1.getContent)();
+        _this.content = (0, content_1.getContent)(_this);
         _this._scroll = {
             top: 0,
             left: 0,
@@ -18164,21 +18359,36 @@ var Grid = /** @class */ (function (_super) {
         this.paint();
     };
     Grid.prototype.getCellRect = function (rowId, colId) {
-        var _a;
+        var _a, _b;
         var columns = this.config.columns.filter(function (col) { return !col.hidden; });
+        if (!(0, core_1.isDefined)(colId)) {
+            colId = this.config.columns[0].id;
+        }
         var rows = this.data.getRawData(0, -1);
         var span = this.getSpan(rowId, colId);
         var colInd = columns.findIndex(function (obj) { return obj.id == (span ? span.column : colId); });
         var rowInd = rows.findIndex(function (obj) { return obj.id == (span ? span.row : rowId); });
         var x = (0, main_1.getTotalWidth)(columns.slice(0, colInd));
         var y = (0, main_1.getTotalHeight)(rows.slice(0, rowInd));
+        if (this.config.footerPosition === "bottom" &&
+            this.config.height !== "auto" &&
+            this.config.$height >= this.config.$totalHeight &&
+            this.config.bottomSplit) {
+            var splitRows = rows.slice(-this.config.bottomSplit) || [];
+            var splitRowIndex = splitRows.findIndex(function (i) { return i.id === rowId; });
+            if (splitRows.length && splitRowIndex !== -1) {
+                var scroll_1 = (0, common_1.calcScrollBarWidth)(this.config, !!((_a = this.scrollView) === null || _a === void 0 ? void 0 : _a.config.enable));
+                var rowAreaHeight = this.config.$height - this.config.$footerHeight - this.config.$headerHeight;
+                y = rowAreaHeight - (0, main_1.getTotalHeight)(splitRows.slice(splitRowIndex)) - scroll_1.x - common_1.BORDERS;
+            }
+        }
         return {
             x: x,
             y: y,
             height: (span === null || span === void 0 ? void 0 : span.rowspan) > 1 ? (0, cells_1.getSpanHeight)(rows, span) : (0, data_1.getTotalRowHeight)(rows[rowInd]) || 0,
             width: (span === null || span === void 0 ? void 0 : span.colspan) > 1
                 ? (0, cells_1.getWidth)(this.config.columns, span.colspan, this.config.columns.findIndex(function (item) { return item.id === span.column; }))
-                : ((_a = columns[colInd]) === null || _a === void 0 ? void 0 : _a.$width) || 0,
+                : ((_b = columns[colInd]) === null || _b === void 0 ? void 0 : _b.$width) || 0,
         };
     };
     Grid.prototype.getColumn = function (colId) {
@@ -18197,7 +18407,7 @@ var Grid = /** @class */ (function (_super) {
             this.config.spans[index] = spanObj;
             return;
         }
-        this.config.spans.push((0, _ells_1.normalizeSpan)(spanObj, this.config, this.data));
+        this.config.spans.push((0, cells_2.normalizeSpan)(spanObj, this.config, this.data));
         this._checkMarks();
         this.paint();
     };
@@ -18606,7 +18816,7 @@ var Grid = /** @class */ (function (_super) {
             _this.paint();
         });
         this.data.events.on(ts_data_1.DataEvents.change, function (id, status, obj) {
-            if (status === "load") {
+            if (status === "load" || status === "add" || status === "remove") {
                 return;
             }
             if (status === "setPage") {
@@ -18620,11 +18830,7 @@ var Grid = /** @class */ (function (_super) {
             if (status === "sort") {
                 _this._setSort();
             }
-            else if (status === "add" || status === "update" || status === "remove") {
-                if ((0, core_1.isId)(id) && status === "remove") {
-                    var removed = _this.selection.getCells().find(function (cell) { return cell.row.id === id; });
-                    removed && _this.selection.removeCell(removed.row.id, removed.column.id);
-                }
+            else if (status === "update") {
                 _this.config.data = _this._prepareData(_this.data);
             }
             else {
@@ -18655,8 +18861,6 @@ var Grid = /** @class */ (function (_super) {
                 }
             }
             switch (status) {
-                case "add":
-                case "remove":
                 case "sort":
                     _this._normalizeSpans();
             }
@@ -18693,6 +18897,14 @@ var Grid = /** @class */ (function (_super) {
                 _this.data.resetFilter();
             }
             _this._clearFilterValue(true);
+        });
+        this.data.events.on(ts_data_1.DataEvents.afterAdd, function (obj, batch, index) {
+            if (batch.length === ++index)
+                _this._handleRow(obj.id, "add");
+        });
+        this.data.events.on(ts_data_1.DataEvents.afterRemove, function (obj, batch, index) {
+            if (batch.length === ++index)
+                _this._handleRow(obj.id, "remove");
         });
         this.events.on(ts_data_1.DragEvents.beforeDrag, function (data, events, _ghost, type) {
             switch (type) {
@@ -19003,20 +19215,7 @@ var Grid = /** @class */ (function (_super) {
         }
         var defaultAs = function (item) {
             if (item && column.type === "date") {
-                if (typeof item === "string") {
-                    if (!(0, date_1.stringToDate)(item, column.dateFormat, true)) {
-                        var date = new Date(item);
-                        if (date === null || date === void 0 ? void 0 : date.valueOf())
-                            item = date.getTime();
-                    }
-                    else {
-                        item = (0, date_1.stringToDate)(item, column.dateFormat).getTime();
-                    }
-                }
-                else {
-                    item = item.getTime();
-                }
-                return item;
+                return (0, common_1.getNormalizeDateObject)(item, column.dateFormat).getTime();
             }
             return item ? "".concat(item) : "";
         };
@@ -19060,11 +19259,14 @@ var Grid = /** @class */ (function (_super) {
             return;
         this.config.columns.forEach(function (col) {
             col.header.forEach(function (cell) {
-                if (cell.content && (cell.content === "selectFilter" || cell.content === "comboFilter")) {
+                var _a;
+                if (!((_a = _this._activeFilters) === null || _a === void 0 ? void 0 : _a[col.id]) &&
+                    cell.content &&
+                    (cell.content === "selectFilter" || cell.content === "comboFilter")) {
                     var multi = col.header.some(function (i) { var _a; return (_a = i.filterConfig) === null || _a === void 0 ? void 0 : _a.multiselection; });
                     var customFilter = col.header.some(function (i) { var _a; return (_a = i.filterConfig) === null || _a === void 0 ? void 0 : _a.filter; });
-                    if (!sync || (sync && !multi && !customFilter)) {
-                        var unique = (0, data_1.getUnique)(_this._filterData, col.id, multi, col.editorType);
+                    if (!sync || (sync && !customFilter)) {
+                        var unique = (0, data_1.getNormalizeFilterData)(_this._filterData, col.id, multi, col.editorType);
                         var options_2 = (0, data_1.getEditorOptions)(col);
                         if ((col.editorType === "combobox" ||
                             col.editorType === "select" ||
@@ -19110,7 +19312,9 @@ var Grid = /** @class */ (function (_super) {
     Grid.prototype._clearFilterValue = function (allCols) {
         var _this = this;
         if (allCols === void 0) { allCols = false; }
-        var filters = ["selectFilter", "inputFilter"].map(function (i) { var _a; return (_a = _this.content) === null || _a === void 0 ? void 0 : _a[i]; }).filter(function (i) { return i; });
+        var filters = ["selectFilter", "inputFilter", "dateFilter"]
+            .map(function (i) { var _a; return (_a = _this.content) === null || _a === void 0 ? void 0 : _a[i]; })
+            .filter(function (i) { return i; });
         filters.forEach(function (filter) {
             for (var key in filter.value) {
                 if (filter.value[key] && (allCols || !_this.getColumn(key).hidden)) {
@@ -19280,14 +19484,14 @@ var Grid = /** @class */ (function (_super) {
         if (this.config.dragMode &&
             (this.config.dragItem === "row" || this.config.dragItem === "both") &&
             !this.config.$editable) {
-            var itemId = (0, html_1.locate)(event, "data-dhx-id");
+            var rowId = this.data.getItem((0, html_1.locate)(event, "data-dhx-id")).id;
             if (event.targetTouches) {
                 this._touch.start = true;
             }
             ts_data_1.dragManager.onMouseDown({
                 event: event,
-                source: [itemId],
-                itemsForGhost: [this._getRowGhost([itemId])],
+                source: [rowId],
+                itemsForGhost: [this._getRowGhost([rowId])],
                 type: "row",
             });
         }
@@ -19328,8 +19532,12 @@ var Grid = /** @class */ (function (_super) {
         var leftFixedCols = (0, common_1.getCurrFixedCols)(this.config, types_1.Split.left);
         var rightFixedCols = (0, common_1.getCurrFixedCols)(this.config, types_1.Split.right);
         var scrollbarWidth = (0, common_1.calcScrollBarWidth)(this.config, !!((_a = this.scrollView) === null || _a === void 0 ? void 0 : _a.config.enable));
-        var rows = ids.map(function (id) {
+        var rows = [];
+        var _loop_3 = function (index) {
+            var id = ids[index];
             var row = (0, dom_2.getRowNode)(id, root);
+            if (!row)
+                return "continue";
             var rowWidth = $totalWidth > $width - scrollbarWidth.y ? $width - scrollbarWidth.y - common_1.BORDERS : $totalWidth;
             if (leftFixedCols.length || rightFixedCols.length) {
                 var complexRow = new Array(3);
@@ -19360,11 +19568,16 @@ var Grid = /** @class */ (function (_super) {
                         complexRowContainer_1.appendChild(clone);
                     }
                 });
-                return complexRowContainer_1;
+                return { value: complexRowContainer_1 };
             }
             var clone = row.cloneNode(true);
-            return (0, dom_2.getVisibleRowNode)(clone, rowWidth, (0, html_1.getNodeOffset)(row, root).left - common_1.BORDERS / 2);
-        });
+            rows.push((0, dom_2.getVisibleRowNode)(clone, rowWidth, (0, html_1.getNodeOffset)(row, root).left - common_1.BORDERS / 2));
+        };
+        for (var index = 0; index < ids.length; index++) {
+            var state_1 = _loop_3(index);
+            if (typeof state_1 === "object")
+                return state_1.value;
+        }
         var ghostContainer = document.createElement("div");
         ghostContainer.style.setProperty("width", "initial", "important");
         rows.forEach(function (el) { return ghostContainer.appendChild(el); });
@@ -19412,7 +19625,7 @@ var Grid = /** @class */ (function (_super) {
             for (var _i = 0, numberColumns_1 = numberColumns; _i < numberColumns_1.length; _i++) {
                 var col = numberColumns_1[_i];
                 var value = (0, data_1.getValueForNumberColumn)(col, item[col.id]);
-                if (Number.isNaN(value)) {
+                if (Number.isNaN(value) && !item.$group) {
                     throw new Error("Incorrect data in column with type 'number', see docs: https://docs.dhtmlx.com/suite/grid/api/api_gridcolumn_properties/");
                 }
                 else if (item[col.id] !== value) {
@@ -19439,7 +19652,7 @@ var Grid = /** @class */ (function (_super) {
     Grid.prototype._normalizeSpans = function () {
         var _this = this;
         var _a;
-        this.config.spans = (_a = this.config.spans) === null || _a === void 0 ? void 0 : _a.map(function (span) { return (0, _ells_1.normalizeSpan)(span, _this.config, _this.data); });
+        this.config.spans = (_a = this.config.spans) === null || _a === void 0 ? void 0 : _a.map(function (span) { return (0, cells_2.normalizeSpan)(span, _this.config, _this.data); });
     };
     Grid.prototype._hideColumn = function (column) {
         column.hidden = true;
@@ -19503,6 +19716,18 @@ var Grid = /** @class */ (function (_super) {
             }
         });
     };
+    Grid.prototype._init = function () {
+        this.events = new events_1.EventSystem(this);
+        this._events = new events_1.EventSystem(this);
+        this._attachDataCollection();
+        this.export = new Exporter_1.Exporter({
+            name: "grid",
+            version: this.version,
+            view: this,
+            export: null,
+        });
+        this._setEventHandlers();
+    };
     Grid.prototype._applyMethod = function (method, rows, colId) {
         var _a;
         if (typeof method === "function") {
@@ -19525,13 +19750,6 @@ var Grid = /** @class */ (function (_super) {
                 : !afterMount;
         }
         return false;
-    };
-    Grid.prototype._init = function () {
-        this.events = new events_1.EventSystem(this);
-        this._events = new events_1.EventSystem(this);
-        this._attachDataCollection();
-        this.export = new Exporter_1.Exporter("grid", this.version, this);
-        this._setEventHandlers();
     };
     Grid.prototype._attachDataCollection = function () {
         if (this.config.data instanceof ts_data_1.DataCollection) {
@@ -19615,8 +19833,8 @@ var Grid = /** @class */ (function (_super) {
     };
     Grid.prototype._destroyContent = function () {
         for (var contentName in this.content) {
-            if (contentName === "comboFilter") {
-                this.content[contentName].destroy();
+            if (typeof this.content[contentName].destructor === "function") {
+                this.content[contentName].destructor();
             }
         }
     };
@@ -19758,13 +19976,884 @@ var Grid = /** @class */ (function (_super) {
         var scrollView = (_b = this.scrollView) === null || _b === void 0 ? void 0 : _b.config.enable;
         (0, render_1.applyAutoWidth)(this.config, parentSizes, scrollView);
     };
+    Grid.prototype._handleRow = function (id, status) {
+        if ((0, core_1.isId)(id) && status === "remove") {
+            var removed = this.selection.getCells().find(function (cell) { return cell.row.id === id; });
+            removed && this.selection.removeCell(removed.row.id, removed.column.id);
+        }
+        this.config.data = this._prepareData(this.data);
+        if ((0, core_1.isId)(id)) {
+            this._checkFilters();
+            this._checkSelectFilterValue();
+        }
+        this._detectColsTypes();
+        this._removeMarks();
+        this._checkMarks();
+        if (this.config.autoEmptyRow && (!this._activeFilters || (0, core_1.isEmptyObj)(this._activeFilters))) {
+            var emptyRow = this.data.find({ by: "$emptyRow", match: true });
+            if (emptyRow) {
+                if (emptyRow.id === id)
+                    return;
+                this.data.move(emptyRow.id, this.data.getLength() - 1);
+            }
+            else {
+                this._addEmptyRow();
+            }
+        }
+        this._normalizeSpans();
+        this._render();
+    };
     return Grid;
 }(view_1.View));
 exports.Grid = Grid;
 
 
 /***/ }),
-/* 105 */
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(Promise) {
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Exporter = void 0;
+var main_1 = __webpack_require__(10);
+var ts_data_1 = __webpack_require__(5);
+var core_1 = __webpack_require__(1);
+var date_1 = __webpack_require__(18);
+var html_1 = __webpack_require__(2);
+var dom_1 = __webpack_require__(0);
+var input_1 = __webpack_require__(35);
+var data_1 = __webpack_require__(11);
+var Exporter = /** @class */ (function () {
+    function Exporter(config) {
+        this._xlsxWorker = null;
+        this._name = config.name;
+        this._version = config.version;
+        this._grid = config.view;
+        this._exportConfigCallback = config.export;
+    }
+    Exporter.prototype.pdf = function (typeConfig) {
+        return this._rawExport(typeConfig, "pdf");
+    };
+    Exporter.prototype.png = function (typeConfig) {
+        return this._rawExport(typeConfig, "png");
+    };
+    Exporter.prototype.xlsx = function (typeConfig) {
+        if (typeConfig === void 0) { typeConfig = {
+            url: "https://cdn.dhtmlx.com/libs/json2excel/next/worker.js?vx",
+            name: "grid",
+            tableName: "data",
+        }; }
+        var exportConfig = this._getExportConfig("xlsx");
+        return this._xlsxExport(typeConfig, exportConfig);
+    };
+    Exporter.prototype.csv = function (typeConfig) {
+        var _this = this;
+        if (typeConfig === void 0) { typeConfig = {
+            asFile: true,
+            rowDelimiter: "\n",
+            columnDelimiter: ",",
+            skipHeader: 0,
+        }; }
+        return new Promise(function (resolve) {
+            var csv;
+            var exportConfig = _this._getExportConfig("csv");
+            typeConfig = __assign(__assign({}, typeConfig), (exportConfig.typeConfig || {}));
+            var name = typeConfig.name || "grid";
+            if ("getRoot" in _this._grid.data && typeConfig.flat) {
+                csv = _this.getFlatCSV(typeConfig, exportConfig);
+            }
+            else {
+                csv = _this._getCSV(typeConfig, exportConfig);
+            }
+            if (typeConfig.asFile) {
+                (0, core_1.downloadFile)(csv, "".concat(name, ".csv"), "text/csv");
+            }
+            resolve(csv);
+        });
+    };
+    Exporter.prototype._getExportData = function (typeConfig, exportConfig) {
+        var _this = this;
+        var _a;
+        if (typeConfig === void 0) { typeConfig = {}; }
+        if (!(0, main_1.isWasmSupported)()) {
+            throw new Error("WebAssembly is not supported by your browser");
+        }
+        var formatMap = {
+            number: "#,##0.00",
+            percent: "#,##0.00%",
+            date: typeConfig.dateFormatMask || "dd/mm/yy",
+            string: "@",
+        };
+        var $grid = this._getExportWidget(null, exportConfig);
+        var filteredColumns = $grid.config.columns.filter(function (col) { return !col.hidden; });
+        var summaryResults = $grid._colSummary;
+        if (!filteredColumns.length)
+            return {
+                data: [{ name: typeConfig.tableName || "data", cols: [], rows: [], merged: [], cells: [] }],
+                styles: [],
+            };
+        var rowsIndexMap = {};
+        var colsIndexMap = {};
+        var headers = (0, main_1.transpose)(filteredColumns.map(function (col) {
+            return (col.header || []).map(function (_a) {
+                var text = _a.text;
+                return text
+                    ? (0, main_1.removeHTMLTags)(typeof text === "string" ? text || "" : text(summaryResults[col.id]))
+                    : "";
+            });
+        }));
+        var footers = (0, main_1.transpose)(filteredColumns.map(function (col) {
+            return (col.footer || []).map(function (_a) {
+                var text = _a.text;
+                return ({
+                    text: text
+                        ? (0, main_1.removeHTMLTags)(typeof text === "string" ? text || "" : text(summaryResults[col.id]))
+                        : "",
+                    content: col.summary,
+                    col_id: col.id,
+                });
+            });
+        }));
+        var columns = [];
+        var merged = [];
+        var uniqStyles = new Map();
+        uniqStyles.set("default", {
+            css: {
+                color: "#000000",
+                background: "#FFFFFF",
+                fontSize: 14,
+            },
+            index: uniqStyles.size,
+        });
+        var cells = new Map();
+        var columnsIndexMap = {};
+        var rowCss = {};
+        var rows = $grid.config.$headerHeightMap.map(function (height) { return ({ height: height }); });
+        var data = exportConfig.data.map(function (row, row_index) {
+            rows.push({ height: row.$height });
+            var rCss = typeof exportConfig.rowCss === "function" ? exportConfig.rowCss(row) : "";
+            if (row.$css || rCss) {
+                rowCss[row.id] = "".concat(row.$css || "", " ").concat(rCss || "").trim();
+            }
+            rowsIndexMap[row.id] = row_index;
+            var rowData = filteredColumns.map(function (column, column_index) {
+                var col_id = column.id, editorType = column.editorType, type = column.type, options = column.options, patternMask = column.patternMask, numberMask = column.numberMask;
+                columnsIndexMap[col_id] = column_index;
+                var span = exportConfig.spans.find(function (span) { return span.column === col_id && span.row === row.id; });
+                var value = (span === null || span === void 0 ? void 0 : span.text) || row[col_id];
+                var groupedColumn = row.$group && _this._grid.config.columns.find(function (c) { return row.$by == c.id; });
+                if (column.options || groupedColumn) {
+                    value = (0, data_1.getOptionValue)(value, groupedColumn || column);
+                }
+                if (editorType === "multiselect" && options instanceof Array) {
+                    var selected_ids = (value || "").split(",");
+                    var values = selected_ids.map(function (item) {
+                        var id = item.trim();
+                        var option = options.find(function (option) {
+                            return typeof option === "string" ? option === id : option.id == id;
+                        });
+                        return option ? (typeof option === "object" ? option.value : option) : id;
+                    });
+                    return values.join(", ");
+                }
+                if (type === "date") {
+                    var format = column.dateFormat || "%M %d %Y";
+                    if (typeof value === "string") {
+                        var parsedDate = (0, date_1.stringToDate)(value, format, true)
+                            ? (0, date_1.stringToDate)(value, format)
+                            : new Date(value);
+                        if (parsedDate instanceof Date && !isNaN(parsedDate.valueOf())) {
+                            value = (0, date_1.getExcelDate)(parsedDate);
+                        }
+                    }
+                    else if (value instanceof Date) {
+                        value = (0, date_1.getExcelDate)(value);
+                    }
+                }
+                else if (type === "number") {
+                    if (typeof value === "string" && patternMask) {
+                        value = (0, input_1.removePatternMask)(value, patternMask);
+                    }
+                    if (typeof value === "string" && typeof numberMask === "object") {
+                        value = (0, input_1.removeNumberMask)(value, numberMask);
+                    }
+                }
+                else {
+                    value = (0, data_1.applyPattern)(value, column);
+                }
+                return !value && !column_index && row["$groupName"]
+                    ? "^ ".concat(row["$groupName"])
+                    : (0, main_1.removeHTMLTags)(value);
+            });
+            return rowData;
+        });
+        $grid.config.$footerHeightMap.forEach(function (height) { return rows.push({ height: height }); });
+        var _loop_1 = function (column) {
+            var type = column.type, colAlign = column.align, numberMask = column.numberMask, patternMask = column.patternMask, footer = column.footer, header = column.header;
+            var $cellCss = __assign({}, column.$cellCss);
+            var spans_in_col = exportConfig.spans.filter(function (span) { return span.column === column.id; }) || [];
+            spans_in_col.forEach(function (span) {
+                if (span === null || span === void 0 ? void 0 : span.css) {
+                    $cellCss[span.row] = "".concat($cellCss[span.row] || "", " ").concat(span.css).trim();
+                }
+            });
+            var align = type === "number" ? "right" : colAlign;
+            columns.push({ width: column.$width });
+            var colIndex = filteredColumns.indexOf(column);
+            colsIndexMap[column.id] = colIndex;
+            var commonStyle = "";
+            if (align) {
+                commonStyle += " align:".concat(align);
+            }
+            var format = "";
+            if (type === "number") {
+                if (numberMask) {
+                    format =
+                        typeof numberMask === "boolean"
+                            ? formatMap.number
+                            : convertNumberMaskToExcel(numberMask);
+                }
+                else if (typeof patternMask === "string" &&
+                    patternMask.includes("0") &&
+                    !["#", "a", "*"].find(function (char) { return patternMask.includes(char); }) // convert only if pattern contains "0" and doesn't contain any other special characters
+                ) {
+                    format = convertPatternMaskToExcel(patternMask);
+                }
+                else {
+                    format = formatMap.number;
+                }
+            }
+            else {
+                format = type ? formatMap[type] || "" : "";
+            }
+            commonStyle += " format:".concat(format);
+            var commonHash = getHash(commonStyle);
+            if (!uniqStyles.has(commonHash)) {
+                var css = (0, main_1.getStyleByClass)("dhx_grid-cell", "dhx_grid-cell", uniqStyles.get("default"));
+                if (css) {
+                    var style = __assign(__assign({}, css), { format: format });
+                    if (align) {
+                        style.align = align;
+                    }
+                    style["font-weight"] = style.bold ? "bold" : "normal";
+                    if (style.fontSize) {
+                        style.fontSize = "".concat(style.fontSize, "px");
+                    }
+                    uniqStyles.set(commonHash, {
+                        css: __assign(__assign({}, uniqStyles.get("default").css), style),
+                        index: uniqStyles.size,
+                    });
+                }
+                if (!cells.has("col_".concat(colIndex))) {
+                    cells.set("col_".concat(colIndex), commonHash);
+                }
+            }
+            else {
+                cells.set("col_".concat(colIndex), commonHash);
+            }
+            if (footer) {
+                footer.forEach(function (footer_item, index) {
+                    var _a = footer_item.rowspan, rowspan = _a === void 0 ? 0 : _a, _b = footer_item.colspan, colspan = _b === void 0 ? 0 : _b;
+                    if (colspan || rowspan) {
+                        var rowIndex = data.length + headers.length + index;
+                        merged.push({
+                            from: { row: rowIndex, column: colIndex },
+                            to: {
+                                row: rowIndex + (rowspan ? rowspan - 1 : 0),
+                                column: colIndex + (colspan ? colspan - 1 : 0),
+                            },
+                        });
+                    }
+                    var val = footer_item.text
+                        ? typeof footer_item.text === "function"
+                            ? footer_item.text(summaryResults[column.id])
+                            : footer_item.text
+                        : "";
+                    footers[index][colIndex] = __assign(__assign({}, footers[index][colIndex]), { text: (0, main_1.removeHTMLTags)(val) });
+                    var f_format = format || ((0, core_1.isNumeric)(val) && "0.00");
+                    var className = "dhx_grid-footer-cell ".concat(footer_item.css || "", " ").concat(f_format, " ").concat(footer_item.align);
+                    var styleHash = getHash(className);
+                    if (!uniqStyles.has(styleHash)) {
+                        var css = (0, main_1.getStyleByClass)(className, "dhx_grid-footer-cell", uniqStyles.get("default"));
+                        if (css) {
+                            var style = __assign(__assign({}, css), { f_format: f_format });
+                            if (footer_item.align) {
+                                style.align = footer_item.align;
+                            }
+                            style["font-weight"] = style.bold ? "bold" : "normal";
+                            if (style.fontSize) {
+                                style.fontSize = "".concat(style.fontSize, "px");
+                            }
+                            uniqStyles.set(styleHash, {
+                                css: __assign(__assign({}, uniqStyles.get("default").css), style),
+                                index: uniqStyles.size,
+                            });
+                        }
+                    }
+                    cells.set("footer_".concat(colIndex, "_").concat(index), styleHash);
+                });
+            }
+            if (header) {
+                header.forEach(function (header_item, index) {
+                    var _a = header_item.rowspan, rowspan = _a === void 0 ? 0 : _a, _b = header_item.colspan, colspan = _b === void 0 ? 0 : _b;
+                    if (colspan || rowspan) {
+                        var rowIndex = index;
+                        merged.push({
+                            from: { row: rowIndex, column: colIndex },
+                            to: {
+                                row: rowIndex + (rowspan ? rowspan - 1 : 0),
+                                column: colIndex + (colspan ? colspan - 1 : 0),
+                            },
+                        });
+                    }
+                    var className = "dhx_grid-header-cell ".concat(header_item.css || "", " ").concat(header_item.align ||
+                        "", " ").concat(align || "");
+                    var styleHash = getHash(className);
+                    if (!uniqStyles.has(styleHash)) {
+                        var css = (0, main_1.getStyleByClass)(className, "dhx_grid-header-cell", uniqStyles.get("default"));
+                        if (css) {
+                            var style = __assign(__assign({}, css), { format: format });
+                            if (header_item.align || align) {
+                                style.align = header_item.align || align;
+                            }
+                            uniqStyles.set(styleHash, {
+                                css: __assign(__assign({}, uniqStyles.get("default").css), style),
+                                index: uniqStyles.size,
+                            });
+                        }
+                    }
+                    cells.set("header_".concat(colIndex, "_").concat(index), styleHash);
+                });
+            }
+            for (var key in $cellCss) {
+                var colStyle = "dhx_grid-cell ".concat($cellCss[key].trim(), " ").concat(commonStyle);
+                var colStyleHash = getHash(colStyle);
+                var rowStyles = "dhx_grid-row";
+                if (rowCss[key]) {
+                    rowStyles += " ".concat(rowCss[key].trim());
+                }
+                if (!uniqStyles.has(colStyleHash)) {
+                    var css = (0, main_1.getStyleByClass)(colStyle, rowStyles, uniqStyles.get("default"));
+                    if (css) {
+                        var style = __assign(__assign(__assign({}, uniqStyles.get("default").css), css), { format: format });
+                        if (align) {
+                            style.align = align;
+                        }
+                        style["font-weight"] = style.bold ? "bold" : "normal";
+                        if (style.fontSize) {
+                            style.fontSize = "".concat(style.fontSize, "px");
+                        }
+                        uniqStyles.set(colStyleHash, {
+                            css: __assign({}, style),
+                            index: uniqStyles.size,
+                        });
+                    }
+                }
+                if (uniqStyles.has(colStyleHash)) {
+                    cells.set("".concat(rowsIndexMap[key], "_").concat(colIndex), colStyleHash);
+                }
+            }
+            for (var key in rowCss) {
+                if (($cellCss || {})[key])
+                    continue;
+                var hashString = "".concat(rowCss[key], " format:").concat(format);
+                if (align)
+                    hashString += " align:".concat(align);
+                var rowStyleHash = getHash(hashString);
+                var rowStyles = "dhx_grid-row ".concat(rowCss[key].trim());
+                if (!uniqStyles.has(rowStyleHash)) {
+                    var css = (0, main_1.getStyleByClass)("dhx_grid-cell", rowStyles, uniqStyles.get("default"));
+                    if (css) {
+                        var style = __assign(__assign(__assign({}, uniqStyles.get("default").css), css), { format: format });
+                        if (align) {
+                            style.align = align;
+                        }
+                        style["font-weight"] = style.bold ? "bold" : "normal";
+                        if (style.fontSize) {
+                            style.fontSize = "".concat(style.fontSize, "px");
+                        }
+                        uniqStyles.set(rowStyleHash, { css: __assign({}, style), index: uniqStyles.size });
+                    }
+                }
+                if (uniqStyles.has(rowStyleHash)) {
+                    cells.set("".concat(rowsIndexMap[key], "_").concat(colIndex), rowStyleHash);
+                }
+            }
+        };
+        for (var _i = 0, filteredColumns_1 = filteredColumns; _i < filteredColumns_1.length; _i++) {
+            var column = filteredColumns_1[_i];
+            _loop_1(column);
+        }
+        var styles = [];
+        uniqStyles.forEach(function (val) {
+            var css = {};
+            Object.keys(val.css).forEach(function (key) {
+                if (!val.css[key])
+                    return;
+                if (key === "bold") {
+                    return (css["fontWeight"] = "bold");
+                }
+                css[key] = "".concat(val.css[key]);
+            });
+            css.verticalAlign = "center";
+            styles.push(__assign(__assign({}, css), { id: val.index.toString() }));
+        });
+        styles[0].format = "#"; // dirty (fix here json2excel)
+        var cellsData = [];
+        if (headers.length) {
+            var h = headers.map(function (header, level) {
+                return header.map(function (v, col) {
+                    var style = cells.get("header_".concat(col, "_").concat(level)) || cells.get("col_".concat(col)) || "default";
+                    var data = {
+                        v: v === "" ? null : v,
+                        s: uniqStyles.get(style).index,
+                    };
+                    return data;
+                });
+            });
+            cellsData.push.apply(cellsData, h);
+        }
+        var d = data.map(function (cols, row) {
+            return cols.map(function (v, col) {
+                var style = cells.get("".concat(row, "_").concat(col)) || cells.get("col_".concat(col)) || "default";
+                var data = {
+                    v: v === "" ? null : v,
+                    s: uniqStyles.get(style).index,
+                };
+                return data;
+            });
+        });
+        cellsData.push.apply(cellsData, d);
+        if (footers.length) {
+            var f = footers.map(function (footer, level) {
+                return footer.map(function (cell, col) {
+                    var text = cell.text, content = cell.content, col_id = cell.col_id;
+                    var isSimpleSummary = typeof content === "string";
+                    var isSimpleTemplate = content && simpleSumTemplate(summaryResults[col_id]) == text;
+                    var style = cells.get("footer_".concat(col, "_").concat(level)) || cells.get("col_".concat(col)) || "default";
+                    var data = {
+                        v: content && isSimpleSummary && isSimpleTemplate
+                            ? footerContentToXlsxMap({
+                                func: content,
+                                startRow: headers.length + 1,
+                                col: col,
+                                rowsCount: d.length,
+                                functionsMap: typeConfig.mapToExcelFormulas,
+                            })
+                            : text === ""
+                                ? null
+                                : text,
+                        s: uniqStyles.get(style).index,
+                    };
+                    return data;
+                });
+            });
+            cellsData.push.apply(cellsData, f);
+        }
+        if ((_a = exportConfig.spans) === null || _a === void 0 ? void 0 : _a.length) {
+            var converted_spans = exportConfig.spans.map(function (span) {
+                var rowIndex = rowsIndexMap[span.row] + headers.length;
+                var colIndex = colsIndexMap[span.column];
+                var _a = span.rowspan, rowspan = _a === void 0 ? 1 : _a, _b = span.colspan, colspan = _b === void 0 ? 1 : _b;
+                return {
+                    from: { row: rowIndex, column: colIndex },
+                    to: { row: rowIndex + rowspan - 1, column: colIndex + colspan - 1 },
+                };
+            });
+            merged.push.apply(merged, converted_spans);
+        }
+        $grid.destructor();
+        var sheet = {
+            name: typeConfig.tableName || "data",
+            cells: cellsData,
+            cols: columns,
+            rows: rows,
+            merged: merged,
+        };
+        return { data: [sheet], styles: styles };
+    };
+    Exporter.prototype._xlsxExport = function (typeConfig, exportConfig) {
+        if (typeConfig === void 0) { typeConfig = {}; }
+        return __awaiter(this, void 0, void 0, function () {
+            var exportData, xlsxWorker_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        typeConfig = __assign(__assign({}, typeConfig), (exportConfig.typeConfig || {}));
+                        exportData = this._getExportData(typeConfig, exportConfig);
+                        if (!typeConfig.url) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this._getXlsxWorker(typeConfig.url)];
+                    case 1:
+                        xlsxWorker_1 = _a.sent();
+                        return [2 /*return*/, new Promise(function (resolve, reject) {
+                                var msgHandler = function (e) {
+                                    if (e.data.type === "ready") {
+                                        xlsxWorker_1.removeEventListener("message", msgHandler);
+                                        var blob = e.data.blob;
+                                        (0, core_1.downloadFile)(blob, "".concat(typeConfig.name || "dhtmlx_grid", ".xlsx"));
+                                        resolve(exportData);
+                                    }
+                                    else if (e.data.type === "error") {
+                                        xlsxWorker_1.removeEventListener("message", msgHandler);
+                                        reject(e.data);
+                                    }
+                                };
+                                xlsxWorker_1.addEventListener("message", msgHandler);
+                                xlsxWorker_1.postMessage({
+                                    type: "convert",
+                                    data: exportData,
+                                });
+                            })];
+                    case 2: return [2 /*return*/, exportData];
+                }
+            });
+        });
+    };
+    Exporter.prototype.getFlatCSV = function (config, exportConfig) {
+        var treeData = this._grid.data;
+        var root = treeData.getRoot();
+        var columns = exportConfig.columns;
+        var firstCol = columns[0];
+        var maxLevel = treeData.getMaxLevel();
+        var getParentsChain = function (item, data) {
+            var parents = [];
+            for (var i = 0; i <= maxLevel; i++) {
+                if (item && item[firstCol.id]) {
+                    parents[item.$level] = item[firstCol.id];
+                    var parent_1 = data.getParent(item.id, true);
+                    if (parent_1 && parent_1.id) {
+                        item = parent_1;
+                    }
+                    else {
+                        item = null;
+                    }
+                }
+                else {
+                    parents[i] = "";
+                }
+            }
+            return parents;
+        };
+        var total = "";
+        treeData.eachChild(root, function (item) {
+            var parents = getParentsChain(item, treeData).join(config.columnDelimiter);
+            total +=
+                parents +
+                    Object.keys(item).reduce(function (values, key, i) {
+                        if (key !== "id" && key !== "parent" && !key.startsWith("$") && i !== 0) {
+                            return values + config.columnDelimiter + (item[key] === null ? "" : item[key]);
+                        }
+                        return values;
+                    }, "");
+            total += config.rowDelimiter;
+        });
+        // [dirty]
+        var emptyHeaders = fillArray(new Array(maxLevel + 1), "");
+        var headers = (0, main_1.transpose)(columns.map(function (col) { return (col.header || []).map(function (level) { return (0, main_1.removeHTMLTags)("".concat(level.text || " ")); }); }));
+        headers = headers.map(function (header) {
+            header.splice.apply(header, __spreadArray([0, 1], emptyHeaders, false));
+            return header;
+        });
+        var head = new ts_data_1.CsvDriver(config).serialize(headers, true) + config.rowDelimiter;
+        return head + total;
+    };
+    Exporter.prototype._getCSV = function (typeConfig, exportConfig) {
+        var exportData = this._getExportData(typeConfig, exportConfig);
+        var driver = new ts_data_1.CsvDriver(typeConfig);
+        var data = exportData.data[0].cells.map(function (row) {
+            return row.map(function (cell) { return cell.v; });
+        });
+        return driver.serialize(data, true);
+    };
+    Exporter.prototype._rawExport = function (typeConfig, mode) {
+        if (typeConfig === void 0) { typeConfig = {}; }
+        var gridContainer = document.createElement("div");
+        gridContainer.setAttribute("style", "display: none;");
+        var exportConfig = this._getExportConfig(mode);
+        var $grid = this._getExportWidget(gridContainer, exportConfig);
+        typeConfig = __assign(__assign({}, (exportConfig.typeConfig || {})), typeConfig);
+        typeConfig.url =
+            typeConfig.url || "https://export.dhtmlx.com/" + this._name + "/" + mode + "/" + this._version;
+        var exportStyles = typeof typeConfig.exportStyles === "boolean" || Array.isArray(typeConfig.exportStyles)
+            ? typeConfig.exportStyles
+            : $grid.config.exportStyles;
+        if (mode === "pdf") {
+            var pdf = typeConfig.pdf;
+            typeConfig.pdf = __assign({ printBackground: false, format: "A4" }, pdf);
+        }
+        return new Promise(function (resolve, reject) {
+            (0, dom_1.awaitRedraw)()
+                .then(function () {
+                var styles = "";
+                if (exportStyles === true) {
+                    styles = "".concat((0, html_1.getPageLinksCss)(), "<style>").concat((0, html_1.getPageInlineCss)(), "</style>");
+                }
+                else if (Array.isArray(exportStyles) && exportStyles.length) {
+                    styles = "".concat((0, html_1.getPageLinksCss)(exportStyles));
+                }
+                var child = gridContainer.children[0];
+                child === null || child === void 0 ? void 0 : child.setAttribute("data-dhx-theme", typeConfig.theme || "light");
+                if (mode === "png") {
+                    child === null || child === void 0 ? void 0 : child.setAttribute("style", "width: ".concat($grid.config.width, "px;"));
+                }
+                var html = "\n\t\t\t\t\t\t".concat(styles, "\n\t\t\t\t\t\t").concat(gridContainer.innerHTML, "\n\t\t\t\t\t");
+                fetch(typeConfig.url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        raw: html,
+                        config: typeConfig,
+                    }),
+                })
+                    .then(function (res) {
+                    if (!res.ok)
+                        (0, ts_data_1.dhxError)("HTTP error, status: ".concat(res.status));
+                    return res.blob();
+                })
+                    .then(function (blob) {
+                    var _a;
+                    var link = document.createElement("a");
+                    link.href = URL.createObjectURL(blob);
+                    link.download = "".concat(typeConfig.name || "grid", ".").concat(mode);
+                    link.click();
+                    URL.revokeObjectURL(link.href);
+                    $grid.destructor();
+                    (_a = gridContainer.parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(gridContainer);
+                    resolve();
+                })
+                    .catch(function (err) {
+                    var _a;
+                    $grid.destructor();
+                    (_a = gridContainer.parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(gridContainer);
+                    reject(err);
+                });
+            })
+                .catch(function (err) {
+                var _a;
+                $grid.destructor();
+                (_a = gridContainer.parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(gridContainer);
+                reject(err);
+            });
+        });
+    };
+    Exporter.prototype._getExportWidget = function (container, exportConfig) {
+        var _a, _b;
+        var gridConfig = __assign(__assign({}, exportConfig), { keyNavigation: false, selection: false, rangeSelection: false, blockSelection: false, clipboard: false, history: false, resizable: false, editable: false });
+        if (!((_a = gridConfig.data) === null || _a === void 0 ? void 0 : _a.length)) {
+            (0, ts_data_1.dhxWarning)("There is no data to export");
+        }
+        if (!((_b = gridConfig.columns) === null || _b === void 0 ? void 0 : _b.length)) {
+            (0, ts_data_1.dhxWarning)("There is no column for export");
+        }
+        var $grid = new this._grid.constructor(container, (0, core_1.getCloneObject)(gridConfig));
+        var width = $grid.config.$totalWidth;
+        var height = $grid.config.$totalHeight +
+            $grid.config.$headerHeight +
+            ($grid.config.$footer ? $grid.config.$footerHeight : 0);
+        $grid.config.height = height;
+        $grid.config.width = width;
+        $grid.paint();
+        return $grid;
+    };
+    Exporter.prototype._getExportConfig = function (type) {
+        var baseConfig = __assign({}, this._grid.config);
+        if (typeof this._exportConfigCallback !== "function") {
+            return __assign(__assign({}, baseConfig), { spans: baseConfig.spans || [] });
+        }
+        var exportConfig = this._exportConfigCallback(baseConfig, type);
+        var rawData = this._grid.data.getRawData(0, -1, null, 2) || [];
+        return __assign(__assign(__assign({}, baseConfig), exportConfig), { columns: (exportConfig.columns
+                ? this._getCallbackData(baseConfig.columns, exportConfig.columns)
+                : baseConfig.columns) || [], spans: (exportConfig.spans
+                ? this._getCallbackData(baseConfig.spans, exportConfig.spans)
+                : baseConfig.spans) || [], data: (exportConfig.data ? this._getCallbackData(rawData, exportConfig.data) : rawData) || [] });
+    };
+    Exporter.prototype._getCallbackData = function (array, callback) {
+        var _this = this;
+        if (typeof callback !== "function") {
+            return null;
+        }
+        return array
+            .map(function (item, index, arr) { return callback((0, core_1.getCloneObject)(item), index, arr, _this._grid); })
+            .filter(Boolean);
+    };
+    Exporter.prototype._getXlsxWorker = function (path) {
+        return __awaiter(this, void 0, void 0, function () {
+            var url_1;
+            return __generator(this, function (_a) {
+                if (this._xlsxWorker === null) {
+                    url_1 = window.URL.createObjectURL(new Blob(["importScripts('".concat(path, "');")], { type: "text/javascript" }));
+                    this._xlsxWorker = new Promise(function (res) {
+                        var xlsxWorker = new Worker(url_1);
+                        xlsxWorker.addEventListener("message", function (e) {
+                            if (e.data.type === "init") {
+                                res(xlsxWorker);
+                            }
+                        });
+                    });
+                }
+                return [2 /*return*/, this._xlsxWorker];
+            });
+        });
+    };
+    return Exporter;
+}());
+exports.Exporter = Exporter;
+function getHash(str) {
+    return str
+        .split("")
+        .reduce(function (h, letter) {
+        var hh = (h << 5) - h + letter.charCodeAt(0);
+        return Math.abs(hh & hh);
+    }, 0)
+        .toString();
+}
+function convertNumberMaskToExcel(format) {
+    var prefix = format.prefix, suffix = format.suffix, maxIntLength = format.maxIntLength, _a = format.maxDecLength, maxDecLength = _a === void 0 ? 2 : _a;
+    var excelFormat = "";
+    if (prefix) {
+        excelFormat += "\"".concat(prefix, "\"");
+    }
+    if (maxIntLength) {
+        for (var i = 0; i < maxIntLength; i++) {
+            excelFormat += i === maxIntLength - 1 ? "0" : "#";
+        }
+    }
+    else {
+        excelFormat += "#";
+    }
+    if (maxDecLength) {
+        excelFormat += ".";
+        for (var i = 0; i < maxDecLength; i++) {
+            excelFormat += "#";
+        }
+    }
+    if (suffix) {
+        excelFormat += suffix === "%" ? suffix : "\"".concat(suffix, "\"");
+    }
+    return excelFormat;
+}
+function convertPatternMaskToExcel(pattern) {
+    if (!pattern.includes("0") && !pattern.includes("#"))
+        return "";
+    var chars = pattern.split("");
+    var mask = "";
+    var isNumber = true;
+    chars.forEach(function (c) {
+        if (c === "0" || c === "#") {
+            if (!isNumber) {
+                mask += '"';
+                isNumber = true;
+            }
+            mask += c;
+        }
+        else {
+            if (isNumber) {
+                mask += '"';
+                isNumber = false;
+            }
+            mask += c;
+        }
+    });
+    return mask;
+}
+function fillArray(arr, value) {
+    for (var i = 0; i < arr.length; i++) {
+        arr[i] = value;
+    }
+    return arr;
+}
+function getColumnLetter(col) {
+    var letter = "";
+    while (col >= 0) {
+        letter = String.fromCharCode((col % 26) + 65) + letter;
+        col = Math.floor(col / 26) - 1;
+    }
+    return letter;
+}
+function footerContentToXlsxMap(_a) {
+    var func = _a.func, startRow = _a.startRow, col = _a.col, rowsCount = _a.rowsCount, _b = _a.functionsMap, functionsMap = _b === void 0 ? {} : _b;
+    var range = "".concat(getColumnLetter(col)).concat(startRow, ":").concat(getColumnLetter(col)).concat(rowsCount + startRow - 1);
+    var map = {
+        sum: "=SUM(".concat(range, ")"),
+        avg: "=AVERAGE(".concat(range, ")"),
+        count: "=COUNT(".concat(range, ")"),
+        max: "=MAX(".concat(range, ")"),
+        min: "=MIN(".concat(range, ")"),
+    };
+    Object.entries(functionsMap).forEach(function (_a) {
+        var key = _a[0], func = _a[1];
+        map[key] = "=".concat(func, "(").concat(range, ")");
+    });
+    return map[func];
+}
+function simpleSumTemplate(obj) {
+    return Object.values(obj)[0];
+}
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
+
+/***/ }),
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19783,18 +20872,18 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.proRender = exports.render = exports.applyAutoWidth = exports.getElementSizes = exports.getRenderConfig = void 0;
 var dom_1 = __webpack_require__(0);
-var html_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var data_1 = __webpack_require__(11);
 var main_1 = __webpack_require__(10);
-var types_1 = __webpack_require__(5);
-var _ells_1 = __webpack_require__(41);
-var FixedCols_1 = __webpack_require__(106);
-var FixedRows_1 = __webpack_require__(107);
+var types_1 = __webpack_require__(4);
+var cells_1 = __webpack_require__(42);
+var FixedCols_1 = __webpack_require__(108);
+var FixedRows_1 = __webpack_require__(109);
 var core_1 = __webpack_require__(1);
-var common_1 = __webpack_require__(17);
-var groupPanel_1 = __webpack_require__(232);
-var subRow_1 = __webpack_require__(233);
-var dragPanel_1 = __webpack_require__(234);
+var common_1 = __webpack_require__(12);
+var groupPanel_1 = __webpack_require__(234);
+var subRow_1 = __webpack_require__(235);
+var dragPanel_1 = __webpack_require__(236);
 var default_1 = __webpack_require__(27);
 function getWrapperAutoHeight(grid, config, wrapperSizes) {
     var _a, _b;
@@ -19873,10 +20962,11 @@ function getElementSizes(element) {
     };
 }
 exports.getElementSizes = getElementSizes;
-function getGridData(renderConfig, shifts, scroll) {
-    var content = (0, _ells_1.getCells)(renderConfig);
-    var filteredColumns = renderConfig.filteredColumns, $resizing = renderConfig.$resizing, $totalHeight = renderConfig.$totalHeight, $totalWidth = renderConfig.$totalWidth, leftSplit = renderConfig.leftSplit, data = renderConfig.data, $positions = renderConfig.$positions;
-    var contentSpans = (0, _ells_1.getSpans)(renderConfig);
+function getGridData(renderConfig, shifts, footerAtBottom) {
+    if (footerAtBottom === void 0) { footerAtBottom = false; }
+    var content = (0, cells_1.getCells)(renderConfig);
+    var filteredColumns = renderConfig.filteredColumns, $resizing = renderConfig.$resizing, $totalHeight = renderConfig.$totalHeight, $totalWidth = renderConfig.$totalWidth, leftSplit = renderConfig.leftSplit, data = renderConfig.data, $positions = renderConfig.$positions, $scrollBarWidth = renderConfig.$scrollBarWidth;
+    var contentSpans = (0, cells_1.getSpans)(renderConfig);
     var getRowAriaAttrs = function (count) { return ({
         role: "rowgroup",
         "aria-rowcount": count,
@@ -19899,9 +20989,17 @@ function getGridData(renderConfig, shifts, scroll) {
     selection =
         typeof selection === "string" ? (0, dom_1.el)("div.dhx_selection", { ".innerHTML": selection }) : selection;
     var pos = $positions;
+    var height = footerAtBottom
+        ? renderConfig.$height -
+            renderConfig.$footerHeight -
+            renderConfig.$headerHeight -
+            $scrollBarWidth.x -
+            ((renderConfig.$footer && 1) || 0) -
+            common_1.BORDERS
+        : $totalHeight;
     return (0, dom_1.el)(".dhx_data-wrap", {
         style: {
-            height: $totalHeight,
+            height: height,
             width: $totalWidth,
             "padding-left": shifts.x,
             "padding-top": shifts.y,
@@ -19909,9 +21007,9 @@ function getGridData(renderConfig, shifts, scroll) {
         role: "presentation",
         "data-dhx-drop-area": "row",
     }, [
-        (0, dom_1.el)(".dhx_grid_data".concat(leftSplit ? ".dhx_grid_fixed_left" : ""), __assign(__assign({ _flags: dom_1.KEYED_LIST }, (0, _ells_1.getHandlers)(pos.yStart, pos.xStart, renderConfig)), getRowAriaAttrs(data.length)), content),
+        (0, dom_1.el)(".dhx_grid_data".concat(leftSplit ? ".dhx_grid_fixed_left" : ""), __assign(__assign({ _flags: dom_1.KEYED_LIST }, (0, cells_1.getHandlers)(pos.yStart, pos.xStart, renderConfig)), getRowAriaAttrs(data.length)), content),
         (0, subRow_1.getSubRowContent)(renderConfig),
-        (0, dom_1.el)(".dhx_span-spans", __assign({ role: "presentation" }, (0, _ells_1.getHandlers)(pos.yStart, pos.xStart, renderConfig)), contentSpans),
+        (0, dom_1.el)(".dhx_span-spans", __assign({ role: "presentation" }, (0, cells_1.getHandlers)(pos.yStart, pos.xStart, renderConfig)), contentSpans),
         (0, dom_1.el)(".dhx_grid_selection", { _ref: "selection", "aria-hidden": "true" }, [].concat(selection, resizedLine)),
         dropLine,
         blockSelection,
@@ -20018,7 +21116,7 @@ function render(vm, obj, htmlEvents, selection, uid) {
     var renderConfig = getRenderConfig(obj, data, wrapperSizes);
     renderConfig.selection = selection;
     renderConfig.datacollection = obj.data;
-    var shifts = (0, _ells_1.getShifts)(renderConfig);
+    var shifts = (0, cells_1.getShifts)(renderConfig);
     renderConfig.$scrollBarWidth = (0, common_1.calcScrollBarWidth)(renderConfig);
     var isSticky = (0, main_1.isCssSupport)("position", "sticky");
     var gridBodyHeight = getContentHeight(renderConfig, isSticky, wrapperSizes);
@@ -20027,6 +21125,7 @@ function render(vm, obj, htmlEvents, selection, uid) {
         sticky: isSticky,
         shifts: shifts,
         gridBodyHeight: gridBodyHeight,
+        footerAtBottom: false,
     };
     var header = (0, FixedRows_1.getFixedRows)(renderConfig, __assign(__assign({}, layoutState), { name: "header", position: "top" }));
     var footer = renderConfig.$footer
@@ -20130,14 +21229,15 @@ function proRender(vm, obj, htmlEvents, selection, uid) {
         }, 0);
     }
     var wrapperAutoHeight;
-    if (obj.config.height === "auto") {
+    var autoHeightContent = obj.config.height === "auto";
+    if (autoHeightContent) {
         wrapperAutoHeight = getWrapperAutoHeight(obj, config, parentSizes);
     }
     var width = config.width && typeof config.width === "number" ? config.width : parentSizes === null || parentSizes === void 0 ? void 0 : parentSizes.width;
     var height = config.height && typeof config.height === "number" ? config.height : parentSizes === null || parentSizes === void 0 ? void 0 : parentSizes.height;
     var wrapperSizes = {
         width: width || 0,
-        height: (obj.config.height === "auto" ? wrapperAutoHeight : height) || 0,
+        height: (autoHeightContent ? wrapperAutoHeight : height) || 0,
     };
     var group = config === null || config === void 0 ? void 0 : config.group;
     var dragPanel = config === null || config === void 0 ? void 0 : config.dragPanel;
@@ -20157,7 +21257,7 @@ function proRender(vm, obj, htmlEvents, selection, uid) {
     var renderConfig = getRenderConfig(obj, data, wrapperSizes);
     renderConfig.selection = selection;
     renderConfig.datacollection = obj.data;
-    var shifts = (0, _ells_1.getShifts)(renderConfig);
+    var shifts = (0, cells_1.getShifts)(renderConfig);
     renderConfig.$scrollBarWidth = (0, common_1.calcScrollBarWidth)(renderConfig, !!((_a = obj.scrollView) === null || _a === void 0 ? void 0 : _a.config.enable));
     var isSticky = (0, main_1.isCssSupport)("position", "sticky");
     var gridBodyHeight = getContentHeight(renderConfig, isSticky, wrapperSizes);
@@ -20166,18 +21266,22 @@ function proRender(vm, obj, htmlEvents, selection, uid) {
         sticky: isSticky,
         shifts: shifts,
         gridBodyHeight: gridBodyHeight,
+        footerAtBottom: false,
     };
-    var header = (0, FixedRows_1.getFixedRows)(renderConfig, __assign(__assign({}, layoutState), { name: "header", position: "top" }));
-    var footer = renderConfig.$footer
-        ? (0, FixedRows_1.getFixedRows)(renderConfig, __assign(__assign({}, layoutState), { name: "footer", position: "bottom" }))
-        : null;
     var lessByWidth = renderConfig.$totalWidth + common_1.BORDERS < wrapperSizes.width ? "dhx_grid-less-width" : "";
+    var fullWidth = renderConfig.$totalWidth + common_1.BORDERS === wrapperSizes.width ? "dhx_grid-full-width" : "";
     var lessByHeight = renderConfig.$totalHeight + common_1.BORDERS <
         wrapperSizes.height - renderConfig.$footerHeight - renderConfig.$headerHeight
         ? "dhx_grid-less-height"
         : "";
     var fixedRight = renderConfig.fixedColumns.right.length ? "dhx_grid__contains_cols_right--fixed" : "";
     var fixedBottom = config.bottomSplit ? "dhx_grid__contains_rows_bottom--fixed" : "";
+    var footerAtBottom = config.footerPosition === "bottom" && !!lessByHeight && !autoHeightContent;
+    layoutState.footerAtBottom = footerAtBottom;
+    var header = (0, FixedRows_1.getFixedRows)(renderConfig, __assign(__assign({}, layoutState), { name: "header", position: "top" }));
+    var footer = renderConfig.$footer
+        ? (0, FixedRows_1.getFixedRows)(renderConfig, __assign(__assign({}, layoutState), { name: "footer", position: "bottom" }))
+        : null;
     // dirty: but work. Change checking of rendering Grid
     if (!vm.node) {
         var _b = obj.getScrollState(), x_2 = _b.x, y_2 = _b.y;
@@ -20187,7 +21291,7 @@ function proRender(vm, obj, htmlEvents, selection, uid) {
     }
     var gridContent = (0, dom_1.el)("div", {}, [
         isSticky ? header : null,
-        getGridData(renderConfig, shifts, obj.getScrollState()),
+        getGridData(renderConfig, shifts, footerAtBottom),
         isSticky ? footer : null,
     ]);
     return (0, dom_1.el)(".dhx_grid.dhx_widget", {
@@ -20207,7 +21311,7 @@ function proRender(vm, obj, htmlEvents, selection, uid) {
         (0, dom_1.resizer)(function () { return obj.paint(); }),
         (isGroupPanelEnable && (0, groupPanel_1.getGroupPanel)(config.$grouped, obj)) || null,
         (isDropPanelEnable && (0, dragPanel_1.getDragPanelNode)(obj, renderConfig, layoutState, !!lessByHeight)) || null,
-        (0, dom_1.el)(".dhx_grid-content", __assign(__assign({ style: __assign({}, wrapperSizes) }, htmlEvents), { class: "".concat(lessByWidth, " ").concat(lessByHeight, " ").concat(fixedRight, " ").concat(fixedBottom).trim(), role: "presentation" }), [
+        (0, dom_1.el)(".dhx_grid-content", __assign(__assign({ style: __assign({}, wrapperSizes) }, htmlEvents), { class: "".concat(lessByWidth, " ").concat(lessByHeight, " ").concat(fullWidth, " ").concat(fixedRight, " ").concat(fixedBottom).trim(), role: "presentation" }), [
             isSticky ? null : header,
             (0, dom_1.el)(".dhx_grid-body", {
                 style: {
@@ -20236,7 +21340,7 @@ exports.proRender = proRender;
 
 
 /***/ }),
-/* 106 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20264,11 +21368,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getFixedCols = exports.getFixedColsHeader = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(5);
-var _ells_1 = __webpack_require__(41);
-var FixedRows_1 = __webpack_require__(107);
+var types_1 = __webpack_require__(4);
+var cells_1 = __webpack_require__(42);
+var FixedRows_1 = __webpack_require__(109);
 var main_1 = __webpack_require__(10);
-var common_1 = __webpack_require__(17);
+var common_1 = __webpack_require__(12);
 function getFixedColsHeader(renderConfig, layout, mode) {
     if ((mode === types_1.Split.left &&
         (typeof renderConfig.leftSplit !== "number" || !renderConfig.fixedColumns.left.length)) ||
@@ -20300,102 +21404,90 @@ function getFixedColsHeader(renderConfig, layout, mode) {
 }
 exports.getFixedColsHeader = getFixedColsHeader;
 function getFixedCols(renderConfig, layout, mode, source) {
-    if ((mode === types_1.Split.left &&
-        (typeof renderConfig.leftSplit !== "number" || !renderConfig.fixedColumns.left.length)) ||
-        (mode === types_1.Split.right &&
-            (typeof renderConfig.rightSplit !== "number" || !renderConfig.fixedColumns.right.length))) {
+    var isRightSplit = mode === types_1.Split.right;
+    var split = isRightSplit ? renderConfig.rightSplit : renderConfig.leftSplit;
+    var columns = isRightSplit ? renderConfig.fixedColumns.right : renderConfig.fixedColumns.left;
+    if (typeof split !== "number" || !columns.length) {
         return;
     }
-    var leftSplit = renderConfig.leftSplit, rightSplit = renderConfig.rightSplit, $totalWidth = renderConfig.$totalWidth, $totalHeight = renderConfig.$totalHeight, headerHeight = renderConfig.headerHeight, configFooterHeight = renderConfig.footerHeight, $positions = renderConfig.$positions, scroll = renderConfig.scroll, data = renderConfig.data, $scrollBarWidth = renderConfig.$scrollBarWidth;
-    var isRightSplit = mode === types_1.Split.right;
-    var fixedContentHeight = $totalHeight + headerHeight + configFooterHeight;
-    var fixedColsHeight;
-    if (fixedContentHeight > layout.gridBodyHeight) {
-        fixedColsHeight = renderConfig.$footer
-            ? fixedContentHeight - $scrollBarWidth.x
-            : layout.gridBodyHeight;
-    }
-    else if (fixedContentHeight < layout.gridBodyHeight - $scrollBarWidth.x) {
-        fixedColsHeight = fixedContentHeight;
-    }
-    else {
-        fixedColsHeight = renderConfig.$footer
-            ? layout.gridBodyHeight
-            : layout.gridBodyHeight - $scrollBarWidth.x;
-    }
-    var columns = isRightSplit ? renderConfig.fixedColumns.right : renderConfig.fixedColumns.left;
-    var width = (0, main_1.getTotalWidth)(columns);
+    var $totalWidth = renderConfig.$totalWidth, $totalHeight = renderConfig.$totalHeight, headerHeight = renderConfig.headerHeight, configFooterHeight = renderConfig.footerHeight, $positions = renderConfig.$positions, scroll = renderConfig.scroll, data = renderConfig.data, $scrollBarWidth = renderConfig.$scrollBarWidth, $footer = renderConfig.$footer, $footerHeight = renderConfig.$footerHeight, fixedRows = renderConfig.fixedRows;
     var renderFrom = isRightSplit ? "rightFixedCols" : "leftFixedCols";
-    var fixedCols = (0, _ells_1.getCells)(__assign(__assign({}, renderConfig), { filteredColumns: columns, $renderFrom: renderFrom, $positions: __assign(__assign({}, $positions), { xStart: 0, xEnd: isRightSplit ? rightSplit : leftSplit }) }));
+    var width = (0, main_1.getTotalWidth)(columns);
+    var fixedContentHeight = $totalHeight + headerHeight + configFooterHeight;
+    var bodyHeight = layout.gridBodyHeight;
+    var scrollX = $scrollBarWidth.x;
+    var fixedColsHeight = fixedContentHeight;
+    if (fixedContentHeight > bodyHeight) {
+        fixedColsHeight = $footer ? fixedContentHeight - scrollX : bodyHeight;
+    }
+    else if (fixedContentHeight >= bodyHeight - scrollX) {
+        fixedColsHeight = $footer ? bodyHeight : bodyHeight - scrollX;
+    }
+    var splitConfig = __assign(__assign({}, renderConfig), { $positions: __assign(__assign({}, $positions), { xStart: 0, xEnd: split }) });
+    var fixedCols = (0, cells_1.getCells)(__assign(__assign({}, splitConfig), { filteredColumns: columns, $renderFrom: renderFrom }));
     var isSticky = layout.sticky;
-    var footerRowsConfig = __assign(__assign({}, layout), { name: "footer", position: "bottom" });
-    var frozenFooterCols = (0, FixedRows_1.getRows)(__assign(__assign({}, renderConfig), { currentColumns: columns, $positions: __assign(__assign({}, $positions), { xStart: 0, xEnd: isRightSplit ? rightSplit : leftSplit }) }), __assign(__assign({}, layout), { name: "footer", position: "bottom" }));
-    var footerHeight = 0;
-    frozenFooterCols.forEach(function (node) { return (footerHeight += node.attrs.style.height); });
-    var frozenFooterSpans = (0, FixedRows_1.getFixedSpans)(__assign(__assign({}, renderConfig), { filteredColumns: columns }), __assign(__assign({}, layout), { name: "footer", position: "bottom" }), mode);
-    var getRowAriaAttrs = function (count) { return ({
-        role: "rowgroup",
-        "aria-rowcount": count,
-    }); };
-    var frozenFooter = isSticky
-        ? (0, dom_1.el)(".dhx_".concat(footerRowsConfig.name, "-fixed-cols"), __assign({ onwheel: main_1.scrollFixedColsAndRows, class: isRightSplit ? "dhx_grid__cols_right--fixed" : "dhx_grid__cols_left--fixed", style: {
-                position: "absolute",
-                top: fixedColsHeight < layout.gridBodyHeight ? fixedColsHeight - footerHeight : null,
-                left: isRightSplit
-                    ? $totalWidth < layout.wrapper.width - $scrollBarWidth.y - common_1.BORDERS
-                        ? $totalWidth - width
-                        : layout.wrapper.width - width - $scrollBarWidth.y - common_1.BORDERS
-                    : 0,
-                bottom: fixedColsHeight >= layout.gridBodyHeight
-                    ? "".concat(isSticky ? $scrollBarWidth.x : 0, "px")
-                    : null,
-                overflow: "hidden",
-            } }, getRowAriaAttrs(frozenFooterCols.length)), __spreadArray(__spreadArray([], frozenFooterCols, true), [
-            (0, dom_1.el)("span.dhx_span-spans", {
-                class: "dhx_footer-spans",
-                role: "presentation",
-            }, frozenFooterSpans),
+    var footerLayout = __assign(__assign({}, layout), { name: "footer", position: "bottom" });
+    var frozenFooterCols = (0, FixedRows_1.getRows)(__assign(__assign({}, splitConfig), { currentColumns: columns }), footerLayout);
+    var footerRowsHeight = frozenFooterCols.reduce(function (acc, node) { return acc + node.attrs.style.height; }, 0);
+    var frozenFooterSpans = (0, FixedRows_1.getFixedSpans)(__assign(__assign({}, renderConfig), { filteredColumns: columns }), footerLayout, mode);
+    var availableWidth = layout.wrapper.width - $scrollBarWidth.y - common_1.BORDERS;
+    var horizontalPos = $totalWidth < availableWidth ? $totalWidth - width : availableWidth - width;
+    var leftStyle = isRightSplit ? horizontalPos : 0;
+    var footerStyle = {
+        position: "absolute",
+        left: leftStyle,
+        overflow: "hidden",
+        top: (!layout.footerAtBottom || source === types_1.Split.top) && fixedColsHeight < bodyHeight
+            ? fixedColsHeight - footerRowsHeight
+            : null,
+        bottom: (source !== types_1.Split.top && layout.footerAtBottom) || fixedColsHeight >= bodyHeight
+            ? "".concat(isSticky ? (layout.footerAtBottom && source === types_1.Split.bottom ? -1 : scrollX) : 0, "px")
+            : null,
+    };
+    var getRowAria = function (count) { return ({ role: "rowgroup", "aria-rowcount": count }); };
+    var frozenFooter = isSticky && $footer
+        ? (0, dom_1.el)(".dhx_footer-fixed-cols", __assign({ onwheel: main_1.scrollFixedColsAndRows, class: isRightSplit ? "dhx_grid__cols_right--fixed" : "dhx_grid__cols_left--fixed", style: footerStyle }, getRowAria(frozenFooterCols.length)), __spreadArray(__spreadArray([], frozenFooterCols, true), [
+            (0, dom_1.el)("span.dhx_span-spans", { class: "dhx_footer-spans", role: "presentation" }, frozenFooterSpans),
         ], false))
         : null;
-    var pos = $positions;
-    var spans = (0, _ells_1.getSpans)(__assign(__assign({}, renderConfig), { $renderFrom: renderFrom }), source || (isRightSplit ? types_1.Split.right : types_1.Split.left));
-    var getFixedColAriaAttrs = function () { return ({
-        role: "presentation",
-        "aria-label": "Fixed column",
-    }); };
+    var wrapHeight = fixedColsHeight >= bodyHeight
+        ? (isSticky ? bodyHeight : bodyHeight + headerHeight) - scrollX
+        : fixedColsHeight;
+    if (!source && layout.footerAtBottom) {
+        wrapHeight -= (0, main_1.getTotalHeight)(fixedRows.bottom) + $footerHeight;
+    }
+    var spans = (0, cells_1.getSpans)(__assign(__assign({}, renderConfig), { $renderFrom: renderFrom }), source || (isRightSplit ? types_1.Split.right : types_1.Split.left));
     return [
-        (0, dom_1.el)(".dhx_grid-fixed-cols-wrap", __assign({ style: {
-                left: isRightSplit
-                    ? $totalWidth < layout.wrapper.width - $scrollBarWidth.y - common_1.BORDERS
-                        ? $totalWidth - width
-                        : layout.wrapper.width - width - $scrollBarWidth.y - common_1.BORDERS
-                    : 0,
-                height: fixedColsHeight >= layout.gridBodyHeight
-                    ? (isSticky ? layout.gridBodyHeight : layout.gridBodyHeight + headerHeight) -
-                        $scrollBarWidth.x
-                    : fixedColsHeight,
+        (0, dom_1.el)(".dhx_grid-fixed-cols-wrap", {
+            style: {
+                left: leftStyle,
+                height: wrapHeight,
                 paddingTop: headerHeight,
                 overflow: "hidden",
                 width: width,
-            } }, getFixedColAriaAttrs()), [
+            },
+            role: "presentation",
+            "aria-label": "Fixed column",
+        }, [
             (0, dom_1.el)(".dhx_grid-fixed-cols", __assign(__assign({ onwheel: main_1.scrollFixedColsAndRows, class: isRightSplit ? "dhx_grid__cols_right--fixed" : "dhx_grid__cols_left--fixed", style: {
-                    top: -scroll.top + headerHeight - 1 + "px",
+                    top: "".concat(-scroll.top + headerHeight - 1, "px"),
                     paddingTop: layout.shifts.y,
                     height: $totalHeight,
                     position: "absolute",
-                }, _flags: dom_1.KEYED_LIST }, (0, _ells_1.getHandlers)(pos.yStart, pos.xStart, renderConfig)), getRowAriaAttrs(data.length)), __spreadArray(__spreadArray([], fixedCols, true), [spans && (0, dom_1.el)("span.dhx_span-spans", { role: "presentation" }, spans)], false)),
-            isRightSplit
-                ? (0, dom_1.el)(".dhx_grid__cols-border--frozen", { role: "presentation", style: { left: 0 } })
-                : (0, dom_1.el)(".dhx_grid__cols-border--frozen", { role: "presentation", style: { right: 0 } }),
+                }, _flags: dom_1.KEYED_LIST }, (0, cells_1.getHandlers)($positions.yStart, $positions.xStart, renderConfig)), getRowAria(data.length)), __spreadArray(__spreadArray([], fixedCols, true), [spans && (0, dom_1.el)("span.dhx_span-spans", { role: "presentation" }, spans)], false)),
+            (0, dom_1.el)(".dhx_grid__cols-border--frozen", {
+                role: "presentation",
+                style: isRightSplit ? { left: 0 } : { right: 0 },
+            }),
         ]),
-        renderConfig.$footer ? frozenFooter : null,
+        frozenFooter,
     ];
 }
 exports.getFixedCols = getFixedCols;
 
 
 /***/ }),
-/* 107 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20425,11 +21517,11 @@ exports.getFixedDataRows = exports.getFixedRows = exports.getFixedSpans = export
 var dom_1 = __webpack_require__(0);
 var cells_1 = __webpack_require__(24);
 var main_1 = __webpack_require__(10);
-var types_1 = __webpack_require__(5);
-var _ells_1 = __webpack_require__(41);
-var FixedCols_1 = __webpack_require__(106);
+var types_1 = __webpack_require__(4);
+var cells_2 = __webpack_require__(42);
+var FixedCols_1 = __webpack_require__(108);
 var core_1 = __webpack_require__(1);
-var common_1 = __webpack_require__(17);
+var common_1 = __webpack_require__(12);
 var data_1 = __webpack_require__(11);
 function handleMouse(cell, col, config, type, event) {
     if (!type)
@@ -20576,6 +21668,8 @@ function getRows(config, rowsConfig) {
             if (cell.align) {
                 css += " dhx_align-".concat(cell.align);
             }
+            if (rowsConfig.footerAtBottom)
+                css += " dhx_grid-footer-at-bottom";
             var getCellAriaAttrs = function (rowName, colIndex, ariaSort) {
                 var attrs = {
                     "aria-colindex": colIndex,
@@ -20741,6 +21835,8 @@ function getFixedSpans(config, rowsConfig, mode) {
             if (nCol.$target && rowName === "header") {
                 css += " dhx_grid-header-drop-area--".concat(nCol.$target, " ");
             }
+            if (rowsConfig.footerAtBottom)
+                css += " dhx_grid-footer-at-bottom";
             var text = nCell.text;
             if (typeof nCell.text === "function") {
                 var summary = __assign(__assign({}, config.commonSummary), config.colSummary[col.id]);
@@ -20897,41 +21993,44 @@ function getFixedDataRows(config, layout, mode) {
     var isBottomSplit = mode === types_1.Split.bottom;
     var splitedData = isBottomSplit ? config.fixedRows.bottom : config.fixedRows.top;
     var $renderFrom = isBottomSplit ? "bottomFixedRows" : "topFixedRows";
-    var fixedRows = (0, _ells_1.getCells)(__assign(__assign({}, config), { data: splitedData, $renderFrom: $renderFrom, $positions: __assign(__assign({}, $positions), { yStart: 0, yEnd: isBottomSplit ? bottomSplit : topSplit }) }));
+    var fixedRows = (0, cells_2.getCells)(__assign(__assign({}, config), { data: splitedData, $renderFrom: $renderFrom, $positions: __assign(__assign({}, $positions), { yStart: 0, yEnd: isBottomSplit ? bottomSplit : topSplit }) }));
     var fixedRowsHeight = splitedData.reduce(function (acc, row) { return acc + (0, data_1.getTotalRowHeight)(row); }, 0);
-    var spans = (0, _ells_1.getSpans)(__assign(__assign({}, config), { $renderFrom: $renderFrom, data: data }), isBottomSplit ? types_1.Split.bottom : types_1.Split.top);
+    var spans = (0, cells_2.getSpans)(__assign(__assign({}, config), { $renderFrom: $renderFrom, data: data }), isBottomSplit ? types_1.Split.bottom : types_1.Split.top);
     var bottomSplitHeight = (0, main_1.getTotalHeight)(config.fixedRows.bottom);
     var getCols = function (split) {
         return ((0, FixedCols_1.getFixedCols)(__assign(__assign({}, config), { headerHeight: 0, data: splitedData, $renderFrom: $renderFrom, scroll: __assign(__assign({}, config.scroll), { top: -1 }), $positions: __assign(__assign({}, $positions), { yStart: 0, yEnd: isBottomSplit ? bottomSplit : topSplit }), $totalHeight: fixedRowsHeight, $data: data }), __assign(__assign({}, layout), { shifts: __assign(__assign({}, layout.shifts), { y: 0 }) }), split, mode) || []);
     };
     var fixedCols = __spreadArray(__spreadArray([], getCols(types_1.Split.left), true), getCols(types_1.Split.right), true);
+    var style = {
+        overflow: "hidden",
+        width: $totalWidth + $scrollBarWidth.y + common_1.BORDERS < $width
+            ? $totalWidth
+            : $width - $scrollBarWidth.y - common_1.BORDERS,
+    };
+    if (mode === types_1.Split.bottom && layout.footerAtBottom) {
+        style["top"] = "unset";
+        style["bottom"] = $scrollBarWidth.x || -1;
+        style["height"] = footerHeight + fixedRowsHeight;
+    }
+    else {
+        style["top"] = isBottomSplit
+            ? $totalHeight + headerHeight + footerHeight < layout.wrapper.height - $scrollBarWidth.x - common_1.BORDERS
+                ? $totalHeight + headerHeight - bottomSplitHeight + common_1.BORDERS / 2
+                : layout.wrapper.height - bottomSplitHeight - footerHeight - common_1.BORDERS / 2 - $scrollBarWidth.x
+            : headerHeight;
+        style["height"] = fixedRowsHeight > layout.wrapper.height ? layout.wrapper.height : fixedRowsHeight;
+    }
     return [
         (0, dom_1.el)(".dhx_grid-fixed-data-rows-wrap", {
             class: isBottomSplit ? "dhx_grid__rows_bottom--fixed" : "",
-            style: {
-                top: isBottomSplit
-                    ? $totalHeight + headerHeight + footerHeight <
-                        layout.wrapper.height - $scrollBarWidth.x - common_1.BORDERS
-                        ? $totalHeight + headerHeight - bottomSplitHeight + common_1.BORDERS / 2
-                        : layout.wrapper.height -
-                            bottomSplitHeight -
-                            footerHeight -
-                            common_1.BORDERS / 2 -
-                            $scrollBarWidth.x
-                    : headerHeight,
-                overflow: "hidden",
-                height: fixedRowsHeight > layout.wrapper.height ? layout.wrapper.height : fixedRowsHeight,
-                width: $totalWidth + $scrollBarWidth.y + common_1.BORDERS < $width
-                    ? $totalWidth
-                    : $width - $scrollBarWidth.y - common_1.BORDERS,
-            },
+            style: style,
         }, __spreadArray(__spreadArray([
             (0, dom_1.el)(".dhx_grid-fixed-cols", __assign(__assign({ onwheel: main_1.scrollFixedColsAndRows, style: {
                     left: -config.scroll.left + "px",
                     paddingLeft: layout.shifts.x,
                     position: "absolute",
                     width: $totalWidth,
-                }, _flags: dom_1.KEYED_LIST }, (0, _ells_1.getHandlers)(0, $positions.xStart, config)), getRowAriaAttrs(data.length)), [
+                }, _flags: dom_1.KEYED_LIST }, (0, cells_2.getHandlers)(0, $positions.xStart, config)), getRowAriaAttrs(data.length)), [
                 (0, dom_1.el)(".dhx_grid-fixed-rows", {
                     class: config.rightSplit ? "dhx_grid__rows_right--fixed" : "",
                 }, __spreadArray(__spreadArray([], fixedRows, true), [spans && (0, dom_1.el)(".dhx_span-spans", { role: "presentation" }, spans)], false)),
@@ -20945,7 +22044,7 @@ exports.getFixedDataRows = getFixedDataRows;
 
 
 /***/ }),
-/* 108 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20953,14 +22052,14 @@ exports.getFixedDataRows = getFixedDataRows;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DropManager = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(5);
-var ts_data_1 = __webpack_require__(4);
-var common_1 = __webpack_require__(17);
+var types_1 = __webpack_require__(4);
+var ts_data_1 = __webpack_require__(5);
+var common_1 = __webpack_require__(12);
 var main_1 = __webpack_require__(10);
 var core_1 = __webpack_require__(1);
 var data_1 = __webpack_require__(11);
 var main_2 = __webpack_require__(10);
-var html_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var DropManager = /** @class */ (function () {
     function DropManager(_a) {
         var view = _a.view;
@@ -21141,9 +22240,7 @@ var DropManager = /** @class */ (function () {
         return fixedIds === null || fixedIds === void 0 ? void 0 : fixedIds.includes(column.id);
     };
     DropManager.prototype._getTopPosition = function (row) {
-        var rows = this._grid.data.getRawData(0, -1, null, 2);
-        var rowInd = rows.findIndex(function (comp) { return comp.id == row.id; });
-        return (0, main_1.getTotalHeight)(rows.slice(0, rowInd));
+        return this._grid.getCellRect(row.id).y;
     };
     DropManager.prototype._getBottomPosition = function (targetRow) {
         if (this._isTreeMode && targetRow.$items) {
@@ -21180,7 +22277,7 @@ exports.DropManager = DropManager;
 
 
 /***/ }),
-/* 109 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21233,29 +22330,31 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ExtendedGrid = void 0;
-var types_1 = __webpack_require__(5);
-var ts_data_1 = __webpack_require__(4);
-var html_1 = __webpack_require__(3);
+var types_1 = __webpack_require__(4);
+var ts_data_1 = __webpack_require__(5);
+var html_1 = __webpack_require__(2);
 var data_1 = __webpack_require__(11);
-var render_1 = __webpack_require__(105);
+var render_1 = __webpack_require__(107);
 var dom_1 = __webpack_require__(0);
 var ScrollView_1 = __webpack_require__(22);
 var main_1 = __webpack_require__(10);
-var Grid_1 = __webpack_require__(104);
+var Grid_1 = __webpack_require__(105);
 var default_1 = __webpack_require__(27);
 var core_1 = __webpack_require__(1);
-var Range_1 = __webpack_require__(110);
-var BlockSelection_1 = __webpack_require__(242);
-var Clipboard_1 = __webpack_require__(243);
-var en_1 = __webpack_require__(42);
-var DropManager_1 = __webpack_require__(108);
-var History_1 = __webpack_require__(244);
+var Range_1 = __webpack_require__(112);
+var BlockSelection_1 = __webpack_require__(243);
+var Clipboard_1 = __webpack_require__(244);
+var en_1 = __webpack_require__(43);
+var DropManager_1 = __webpack_require__(110);
+var History_1 = __webpack_require__(245);
+var Exporter_1 = __webpack_require__(106);
+var proContent_1 = __webpack_require__(246);
 var ExtendedGrid = /** @class */ (function (_super) {
     __extends(ExtendedGrid, _super);
     function ExtendedGrid(container, config) {
-        var _this = this;
         var _a, _b, _c;
-        _this = _super.call(this, container, __assign({ autoHeight: false, closable: true, groupable: false, subRow: null, multiSort: true, rangeSelection: false, blockSelection: false, clipboard: false, dragPanel: false, history: false, headerAutoHeight: (_a = config === null || config === void 0 ? void 0 : config.headerAutoHeight) !== null && _a !== void 0 ? _a : config === null || config === void 0 ? void 0 : config.autoHeight, footerAutoHeight: (_b = config === null || config === void 0 ? void 0 : config.footerAutoHeight) !== null && _b !== void 0 ? _b : config === null || config === void 0 ? void 0 : config.autoHeight }, config)) || this;
+        var _this = _super.call(this, container, __assign({ autoHeight: false, closable: true, groupable: false, subRow: null, multiSort: true, rangeSelection: false, blockSelection: false, clipboard: false, dragPanel: false, history: false, headerAutoHeight: (_a = config === null || config === void 0 ? void 0 : config.headerAutoHeight) !== null && _a !== void 0 ? _a : config === null || config === void 0 ? void 0 : config.autoHeight, footerAutoHeight: (_b = config === null || config === void 0 ? void 0 : config.footerAutoHeight) !== null && _b !== void 0 ? _b : config === null || config === void 0 ? void 0 : config.autoHeight }, config)) || this;
+        _this.content = (0, proContent_1.getProContent)(_this);
         if (_this.config.group) {
             _this.config.$grouped = [];
             _this.config.group = (0, default_1.getGroupDefaultConfig)(_this.config.group);
@@ -21360,6 +22459,15 @@ var ExtendedGrid = /** @class */ (function (_super) {
             },
             hooks: this._initHooks(),
         }, this);
+    };
+    ExtendedGrid.prototype._init = function () {
+        _super.prototype._init.call(this);
+        this.export = new Exporter_1.Exporter({
+            name: "grid",
+            version: this.version,
+            view: this,
+            export: this.config.exportConfig,
+        });
     };
     ExtendedGrid.prototype._dragInit = function () {
         if (this.config.dragMode || this.config.dragItem || this.config.dragPanel) {
@@ -21837,7 +22945,8 @@ var ExtendedGrid = /** @class */ (function (_super) {
                     ? _this.config.subRowConfig(row)
                     : _this.config.subRowConfig) || {}));
                 row.$opened = (_a = row.$opened) !== null && _a !== void 0 ? _a : config.expanded;
-                row.$subRowHeight = config.height;
+                if (!row.$group)
+                    row.$subRowHeight = config.height;
             }
             return row;
         });
@@ -21859,7 +22968,7 @@ var ExtendedGrid = /** @class */ (function (_super) {
             !this.config.$editable) {
             var column = this.getColumn((0, html_1.locate)(event.target, "data-dhx-col-id"));
             var rowNode = (0, html_1.locateNode)(event, "data-dhx-id");
-            var rowId = rowNode && (0, html_1.locate)(rowNode, "data-dhx-id");
+            var rowId = rowNode && this.data.getItem((0, html_1.locate)(rowNode, "data-dhx-id")).id;
             if (this.selection &&
                 !this.selection.isSelectedCell(rowId, column === null || column === void 0 ? void 0 : column.id) &&
                 !(event.ctrlKey || event.metaKey || event.shiftKey)) {
@@ -21903,6 +23012,10 @@ var ExtendedGrid = /** @class */ (function (_super) {
             }
             return i;
         });
+        var columnsId = new Set(this.config.columns.map(function (c) { return c.id; }));
+        order = order.filter(function (i) { return typeof i !== "string" || columnsId.has(i); });
+        if (!order.length)
+            return;
         this.data.group(order, {
             displayMode: group.type,
             showMissed: group.showMissed,
@@ -22073,7 +23186,7 @@ exports.ExtendedGrid = ExtendedGrid;
 
 
 /***/ }),
-/* 110 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22091,8 +23204,8 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Range = exports.RangeEvents = void 0;
-var events_1 = __webpack_require__(2);
-var ts_data_1 = __webpack_require__(4);
+var events_1 = __webpack_require__(3);
+var ts_data_1 = __webpack_require__(5);
 var core_1 = __webpack_require__(1);
 var main_1 = __webpack_require__(10);
 var RangeEvents;
@@ -22315,7 +23428,7 @@ exports.Range = Range;
 
 
 /***/ }),
-/* 111 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22349,8 +23462,8 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TreeGridCollection = void 0;
 var core_1 = __webpack_require__(1);
-var ts_data_1 = __webpack_require__(4);
-var treecollection_1 = __webpack_require__(69);
+var ts_data_1 = __webpack_require__(5);
+var treecollection_1 = __webpack_require__(70);
 var TreeGridCollection = /** @class */ (function (_super) {
     __extends(TreeGridCollection, _super);
     function TreeGridCollection(config, events) {
@@ -22411,10 +23524,10 @@ var TreeGridCollection = /** @class */ (function (_super) {
         if (!this.haveItems(parent)) {
             return result;
         }
-        for (var i = 0; i < this._childs[parent].length; i++) {
-            result.push(cb.call(this, this._childs[parent][i], i));
-            if (direct && this._childs[parent][i].hasOwnProperty("$opened")) {
-                var childResult = this.map(cb, this._childs[parent][i].id, direct);
+        for (var i = 0; i < this._children[parent].length; i++) {
+            result.push(cb.call(this, this._children[parent][i], i));
+            if (direct && this._children[parent][i].hasOwnProperty("$opened")) {
+                var childResult = this.map(cb, this._children[parent][i].id, direct);
                 result = result.concat(childResult);
             }
         }
@@ -22429,13 +23542,13 @@ var TreeGridCollection = /** @class */ (function (_super) {
         }
         var isRange = this._range && parent === this._root;
         var start = isRange ? this._range[0] : 0;
-        var parentLength = this._childs[parent].length;
+        var parentLength = this._children[parent].length;
         var end = isRange ? Math.min(this._range[1], parentLength) : parentLength;
         for (var i = start; i < end; i++) {
-            if (!this._childs[parent][i].hidden) {
-                result.push(cb.call(this, this._childs[parent][i], i));
-                if (direct && this._childs[parent][i].$opened) {
-                    var childResult = this.mapVisible(cb, this._childs[parent][i].id, direct);
+            if (!this._children[parent][i].hidden) {
+                result.push(cb.call(this, this._children[parent][i], i));
+                if (direct && this._children[parent][i].$opened) {
+                    var childResult = this.mapVisible(cb, this._children[parent][i].id, direct);
                     result = result.concat(childResult);
                 }
             }
@@ -22473,7 +23586,7 @@ var TreeGridCollection = /** @class */ (function (_super) {
         if (!this.exists(id)) {
             return null;
         }
-        var currentChilds = this._childs[id];
+        var currentChildren = this._children[id];
         if (key) {
             index = index === -1 ? -1 : index + key;
         }
@@ -22492,9 +23605,9 @@ var TreeGridCollection = /** @class */ (function (_super) {
             target.add(item, index);
             id = item.id;
         }
-        if (currentChilds) {
-            for (var _i = 0, currentChilds_1 = currentChilds; _i < currentChilds_1.length; _i++) {
-                var child = currentChilds_1[_i];
+        if (currentChildren) {
+            for (var _i = 0, currentChildren_1 = currentChildren; _i < currentChildren_1.length; _i++) {
+                var child = currentChildren_1[_i];
                 var childId = child.id;
                 var childIndex = this.getIndex(childId);
                 this.copy(childId, childIndex, target, id);
@@ -22529,7 +23642,7 @@ var TreeGridCollection = /** @class */ (function (_super) {
     };
     TreeGridCollection.prototype._moveItem = function (id, targetId, index) {
         var parentId = this.getParent(id);
-        [this._childs, this._initChilds].forEach(function (store) {
+        [this._children, this._initChildren].forEach(function (store) {
             if (!store || !store[parentId])
                 return;
             var i = store[parentId].findIndex(function (item) { return item.id === id; });
@@ -22549,7 +23662,7 @@ exports.TreeGridCollection = TreeGridCollection;
 
 
 /***/ }),
-/* 112 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22574,8 +23687,8 @@ exports.Ribbon = void 0;
 var dom_1 = __webpack_require__(0);
 var ts_navbar_1 = __webpack_require__(23);
 var core_1 = __webpack_require__(1);
-var html_1 = __webpack_require__(3);
-var ts_message_1 = __webpack_require__(14);
+var html_1 = __webpack_require__(2);
+var ts_message_1 = __webpack_require__(13);
 var Ribbon = /** @class */ (function (_super) {
     __extends(Ribbon, _super);
     function Ribbon(element, config) {
@@ -22814,7 +23927,7 @@ exports.Ribbon = Ribbon;
 
 
 /***/ }),
-/* 113 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22837,9 +23950,9 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Sidebar = void 0;
 var dom_1 = __webpack_require__(0);
-var html_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(114);
-var ts_message_1 = __webpack_require__(14);
+var html_1 = __webpack_require__(2);
+var types_1 = __webpack_require__(116);
+var ts_message_1 = __webpack_require__(13);
 var ts_navbar_1 = __webpack_require__(23);
 var core_1 = __webpack_require__(1);
 var Sidebar = /** @class */ (function (_super) {
@@ -22948,6 +24061,8 @@ var Sidebar = /** @class */ (function (_super) {
                 oninput: this._handlers.input,
                 onmouseover: this._handlers.tooltip,
                 onkeydown: this._handlers.onkeydown,
+                onmousemove: this._handlers.onmousemove,
+                onmouseleave: this._handlers.onmouseleave,
                 _hooks: {
                     didInsert: function (node) {
                         node.el.addEventListener("keyup", function (e) {
@@ -22997,7 +24112,7 @@ exports.Sidebar = Sidebar;
 
 
 /***/ }),
-/* 114 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23016,7 +24131,7 @@ var SidebarEvents;
 
 
 /***/ }),
-/* 115 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23035,7 +24150,7 @@ var TabbarEvents;
 
 
 /***/ }),
-/* 116 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23043,9 +24158,9 @@ var TabbarEvents;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Editor = exports.EditorEvents = exports.EditorMode = void 0;
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
-var KeyManager_1 = __webpack_require__(16);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
+var KeyManager_1 = __webpack_require__(17);
 var EditorMode;
 (function (EditorMode) {
     EditorMode["editText"] = "text";
@@ -23171,7 +24286,7 @@ exports.Editor = Editor;
 
 
 /***/ }),
-/* 117 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23206,7 +24321,7 @@ var TreeEvents;
 
 
 /***/ }),
-/* 118 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23215,14 +24330,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Window = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var KeyManager_1 = __webpack_require__(16);
+var events_1 = __webpack_require__(3);
+var KeyManager_1 = __webpack_require__(17);
 var FocusManager_1 = __webpack_require__(20);
-var ts_layout_1 = __webpack_require__(13);
-var ts_toolbar_1 = __webpack_require__(35);
-var helpers_1 = __webpack_require__(261);
-var types_1 = __webpack_require__(119);
-var WindowController_1 = __webpack_require__(262);
+var ts_layout_1 = __webpack_require__(16);
+var ts_toolbar_1 = __webpack_require__(37);
+var helpers_1 = __webpack_require__(264);
+var types_1 = __webpack_require__(121);
+var WindowController_1 = __webpack_require__(265);
 var ts_navbar_1 = __webpack_require__(23);
 var Window = /** @class */ (function () {
     function Window(config) {
@@ -23398,26 +24513,6 @@ var Window = /** @class */ (function () {
     Window.prototype.hide = function () {
         this._hide();
     };
-    Window.prototype._hide = function (e) {
-        if (!this._isActive ||
-            !this.events.fire(types_1.WindowEvents.beforeHide, [{ left: this.config.left, top: this.config.top }, e])) {
-            return;
-        }
-        if (this.config.viewportOverflow) {
-            WindowController_1.default.closeFreeWindow(this.config.node);
-        }
-        if (this._blocker) {
-            this.config.node.removeChild(this._blocker);
-            if (this.config.closable) {
-                this._keyManager.removeHotKey(null, this);
-            }
-            this._blocker = null;
-        }
-        this.config.node.removeChild(this._popup);
-        this._layout.getCell("content").hide();
-        this._isActive = false;
-        this.events.fire(types_1.WindowEvents.afterHide, [{ left: this.config.left, top: this.config.top }, e]);
-    };
     Window.prototype.isVisible = function () {
         return this._isActive;
     };
@@ -23432,6 +24527,9 @@ var Window = /** @class */ (function () {
     };
     Window.prototype.attachHTML = function (html) {
         this._layout.getCell("content").attachHTML(html);
+    };
+    Window.prototype.setActive = function () {
+        WindowController_1.default.setActive(this._uid);
     };
     Window.prototype.getRootView = function () {
         return this._layout.getRootView();
@@ -23595,6 +24693,26 @@ var Window = /** @class */ (function () {
             (0, dom_1.el)(".dhx_window-resizer.dhx_window-resizer--top_right", { _ref: "topRight" }),
             (0, dom_1.el)(".dhx_window-resizer.dhx_window-resizer--top_left", { _ref: "topLeft" }),
         ]);
+    };
+    Window.prototype._hide = function (e) {
+        if (!this._isActive ||
+            !this.events.fire(types_1.WindowEvents.beforeHide, [{ left: this.config.left, top: this.config.top }, e])) {
+            return;
+        }
+        if (this.config.viewportOverflow) {
+            WindowController_1.default.closeFreeWindow(this.config.node);
+        }
+        if (this._blocker) {
+            this.config.node.removeChild(this._blocker);
+            if (this.config.closable) {
+                this._keyManager.removeHotKey(null, this);
+            }
+            this._blocker = null;
+        }
+        this.config.node.removeChild(this._popup);
+        this._layout.getCell("content").hide();
+        this._isActive = false;
+        this.events.fire(types_1.WindowEvents.afterHide, [{ left: this.config.left, top: this.config.top }, e]);
     };
     Window.prototype._startDrag = function (x, y) {
         var _this = this;
@@ -23797,7 +24915,7 @@ exports.Window = Window;
 
 
 /***/ }),
-/* 119 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23817,19 +24935,20 @@ var WindowEvents;
 
 
 /***/ }),
-/* 120 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(121);
-__webpack_require__(122);
 __webpack_require__(123);
 __webpack_require__(124);
 __webpack_require__(125);
-module.exports = __webpack_require__(126);
+__webpack_require__(126);
+__webpack_require__(127);
+__webpack_require__(128);
+module.exports = __webpack_require__(132);
 
 
 /***/ }),
-/* 121 */
+/* 123 */
 /***/ (function(module, exports) {
 
 Object.values = Object.values
@@ -23900,7 +25019,7 @@ if (!Object.assign) {
 
 
 /***/ }),
-/* 122 */
+/* 124 */
 /***/ (function(module, exports) {
 
 /* eslint-disable prefer-rest-params */
@@ -24012,7 +25131,7 @@ if (!Array.prototype.findIndex) {
 
 
 /***/ }),
-/* 123 */
+/* 125 */
 /***/ (function(module, exports) {
 
 if (!String.prototype.includes) {
@@ -24075,7 +25194,7 @@ if (!String.prototype.padEnd) {
 
 
 /***/ }),
-/* 124 */
+/* 126 */
 /***/ (function(module, exports) {
 
 /* eslint-disable @typescript-eslint/no-this-alias */
@@ -24151,7 +25270,7 @@ if (!Event.prototype.composedPath) {
 
 
 /***/ }),
-/* 125 */
+/* 127 */
 /***/ (function(module, exports) {
 
 Math.sign =
@@ -24166,205 +25285,21 @@ Math.sign =
 
 
 /***/ }),
-/* 126 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.i18n = exports.Window = exports.Tree = exports.Toolbar = exports.Timepicker = exports.Tabbar = exports.Slider = exports.Sidebar = exports.Ribbon = exports.Popup = exports.ContextMenu = exports.Menu = exports.tooltip = exports.disableTooltip = exports.enableTooltip = exports.confirm = exports.alert = exports.message = exports.Grid = exports.Form = exports.DataView = exports.Combobox = exports.Chart = exports.Colorpicker = exports.Calendar = exports.List = exports.Layout = exports.methods = exports.ajax = exports.dataDrivers = exports.DataProxy = exports.TreeCollection = exports.DataCollection = exports.Uploader = exports.setTheme = exports.resizeHandler = exports.awaitRedraw = exports.EventSystem = exports.cssManager = void 0;
-__webpack_require__(127);
-// HELPERS
-/* tslint:disable */
-var CssManager_1 = __webpack_require__(128);
-Object.defineProperty(exports, "cssManager", { enumerable: true, get: function () { return CssManager_1.cssManager; } });
-var events_1 = __webpack_require__(2);
-Object.defineProperty(exports, "EventSystem", { enumerable: true, get: function () { return events_1.EventSystem; } });
-var dom_1 = __webpack_require__(0);
-Object.defineProperty(exports, "awaitRedraw", { enumerable: true, get: function () { return dom_1.awaitRedraw; } });
-Object.defineProperty(exports, "resizeHandler", { enumerable: true, get: function () { return dom_1.resizeHandler; } });
-Object.defineProperty(exports, "setTheme", { enumerable: true, get: function () { return dom_1.setTheme; } });
-var ts_vault_1 = __webpack_require__(62);
-Object.defineProperty(exports, "Uploader", { enumerable: true, get: function () { return ts_vault_1.Uploader; } });
-var ts_data_1 = __webpack_require__(4);
-Object.defineProperty(exports, "DataCollection", { enumerable: true, get: function () { return ts_data_1.DataCollection; } });
-Object.defineProperty(exports, "TreeCollection", { enumerable: true, get: function () { return ts_data_1.TreeCollection; } });
-Object.defineProperty(exports, "DataProxy", { enumerable: true, get: function () { return ts_data_1.DataProxy; } });
-Object.defineProperty(exports, "dataDrivers", { enumerable: true, get: function () { return ts_data_1.dataDrivers; } });
-Object.defineProperty(exports, "ajax", { enumerable: true, get: function () { return ts_data_1.ajax; } });
-Object.defineProperty(exports, "methods", { enumerable: true, get: function () { return ts_data_1.methods; } });
-// WIDGETS
-var ts_layout_1 = __webpack_require__(13);
-Object.defineProperty(exports, "Layout", { enumerable: true, get: function () { return ts_layout_1.Layout; } });
-var ts_list_1 = __webpack_require__(38);
-Object.defineProperty(exports, "List", { enumerable: true, get: function () { return ts_list_1.List; } });
-var ts_calendar_1 = __webpack_require__(37);
-Object.defineProperty(exports, "Calendar", { enumerable: true, get: function () { return ts_calendar_1.Calendar; } });
-var ts_colorpicker_1 = __webpack_require__(54);
-Object.defineProperty(exports, "Colorpicker", { enumerable: true, get: function () { return ts_colorpicker_1.Colorpicker; } });
-var ts_chart_1 = __webpack_require__(176);
-Object.defineProperty(exports, "Chart", { enumerable: true, get: function () { return ts_chart_1.Chart; } });
-var ts_combobox_1 = __webpack_require__(39);
-Object.defineProperty(exports, "Combobox", { enumerable: true, get: function () { return ts_combobox_1.Combobox; } });
-var ts_dataview_1 = __webpack_require__(200);
-Object.defineProperty(exports, "DataView", { enumerable: true, get: function () { return ts_dataview_1.DataView; } });
-var ts_form_1 = __webpack_require__(204);
-Object.defineProperty(exports, "Form", { enumerable: true, get: function () { return ts_form_1.Form; } });
-var ts_grid_1 = __webpack_require__(103);
-Object.defineProperty(exports, "Grid", { enumerable: true, get: function () { return ts_grid_1.Grid; } });
-var ts_message_1 = __webpack_require__(14);
-Object.defineProperty(exports, "message", { enumerable: true, get: function () { return ts_message_1.message; } });
-Object.defineProperty(exports, "alert", { enumerable: true, get: function () { return ts_message_1.alert; } });
-Object.defineProperty(exports, "confirm", { enumerable: true, get: function () { return ts_message_1.confirm; } });
-Object.defineProperty(exports, "enableTooltip", { enumerable: true, get: function () { return ts_message_1.enableTooltip; } });
-Object.defineProperty(exports, "disableTooltip", { enumerable: true, get: function () { return ts_message_1.disableTooltip; } });
-Object.defineProperty(exports, "tooltip", { enumerable: true, get: function () { return ts_message_1.tooltip; } });
-var ts_menu_1 = __webpack_require__(249);
-Object.defineProperty(exports, "Menu", { enumerable: true, get: function () { return ts_menu_1.Menu; } });
-Object.defineProperty(exports, "ContextMenu", { enumerable: true, get: function () { return ts_menu_1.ContextMenu; } });
-var ts_popup_1 = __webpack_require__(15);
-Object.defineProperty(exports, "Popup", { enumerable: true, get: function () { return ts_popup_1.Popup; } });
-var ts_ribbon_1 = __webpack_require__(252);
-Object.defineProperty(exports, "Ribbon", { enumerable: true, get: function () { return ts_ribbon_1.Ribbon; } });
-var ts_sidebar_1 = __webpack_require__(254);
-Object.defineProperty(exports, "Sidebar", { enumerable: true, get: function () { return ts_sidebar_1.Sidebar; } });
-var ts_slider_1 = __webpack_require__(51);
-Object.defineProperty(exports, "Slider", { enumerable: true, get: function () { return ts_slider_1.Slider; } });
-var ts_tabbar_1 = __webpack_require__(256);
-Object.defineProperty(exports, "Tabbar", { enumerable: true, get: function () { return ts_tabbar_1.Tabbar; } });
-var ts_timepicker_1 = __webpack_require__(50);
-Object.defineProperty(exports, "Timepicker", { enumerable: true, get: function () { return ts_timepicker_1.Timepicker; } });
-var ts_toolbar_1 = __webpack_require__(35);
-Object.defineProperty(exports, "Toolbar", { enumerable: true, get: function () { return ts_toolbar_1.Toolbar; } });
-var ts_tree_1 = __webpack_require__(258);
-Object.defineProperty(exports, "Tree", { enumerable: true, get: function () { return ts_tree_1.Tree; } });
-var ts_window_1 = __webpack_require__(260);
-Object.defineProperty(exports, "Window", { enumerable: true, get: function () { return ts_window_1.Window; } });
-// TOOLS
-var ts_colorpicker_2 = __webpack_require__(54);
-var en_1 = __webpack_require__(49);
-var date_1 = __webpack_require__(18);
-var en_2 = __webpack_require__(61);
-var en_3 = __webpack_require__(101);
-var en_4 = __webpack_require__(77);
-var en_5 = __webpack_require__(42);
-var locale_1 = __webpack_require__(264);
-var w = window;
-exports.i18n = w.dhx && w.dhx.i18n ? w.dhx.i18n : {};
-exports.i18n.setLocale = locale_1.setLocale;
-exports.i18n.colorpicker = exports.i18n.colorpicker || ts_colorpicker_2.locale;
-exports.i18n.message = exports.i18n.message || en_1.default;
-exports.i18n.calendar = exports.i18n.calendar || date_1.locale;
-exports.i18n.combobox = exports.i18n.combobox || en_2.default;
-exports.i18n.form = exports.i18n.form || en_3.default;
-exports.i18n.timepicker = exports.i18n.timepicker || en_4.default;
-exports.i18n.grid = exports.i18n.grid || en_5.default;
-
-
-/***/ }),
-/* 127 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
 /* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+/* WEBPACK VAR INJECTION */(function(Promise) {if (!Promise.prototype.finally) {
+    Promise.prototype.finally = function (callback) {
+        var P = this.constructor;
+        return this.then(function (value) { return P.resolve(callback()).then(function () { return value; }); }, function (reason) {
+            return P.resolve(callback()).then(function () {
+                throw reason;
+            });
+        });
+    };
+}
 
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.cssManager = exports.CssManager = void 0;
-var core_1 = __webpack_require__(1);
-var CssManager = /** @class */ (function () {
-    function CssManager() {
-        this._classes = {};
-        var styles = document.createElement("style");
-        styles.id = "dhx_generated_styles";
-        this._styleCont = document.head.appendChild(styles);
-    }
-    CssManager.prototype.update = function () {
-        if (this._styleCont.innerHTML !== this._generateCss()) {
-            document.head.appendChild(this._styleCont);
-            this._styleCont.innerHTML = this._generateCss();
-        }
-    };
-    CssManager.prototype.remove = function (className) {
-        delete this._classes[className];
-        this.update();
-    };
-    CssManager.prototype.add = function (cssList, customId, silent) {
-        if (silent === void 0) { silent = false; }
-        var cssString = this._toCssString(cssList);
-        var id = this._findSameClassId(cssString);
-        if (id && customId && customId !== id) {
-            this._classes[customId] = this._classes[id];
-            return customId;
-        }
-        if (id) {
-            return id;
-        }
-        return this._addNewClass(cssString, customId, silent);
-    };
-    CssManager.prototype.get = function (className) {
-        if (this._classes[className]) {
-            var props = {};
-            var css = this._classes[className].split(";");
-            for (var _i = 0, css_1 = css; _i < css_1.length; _i++) {
-                var item = css_1[_i];
-                if (item) {
-                    var prop = item.split(":");
-                    props[prop[0]] = prop[1];
-                }
-            }
-            return props;
-        }
-        return null;
-    };
-    CssManager.prototype.destructor = function () {
-        this._classes = this._styleCont = null;
-    };
-    CssManager.prototype._findSameClassId = function (cssString) {
-        for (var key in this._classes) {
-            if (cssString === this._classes[key]) {
-                return key;
-            }
-        }
-        return null;
-    };
-    CssManager.prototype._addNewClass = function (cssString, customId, silent) {
-        var id = customId || "dhx_generated_class_".concat((0, core_1.uid)());
-        this._classes[id] = cssString;
-        if (!silent) {
-            this.update();
-        }
-        return id;
-    };
-    CssManager.prototype._toCssString = function (cssList) {
-        var cssString = "";
-        for (var key in cssList) {
-            var prop = cssList[key];
-            var name_1 = key.replace(/[A-Z]{1}/g, function (letter) { return "-".concat(letter.toLowerCase()); });
-            cssString += "".concat(name_1, ":").concat(prop, ";");
-        }
-        return cssString;
-    };
-    CssManager.prototype._generateCss = function () {
-        var result = "";
-        for (var key in this._classes) {
-            var cssProps = this._classes[key];
-            result += ".".concat(key, "{").concat(cssProps, "}\n");
-        }
-        return result;
-    };
-    return CssManager;
-}());
-exports.CssManager = CssManager;
-exports.cssManager = new CssManager();
-
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
 
 /***/ }),
 /* 129 */
@@ -24434,7 +25369,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (typeof global !== "undefined" && global.clearImmediate) ||
                          (this && this.clearImmediate);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(43)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(44)))
 
 /***/ }),
 /* 130 */
@@ -24627,7 +25562,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(43), __webpack_require__(131)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(44), __webpack_require__(131)))
 
 /***/ }),
 /* 131 */
@@ -24821,6 +25756,207 @@ process.umask = function() { return 0; };
 
 /***/ }),
 /* 132 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.i18n = exports.Window = exports.Tree = exports.Toolbar = exports.Timepicker = exports.Tabbar = exports.Slider = exports.Sidebar = exports.Ribbon = exports.Popup = exports.ContextMenu = exports.Menu = exports.tooltip = exports.disableTooltip = exports.enableTooltip = exports.confirm = exports.alert = exports.message = exports.Grid = exports.Form = exports.DataView = exports.Combobox = exports.Chart = exports.Colorpicker = exports.Calendar = exports.List = exports.Layout = exports.methods = exports.ajax = exports.dataDrivers = exports.DataProxy = exports.TreeCollection = exports.DataCollection = exports.Uploader = exports.setTheme = exports.resizeHandler = exports.awaitRedraw = exports.EventSystem = exports.cssManager = void 0;
+__webpack_require__(133);
+// HELPERS
+/* tslint:disable */
+var CssManager_1 = __webpack_require__(134);
+Object.defineProperty(exports, "cssManager", { enumerable: true, get: function () { return CssManager_1.cssManager; } });
+var events_1 = __webpack_require__(3);
+Object.defineProperty(exports, "EventSystem", { enumerable: true, get: function () { return events_1.EventSystem; } });
+var dom_1 = __webpack_require__(0);
+Object.defineProperty(exports, "awaitRedraw", { enumerable: true, get: function () { return dom_1.awaitRedraw; } });
+Object.defineProperty(exports, "resizeHandler", { enumerable: true, get: function () { return dom_1.resizeHandler; } });
+Object.defineProperty(exports, "setTheme", { enumerable: true, get: function () { return dom_1.setTheme; } });
+var ts_vault_1 = __webpack_require__(63);
+Object.defineProperty(exports, "Uploader", { enumerable: true, get: function () { return ts_vault_1.Uploader; } });
+var ts_data_1 = __webpack_require__(5);
+Object.defineProperty(exports, "DataCollection", { enumerable: true, get: function () { return ts_data_1.DataCollection; } });
+Object.defineProperty(exports, "TreeCollection", { enumerable: true, get: function () { return ts_data_1.TreeCollection; } });
+Object.defineProperty(exports, "DataProxy", { enumerable: true, get: function () { return ts_data_1.DataProxy; } });
+Object.defineProperty(exports, "dataDrivers", { enumerable: true, get: function () { return ts_data_1.dataDrivers; } });
+Object.defineProperty(exports, "ajax", { enumerable: true, get: function () { return ts_data_1.ajax; } });
+Object.defineProperty(exports, "methods", { enumerable: true, get: function () { return ts_data_1.methods; } });
+// WIDGETS
+var ts_layout_1 = __webpack_require__(16);
+Object.defineProperty(exports, "Layout", { enumerable: true, get: function () { return ts_layout_1.Layout; } });
+var ts_list_1 = __webpack_require__(39);
+Object.defineProperty(exports, "List", { enumerable: true, get: function () { return ts_list_1.List; } });
+var ts_calendar_1 = __webpack_require__(32);
+Object.defineProperty(exports, "Calendar", { enumerable: true, get: function () { return ts_calendar_1.Calendar; } });
+var ts_colorpicker_1 = __webpack_require__(55);
+Object.defineProperty(exports, "Colorpicker", { enumerable: true, get: function () { return ts_colorpicker_1.Colorpicker; } });
+var ts_chart_1 = __webpack_require__(179);
+Object.defineProperty(exports, "Chart", { enumerable: true, get: function () { return ts_chart_1.Chart; } });
+var ts_combobox_1 = __webpack_require__(40);
+Object.defineProperty(exports, "Combobox", { enumerable: true, get: function () { return ts_combobox_1.Combobox; } });
+var ts_dataview_1 = __webpack_require__(203);
+Object.defineProperty(exports, "DataView", { enumerable: true, get: function () { return ts_dataview_1.DataView; } });
+var ts_form_1 = __webpack_require__(207);
+Object.defineProperty(exports, "Form", { enumerable: true, get: function () { return ts_form_1.Form; } });
+var ts_grid_1 = __webpack_require__(104);
+Object.defineProperty(exports, "Grid", { enumerable: true, get: function () { return ts_grid_1.Grid; } });
+var ts_message_1 = __webpack_require__(13);
+Object.defineProperty(exports, "message", { enumerable: true, get: function () { return ts_message_1.message; } });
+Object.defineProperty(exports, "alert", { enumerable: true, get: function () { return ts_message_1.alert; } });
+Object.defineProperty(exports, "confirm", { enumerable: true, get: function () { return ts_message_1.confirm; } });
+Object.defineProperty(exports, "enableTooltip", { enumerable: true, get: function () { return ts_message_1.enableTooltip; } });
+Object.defineProperty(exports, "disableTooltip", { enumerable: true, get: function () { return ts_message_1.disableTooltip; } });
+Object.defineProperty(exports, "tooltip", { enumerable: true, get: function () { return ts_message_1.tooltip; } });
+var ts_menu_1 = __webpack_require__(252);
+Object.defineProperty(exports, "Menu", { enumerable: true, get: function () { return ts_menu_1.Menu; } });
+Object.defineProperty(exports, "ContextMenu", { enumerable: true, get: function () { return ts_menu_1.ContextMenu; } });
+var ts_popup_1 = __webpack_require__(14);
+Object.defineProperty(exports, "Popup", { enumerable: true, get: function () { return ts_popup_1.Popup; } });
+var ts_ribbon_1 = __webpack_require__(255);
+Object.defineProperty(exports, "Ribbon", { enumerable: true, get: function () { return ts_ribbon_1.Ribbon; } });
+var ts_sidebar_1 = __webpack_require__(257);
+Object.defineProperty(exports, "Sidebar", { enumerable: true, get: function () { return ts_sidebar_1.Sidebar; } });
+var ts_slider_1 = __webpack_require__(52);
+Object.defineProperty(exports, "Slider", { enumerable: true, get: function () { return ts_slider_1.Slider; } });
+var ts_tabbar_1 = __webpack_require__(259);
+Object.defineProperty(exports, "Tabbar", { enumerable: true, get: function () { return ts_tabbar_1.Tabbar; } });
+var ts_timepicker_1 = __webpack_require__(51);
+Object.defineProperty(exports, "Timepicker", { enumerable: true, get: function () { return ts_timepicker_1.Timepicker; } });
+var ts_toolbar_1 = __webpack_require__(37);
+Object.defineProperty(exports, "Toolbar", { enumerable: true, get: function () { return ts_toolbar_1.Toolbar; } });
+var ts_tree_1 = __webpack_require__(261);
+Object.defineProperty(exports, "Tree", { enumerable: true, get: function () { return ts_tree_1.Tree; } });
+var ts_window_1 = __webpack_require__(263);
+Object.defineProperty(exports, "Window", { enumerable: true, get: function () { return ts_window_1.Window; } });
+// TOOLS
+var ts_colorpicker_2 = __webpack_require__(55);
+var en_1 = __webpack_require__(50);
+var date_1 = __webpack_require__(18);
+var en_2 = __webpack_require__(62);
+var en_3 = __webpack_require__(102);
+var en_4 = __webpack_require__(78);
+var en_5 = __webpack_require__(43);
+var locale_1 = __webpack_require__(267);
+var w = window;
+exports.i18n = w.dhx && w.dhx.i18n ? w.dhx.i18n : {};
+exports.i18n.setLocale = locale_1.setLocale;
+exports.i18n.colorpicker = exports.i18n.colorpicker || ts_colorpicker_2.locale;
+exports.i18n.message = exports.i18n.message || en_1.default;
+exports.i18n.calendar = exports.i18n.calendar || date_1.locale;
+exports.i18n.combobox = exports.i18n.combobox || en_2.default;
+exports.i18n.form = exports.i18n.form || en_3.default;
+exports.i18n.timepicker = exports.i18n.timepicker || en_4.default;
+exports.i18n.grid = exports.i18n.grid || en_5.default;
+
+
+/***/ }),
+/* 133 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+/* 134 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.cssManager = exports.CssManager = void 0;
+var core_1 = __webpack_require__(1);
+var CssManager = /** @class */ (function () {
+    function CssManager() {
+        this._classes = {};
+        var styles = document.createElement("style");
+        styles.id = "dhx_generated_styles";
+        this._styleCont = document.head.appendChild(styles);
+    }
+    CssManager.prototype.update = function () {
+        if (this._styleCont.innerHTML !== this._generateCss()) {
+            document.head.appendChild(this._styleCont);
+            this._styleCont.innerHTML = this._generateCss();
+        }
+    };
+    CssManager.prototype.remove = function (className) {
+        delete this._classes[className];
+        this.update();
+    };
+    CssManager.prototype.add = function (cssList, customId, silent) {
+        if (silent === void 0) { silent = false; }
+        var cssString = this._toCssString(cssList);
+        var id = this._findSameClassId(cssString);
+        if (id && customId && customId !== id) {
+            this._classes[customId] = this._classes[id];
+            return customId;
+        }
+        if (id) {
+            return id;
+        }
+        return this._addNewClass(cssString, customId, silent);
+    };
+    CssManager.prototype.get = function (className) {
+        if (this._classes[className]) {
+            var props = {};
+            var css = this._classes[className].split(";");
+            for (var _i = 0, css_1 = css; _i < css_1.length; _i++) {
+                var item = css_1[_i];
+                if (item) {
+                    var prop = item.split(":");
+                    props[prop[0]] = prop[1];
+                }
+            }
+            return props;
+        }
+        return null;
+    };
+    CssManager.prototype.destructor = function () {
+        this._classes = this._styleCont = null;
+    };
+    CssManager.prototype._findSameClassId = function (cssString) {
+        for (var key in this._classes) {
+            if (cssString === this._classes[key]) {
+                return key;
+            }
+        }
+        return null;
+    };
+    CssManager.prototype._addNewClass = function (cssString, customId, silent) {
+        var id = customId || "dhx_generated_class_".concat((0, core_1.uid)());
+        this._classes[id] = cssString;
+        if (!silent) {
+            this.update();
+        }
+        return id;
+    };
+    CssManager.prototype._toCssString = function (cssList) {
+        var cssString = "";
+        for (var key in cssList) {
+            var prop = cssList[key];
+            var name_1 = key.replace(/[A-Z]{1}/g, function (letter) { return "-".concat(letter.toLowerCase()); });
+            cssString += "".concat(name_1, ":").concat(prop, ";");
+        }
+        return cssString;
+    };
+    CssManager.prototype._generateCss = function () {
+        var result = "";
+        for (var key in this._classes) {
+            var cssProps = this._classes[key];
+            result += ".".concat(key, "{").concat(cssProps, "}\n");
+        }
+        return result;
+    };
+    return CssManager;
+}());
+exports.CssManager = CssManager;
+exports.cssManager = new CssManager();
+
+
+/***/ }),
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -26761,7 +27897,7 @@ return nano;
 
 
 /***/ }),
-/* 133 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26985,7 +28121,7 @@ exports.Loader = Loader;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
 
 /***/ }),
-/* 134 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27026,7 +28162,7 @@ exports.jsonToXML = jsonToXML;
 
 
 /***/ }),
-/* 135 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27092,7 +28228,7 @@ exports.Sort = Sort;
 
 
 /***/ }),
-/* 136 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27120,11 +28256,12 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Group = void 0;
 var core_1 = __webpack_require__(1);
-var methods_1 = __webpack_require__(68);
+var methods_1 = __webpack_require__(69);
 var Group = /** @class */ (function () {
     function Group() {
         this._init = [];
         this._groupSet = new Set();
+        this._groupOrderFields = [];
     }
     Group.prototype.group = function (order, arr, config) {
         if (config === void 0) { config = {}; }
@@ -27134,6 +28271,18 @@ var Group = /** @class */ (function () {
         this._init = __spreadArray([], arr, true);
         this._groupSet.clear();
         this._config = this.getGroupConfig(config);
+        this._groupOrderFields = order.map(function (o) {
+            if (typeof o === "string")
+                return o;
+            if (typeof o === "function")
+                return "";
+            if ("by" in o) {
+                if (typeof o.by === "string")
+                    return o.by;
+                return "";
+            }
+            return "";
+        });
         return this._group(order, arr);
     };
     Group.prototype.ungroup = function (modifiedData) {
@@ -27164,7 +28313,7 @@ var Group = /** @class */ (function () {
         return !!this._init.length;
     };
     Group.prototype.getGroupedFields = function () {
-        return Array.from(this._groupSet);
+        return this._groupOrderFields;
     };
     Group.prototype.getGroupConfig = function (config) {
         var _a;
@@ -27289,7 +28438,7 @@ exports.Group = Group;
 
 
 /***/ }),
-/* 137 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27316,8 +28465,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dragManager = void 0;
-var html_1 = __webpack_require__(3);
-var CollectionStore_1 = __webpack_require__(138);
+var html_1 = __webpack_require__(2);
+var CollectionStore_1 = __webpack_require__(141);
 var types_1 = __webpack_require__(25);
 var helpers_1 = __webpack_require__(21);
 var core_1 = __webpack_require__(1);
@@ -27384,6 +28533,7 @@ var DragManager = /** @class */ (function () {
         this._lastTargetItemState = null;
         this._lastOverItemId = null;
         this._onMouseMove = function (e) {
+            var _a, _b;
             if (!_this._transferData.start) {
                 return;
             }
@@ -27402,15 +28552,16 @@ var DragManager = /** @class */ (function () {
                 !_this._transferData.groupOnly) {
                 _this._transferData.type = "column";
             }
-            var targetId = (0, html_1.locate)(element);
+            var targetRawId = (0, html_1.locate)(element);
+            var targetId = (_b = (_a = _this._transferData.component.data.getItem(targetRawId)) === null || _a === void 0 ? void 0 : _a.id) !== null && _b !== void 0 ? _b : targetRawId;
             if (overAreaType === _this._transferData.type || isCommonDropArea) {
-                var _a = _this._transferData, x = _a.x, y = _a.y, start = _a.start, componentId = _a.componentId;
+                var _c = _this._transferData, x = _c.x, y = _c.y, start = _c.start, componentId = _c.componentId;
                 if (!_this._transferData.ghost) {
                     if (Math.abs(x - pageX) < 3 && Math.abs(y - pageY) < 3) {
                         return;
                     }
                     else {
-                        var ghost = _this._onDragStart(start, componentId, e);
+                        var ghost = _this._onDragStart(start, e);
                         if (!ghost) {
                             _this._endDrop(e);
                             return;
@@ -27469,6 +28620,7 @@ var DragManager = /** @class */ (function () {
         CollectionStore_1.collectionStore.setItem(id, item);
     };
     DragManager.prototype.onMouseDown = function (_a) {
+        var _b, _c;
         var event = _a.event, itemsForGhost = _a.itemsForGhost, ghost = _a.ghost, source = _a.source, type = _a.type, groupable = _a.groupable, groupOnly = _a.groupOnly;
         // onmousedown only for target objects
         if (event.which !== 1 && !event.targetTouches) {
@@ -27483,23 +28635,25 @@ var DragManager = /** @class */ (function () {
             document.addEventListener("touchend", this._onMouseUp, false);
         }
         var element = (0, html_1.getElementFromPoint)(event);
-        var item = (0, html_1.locateNode)(element, "data-dhx-id");
-        var id = item && item.getAttribute("data-dhx-id");
-        var component = (0, html_1.locateNode)(element, "data-dhx-widget-id");
-        var componentId = component === null || component === void 0 ? void 0 : component.getAttribute("data-dhx-widget-id");
+        var itemNode = (0, html_1.locateNode)(element, "data-dhx-id");
+        var componentNode = (0, html_1.locateNode)(element, "data-dhx-widget-id");
+        var componentId = componentNode === null || componentNode === void 0 ? void 0 : componentNode.getAttribute("data-dhx-widget-id");
+        var component = CollectionStore_1.collectionStore.getItem(componentId);
+        var itemRawId = itemNode && itemNode.getAttribute("data-dhx-id");
+        var itemId = itemNode && ((_c = (_b = component.data.getItem(itemRawId)) === null || _b === void 0 ? void 0 : _b.id) !== null && _c !== void 0 ? _c : itemRawId);
         if (ghost)
             this._ghost = ghost;
-        if (Array.isArray(source) && source.includes(id)) {
+        if (Array.isArray(source) && source.includes(itemId)) {
             this._transferData.source = __spreadArray([], source, true);
             this._itemsForGhost = itemsForGhost;
         }
         else {
-            this._transferData.source = [id];
+            this._transferData.source = [itemId];
             this._itemsForGhost = null;
         }
-        if (id && componentId) {
-            var itemBox = (0, html_1.getBox)(item);
-            var left = isGrid(CollectionStore_1.collectionStore.getItem(componentId)) ? (0, html_1.getBox)(component).left : itemBox.left;
+        if (itemId && componentId) {
+            var itemBox = (0, html_1.getBox)(itemNode);
+            var left = isGrid(component) ? (0, html_1.getBox)(componentNode).left : itemBox.left;
             var pageX = event.targetTouches
                 ? event.targetTouches[0].pageX
                 : event.pageX;
@@ -27511,8 +28665,9 @@ var DragManager = /** @class */ (function () {
             this._transferData.x = pageX;
             this._transferData.y = pageY;
             this._transferData.componentId = componentId;
-            this._transferData.start = id;
-            this._transferData.item = item;
+            this._transferData.component = component;
+            this._transferData.start = itemId;
+            this._transferData.item = itemNode;
             this._transferData.type = type;
             this._transferData.groupable = groupable;
             this._transferData.groupOnly = groupOnly;
@@ -27582,29 +28737,32 @@ var DragManager = /** @class */ (function () {
         }
         this._endDrop(e);
     };
-    DragManager.prototype._onDragStart = function (id, componentId, e) {
-        var component = CollectionStore_1.collectionStore.getItem(componentId);
-        var config = component.config;
+    DragManager.prototype._onDragStart = function (id, e) {
+        var config = this._transferData.component.config;
         var _a = this._transferData, start = _a.start, source = _a.source, target = _a.target;
         var data = {
             start: start,
             source: source,
             target: target,
         };
-        if (config.dragMode === "target" || component._pregroupData) {
+        if (config.dragMode === "target" || this._transferData.component._pregroupData) {
             return null;
         }
         var ghost = this._transferData.type === "row"
-            ? dragEventContent(this._transferData.item, this._itemsForGhost, isGrid(component))
+            ? dragEventContent(this._transferData.item, this._itemsForGhost, isGrid(this._transferData.component))
             : this._ghost;
-        var ans = component.events.fire(types_1.DragEvents.beforeDrag, [data, e, ghost, this._transferData.type]);
+        var ans = this._transferData.component.events.fire(types_1.DragEvents.beforeDrag, [
+            data,
+            e,
+            ghost,
+            this._transferData.type,
+        ]);
         if (!ans || !(0, core_1.isId)(id)) {
             return null;
         }
-        component.events.fire(types_1.DragEvents.dragStart, [data, e, this._transferData.type]);
+        this._transferData.component.events.fire(types_1.DragEvents.dragStart, [data, e, this._transferData.type]);
         this._isDrag = true;
         this._toggleTextSelection(true);
-        this._transferData.component = component;
         this._transferData.dragConfig = config;
         return ghost;
     };
@@ -27643,21 +28801,30 @@ var DragManager = /** @class */ (function () {
                 this._canDrop(e);
                 return;
             }
-            if (position <= 0.5) {
-                this._transferData.dropPosition = "top";
-            }
-            else {
-                this._transferData.dropPosition = "bottom";
-            }
-            if (component.config.dropBehaviour === "complex" && !component.config.group) {
-                if (position <= 0.25) {
-                    this._transferData.dropPosition = "top";
-                }
-                else if (position >= 0.75) {
-                    this._transferData.dropPosition = "bottom";
-                }
-                else {
-                    this._transferData.dropPosition = "in";
+            if (!component.config.group) {
+                switch (component.config.dropBehaviour) {
+                    case "complex":
+                        if (position <= 0.25) {
+                            this._transferData.dropPosition = "top";
+                        }
+                        else if (position >= 0.75) {
+                            this._transferData.dropPosition = "bottom";
+                        }
+                        else {
+                            this._transferData.dropPosition = "in";
+                        }
+                        break;
+                    case "child":
+                        this._transferData.dropPosition = "in";
+                        break;
+                    default:
+                        if (position <= 0.5) {
+                            this._transferData.dropPosition = "top";
+                        }
+                        else {
+                            this._transferData.dropPosition = "bottom";
+                        }
+                        break;
                 }
             }
             if (((((_a = this._lastTargetItemState) === null || _a === void 0 ? void 0 : _a.id) === id &&
@@ -27779,15 +28946,36 @@ var DragManager = /** @class */ (function () {
             return;
         }
         var isRootParent = to.id === nextGrid.config.rootParent;
+        var dropPosition = this._transferData.dropPosition;
         switch (dropBehavior) {
             case "child":
                 break;
             case "sibling":
-                targetId = toData.getParent(targetId);
-                index = toData.getIndex(to.id) + 1;
+                {
+                    if (!toData.getItem(to.id))
+                        return;
+                    var fromIndex = toData.getIndex(from.id);
+                    var toIndex = toData.getIndex(to.id);
+                    var fromItemParent = toData.getParent(from.id);
+                    var toItemParent = toData.getParent(to.id);
+                    targetId = toData.getParent(targetId);
+                    if (dropPosition === "top") {
+                        index =
+                            toIndex -
+                                (fromIndex === -1 || fromIndex > toIndex || fromItemParent !== toItemParent
+                                    ? 0
+                                    : 1);
+                    }
+                    else if (dropPosition === "bottom") {
+                        index =
+                            toIndex +
+                                (fromIndex === -1 || fromIndex > toIndex || fromItemParent !== toItemParent
+                                    ? 1
+                                    : 0);
+                    }
+                }
                 break;
             case "complex": {
-                var dropPosition = this._transferData.dropPosition;
                 if (isRootParent) {
                     targetId = to.id;
                     index = toData.getLength();
@@ -27830,7 +29018,6 @@ var DragManager = /** @class */ (function () {
                 else {
                     if (toData.getIndex(from.id) > -1)
                         from.newId = (0, core_1.uid)();
-                    var dropPosition = this._transferData.dropPosition;
                     var fromIndex = toData.getIndex(from.id);
                     var toIndex = toData.getIndex(to.id);
                     if (dropPosition === "top") {
@@ -27877,7 +29064,8 @@ var DragManager = /** @class */ (function () {
         }
         if (!isSameComponent) {
             this._transferData.source.forEach(function (id) {
-                delete toData.getItem(id).$draggable;
+                var _a;
+                (_a = toData.getItem(id)) === null || _a === void 0 ? true : delete _a.$draggable;
                 if (isTree && (toData === null || toData === void 0 ? void 0 : toData.haveItems(id))) {
                     toData.eachChild(id, function (child) {
                         delete child.$draggable;
@@ -27947,7 +29135,7 @@ exports.dragManager = dhx.dragManager;
 
 
 /***/ }),
-/* 138 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27977,7 +29165,7 @@ exports.collectionStore = dhx.collectionStore;
 
 
 /***/ }),
-/* 139 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27999,9 +29187,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LazyDataProxy = void 0;
-var dataproxy_1 = __webpack_require__(28);
+var dataproxy_1 = __webpack_require__(29);
 var core_1 = __webpack_require__(1);
-var ajax_1 = __webpack_require__(44);
+var ajax_1 = __webpack_require__(45);
 var LazyDataProxy = /** @class */ (function (_super) {
     __extends(LazyDataProxy, _super);
     function LazyDataProxy(url, config) {
@@ -28049,15 +29237,15 @@ exports.LazyDataProxy = LazyDataProxy;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
 
 /***/ }),
-/* 140 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Selection = void 0;
-var events_1 = __webpack_require__(2);
-var types_1 = __webpack_require__(29);
+var events_1 = __webpack_require__(3);
+var types_1 = __webpack_require__(30);
 var types_2 = __webpack_require__(25);
 var core_1 = __webpack_require__(1);
 var Selection = /** @class */ (function () {
@@ -28131,7 +29319,7 @@ exports.Selection = Selection;
 
 
 /***/ }),
-/* 141 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28175,22 +29363,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Vault = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var ScrollView_1 = __webpack_require__(22);
 var view_1 = __webpack_require__(9);
-var ts_data_1 = __webpack_require__(4);
-var ts_layout_1 = __webpack_require__(13);
-var ts_message_1 = __webpack_require__(14);
-var ts_toolbar_1 = __webpack_require__(35);
+var ts_data_1 = __webpack_require__(5);
+var ts_layout_1 = __webpack_require__(16);
+var ts_message_1 = __webpack_require__(13);
+var ts_toolbar_1 = __webpack_require__(37);
 var ts_navbar_1 = __webpack_require__(23);
-var en_1 = __webpack_require__(52);
-var types_1 = __webpack_require__(34);
-var Uploader_1 = __webpack_require__(63);
-var configs_1 = __webpack_require__(166);
-var helper_1 = __webpack_require__(167);
-var ProgressBar_1 = __webpack_require__(168);
-var ReadStackPreview_1 = __webpack_require__(169);
+var en_1 = __webpack_require__(53);
+var types_1 = __webpack_require__(36);
+var Uploader_1 = __webpack_require__(64);
+var configs_1 = __webpack_require__(169);
+var helper_1 = __webpack_require__(170);
+var ProgressBar_1 = __webpack_require__(171);
+var ReadStackPreview_1 = __webpack_require__(172);
 var Vault = /** @class */ (function (_super) {
     __extends(Vault, _super);
     function Vault(container, config) {
@@ -28634,7 +29822,7 @@ exports.Vault = Vault;
 
 
 /***/ }),
-/* 142 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28668,7 +29856,7 @@ exports.getMarginSize = getMarginSize;
 
 
 /***/ }),
-/* 143 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28690,8 +29878,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProLayout = void 0;
-var Layout_1 = __webpack_require__(46);
-var ProCell_1 = __webpack_require__(71);
+var Layout_1 = __webpack_require__(47);
+var ProCell_1 = __webpack_require__(72);
 var ProLayout = /** @class */ (function (_super) {
     __extends(ProLayout, _super);
     function ProLayout(parent, config) {
@@ -28719,7 +29907,7 @@ exports.ProLayout = ProLayout;
 
 
 /***/ }),
-/* 144 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28727,8 +29915,8 @@ exports.ProLayout = ProLayout;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.message = void 0;
 var core_1 = __webpack_require__(1);
-var html_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(48);
+var html_1 = __webpack_require__(2);
+var types_1 = __webpack_require__(49);
 var nodeTimeout = new WeakMap();
 var containers = new Map();
 function createMessageContainer(parent, position) {
@@ -28831,15 +30019,15 @@ exports.message = message;
 
 
 /***/ }),
-/* 145 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.alert = void 0;
-var en_1 = __webpack_require__(49);
-var common_1 = __webpack_require__(72);
+var en_1 = __webpack_require__(50);
+var common_1 = __webpack_require__(73);
 var core_1 = __webpack_require__(1);
 function alert(props) {
     var apply = props.buttons && props.buttons[0] ? props.buttons[0] : en_1.default.apply;
@@ -28889,15 +30077,15 @@ exports.alert = alert;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
 
 /***/ }),
-/* 146 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.confirm = void 0;
-var en_1 = __webpack_require__(49);
-var common_1 = __webpack_require__(72);
+var en_1 = __webpack_require__(50);
+var common_1 = __webpack_require__(73);
 var core_1 = __webpack_require__(1);
 function confirm(props) {
     props.buttonsAlignment = props.buttonsAlignment || "right";
@@ -28966,7 +30154,7 @@ exports.confirm = confirm;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
 
 /***/ }),
-/* 147 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29001,13 +30189,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Navbar = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var ts_message_1 = __webpack_require__(14);
-var html_1 = __webpack_require__(3);
-var KeyManager_1 = __webpack_require__(16);
+var events_1 = __webpack_require__(3);
+var ts_message_1 = __webpack_require__(13);
+var html_1 = __webpack_require__(2);
+var KeyManager_1 = __webpack_require__(17);
 var view_1 = __webpack_require__(9);
-var ts_data_1 = __webpack_require__(4);
-var types_1 = __webpack_require__(36);
+var ts_data_1 = __webpack_require__(5);
+var types_1 = __webpack_require__(38);
 function isContextMenu(config) {
     return config.$name === "context-menu";
 }
@@ -29602,24 +30790,24 @@ exports.Navbar = Navbar;
 
 
 /***/ }),
-/* 148 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createFactory = void 0;
-var button_1 = __webpack_require__(149);
-var navItem_1 = __webpack_require__(150);
-var customHTMLButton_1 = __webpack_require__(151);
-var imageButton_1 = __webpack_require__(152);
-var input_1 = __webpack_require__(153);
-var menuItem_1 = __webpack_require__(154);
-var separator_1 = __webpack_require__(155);
-var spacer_1 = __webpack_require__(156);
-var title_1 = __webpack_require__(157);
-var datePicker_1 = __webpack_require__(158);
-var helpers_1 = __webpack_require__(30);
+var button_1 = __webpack_require__(152);
+var navItem_1 = __webpack_require__(153);
+var customHTMLButton_1 = __webpack_require__(154);
+var imageButton_1 = __webpack_require__(155);
+var input_1 = __webpack_require__(156);
+var menuItem_1 = __webpack_require__(157);
+var separator_1 = __webpack_require__(158);
+var spacer_1 = __webpack_require__(159);
+var title_1 = __webpack_require__(160);
+var datePicker_1 = __webpack_require__(161);
+var helpers_1 = __webpack_require__(31);
 function itemfactory(item, events, widgetName, props) {
     switch (item.type) {
         case "navItem":
@@ -29730,7 +30918,7 @@ exports.createFactory = createFactory;
 
 
 /***/ }),
-/* 149 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29749,7 +30937,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.button = void 0;
 var dom_1 = __webpack_require__(0);
-var helpers_1 = __webpack_require__(30);
+var helpers_1 = __webpack_require__(31);
 function button(item, widgetName) {
     var getAriaAttrs = function (item) {
         var isItemActivated = item.active || item.$activeParent;
@@ -29790,7 +30978,7 @@ exports.button = button;
 
 
 /***/ }),
-/* 150 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29809,7 +30997,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.navItem = void 0;
 var dom_1 = __webpack_require__(0);
-var helpers_1 = __webpack_require__(30);
+var helpers_1 = __webpack_require__(31);
 function navItem(item, widgetName, collapsed) {
     var getAriaAttrs = function (item) {
         var attrs = {
@@ -29871,7 +31059,7 @@ exports.navItem = navItem;
 
 
 /***/ }),
-/* 151 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29907,7 +31095,7 @@ exports.customHTMLButton = customHTMLButton;
 
 
 /***/ }),
-/* 152 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29926,7 +31114,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.imageButton = void 0;
 var dom_1 = __webpack_require__(0);
-var helpers_1 = __webpack_require__(30);
+var helpers_1 = __webpack_require__(31);
 function imageButton(item, widgetName) {
     var getAriaAttrs = function (item) {
         var attrs = {
@@ -29976,7 +31164,7 @@ exports.imageButton = imageButton;
 
 
 /***/ }),
-/* 153 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29984,7 +31172,7 @@ exports.imageButton = imageButton;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.input = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(36);
+var types_1 = __webpack_require__(38);
 function onBlur(events, id) {
     events.fire(types_1.NavigationBarEvents.inputBlur, [id]);
 }
@@ -30049,7 +31237,7 @@ exports.input = input;
 
 
 /***/ }),
-/* 154 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30068,7 +31256,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.menuItem = void 0;
 var dom_1 = __webpack_require__(0);
-var helpers_1 = __webpack_require__(30);
+var helpers_1 = __webpack_require__(31);
 var core_1 = __webpack_require__(1);
 function menuItem(item, widgetName, asMenuItem) {
     var getAriaAttrs = function (item) {
@@ -30122,7 +31310,7 @@ exports.menuItem = menuItem;
 
 
 /***/ }),
-/* 155 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30136,7 +31324,7 @@ exports.separator = separator;
 
 
 /***/ }),
-/* 156 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30150,7 +31338,7 @@ exports.spacer = spacer;
 
 
 /***/ }),
-/* 157 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30170,7 +31358,7 @@ exports.title = title;
 
 
 /***/ }),
-/* 158 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30189,11 +31377,11 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.datePicker = void 0;
 var dom_1 = __webpack_require__(0);
-var ts_calendar_1 = __webpack_require__(37);
-var ts_popup_1 = __webpack_require__(15);
-var types_1 = __webpack_require__(36);
+var ts_calendar_1 = __webpack_require__(32);
+var ts_popup_1 = __webpack_require__(14);
+var types_1 = __webpack_require__(38);
 var date_1 = __webpack_require__(18);
-var html_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 function onBlur(events, item, e) {
     var element = e.target;
     if (element) {
@@ -30291,7 +31479,7 @@ exports.datePicker = datePicker;
 
 
 /***/ }),
-/* 159 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30335,13 +31523,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Calendar = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var view_1 = __webpack_require__(9);
-var ts_timepicker_1 = __webpack_require__(50);
-var helper_1 = __webpack_require__(164);
+var ts_timepicker_1 = __webpack_require__(51);
+var helper_1 = __webpack_require__(167);
 var date_1 = __webpack_require__(18);
-var types_1 = __webpack_require__(79);
-var html_1 = __webpack_require__(3);
+var types_1 = __webpack_require__(80);
+var html_1 = __webpack_require__(2);
 var Calendar = /** @class */ (function (_super) {
     __extends(Calendar, _super);
     function Calendar(container, config) {
@@ -30568,7 +31756,7 @@ var Calendar = /** @class */ (function (_super) {
                     filterDate_1.push(date_1.DateHelper.toDateObject(element, _this.config.dateFormat));
                 }
             });
-            if (filterDate_1.length === 2 && filterDate_1[0] < filterDate_1[1]) {
+            if (filterDate_1.length === 2 && filterDate_1[0] <= filterDate_1[1]) {
                 filterDate_1.forEach(function (element) { return _this._selected.push(element); });
             }
             else {
@@ -31048,7 +32236,7 @@ var Calendar = /** @class */ (function (_super) {
                 if (!this.events.fire(types_1.CalendarEvents.beforeChange, [mergedDate, oldDate, true])) {
                     return;
                 }
-                if (this.config.range && this._selected.length === 1 && this._selected[0] < mergedDate) {
+                if (this.config.range && this._selected.length === 1 && this._selected[0] <= mergedDate) {
                     this._selected.push(mergedDate);
                 }
                 else {
@@ -31116,7 +32304,7 @@ exports.Calendar = Calendar;
 
 
 /***/ }),
-/* 160 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31151,14 +32339,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Timepicker = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var view_1 = __webpack_require__(9);
-var ts_layout_1 = __webpack_require__(13);
-var ts_slider_1 = __webpack_require__(51);
-var en_1 = __webpack_require__(77);
-var helper_1 = __webpack_require__(163);
-var types_1 = __webpack_require__(78);
-var html_1 = __webpack_require__(3);
+var ts_layout_1 = __webpack_require__(16);
+var ts_slider_1 = __webpack_require__(52);
+var en_1 = __webpack_require__(78);
+var helper_1 = __webpack_require__(166);
+var types_1 = __webpack_require__(79);
+var html_1 = __webpack_require__(2);
 function validate(value, max) {
     if (isNaN(value)) {
         return 0;
@@ -31489,7 +32677,7 @@ exports.Timepicker = Timepicker;
 
 
 /***/ }),
-/* 161 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31524,12 +32712,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Slider = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var KeyManager_1 = __webpack_require__(16);
+var events_1 = __webpack_require__(3);
+var KeyManager_1 = __webpack_require__(17);
 var view_1 = __webpack_require__(9);
-var ts_popup_1 = __webpack_require__(15);
-var types_1 = __webpack_require__(76);
-var html_1 = __webpack_require__(3);
+var ts_popup_1 = __webpack_require__(14);
+var types_1 = __webpack_require__(77);
+var html_1 = __webpack_require__(2);
 function normalizeValue(value, min, max) {
     if (value < min) {
         return min;
@@ -32201,7 +33389,7 @@ exports.Slider = Slider;
 
 
 /***/ }),
-/* 162 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32236,10 +33424,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Popup = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var view_1 = __webpack_require__(9);
-var types_1 = __webpack_require__(75);
+var types_1 = __webpack_require__(76);
 var Popup = /** @class */ (function (_super) {
     __extends(Popup, _super);
     function Popup(config) {
@@ -32473,7 +33661,7 @@ exports.Popup = Popup;
 
 
 /***/ }),
-/* 163 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32490,7 +33678,7 @@ exports.isTimeCheck = isTimeCheck;
 
 
 /***/ }),
-/* 164 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32501,7 +33689,7 @@ exports.linkButtonClasses = ".dhx_button.dhx_button--view_link.dhx_button--icon.
 
 
 /***/ }),
-/* 165 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32534,11 +33722,11 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProToolbar = void 0;
-var Toolbar_1 = __webpack_require__(74);
+var Toolbar_1 = __webpack_require__(75);
 var ScrollView_1 = __webpack_require__(22);
 var dom_1 = __webpack_require__(0);
-var html_1 = __webpack_require__(3);
-var ts_message_1 = __webpack_require__(14);
+var html_1 = __webpack_require__(2);
+var ts_message_1 = __webpack_require__(13);
 var ProToolbar = /** @class */ (function (_super) {
     __extends(ProToolbar, _super);
     function ProToolbar(element, config) {
@@ -32601,7 +33789,7 @@ exports.ProToolbar = ProToolbar;
 
 
 /***/ }),
-/* 166 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32633,14 +33821,14 @@ exports.layoutConfigWithoutTopbar = {
 
 
 /***/ }),
-/* 167 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isImage = exports.getFileClassName = exports.getFileType = exports.FileType = exports.calculateCover = exports.truncateWord = exports.getBasis = void 0;
-var en_1 = __webpack_require__(52);
+var en_1 = __webpack_require__(53);
 var basis = ["byte", "kilobyte", "megabyte", "gigabyte"];
 function getBasis(size, current) {
     if (size === void 0) { size = 0; }
@@ -32870,7 +34058,7 @@ exports.isImage = isImage;
 
 
 /***/ }),
-/* 168 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32894,8 +34082,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProgressBar = void 0;
 var dom_1 = __webpack_require__(0);
 var view_1 = __webpack_require__(9);
-var en_1 = __webpack_require__(52);
-var types_1 = __webpack_require__(34);
+var en_1 = __webpack_require__(53);
+var types_1 = __webpack_require__(36);
 var ProgressBar = /** @class */ (function (_super) {
     __extends(ProgressBar, _super);
     function ProgressBar(events, config) {
@@ -32945,7 +34133,7 @@ exports.ProgressBar = ProgressBar;
 
 
 /***/ }),
-/* 169 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32999,14 +34187,14 @@ exports.ReadStackPreview = ReadStackPreview;
 
 
 /***/ }),
-/* 170 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getEditor = void 0;
-var InputEditor_1 = __webpack_require__(171);
+var InputEditor_1 = __webpack_require__(174);
 function getEditor(item, list) {
     return new InputEditor_1.InputEditor(item, list);
 }
@@ -33014,7 +34202,7 @@ exports.getEditor = getEditor;
 
 
 /***/ }),
-/* 171 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33022,7 +34210,7 @@ exports.getEditor = getEditor;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InputEditor = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(53);
+var types_1 = __webpack_require__(54);
 var InputEditor = /** @class */ (function () {
     function InputEditor(item, list) {
         var _this = this;
@@ -33108,7 +34296,7 @@ exports.InputEditor = InputEditor;
 
 
 /***/ }),
-/* 172 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33152,7 +34340,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProList = void 0;
 var dom_1 = __webpack_require__(0);
 var ScrollView_1 = __webpack_require__(22);
-var List_1 = __webpack_require__(80);
+var List_1 = __webpack_require__(81);
 var ProList = /** @class */ (function (_super) {
     __extends(ProList, _super);
     function ProList(container, config) {
@@ -33184,9 +34372,9 @@ var ProList = /** @class */ (function (_super) {
         var kids = data.map(function (obj, index) { return _this._renderItem(obj, index); });
         if (this.config.virtual) {
             kids = __spreadArray(__spreadArray([
-                (0, dom_1.el)(".div", { style: { height: range[2] + "px" } })
+                (0, dom_1.el)(".div", { style: { height: range[2] + "px", _key: "start-key" } })
             ], kids, true), [
-                (0, dom_1.el)(".div", { style: { height: range[3] + "px" } }),
+                (0, dom_1.el)(".div", { style: { height: range[3] + "px", _key: "end-key" } }),
             ], false);
         }
         var scrollViewEnable = this.scrollView && this.scrollView.config.enable;
@@ -33204,7 +34392,7 @@ exports.ProList = ProList;
 
 
 /***/ }),
-/* 173 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33236,21 +34424,21 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Colorpicker = void 0;
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var view_1 = __webpack_require__(9);
 var core_1 = __webpack_require__(1);
-var color_1 = __webpack_require__(55);
-var colors_1 = __webpack_require__(82);
-var en_1 = __webpack_require__(56);
-var types_1 = __webpack_require__(83);
+var color_1 = __webpack_require__(56);
+var colors_1 = __webpack_require__(83);
+var en_1 = __webpack_require__(57);
+var types_1 = __webpack_require__(84);
 // tslint:disable-next-line
-var tooltip_1 = __webpack_require__(73);
+var tooltip_1 = __webpack_require__(74);
 // tslint:disable-next-line
-var ts_message_1 = __webpack_require__(14);
-var picker_1 = __webpack_require__(174);
-var calculations_1 = __webpack_require__(175);
-var KeyManager_1 = __webpack_require__(16);
+var ts_message_1 = __webpack_require__(13);
+var picker_1 = __webpack_require__(177);
+var calculations_1 = __webpack_require__(178);
+var KeyManager_1 = __webpack_require__(17);
 var FocusManager_1 = __webpack_require__(20);
 var core_2 = __webpack_require__(1);
 var Colorpicker = /** @class */ (function (_super) {
@@ -33635,16 +34823,16 @@ exports.Colorpicker = Colorpicker;
 
 
 /***/ }),
-/* 174 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.calculatePaletteGrip = exports.getPicker = void 0;
-var color_1 = __webpack_require__(55);
+var color_1 = __webpack_require__(56);
 var dom_1 = __webpack_require__(0);
-var en_1 = __webpack_require__(56);
+var en_1 = __webpack_require__(57);
 function getPicker(colorpicker, pickerState, handlers) {
     var rgb = (0, color_1.HSVtoRGB)(pickerState.hsv);
     pickerState.background = (0, color_1.RGBToHex)(rgb);
@@ -33777,7 +34965,7 @@ exports.calculatePaletteGrip = calculatePaletteGrip;
 
 
 /***/ }),
-/* 175 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33810,7 +34998,7 @@ exports.calculateRangeGrip = calculateRangeGrip;
 
 
 /***/ }),
-/* 176 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33830,13 +35018,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(84), exports);
-__exportStar(__webpack_require__(196), exports);
+__exportStar(__webpack_require__(85), exports);
+__exportStar(__webpack_require__(199), exports);
 __exportStar(__webpack_require__(26), exports);
 
 
 /***/ }),
-/* 177 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33853,7 +35041,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ComposeLayer = void 0;
 var dom_1 = __webpack_require__(0);
-var Filters_1 = __webpack_require__(178);
+var Filters_1 = __webpack_require__(181);
 var ComposeLayer = /** @class */ (function () {
     function ComposeLayer() {
         this._data = [];
@@ -33918,7 +35106,7 @@ exports.ComposeLayer = ComposeLayer;
 
 
 /***/ }),
-/* 178 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33965,7 +35153,7 @@ exports.dropShadow = dropShadow;
 
 
 /***/ }),
-/* 179 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34082,15 +35270,15 @@ exports.legendTicks = legendTicks;
 
 
 /***/ }),
-/* 180 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var RadialScale_1 = __webpack_require__(181);
-var Scale_1 = __webpack_require__(57);
-var TextScale_1 = __webpack_require__(183);
+var RadialScale_1 = __webpack_require__(184);
+var Scale_1 = __webpack_require__(58);
+var TextScale_1 = __webpack_require__(186);
 var scaleTypes = {
     radial: RadialScale_1.RadialScale,
     text: TextScale_1.TextScale,
@@ -34100,7 +35288,7 @@ exports.default = scaleTypes;
 
 
 /***/ }),
-/* 181 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34122,8 +35310,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RadialScale = void 0;
-var circle_1 = __webpack_require__(31);
-var Scale_1 = __webpack_require__(57);
+var circle_1 = __webpack_require__(33);
+var Scale_1 = __webpack_require__(58);
 var RadialScale = /** @class */ (function (_super) {
     __extends(RadialScale, _super);
     function RadialScale(_data, config) {
@@ -34151,7 +35339,7 @@ exports.RadialScale = RadialScale;
 
 
 /***/ }),
-/* 182 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34268,7 +35456,7 @@ exports.AxisCreator = AxisCreator;
 
 
 /***/ }),
-/* 183 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34302,8 +35490,8 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TextScale = void 0;
 var common_1 = __webpack_require__(7);
-var Scale_1 = __webpack_require__(57);
-var SvgScales_1 = __webpack_require__(86);
+var Scale_1 = __webpack_require__(58);
+var SvgScales_1 = __webpack_require__(87);
 var renderScale = {
     left: SvgScales_1.left,
     right: SvgScales_1.right,
@@ -34401,7 +35589,7 @@ exports.TextScale = TextScale;
 
 
 /***/ }),
-/* 184 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34422,7 +35610,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Bar_1 = __webpack_require__(90);
+var Bar_1 = __webpack_require__(91);
 var BarX = /** @class */ (function (_super) {
     __extends(BarX, _super);
     function BarX() {
@@ -34489,7 +35677,7 @@ exports.default = BarX;
 
 
 /***/ }),
-/* 185 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34522,9 +35710,9 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var circle_1 = __webpack_require__(31);
+var circle_1 = __webpack_require__(33);
 var common_1 = __webpack_require__(7);
-var NoScaleSeria_1 = __webpack_require__(59);
+var NoScaleSeria_1 = __webpack_require__(60);
 var Donut = /** @class */ (function (_super) {
     __extends(Donut, _super);
     function Donut() {
@@ -34739,7 +35927,7 @@ exports.default = Donut;
 
 
 /***/ }),
-/* 186 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34773,9 +35961,9 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var circle_1 = __webpack_require__(31);
+var circle_1 = __webpack_require__(33);
 var common_1 = __webpack_require__(7);
-var NoScaleSeria_1 = __webpack_require__(59);
+var NoScaleSeria_1 = __webpack_require__(60);
 var Pie = /** @class */ (function (_super) {
     __extends(Pie, _super);
     function Pie() {
@@ -35021,7 +36209,7 @@ exports.default = Pie;
 
 
 /***/ }),
-/* 187 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35054,9 +36242,9 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var circle_1 = __webpack_require__(31);
+var circle_1 = __webpack_require__(33);
 var common_1 = __webpack_require__(7);
-var NoScaleSeria_1 = __webpack_require__(59);
+var NoScaleSeria_1 = __webpack_require__(60);
 var Pie = /** @class */ (function (_super) {
     __extends(Pie, _super);
     function Pie() {
@@ -35299,7 +36487,7 @@ exports.default = Pie;
 
 
 /***/ }),
-/* 188 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35332,9 +36520,9 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var circle_1 = __webpack_require__(31);
+var circle_1 = __webpack_require__(33);
 var common_1 = __webpack_require__(7);
-var BaseSeria_1 = __webpack_require__(32);
+var BaseSeria_1 = __webpack_require__(34);
 var Radar = /** @class */ (function (_super) {
     __extends(Radar, _super);
     function Radar() {
@@ -35470,7 +36658,7 @@ exports.default = Radar;
 
 
 /***/ }),
-/* 189 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35502,7 +36690,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Line_1 = __webpack_require__(60);
+var Line_1 = __webpack_require__(61);
 var common_1 = __webpack_require__(7);
 var Scatter = /** @class */ (function (_super) {
     __extends(Scatter, _super);
@@ -35538,7 +36726,7 @@ exports.default = Scatter;
 
 
 /***/ }),
-/* 190 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35560,8 +36748,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var spline_1 = __webpack_require__(91);
-var Line_1 = __webpack_require__(60);
+var spline_1 = __webpack_require__(92);
+var Line_1 = __webpack_require__(61);
 var Spline = /** @class */ (function (_super) {
     __extends(Spline, _super);
     function Spline() {
@@ -35585,7 +36773,7 @@ exports.default = Spline;
 
 
 /***/ }),
-/* 191 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35607,8 +36795,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var spline_1 = __webpack_require__(91);
-var Area_1 = __webpack_require__(88);
+var spline_1 = __webpack_require__(92);
+var Area_1 = __webpack_require__(89);
 var SplineArea = /** @class */ (function (_super) {
     __extends(SplineArea, _super);
     function SplineArea() {
@@ -35653,7 +36841,7 @@ exports.default = SplineArea;
 
 
 /***/ }),
-/* 192 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35687,10 +36875,10 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var ts_data_1 = __webpack_require__(4);
+var ts_data_1 = __webpack_require__(5);
 var common_1 = __webpack_require__(7);
 var types_1 = __webpack_require__(26);
-var BaseSeria_1 = __webpack_require__(32);
+var BaseSeria_1 = __webpack_require__(34);
 var TreeMap = /** @class */ (function (_super) {
     __extends(TreeMap, _super);
     function TreeMap() {
@@ -36213,7 +37401,7 @@ exports.default = TreeMap;
 
 
 /***/ }),
-/* 193 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36257,9 +37445,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var date_1 = __webpack_require__(18);
 var dom_1 = __webpack_require__(0);
-var ts_data_1 = __webpack_require__(4);
+var ts_data_1 = __webpack_require__(5);
 var common_1 = __webpack_require__(7);
-var BaseSeria_1 = __webpack_require__(32);
+var BaseSeria_1 = __webpack_require__(34);
 var CalendarHeatMap = /** @class */ (function (_super) {
     __extends(CalendarHeatMap, _super);
     function CalendarHeatMap() {
@@ -36566,16 +37754,16 @@ exports.default = CalendarHeatMap;
 
 
 /***/ }),
-/* 194 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Tooltip = void 0;
-var ts_message_1 = __webpack_require__(14);
+var ts_message_1 = __webpack_require__(13);
 var common_1 = __webpack_require__(7);
-var line_1 = __webpack_require__(89);
+var line_1 = __webpack_require__(90);
 var types_1 = __webpack_require__(26);
 var Tooltip = /** @class */ (function () {
     function Tooltip(chart) {
@@ -36802,11 +37990,11 @@ exports.Tooltip = Tooltip;
 
 
 /***/ }),
-/* 195 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(Promise) {
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -36820,21 +38008,21 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Exporter = void 0;
-var html_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var Exporter = /** @class */ (function () {
     function Exporter(_name, _view) {
         this._name = _name;
         this._view = _view;
-        this._version = "9.2.0";
+        this._version = "9.3.0";
     }
     Exporter.prototype.pdf = function (config) {
-        this._rawExport(config, "pdf", this._view);
+        return this._rawExport(config, "pdf", this._view);
     };
     Exporter.prototype.png = function (config) {
-        this._rawExport(config, "png", this._view);
+        return this._rawExport(config, "png", this._view);
     };
     Exporter.prototype._rawExport = function (config, mode, view) {
-        var _a;
+        var _this = this;
         if (config === void 0) { config = {}; }
         config.url =
             config.url || "https://export.dhtmlx.com/" + this._name + "/" + mode + "/" + this._version;
@@ -36858,28 +38046,59 @@ var Exporter = /** @class */ (function () {
         var clone = view.getRootView().node.el.cloneNode(true);
         clone.setAttribute("data-dhx-theme", config.theme || "light");
         viewContainer.appendChild(clone);
-        var html = "\n\t\t\t".concat(styles, "\n\t\t\t").concat(viewContainer.innerHTML, "\n\t\t");
-        var form = document.createElement("form");
-        form.setAttribute("method", "POST");
-        form.setAttribute("action", config.url);
-        form.innerHTML = "<input type=\"hidden\" name=\"raw\"><input type=\"hidden\" name=\"config\">";
-        form.childNodes[0].value = html;
-        form.childNodes[1].value = JSON.stringify(config);
-        document.body.appendChild(form);
-        form.submit();
-        (_a = viewContainer.parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(viewContainer);
-        setTimeout(function () {
-            var _a;
-            (_a = form.parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(form);
-        }, 100);
+        var htmlContent = viewContainer.innerHTML;
+        var html = "\n\t\t\t".concat(styles, "\n\t\t\t").concat(htmlContent, "\n\t\t").replace(/(src|href)=("(.+?\.(jpeg|jpg|png|apng|gif|svg|bmp|ico))")/gm, function (match) {
+            if (match.includes("://")) {
+                return match;
+            }
+            var initialLink = match.replace(/(src|href)="/, "").replace('"', "");
+            return /(src|href)="/.exec(match)[0] + _this._normalizeLink(initialLink) + '"';
+        });
+        return new Promise(function (resolve, reject) {
+            fetch(config.url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    raw: html,
+                    config: config,
+                }),
+            })
+                .then(function (res) {
+                if (!res.ok)
+                    throw new Error("HTTP error, status: ".concat(res.status));
+                return res.blob();
+            })
+                .then(function (blob) {
+                var link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "".concat(config.name || "export", ".").concat(mode);
+                link.click();
+                URL.revokeObjectURL(link.href);
+                resolve();
+            })
+                .catch(function (error) {
+                reject(error);
+            });
+        });
+    };
+    Exporter.prototype._normalizeLink = function (link) {
+        var locationParts = window.location.pathname.split("/");
+        if (locationParts[0] === "") {
+            locationParts.shift();
+            locationParts.pop();
+        }
+        return window.location.origin + "/" + locationParts.join("/") + (link[0] !== "/" ? "/" + link : link);
     };
     return Exporter;
 }());
 exports.Exporter = Exporter;
 
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
 
 /***/ }),
-/* 196 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36912,12 +38131,12 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProChart = void 0;
-var Stacker_1 = __webpack_require__(92);
-var index_1 = __webpack_require__(87);
+var Stacker_1 = __webpack_require__(93);
+var index_1 = __webpack_require__(88);
 var core_1 = __webpack_require__(1);
 var common_1 = __webpack_require__(7);
-var Legend_1 = __webpack_require__(85);
-var Chart_1 = __webpack_require__(84);
+var Legend_1 = __webpack_require__(86);
+var Chart_1 = __webpack_require__(85);
 var ProChart = /** @class */ (function (_super) {
     __extends(ProChart, _super);
     function ProChart(node, config) {
@@ -37053,7 +38272,7 @@ exports.ProChart = ProChart;
 
 
 /***/ }),
-/* 197 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37072,7 +38291,7 @@ exports.KEY_CODES = {
 
 
 /***/ }),
-/* 198 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37137,7 +38356,7 @@ exports.KeyListener = KeyListener;
 
 
 /***/ }),
-/* 199 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37159,10 +38378,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProCombobox = void 0;
-var Combobox_1 = __webpack_require__(93);
-var ts_list_1 = __webpack_require__(38);
-var ts_layout_1 = __webpack_require__(13);
-var helper_1 = __webpack_require__(94);
+var Combobox_1 = __webpack_require__(94);
+var ts_list_1 = __webpack_require__(39);
+var ts_layout_1 = __webpack_require__(16);
+var helper_1 = __webpack_require__(95);
 var ProCombobox = /** @class */ (function (_super) {
     __extends(ProCombobox, _super);
     function ProCombobox(element, config) {
@@ -37212,7 +38431,7 @@ exports.ProCombobox = ProCombobox;
 
 
 /***/ }),
-/* 200 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37232,20 +38451,20 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(96), exports);
-__exportStar(__webpack_require__(203), exports);
 __exportStar(__webpack_require__(97), exports);
+__exportStar(__webpack_require__(206), exports);
+__exportStar(__webpack_require__(98), exports);
 
 
 /***/ }),
-/* 201 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getEditor = void 0;
-var InputEditor_1 = __webpack_require__(202);
+var InputEditor_1 = __webpack_require__(205);
 function getEditor(item, dataView) {
     return new InputEditor_1.InputEditor(item, dataView);
 }
@@ -37253,7 +38472,7 @@ exports.getEditor = getEditor;
 
 
 /***/ }),
-/* 202 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37261,7 +38480,7 @@ exports.getEditor = getEditor;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InputEditor = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(97);
+var types_1 = __webpack_require__(98);
 var InputEditor = /** @class */ (function () {
     function InputEditor(item, dataView) {
         var _this = this;
@@ -37363,7 +38582,7 @@ exports.InputEditor = InputEditor;
 
 
 /***/ }),
-/* 203 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37397,7 +38616,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProDataView = void 0;
 var ScrollView_1 = __webpack_require__(22);
-var DataView_1 = __webpack_require__(96);
+var DataView_1 = __webpack_require__(97);
 var dom_1 = __webpack_require__(0);
 var ProDataView = /** @class */ (function (_super) {
     __extends(ProDataView, _super);
@@ -37457,7 +38676,7 @@ exports.ProDataView = ProDataView;
 
 
 /***/ }),
-/* 204 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37477,13 +38696,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(98), exports);
-__exportStar(__webpack_require__(221), exports);
+__exportStar(__webpack_require__(99), exports);
+__exportStar(__webpack_require__(224), exports);
 __exportStar(__webpack_require__(6), exports);
 
 
 /***/ }),
-/* 205 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37514,16 +38733,16 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DatePicker = void 0;
-var ts_calendar_1 = __webpack_require__(37);
+var ts_calendar_1 = __webpack_require__(32);
 var date_1 = __webpack_require__(18);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var label_1 = __webpack_require__(12);
-var ts_popup_1 = __webpack_require__(15);
+var label_1 = __webpack_require__(15);
+var ts_popup_1 = __webpack_require__(14);
 var types_1 = __webpack_require__(6);
 var helper_1 = __webpack_require__(8);
-var KeyManager_1 = __webpack_require__(16);
+var KeyManager_1 = __webpack_require__(17);
 var DatePicker = /** @class */ (function (_super) {
     __extends(DatePicker, _super);
     function DatePicker(container, config) {
@@ -37927,7 +39146,7 @@ exports.DatePicker = DatePicker;
 
 
 /***/ }),
-/* 206 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37972,7 +39191,7 @@ exports.Button = void 0;
 var dom_1 = __webpack_require__(0);
 var view_1 = __webpack_require__(9);
 var types_1 = __webpack_require__(6);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var core_1 = __webpack_require__(1);
 var helper_1 = __webpack_require__(8);
 var Button = /** @class */ (function (_super) {
@@ -38130,7 +39349,7 @@ exports.Button = Button;
 
 
 /***/ }),
-/* 207 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38173,14 +39392,14 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CheckboxGroup = void 0;
 var dom_1 = __webpack_require__(0);
-var ts_layout_1 = __webpack_require__(13);
-var events_1 = __webpack_require__(2);
-var checkbox_1 = __webpack_require__(99);
-var label_1 = __webpack_require__(12);
+var ts_layout_1 = __webpack_require__(16);
+var events_1 = __webpack_require__(3);
+var checkbox_1 = __webpack_require__(100);
+var label_1 = __webpack_require__(15);
 var types_1 = __webpack_require__(6);
 var core_1 = __webpack_require__(1);
 var helper_1 = __webpack_require__(8);
-var ts_popup_1 = __webpack_require__(15);
+var ts_popup_1 = __webpack_require__(14);
 var CheckboxGroup = /** @class */ (function (_super) {
     __extends(CheckboxGroup, _super);
     function CheckboxGroup(container, config) {
@@ -38592,7 +39811,7 @@ exports.CheckboxGroup = CheckboxGroup;
 
 
 /***/ }),
-/* 208 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38636,12 +39855,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RadioGroup = void 0;
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var ts_layout_1 = __webpack_require__(13);
-var ts_popup_1 = __webpack_require__(15);
-var events_1 = __webpack_require__(2);
-var radiobutton_1 = __webpack_require__(209);
+var ts_layout_1 = __webpack_require__(16);
+var ts_popup_1 = __webpack_require__(14);
+var events_1 = __webpack_require__(3);
+var radiobutton_1 = __webpack_require__(212);
 var helper_1 = __webpack_require__(8);
-var label_1 = __webpack_require__(12);
+var label_1 = __webpack_require__(15);
 var types_1 = __webpack_require__(6);
 var RadioGroup = /** @class */ (function (_super) {
     __extends(RadioGroup, _super);
@@ -39012,7 +40231,7 @@ exports.RadioGroup = RadioGroup;
 
 
 /***/ }),
-/* 209 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39056,9 +40275,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RadioButton = exports.RadioButtonEvents = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var helper_1 = __webpack_require__(8);
-var label_1 = __webpack_require__(12);
+var label_1 = __webpack_require__(15);
 var RadioButtonEvents;
 (function (RadioButtonEvents) {
     RadioButtonEvents["beforeChange"] = "beforeChange";
@@ -39219,7 +40438,7 @@ exports.RadioButton = RadioButton;
 
 
 /***/ }),
-/* 210 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39263,9 +40482,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Select = void 0;
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var label_1 = __webpack_require__(12);
+var label_1 = __webpack_require__(15);
 var helper_1 = __webpack_require__(8);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var types_1 = __webpack_require__(6);
 var Select = /** @class */ (function (_super) {
     __extends(Select, _super);
@@ -39575,7 +40794,7 @@ exports.Select = Select;
 
 
 /***/ }),
-/* 211 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39608,7 +40827,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Textarea = void 0;
 var dom_1 = __webpack_require__(0);
 var helper_1 = __webpack_require__(8);
-var input_1 = __webpack_require__(40);
+var input_1 = __webpack_require__(41);
 var types_1 = __webpack_require__(6);
 var core_1 = __webpack_require__(1);
 var Textarea = /** @class */ (function (_super) {
@@ -39755,7 +40974,7 @@ exports.Textarea = Textarea;
 
 
 /***/ }),
-/* 212 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39789,7 +41008,7 @@ exports.Text = void 0;
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
 var helper_1 = __webpack_require__(8);
-var input_1 = __webpack_require__(40);
+var input_1 = __webpack_require__(41);
 var types_1 = __webpack_require__(6);
 var Text = /** @class */ (function (_super) {
     __extends(Text, _super);
@@ -39885,7 +41104,7 @@ exports.Text = Text;
 
 
 /***/ }),
-/* 213 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39919,11 +41138,11 @@ exports.Combo = void 0;
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
 var helper_1 = __webpack_require__(8);
-var ts_combobox_1 = __webpack_require__(39);
-var events_1 = __webpack_require__(2);
-var label_1 = __webpack_require__(12);
+var ts_combobox_1 = __webpack_require__(40);
+var events_1 = __webpack_require__(3);
+var label_1 = __webpack_require__(15);
 var types_1 = __webpack_require__(6);
-var ts_data_1 = __webpack_require__(4);
+var ts_data_1 = __webpack_require__(5);
 var Combo = /** @class */ (function (_super) {
     __extends(Combo, _super);
     function Combo(container, config) {
@@ -40040,11 +41259,12 @@ var Combo = /** @class */ (function (_super) {
         }
     };
     Combo.prototype.getValue = function () {
+        var _a;
         if (this.config.multiselection) {
             return this.combobox.getValue(true) || [];
         }
         else {
-            return this.combobox.getValue() || "";
+            return (_a = this.combobox.getValue()) !== null && _a !== void 0 ? _a : "";
         }
     };
     Combo.prototype.setValue = function (value) {
@@ -40255,7 +41475,7 @@ exports.Combo = Combo;
 
 
 /***/ }),
-/* 214 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40299,9 +41519,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SliderForm = void 0;
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var ts_slider_1 = __webpack_require__(51);
-var events_1 = __webpack_require__(2);
-var label_1 = __webpack_require__(12);
+var ts_slider_1 = __webpack_require__(52);
+var events_1 = __webpack_require__(3);
+var label_1 = __webpack_require__(15);
 var types_1 = __webpack_require__(6);
 var helper_1 = __webpack_require__(8);
 var SliderForm = /** @class */ (function (_super) {
@@ -40500,7 +41720,7 @@ exports.SliderForm = SliderForm;
 
 
 /***/ }),
-/* 215 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40531,15 +41751,15 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TimePicker = void 0;
-var ts_timepicker_1 = __webpack_require__(50);
+var ts_timepicker_1 = __webpack_require__(51);
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var label_1 = __webpack_require__(12);
-var ts_popup_1 = __webpack_require__(15);
-var events_1 = __webpack_require__(2);
+var label_1 = __webpack_require__(15);
+var ts_popup_1 = __webpack_require__(14);
+var events_1 = __webpack_require__(3);
 var types_1 = __webpack_require__(6);
 var helper_1 = __webpack_require__(8);
-var KeyManager_1 = __webpack_require__(16);
+var KeyManager_1 = __webpack_require__(17);
 var TimePicker = /** @class */ (function (_super) {
     __extends(TimePicker, _super);
     function TimePicker(container, config) {
@@ -41002,7 +42222,7 @@ exports.TimePicker = TimePicker;
 
 
 /***/ }),
-/* 216 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41033,15 +42253,15 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ColorPicker = void 0;
-var ts_colorpicker_1 = __webpack_require__(54);
-var events_1 = __webpack_require__(2);
+var ts_colorpicker_1 = __webpack_require__(55);
+var events_1 = __webpack_require__(3);
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var label_1 = __webpack_require__(12);
-var ts_popup_1 = __webpack_require__(15);
+var label_1 = __webpack_require__(15);
+var ts_popup_1 = __webpack_require__(14);
 var types_1 = __webpack_require__(6);
 var helper_1 = __webpack_require__(8);
-var KeyManager_1 = __webpack_require__(16);
+var KeyManager_1 = __webpack_require__(17);
 var ColorPicker = /** @class */ (function (_super) {
     __extends(ColorPicker, _super);
     function ColorPicker(container, config) {
@@ -41427,7 +42647,7 @@ exports.ColorPicker = ColorPicker;
 
 
 /***/ }),
-/* 217 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41463,7 +42683,7 @@ exports.Spacer = void 0;
 var dom_1 = __webpack_require__(0);
 var view_1 = __webpack_require__(9);
 var types_1 = __webpack_require__(6);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var core_1 = __webpack_require__(1);
 var helper_1 = __webpack_require__(8);
 var Spacer = /** @class */ (function (_super) {
@@ -41529,7 +42749,7 @@ exports.Spacer = Spacer;
 
 
 /***/ }),
-/* 218 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41573,11 +42793,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Avatar = void 0;
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var events_1 = __webpack_require__(2);
-var label_1 = __webpack_require__(12);
+var events_1 = __webpack_require__(3);
+var label_1 = __webpack_require__(15);
 var types_1 = __webpack_require__(6);
 var helper_1 = __webpack_require__(8);
-var simplevault_1 = __webpack_require__(100);
+var simplevault_1 = __webpack_require__(101);
 var Avatar = /** @class */ (function (_super) {
     __extends(Avatar, _super);
     function Avatar(container, config) {
@@ -41941,7 +43161,7 @@ exports.Avatar = Avatar;
 
 
 /***/ }),
-/* 219 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41968,7 +43188,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Fieldset = void 0;
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var types_1 = __webpack_require__(6);
 var helper_1 = __webpack_require__(8);
 var core_1 = __webpack_require__(1);
@@ -42092,7 +43312,7 @@ exports.Fieldset = Fieldset;
 
 
 /***/ }),
-/* 220 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42135,11 +43355,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ToggleGroup = void 0;
 var types_1 = __webpack_require__(6);
-var ToggleButton_1 = __webpack_require__(102);
+var ToggleButton_1 = __webpack_require__(103);
 var view_1 = __webpack_require__(9);
 var dom_1 = __webpack_require__(0);
 var helper_1 = __webpack_require__(8);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var core_1 = __webpack_require__(1);
 var ToggleGroup = /** @class */ (function (_super) {
     __extends(ToggleGroup, _super);
@@ -42426,7 +43646,7 @@ exports.ToggleGroup = ToggleGroup;
 
 
 /***/ }),
-/* 221 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42448,10 +43668,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProForm = void 0;
-var Form_1 = __webpack_require__(98);
+var Form_1 = __webpack_require__(99);
 var types_1 = __webpack_require__(6);
-var ts_layout_1 = __webpack_require__(13);
-var container_1 = __webpack_require__(222);
+var ts_layout_1 = __webpack_require__(16);
+var container_1 = __webpack_require__(225);
 var helper_1 = __webpack_require__(8);
 var ProForm = /** @class */ (function (_super) {
     __extends(ProForm, _super);
@@ -42508,7 +43728,7 @@ exports.ProForm = ProForm;
 
 
 /***/ }),
-/* 222 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42551,11 +43771,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Container = void 0;
 var dom_1 = __webpack_require__(0);
-var label_1 = __webpack_require__(12);
+var label_1 = __webpack_require__(15);
 var types_1 = __webpack_require__(6);
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var core_1 = __webpack_require__(1);
-var ts_layout_1 = __webpack_require__(13);
+var ts_layout_1 = __webpack_require__(16);
 var helper_1 = __webpack_require__(8);
 var Container = /** @class */ (function (_super) {
     __extends(Container, _super);
@@ -42666,776 +43886,7 @@ exports.Container = Container;
 
 
 /***/ }),
-/* 223 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(Promise) {
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Exporter = void 0;
-var main_1 = __webpack_require__(10);
-var ts_data_1 = __webpack_require__(4);
-var core_1 = __webpack_require__(1);
-var date_1 = __webpack_require__(18);
-var html_1 = __webpack_require__(3);
-var dom_1 = __webpack_require__(0);
-var input_1 = __webpack_require__(33);
-var data_1 = __webpack_require__(11);
-function fillArray(arr, value) {
-    for (var i = 0; i < arr.length; i++) {
-        arr[i] = value;
-    }
-    return arr;
-}
-function getColumnLetter(col) {
-    var letter = "";
-    while (col >= 0) {
-        letter = String.fromCharCode((col % 26) + 65) + letter;
-        col = Math.floor(col / 26) - 1;
-    }
-    return letter;
-}
-function footerContentToXlsxMap(_a) {
-    var func = _a.func, startRow = _a.startRow, col = _a.col, rowsCount = _a.rowsCount, _b = _a.functionsMap, functionsMap = _b === void 0 ? {} : _b;
-    var range = "".concat(getColumnLetter(col)).concat(startRow, ":").concat(getColumnLetter(col)).concat(rowsCount + startRow - 1);
-    var map = {
-        sum: "=SUM(".concat(range, ")"),
-        avg: "=AVERAGE(".concat(range, ")"),
-        count: "=COUNT(".concat(range, ")"),
-        max: "=MAX(".concat(range, ")"),
-        min: "=MIN(".concat(range, ")"),
-    };
-    Object.entries(functionsMap).forEach(function (_a) {
-        var key = _a[0], func = _a[1];
-        map[key] = "=".concat(func, "(").concat(range, ")");
-    });
-    return map[func];
-}
-function simpleSumTemplate(obj) {
-    var values = Object.values(obj);
-    return values[0];
-}
-var Exporter = /** @class */ (function () {
-    function Exporter(_name, _version, _view) {
-        this._name = _name;
-        this._version = _version;
-        this._view = _view;
-        this._xlsxWorker = null;
-    }
-    Exporter.prototype.pdf = function (config) {
-        this._rawExport(config, "pdf", this._view);
-    };
-    Exporter.prototype.png = function (config) {
-        this._rawExport(config, "png", this._view);
-    };
-    Exporter.prototype.xlsx = function (c) {
-        var config = __assign({ url: "https://cdn.dhtmlx.com/libs/json2excel/next/worker.js?vx", name: "grid", tableName: "data" }, c);
-        return this._export(config);
-    };
-    Exporter.prototype.csv = function (config) {
-        if (config === void 0) { config = {}; }
-        config = __assign({
-            asFile: true,
-            rowDelimiter: "\n",
-            columnDelimiter: ",",
-            skipHeader: 0,
-        }, config);
-        var csv;
-        if ("getRoot" in this._view.data && config.flat) {
-            csv = this.getFlatCSV(config);
-        }
-        else {
-            csv = this._getCSV(config);
-        }
-        var name = config.name || "grid";
-        if (config.asFile) {
-            (0, core_1.downloadFile)(csv, "".concat(name, ".csv"), "text/csv");
-        }
-        return csv;
-    };
-    Exporter.prototype._export = function (config) {
-        var _this = this;
-        if (config === void 0) { config = {}; }
-        if (!(0, main_1.isWasmSupported)()) {
-            throw new Error("WebAssembly is not supported by your browser");
-        }
-        var formatMap = {
-            number: "#,##0.00",
-            percent: "#,##0.00%",
-            date: config.dateFormatMask || "dd/mm/yy",
-            string: "@",
-        };
-        var _a = this._view.config || {}, config_columns = _a.columns, $headerHeightMap = _a.$headerHeightMap, _b = _a.rowCss, rowCssCb = _b === void 0 ? function () { return ""; } : _b, _c = _a.spans, spans = _c === void 0 ? [] : _c, $footerHeightMap = _a.$footerHeightMap;
-        var configCols = config_columns === null || config_columns === void 0 ? void 0 : config_columns.filter(function (col) { return !col.hidden; });
-        var summaryResults = this._view._colSummary;
-        if (!(configCols === null || configCols === void 0 ? void 0 : configCols.length))
-            return {
-                data: [{ name: config.tableName || "data", cols: [], rows: [], merged: [], cells: [] }],
-                styles: [],
-            };
-        var rowsIndexMap = {};
-        var colsIndexMap = {};
-        var headers = (0, main_1.transpose)(configCols.map(function (col) {
-            return (col.header || []).map(function (_a) {
-                var text = _a.text;
-                return text
-                    ? (0, main_1.removeHTMLTags)(typeof text === "string" ? text || "" : text(summaryResults[col.id]))
-                    : "";
-            });
-        }));
-        var footers = (0, main_1.transpose)(configCols.map(function (col) {
-            return (col.footer || []).map(function (_a) {
-                var text = _a.text;
-                return ({
-                    text: text
-                        ? (0, main_1.removeHTMLTags)(typeof text === "string" ? text || "" : text(summaryResults[col.id]))
-                        : "",
-                    content: col.summary,
-                    col_id: col.id,
-                });
-            });
-        }));
-        var columns = [];
-        var merged = [];
-        var uniqStyles = new Map();
-        uniqStyles.set("default", {
-            css: {
-                color: "#000000",
-                background: "#FFFFFF",
-                fontSize: 14,
-            },
-            index: uniqStyles.size,
-        });
-        var cells = new Map();
-        var columnsIndexMap = {};
-        var rowCss = {};
-        var rows = $headerHeightMap.map(function (height) { return ({ height: height }); });
-        var data = this._view.data.map(function (row, row_index) {
-            rows.push({ height: row.$height });
-            var rCss = rowCssCb(row);
-            if (row.$css || rCss) {
-                rowCss[row.id] = "".concat(row.$css || "", " ").concat(rCss || "").trim();
-            }
-            rowsIndexMap[row.id] = row_index;
-            var rowData = configCols.map(function (col, column_index) {
-                var col_id = col.id, editorType = col.editorType, type = col.type, options = col.options, patternMask = col.patternMask, numberMask = col.numberMask;
-                columnsIndexMap[col_id] = column_index;
-                var span = spans.find(function (span) { return span.column === col_id && span.row === row.id; });
-                var value = (span === null || span === void 0 ? void 0 : span.text) || row[col_id];
-                if (col.options) {
-                    value = (0, data_1.getOptionValue)(value, col);
-                }
-                if (editorType === "multiselect" && options instanceof Array) {
-                    var selected_ids = (value || "").split(",");
-                    var values = selected_ids.map(function (item) {
-                        var id = item.trim();
-                        var option = options.find(function (option) {
-                            return typeof option === "string" ? option === id : option.id == id;
-                        });
-                        return option ? (typeof option === "object" ? option.value : option) : id;
-                    });
-                    return values.join(", ");
-                }
-                if (type === "date") {
-                    var format = col.dateFormat || "%M %d %Y";
-                    if (typeof value === "string") {
-                        var isDate = new Date(value);
-                        var date = (isDate === null || isDate === void 0 ? void 0 : isDate.valueOf())
-                            ? isDate
-                            : (0, date_1.stringToDate)(value, format, true)
-                                ? (0, date_1.stringToDate)(value, format)
-                                : "";
-                        value = date ? (0, date_1.getExcelDate)(date) : value;
-                    }
-                    else if (value instanceof Date) {
-                        value = (0, date_1.getExcelDate)(value);
-                    }
-                }
-                else if (type === "number") {
-                    if (typeof value === "string" && patternMask) {
-                        value = (0, input_1.removePatternMask)(value, patternMask);
-                    }
-                    if (typeof value === "string" && typeof numberMask === "object") {
-                        value = (0, input_1.removeNumberMask)(value, numberMask);
-                    }
-                }
-                else {
-                    value = (0, data_1.applyPattern)(value, col);
-                }
-                return !value && !column_index && row["$groupName"]
-                    ? "^ ".concat(row["$groupName"])
-                    : (0, main_1.removeHTMLTags)(value);
-            });
-            return rowData;
-        });
-        $footerHeightMap.forEach(function (height) {
-            rows.push({ height: height });
-        });
-        var _loop_1 = function (col) {
-            var type = col.type, colAlign = col.align, numberMask = col.numberMask, patternMask = col.patternMask, footer = col.footer, header = col.header;
-            var $cellCss = __assign({}, col.$cellCss);
-            var spans_in_col = spans.filter(function (span) { return span.column === col.id; }) || [];
-            spans_in_col.forEach(function (span) {
-                if (span === null || span === void 0 ? void 0 : span.css) {
-                    $cellCss[span.row] = "".concat($cellCss[span.row] || "", " ").concat(span.css).trim();
-                }
-            });
-            var align = type === "number" ? "right" : colAlign;
-            columns.push({ width: col.$width });
-            var colIndex = configCols.indexOf(col);
-            colsIndexMap[col.id] = colIndex;
-            var commonStyle = "";
-            if (align) {
-                commonStyle += " align:".concat(align);
-            }
-            var format = "";
-            if (type === "number") {
-                if (numberMask) {
-                    format =
-                        typeof numberMask === "boolean"
-                            ? formatMap.number
-                            : convertNumberMaskToExcel(numberMask);
-                }
-                else if (typeof patternMask === "string" &&
-                    patternMask.includes("0") &&
-                    !["#", "a", "*"].find(function (char) { return patternMask.includes(char); }) // convert only if pattern contains "0" and doesn't contain any other special characters
-                ) {
-                    format = convertPatternMaskToExcel(patternMask);
-                }
-                else {
-                    format = formatMap.number;
-                }
-            }
-            else {
-                format = type ? formatMap[type] || "" : "";
-            }
-            commonStyle += " format:".concat(format);
-            var commonHash = this_1._getHash(commonStyle);
-            if (!uniqStyles.has(commonHash)) {
-                var css = (0, main_1.getStyleByClass)("dhx_grid-cell", "dhx_grid-cell", uniqStyles.get("default"));
-                if (css) {
-                    var style = __assign(__assign({}, css), { format: format });
-                    if (align) {
-                        style.align = align;
-                    }
-                    style["font-weight"] = style.bold ? "bold" : "normal";
-                    if (style.fontSize) {
-                        style.fontSize = "".concat(style.fontSize, "px");
-                    }
-                    uniqStyles.set(commonHash, {
-                        css: __assign(__assign({}, uniqStyles.get("default").css), style),
-                        index: uniqStyles.size,
-                    });
-                }
-                if (!cells.has("col_".concat(colIndex))) {
-                    cells.set("col_".concat(colIndex), commonHash);
-                }
-            }
-            else {
-                cells.set("col_".concat(colIndex), commonHash);
-            }
-            if (footer) {
-                footer.forEach(function (footer_item, index) {
-                    var _a = footer_item.rowspan, rowspan = _a === void 0 ? 0 : _a, _b = footer_item.colspan, colspan = _b === void 0 ? 0 : _b;
-                    if (colspan || rowspan) {
-                        var rowIndex = data.length + headers.length + index;
-                        merged.push({
-                            from: { row: rowIndex, column: colIndex },
-                            to: {
-                                row: rowIndex + (rowspan ? rowspan - 1 : 0),
-                                column: colIndex + (colspan ? colspan - 1 : 0),
-                            },
-                        });
-                    }
-                    var val = footer_item.text
-                        ? typeof footer_item.text === "function"
-                            ? footer_item.text(summaryResults[col.id])
-                            : footer_item.text
-                        : "";
-                    footers[index][colIndex] = __assign(__assign({}, footers[index][colIndex]), { text: (0, main_1.removeHTMLTags)(val) });
-                    var f_format = format || ((0, core_1.isNumeric)(val) && "0.00");
-                    var className = "dhx_grid-footer-cell ".concat(footer_item.css || "", " ").concat(f_format, " ").concat(footer_item.align);
-                    var styleHash = _this._getHash(className);
-                    if (!uniqStyles.has(styleHash)) {
-                        var css = (0, main_1.getStyleByClass)(className, "dhx_grid-footer-cell", uniqStyles.get("default"));
-                        if (css) {
-                            var style = __assign(__assign({}, css), { f_format: f_format });
-                            if (footer_item.align) {
-                                style.align = footer_item.align;
-                            }
-                            style["font-weight"] = style.bold ? "bold" : "normal";
-                            if (style.fontSize) {
-                                style.fontSize = "".concat(style.fontSize, "px");
-                            }
-                            uniqStyles.set(styleHash, {
-                                css: __assign(__assign({}, uniqStyles.get("default").css), style),
-                                index: uniqStyles.size,
-                            });
-                        }
-                    }
-                    cells.set("footer_".concat(colIndex, "_").concat(index), styleHash);
-                });
-            }
-            if (header) {
-                header.forEach(function (header_item, index) {
-                    var _a = header_item.rowspan, rowspan = _a === void 0 ? 0 : _a, _b = header_item.colspan, colspan = _b === void 0 ? 0 : _b;
-                    if (colspan || rowspan) {
-                        var rowIndex = index;
-                        merged.push({
-                            from: { row: rowIndex, column: colIndex },
-                            to: {
-                                row: rowIndex + (rowspan ? rowspan - 1 : 0),
-                                column: colIndex + (colspan ? colspan - 1 : 0),
-                            },
-                        });
-                    }
-                    var className = "dhx_grid-header-cell ".concat(header_item.css || "", " ").concat(header_item.align ||
-                        "", " ").concat(align || "");
-                    var styleHash = _this._getHash(className);
-                    if (!uniqStyles.has(styleHash)) {
-                        var css = (0, main_1.getStyleByClass)(className, "dhx_grid-header-cell", uniqStyles.get("default"));
-                        if (css) {
-                            var style = __assign(__assign({}, css), { format: format });
-                            if (header_item.align || align) {
-                                style.align = header_item.align || align;
-                            }
-                            uniqStyles.set(styleHash, {
-                                css: __assign(__assign({}, uniqStyles.get("default").css), style),
-                                index: uniqStyles.size,
-                            });
-                        }
-                    }
-                    cells.set("header_".concat(colIndex, "_").concat(index), styleHash);
-                });
-            }
-            for (var key in $cellCss) {
-                var colStyle = "dhx_grid-cell ".concat($cellCss[key].trim(), " ").concat(commonStyle);
-                var colStyleHash = this_1._getHash(colStyle);
-                var rowStyles = "dhx_grid-row";
-                if (rowCss[key]) {
-                    rowStyles += " ".concat(rowCss[key].trim());
-                }
-                if (!uniqStyles.has(colStyleHash)) {
-                    var css = (0, main_1.getStyleByClass)(colStyle, rowStyles, uniqStyles.get("default"));
-                    if (css) {
-                        var style = __assign(__assign(__assign({}, uniqStyles.get("default").css), css), { format: format });
-                        if (align) {
-                            style.align = align;
-                        }
-                        style["font-weight"] = style.bold ? "bold" : "normal";
-                        if (style.fontSize) {
-                            style.fontSize = "".concat(style.fontSize, "px");
-                        }
-                        uniqStyles.set(colStyleHash, {
-                            css: __assign({}, style),
-                            index: uniqStyles.size,
-                        });
-                    }
-                }
-                if (uniqStyles.has(colStyleHash)) {
-                    cells.set("".concat(rowsIndexMap[key], "_").concat(colIndex), colStyleHash);
-                }
-            }
-            for (var key in rowCss) {
-                if (($cellCss || {})[key])
-                    continue;
-                var hashString = "".concat(rowCss[key], " format:").concat(format);
-                if (align)
-                    hashString += " align:".concat(align);
-                var rowStyleHash = this_1._getHash(hashString);
-                var rowStyles = "dhx_grid-row ".concat(rowCss[key].trim());
-                if (!uniqStyles.has(rowStyleHash)) {
-                    var css = (0, main_1.getStyleByClass)("dhx_grid-cell", rowStyles, uniqStyles.get("default"));
-                    if (css) {
-                        var style = __assign(__assign(__assign({}, uniqStyles.get("default").css), css), { format: format });
-                        if (align) {
-                            style.align = align;
-                        }
-                        style["font-weight"] = style.bold ? "bold" : "normal";
-                        if (style.fontSize) {
-                            style.fontSize = "".concat(style.fontSize, "px");
-                        }
-                        uniqStyles.set(rowStyleHash, { css: __assign({}, style), index: uniqStyles.size });
-                    }
-                }
-                if (uniqStyles.has(rowStyleHash)) {
-                    cells.set("".concat(rowsIndexMap[key], "_").concat(colIndex), rowStyleHash);
-                }
-            }
-        };
-        var this_1 = this;
-        for (var _i = 0, configCols_1 = configCols; _i < configCols_1.length; _i++) {
-            var col = configCols_1[_i];
-            _loop_1(col);
-        }
-        var styles = [];
-        uniqStyles.forEach(function (val) {
-            var css = {};
-            Object.keys(val.css).forEach(function (key) {
-                if (!val.css[key])
-                    return;
-                if (key === "bold") {
-                    return (css["fontWeight"] = "bold");
-                }
-                css[key] = "".concat(val.css[key]);
-            });
-            css.verticalAlign = "center";
-            styles.push(__assign(__assign({}, css), { id: val.index.toString() }));
-        });
-        var cellsData = [];
-        if (headers.length) {
-            var h = headers.map(function (header, level) {
-                return header.map(function (v, col) {
-                    var style = cells.get("header_".concat(col, "_").concat(level)) || cells.get("col_".concat(col)) || "default";
-                    var data = {
-                        v: v === "" ? null : v,
-                        s: uniqStyles.get(style).index,
-                    };
-                    return data;
-                });
-            });
-            cellsData.push.apply(cellsData, h);
-        }
-        var d = data.map(function (cols, row) {
-            return cols.map(function (v, col) {
-                var style = cells.get("".concat(row, "_").concat(col)) || cells.get("col_".concat(col)) || "default";
-                var data = {
-                    v: v === "" ? null : v,
-                    s: uniqStyles.get(style).index,
-                };
-                return data;
-            });
-        });
-        cellsData.push.apply(cellsData, d);
-        if (footers.length) {
-            var f = footers.map(function (footer, level) {
-                return footer.map(function (cell, col) {
-                    var text = cell.text, content = cell.content, col_id = cell.col_id;
-                    var isSimpleSummary = typeof content === "string";
-                    var isSimpleTemplate = content && simpleSumTemplate(summaryResults[col_id]) == text;
-                    var style = cells.get("footer_".concat(col, "_").concat(level)) || cells.get("col_".concat(col)) || "default";
-                    var data = {
-                        v: content && isSimpleSummary && isSimpleTemplate
-                            ? footerContentToXlsxMap({
-                                func: content,
-                                startRow: headers.length + 1,
-                                col: col,
-                                rowsCount: d.length,
-                                functionsMap: config.mapToExcelFormulas,
-                            })
-                            : text === ""
-                                ? null
-                                : text,
-                        s: uniqStyles.get(style).index,
-                    };
-                    return data;
-                });
-            });
-            cellsData.push.apply(cellsData, f);
-        }
-        if (spans === null || spans === void 0 ? void 0 : spans.length) {
-            var converted_spans = spans.map(function (span) {
-                var rowIndex = rowsIndexMap[span.row] + headers.length;
-                var colIndex = colsIndexMap[span.column];
-                var _a = span.rowspan, rowspan = _a === void 0 ? 1 : _a, _b = span.colspan, colspan = _b === void 0 ? 1 : _b;
-                return {
-                    from: { row: rowIndex, column: colIndex },
-                    to: { row: rowIndex + rowspan - 1, column: colIndex + colspan - 1 },
-                };
-            });
-            merged.push.apply(merged, converted_spans);
-        }
-        var sheet = {
-            name: config.tableName || "data",
-            cells: cellsData,
-            cols: columns,
-            rows: rows,
-            merged: merged,
-        };
-        var exportData = { data: [sheet], styles: styles };
-        if (config.url) {
-            var xlsxWorker = this._getXlsxWorker(config.name || "dhtmlx_grid", config.url);
-            xlsxWorker
-                .then(function (x) {
-                return x.postMessage({
-                    type: "convert",
-                    data: exportData,
-                });
-            })
-                .catch(function (e) {
-                console.log(e);
-            });
-        }
-        return exportData;
-    };
-    Exporter.prototype.getFlatCSV = function (config) {
-        var treeData = this._view.data;
-        var root = treeData.getRoot();
-        var _a = (this._view.config || {}).columns, columns = _a === void 0 ? [] : _a;
-        var firstCol = columns[0];
-        var maxLevel = treeData.getMaxLevel();
-        var getParentsChain = function (item, data) {
-            var parents = [];
-            for (var i = 0; i <= maxLevel; i++) {
-                if (item && item[firstCol.id]) {
-                    parents[item.$level] = item[firstCol.id];
-                    var parent_1 = data.getParent(item.id, true);
-                    if (parent_1 && parent_1.id) {
-                        item = parent_1;
-                    }
-                    else {
-                        item = null;
-                    }
-                }
-                else {
-                    parents[i] = "";
-                }
-            }
-            return parents;
-        };
-        var total = "";
-        treeData.eachChild(root, function (item) {
-            var parents = getParentsChain(item, treeData).join(config.columnDelimiter);
-            total +=
-                parents +
-                    Object.keys(item).reduce(function (values, key, i) {
-                        if (key !== "id" && key !== "parent" && !key.startsWith("$") && i !== 0) {
-                            return values + config.columnDelimiter + (item[key] === null ? "" : item[key]);
-                        }
-                        return values;
-                    }, "");
-            total += config.rowDelimiter;
-        });
-        // [dirty]
-        var emptyHeaders = fillArray(new Array(maxLevel + 1), "");
-        var headers = (0, main_1.transpose)(columns.map(function (col) { return (col.header || []).map(function (level) { return (0, main_1.removeHTMLTags)("".concat(level.text || " ")); }); }));
-        headers = headers.map(function (header) {
-            header.splice.apply(header, __spreadArray([0, 1], emptyHeaders, false));
-            return header;
-        });
-        var head = new ts_data_1.CsvDriver(config).serialize(headers, true) + config.rowDelimiter;
-        return head + total;
-    };
-    Exporter.prototype._getCSV = function (config) {
-        var exportData = this._export(config);
-        var driver = new ts_data_1.CsvDriver(config);
-        var data = exportData === null || exportData === void 0 ? void 0 : exportData.data[0].cells.map(function (row) {
-            return row.map(function (cell) { return cell.v; });
-        });
-        return driver.serialize(data, true);
-    };
-    Exporter.prototype._rawExport = function (config, mode, view) {
-        var _a;
-        if (config === void 0) { config = {}; }
-        var viewContainer = document.createElement("div");
-        viewContainer.setAttribute("style", "display: none;");
-        var _b = view.config, _c = _b.$headerHeight, $headerHeight = _c === void 0 ? 0 : _c, _d = _b.$footerHeight, $footerHeight = _d === void 0 ? 0 : _d, _e = _b.$totalHeight, $totalHeight = _e === void 0 ? 0 : _e, $footer = _b.$footer, columns = _b.columns;
-        var styles = "";
-        var exportStyles = view.config.exportStyles;
-        if (typeof config.exportStyles === "boolean" || Array.isArray(config.exportStyles)) {
-            exportStyles = config.exportStyles;
-        }
-        config.url =
-            config.url || "https://export.dhtmlx.com/" + this._name + "/" + mode + "/" + this._version;
-        if (mode === "pdf") {
-            var pdf = config.pdf;
-            config.pdf = __assign(__assign({}, pdf), { printBackground: false, format: (_a = pdf === null || pdf === void 0 ? void 0 : pdf.format) !== null && _a !== void 0 ? _a : "A4" });
-        }
-        var width = view.config.$totalWidth;
-        var height = $totalHeight + $headerHeight;
-        if ($footer)
-            height += $footerHeight;
-        var viewColumns = [];
-        for (var index = 0; index < columns.length; index++) {
-            var col = columns[index];
-            viewColumns.push(__assign(__assign({}, col), { width: col.$width }));
-        }
-        var viewConfig = __assign(__assign({}, view.config), { width: width, height: height, columns: viewColumns, data: view.data.getRawData(0, -1, null, 2), keyNavigation: false, selection: false, resizable: false });
-        var $view = new view.constructor(viewContainer, (0, core_1.getCloneObject)(viewConfig));
-        (0, dom_1.awaitRedraw)()
-            .then(function () {
-            if (exportStyles === true) {
-                styles = "".concat((0, html_1.getPageLinksCss)(), "<style>").concat((0, html_1.getPageInlineCss)(), "</style>");
-            }
-            else if (Array.isArray(exportStyles) && exportStyles.length) {
-                styles = "".concat((0, html_1.getPageLinksCss)(exportStyles));
-            }
-            var child = viewContainer.children[0];
-            child === null || child === void 0 ? void 0 : child.setAttribute("data-dhx-theme", config.theme || "light");
-            if (mode === "png") {
-                child === null || child === void 0 ? void 0 : child.setAttribute("style", "width: ".concat(width, "px;"));
-            }
-            var html = "\n\t\t\t\t\t".concat(styles, "\n\t\t\t\t\t").concat(viewContainer.innerHTML, "\n\t\t\t\t");
-            var form = document.createElement("form");
-            form.setAttribute("method", "POST");
-            form.setAttribute("action", config.url);
-            form.innerHTML = "<input type=\"hidden\" name=\"raw\"><input type=\"hidden\" name=\"config\">";
-            form.childNodes[0].value = html;
-            form.childNodes[1].value = JSON.stringify(config);
-            document.body.appendChild(form);
-            form.submit();
-            setTimeout(function () {
-                var _a, _b;
-                $view.destructor();
-                (_a = viewContainer.parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(viewContainer);
-                (_b = form.parentNode) === null || _b === void 0 ? void 0 : _b.removeChild(form);
-            }, 100);
-        })
-            .catch(function () {
-            var _a;
-            $view.destructor();
-            (_a = viewContainer.parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(viewContainer);
-        });
-    };
-    Exporter.prototype._getHash = function (str) {
-        return str
-            .split("")
-            .reduce(function (h, letter) {
-            var hh = (h << 5) - h + letter.charCodeAt(0);
-            return Math.abs(hh & hh);
-        }, 0)
-            .toString();
-    };
-    Exporter.prototype._getXlsxWorker = function (name, path) {
-        return __awaiter(this, void 0, void 0, function () {
-            var url_1;
-            return __generator(this, function (_a) {
-                if (this._xlsxWorker === null) {
-                    url_1 = window.URL.createObjectURL(new Blob(["importScripts('".concat(path, "');")], { type: "text/javascript" }));
-                    this._xlsxWorker = new Promise(function (res) {
-                        var xlsxWorker = new Worker(url_1);
-                        xlsxWorker.addEventListener("message", function (e) {
-                            if (e.data.type === "init") {
-                                res(xlsxWorker);
-                            }
-                            else if (e.data.type === "ready") {
-                                var a = document.createElement("a");
-                                a.href = URL.createObjectURL(e.data.blob);
-                                a.download = "".concat(name, ".xlsx");
-                                document.body.appendChild(a);
-                                a.click();
-                                document.body.removeChild(a);
-                            }
-                        });
-                    });
-                }
-                return [2 /*return*/, this._xlsxWorker];
-            });
-        });
-    };
-    return Exporter;
-}());
-exports.Exporter = Exporter;
-function convertNumberMaskToExcel(format) {
-    var prefix = format.prefix, suffix = format.suffix, maxIntLength = format.maxIntLength, _a = format.maxDecLength, maxDecLength = _a === void 0 ? 2 : _a;
-    var excelFormat = "";
-    if (prefix) {
-        excelFormat += "\"".concat(prefix, "\"");
-    }
-    if (maxIntLength) {
-        for (var i = 0; i < maxIntLength; i++) {
-            excelFormat += i === maxIntLength - 1 ? "0" : "#";
-        }
-    }
-    else {
-        excelFormat += "#";
-    }
-    if (maxDecLength) {
-        excelFormat += ".";
-        for (var i = 0; i < maxDecLength; i++) {
-            excelFormat += "#";
-        }
-    }
-    if (suffix) {
-        excelFormat += suffix === "%" ? suffix : "\"".concat(suffix, "\"");
-    }
-    return excelFormat;
-}
-function convertPatternMaskToExcel(pattern) {
-    if (!pattern.includes("0") && !pattern.includes("#"))
-        return "";
-    var chars = pattern.split("");
-    var mask = "";
-    var isNumber = true;
-    chars.forEach(function (c) {
-        if (c === "0" || c === "#") {
-            if (!isNumber) {
-                mask += '"';
-                isNumber = true;
-            }
-            mask += c;
-        }
-        else {
-            if (isNumber) {
-                mask += '"';
-                isNumber = false;
-            }
-            mask += c;
-        }
-    });
-    return mask;
-}
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
-
-/***/ }),
-/* 224 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43463,12 +43914,12 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Selection = exports.GridSelectionEvents = void 0;
 var dom_1 = __webpack_require__(0);
-var ts_data_1 = __webpack_require__(4);
+var ts_data_1 = __webpack_require__(5);
 var core_1 = __webpack_require__(1);
-var events_1 = __webpack_require__(2);
-var types_1 = __webpack_require__(5);
+var events_1 = __webpack_require__(3);
+var types_1 = __webpack_require__(4);
 var FocusManager_1 = __webpack_require__(20);
-var common_1 = __webpack_require__(17);
+var common_1 = __webpack_require__(12);
 var main_1 = __webpack_require__(10);
 var cells_1 = __webpack_require__(24);
 var data_1 = __webpack_require__(11);
@@ -43994,20 +44445,20 @@ exports.Selection = Selection;
 
 
 /***/ }),
-/* 225 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getEditor = void 0;
-var types_1 = __webpack_require__(5);
-var InputEditor_1 = __webpack_require__(226);
-var SelectEditor_1 = __webpack_require__(227);
-var DateEditor_1 = __webpack_require__(228);
-var CheckboxEditor_1 = __webpack_require__(229);
-var ComboboxEditor_1 = __webpack_require__(230);
-var TextAreaEditor_1 = __webpack_require__(231);
+var types_1 = __webpack_require__(4);
+var InputEditor_1 = __webpack_require__(228);
+var SelectEditor_1 = __webpack_require__(229);
+var DateEditor_1 = __webpack_require__(230);
+var CheckboxEditor_1 = __webpack_require__(231);
+var ComboboxEditor_1 = __webpack_require__(232);
+var TextAreaEditor_1 = __webpack_require__(233);
 var lastEditor = {
     cell: {
         row: null,
@@ -44072,7 +44523,7 @@ exports.getEditor = getEditor;
 
 
 /***/ }),
-/* 226 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44091,9 +44542,9 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InputEditor = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(5);
+var types_1 = __webpack_require__(4);
 var core_1 = __webpack_require__(1);
-var input_1 = __webpack_require__(33);
+var input_1 = __webpack_require__(35);
 var InputEditor = /** @class */ (function () {
     function InputEditor(row, col, config) {
         this.prevValue = "";
@@ -44247,7 +44698,7 @@ exports.InputEditor = InputEditor;
 
 
 /***/ }),
-/* 227 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44255,7 +44706,7 @@ exports.InputEditor = InputEditor;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SelectEditor = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(5);
+var types_1 = __webpack_require__(4);
 var data_1 = __webpack_require__(11);
 var SelectEditor = /** @class */ (function () {
     function SelectEditor(row, col, config) {
@@ -44331,7 +44782,7 @@ exports.SelectEditor = SelectEditor;
 
 
 /***/ }),
-/* 228 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44350,10 +44801,10 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DateEditor = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(5);
-var ts_calendar_1 = __webpack_require__(37);
+var types_1 = __webpack_require__(4);
+var ts_calendar_1 = __webpack_require__(32);
 var date_1 = __webpack_require__(18);
-var ts_popup_1 = __webpack_require__(15);
+var ts_popup_1 = __webpack_require__(14);
 var DateEditor = /** @class */ (function () {
     function DateEditor(row, col, config) {
         var _this = this;
@@ -44493,7 +44944,7 @@ exports.DateEditor = DateEditor;
 
 
 /***/ }),
-/* 229 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44502,7 +44953,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CheckboxEditor = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(5);
+var types_1 = __webpack_require__(4);
 var CheckboxEditor = /** @class */ (function () {
     function CheckboxEditor(row, col, config) {
         this._config = config;
@@ -44583,7 +45034,7 @@ exports.CheckboxEditor = CheckboxEditor;
 
 
 /***/ }),
-/* 230 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44602,8 +45053,8 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ComboboxEditor = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(5);
-var ts_combobox_1 = __webpack_require__(39);
+var types_1 = __webpack_require__(4);
+var ts_combobox_1 = __webpack_require__(40);
 var FocusManager_1 = __webpack_require__(20);
 var data_1 = __webpack_require__(11);
 var ComboboxEditor = /** @class */ (function () {
@@ -44696,6 +45147,14 @@ var ComboboxEditor = /** @class */ (function () {
                 if (e.key === "Escape" || e.key === "Tab") {
                     _this.endEdit();
                 }
+                if (e.key === "Enter") {
+                    if (!_this._config.events.fire(types_1.GridEvents.beforeKeyDown, [e])) {
+                        return;
+                    }
+                    e.stopPropagation();
+                    _this.endEdit();
+                    _this._config.events.fire(types_1.GridEvents.afterKeyDown, [e]);
+                }
             },
         };
     };
@@ -44715,7 +45174,7 @@ exports.ComboboxEditor = ComboboxEditor;
 
 
 /***/ }),
-/* 231 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44734,10 +45193,10 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TextAreaEditor = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(5);
+var types_1 = __webpack_require__(4);
 var core_1 = __webpack_require__(1);
 var data_1 = __webpack_require__(11);
-var input_1 = __webpack_require__(33);
+var input_1 = __webpack_require__(35);
 var TextAreaEditor = /** @class */ (function () {
     function TextAreaEditor(row, col, config, span) {
         this._config = config;
@@ -44906,7 +45365,7 @@ exports.TextAreaEditor = TextAreaEditor;
 
 
 /***/ }),
-/* 232 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44934,9 +45393,9 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getGroupPanel = exports.getGroupItem = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(5);
-var html_1 = __webpack_require__(3);
-var en_1 = __webpack_require__(42);
+var types_1 = __webpack_require__(4);
+var html_1 = __webpack_require__(2);
+var en_1 = __webpack_require__(43);
 function getGroupChain(_a) {
     var id = _a.id;
     return (0, dom_1.el)("div.dhx_grid-group_chain", {
@@ -45030,7 +45489,7 @@ exports.getGroupPanel = getGroupPanel;
 
 
 /***/ }),
-/* 233 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45051,8 +45510,8 @@ exports.setSubRowCell = exports.getSubRowContent = void 0;
 var dom_1 = __webpack_require__(0);
 var main_1 = __webpack_require__(10);
 var default_1 = __webpack_require__(27);
-var ProCell_1 = __webpack_require__(71);
-var common_1 = __webpack_require__(17);
+var ProCell_1 = __webpack_require__(72);
+var common_1 = __webpack_require__(12);
 function getSubRowContent(config) {
     var _a;
     var subRowContent = [];
@@ -45100,6 +45559,8 @@ function setSubRowCell(grid, rows) {
     var curRowSet = new Map();
     for (var index = 0; index < rows.length; index++) {
         var row = rows[index];
+        if (row.$group)
+            continue;
         if (!$subRowCells.has(row.id) || !$subRowCells.get(row.id).cell) {
             var config = __assign(__assign({}, default_1.defaultSubRowConfig), ((typeof subRowConfig === "function" ? subRowConfig(row) : subRowConfig) || {}));
             $subRowCells.set(row.id, config);
@@ -45139,7 +45600,7 @@ function addSubRowCell(row, subRow, config, cellMap) {
 
 
 /***/ }),
-/* 234 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45167,10 +45628,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getDragPanelNode = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(5);
+var types_1 = __webpack_require__(4);
 var default_1 = __webpack_require__(27);
-var common_1 = __webpack_require__(17);
-var html_1 = __webpack_require__(3);
+var common_1 = __webpack_require__(12);
+var html_1 = __webpack_require__(2);
 var main_1 = __webpack_require__(10);
 var panelHandlers = {
     onclick: function (grid, event) {
@@ -45182,9 +45643,9 @@ var panelHandlers = {
         id && grid.events.fire(types_1.GridEvents.dragPanelItemMouseDown, [id, event]);
     },
 };
-function getDragPanelNode(grid, config, scroll, lessHeight) {
+function getDragPanelNode(grid, config, scroll, lessByHeight) {
     var _a;
-    if (lessHeight === void 0) { lessHeight = false; }
+    if (lessByHeight === void 0) { lessByHeight = false; }
     var panelConfig = config.dragPanel;
     var handlers = Object.entries(panelHandlers).reduce(function (obj, _a) {
         var _b;
@@ -45192,7 +45653,7 @@ function getDragPanelNode(grid, config, scroll, lessHeight) {
         return (__assign(__assign({}, obj), (_b = {}, _b[key] = [handler, grid], _b)));
     }, {});
     var css = "dhx_grid-drag-panel ";
-    if (lessHeight)
+    if (lessByHeight)
         css += "dhx_grid-drag-panel--less-height ";
     if ((_a = grid.config.$grouped) === null || _a === void 0 ? void 0 : _a.length)
         css += "dhx_grid-drag-panel--drag-not-allowed ";
@@ -45200,7 +45661,7 @@ function getDragPanelNode(grid, config, scroll, lessHeight) {
         css += panelConfig.css;
     return (0, dom_1.el)("section", __assign({ class: css, style: {
             width: panelConfig.width || default_1.defaultDragPanelConfig.width,
-        }, role: "region", "aria-label": "Drag panel" }, handlers), [getHeaderNode(config), getMainNode(config, scroll, lessHeight)]);
+        }, role: "region", "aria-label": "Drag panel" }, handlers), [getHeaderNode(config), getMainNode(config, scroll, lessByHeight)]);
 }
 exports.getDragPanelNode = getDragPanelNode;
 function getHeaderNode(config) {
@@ -45212,23 +45673,30 @@ function getHeaderNode(config) {
         "aria-label": "Panel header",
     });
 }
-function getFooterNode(config, lessHeight) {
-    if (lessHeight === void 0) { lessHeight = false; }
+function getFooterNode(config, scroll, lessByHeight) {
     var footerEnable = config.$footer;
-    var footerHeight = ((!lessHeight && config.$scrollBarWidth.x) || 0) + ((footerEnable && config.$footerHeight) || 0);
+    var footerHeight = (((!lessByHeight || scroll.footerAtBottom) && config.$scrollBarWidth.x) || 0) +
+        ((footerEnable && config.$footerHeight) || 0);
     if (!footerHeight ||
         (!footerEnable && config.$totalHeight < config.$height - config.$headerHeight - config.$footerHeight)) {
         return null;
     }
-    return (0, dom_1.el)(".dhx_grid-drag-panel_footer", {
-        style: {
-            height: footerHeight + common_1.BORDERS / 2,
-        },
+    var borderOffset = common_1.BORDERS / 2;
+    var panelConfig = config.dragPanel;
+    var style = {
+        height: footerHeight + borderOffset,
+    };
+    if (scroll.footerAtBottom) {
+        style.width = panelConfig.width || default_1.defaultDragPanelConfig.width;
+        style.height = style.height + borderOffset;
+    }
+    return (0, dom_1.el)(".dhx_grid-drag-panel_footer".concat(scroll.footerAtBottom ? ".dhx_grid-drag-panel_footer--at-bottom" : ""), {
+        style: style,
         role: "contentinfo",
         "aria-label": "Panel footer",
     });
 }
-function getMainNode(config, scroll, lessHeight) {
+function getMainNode(config, scroll, lessByHeight) {
     var panelHeight = config.$height - config.$headerHeight - common_1.BORDERS;
     return (0, dom_1.el)(".dhx_grid-drag-panel_main", {
         style: {
@@ -45238,9 +45706,9 @@ function getMainNode(config, scroll, lessHeight) {
         "aria-label": "Panel content",
     }, [
         getContentNode(config, scroll),
-        getFooterNode(config, lessHeight),
-        getFixedContentNode(config, types_1.Split.top, lessHeight),
-        getFixedContentNode(config, types_1.Split.bottom, lessHeight),
+        getFooterNode(config, scroll, lessByHeight),
+        getFixedContentNode(config, scroll, types_1.Split.top, lessByHeight),
+        getFixedContentNode(config, scroll, types_1.Split.bottom, lessByHeight),
     ]);
 }
 function getContentNode(config, scroll) {
@@ -45257,21 +45725,25 @@ function getContentNode(config, scroll) {
         "aria-label": "Draggable rows",
     }, __spreadArray([], items, true));
 }
-function getFixedContentNode(config, split, lessHeight) {
-    if (lessHeight === void 0) { lessHeight = false; }
+function getFixedContentNode(config, scroll, split, lessByHeight) {
     var panelConfig = config.dragPanel;
     var data = (split === types_1.Split.bottom ? config.fixedRows.bottom : config.fixedRows.top) || [];
     if (!data.length) {
         return null;
     }
     var items = data.map(function (row) { return getItemNode(row, panelConfig.icon); });
-    var bottomSplitHeight = (0, main_1.getTotalHeight)(config.fixedRows.bottom);
-    var groupPanelHeight = config.group ? (0, default_1.getGroupDefaultConfig)(config.group).panelHeight : 0;
-    return (0, dom_1.el)(".dhx_grid-drag-panel_content.dhx_grid-drag-panel_content--fixed", {
-        style: {
-            width: panelConfig.width || default_1.defaultDragPanelConfig.width,
-            top: split === types_1.Split.bottom
-                ? lessHeight
+    var style = {
+        width: panelConfig.width || default_1.defaultDragPanelConfig.width,
+    };
+    if (split === types_1.Split.bottom && scroll.footerAtBottom) {
+        style["bottom"] = config.footerHeight + common_1.BORDERS / 2 + (config.$scrollBarWidth.x || -1);
+    }
+    else {
+        var bottomSplitHeight = (0, main_1.getTotalHeight)(config.fixedRows.bottom);
+        var groupPanelHeight = config.group ? (0, default_1.getGroupDefaultConfig)(config.group).panelHeight : 0;
+        style["top"] =
+            split === types_1.Split.bottom
+                ? lessByHeight
                     ? config.$totalHeight +
                         config.$headerHeight -
                         bottomSplitHeight +
@@ -45283,8 +45755,10 @@ function getFixedContentNode(config, split, lessHeight) {
                         common_1.BORDERS / 2 -
                         config.$scrollBarWidth.x +
                         groupPanelHeight
-                : config.$headerHeight + groupPanelHeight,
-        },
+                : config.$headerHeight + groupPanelHeight;
+    }
+    return (0, dom_1.el)(".dhx_grid-drag-panel_content.dhx_grid-drag-panel_content--fixed", {
+        style: style,
         _flags: dom_1.KEYED_LIST,
         role: "list",
         "aria-label": "Draggable rows",
@@ -45309,167 +45783,33 @@ function getItemNode(config, icon) {
 
 
 /***/ }),
-/* 235 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getContent = void 0;
-var dom_1 = __webpack_require__(0);
-var data_1 = __webpack_require__(11);
-var core_1 = __webpack_require__(1);
-var ComboFilter_1 = __webpack_require__(236);
-var SelectFilter_1 = __webpack_require__(237);
-var InputFilter_1 = __webpack_require__(238);
-function getContent() {
-    return {
-        inputFilter: {
-            element: {},
-            toHtml: function (column, config) {
-                var _this = this;
-                var id = (0, core_1.uid)();
-                var colId = column.id.toString();
-                var filter = this.element[colId];
-                if (!filter) {
-                    filter = new InputFilter_1.InputFilter(column, config, id, this.value[colId]);
-                    filter.events.on("change", function (value) {
-                        _this.value[colId] = value;
-                    });
-                    this.element[colId] = filter;
-                }
-                else {
-                    filter.value = this.value[colId];
-                }
-                return filter.toHTML();
-            },
-            match: function (_a) {
-                var val = _a.val, match = _a.match, col = _a.col;
-                if (!(0, core_1.isDefined)(val))
-                    return false;
-                var values = [(0, data_1.applyPattern)(val, col), val.toString()];
-                var res = "";
-                for (var i = 0; i < match.length; i++) {
-                    var char = match.charCodeAt(i);
-                    if ((char > 32 && char < 48) || char === 63 || (char > 90 && char < 95) || char === 124) {
-                        res += "\\" + match[i];
-                    }
-                    else {
-                        res += match[i];
-                    }
-                }
-                return values.some(function (value) { return new RegExp("".concat(res), "i").test(value); });
-            },
-            value: {},
-        },
-        selectFilter: {
-            element: {},
-            toHtml: function (column, config) {
-                var _this = this;
-                var colId = column.id.toString();
-                var filter = this.element[colId];
-                if (!filter) {
-                    filter = new SelectFilter_1.SelectFilter(column, config, column.$uniqueData, this.value[colId]);
-                    filter.events.on("change", function (value) {
-                        _this.value[colId] = value;
-                    });
-                    this.element[colId] = filter;
-                }
-                else {
-                    filter.value = this.value[colId];
-                    filter.data = column.$activeFilterData || column.$uniqueData;
-                }
-                return filter.toHTML();
-            },
-            match: function (_a) {
-                var val = _a.val, match = _a.match, col = _a.col;
-                var value = (0, data_1.applyPattern)(val, col);
-                return match ? (value || typeof value === "boolean") && value.toString() == match : true;
-            },
-            value: {},
-        },
-        comboFilter: {
-            element: {},
-            toHtml: function (column, config) {
-                var _this = this;
-                var colId = column.id.toString();
-                var filter = this.element[colId];
-                if (!filter) {
-                    var conf = column.header.filter(function (item) { return item.filterConfig !== undefined; })[0];
-                    filter = new ComboFilter_1.ComboFilter(column, config, column.$uniqueData, this.value[colId], conf);
-                    filter.events.on("change", function (value) {
-                        _this.value[colId] = value;
-                    });
-                    this.element[colId] = filter;
-                }
-                else {
-                    filter.data = column.$uniqueData;
-                }
-                return (0, dom_1.inject)(filter.getFilter().getRootView());
-            },
-            match: function (_a) {
-                var val = _a.val, _b = _a.match, match = _b === void 0 ? "" : _b, _c = _a.multi, multi = _c === void 0 ? false : _c, col = _a.col;
-                var value = (0, data_1.applyPattern)(val, col);
-                if (Array.isArray(match)) {
-                    var result = void 0;
-                    var _loop_1 = function (i) {
-                        result =
-                            multi && typeof value === "string"
-                                ? value.split(", ").some(function (item) { return item === match[i]; })
-                                : match[i] === value;
-                        if (result)
-                            return "break";
-                    };
-                    for (var i = 0; i < match.length; i++) {
-                        var state_1 = _loop_1(i);
-                        if (state_1 === "break")
-                            break;
-                    }
-                    return match && match.length ? result : true;
-                }
-                else {
-                    return match !== undefined ? value === match : true;
-                }
-            },
-            destroy: function () {
-                this.value = {};
-                var comboFilters = this.element;
-                for (var colId in comboFilters) {
-                    comboFilters[colId].destructor();
-                    delete comboFilters[colId];
-                }
-            },
-            value: {},
-        },
-    };
-}
-exports.getContent = getContent;
-
-
-/***/ }),
-/* 236 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ComboFilter = void 0;
-var ts_combobox_1 = __webpack_require__(39);
-var events_1 = __webpack_require__(2);
-var ts_data_1 = __webpack_require__(4);
+var ts_combobox_1 = __webpack_require__(40);
+var events_1 = __webpack_require__(3);
+var ts_data_1 = __webpack_require__(5);
 var core_1 = __webpack_require__(1);
-var types_1 = __webpack_require__(5);
+var types_1 = __webpack_require__(4);
+var content_1 = __webpack_require__(28);
 var ComboFilter = /** @class */ (function () {
-    function ComboFilter(column, config, data, value, conf) {
-        var _a;
+    function ComboFilter(_a) {
+        var column = _a.column, config = _a.config, headerConfig = _a.headerConfig, uniqueData = _a.uniqueData, value = _a.value, grid = _a.grid;
+        var _b;
         this.events = new events_1.EventSystem();
         this._silentMode = false; // for silent filter cleaning
         this.column = column;
         this.config = config;
-        this.data = data;
+        this.data = uniqueData;
         this.value = value;
-        this.filterConfig = (conf === null || conf === void 0 ? void 0 : conf.filterConfig) || {};
-        if (this.column.htmlEnable || (((_a = this.config) === null || _a === void 0 ? void 0 : _a.htmlEnable) && this.column.htmlEnable !== false)) {
+        this.filterConfig = {};
+        this._grid = grid;
+        Object.assign(this.filterConfig, (headerConfig === null || headerConfig === void 0 ? void 0 : headerConfig.filterConfig) || {});
+        if (this.column.htmlEnable || (((_b = this.config) === null || _b === void 0 ? void 0 : _b.htmlEnable) && this.column.htmlEnable !== false)) {
             if (!this.column.template && this.filterConfig.readonly !== false) {
                 this.filterConfig.readonly = true;
             }
@@ -45484,16 +45824,14 @@ var ComboFilter = /** @class */ (function () {
         this.config && this.initHandlers();
     }
     ComboFilter.prototype.initFilter = function () {
-        this._filter = new ts_combobox_1.ProCombobox(null, Object.assign({}, this.filterConfig));
+        this._filter = new ts_combobox_1.ProCombobox(null, Object.assign({ virtual: true }, this.filterConfig));
         this.data && this._filter.data && this._setData();
     };
     ComboFilter.prototype.initHandlers = function () {
         var _this = this;
-        var _a, _b, _c;
         var colId = this.column.id.toString();
-        this.config.events.on(ts_data_1.DataEvents.load, function () { return _this._setData(); }, this);
+        this._grid.events.on(ts_data_1.DataEvents.load, function () { return _this._setData(); }, this);
         this._filter.events.on("change", function (id) {
-            var _a;
             var value;
             if (id) {
                 var haveIds = Array.isArray(id)
@@ -45510,7 +45848,7 @@ var ComboFilter = /** @class */ (function () {
                 }
             }
             _this.value = value;
-            (_a = _this.config.events) === null || _a === void 0 ? void 0 : _a.fire(types_1.GridEvents.filterChange, [
+            _this._grid.events.fire(types_1.GridEvents.filterChange, [
                 _this.value,
                 colId,
                 "comboFilter",
@@ -45520,7 +45858,7 @@ var ComboFilter = /** @class */ (function () {
                 _this._silentMode = false;
             }
         });
-        this.config.events.on(types_1.GridEvents.filterChange, function (value) { return _this.events.fire(types_1.HeaderFilterEvent.change, [value]); }, this);
+        this._grid.events.on(types_1.GridEvents.filterChange, function (value) { return _this.events.fire(content_1.HeaderFilterEvent.change, [value]); }, this);
         this._filter.popup.events.on("afterHide", function () {
             if (!_this.filterConfig.multiselection && !_this._filter.list.selection.getItem()) {
                 _this.clear();
@@ -45532,38 +45870,49 @@ var ComboFilter = /** @class */ (function () {
                 _this.clear();
             }
         });
-        (_a = this.config.events) === null || _a === void 0 ? void 0 : _a.on(types_1.GridEvents.scroll, function () {
+        this._grid.events.on(types_1.GridEvents.scroll, function () {
             var _a;
             if (_this._isFocused && ((_a = _this._filter.getRootView().refs) === null || _a === void 0 ? void 0 : _a.input)) {
                 _this._filter.focus();
             }
         }, this);
-        (_b = this.config.events) === null || _b === void 0 ? void 0 : _b.on(types_1.GridEvents.headerCellMouseDown, function (cell, col) {
+        this._grid.events.on(types_1.GridEvents.headerCellMouseDown, function (cell, col) {
             if (col.id !== _this.column.id)
                 _this.blur();
         }, this);
-        (_c = this.config.events) === null || _c === void 0 ? void 0 : _c.on(types_1.GridEvents.cellMouseDown, function () { return _this.blur(); }, this);
-        this.config.events.on(ts_data_1.DataEvents.change, function (id, status) {
-            if (_this.column.hidden)
+        this._grid.events.on(types_1.GridEvents.cellMouseDown, function () { return _this.blur(); }, this);
+        this._grid.events.on(ts_data_1.DataEvents.change, function (id, status) {
+            if (_this.column.hidden || status !== "update") {
                 return;
-            if (status === "add" || status === "update" || status === "remove") {
-                if (status !== "add")
-                    _this._checkValue();
-                _this._setData(true);
             }
+            _this._checkValue();
+            _this._setData(true);
         }, this);
-        this.config.events.on(ts_data_1.DataEvents.removeAll, function () {
+        this._grid.events.on(ts_data_1.DataEvents.afterAdd, function () {
+            if (_this.column.hidden) {
+                return;
+            }
+            _this._setData(true);
+        });
+        this._grid.events.on(ts_data_1.DataEvents.afterRemove, function () {
+            if (_this.column.hidden) {
+                return;
+            }
+            _this._checkValue();
+            _this._setData(true);
+        });
+        this._grid.events.on(ts_data_1.DataEvents.removeAll, function () {
             _this.clear(true);
             _this._setData();
         }, this);
-        this.config.events.on(types_1.GridEvents.afterRowShow, function () { return _this._setData(true); }, this);
-        this.config.events.on(types_1.GridEvents.afterRowHide, function () {
+        this._grid.events.on(types_1.GridEvents.afterRowShow, function () { return _this._setData(true); }, this);
+        this._grid.events.on(types_1.GridEvents.afterRowHide, function () {
             if (_this.column.hidden)
                 return;
             _this._checkValue();
             _this._setData(true);
         }, this);
-        this.config.events.on(ts_data_1.DataEvents.filter, function (filters) {
+        this._grid.events.on(ts_data_1.DataEvents.filter, function (filters) {
             if (_this.column.hidden)
                 return;
             if (!filters || (0, ts_data_1.isOnlyPermanentFilters)(filters)) {
@@ -45576,13 +45925,13 @@ var ComboFilter = /** @class */ (function () {
                 _this._setData(true);
             }
         }, this);
-        this.config.events.on(types_1.GridEvents.afterColumnShow, function () {
+        this._grid.events.on(types_1.GridEvents.afterColumnShow, function () {
             if (!_this.filterConfig.multiselection) {
                 _this._checkValue();
                 _this._setData();
             }
         }, this);
-        this.config.events.on(types_1.GridEvents.afterColumnHide, function () {
+        this._grid.events.on(types_1.GridEvents.afterColumnHide, function () {
             if (!_this.filterConfig.multiselection) {
                 _this._setData();
             }
@@ -45593,7 +45942,7 @@ var ComboFilter = /** @class */ (function () {
     };
     ComboFilter.prototype.setValue = function (value, silent) {
         var _this = this;
-        var _a, _b;
+        var _a;
         if (!this.filterConfig.multiselection && Array.isArray(value))
             return;
         if (!(0, core_1.isDefined)(value)) {
@@ -45602,17 +45951,13 @@ var ComboFilter = /** @class */ (function () {
             this._filter.clear();
             if (!this.filterConfig.multiselection && this.value !== undefined) {
                 this.value = undefined;
-                (_a = this.config.events) === null || _a === void 0 ? void 0 : _a.fire(types_1.GridEvents.filterChange, [
-                    this.value,
-                    this.column.id,
-                    "comboFilter",
-                ]);
+                this._grid.events.fire(types_1.GridEvents.filterChange, [this.value, this.column.id, "comboFilter"]);
             }
         }
         else if ((value === null || value === void 0 ? void 0 : value.length) || value === "") {
             var item = this.filterConfig.multiselection && Array.isArray(value)
                 ? value.map(function (v) { var _a; return (_a = _this._filter.data.find(function (item) { return item.value === v; })) === null || _a === void 0 ? void 0 : _a.id; })
-                : (_b = this._filter.data.find(function (item) { return item.value === value; })) === null || _b === void 0 ? void 0 : _b.id;
+                : (_a = this._filter.data.find(function (item) { return item.value === value; })) === null || _a === void 0 ? void 0 : _a.id;
             this._filter.setValue(item, silent);
         }
     };
@@ -45632,10 +45977,10 @@ var ComboFilter = /** @class */ (function () {
         ((_a = this._filter.getRootView().refs) === null || _a === void 0 ? void 0 : _a.input) && this._filter.blur();
     };
     ComboFilter.prototype.destructor = function () {
-        var gridEvents = this.config.events;
+        var gridEvents = this._grid.events;
         if (gridEvents) {
             for (var name_1 in gridEvents.events) {
-                this.config.events.detach(name_1, this);
+                this._grid.events.detach(name_1, this);
             }
         }
         this.events.clear();
@@ -45699,7 +46044,7 @@ exports.ComboFilter = ComboFilter;
 
 
 /***/ }),
-/* 237 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45716,15 +46061,18 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SelectFilter = void 0;
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var types_1 = __webpack_require__(5);
+var events_1 = __webpack_require__(3);
+var types_1 = __webpack_require__(4);
+var content_1 = __webpack_require__(28);
 var SelectFilter = /** @class */ (function () {
-    function SelectFilter(column, config, uniqueData, value) {
+    function SelectFilter(_a) {
+        var column = _a.column, config = _a.config, _b = _a.uniqueData, uniqueData = _b === void 0 ? [] : _b, value = _a.value, grid = _a.grid;
         this.events = new events_1.EventSystem();
         this.column = column;
         this.config = config;
         this.data = uniqueData;
         this.value = value || "";
+        this._grid = grid;
         this.initHandlers();
         this.toHTML();
     }
@@ -45756,38 +46104,27 @@ var SelectFilter = /** @class */ (function () {
         return this.toHTML();
     };
     SelectFilter.prototype.setValue = function (value, silent) {
-        var _a;
         this.value = value || "";
-        this.events.fire(types_1.HeaderFilterEvent.change, [value]);
-        (_a = this.config.events) === null || _a === void 0 ? void 0 : _a.fire(types_1.GridEvents.filterChange, [
-            this.value,
-            this.column.id,
-            "selectFilter",
-            silent,
-        ]);
+        this.events.fire(content_1.HeaderFilterEvent.change, [value]);
+        this._grid.events.fire(types_1.GridEvents.filterChange, [this.value, this.column.id, "selectFilter", silent]);
     };
     SelectFilter.prototype.clear = function (silent) {
         this.setValue("", silent);
     };
     SelectFilter.prototype.focus = function () {
-        var _a, _b, _c, _d;
+        var _a, _b;
         this._isFocused = true;
-        var filterEl = (_d = (_c = (_b = (_a = this.config.events) === null || _a === void 0 ? void 0 : _a.context) === null || _b === void 0 ? void 0 : _b.getRootView()) === null || _c === void 0 ? void 0 : _c.refs["".concat(this.column.id, "_filter")]) === null || _d === void 0 ? void 0 : _d.el;
-        if (filterEl) {
-            filterEl.focus();
-        }
+        var node = (_b = (_a = this._grid.getRootView()) === null || _a === void 0 ? void 0 : _a.refs["".concat(this.column.id, "_filter")]) === null || _b === void 0 ? void 0 : _b.el;
+        node && node.focus();
     };
     SelectFilter.prototype.blur = function () {
-        var _a, _b, _c, _d;
+        var _a, _b;
         this._isFocused = false;
-        var filterEl = (_d = (_c = (_b = (_a = this.config.events) === null || _a === void 0 ? void 0 : _a.context) === null || _b === void 0 ? void 0 : _b.getRootView()) === null || _c === void 0 ? void 0 : _c.refs["".concat(this.column.id, "_filter")]) === null || _d === void 0 ? void 0 : _d.el;
-        if (filterEl) {
-            filterEl.blur();
-        }
+        var node = (_b = (_a = this._grid.getRootView()) === null || _a === void 0 ? void 0 : _a.refs["".concat(this.column.id, "_filter")]) === null || _b === void 0 ? void 0 : _b.el;
+        node && node.blur();
     };
     SelectFilter.prototype.initHandlers = function () {
         var _this = this;
-        var _a, _b, _c;
         this._handlers = {
             onchange: function (e) {
                 var _a, _b, _c, _d;
@@ -45801,20 +46138,20 @@ var SelectFilter = /** @class */ (function () {
                 _this._isFocused = false;
             },
         };
-        (_a = this.config.events) === null || _a === void 0 ? void 0 : _a.on(types_1.GridEvents.scroll, function () {
-            var _a, _b, _c, _d;
-            var filterEl = (_d = (_c = (_b = (_a = _this.config.events) === null || _a === void 0 ? void 0 : _a.context) === null || _b === void 0 ? void 0 : _b.getRootView()) === null || _c === void 0 ? void 0 : _c.refs["".concat(_this.column.id, "_filter")]) === null || _d === void 0 ? void 0 : _d.el;
-            if (_this._isFocused && filterEl) {
+        this._grid.events.on(types_1.GridEvents.scroll, function () {
+            var _a, _b;
+            var node = (_b = (_a = _this._grid.getRootView()) === null || _a === void 0 ? void 0 : _a.refs["".concat(_this.column.id, "_filter")]) === null || _b === void 0 ? void 0 : _b.el;
+            if (_this._isFocused && node) {
                 (0, dom_1.awaitRedraw)().then(function () {
-                    filterEl.focus();
+                    node.focus();
                 });
             }
         });
-        (_b = this.config.events) === null || _b === void 0 ? void 0 : _b.on(types_1.GridEvents.headerCellMouseDown, function (cell, col) {
+        this._grid.events.on(types_1.GridEvents.headerCellMouseDown, function (cell, col) {
             if (col.id !== _this.column.id)
                 _this.blur();
         });
-        (_c = this.config.events) === null || _c === void 0 ? void 0 : _c.on(types_1.GridEvents.cellMouseDown, function () { return _this.blur(); });
+        this._grid.events.on(types_1.GridEvents.cellMouseDown, function () { return _this.blur(); });
     };
     return SelectFilter;
 }());
@@ -45822,7 +46159,7 @@ exports.SelectFilter = SelectFilter;
 
 
 /***/ }),
-/* 238 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45830,20 +46167,31 @@ exports.SelectFilter = SelectFilter;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InputFilter = void 0;
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var types_1 = __webpack_require__(5);
+var events_1 = __webpack_require__(3);
+var types_1 = __webpack_require__(4);
+var content_1 = __webpack_require__(28);
 var InputFilter = /** @class */ (function () {
-    function InputFilter(column, config, id, value) {
+    function InputFilter(_a) {
+        var column = _a.column, config = _a.config, id = _a.id, value = _a.value, headerConfig = _a.headerConfig, grid = _a.grid;
         this.events = new events_1.EventSystem();
         this.column = column;
         this.config = config;
         this.id = id;
         this.value = value || "";
+        this.filterConfig = {};
+        this._grid = grid;
+        Object.assign(this.filterConfig, (headerConfig === null || headerConfig === void 0 ? void 0 : headerConfig.filterConfig) || {});
         this.initHandlers();
         this.toHTML();
     }
     InputFilter.prototype.toHTML = function () {
-        return (0, dom_1.el)("div.dhx_grid-filter__label.dxi.dxi-magnify", { "aria-label": "Type to search", _ref: "".concat(this.column.id, "_filter") }, [
+        return (0, dom_1.el)("div.dhx_grid-filter__label", {
+            "aria-label": "Type to search",
+            _ref: "".concat(this.column.id, "_filter"),
+        }, [
+            (0, dom_1.el)(".dhx_grid-filter__icon.dhx_input__icon", {
+                class: "dxi " + (this.filterConfig.icon || " dxi-magnify"),
+            }),
             (0, dom_1.el)("label", {
                 style: {
                     display: "none",
@@ -45860,6 +46208,7 @@ var InputFilter = /** @class */ (function () {
                 _key: this.column.id,
                 id: this.id,
                 value: this.value,
+                placeholder: this.filterConfig.placeholder,
             }),
         ]);
     };
@@ -45869,36 +46218,26 @@ var InputFilter = /** @class */ (function () {
     InputFilter.prototype.setValue = function (value, silent) {
         var _a;
         this.value = value || "";
-        this.events.fire(types_1.HeaderFilterEvent.change, [this.value]);
-        (_a = this.config.events) === null || _a === void 0 ? void 0 : _a.fire(types_1.GridEvents.filterChange, [
-            this.value,
-            this.column.id,
-            "inputFilter",
-            silent,
-        ]);
+        this.events.fire(content_1.HeaderFilterEvent.change, [this.value]);
+        (_a = this._grid.events) === null || _a === void 0 ? void 0 : _a.fire(types_1.GridEvents.filterChange, [this.value, this.column.id, "inputFilter", silent]);
     };
     InputFilter.prototype.clear = function (silent) {
         this.setValue("", silent);
     };
     InputFilter.prototype.focus = function () {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c;
         this._isFocused = true;
-        var filterEl = (_d = (_c = (_b = (_a = this.config.events) === null || _a === void 0 ? void 0 : _a.context) === null || _b === void 0 ? void 0 : _b.getRootView()) === null || _c === void 0 ? void 0 : _c.refs["".concat(this.column.id, "_filter")]) === null || _d === void 0 ? void 0 : _d.el;
-        if (filterEl) {
-            (_e = filterEl.querySelector("input")) === null || _e === void 0 ? void 0 : _e.focus();
-        }
+        var node = (_b = (_a = this._grid.getRootView()) === null || _a === void 0 ? void 0 : _a.refs["".concat(this.column.id, "_filter")]) === null || _b === void 0 ? void 0 : _b.el;
+        node && ((_c = node.querySelector("input")) === null || _c === void 0 ? void 0 : _c.focus());
     };
     InputFilter.prototype.blur = function () {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c;
         this._isFocused = false;
-        var filterEl = (_d = (_c = (_b = (_a = this.config.events) === null || _a === void 0 ? void 0 : _a.context) === null || _b === void 0 ? void 0 : _b.getRootView()) === null || _c === void 0 ? void 0 : _c.refs["".concat(this.column.id, "_filter")]) === null || _d === void 0 ? void 0 : _d.el;
-        if (filterEl) {
-            (_e = filterEl.querySelector("input")) === null || _e === void 0 ? void 0 : _e.blur();
-        }
+        var node = (_b = (_a = this._grid.getRootView()) === null || _a === void 0 ? void 0 : _a.refs["".concat(this.column.id, "_filter")]) === null || _b === void 0 ? void 0 : _b.el;
+        node && ((_c = node.querySelector("input")) === null || _c === void 0 ? void 0 : _c.blur());
     };
     InputFilter.prototype.initHandlers = function () {
         var _this = this;
-        var _a, _b, _c;
         this._handlers = {
             onchange: function (e) {
                 var _a, _b, _c, _d;
@@ -45915,21 +46254,21 @@ var InputFilter = /** @class */ (function () {
                 _this._isFocused = false;
             },
         };
-        (_a = this.config.events) === null || _a === void 0 ? void 0 : _a.on(types_1.GridEvents.scroll, function () {
-            var _a, _b, _c, _d;
-            var filterEl = (_d = (_c = (_b = (_a = _this.config.events) === null || _a === void 0 ? void 0 : _a.context) === null || _b === void 0 ? void 0 : _b.getRootView()) === null || _c === void 0 ? void 0 : _c.refs["".concat(_this.column.id, "_filter")]) === null || _d === void 0 ? void 0 : _d.el;
-            if (_this._isFocused && filterEl) {
+        this._grid.events.on(types_1.GridEvents.scroll, function () {
+            var _a, _b;
+            var node = (_b = (_a = _this._grid.getRootView()) === null || _a === void 0 ? void 0 : _a.refs["".concat(_this.column.id, "_filter")]) === null || _b === void 0 ? void 0 : _b.el;
+            if (_this._isFocused && node) {
                 (0, dom_1.awaitRedraw)().then(function () {
                     var _a;
-                    (_a = filterEl.querySelector("input")) === null || _a === void 0 ? void 0 : _a.focus();
+                    (_a = node.querySelector("input")) === null || _a === void 0 ? void 0 : _a.focus();
                 });
             }
         });
-        (_b = this.config.events) === null || _b === void 0 ? void 0 : _b.on(types_1.GridEvents.headerCellMouseDown, function (cell, col) {
+        this._grid.events.on(types_1.GridEvents.headerCellMouseDown, function (cell, col) {
             if (col.id !== _this.column.id)
                 _this.blur();
         });
-        (_c = this.config.events) === null || _c === void 0 ? void 0 : _c.on(types_1.GridEvents.cellMouseDown, function () { return _this.blur(); });
+        this._grid.events.on(types_1.GridEvents.cellMouseDown, function () { return _this.blur(); });
     };
     return InputFilter;
 }());
@@ -45937,7 +46276,7 @@ exports.InputFilter = InputFilter;
 
 
 /***/ }),
-/* 239 */
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45954,8 +46293,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.startResize = void 0;
 var core_1 = __webpack_require__(1);
-var types_1 = __webpack_require__(5);
-var common_1 = __webpack_require__(17);
+var types_1 = __webpack_require__(4);
+var common_1 = __webpack_require__(12);
 function startResize(grid, column, ev, cb) {
     var _a;
     var rightSplit = grid.config.rightSplit;
@@ -46038,7 +46377,7 @@ exports.startResize = startResize;
 
 
 /***/ }),
-/* 240 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46056,8 +46395,8 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getKeysHandlers = void 0;
-var types_1 = __webpack_require__(5);
-var html_1 = __webpack_require__(3);
+var types_1 = __webpack_require__(4);
+var html_1 = __webpack_require__(2);
 var cells_1 = __webpack_require__(24);
 var FocusManager_1 = __webpack_require__(20);
 var main_1 = __webpack_require__(10);
@@ -46476,7 +46815,7 @@ exports.getKeysHandlers = getKeysHandlers;
 
 
 /***/ }),
-/* 241 */
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46501,7 +46840,7 @@ exports.getVisibleRowNode = getVisibleRowNode;
 
 
 /***/ }),
-/* 242 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46530,14 +46869,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BlockSelection = exports.BlockSelectionEvents = void 0;
 /* eslint-disable @typescript-eslint/unbound-method */
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(5);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
+var types_1 = __webpack_require__(4);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var core_1 = __webpack_require__(1);
 var cells_1 = __webpack_require__(24);
 var data_1 = __webpack_require__(11);
-var common_1 = __webpack_require__(17);
-var Range_1 = __webpack_require__(110);
+var common_1 = __webpack_require__(12);
+var Range_1 = __webpack_require__(112);
 var BlockSelectionEvents;
 (function (BlockSelectionEvents) {
     BlockSelectionEvents["blockSelectionValidate"] = "blockSelectionValidate";
@@ -46755,8 +47094,7 @@ var BlockSelection = /** @class */ (function () {
     };
     BlockSelection.prototype._blockSelectionValidate = function (event, validateCell, handle) {
         if (handle === void 0) { handle = false; }
-        if (this._grid.config.$editable ||
-            !this.events.fire(BlockSelectionEvents.blockSelectionValidate, [validateCell, handle, event])) {
+        if (!this.events.fire(BlockSelectionEvents.blockSelectionValidate, [validateCell, handle, event])) {
             return;
         }
         var shiftKey = event.shiftKey;
@@ -46796,7 +47134,8 @@ var BlockSelection = /** @class */ (function () {
         var element = (0, html_1.getElementFromPoint)(event);
         var rowId = (0, html_1.locate)(element, "data-dhx-id");
         var columnId = (0, html_1.locate)(element, "data-dhx-col-id");
-        if (!rowId || !columnId)
+        var selfId = (0, html_1.locate)(element, "data-dhx-widget-id");
+        if (!rowId || !columnId || selfId !== this._grid._uid)
             return;
         var allowAxis = this.config.handle.allowAxis;
         var _a = this._getPageCoords(event), x = _a.x, y = _a.y;
@@ -47169,7 +47508,7 @@ exports.BlockSelection = BlockSelection;
 
 
 /***/ }),
-/* 243 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47187,12 +47526,13 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Clipboard = exports.ClipboardEvents = void 0;
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var data_1 = __webpack_require__(11);
 var FocusManager_1 = __webpack_require__(20);
 var core_1 = __webpack_require__(1);
 var main_1 = __webpack_require__(10);
 var cells_1 = __webpack_require__(24);
+var html_1 = __webpack_require__(2);
 var ClipboardEvents;
 (function (ClipboardEvents) {
     ClipboardEvents["beforeCopy"] = "beforeCopy";
@@ -47352,7 +47692,8 @@ var Clipboard = /** @class */ (function () {
         document.addEventListener("paste", this._handler.paste);
     };
     Clipboard.prototype._isFocused = function () {
-        return FocusManager_1.focusManager.getFocusId() == this._grid._uid;
+        return (FocusManager_1.focusManager.getFocusId() == this._grid._uid &&
+            (0, html_1.locate)(document.activeElement, "data-dhx-drop-area") === "row");
     };
     Clipboard.prototype._getNextId = function (currentId, startId, startIndex, offset) {
         if (this._grid.config.type === "tree") {
@@ -47535,7 +47876,7 @@ exports.Clipboard = Clipboard;
 
 
 /***/ }),
-/* 244 */
+/* 245 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47562,9 +47903,9 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.History = exports.HistoryEvents = void 0;
-var events_1 = __webpack_require__(2);
+var events_1 = __webpack_require__(3);
 var default_1 = __webpack_require__(27);
-var ts_data_1 = __webpack_require__(4);
+var ts_data_1 = __webpack_require__(5);
 var HistoryEvents;
 (function (HistoryEvents) {
     HistoryEvents["beforeUndo"] = "beforeUndo";
@@ -47575,7 +47916,7 @@ var HistoryEvents;
     HistoryEvents["afterAdd"] = "afterAdd";
     HistoryEvents["error"] = "error";
 })(HistoryEvents || (exports.HistoryEvents = HistoryEvents = {}));
-var History = exports.History = /** @class */ (function () {
+var History = /** @class */ (function () {
     function History(grid) {
         this._history = [];
         this._redoStack = [];
@@ -47745,10 +48086,371 @@ var History = exports.History = /** @class */ (function () {
     History.VALID_ACTION_TYPES = ["add", "remove", "removeAll", "change"];
     return History;
 }());
+exports.History = History;
 
 
 /***/ }),
-/* 245 */
+/* 246 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getProContent = void 0;
+var date_1 = __webpack_require__(18);
+var content_1 = __webpack_require__(28);
+var common_1 = __webpack_require__(12);
+var DateFilter_1 = __webpack_require__(247);
+var core_1 = __webpack_require__(1);
+function getProContent(grid) {
+    return __assign(__assign({}, (0, content_1.getContent)(grid)), { dateFilter: {
+            element: {},
+            value: {},
+            toHtml: function (column, config) {
+                var _this = this;
+                var id = (0, core_1.uid)();
+                var colId = column.id.toString();
+                var filter = this.element[colId];
+                if (!filter) {
+                    var headerConfig = column.header.find(function (item) { return item.filterConfig !== undefined; });
+                    filter = new DateFilter_1.DateFilter({
+                        id: id,
+                        column: column,
+                        config: config,
+                        headerConfig: headerConfig,
+                        value: this.value[colId],
+                        grid: grid,
+                    });
+                    filter.events.on("change", function (value) {
+                        _this.value[colId] = value;
+                    });
+                    this.element[colId] = filter;
+                }
+                else {
+                    var currentValue = this.value[colId];
+                    if (Array.isArray(currentValue)) {
+                        filter.value = currentValue.map(function (v) { return (0, date_1.stripTime)(v, filter.filterConfig.timePicker); });
+                    }
+                    else {
+                        filter.value = currentValue
+                            ? (0, date_1.stripTime)(currentValue, filter.filterConfig.timePicker)
+                            : currentValue;
+                    }
+                }
+                return filter.toHTML();
+            },
+            match: function (_a) {
+                var col = _a.col, match = _a.match, val = _a.val;
+                if (match === undefined) {
+                    return true;
+                }
+                var filterValue = this.value[col.id];
+                if (!filterValue)
+                    return true;
+                var normalizeDate = (0, common_1.getNormalizeDateObject)(val, col.dateFormat);
+                if (!normalizeDate || isNaN(normalizeDate.getTime())) {
+                    return false;
+                }
+                var fullTime = this.element[col.id].filterConfig.timePicker;
+                var rowTime = (0, date_1.stripTime)(normalizeDate, fullTime).getTime();
+                if (Array.isArray(filterValue)) {
+                    var start = filterValue[0], end = filterValue[1];
+                    var startTime = start ? (0, date_1.stripTime)(start, fullTime).getTime() : null;
+                    var endTime = end ? (0, date_1.stripTime)(end, fullTime).getTime() : null;
+                    if (startTime !== null && endTime !== null) {
+                        return (rowTime >= Math.min(startTime, endTime) && rowTime <= Math.max(startTime, endTime));
+                    }
+                    if (startTime !== null)
+                        return rowTime >= startTime;
+                    return true;
+                }
+                else {
+                    return rowTime === (0, date_1.stripTime)(filterValue, fullTime).getTime();
+                }
+            },
+            destructor: function () {
+                this.value = {};
+                var filters = this.element;
+                if (filters) {
+                    for (var colId in filters) {
+                        filters[colId].destructor();
+                        delete filters[colId];
+                    }
+                }
+            },
+        } });
+}
+exports.getProContent = getProContent;
+
+
+/***/ }),
+/* 247 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DateFilter = void 0;
+var events_1 = __webpack_require__(3);
+var types_1 = __webpack_require__(4);
+var content_1 = __webpack_require__(28);
+var ts_calendar_1 = __webpack_require__(32);
+var dom_1 = __webpack_require__(0);
+var ts_popup_1 = __webpack_require__(14);
+var date_1 = __webpack_require__(18);
+var html_1 = __webpack_require__(2);
+var KeyManager_1 = __webpack_require__(17);
+var common_1 = __webpack_require__(12);
+var DateFilter = /** @class */ (function () {
+    function DateFilter(_a) {
+        var _this = this;
+        var column = _a.column, config = _a.config, headerConfig = _a.headerConfig, value = _a.value, id = _a.id, grid = _a.grid;
+        this.events = new events_1.EventSystem();
+        this.id = id;
+        this.column = column;
+        this.config = config;
+        this.value = value;
+        this.filterConfig = {};
+        this._grid = grid;
+        Object.assign(this.filterConfig, (headerConfig === null || headerConfig === void 0 ? void 0 : headerConfig.filterConfig) || {});
+        this.filterConfig.dateFormat = this.filterConfig.dateFormat || this.column.dateFormat;
+        this._keyManager = new KeyManager_1.KeyManager(function () {
+            var _a;
+            var activeEl = document.activeElement;
+            var element = (_a = _this._getRootElement()) === null || _a === void 0 ? void 0 : _a.querySelector("input");
+            return element === activeEl || _this._popup.isVisible();
+        });
+        this._initFilter();
+        this._initHandlers();
+        this._initHotkeys();
+    }
+    DateFilter.prototype.getFilter = function () {
+        return this._calendar;
+    };
+    DateFilter.prototype.setValue = function (value, silent) {
+        var _this = this;
+        this.value = value;
+        var calendarValue = this._calendar.getValue(true);
+        if (this.shouldUpdateCalendar(value, calendarValue)) {
+            this._calendar.setValue(value);
+        }
+        this.events.fire(content_1.HeaderFilterEvent.change, [this.value]);
+        var filterPayload = this.value;
+        if (!this.filterConfig.asDateObject) {
+            if (!this.value) {
+                filterPayload = "";
+            }
+            else if (Array.isArray(this.value)) {
+                filterPayload = this.value.map(function (date) { return (0, date_1.getFormattedDate)(_this.filterConfig.dateFormat, date); });
+            }
+            else {
+                filterPayload = (0, date_1.getFormattedDate)(this.filterConfig.dateFormat, this.value);
+            }
+        }
+        this._grid.events.fire(types_1.GridEvents.filterChange, [
+            filterPayload,
+            this.column.id,
+            "dateFilter",
+            silent,
+        ]);
+    };
+    DateFilter.prototype.clear = function () {
+        this._calendar.clear();
+    };
+    DateFilter.prototype.focus = function () {
+        var _a;
+        var node = this._getRootElement();
+        node && ((_a = node.querySelector("input")) === null || _a === void 0 ? void 0 : _a.focus());
+    };
+    DateFilter.prototype.blur = function () {
+        var _a;
+        var node = this._getRootElement();
+        node && ((_a = node.querySelector("input")) === null || _a === void 0 ? void 0 : _a.blur());
+    };
+    DateFilter.prototype.destructor = function () {
+        if (this._grid.events) {
+            for (var name_1 in this._grid.events.events) {
+                this._grid.events.detach(name_1, this);
+            }
+        }
+        this.events.clear();
+        this._calendar && this._calendar.destructor();
+        this._popup && this._popup.destructor();
+        this.config = this.filterConfig = this.column = this.value = this.events = null;
+        this._calendar = this._popup = null;
+    };
+    DateFilter.prototype.toHTML = function () {
+        var _this = this;
+        var value = "";
+        if (this.value) {
+            if (Array.isArray(this.value)) {
+                value = this.value
+                    .map(function (date) { return (0, date_1.getFormattedDate)(_this.filterConfig.dateFormat, date); })
+                    .join(" - ");
+                if (this.value.length === 1)
+                    value += " - ";
+            }
+            else {
+                value = (0, date_1.getFormattedDate)(this.filterConfig.dateFormat, this.value);
+            }
+        }
+        return (0, dom_1.el)("div.dhx_grid-filter__label.dhx_grid-date-filter", {
+            "aria-label": "Type to search",
+            _ref: "".concat(this.column.id, "_filter"),
+        }, [
+            (0, dom_1.el)("label", {
+                style: {
+                    display: "none",
+                },
+                "aria-label": "Type to search",
+                for: this.id,
+            }, "Type to search"),
+            (0, dom_1.el)("input", __assign({ _key: this.column.id, type: "text", class: "dhx_input dhx_grid-filter", id: this.id, placeholder: this.filterConfig.placeholder, autocomplete: "off", readOnly: "true", value: value }, this._handlers)),
+            this.value
+                ? (0, dom_1.el)(".dhx_grid-filter__icon.dhx_input__icon.dhx_grid-filter-clear.dxi.dxi.dxi-close", {
+                    onclick: this._handlers.onclick,
+                })
+                : (0, dom_1.el)(".dhx_grid-filter__icon.dhx_input__icon", {
+                    class: "dxi " + (this.filterConfig.icon || " dxi-calendar-today"),
+                }),
+        ]);
+    };
+    DateFilter.prototype._initFilter = function () {
+        this._popup = new ts_popup_1.Popup();
+        this._calendar = new ts_calendar_1.Calendar(null, this.filterConfig);
+        this._popup.attach(this._calendar);
+    };
+    DateFilter.prototype._initHandlers = function () {
+        var _this = this;
+        this._handlers = {
+            onfocus: function () {
+                var _a;
+                if (_this._popup.isVisible()) {
+                    var dataLength = (_a = _this.value) === null || _a === void 0 ? void 0 : _a.length;
+                    if (_this.filterConfig.range && dataLength <= 1) {
+                        return;
+                    }
+                    _this._popup.hide();
+                    return;
+                }
+                _this._showPopup();
+                _this.focus();
+            },
+            onclick: function (e) {
+                if ((0, html_1.locateNodeByClassName)(e, "dhx_grid-filter-clear")) {
+                    _this.clear();
+                    return;
+                }
+                if (_this._popup.isVisible()) {
+                    return;
+                }
+                else {
+                    _this._showPopup();
+                }
+            },
+        };
+        this._calendar.events.on(ts_calendar_1.CalendarEvents.change, function (value, lastValue, byClick, mode) {
+            if (!byClick && mode !== "clear") {
+                return;
+            }
+            _this.setValue(_this._calendar.getValue(true));
+            if (byClick)
+                _this.focus();
+        });
+    };
+    DateFilter.prototype.shouldUpdateCalendar = function (newValue, currentValue) {
+        if (!newValue || !currentValue) {
+            return newValue !== currentValue;
+        }
+        var isNewArray = Array.isArray(newValue);
+        var isCurrentArray = Array.isArray(currentValue);
+        if (isNewArray !== isCurrentArray) {
+            return true;
+        }
+        if (isNewArray && isCurrentArray) {
+            var newArr = newValue;
+            var curArr_1 = currentValue;
+            if (newArr.length !== curArr_1.length)
+                return true;
+            return newArr.some(function (d, i) { var _a; return d.getTime() !== ((_a = curArr_1[i]) === null || _a === void 0 ? void 0 : _a.getTime()); });
+        }
+        return newValue.getTime() !== currentValue.getTime();
+    };
+    DateFilter.prototype._getRootElement = function () {
+        var _a, _b;
+        return (_b = (_a = this._grid.getRootView()) === null || _a === void 0 ? void 0 : _a.refs["".concat(this.column.id, "_filter")]) === null || _b === void 0 ? void 0 : _b.el;
+    };
+    DateFilter.prototype._changeTab = function () {
+        var _a, _b, _c;
+        var activeEl = document.activeElement;
+        var popup = (_c = (_b = (_a = this._popup.getRootView()) === null || _a === void 0 ? void 0 : _a.refs) === null || _b === void 0 ? void 0 : _b.content) === null || _c === void 0 ? void 0 : _c.el;
+        if (activeEl !== popup)
+            this._popup.hide();
+    };
+    DateFilter.prototype._showPopup = function () {
+        var _a, _b;
+        var node = this._getRootElement().querySelector("input");
+        var visibleDate = (this.filterConfig.range ? (_a = this.value) === null || _a === void 0 ? void 0 : _a[((_b = this.value) === null || _b === void 0 ? void 0 : _b.length) - 1] : this.value) ||
+            new Date();
+        this._calendar.showDate((this.filterConfig.date &&
+            (0, common_1.getNormalizeDateObject)(this.filterConfig.date, this.filterConfig.dateFormat)) ||
+            visibleDate);
+        this._popup.show(node, { theme: node });
+    };
+    DateFilter.prototype._initHotkeys = function () {
+        var _this = this;
+        var handlers = {
+            "shift+tab": function () {
+                _this._changeTab();
+            },
+            tab: function () {
+                _this._changeTab();
+            },
+            escape: function () {
+                if (_this._popup.isVisible()) {
+                    _this.focus();
+                }
+                _this._popup.hide();
+            },
+            enter: function (e) {
+                e.preventDefault();
+                if (!_this._popup.isVisible())
+                    _this._showPopup();
+            },
+        };
+        for (var key in handlers) {
+            this._keyManager.addHotKey(key, handlers[key]);
+        }
+    };
+    return DateFilter;
+}());
+exports.DateFilter = DateFilter;
+
+
+/***/ }),
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47756,8 +48458,8 @@ var History = exports.History = /** @class */ (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProGrid = void 0;
 var core_1 = __webpack_require__(1);
-var ts_treegrid_1 = __webpack_require__(246);
-var ExtendedGrid_1 = __webpack_require__(109);
+var ts_treegrid_1 = __webpack_require__(249);
+var ExtendedGrid_1 = __webpack_require__(111);
 var ProGrid = /** @class */ (function () {
     function ProGrid(container, config) {
         if (config === void 0) { config = {}; }
@@ -47881,7 +48583,7 @@ exports.ProGrid = ProGrid;
 
 
 /***/ }),
-/* 246 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47901,13 +48603,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(247), exports);
-__exportStar(__webpack_require__(248), exports);
-__exportStar(__webpack_require__(111), exports);
+__exportStar(__webpack_require__(250), exports);
+__exportStar(__webpack_require__(251), exports);
+__exportStar(__webpack_require__(113), exports);
 
 
 /***/ }),
-/* 247 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47940,21 +48642,25 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TreeGrid = void 0;
-var ts_grid_1 = __webpack_require__(103);
+var ts_grid_1 = __webpack_require__(104);
 var core_1 = __webpack_require__(1);
-var ts_data_1 = __webpack_require__(4);
-var TreeGridCollection_1 = __webpack_require__(111);
+var ts_data_1 = __webpack_require__(5);
+var TreeGridCollection_1 = __webpack_require__(113);
+var common_1 = __webpack_require__(12);
 var TreeGrid = /** @class */ (function (_super) {
     __extends(TreeGrid, _super);
     function TreeGrid(container, config) {
         var _this = _super.call(this, container, __assign({ type: "tree", dropBehaviour: "complex", dragExpand: true }, config)) || this;
-        if (_this.config.subRow)
+        if (_this.config.subRow && !_this.config.group) {
             _this.config.subRow = null;
+            (0, ts_data_1.dhxError)("subrow is not supported in tree mode.");
+        }
         return _this;
     }
     TreeGrid.prototype.expand = function (rowId) {
-        if (this.data.haveItems(rowId)) {
-            if (!this._expand(this.data.getItem(rowId))) {
+        var row = this.data.getItem(rowId);
+        if (row.$subRowHeight || this.data.haveItems(rowId)) {
+            if (!this._expand(row)) {
                 return;
             }
             this._normalizeSpans();
@@ -47962,8 +48668,9 @@ var TreeGrid = /** @class */ (function (_super) {
         }
     };
     TreeGrid.prototype.collapse = function (rowId) {
-        if (this.data.haveItems(rowId)) {
-            if (!this._collapse(this.data.getItem(rowId))) {
+        var row = this.data.getItem(rowId);
+        if (row.$subRowHeight || this.data.haveItems(rowId)) {
+            if (!this._collapse(row)) {
                 return;
             }
             this._normalizeSpans();
@@ -48022,21 +48729,36 @@ var TreeGrid = /** @class */ (function (_super) {
         this.events.fire(ts_grid_1.GridEvents.afterRowHide, [row]);
     };
     TreeGrid.prototype.getCellRect = function (rowId, colId) {
-        var _a;
+        var _a, _b;
         var columns = this.config.columns.filter(function (col) { return !col.hidden; });
+        if (!(0, core_1.isDefined)(colId)) {
+            colId = this.config.columns[0].id;
+        }
         var rows = this.data.mapVisible(function (i) { return i; });
         var span = this.getSpan(rowId, colId);
         var colInd = columns.findIndex(function (obj) { return obj.id == (span ? span.column : colId); });
         var rowInd = rows.findIndex(function (obj) { return obj.id == (span ? span.row : rowId); });
         var x = (0, ts_grid_1.getTotalWidth)(columns.slice(0, colInd));
         var y = (0, ts_grid_1.getTotalHeight)(rows.slice(0, rowInd));
+        if (this.config.footerPosition === "bottom" &&
+            this.config.height !== "auto" &&
+            this.config.$height >= this.config.$totalHeight &&
+            this.config.bottomSplit) {
+            var splitRows = rows.slice(-this.config.bottomSplit) || [];
+            var splitRowIndex = splitRows.findIndex(function (i) { return i.id === rowId; });
+            if (splitRows.length && splitRowIndex !== -1) {
+                var scroll_1 = (0, common_1.calcScrollBarWidth)(this.config, !!((_a = this.scrollView) === null || _a === void 0 ? void 0 : _a.config.enable));
+                var rowAreaHeight = this.config.$height - this.config.$footerHeight - this.config.$headerHeight;
+                y = rowAreaHeight - (0, ts_grid_1.getTotalHeight)(splitRows.slice(splitRowIndex)) - scroll_1.x - common_1.BORDERS;
+            }
+        }
         return {
             x: x,
             y: y,
             height: (span === null || span === void 0 ? void 0 : span.rowspan) > 1 ? (0, ts_grid_1.getSpanHeight)(rows, span) : (0, ts_grid_1.getTotalRowHeight)(rows[rowInd]) || 0,
             width: (span === null || span === void 0 ? void 0 : span.colspan) > 1
                 ? (0, ts_grid_1.getWidth)(this.config.columns, span.colspan, this.config.columns.findIndex(function (item) { return item.id === span.column; }))
-                : ((_a = columns[colInd]) === null || _a === void 0 ? void 0 : _a.$width) || 0,
+                : ((_b = columns[colInd]) === null || _b === void 0 ? void 0 : _b.$width) || 0,
         };
     };
     TreeGrid.prototype.getSpan = function (rowId, colId) {
@@ -48270,7 +48992,7 @@ exports.TreeGrid = TreeGrid;
 
 
 /***/ }),
-/* 248 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48279,7 +49001,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 
 /***/ }),
-/* 249 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48299,12 +49021,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(250), exports);
-__exportStar(__webpack_require__(251), exports);
+__exportStar(__webpack_require__(253), exports);
+__exportStar(__webpack_require__(254), exports);
 
 
 /***/ }),
-/* 250 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48327,8 +49049,8 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContextMenu = void 0;
 var core_1 = __webpack_require__(1);
-var html_1 = __webpack_require__(3);
-var ts_message_1 = __webpack_require__(14);
+var html_1 = __webpack_require__(2);
+var ts_message_1 = __webpack_require__(13);
 var ts_navbar_1 = __webpack_require__(23);
 var ContextMenu = /** @class */ (function (_super) {
     __extends(ContextMenu, _super);
@@ -48402,7 +49124,7 @@ exports.ContextMenu = ContextMenu;
 
 
 /***/ }),
-/* 251 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48475,7 +49197,7 @@ exports.Menu = Menu;
 
 
 /***/ }),
-/* 252 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48495,12 +49217,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(112), exports);
-__exportStar(__webpack_require__(253), exports);
+__exportStar(__webpack_require__(114), exports);
+__exportStar(__webpack_require__(256), exports);
 
 
 /***/ }),
-/* 253 */
+/* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48522,11 +49244,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProRibbon = void 0;
-var Ribbon_1 = __webpack_require__(112);
+var Ribbon_1 = __webpack_require__(114);
 var ScrollView_1 = __webpack_require__(22);
 var dom_1 = __webpack_require__(0);
-var html_1 = __webpack_require__(3);
-var ts_message_1 = __webpack_require__(14);
+var html_1 = __webpack_require__(2);
+var ts_message_1 = __webpack_require__(13);
 var ProRibbon = /** @class */ (function (_super) {
     __extends(ProRibbon, _super);
     function ProRibbon(element, config) {
@@ -48591,7 +49313,7 @@ exports.ProRibbon = ProRibbon;
 
 
 /***/ }),
-/* 254 */
+/* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48611,13 +49333,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(113), exports);
-__exportStar(__webpack_require__(255), exports);
-__exportStar(__webpack_require__(114), exports);
+__exportStar(__webpack_require__(115), exports);
+__exportStar(__webpack_require__(258), exports);
+__exportStar(__webpack_require__(116), exports);
 
 
 /***/ }),
-/* 255 */
+/* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48640,10 +49362,10 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProSidebar = void 0;
 var dom_1 = __webpack_require__(0);
-var html_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
 var ScrollView_1 = __webpack_require__(22);
-var Sidebar_1 = __webpack_require__(113);
-var ts_message_1 = __webpack_require__(14);
+var Sidebar_1 = __webpack_require__(115);
+var ts_message_1 = __webpack_require__(13);
 var ProSidebar = /** @class */ (function (_super) {
     __extends(ProSidebar, _super);
     function ProSidebar(element, config) {
@@ -48664,6 +49386,8 @@ var ProSidebar = /** @class */ (function (_super) {
                 oninput: this._handlers.input,
                 onmouseover: this._handlers.tooltip,
                 onkeydown: this._handlers.onkeydown,
+                onmousemove: this._handlers.onmousemove,
+                onmouseleave: this._handlers.onmouseleave,
                 _hooks: {
                     didInsert: function (node) {
                         node.el.addEventListener("keyup", function (e) {
@@ -48702,7 +49426,7 @@ exports.ProSidebar = ProSidebar;
 
 
 /***/ }),
-/* 256 */
+/* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48722,12 +49446,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(257), exports);
-__exportStar(__webpack_require__(115), exports);
+__exportStar(__webpack_require__(260), exports);
+__exportStar(__webpack_require__(117), exports);
 
 
 /***/ }),
-/* 257 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48771,12 +49495,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Tabbar = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
-var KeyManager_1 = __webpack_require__(16);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
+var KeyManager_1 = __webpack_require__(17);
 var FocusManager_1 = __webpack_require__(20);
-var ts_layout_1 = __webpack_require__(13);
-var types_1 = __webpack_require__(115);
+var ts_layout_1 = __webpack_require__(16);
+var types_1 = __webpack_require__(117);
 var Tabbar = /** @class */ (function (_super) {
     __extends(Tabbar, _super);
     function Tabbar(container, config) {
@@ -48874,7 +49598,7 @@ var Tabbar = /** @class */ (function (_super) {
         return this.config ? this.config.activeView : null;
     };
     Tabbar.prototype.addTab = function (config, index) {
-        this.addCell(config, index);
+        this._addCell(config, index);
         if (this._cells.length === 1 && !config.disabled) {
             this.setActive(this._cells[0].id);
         }
@@ -49403,7 +50127,7 @@ exports.Tabbar = Tabbar;
 
 
 /***/ }),
-/* 258 */
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49423,13 +50147,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(259), exports);
-__exportStar(__webpack_require__(116), exports);
-__exportStar(__webpack_require__(117), exports);
+__exportStar(__webpack_require__(262), exports);
+__exportStar(__webpack_require__(118), exports);
+__exportStar(__webpack_require__(119), exports);
 
 
 /***/ }),
-/* 259 */
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49464,15 +50188,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Tree = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var events_1 = __webpack_require__(2);
-var html_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(29);
+var events_1 = __webpack_require__(3);
+var html_1 = __webpack_require__(2);
+var types_1 = __webpack_require__(30);
 var view_1 = __webpack_require__(9);
-var ts_data_1 = __webpack_require__(4);
-var Editor_1 = __webpack_require__(116);
-var KeyManager_1 = __webpack_require__(16);
+var ts_data_1 = __webpack_require__(5);
+var Editor_1 = __webpack_require__(118);
+var KeyManager_1 = __webpack_require__(17);
 var FocusManager_1 = __webpack_require__(20);
-var types_2 = __webpack_require__(117);
+var types_2 = __webpack_require__(119);
+var ts_message_1 = __webpack_require__(13);
 function getSelectionIndent(level) {
     return level * 20;
 }
@@ -49648,9 +50373,12 @@ var Tree = /** @class */ (function (_super) {
         return checked;
     };
     Tree.prototype.checkItem = function (id) {
-        if (!(0, core_1.isId)(id) || !this.data.getItem(id))
+        var item = this.data.getItem(id);
+        var index = this.data.getIndex(id);
+        if (!(0, core_1.isId)(id) || !item || !this.events.fire(types_2.TreeEvents.beforeCheck, [index, id]))
             return;
         this._updateItemCheck(id, types_2.SelectStatus.selected);
+        this.events.fire(types_2.TreeEvents.afterCheck, [index, id, !!item.$mark]);
         this.paint();
     };
     Tree.prototype.collapse = function (id) {
@@ -49686,9 +50414,12 @@ var Tree = /** @class */ (function (_super) {
         }, true);
     };
     Tree.prototype.uncheckItem = function (id) {
-        if (!(0, core_1.isId)(id) || !this.data.getItem(id))
+        var item = this.data.getItem(id);
+        var index = this.data.getIndex(id);
+        if (!(0, core_1.isId)(id) || !item || !this.events.fire(types_2.TreeEvents.beforeCheck, [index, id]))
             return;
         this._updateItemCheck(id, types_2.SelectStatus.unselected);
+        this.events.fire(types_2.TreeEvents.afterCheck, [index, id, !!item.$mark]);
         this.paint();
     };
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
@@ -49780,23 +50511,12 @@ var Tree = /** @class */ (function (_super) {
         });
         this.events.on(ts_data_1.DragEvents.canDrop, function (_a) {
             var target = _a.target, dropPosition = _a.dropPosition;
-            var dropStatus;
-            if (_this.config.dropBehaviour === "complex") {
-                if (dropPosition === "top") {
+            var dropStatus = "dhx_tree-drop--in-folder";
+            if (_this.config.dropBehaviour === "complex" || _this.config.dropBehaviour === "sibling") {
+                if (dropPosition === "top")
                     dropStatus = "dhx_tree-drop--top";
-                }
-                else if (dropPosition === "bottom") {
+                if (dropPosition === "bottom")
                     dropStatus = "dhx_tree-drop--bottom";
-                }
-                else {
-                    dropStatus = "dhx_tree-drop--in-folder";
-                }
-            }
-            else {
-                dropStatus =
-                    _this.config.dropBehaviour === "child"
-                        ? "dhx_tree-drop--in-folder"
-                        : "dhx_tree-drop--bottom";
             }
             if (_this.data.exists(target)) {
                 _this.data.update(target, { $drophere: dropStatus }, true);
@@ -49918,9 +50638,6 @@ var Tree = /** @class */ (function (_super) {
                     return;
                 }
                 if (e.target.classList.contains("dhx_tree-checkbox")) {
-                    if (!_this.events.fire(types_2.TreeEvents.beforeCheck, [_this.data.getIndex(id), id])) {
-                        return;
-                    }
                     var item = _this.data.getItem(id);
                     if (item.$mark === types_2.SelectStatus.unselected) {
                         _this.checkItem(id);
@@ -49928,7 +50645,6 @@ var Tree = /** @class */ (function (_super) {
                     else {
                         _this.uncheckItem(id);
                     }
-                    _this.events.fire(types_2.TreeEvents.afterCheck, [_this.data.getIndex(id), id, !!item.$mark]);
                     return;
                 }
                 _this.events.fire(types_2.TreeEvents.itemClick, [id, e]);
@@ -49988,6 +50704,26 @@ var Tree = /** @class */ (function (_super) {
                 _this.events.fire(types_2.TreeEvents.itemRightClick, [id, e]);
                 _this.events.fire(types_2.TreeEvents.itemContextMenu, [id, e]); // TODO: remove suite_7.0
             },
+            onmouseover: (0, html_1.eventHandler)(function (e) { return (0, html_1.locate)(e); }, {
+                "dhx_tree-list-item__content": function (event, id) {
+                    if (!_this.config.tooltip) {
+                        return;
+                    }
+                    var node = (0, html_1.locateNodeByClassName)(event, "dhx_tree-list-item__content");
+                    if (!node)
+                        return;
+                    var item = _this.data.getItem(id);
+                    var config = __assign({ position: ts_message_1.Position.bottom }, (typeof _this.config.tooltip === "object" ? _this.config.tooltip : {}));
+                    var content = item.value;
+                    if (typeof _this.config.tooltip === "function") {
+                        content = _this.config.tooltip(item, event);
+                    }
+                    if (typeof config.template === "function") {
+                        content = config.template(item, event);
+                    }
+                    (0, ts_message_1.tooltip)((content === null || content === void 0 ? void 0 : content.toString()) || "", __assign(__assign({ node: node }, config), { css: "dhx_tree_tooltip " + (config.css || "") }));
+                },
+            }),
         };
         var evs = this.config.eventHandlers;
         if (evs) {
@@ -50151,6 +50887,7 @@ var Tree = /** @class */ (function (_super) {
                         minHeight: itemHeight,
                     },
                     "data-dhx-id": item.id,
+                    "data-dhx-drop-area": "row",
                     level: level,
                 }, [
                     toggleButton,
@@ -50163,7 +50900,7 @@ var Tree = /** @class */ (function (_super) {
     };
     Tree.prototype._updateItemCheck = function (id, status) {
         var _this = this;
-        this._updateCheckedStatus(__assign(__assign({}, this.data.getItem(id)), { $mark: status }));
+        this._updateCheckedStatus(__assign(__assign({}, this.data.getItem(id)), { $mark: status }), false);
         this.data.eachChild(id, function (obj) {
             obj.$mark = status;
             _this._updateCheckedStatus(obj);
@@ -50206,9 +50943,10 @@ var Tree = /** @class */ (function (_super) {
             _this._updateCheckedStatus(obj);
         }, self);
     };
-    Tree.prototype._updateCheckedStatus = function (item) {
+    Tree.prototype._updateCheckedStatus = function (item, silent) {
+        if (silent === void 0) { silent = true; }
         var checked = item.$mark === types_2.SelectStatus.selected;
-        this.data.update(item.id, { checked: checked, $mark: item.$mark }, checked === item.checked);
+        this.data.update(item.id, { checked: checked, $mark: item.$mark }, silent);
     };
     Tree.prototype._normalizeMark = function () {
         var _this = this;
@@ -50352,7 +51090,7 @@ exports.Tree = Tree;
 
 
 /***/ }),
-/* 260 */
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50372,12 +51110,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(118), exports);
-__exportStar(__webpack_require__(263), exports);
+__exportStar(__webpack_require__(120), exports);
+__exportStar(__webpack_require__(266), exports);
 
 
 /***/ }),
-/* 261 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50412,7 +51150,7 @@ exports.detectDrag = detectDrag;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
 
 /***/ }),
-/* 262 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50459,7 +51197,7 @@ exports.default = {
 
 
 /***/ }),
-/* 263 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50481,11 +51219,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProWindow = void 0;
-var Window_1 = __webpack_require__(118);
-var ts_toolbar_1 = __webpack_require__(35);
-var ts_layout_1 = __webpack_require__(13);
+var Window_1 = __webpack_require__(120);
+var ts_toolbar_1 = __webpack_require__(37);
+var ts_layout_1 = __webpack_require__(16);
 var ts_navbar_1 = __webpack_require__(23);
-var types_1 = __webpack_require__(119);
+var types_1 = __webpack_require__(121);
 var ProWindow = /** @class */ (function (_super) {
     __extends(ProWindow, _super);
     function ProWindow(config) {
@@ -50685,7 +51423,7 @@ exports.ProWindow = ProWindow;
 
 
 /***/ }),
-/* 264 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

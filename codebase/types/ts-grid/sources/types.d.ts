@@ -1,13 +1,11 @@
 import { IEventSystem } from "../../ts-common/events";
 import { IKeyManager } from "../../ts-common/KeyManager";
 import { IAlign } from "../../ts-common/html";
-import { Position } from "../../ts-message";
-import { IDataCollection, IDragConfig, ICsvDriverConfig, IDataItem, IDragInfo, DataCollection, ISortMode, TSortDir } from "../../ts-data";
-import { Combobox } from "../../ts-combobox";
-import { IHandlers, Id } from "../../ts-common/types";
+import { ITooltipConfig } from "../../ts-message";
+import { IDataCollection, IDragConfig, IDataItem, IDragInfo, ISortMode, TSortDir } from "../../ts-data";
+import { IHandlers, IPDFConfig, IPNGConfig, Id } from "../../ts-common/types";
 import { ScrollView } from "../../ts-common/ScrollView";
 import { ICalendarConfig } from "../../ts-calendar";
-import { VNode } from "../../ts-common/dom";
 import { INumberMask, IPatternMask } from "../../ts-common/input";
 import { IGroupOrder, TDisplayMode } from "../../ts-data/sources/datacollection/group";
 import { IGroupItem } from "./ui/components/groupPanel";
@@ -18,13 +16,16 @@ import { IRange, IRangeConfig } from "./modules/Range";
 import { IBlockSelection, IBlockSelectionConfig } from "./modules/BlockSelection";
 import { IClipboard, IClipboardConfig } from "./modules/Clipboard";
 import { IHistory, IHistoryConfig } from "./modules/History";
+import { IComboFilterConfig, IContentList, IHeaderFilter, IInputFilterConfig } from "./ui/content";
+import { ExportType, ICsvExportConfig, IXlsxExportConfig } from "./modules/Exporter";
+import { IDateFilterConfig, IProContentList, IProHeaderFilter } from "./ui/proContent";
 export interface IGrid {
     data: IDataCollection;
     name: "grid" | string;
     config: IGridConfig;
     events: IEventSystem<GridEvents, IEventHandlersMap>;
     selection: ISelection;
-    content: IContentList;
+    content: IContentList | IProContentList;
     keyManager: IKeyManager;
     export: any;
     paint(): void;
@@ -45,14 +46,14 @@ export interface IGrid {
     scrollTo(rowId: Id, colId: Id): void;
     getScrollState(): ICoords;
     adjustColumnWidth(colId: Id, adjust?: IAdjustBy): void;
-    getCellRect(rowId: Id, colId: Id): ICellRect;
+    getCellRect(rowId: Id, colId?: Id): ICellRect;
     getColumn(colId: Id): ICol;
     addSpan(spanObj: ISpan): void;
     getSpan(rowId: Id, colId: Id): ISpan;
     removeSpan(rowId: Id, colId: Id): void;
     editCell(rowId: Id, colId: Id, editorType?: EditorType): void;
     editEnd(withoutSave?: boolean): void;
-    getHeaderFilter(colId: Id): IHeaderFilter;
+    getHeaderFilter(colId: Id): IHeaderFilter | IProHeaderFilter;
     getRootNode(): HTMLElement;
     getSummary(colId?: Id): ISummaryList;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/suite/migration/ */
@@ -69,11 +70,13 @@ export interface IExtendedGrid extends IGrid {
     block: IBlockSelection;
     clipboard: IClipboard;
     history: IHistory;
+    content: IProContentList;
     getSubRow(id: Id): ISubViewCell | null;
     expand(rowId: Id): void;
     collapse(rowId: Id): void;
     expandAll(): void;
     collapseAll(): void;
+    getHeaderFilter(colId: Id): IProHeaderFilter;
 }
 export interface IProGrid extends ITreeGrid {
     config: IProGridConfig;
@@ -88,6 +91,7 @@ export interface IGridConfig extends IDragConfig {
     rowHeight?: number;
     headerRowHeight?: number;
     footerRowHeight?: number;
+    footerPosition?: IFooterPosition;
     leftSplit?: number;
     topSplit?: number;
     rightSplit?: number;
@@ -176,7 +180,15 @@ export interface IExtendedGridConfig extends IGridConfig {
     blockSelection?: boolean | IBlockSelectionConfig;
     clipboard?: boolean | IClipboardConfig;
     history?: boolean | IHistoryConfig;
+    exportConfig?: TExportConfigFunction;
 }
+export interface IExportGridConfig extends Omit<IExtendedGridConfig, "exportConfig" | "columns" | "data" | "spans"> {
+    typeConfig?: IXlsxExportConfig | ICsvExportConfig | IPDFConfig | IPNGConfig;
+    columns?: (column: ICol, index: number, columns: ICol[], api: IGrid) => ICol | null;
+    data?: (row: IRow, index: number, columns: IRow[], api: IGrid) => IRow | null;
+    spans?: (span: ISpan, index: number, spans: ISpan[], api: IGrid) => ISpan | null;
+}
+export type TExportConfigFunction = (config: IExtendedGridConfig | ITreeGridConfig, exportType: ExportType) => IExportGridConfig;
 export interface IRendererConfig extends Required<IProGridConfig> {
     scroll?: IScrollState;
     datacollection: any;
@@ -277,8 +289,8 @@ export interface IEventHandlersMap {
     [GridEvents.scroll]: (scrollState: ICoords) => void;
     [GridEvents.beforeSort]: (column: ICol, dir: TSortDir) => void | boolean;
     [GridEvents.afterSort]: (column: ICol, dir: TSortDir) => void;
-    [GridEvents.filterChange]: (value: string | string[], colId: Id, filterId: TContentFilter, silent?: boolean) => void;
-    [GridEvents.beforeFilter]: (value: string, colId: Id) => void | boolean;
+    [GridEvents.filterChange]: (value: string | string[] | Date | Date[], colId: Id, content: TContentFilter, silent?: boolean) => void;
+    [GridEvents.beforeFilter]: (value: string | string[] | Date | Date[], colId: Id) => void | boolean;
     [GridEvents.beforeResizeStart]: (column: ICol, event: MouseEvent) => boolean | void;
     [GridEvents.resize]: (column: ICol, event: MouseEvent) => void;
     [GridEvents.afterResizeEnd]: (column: ICol, event: MouseEvent) => void;
@@ -444,10 +456,11 @@ export interface IContent {
     tooltip?: boolean | IGridTooltipConfig;
     htmlEnable?: boolean;
 }
+export type TContentFilter = "inputFilter" | "selectFilter" | "comboFilter" | "dateFilter";
 export interface IHeader extends IContent {
     content?: TContentFilter;
-    filterConfig?: IComboFilterConfig;
-    customFilter?: (item: any, input: string) => boolean;
+    filterConfig?: IComboFilterConfig | IInputFilterConfig | IDateFilterConfig;
+    customFilter?: (item: string | number | Date | Date[], match: string | string[] | Date | Date[]) => boolean;
     headerSort?: boolean;
     sortAs?: SortFunction;
     tooltipTemplate?: (content: {
@@ -497,14 +510,7 @@ export interface IGroup {
     order?: IGroupOrderItem[];
     column?: string | ICol;
 }
-export interface IGridTooltipConfig {
-    force?: boolean;
-    showDelay?: number;
-    hideDelay?: number;
-    margin?: number;
-    position?: Position;
-    css?: string;
-}
+export type IGridTooltipConfig = Omit<ITooltipConfig, "node" | "htmlEnable">;
 export interface IScrollBarWidth {
     x: number;
     y: number;
@@ -570,23 +576,6 @@ export interface IDatePickerConfig extends ICalendarConfig {
 export interface IBaseHandlersMap {
     [key: string]: (...args: any[]) => any;
 }
-export declare enum HeaderFilterEvent {
-    change = "change"
-}
-export interface IHeaderFilter {
-    column: ICol;
-    config: IRendererConfig;
-    value: string | string[];
-    events: IEventSystem<HeaderFilterEvent>;
-    data?: any[];
-    id?: Id;
-    filterConfig?: IComboFilterConfig;
-    getFilter(): VNode | Combobox;
-    setValue(value: string | string[], silent?: boolean): void;
-    clear(silent?: boolean): void;
-    focus(): void;
-    blur(): void;
-}
 export interface ICellRect extends ICoords, ISizes {
 }
 export type colType = "string" | "number" | "boolean" | "date";
@@ -595,25 +584,6 @@ export interface IOption {
     value: string;
 }
 export type TOption = IOption | string;
-export type TContentFilter = "inputFilter" | "selectFilter" | "comboFilter";
-export interface IComboFilterConfig {
-    data?: DataCollection<any> | any[];
-    readonly?: boolean;
-    template?: (item: any) => string;
-    filter?: (item: any, input: string) => boolean;
-    placeholder?: string;
-    virtual?: boolean;
-    multiselection?: boolean;
-}
-export interface IComboFilterConfig {
-    data?: DataCollection<any> | any[];
-    readonly?: boolean;
-    template?: (item: any) => string;
-    filter?: (item: any, input: string) => boolean;
-    placeholder?: string;
-    virtual?: boolean;
-    multiselection?: boolean;
-}
 export type SortFunction = (cellValue: any) => string | number;
 type MarkFunction = (cell: any, columnCells: any[], row: IRow, column: ICol) => string;
 export interface IMark {
@@ -632,50 +602,16 @@ export interface ICellCss {
     fontSize?: number;
     bold?: boolean;
 }
-export interface ICellContent {
-    element?: any;
-    toHtml: (column: ICol, config: IRendererConfig) => any;
-    match?: (obj: IMatch) => boolean;
-    destroy?: () => void;
-    calculate?: (col: any[], roots: any[]) => string | number;
-    validate?: (colId: Id, data: any[]) => any[];
-    value?: any;
-}
-interface IMatch {
-    val: any;
-    match: any;
-    obj?: any;
-    multi?: boolean;
-    col?: ICol;
-}
-export interface IContentList {
-    [key: string]: ICellContent;
-}
 export interface ILayoutState {
     wrapper: ISizes;
     shifts: ICoords;
     sticky: boolean;
     gridBodyHeight: number;
+    footerAtBottom: boolean;
 }
 export interface IFixedRowsConfig extends ILayoutState {
     name: "header" | "footer";
     position: "top" | "bottom";
-}
-export interface IXlsxExportConfig {
-    url?: string;
-    name?: string;
-    tableName?: string;
-    dateFormatMask?: string;
-    mapToExcelFormulas?: {
-        [key: string]: string;
-    };
-}
-export interface ICsvExportConfig extends ICsvDriverConfig {
-    name?: string;
-    asFile?: boolean;
-    flat?: boolean;
-    rowDelimiter?: string;
-    columnDelimiter?: string;
 }
 export interface ICoords {
     x: number;
@@ -698,6 +634,7 @@ export type IDirection = "horizontal" | "vertical" | "auto";
 export type IDragType = "row" | "column" | "both";
 export type AdjustTargetType = "data" | "header" | "footer";
 export type IAdjustBy = AdjustTargetType | boolean;
+export type IFooterPosition = "bottom" | "relative";
 export interface IAdjustColumns {
     rows: IRow[];
     cols: ICol[];

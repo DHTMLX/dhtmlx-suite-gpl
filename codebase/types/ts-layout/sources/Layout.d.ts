@@ -12,7 +12,6 @@ export declare class Layout extends Cell implements ILayout {
     destructor(): void;
     toVDOM(): any;
     removeCell(id: string): void;
-    addCell(config: ICellConfig, index?: number): void;
     getId(index: number): string;
     getRefs(name: string): any;
     getCell(id: string): any;
@@ -21,6 +20,7 @@ export declare class Layout extends Cell implements ILayout {
     cell(id: string): any;
     progressShow(): void;
     progressHide(): void;
+    protected _addCell(config: ICellConfig, index?: number): void;
     protected _getCss(content?: boolean): string;
     private _parseConfig;
     protected _createCell(cell: ILayoutConfig): ICell;

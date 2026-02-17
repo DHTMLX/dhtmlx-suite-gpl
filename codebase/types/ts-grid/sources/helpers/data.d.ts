@@ -1,5 +1,6 @@
 import { IContainerConfig } from "../../../ts-common/core";
 import { ICol, IColumnsWidth, IGridConfig, IRow, AdjustTargetType, TOption, IScrollState, IVisibleRange, ISizes } from "./../types";
+import { Id } from "../../../ts-common/types";
 export declare function getTotalRowHeight(row: IRow): number;
 export declare function normalizeArray(obj: any, name: string): void;
 export declare function measureTextHeight({ text, width, lineHeight, font, htmlEnable, }: {
@@ -11,7 +12,7 @@ export declare function measureTextHeight({ text, width, lineHeight, font, htmlE
 }): number;
 export declare function countColumns(config: IGridConfig, columns: ICol[]): number;
 export declare function calculateVisibleRange(viewPortSize: ISizes, scroll: IScrollState, config: IGridConfig, data: IRow[]): IVisibleRange;
-export declare function getUnique(arr: any[], name: string, multiselection: boolean, editorType: ICol["editorType"]): any[];
+export declare function getNormalizeFilterData(arr: any[], name: Id, multiselection: boolean, editorType: ICol["editorType"]): any[];
 export declare const getMaxRowHeight: ({ cols, row, config, }: {
     row: IRow;
     cols: ICol[];

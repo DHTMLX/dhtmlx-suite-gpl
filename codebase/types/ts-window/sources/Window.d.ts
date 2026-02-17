@@ -29,12 +29,12 @@ export declare class Window implements IWindow {
     getPosition(): IPosition;
     show(left?: number, top?: number): void;
     hide(): void;
-    protected _hide(e?: Event): void;
     isVisible(): boolean;
     getWidget(): any;
     getContainer(): HTMLElement;
     attach(name: any, config?: any): void;
     attachHTML(html: string): void;
+    setActive(): void;
     getRootView(): any;
     destructor(): void;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
@@ -42,6 +42,7 @@ export declare class Window implements IWindow {
     protected _initHandlers(): void;
     protected _initUI(): void;
     protected _drawResizers(): any;
+    protected _hide(e?: Event): void;
     private _startDrag;
     protected _startResize(resizeConfig: IDirectionConfig): void;
     private _blockScreen;

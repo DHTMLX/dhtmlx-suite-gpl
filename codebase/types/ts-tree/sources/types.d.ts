@@ -2,6 +2,7 @@ import { IEventSystem } from "../../ts-common/events";
 import { Id } from "../../ts-common/types";
 import { TreeCollection, DataEvents, DragEvents, IDragConfig, IDataItem, IDragEventsHandlersMap, Selection } from "../../ts-data";
 import { IEditorConfig } from "./Editor";
+import { ITooltipConfig } from "../../ts-message";
 export interface ITreeState {
     [id: string]: {
         selected: SelectStatus;
@@ -29,6 +30,10 @@ export declare enum SelectStatus {
     indeterminate = 2
 }
 export type ItemIcon = "file" | "folder" | "openFolder";
+export type TTooltipFunc = (item: ITreeItem, event: MouseEvent) => string;
+export interface ITreeTooltipConfig extends Omit<ITooltipConfig, "node"> {
+    template?: TTooltipFunc;
+}
 export interface ITreeConfig extends IDragConfig {
     data?: TreeCollection<any> | any[];
     css?: string;
@@ -41,6 +46,7 @@ export interface ITreeConfig extends IDragConfig {
     selection?: boolean;
     rootId?: Id;
     itemHeight?: number | string;
+    tooltip?: boolean | TTooltipFunc | ITreeTooltipConfig;
     template?: (item: ITreeItem, isFolder: boolean) => string;
     eventHandlers?: {
         [eventName: string]: {

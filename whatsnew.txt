@@ -1,3 +1,110 @@
+# Version 9.3 (February 17, 2026)
+
+### New functionality
+
+- Grid. The ability to specify a flexible configuration for export to the CSV, XLSX, PDF, and PNG formats (PRO version)
+    - new Grid configuration property: `exportConfig`
+- Grid. A new `dateFilter` type of filter for the column header is added (PRO version)
+- Grid. The ability to define the position of the footer and frozen rows within the component container (PRO version)
+    - new Grid configuration property: `footerPosition`
+- Grid. The ability to define the behaviour of a dragged item in the TreeGrid mode (PRO version)
+    - new Grid configuration property: `dropBehaviour`
+- Tree. The ability to add tooltips for the items
+    - new Tree configuration property: `tooltip`
+- Window. The ability to set a window to the active state
+    - new Window method: `setActive()`
+
+### Updates
+
+- Chart. Export module. The `pdf()` and `png()` export functions return a promise of data export
+- Grid. Export module. The `pdf()`, `png()`, `xlsx()` and `csv()` export functions return a promise of data export
+- Grid. The functionality of column header filters is updated:
+    - the `setValue()` method (of the `getHeaderFilter()` API), can take a *Date* object or an array of *Date[]* objects as a parameter
+    - the `value` parameter of the callback functions of `filterChange` and `beforeFilter` events can be a *Date* object or an array of *Date[]* objects
+    - the parameters of the `customFilter` callback function can be *Date* objects or arrays of *Date[]* objects
+
+### Fixes
+
+- Grid. The inability to set a single date in the range mode is fixed
+- Grid. Performance issues that occurred while filtering large data sets via `inputFilter`
+
+# Version 9.2.8 (January 28, 2026)
+
+### Fixes
+
+- Grid. Enable the ability to use block selection when the editor is open
+- Layout. Incorrect resizing of a cell with an attached iframe (with the `srcdoc` attribute)
+
+# Version 9.2.7 (January 15, 2026)
+
+### Fixes
+
+- Grid. Data isn't grouped via the group panel
+
+# Version 9.2.6 (January 13, 2026)
+
+### Fixes
+
+- Dataview, Grid, List. The issue with the functionality of the `beforeAdd` event during drag-n-drop
+- Grid. The ability to enable grouping in Grid with `subrow` is fixed
+- Grid. The ability to group a non-existent column without actual grouping is fixed
+- Grid. The `comboFilter` not updating the options on adding new items or editing the existing ones
+- Grid. Incorrect behavior of the `comboFilter` with enabled multiselection
+- Grid. The issue with the custom scroll being duplicated by the system scroll in Firefox on Windows 11
+- Grid. On grouping by a column with options, export to CSV/XLSX outputs the option's id instead of the displayed option's value
+- Sidebar. The functionality of the `navigationType` configuration option is fixed
+
+# Version 9.2.5 (November 28, 2025)
+
+### Updates
+
+- DataCollection. The `beforeAdd`, `afterAdd`, `beforeRemove`, and `afterRemove` events are updated to include the `batch` and `index` parameters for handling batch operations
+
+### Fixes
+
+- TreeCollection. The issue where the `items` property of a parent object returned by the `getItem()` and `find()` methods included a removed child item is fixed
+- Grid. Improved performance of adding and removing data via the add() and remove() methods when the adjust configuration is enabled
+- Grid. The issue where the combo filter with enabled `multiselection` displayed all options ignoring other active filters is fixed
+
+# Version 9.2.4 (November 17, 2025)
+
+### Fixes
+
+- Form. The `getValue()` method returns an empty string for a Combo option if its ID is specified as 0 (zero)
+- Tree. Incorrect dropping behavior when the `dropBehavior:sibling` property is set in the Tree configuration
+- Grid. `comboFilter` displays all the options even if its `filterConfig` configuration object is initialized without the `filter` property
+- Grid. Incorrect date format in an exported Excel file
+- Grid. The ability to specify a placeholder in the column `inputFilter` via the `filterConfig` configuration object is added
+
+# Version 9.2.3 (October 21, 2025)
+
+### Fixes
+
+- Grid. Performance issues caused by using `comboFilter` in the Grid header while a large dataset is loaded
+- Grid. The issue with the "combobox" editor not closing on pressing the "Enter" button
+
+# Version 9.2.2 (October 1, 2025)
+
+### Fixes
+
+- Layout. The error that occurred on clicking the scrollbar in an attached List component
+- Grid. Incorrect date format of exported columns with dates in some cases
+- Tree. Performance issues in trees with deep nesting structure
+
+# Version 9.2.1 (September 1, 2025)
+
+### Fixes
+
+- DragManager. Incorrect determining of dragged items' ids while dragging multiple items
+- Form. The `beforeChange` event behavior in the Input and Textarea controls
+- Grid. The `BlockSelection` module behavior when using several Grids on a page
+- Grid. The issue with inserting data into inputFilter from the clipboard
+- Grid. The parameter that defines the dragged item's drop position relative to the target item is added for the callback of drag-related events
+- Grid. The problem with multiselection of rows outside the visible Grid area when the `dragMode` option is enabled
+- Grid. Displaying of boolean values in the grouped data
+- Grid. Processing of invalid data for columns with the `number` type
+- Grid. The processing of the grouped invalid data is improved
+
 # Version 9.2.0 (July 15, 2025)
 
 ### Breaking changes

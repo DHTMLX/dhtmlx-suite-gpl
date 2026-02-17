@@ -15,7 +15,7 @@ export declare class TreeGrid extends ExtendedGrid implements ITreeGrid {
     collapseAll(): void;
     showRow(rowId: Id): void;
     hideRow(rowId: Id): void;
-    getCellRect(rowId: Id, colId: Id): ICellRect;
+    getCellRect(rowId: Id, colId?: Id): ICellRect;
     getSpan(rowId: Id, colId: Id): ISpan;
     protected _adjustColumnsWidth({ rows, cols, totalCols, adjust, }: IAdjustColumns): IColumnsWidth;
     protected _createCollection(): void;

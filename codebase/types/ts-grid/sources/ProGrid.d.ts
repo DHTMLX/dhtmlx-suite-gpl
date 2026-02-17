@@ -1,6 +1,6 @@
 import { ScrollView } from "../../ts-common/ScrollView";
 import { TreeGridCollection } from "../../ts-treegrid";
-import { EditorType, GridEvents, IAdjustBy, ICellRect, ICol, IContentList, ICoords, IEventHandlersMap, IHeaderFilter, IProGrid, IProGridConfig, ISpan, ISubViewCell, ISummaryList } from "./types";
+import { EditorType, GridEvents, IAdjustBy, ICellRect, ICol, ICoords, IEventHandlersMap, IProGrid, IProGridConfig, ISpan, ISubViewCell, ISummaryList } from "./types";
 import { IKeyManager } from "../../ts-common/KeyManager";
 import { IEventSystem } from "../../ts-common/events";
 import { Id } from "../../ts-common/types";
@@ -10,6 +10,7 @@ import { IRange } from "./modules/Range";
 import { IBlockSelection } from "./modules/BlockSelection";
 import { IClipboard } from "./modules/Clipboard";
 import { IHistory } from "./modules/History";
+import { IProContentList, IProHeaderFilter } from "./ui/proContent";
 export declare class ProGrid implements IProGrid {
     config: IProGridConfig;
     scrollView: ScrollView;
@@ -17,7 +18,7 @@ export declare class ProGrid implements IProGrid {
     name: string;
     data: IDataCollection<IDataItem> & TreeGridCollection;
     selection: ISelection;
-    content: IContentList;
+    content: IProContentList;
     keyManager: IKeyManager;
     export: any;
     range: IRange;
@@ -53,7 +54,7 @@ export declare class ProGrid implements IProGrid {
     removeSpan(rowId: Id, colId: Id): void;
     editCell(rowId: Id, colId: Id, editorType?: EditorType): void;
     editEnd(withoutSave?: boolean): void;
-    getHeaderFilter(colId: Id): IHeaderFilter;
+    getHeaderFilter(colId: Id): IProHeaderFilter;
     getSummary(colId?: Id): ISummaryList;
     getSubRow(id: Id): ISubViewCell | null;
     getRootNode(): HTMLElement;

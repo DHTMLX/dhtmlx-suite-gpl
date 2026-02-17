@@ -5,3 +5,4 @@ export declare function calcScrollBarWidth(config: IGridConfig | IRendererConfig
     height: number;
 }): IScrollBarWidth;
 export declare function getCurrFixedCols(config: IGridConfig, split: Split.left | Split.right): import("../types").ICol[];
+export declare function getNormalizeDateObject(item: string | Date, dateFormat: string): Date | null;

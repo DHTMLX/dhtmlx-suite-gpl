@@ -1,7 +1,8 @@
 import { Navbar, IMenuElement, ContextMode, INavbar } from "../../ts-navbar";
+import { IContextMenuConfig } from "./types";
 export declare class ContextMenu extends Navbar<IMenuElement> implements INavbar {
     private _mode;
-    constructor(element?: string | HTMLElement, config?: any);
+    constructor(element?: string | HTMLElement, config?: IContextMenuConfig);
     showAt(elem: HTMLElement | MouseEvent | TouchEvent | string, showAt?: ContextMode): void;
     protected _getFactory(): (item: import("../../ts-navbar").IItem, asMenuItem?: boolean) => any;
     protected _close(e: MouseEvent | TouchEvent): void;

@@ -82,7 +82,6 @@ export interface IProCell extends ICell {
 export interface ILayout extends ICell {
     config: ILayoutConfig;
     removeCell(id: string): void;
-    addCell(config: ICellConfig, index: number): any;
     getRefs(str: any): any;
     getCell(id: string): ICell;
     getId(index: number): string;

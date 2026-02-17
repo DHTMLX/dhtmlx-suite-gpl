@@ -5,7 +5,9 @@ import { View } from "../../ts-common/view";
 import { DataEvents, DragEvents, IDataCollection, IDataEventsHandlersMap, IDataItem, IDragEventsHandlersMap, TSortDir } from "../../ts-data";
 import { Exporter } from "./modules/Exporter";
 import { ISelection } from "./modules/Selection";
-import { EditorType, GridEvents, IAdjustBy, ICellRect, ICol, IContentList, ICoords, IEventHandlersMap, IGrid, IGridConfig, IRow, IScrollState, ISpan, GridSystemEvents, ISystemEventHandlersMap, IColumnsWidth, SortFunction, IHeaderFilter, IAdjustColumns, IDirection, IFooter, IHeader, INormalizeColumnsParams, ISummaryList, ISortingStates } from "./types";
+import { EditorType, GridEvents, IAdjustBy, ICellRect, ICol, ICoords, IEventHandlersMap, IGrid, IGridConfig, IRow, IScrollState, ISpan, GridSystemEvents, ISystemEventHandlersMap, IColumnsWidth, SortFunction, IAdjustColumns, IDirection, IFooter, IHeader, INormalizeColumnsParams, ISummaryList, ISortingStates } from "./types";
+import { IContentList, IHeaderFilter } from "./ui/content";
+import { IProContentList } from "./ui/proContent";
 export declare class Grid extends View implements IGrid {
     version: string;
     name: "grid";
@@ -13,7 +15,7 @@ export declare class Grid extends View implements IGrid {
     config: IGridConfig;
     events: IEventSystem<DataEvents | GridEvents | DragEvents, IEventHandlersMap & IDataEventsHandlersMap & IDragEventsHandlersMap>;
     export: Exporter;
-    content: IContentList;
+    content: IContentList | IProContentList;
     selection: ISelection;
     keyManager: IKeyManager;
     protected _touch: ITouchParam;
@@ -45,7 +47,7 @@ export declare class Grid extends View implements IGrid {
     scroll(x: number, y: number): void;
     scrollTo(rowId: Id, colId: Id): void;
     adjustColumnWidth(colId: Id, adjust?: IAdjustBy): void;
-    getCellRect(rowId: Id, colId: Id): ICellRect;
+    getCellRect(rowId: Id, colId?: Id): ICellRect;
     getColumn(colId: Id): ICol;
     addSpan(spanObj: ISpan): void;
     getSpan(rowId: Id, colId: Id): ISpan;
@@ -94,9 +96,9 @@ export declare class Grid extends View implements IGrid {
     protected _hideColumn(column: ICol): void;
     protected _showColumn(column: ICol): void;
     protected _setSummary(): void;
+    protected _init(): void;
     private _applyMethod;
     private _canDataParse;
-    private _init;
     private _attachDataCollection;
     private _setMarks;
     private _checkMarks;
@@ -108,4 +110,5 @@ export declare class Grid extends View implements IGrid {
     private _normalizeConfig;
     protected _autoScroll(mode: IDirection): void;
     private _applyAutoWidth;
+    private _handleRow;
 }

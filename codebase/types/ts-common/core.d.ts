@@ -18,7 +18,7 @@ export declare function isDefined<T>(some: T): boolean;
 export declare function isId<T>(some: T): boolean;
 export declare function range(from: number, to: number): number[];
 export declare function isNumeric(val: any): boolean;
-export declare function downloadFile(data: string, filename: string, mimeType?: string): void;
+export declare function downloadFile(data: Blob | string, filename: string, mimeType?: string): void;
 export declare function debounce(func: anyFunction, wait: number, immediate?: boolean): (...args: any[]) => void;
 export declare function compare(obj1: any, obj2: any): boolean;
 export declare const isType: (value: any) => string;

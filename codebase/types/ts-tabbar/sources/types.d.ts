@@ -51,8 +51,6 @@ export interface ITabbar {
     isDisabled(id?: string): boolean;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     removeCell(id: string): void;
-    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
-    addCell(config: ITabbarConfig, index: number): any;
 }
 export interface ITabbarEventHandlersMap {
     [key: string]: (...args: any[]) => any;

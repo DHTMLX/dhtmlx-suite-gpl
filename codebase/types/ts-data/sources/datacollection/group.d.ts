@@ -29,6 +29,7 @@ export declare class Group implements IGroup {
     private _init;
     private _config;
     private _groupSet;
+    private _groupOrderFields;
     constructor();
     group(order: TGroupOrder[], arr: IDataItem[], config?: IGroupConfig): IDataItem[];
     ungroup(modifiedData?: IDataItem[]): IDataItem[];

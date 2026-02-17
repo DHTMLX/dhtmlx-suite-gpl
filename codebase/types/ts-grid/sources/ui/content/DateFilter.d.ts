@@ -1,0 +1,42 @@
+import { IEventSystem } from "../../../../ts-common/events";
+import { ICol, IEventHandlersMap, IRendererConfig } from "../../types";
+import { HeaderFilterEvent } from "../content";
+import { IDateFilterConfig, IProHeaderFilter } from "../proContent";
+import { Calendar } from "../../../../ts-calendar";
+import { VNode } from "../../../../ts-common/dom";
+import { Id } from "../../../../ts-common/types";
+export declare class DateFilter implements IProHeaderFilter {
+    id: Id;
+    column: ICol;
+    config: IRendererConfig;
+    events: IEventSystem<HeaderFilterEvent, IEventHandlersMap>;
+    filterConfig: IDateFilterConfig;
+    value: Date | Date[];
+    private _calendar;
+    private _popup;
+    private _handlers;
+    private _grid;
+    private _keyManager;
+    constructor({ column, config, headerConfig, value, id, grid }: {
+        column: any;
+        config: any;
+        headerConfig: any;
+        value: any;
+        id: any;
+        grid: any;
+    });
+    getFilter(): Calendar;
+    setValue(value: Date | Date[] | null, silent?: boolean): void;
+    clear(): void;
+    focus(): void;
+    blur(): void;
+    destructor(): void;
+    toHTML(): VNode;
+    private _initFilter;
+    private _initHandlers;
+    private shouldUpdateCalendar;
+    private _getRootElement;
+    private _changeTab;
+    private _showPopup;
+    private _initHotkeys;
+}

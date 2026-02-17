@@ -31,3 +31,4 @@ export declare class DateHelper {
     static isSameDay(d1: Date, d2: Date): boolean;
     static toDateObject(date: Date | string, dateFormat: string): Date;
 }
+export declare function stripTime(d: Date, full?: boolean): Date;

@@ -262,12 +262,12 @@ export declare enum DataEvents {
 }
 export interface IDataEventsHandlersMap {
     [key: string]: (...args: any[]) => any;
-    [DataEvents.change]: (id?: Id, status?: Statuses, updatedItem?: any) => void;
+    [DataEvents.change]: (id?: Id, status?: Statuses, updatedItem?: IDataItem) => void;
     [DataEvents.filter]: (filter?: IFilter) => void;
-    [DataEvents.afterAdd]: (newItem: any) => void;
-    [DataEvents.afterRemove]: (removedItem: any) => void;
-    [DataEvents.beforeAdd]: (newItem: any) => boolean | void;
-    [DataEvents.beforeRemove]: (removedItem: any) => boolean | void;
+    [DataEvents.beforeAdd]: (newItem: IDataItem, batch: IDataItem[], index: number) => boolean | void;
+    [DataEvents.afterAdd]: (newItem: IDataItem, batch: IDataItem[], index: number) => void;
+    [DataEvents.beforeRemove]: (removedItem: IDataItem, batch: IDataItem[], index: number) => boolean | void;
+    [DataEvents.afterRemove]: (removedItem: IDataItem, batch: IDataItem[], index: number) => void;
     [DataEvents.removeAll]: () => void;
     [DataEvents.dataRequest]: (from: number, to: number) => void;
     [DataEvents.load]: () => void;
