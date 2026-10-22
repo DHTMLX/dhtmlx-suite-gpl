@@ -4,6 +4,7 @@ import { IState, Navbar, INavbar, IButton, IImageButton, ISelectButton, IInput, 
 export interface IToolbarConfig {
     css?: string;
     menuCss?: string;
+    ariaLabel?: string;
     data?: any[] | TreeCollection<IToolbarElement>;
     navigationType?: NavigationType;
 }
@@ -17,6 +18,7 @@ export type IToolbarElement = IButton | IImageButton | ISelectButton | IInput | 
 export declare class Toolbar extends Navbar<IToolbarElement> implements IToolbar {
     data: TreeCollection<IToolbarElement>;
     config: IToolbarConfig;
+    protected _hasBarNavigation: boolean;
     constructor(element?: string | HTMLElement, config?: any);
     getState(id?: Id): IState;
     setState(state: IState): void;
@@ -26,6 +28,12 @@ export declare class Toolbar extends Navbar<IToolbarElement> implements IToolbar
         tooltip: (e: MouseEvent) => void;
     };
     protected _getFactory(): any;
+    protected _raiseFocusTooltip(): void;
+    protected _getAriaAttrs(): {
+        role: string;
+        "aria-orientation": string;
+        "aria-label": string;
+    };
     protected _draw(element: any): any;
     protected _getMode(item: any, root: any): "right" | "bottom";
     protected _close(e: MouseEvent): void;

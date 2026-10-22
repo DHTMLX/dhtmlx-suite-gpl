@@ -1,4 +1,4 @@
-import { IGridConfig, ICol, IRow, IFooter, IHeader, IGroupOrderItem, IExtendedGrid, IExtendedGridConfig, ISubViewCell } from "./types";
+import { IGridConfig, ICol, IRow, IFooter, IHeader, IGroupOrderItem, IExtendedGrid, IExtendedGridConfig, ISubViewCell, IFixedRowLevel, TFixedRowsName } from "./types";
 import { IDataCollection, IDataItem } from "../../ts-data";
 import { ScrollView } from "../../ts-common/ScrollView";
 import { Id } from "../../ts-common/types";
@@ -30,11 +30,13 @@ export declare class ExtendedGrid extends Grid implements IExtendedGrid {
     protected _setEventHandlers(): void;
     protected _afterEditEndProcess(value: any, editableRow: any, editableColumn: any): void;
     protected _setSort(): void;
+    protected _resolveFixedRowLevel(name: TFixedRowsName, index: number, config: IExtendedGridConfig): IFixedRowLevel;
     protected getNormalizeContentHeight(row: IFooter | IHeader, col: ICol, config: IGridConfig): number;
-    protected _prepareData(data: IDataItem[] | IDataCollection): IDataItem[] | IRow[];
-    protected _prepareDataFromTo(data: IDataCollection, from: number, to: number): IDataItem[];
+    protected _prepareData(data: IDataItem[] | IDataCollection): IRow[];
+    protected _prepareDataFromTo(data: IDataCollection, from: number, to: number): IRow[];
     protected _dragStart(event: any): void;
     protected _group(order: IGroupOrderItem[]): void;
+    protected _getGroupCounter(row: IRow): string;
     protected _expand(row: IRow): boolean;
     protected _collapse(row: IRow): boolean;
     private _lazyLoad;
@@ -44,4 +46,7 @@ export declare class ExtendedGrid extends Grid implements IExtendedGrid {
     private _changeGroupItemAfterSort;
     private _isGroupableColumn;
     private _isGroupClosable;
+    private _buildRowIdToIndex;
+    private _buildSpanCalculationMap;
+    private _applyAutoRowHeights;
 }

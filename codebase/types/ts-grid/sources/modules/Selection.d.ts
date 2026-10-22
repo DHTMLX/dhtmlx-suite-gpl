@@ -1,22 +1,22 @@
 import { VNode } from "../../../ts-common/dom";
 import { IEventSystem } from "../../../ts-common/events";
-import { ICell, IGrid, IRow, ICol, ISelectionType, IProGrid } from "../types";
+import { ICell, IGrid, IRow, ICol, ISelectionType, IProGrid, ICellSource } from "../types";
 import { Id } from "../../../ts-common/types";
 export interface ISelectionConfig {
     disabled?: boolean;
     type?: ISelectionType;
     multiSelection?: boolean;
 }
-export interface ISelection {
+export interface ISelection extends ICellSource {
     config?: ISelectionConfig;
-    setCell(rowId?: IRow | Id, colId?: ICol | Id, ctrlUp?: boolean, shiftUp?: boolean): void;
-    getCell(): ICell | void;
     getCells(): ICell[];
     removeCell(rowId?: Id, colId?: Id): void;
     disable(): void;
     enable(): void;
     isSelectedCell(row: IRow | Id, column?: ICol | Id): boolean;
     toHTML(): VNode | VNode[];
+    /** @internal Rebuild the id-based cache after a row id has been changed */
+    remapRows(): void;
 }
 export declare enum GridSelectionEvents {
     beforeUnSelect = "beforeUnSelect",
@@ -38,6 +38,7 @@ export declare class Selection implements ISelection {
     private _gridId;
     private _selectedCell;
     private _selectedCells;
+    private _selectedSet;
     constructor(grid: IGrid | IProGrid, config?: ISelectionConfig, events?: IEventSystem<any>, gridId?: Id);
     setCell(row?: IRow | Id, col?: ICol | Id, ctrlUp?: boolean, shiftUp?: boolean): void;
     removeCell(rowId?: Id, colId?: Id): void;
@@ -45,14 +46,18 @@ export declare class Selection implements ISelection {
     getCells(): ICell[];
     disable(): void;
     enable(): void;
-    toHTML(): VNode | VNode[];
     isSelectedCell(row: IRow | Id, column?: ICol | Id): boolean;
+    restoreFocus(): void;
+    remapRows(): void;
+    toHTML(): VNode | VNode[];
     private _setCell;
     private _removeCell;
     private _removeCells;
     private _init;
     private _toHTML;
+    private _getSelectionLayout;
     private _isUnselected;
     private _findIndex;
+    private _cellKey;
     private _setBrowserFocus;
 }

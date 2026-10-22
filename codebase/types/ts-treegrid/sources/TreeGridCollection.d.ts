@@ -16,6 +16,7 @@ export declare class TreeGridCollection extends TreeCollection {
     protected _addToOrder(_order: any, obj: any, index: number): void;
     protected _removeCore(id: Id): void;
     protected _setParent(item: IDataItem, parent: Id): void;
-    private _checkItems;
+    protected _recalculateGroups(): void;
+    protected _checkItems(): void;
     protected _moveItem(id: any, targetId: any, index: any): void;
 }

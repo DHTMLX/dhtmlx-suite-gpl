@@ -18,48 +18,130 @@ export interface ILazyConfig {
     delay?: number;
     prepare?: number;
 }
+/** Sorting direction: ascending or descending. */
 export type TSortDir = "asc" | "desc";
+/**
+ * A single sorting rule. Set either `by` or `rule`; with neither of them the rule has no effect.
+ *
+ * @example
+ * ```ts
+ * // sort by a field
+ * collection.sort({ by: "country", dir: "asc" });
+ *
+ * // sort by a computed value
+ * collection.sort({ by: "date", dir: "desc", as: value => new Date(value).getTime() });
+ *
+ * // sort by a custom comparator
+ * collection.sort({ rule: (a, b) => a.price - b.price });
+ * ```
+ */
 export interface ISortMode {
+    /** Name of the field to sort by. */
     by?: string | number;
+    /** Sorting direction. Defaults to `"asc"`. */
     dir?: TSortDir;
+    /** Maps a field value to the value actually compared (e.g. a date string to a timestamp). Ignored if `rule` is set. */
     as?: (a: any) => any;
+    /** Custom comparator applied to whole items. Takes precedence over `by` and `as`. */
     rule?: (a: any, b: any) => number;
 }
+/** An applied sorting rule together with the config it was applied with. */
 export type ISortingState = ISortMode & ISortConfig;
+/** Predicate that decides whether an item passes the filter. */
 export type IFilterCallback = (obj: any) => boolean;
+/**
+ * A single filtering rule.
+ *
+ * @example
+ * ```ts
+ * // keep items whose "country" equals "France"
+ * collection.filter({ by: "country", match: "France" });
+ *
+ * // keep items whose "age" is 30 or more
+ * collection.filter({ by: "age", match: "30", compare: (value, match) => Number(value) >= Number(match) });
+ * ```
+ */
 export interface IFilterMode {
+    /** Name of the field to filter by. */
     by?: Id;
-    match?: string | number | boolean;
+    /**
+     * Value the field is matched against. A multiselect filter passes an array of values,
+     * which `compare` is expected to treat as "any of these" — see `multi`.
+     */
+    match?: string | number | boolean | Array<string | number | boolean>;
+    /**
+     * Custom comparison. Without it the field value is compared to `match` loosely by a flat
+     * collection, while a tree one checks that the value contains `match` ignoring case.
+     */
     compare?: (value: any, match: any, obj: any, multi?: boolean) => boolean;
-    multi?: any;
+    /**
+     * Marks the field as holding several values at once (a multiselect column stores them
+     * as a comma-separated string). Passed to `compare` as its last argument, both by a flat
+     * collection and by a tree one.
+     */
+    multi?: boolean;
 }
+/** A set of filtering rules combined with AND, keyed by an arbitrary name. */
 export interface IFilterComplexMode {
     [key: string]: IFilterMode;
 }
+/** Applied filters, keyed by filter id. */
 export interface IFilter {
     [key: string]: IFilterParams;
 }
+/** An applied filtering rule together with the config it was applied with. */
 export interface IFilterParams {
     rule: IFilterMode | IFilterComplexMode | IFilterCallback;
     config: IFilterConfig | ITreeFilterConfig;
 }
+/** Options that control how a filtering rule is applied and stored. */
 export interface IFilterConfig {
+    /** Id to store the filter under. Reapplying with the same id replaces the previous rule. Generated automatically if omitted. */
     id?: string;
+    /** Applies the rule on top of the already filtered data instead of replacing the active filters. */
     add?: boolean;
-    smartFilter?: boolean;
+    /**
+     * Marks the filter as permanent. Permanent filters are not dropped by `resetFilter()`
+     * and are reapplied to newly loaded data after `parse()` / `load()`.
+     */
     permanent?: boolean;
+    /**
+     * Reapplies the stored filters instead of registering a new one.
+     * @internal
+     */
     $restore?: boolean;
+    /**
+     * Hides the filter from `getFilters()` and from the `filter` event.
+     * @internal
+     */
     $local?: boolean;
+    /** @deprecated Not used. Kept for backward compatibility. */
+    smartFilter?: boolean;
 }
+/** Options that control which filters `resetFilter()` removes. */
 export interface IResetFilterConfig {
+    /** Removes only the filter with this id. */
     id?: string;
+    /** Removes permanent filters as well. Without it they survive the reset. */
     permanent?: boolean;
 }
+/** Options that control how a sorting rule is applied and stored. */
 export interface ISortConfig {
+    /**
+     * Makes the rule the base level of a multi-level sorting: the previously applied
+     * levels are discarded and the order is maintained when items are added or updated.
+     * While such a base is in place every next rule is appended as another level instead of
+     * replacing it - both with `smartSorting: false` and with no config at all. Without a base
+     * every rule replaces whatever is applied.
+     * To sort anew while a base is in place, reset the sorting first: `sort()`, then `sort(rule)`.
+     */
     smartSorting?: boolean;
 }
+/** Options that control how a filtering rule is applied to a tree collection. */
 export interface ITreeFilterConfig extends IFilterConfig {
+    /** Which items the rule is matched against: all of them, a single level, or leaf items only. */
     type?: TreeFilterType;
+    /** Nesting level the rule is applied to when `type` is `"level"`. */
     level?: number;
 }
 export interface IUpdateObject {
@@ -91,7 +173,7 @@ export interface IDataCollection<T extends IDataItem = IDataItem> {
     isGrouped(): boolean;
     load(url: IDataProxy | string, driver?: IDataDriver | DataDriver): Promise<any>;
     parse(data: T[] | string, driver?: DataDriver | IDataDriver): void;
-    $parse(data: any[]): void;
+    $parse(data: any[], resetRules?: boolean): void;
     add(newItem: IDataItem, index?: number): Id;
     add(newItem: IDataItem[], index?: number): Id[];
     add(newItem: IDataItem | IDataItem[], index?: number): Id | Id[];
@@ -102,10 +184,11 @@ export interface IDataCollection<T extends IDataItem = IDataItem> {
     getInitialData(): T[];
     getItem(id: Id): T;
     getIndex(id: Id): number;
+    getVisibleIndex(id: Id): number;
     getLength(): number;
     isDataLoaded(from?: number, to?: number): boolean;
     getId(index: number): Id;
-    filter(rule?: IFilterMode | IFilterCallback, config?: IFilterConfig, silent?: boolean): string;
+    filter(rule?: IFilterMode | IFilterComplexMode | IFilterCallback, config?: IFilterConfig, silent?: boolean): string;
     resetFilter(config?: IResetFilterConfig, silent?: boolean): boolean;
     getFilters(config?: {
         permanent?: boolean;
@@ -118,12 +201,12 @@ export interface IDataCollection<T extends IDataItem = IDataItem> {
     findAll(rule: IFilterMode): T[];
     map(callback: DataCallback<T>): T[];
     mapRange(from: number, to: number, callback: DataCallback<T>): T[];
-    sort(rule?: ISortMode, config?: ISortConfig): void;
+    sort(rule?: ISortMode, config?: ISortConfig, ignore?: boolean): void;
     getSortingStates(): ISortingState[];
     serialize(driver?: DataDriver): T[];
     copy(id: Id | Id[], index: number, target?: IDataCollection | ITreeCollection, targetId?: Id): Id | Id[];
     move(id: Id | Id[], index: number, target?: IDataCollection | ITreeCollection, targetId?: Id): Id | Id[];
-    changeId(id: Id, newId?: Id, silent?: boolean): void;
+    changeId(id: Id, newId?: Id, silent?: boolean): Id;
     forEach(callback: DataCallback<T>): void;
     save(url: IDataProxy | string): void;
     isSaved(): boolean;
@@ -133,6 +216,14 @@ export interface IDataChangeStack {
     order: IDataChange[];
 }
 export type Statuses = "add" | "update" | "remove" | string;
+/**
+ * Service payload of the {@link DataEvents.change} event.
+ * @internal Not a part of the public API, may be extended or changed without notice.
+ */
+export interface IDataChangeService {
+    /** the previous id of the item, set by changeId */
+    oldId?: Id;
+}
 export interface IDataChange {
     id: Id;
     status: Statuses;
@@ -163,9 +254,13 @@ export interface ICsvDriverConfig {
     rowDelimiter?: string;
     columnDelimiter?: string;
 }
+/** Scope a tree filtering rule is matched against. */
 export declare enum TreeFilterType {
+    /** Every item at any nesting level. */
     all = "all",
+    /** Only items at the level given by {@link ITreeFilterConfig.level}. */
     level = "level",
+    /** Only items without children. */
     leafs = "leafs"
 }
 export type DataCallback<T> = (item: T, index?: number, array?: T[]) => any;
@@ -179,10 +274,11 @@ export interface ITreeCollection<T extends IDataItem = IDataItem> extends IDataC
     removeAll(id?: Id): void;
     getLength(id?: Id): number;
     getIndex(id: Id): number;
+    getVisibleIndex(id: Id, flat?: boolean): number;
     getItems(id: Id): T[];
-    sort(rule?: ISortMode, config?: ISortConfig): void;
+    sort(rule?: ISortMode, config?: ISortConfig, ignore?: boolean): void;
     map(callback: DataCallback<T>, parent?: Id, direct?: boolean): any;
-    filter(rule?: IFilterMode | IFilterCallback, config?: ITreeFilterConfig, silent?: boolean): string;
+    filter(rule?: IFilterMode | IFilterComplexMode | IFilterCallback, config?: ITreeFilterConfig, silent?: boolean): string;
     restoreOrder(): void;
     copy(id: Id, index: number, target?: IDataCollection | ITreeCollection, targetId?: Id): Id;
     copy(id: Id[], index: number, target?: IDataCollection | ITreeCollection, targetId?: Id): Id[];
@@ -262,7 +358,7 @@ export declare enum DataEvents {
 }
 export interface IDataEventsHandlersMap {
     [key: string]: (...args: any[]) => any;
-    [DataEvents.change]: (id?: Id, status?: Statuses, updatedItem?: IDataItem) => void;
+    [DataEvents.change]: (id?: Id, status?: Statuses, updatedItem?: IDataItem, service?: IDataChangeService) => void;
     [DataEvents.filter]: (filter?: IFilter) => void;
     [DataEvents.beforeAdd]: (newItem: IDataItem, batch: IDataItem[], index: number) => boolean | void;
     [DataEvents.afterAdd]: (newItem: IDataItem, batch: IDataItem[], index: number) => void;

@@ -1,13 +1,13 @@
 /*
 @license
 
-dhtmlxSuite v.9.3.0 GPL
+This edition of DHTMLX dhtmlxSuite v.9.4.0 is licensed under the GNU General Public License v2.0 (GPL v2).
+You can redistribute this package and/or modify it under the terms of the GPL v2.
+GPL v2 requires that any project using this package also be open source under a GPL-compatible license.
+You may NOT use this package in closed-source, proprietary, or commercial applications without a separate commercial license.
+This package is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GPL v2 for more details: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
-This software is covered by GPL license.
-To use it in non-GPL project, you need obtain Commercial or Enterprise license
-Please contact sales@dhtmlx.com. Usage without proper license is prohibited.
-(c) XB Software.
-
+Copyright © 2026 XB Software Ltd.
 */
 if (window.dhx){ window.dhx_legacy = dhx; delete window.dhx; }(function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -102,7 +102,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 122);
+/******/ 	return __webpack_require__(__webpack_require__.s = 126);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -113,7 +113,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getViewHeight = exports.setTheme = exports.awaitRedraw = exports.resizeHandler = exports.resizer = exports.disableHelp = exports.KEYED_LIST = exports.inject = exports.create = exports.view = exports.sv = exports.el = void 0;
-var dom = __webpack_require__(135);
+var dom = __webpack_require__(139);
 var html_1 = __webpack_require__(2);
 exports.el = dom.defineElement;
 exports.sv = dom.defineSvgElement;
@@ -200,7 +200,7 @@ function getViewHeight(view, width) {
 }
 exports.getViewHeight = getViewHeight;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(18)))
 
 /***/ }),
 /* 1 */
@@ -1066,6 +1066,42 @@ exports.EventsMixin = EventsMixin;
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+__exportStar(__webpack_require__(26), exports);
+__exportStar(__webpack_require__(69), exports);
+__exportStar(__webpack_require__(74), exports);
+__exportStar(__webpack_require__(144), exports);
+__exportStar(__webpack_require__(31), exports);
+__exportStar(__webpack_require__(146), exports);
+__exportStar(__webpack_require__(23), exports);
+__exportStar(__webpack_require__(50), exports);
+__exportStar(__webpack_require__(71), exports);
+__exportStar(__webpack_require__(147), exports);
+__exportStar(__webpack_require__(70), exports);
+__exportStar(__webpack_require__(49), exports);
+__exportStar(__webpack_require__(73), exports);
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Split = exports.GridSystemEvents = exports.GridEvents = void 0;
 var GridEvents;
@@ -1145,6 +1181,7 @@ var GridSystemEvents;
     GridSystemEvents["headerCellTouchEnd"] = "headerCellTouchEnd";
     GridSystemEvents["groupPanelItemTouchMove"] = "groupPanelItemTouchMove";
     GridSystemEvents["groupPanelItemItemTouchEnd"] = "groupPanelItemItemTouchEnd";
+    GridSystemEvents["announce"] = "announce";
 })(GridSystemEvents || (exports.GridSystemEvents = GridSystemEvents = {}));
 var Split;
 (function (Split) {
@@ -1153,42 +1190,6 @@ var Split;
     Split["top"] = "topSplit";
     Split["bottom"] = "bottomSplit";
 })(Split || (exports.Split = Split = {}));
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(25), exports);
-__exportStar(__webpack_require__(65), exports);
-__exportStar(__webpack_require__(70), exports);
-__exportStar(__webpack_require__(140), exports);
-__exportStar(__webpack_require__(29), exports);
-__exportStar(__webpack_require__(142), exports);
-__exportStar(__webpack_require__(21), exports);
-__exportStar(__webpack_require__(46), exports);
-__exportStar(__webpack_require__(67), exports);
-__exportStar(__webpack_require__(143), exports);
-__exportStar(__webpack_require__(66), exports);
-__exportStar(__webpack_require__(45), exports);
-__exportStar(__webpack_require__(69), exports);
 
 
 /***/ }),
@@ -1279,8 +1280,20 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkPositions = exports.superposition = exports.getSizesSVGText = exports.getScales = exports.getClassesForRotateScale = exports.calcPointRef = exports.verticalBottomText = exports.verticalTopText = exports.verticalCenteredText = exports.roundToTwoNumAfterPoint = exports.euclideanDistance = exports.getRadialGradient = exports.linearGradient = exports.getFontStyle = exports.getColorShade = exports.getTextWidth = exports.log10 = exports.locator = exports.getDefaultColor = void 0;
+exports.checkPositions = exports.superposition = exports.getSizesSVGText = exports.getClassesForRotateScale = exports.calcPointRef = exports.verticalBottomText = exports.verticalTopText = exports.verticalCenteredText = exports.getTotalAriaAttrs = exports.formatTotal = exports.roundToTwoNumAfterPoint = exports.euclideanDistance = exports.getRadialGradient = exports.linearGradient = exports.getFontStyle = exports.getColorShade = exports.getTextWidth = exports.log10 = exports.getSeriaColor = exports.locator = exports.getDefaultColor = exports.hasValueAxis = exports.isXAxis = exports.Y_AXES = exports.X_AXES = void 0;
 var dom_1 = __webpack_require__(0);
+exports.X_AXES = ["bottom", "top"];
+exports.Y_AXES = ["left", "right"];
+// these types draw no axes at all, so the scale properties of their series mean nothing
+var scalelessTypes = ["pie", "pie3D", "donut", "treeMap", "calendarHeatMap"];
+function isXAxis(position) {
+    return position === "bottom" || position === "top";
+}
+exports.isXAxis = isXAxis;
+function hasValueAxis(type) {
+    return !scalelessTypes.includes(type);
+}
+exports.hasValueAxis = hasValueAxis;
 var defaultColors = [
     "#2A9D8F",
     "#78586F",
@@ -1313,6 +1326,10 @@ function locator(value) {
     }
 }
 exports.locator = locator;
+function getSeriaColor(color, item) {
+    return typeof color === "function" ? item && color(item) : color;
+}
+exports.getSeriaColor = getSeriaColor;
 function log10(x) {
     return Math.log(x) / Math.LN10;
 }
@@ -1420,6 +1437,25 @@ function roundToTwoNumAfterPoint(p) {
     return Math.round((p * 100 + Number.EPSILON) * 100) / 100;
 }
 exports.roundToTwoNumAfterPoint = roundToTwoNumAfterPoint;
+function formatTotal(total, value) {
+    var sum = Number(value);
+    if (!isFinite(sum)) {
+        return "";
+    }
+    if (typeof total === "function") {
+        return "".concat(total(sum));
+    }
+    return "".concat(parseFloat(sum.toFixed(12)));
+}
+exports.formatTotal = formatTotal;
+function getTotalAriaAttrs(total) {
+    return {
+        role: "graphics-symbol",
+        "aria-roledescription": "total",
+        "aria-label": "total ".concat(total),
+    };
+}
+exports.getTotalAriaAttrs = getTotalAriaAttrs;
 function verticalCenteredText(text) {
     return (0, dom_1.sv)("tspan", {
         dy: "0.5ex",
@@ -1526,17 +1562,6 @@ function getClassesForRotateScale(position, angle) {
     return className;
 }
 exports.getClassesForRotateScale = getClassesForRotateScale;
-function getScales(config) {
-    var scales = [];
-    for (var scaleName in config) {
-        var scale = config[scaleName];
-        if (scale.min || scale.max || scale.maxTicks || scale.text || scale.value) {
-            scales.push(scaleName);
-        }
-    }
-    return scales;
-}
-exports.getScales = getScales;
 function getSizesSVGText(text, config) {
     var sizes = [];
     config = __assign({ font: "normal 14px Roboto", lineHeight: 18 }, config);
@@ -1588,6 +1613,581 @@ exports.checkPositions = checkPositions;
 
 "use strict";
 
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getColumnHeaderText = exports.getReverseScrollState = exports.getEditorValue = exports.getComboEditorValue = exports.getValueForNumberColumn = exports.getOptionValue = exports.resolveFilterOptions = exports.getFilterOptions = exports.normalizeOptions = exports.getEditorOptions = exports.applyPattern = exports.getMaxColsWidth = exports.getTreeCellWidthOffset = exports.getCalculatedRowHeight = exports.getMaxRowHeight = exports.getNormalizeFilterData = exports.calculateVisibleRange = exports.countColumns = exports.measureTextHeight = exports.resolveFixedRowHeight = exports.normalizeArray = exports.colsWidth = exports.rowsHeight = exports.getTotalRowHeight = void 0;
+var core_1 = __webpack_require__(1);
+var types_1 = __webpack_require__(5);
+var default_1 = __webpack_require__(27);
+var main_1 = __webpack_require__(11);
+var date_1 = __webpack_require__(17);
+var input_1 = __webpack_require__(36);
+var common_1 = __webpack_require__(12);
+function getTotalRowHeight(row) {
+    return (row === null || row === void 0 ? void 0 : row.$height) + (((row === null || row === void 0 ? void 0 : row.$opened) && (row === null || row === void 0 ? void 0 : row.$subRowHeight)) || 0) || 0;
+}
+exports.getTotalRowHeight = getTotalRowHeight;
+// summed height of visible rows [from, to): O(1) via prefix sums when built, O(n) fallback
+function rowsHeight(config, rows, from, to) {
+    return config.$rowHeights ? config.$rowHeights.rangeSize(from, to) : (0, main_1.getTotalHeight)(rows.slice(from, to));
+}
+exports.rowsHeight = rowsHeight;
+// summed width of visible columns [from, to): O(1) via prefix sums when built, O(n) fallback
+function colsWidth(config, cols, from, to) {
+    return config.$colWidths ? config.$colWidths.rangeSize(from, to) : (0, main_1.getTotalWidth)(cols.slice(from, to));
+}
+exports.colsWidth = colsWidth;
+function normalizeArray(obj, name) {
+    if (!obj[name]) {
+        return;
+    }
+    if (typeof obj[name] === "string") {
+        obj[name] = [
+            {
+                text: "".concat(obj[name]),
+            },
+        ];
+    }
+    else {
+        obj[name] = obj[name].map(function (el) {
+            if (typeof el === "string") {
+                el = { text: el };
+            }
+            return el;
+        });
+    }
+}
+exports.normalizeArray = normalizeArray;
+/**
+ * Resolves the height of a single header/footer level from the headerRowHeight/footerRowHeight value.
+ * An array form describes the levels individually, a plain number applies to every level.
+ * @param value - the headerRowHeight/footerRowHeight config value
+ * @param index - the zero-based header/footer level index
+ * @returns the level height and its auto-height state, where `auto: null` means
+ * "the legacy mode, the headerAutoHeight/footerAutoHeight flag decides"
+ */
+function resolveFixedRowHeight(value, index) {
+    if (Array.isArray(value)) {
+        var level = value[index];
+        if (level === "auto") {
+            return { height: default_1.DEFAULT_ROW_HEIGHT, auto: true };
+        }
+        return {
+            height: typeof level === "number" && level > 0 ? level : default_1.DEFAULT_ROW_HEIGHT,
+            auto: false,
+        };
+    }
+    return { height: typeof value === "number" && value > 0 ? value : default_1.DEFAULT_ROW_HEIGHT, auto: null };
+}
+exports.resolveFixedRowHeight = resolveFixedRowHeight;
+function measureTextHeight(_a) {
+    var _b = _a.text, text = _b === void 0 ? "" : _b, _c = _a.width, width = _c === void 0 ? 0 : _c, _d = _a.lineHeight, lineHeight = _d === void 0 ? 20 : _d, _e = _a.font, font = _e === void 0 ? "14.4px Arial" : _e, _f = _a.htmlEnable, htmlEnable = _f === void 0 ? false : _f;
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d", {
+        alpha: false,
+    });
+    ctx.font = font;
+    var defaultLineBreak = [];
+    var mathLineBreak = [];
+    if (htmlEnable)
+        text = (0, main_1.removeHTMLTags)(text);
+    var lineBreak = Math.ceil(ctx.measureText(text).width / width);
+    if (lineBreak > 1)
+        lineBreak = (0, core_1.getTextLines)({ ctx: ctx, text: text, maxWidth: width }).length;
+    mathLineBreak.push(lineBreak);
+    defaultLineBreak.push(text.split("\n").length);
+    var maxRows = Math.max((0, core_1.getMaxArrayNumber)(defaultLineBreak), (0, core_1.getMaxArrayNumber)(mathLineBreak));
+    canvas.remove();
+    return maxRows * lineHeight;
+}
+exports.measureTextHeight = measureTextHeight;
+function countColumns(config, columns) {
+    var headerRowsCount = 0;
+    var footerRowsCount = 0;
+    var totalWidth = 0;
+    var colspans = false;
+    var rowsHeadersCount = 0;
+    var footer = false;
+    columns.forEach(function (col, index) {
+        col.$index = index;
+        headerRowsCount = Math.max(headerRowsCount, col.header.length);
+        totalWidth += col.$width;
+        if (col.footer) {
+            footerRowsCount = Math.max(footerRowsCount, col.footer.length);
+            if (!footer) {
+                footer = true;
+            }
+        }
+        if (!colspans) {
+            for (var _i = 0, _a = col.header; _i < _a.length; _i++) {
+                var head = _a[_i];
+                if (head.colspan) {
+                    colspans = true;
+                    return;
+                }
+            }
+        }
+    });
+    // fill missing cells
+    columns.forEach(function (col) {
+        if (footer) {
+            col.footer = col.footer || [];
+        }
+        if (col.header.length < headerRowsCount) {
+            for (var i = 0; i < headerRowsCount; i++) {
+                col.header[i] = col.header[i] || { text: "" };
+            }
+        }
+        if (col.footer) {
+            if (col.footer.length < footerRowsCount) {
+                for (var i = 0; i < footerRowsCount; i++) {
+                    col.footer[i] = col.footer[i] || { text: "" };
+                }
+            }
+            for (var i = 0; i < col.footer.length; i++) {
+                if (!col.footer[i].id)
+                    col.footer[i].id = (0, core_1.uid)();
+            }
+        }
+        col.header = col.header.map(function (head) {
+            if (typeof head !== "object") {
+                head = { text: head };
+            }
+            head.css = head.css || "";
+            if (!head.text && !head.css.includes("dhx_cell-empty")) {
+                head.css += " dhx_cell-empty";
+            }
+            if (!head.id)
+                head.id = (0, core_1.uid)();
+            return head;
+        });
+        // find header columns indexes
+        if (col.header[0].text === "") {
+            rowsHeadersCount++;
+        }
+    });
+    config.$totalWidth = totalWidth;
+    config.$colspans = colspans;
+    config.$footer = footer;
+    return rowsHeadersCount;
+}
+exports.countColumns = countColumns;
+function getVisibleRange(viewportSize, scrollPosition, items, sizeProperty) {
+    if (items === void 0) { items = []; }
+    var start = -1;
+    var end = -1;
+    var accumulatedSize = 0;
+    var currentIndex = 0;
+    for (var index = 0; index < items.length; index++) {
+        if (items[index].hidden)
+            continue;
+        var size = sizeProperty === "$width" ? items[index][sizeProperty] : getTotalRowHeight(items[index]);
+        if (accumulatedSize + size >= scrollPosition && start === -1) {
+            start = currentIndex;
+        }
+        if (accumulatedSize >= scrollPosition + viewportSize) {
+            end = currentIndex;
+            break;
+        }
+        accumulatedSize += size;
+        currentIndex++;
+    }
+    if (start === -1)
+        start = 0;
+    if (end === -1)
+        end = currentIndex;
+    return { start: start, end: end };
+}
+function calculateVisibleRange(viewPortSize, scroll, config, data) {
+    var topSplit = config.topSplit || 0;
+    var bottomSplit = config.bottomSplit || 0;
+    var leftSplit = config.leftSplit || 0;
+    var rightSplit = config.rightSplit || 0;
+    var hasSplitRows = topSplit + bottomSplit > 0;
+    var hasSplitCols = leftSplit + rightSplit > 0;
+    var rowHeights = config.$rowHeights;
+    var colWidths = config.$colWidths;
+    var fixedRowsHeight = 0;
+    if (hasSplitRows) {
+        if (rowHeights) {
+            if (topSplit)
+                fixedRowsHeight += rowHeights.rangeSize(0, topSplit);
+            if (bottomSplit)
+                fixedRowsHeight += rowHeights.rangeSize(rowHeights.length - bottomSplit, rowHeights.length);
+        }
+        else {
+            fixedRowsHeight =
+                (0, main_1.getTotalHeight)(data.slice(0, topSplit)) +
+                    (bottomSplit ? (0, main_1.getTotalHeight)(data.slice(-bottomSplit)) : 0);
+        }
+    }
+    var fixedColsWidth = 0;
+    var leftFixedCount = leftSplit;
+    if (hasSplitCols) {
+        var leftFixedCols = (0, common_1.getCurrFixedCols)(config, types_1.Split.left);
+        var rightFixedCols = (0, common_1.getCurrFixedCols)(config, types_1.Split.right);
+        leftFixedCount = leftFixedCols.length;
+        fixedColsWidth = (0, main_1.getTotalWidth)(leftFixedCols) + (0, main_1.getTotalWidth)(rightFixedCols);
+    }
+    var adjustedViewportHeight = viewPortSize.height - (config.$headerHeight || 0) - (config.$footerHeight || 0) - fixedRowsHeight;
+    var adjustedViewportWidth = viewPortSize.width - fixedColsWidth;
+    var yPosition;
+    if (rowHeights && !hasSplitRows) {
+        var bottom = scroll.top + adjustedViewportHeight;
+        var start = rowHeights.findIndex(scroll.top);
+        var endRow = rowHeights.findIndex(bottom);
+        var end = rowHeights.rangeSize(0, endRow) >= bottom ? endRow : endRow + 1;
+        yPosition = { start: start, end: end };
+    }
+    else {
+        var viewportRows = hasSplitRows ? data.slice(topSplit, -bottomSplit || data.length) : data;
+        yPosition = getVisibleRange(adjustedViewportHeight, scroll.top, viewportRows, "$height");
+    }
+    var xPosition;
+    if (colWidths && !hasSplitCols) {
+        var right = scroll.left + adjustedViewportWidth;
+        var start = colWidths.findIndex(scroll.left);
+        var endCol = colWidths.findIndex(right);
+        var end = colWidths.rangeSize(0, endCol) >= right ? endCol : endCol + 1;
+        xPosition = { start: start, end: end };
+    }
+    else {
+        var viewportCols = hasSplitCols
+            ? config.columns.slice(leftSplit, -rightSplit || config.columns.length)
+            : config.columns;
+        xPosition = getVisibleRange(adjustedViewportWidth, scroll.left, viewportCols, "$width");
+    }
+    return {
+        xStart: xPosition.start + leftFixedCount,
+        xEnd: xPosition.end + leftFixedCount,
+        yStart: yPosition.start + topSplit,
+        yEnd: yPosition.end + topSplit,
+    };
+}
+exports.calculateVisibleRange = calculateVisibleRange;
+function getNormalizeFilterData(arr, name, multiselection, editorType) {
+    var allItems = arr.map(function (item) { return item[name]; });
+    if (multiselection && editorType === "multiselect") {
+        allItems.forEach(function (item, index) {
+            if (typeof item === "string" && item.includes(", ")) {
+                item.split(", ").forEach(function (i) { return allItems.push(i); });
+                delete allItems[index];
+            }
+        });
+    }
+    return allItems
+        .filter(function (item, i, array) { return array.indexOf(item) === i && (0, core_1.isDefined)(item); })
+        .sort(function (a, b) {
+        var numA = parseFloat(a);
+        var numB = parseFloat(b);
+        if (!isNaN(numA) && !isNaN(numB)) {
+            return numA === numB ? a.toString().localeCompare(b.toString()) : numA - numB;
+        }
+        a = typeof a === "boolean" ? a.toString() : a;
+        b = typeof b === "boolean" ? b.toString() : b;
+        if (isNaN(a) && isNaN(b))
+            return a.localeCompare(b);
+        return a === "" ? -1 : b === "" ? 1 : isNaN(a) ? 1 : -1;
+    });
+}
+exports.getNormalizeFilterData = getNormalizeFilterData;
+var getMaxRowHeight = function (_a) {
+    var _b, _c;
+    var cols = _a.cols, row = _a.row, _d = _a.config, config = _d === void 0 ? { font: "14.4px Arial", lineHeight: 20 } : _d;
+    var HORIZONTAL_OFFSET = 24 + common_1.BORDERS;
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d", {
+        alpha: false,
+    });
+    ctx.font = config.font;
+    var definedColumns = {};
+    var colLength = cols.length;
+    for (var index = 0; index < colLength; index++) {
+        definedColumns[cols[index].id] = {
+            width: cols[index].$width - HORIZONTAL_OFFSET || 0,
+            col: cols[index],
+        };
+    }
+    var defaultLineBreak = [];
+    var mathLineBreak = [];
+    // eslint-disable-next-line prefer-const
+    for (var _i = 0, _e = Object.entries(row); _i < _e.length; _i++) {
+        var _f = _e[_i], key = _f[0], value = _f[1];
+        var column = (_b = definedColumns[key]) === null || _b === void 0 ? void 0 : _b.col;
+        if (column &&
+            key !== "height" &&
+            !key.startsWith("$") &&
+            (typeof value === "string" ||
+                typeof value === "number" ||
+                value instanceof Date ||
+                Array.isArray(value))) {
+            value =
+                column.editorType === "combobox" || column.editorType === "multiselect"
+                    ? getComboEditorValue(value, column, row)
+                    : applyPattern(value, column);
+            var currentValue = "";
+            if (typeof column.template === "function") {
+                var templateValue = column.template(value, row, definedColumns[key].col);
+                currentValue = column.htmlEnable ? (0, main_1.removeHTMLTags)(templateValue) : templateValue.toString();
+            }
+            else if (typeof value === "string") {
+                if (column.htmlEnable) {
+                    currentValue = (0, main_1.removeHTMLTags)(value);
+                }
+                else {
+                    currentValue = value;
+                }
+            }
+            else {
+                currentValue = value.toString();
+            }
+            var lineBreak = Math.ceil(ctx.measureText(currentValue).width / definedColumns[key].width);
+            if (lineBreak > 1) {
+                lineBreak = (0, core_1.getTextLines)({
+                    ctx: ctx,
+                    text: currentValue,
+                    maxWidth: (_c = definedColumns[key]) === null || _c === void 0 ? void 0 : _c.width,
+                }).length;
+            }
+            mathLineBreak.push(lineBreak);
+            defaultLineBreak.push(currentValue.split("\n").length);
+        }
+    }
+    var maxRows = Math.max((0, core_1.getMaxArrayNumber)(defaultLineBreak), (0, core_1.getMaxArrayNumber)(mathLineBreak));
+    canvas.remove();
+    return maxRows * config.lineHeight;
+};
+exports.getMaxRowHeight = getMaxRowHeight;
+var getCalculatedRowHeight = function (height, config) {
+    config = __assign({ rowHeight: default_1.DEFAULT_ROW_HEIGHT, verticalOffset: 10 }, config);
+    var calculateHeight = config.rowHeight < default_1.DEFAULT_ROW_HEIGHT ? height : height + config.verticalOffset * 2;
+    return height < config.rowHeight ? config.rowHeight : calculateHeight;
+};
+exports.getCalculatedRowHeight = getCalculatedRowHeight;
+var getTreeCellWidthOffset = function (row, toArrow) {
+    if (toArrow === void 0) { toArrow = false; }
+    return 20 + row.$level * 20 - (toArrow && row.$items ? 20 : 0);
+};
+exports.getTreeCellWidthOffset = getTreeCellWidthOffset;
+var getMaxColsWidth = function (rows, cols, config, target) {
+    var _a;
+    if (config === void 0) { config = {
+        font: "normal 14.4px Arial",
+    }; }
+    if (!rows.length || !cols.length) {
+        return {};
+    }
+    var definedColumns = {};
+    var colLength = cols.length;
+    var rowsLength = rows.length;
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d", {
+        alpha: false,
+    });
+    ctx.font = config.font;
+    for (var index = 0; index < colLength; index++) {
+        definedColumns[cols[index].id] = {
+            width: 20,
+            col: cols[index],
+        };
+    }
+    for (var index = 0; index < rowsLength; index++) {
+        // eslint-disable-next-line prefer-const
+        for (var _i = 0, _b = Object.entries(rows[index]); _i < _b.length; _i++) {
+            var _c = _b[_i], key = _c[0], value = _c[1];
+            var column = (_a = definedColumns[key]) === null || _a === void 0 ? void 0 : _a.col;
+            if (column &&
+                key !== "height" &&
+                !key.startsWith("$") &&
+                (typeof value === "string" ||
+                    typeof value === "number" ||
+                    value instanceof Date ||
+                    Array.isArray(value))) {
+                value =
+                    column.editorType === "combobox" || column.editorType === "multiselect"
+                        ? getComboEditorValue(value, column, rows[index])
+                        : value;
+                if (target !== "header") {
+                    value = applyPattern(value, column);
+                }
+                var currentValue = void 0;
+                if (typeof (column === null || column === void 0 ? void 0 : column.template) === "function" && target === "data") {
+                    var templateValue = column.template(value, rows[index], column);
+                    currentValue = column.htmlEnable ? (0, main_1.removeHTMLTags)(templateValue) : templateValue;
+                }
+                else {
+                    currentValue = column.htmlEnable ? (0, main_1.removeHTMLTags)(value) : value.toString();
+                }
+                var width = ctx.measureText(currentValue).width;
+                if (width > definedColumns[key].width)
+                    definedColumns[key].width = width;
+            }
+        }
+    }
+    canvas.remove();
+    var totalColumns = {};
+    for (var _d = 0, _e = Object.entries(definedColumns); _d < _e.length; _d++) {
+        var _f = _e[_d], key = _f[0], value = _f[1];
+        totalColumns[key] = Math.ceil(value.width);
+    }
+    return totalColumns;
+};
+exports.getMaxColsWidth = getMaxColsWidth;
+function applyPattern(value, col) {
+    if (!(0, core_1.isDefined)(value) || typeof value === "boolean" || value === "") {
+        return value;
+    }
+    if (col.type === "date") {
+        var dateFormat = col.dateFormat || "%M %d %Y";
+        if (typeof value === "string") {
+            if (!(0, date_1.stringToDate)(value, dateFormat, true)) {
+                var date = new Date(value);
+                if (date === null || date === void 0 ? void 0 : date.valueOf()) {
+                    value = (0, date_1.getFormattedDate)(dateFormat, date);
+                }
+            }
+        }
+        else if (typeof value === "object") {
+            value = (0, date_1.getFormattedDate)(dateFormat, value);
+        }
+        return value;
+    }
+    if (col.type === "number" || col.numberMask) {
+        value = parseFloat(value);
+        if (isNaN(value)) {
+            return value;
+        }
+    }
+    if (col.numberMask) {
+        var maxDecLength = col.numberMask.maxDecLength;
+        if ((0, core_1.isDefined)(maxDecLength)) {
+            value = +value.toFixed(maxDecLength);
+        }
+        return (0, input_1.numberMask)(value, __assign(__assign({}, col.numberMask), { onlyView: true }));
+    }
+    if (col.patternMask) {
+        return (0, input_1.patternMask)(value, col.patternMask);
+    }
+    return value;
+}
+exports.applyPattern = applyPattern;
+function getEditorOptions(col, row) {
+    return __spreadArray(__spreadArray([], ((typeof col.options === "function" ? col.options(col, row) : col.options) || []), true), (col.$customOptions || []), true);
+}
+exports.getEditorOptions = getEditorOptions;
+function normalizeOptions(options) {
+    return (options || []).map(function (option) {
+        if (option !== null && typeof option === "object" && !(option instanceof Date)) {
+            return { id: "".concat(option.id), value: "".concat(option.value) };
+        }
+        return { id: "".concat(option), value: "".concat(option) };
+    });
+}
+exports.normalizeOptions = normalizeOptions;
+function getFilterOptions(col, content) {
+    var _a, _b;
+    var header = (_a = col.header) === null || _a === void 0 ? void 0 : _a.find(function (item) { var _a; return item.content === content && ((_a = item.filterConfig) === null || _a === void 0 ? void 0 : _a.options) !== undefined; });
+    return (_b = header === null || header === void 0 ? void 0 : header.filterConfig) === null || _b === void 0 ? void 0 : _b.options;
+}
+exports.getFilterOptions = getFilterOptions;
+function resolveFilterOptions(col, content, uniqueData) {
+    if (uniqueData === void 0) { uniqueData = []; }
+    var options = getFilterOptions(col, content);
+    var dataOptions = normalizeOptions(uniqueData);
+    if (!options)
+        return dataOptions;
+    if (Array.isArray(options))
+        return normalizeOptions(options);
+    return normalizeOptions(options(dataOptions, col) || []);
+}
+exports.resolveFilterOptions = resolveFilterOptions;
+function getOptionValue(value, column) {
+    var option = getEditorOptions(column).find(function (option) {
+        return typeof option === "string" ? option === value : option.id.toString() === value;
+    });
+    return (option === null || option === void 0 ? void 0 : option.value) || value;
+}
+exports.getOptionValue = getOptionValue;
+function getValueForNumberColumn(col, value) {
+    if (!(0, core_1.isDefined)(value) ||
+        value === "" ||
+        typeof value === "number" ||
+        ["select", "combobox", "multiselect"].includes(col.editorType)) {
+        return value;
+    }
+    else if (typeof value === "string") {
+        return parseFloat(value);
+    }
+    else {
+        return NaN;
+    }
+}
+exports.getValueForNumberColumn = getValueForNumberColumn;
+function getComboEditorValue(value, col, row) {
+    var options = getEditorOptions(col, row);
+    return col.editorType === "multiselect" && typeof value === "string"
+        ? value
+            .split(",")
+            .map(function (val) { return getEditorValue(val.trim(), options); })
+            .join(", ")
+        : getEditorValue(value, options);
+}
+exports.getComboEditorValue = getComboEditorValue;
+function getEditorValue(value, options) {
+    var option = options.find(function (option) { return option instanceof Object && option.id == value; });
+    return option ? option.value : value;
+}
+exports.getEditorValue = getEditorValue;
+function getReverseScrollState(grid) {
+    var _a;
+    var scrollState = grid.getScrollState();
+    var scrollBarWidth = (0, common_1.calcScrollBarWidth)(grid.config, !!((_a = grid.scrollView) === null || _a === void 0 ? void 0 : _a.config.enable));
+    var totalScrollX = grid.config.$totalWidth - grid.config.$width + common_1.BORDERS + scrollBarWidth.y;
+    var totalScrollY = grid.config.$totalHeight -
+        grid.config.$height +
+        grid.config.$headerHeight +
+        grid.config.$footerHeight +
+        common_1.BORDERS +
+        scrollBarWidth.x;
+    return {
+        x: totalScrollX > 0 ? totalScrollX - scrollState.x : 0,
+        y: totalScrollY > 0 ? totalScrollY - scrollState.y : 0,
+    };
+}
+exports.getReverseScrollState = getReverseScrollState;
+function getColumnHeaderText(col) {
+    var _a, _b;
+    var h = (_a = col.header) === null || _a === void 0 ? void 0 : _a.find(function (h) { return h.text && typeof h.text === "string"; });
+    return (h === null || h === void 0 ? void 0 : h.text) || ((_b = col.id) === null || _b === void 0 ? void 0 : _b.toString()) || "";
+}
+exports.getColumnHeaderText = getColumnHeaderText;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 var __rest = (this && this.__rest) || function (s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -1604,7 +2204,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCellWidth = exports.setAttacments = exports.widgetConfig = exports.baseProps = exports.isVerify = exports.isTimeFormat = exports.baseInputValidate = exports.validateInput = exports.isBlock = exports.validateTemplate = exports.getValidationMessage = exports.getFormItemCss = void 0;
 /* eslint-disable no-useless-escape */
 var types_1 = __webpack_require__(6);
-var input_1 = __webpack_require__(41);
+var input_1 = __webpack_require__(45);
 var core_1 = __webpack_require__(1);
 function getFormItemCss(item, validate, focus) {
     var _a;
@@ -1785,7 +2385,7 @@ exports.getCellWidth = getCellWidth;
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1852,7 +2452,7 @@ exports.toViewLike = toViewLike;
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1869,11 +2469,11 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getClosestBottom = exports.getClosestTop = exports.getLastChild = exports.isWasmSupported = exports.scrollFixedColsAndRows = exports.getTotalHeight = exports.getTotalWidth = exports.isHtmlEnable = exports.isTooltip = exports.getTooltipConfig = exports.isContentTooltip = exports.showTooltip = exports.isAutoWidth = exports.isSortable = exports.isRowEmpty = exports.isCssSupport = exports.removeHTMLTags = exports.getStyleByClass = exports.transpose = void 0;
+exports.getClosestBottom = exports.getClosestTop = exports.getLastChild = exports.isWasmSupported = exports.scrollFixedColsAndRows = exports.getTotalHeight = exports.getTotalWidth = exports.isInteractiveTarget = exports.isHtmlEnable = exports.isTooltip = exports.getTooltipConfig = exports.isContentTooltip = exports.showTooltip = exports.isAutoWidth = exports.isSortable = exports.isRowEmpty = exports.isCssSupport = exports.removeHTMLTags = exports.getStyleByClass = exports.transpose = void 0;
 var core_1 = __webpack_require__(1);
 var html_1 = __webpack_require__(2);
-var ts_message_1 = __webpack_require__(13);
-var data_1 = __webpack_require__(11);
+var ts_message_1 = __webpack_require__(19);
+var data_1 = __webpack_require__(8);
 function transpose(arr, transform) {
     var columns = [];
     for (var i = 0; i < arr.length; i++) {
@@ -1936,15 +2536,22 @@ function removeHTMLTags(str) {
         .trim();
 }
 exports.removeHTMLTags = removeHTMLTags;
+var cssSupportCache = {};
 function isCssSupport(property, value) {
+    var key = property + ":" + value;
+    if (key in cssSupportCache)
+        return cssSupportCache[key];
+    var result;
     try {
-        return CSS.supports(property, value);
+        result = CSS.supports(property, value);
     }
     catch (err) {
         var el = document.createElement("div");
         el.style[property] = value;
-        return el.style[property] === value;
+        result = el.style[property] === value;
     }
+    cssSupportCache[key] = result;
+    return result;
 }
 exports.isCssSupport = isCssSupport;
 function isRowEmpty(row) {
@@ -2016,6 +2623,12 @@ function isHtmlEnable(config, col, content) {
     return !!((_b = (_a = content === null || content === void 0 ? void 0 : content.htmlEnable) !== null && _a !== void 0 ? _a : col.htmlEnable) !== null && _b !== void 0 ? _b : config.htmlEnable);
 }
 exports.isHtmlEnable = isHtmlEnable;
+var INTERACTIVE_SELECTOR = "a, button, input, select, textarea, label";
+function isInteractiveTarget(target) {
+    var _a, _b;
+    return !!((_b = (_a = target).closest) === null || _b === void 0 ? void 0 : _b.call(_a, INTERACTIVE_SELECTOR));
+}
+exports.isInteractiveTarget = isInteractiveTarget;
 function getTotalWidth(columns) {
     return columns.reduce(function (total, col) { return total + (col.$width || 0); }, 0);
 }
@@ -2110,484 +2723,16 @@ exports.getClosestBottom = getClosestBottom;
 
 
 /***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getReverseScrollState = exports.getEditorValue = exports.getComboEditorValue = exports.getValueForNumberColumn = exports.getOptionValue = exports.getEditorOptions = exports.applyPattern = exports.getMaxColsWidth = exports.getTreeCellWidthOffset = exports.getCalculatedRowHeight = exports.getMaxRowHeight = exports.getNormalizeFilterData = exports.calculateVisibleRange = exports.countColumns = exports.measureTextHeight = exports.normalizeArray = exports.getTotalRowHeight = void 0;
-var core_1 = __webpack_require__(1);
-var types_1 = __webpack_require__(4);
-var main_1 = __webpack_require__(10);
-var date_1 = __webpack_require__(18);
-var input_1 = __webpack_require__(35);
-var common_1 = __webpack_require__(12);
-function getTotalRowHeight(row) {
-    return (row === null || row === void 0 ? void 0 : row.$height) + (((row === null || row === void 0 ? void 0 : row.$opened) && (row === null || row === void 0 ? void 0 : row.$subRowHeight)) || 0) || 0;
-}
-exports.getTotalRowHeight = getTotalRowHeight;
-function normalizeArray(obj, name) {
-    if (!obj[name]) {
-        return;
-    }
-    if (typeof obj[name] === "string") {
-        obj[name] = [
-            {
-                text: "".concat(obj[name]),
-            },
-        ];
-    }
-    else {
-        obj[name] = obj[name].map(function (el) {
-            if (typeof el === "string") {
-                el = { text: el };
-            }
-            return el;
-        });
-    }
-}
-exports.normalizeArray = normalizeArray;
-function measureTextHeight(_a) {
-    var _b = _a.text, text = _b === void 0 ? "" : _b, _c = _a.width, width = _c === void 0 ? 0 : _c, _d = _a.lineHeight, lineHeight = _d === void 0 ? 20 : _d, _e = _a.font, font = _e === void 0 ? "14.4px Arial" : _e, _f = _a.htmlEnable, htmlEnable = _f === void 0 ? false : _f;
-    var canvas = document.createElement("canvas");
-    var ctx = canvas.getContext("2d", {
-        alpha: false,
-    });
-    ctx.font = font;
-    var defaultLineBreak = [];
-    var mathLineBreak = [];
-    if (htmlEnable)
-        text = (0, main_1.removeHTMLTags)(text);
-    var lineBreak = Math.ceil(ctx.measureText(text).width / width);
-    if (lineBreak > 1)
-        lineBreak = (0, core_1.getTextLines)({ ctx: ctx, text: text, maxWidth: width }).length;
-    mathLineBreak.push(lineBreak);
-    defaultLineBreak.push(text.split("\n").length);
-    var maxRows = Math.max((0, core_1.getMaxArrayNumber)(defaultLineBreak), (0, core_1.getMaxArrayNumber)(mathLineBreak));
-    canvas.remove();
-    return maxRows * lineHeight;
-}
-exports.measureTextHeight = measureTextHeight;
-function countColumns(config, columns) {
-    var headerRowsCount = 0;
-    var footerRowsCount = 0;
-    var totalWidth = 0;
-    var colspans = false;
-    var rowsHeadersCount = 0;
-    var footer = false;
-    columns.forEach(function (col) {
-        headerRowsCount = Math.max(headerRowsCount, col.header.length);
-        totalWidth += col.$width;
-        if (col.footer) {
-            footerRowsCount = Math.max(footerRowsCount, col.footer.length);
-            if (!footer) {
-                footer = true;
-            }
-        }
-        if (!colspans) {
-            for (var _i = 0, _a = col.header; _i < _a.length; _i++) {
-                var head = _a[_i];
-                if (head.colspan) {
-                    colspans = true;
-                    return;
-                }
-            }
-        }
-    });
-    // fill missing cells
-    columns.forEach(function (col) {
-        if (footer) {
-            col.footer = col.footer || [];
-        }
-        if (col.header.length < headerRowsCount) {
-            for (var i = 0; i < headerRowsCount; i++) {
-                col.header[i] = col.header[i] || { text: "" };
-            }
-        }
-        if (col.footer) {
-            if (col.footer.length < footerRowsCount) {
-                for (var i = 0; i < footerRowsCount; i++) {
-                    col.footer[i] = col.footer[i] || { text: "" };
-                }
-            }
-            for (var i = 0; i < col.footer.length; i++) {
-                if (!col.footer[i].id)
-                    col.footer[i].id = (0, core_1.uid)();
-            }
-        }
-        col.header = col.header.map(function (head) {
-            if (typeof head !== "object") {
-                head = { text: head };
-            }
-            head.css = head.css || "";
-            if (!head.text && !head.css.includes("dhx_cell-empty")) {
-                head.css += " dhx_cell-empty";
-            }
-            if (!head.id)
-                head.id = (0, core_1.uid)();
-            return head;
-        });
-        // find header columns indexes
-        if (col.header[0].text === "") {
-            rowsHeadersCount++;
-        }
-    });
-    config.$totalWidth = totalWidth;
-    config.$colspans = colspans;
-    config.$footer = footer;
-    return rowsHeadersCount;
-}
-exports.countColumns = countColumns;
-function getVisibleRange(viewportSize, scrollPosition, items, sizeProperty) {
-    if (items === void 0) { items = []; }
-    var start = -1;
-    var end = -1;
-    var accumulatedSize = 0;
-    var currentIndex = 0;
-    for (var index = 0; index < items.length; index++) {
-        if (items[index].hidden)
-            continue;
-        var size = sizeProperty === "$width" ? items[index][sizeProperty] : getTotalRowHeight(items[index]);
-        if (accumulatedSize + size >= scrollPosition && start === -1) {
-            start = currentIndex;
-        }
-        if (accumulatedSize >= scrollPosition + viewportSize) {
-            end = currentIndex;
-            break;
-        }
-        accumulatedSize += size;
-        currentIndex++;
-    }
-    if (start === -1)
-        start = 0;
-    if (end === -1)
-        end = currentIndex;
-    return { start: start, end: end };
-}
-function calculateVisibleRange(viewPortSize, scroll, config, data) {
-    var leftFixedCols = (0, common_1.getCurrFixedCols)(config, types_1.Split.left);
-    var rightFixedCols = (0, common_1.getCurrFixedCols)(config, types_1.Split.right);
-    var topFixedRows = data.slice(0, config.topSplit || 0);
-    var bottomFixedRows = config.bottomSplit ? data.slice(-config.bottomSplit) : [];
-    var adjustedViewportHeight = viewPortSize.height -
-        (config.$headerHeight || 0) -
-        (config.$footerHeight || 0) -
-        (0, main_1.getTotalHeight)(__spreadArray(__spreadArray([], topFixedRows, true), bottomFixedRows, true));
-    var adjustedViewportWidth = viewPortSize.width - (0, main_1.getTotalWidth)(__spreadArray(__spreadArray([], leftFixedCols, true), rightFixedCols, true));
-    var viewportRows = config.topSplit || config.bottomSplit
-        ? data.slice(topFixedRows.length, -config.bottomSplit || data.length)
-        : data;
-    var viewportCols = config.leftSplit || config.rightSplit
-        ? config.columns.slice(config.leftSplit || 0, -config.rightSplit || config.columns.length)
-        : config.columns;
-    var yPosition = getVisibleRange(adjustedViewportHeight, scroll.top, viewportRows, "$height");
-    var xPosition = getVisibleRange(adjustedViewportWidth, scroll.left, viewportCols, "$width");
-    return {
-        xStart: xPosition.start + leftFixedCols.length,
-        xEnd: xPosition.end + leftFixedCols.length,
-        yStart: yPosition.start + topFixedRows.length,
-        yEnd: yPosition.end + topFixedRows.length,
-    };
-}
-exports.calculateVisibleRange = calculateVisibleRange;
-function getNormalizeFilterData(arr, name, multiselection, editorType) {
-    var allItems = arr.map(function (item) { return item[name]; });
-    if (multiselection && editorType === "multiselect") {
-        allItems.forEach(function (item, index) {
-            if (typeof item === "string" && item.includes(", ")) {
-                item.split(", ").forEach(function (i) { return allItems.push(i); });
-                delete allItems[index];
-            }
-        });
-    }
-    return allItems
-        .filter(function (item, i, array) { return array.indexOf(item) === i && (0, core_1.isDefined)(item); })
-        .sort(function (a, b) {
-        var numA = parseFloat(a);
-        var numB = parseFloat(b);
-        if (!isNaN(numA) && !isNaN(numB)) {
-            return numA === numB ? a.toString().localeCompare(b.toString()) : numA - numB;
-        }
-        a = typeof a === "boolean" ? a.toString() : a;
-        b = typeof b === "boolean" ? b.toString() : b;
-        if (isNaN(a) && isNaN(b))
-            return a.localeCompare(b);
-        return a === "" ? -1 : b === "" ? 1 : isNaN(a) ? 1 : -1;
-    });
-}
-exports.getNormalizeFilterData = getNormalizeFilterData;
-var getMaxRowHeight = function (_a) {
-    var _b, _c;
-    var cols = _a.cols, row = _a.row, _d = _a.config, config = _d === void 0 ? { font: "14.4px Arial", lineHeight: 20 } : _d;
-    var HORIZONTAL_OFFSET = 24 + common_1.BORDERS;
-    var canvas = document.createElement("canvas");
-    var ctx = canvas.getContext("2d", {
-        alpha: false,
-    });
-    ctx.font = config.font;
-    var definedColumns = {};
-    var colLength = cols.length;
-    for (var index = 0; index < colLength; index++) {
-        definedColumns[cols[index].id] = {
-            width: cols[index].$width - HORIZONTAL_OFFSET || 0,
-            col: cols[index],
-        };
-    }
-    var defaultLineBreak = [];
-    var mathLineBreak = [];
-    // eslint-disable-next-line prefer-const
-    for (var _i = 0, _e = Object.entries(row); _i < _e.length; _i++) {
-        var _f = _e[_i], key = _f[0], value = _f[1];
-        var column = (_b = definedColumns[key]) === null || _b === void 0 ? void 0 : _b.col;
-        if (column &&
-            key !== "height" &&
-            !key.startsWith("$") &&
-            (typeof value === "string" ||
-                typeof value === "number" ||
-                value instanceof Date ||
-                Array.isArray(value))) {
-            value =
-                column.editorType === "combobox" || column.editorType === "multiselect"
-                    ? getComboEditorValue(value, column, row)
-                    : applyPattern(value, column);
-            var currentValue = "";
-            if (typeof column.template === "function") {
-                var templateValue = column.template(value, row, definedColumns[key].col);
-                currentValue = column.htmlEnable ? (0, main_1.removeHTMLTags)(templateValue) : templateValue.toString();
-            }
-            else if (typeof value === "string") {
-                if (column.htmlEnable) {
-                    currentValue = (0, main_1.removeHTMLTags)(value);
-                }
-                else {
-                    currentValue = value;
-                }
-            }
-            else {
-                currentValue = value.toString();
-            }
-            var lineBreak = Math.ceil(ctx.measureText(currentValue).width / definedColumns[key].width);
-            if (lineBreak > 1) {
-                lineBreak = (0, core_1.getTextLines)({
-                    ctx: ctx,
-                    text: currentValue,
-                    maxWidth: (_c = definedColumns[key]) === null || _c === void 0 ? void 0 : _c.width,
-                }).length;
-            }
-            mathLineBreak.push(lineBreak);
-            defaultLineBreak.push(currentValue.split("\n").length);
-        }
-    }
-    var maxRows = Math.max((0, core_1.getMaxArrayNumber)(defaultLineBreak), (0, core_1.getMaxArrayNumber)(mathLineBreak));
-    canvas.remove();
-    return maxRows * config.lineHeight;
-};
-exports.getMaxRowHeight = getMaxRowHeight;
-var getCalculatedRowHeight = function (height, config) {
-    config = __assign({ rowHeight: 40, verticalOffset: 10 }, config);
-    var calculateHeight = config.rowHeight < 40 ? height : height + config.verticalOffset * 2;
-    return height < config.rowHeight ? config.rowHeight : calculateHeight;
-};
-exports.getCalculatedRowHeight = getCalculatedRowHeight;
-var getTreeCellWidthOffset = function (row, toArrow) {
-    if (toArrow === void 0) { toArrow = false; }
-    return 20 + row.$level * 20 - (toArrow && row.$items ? 20 : 0);
-};
-exports.getTreeCellWidthOffset = getTreeCellWidthOffset;
-var getMaxColsWidth = function (rows, cols, config, target) {
-    var _a;
-    if (config === void 0) { config = {
-        font: "normal 14.4px Arial",
-    }; }
-    if (!rows.length || !cols.length) {
-        return {};
-    }
-    var definedColumns = {};
-    var colLength = cols.length;
-    var rowsLength = rows.length;
-    var canvas = document.createElement("canvas");
-    var ctx = canvas.getContext("2d", {
-        alpha: false,
-    });
-    ctx.font = config.font;
-    for (var index = 0; index < colLength; index++) {
-        definedColumns[cols[index].id] = {
-            width: 20,
-            col: cols[index],
-        };
-    }
-    for (var index = 0; index < rowsLength; index++) {
-        // eslint-disable-next-line prefer-const
-        for (var _i = 0, _b = Object.entries(rows[index]); _i < _b.length; _i++) {
-            var _c = _b[_i], key = _c[0], value = _c[1];
-            var column = (_a = definedColumns[key]) === null || _a === void 0 ? void 0 : _a.col;
-            if (column &&
-                key !== "height" &&
-                !key.startsWith("$") &&
-                (typeof value === "string" ||
-                    typeof value === "number" ||
-                    value instanceof Date ||
-                    Array.isArray(value))) {
-                value =
-                    column.editorType === "combobox" || column.editorType === "multiselect"
-                        ? getComboEditorValue(value, column, rows[index])
-                        : value;
-                if (target !== "header") {
-                    value = applyPattern(value, column);
-                }
-                var currentValue = void 0;
-                if (typeof (column === null || column === void 0 ? void 0 : column.template) === "function" && target === "data") {
-                    var templateValue = column.template(value, rows[index], column);
-                    currentValue = column.htmlEnable ? (0, main_1.removeHTMLTags)(templateValue) : templateValue;
-                }
-                else {
-                    currentValue = column.htmlEnable ? (0, main_1.removeHTMLTags)(value) : value.toString();
-                }
-                var width = ctx.measureText(currentValue).width;
-                if (width > definedColumns[key].width)
-                    definedColumns[key].width = width;
-            }
-        }
-    }
-    canvas.remove();
-    var totalColumns = {};
-    for (var _d = 0, _e = Object.entries(definedColumns); _d < _e.length; _d++) {
-        var _f = _e[_d], key = _f[0], value = _f[1];
-        totalColumns[key] = Math.ceil(value.width);
-    }
-    return totalColumns;
-};
-exports.getMaxColsWidth = getMaxColsWidth;
-function applyPattern(value, col) {
-    if (!(0, core_1.isDefined)(value) || typeof value === "boolean" || value === "") {
-        return value;
-    }
-    if (col.type === "date") {
-        var dateFormat = col.dateFormat || "%M %d %Y";
-        if (typeof value === "string") {
-            if (!(0, date_1.stringToDate)(value, dateFormat, true)) {
-                var date = new Date(value);
-                if (date === null || date === void 0 ? void 0 : date.valueOf()) {
-                    value = (0, date_1.getFormattedDate)(dateFormat, date);
-                }
-            }
-        }
-        else if (typeof value === "object") {
-            value = (0, date_1.getFormattedDate)(dateFormat, value);
-        }
-        return value;
-    }
-    if (col.type === "number" || col.numberMask) {
-        value = parseFloat(value);
-        if (isNaN(value)) {
-            return value;
-        }
-    }
-    if (col.numberMask) {
-        var maxDecLength = col.numberMask.maxDecLength;
-        if ((0, core_1.isDefined)(maxDecLength)) {
-            value = +value.toFixed(maxDecLength);
-        }
-        return (0, input_1.numberMask)(value, __assign(__assign({}, col.numberMask), { onlyView: true }));
-    }
-    if (col.patternMask) {
-        return (0, input_1.patternMask)(value, col.patternMask);
-    }
-    return value;
-}
-exports.applyPattern = applyPattern;
-function getEditorOptions(col, row) {
-    return __spreadArray(__spreadArray([], ((typeof col.options === "function" ? col.options(col, row) : col.options) || []), true), (col.$customOptions || []), true);
-}
-exports.getEditorOptions = getEditorOptions;
-function getOptionValue(value, column) {
-    var option = getEditorOptions(column).find(function (option) {
-        return typeof option === "string" ? option === value : option.id.toString() === value;
-    });
-    return (option === null || option === void 0 ? void 0 : option.value) || value;
-}
-exports.getOptionValue = getOptionValue;
-function getValueForNumberColumn(col, value) {
-    if (!(0, core_1.isDefined)(value) ||
-        value === "" ||
-        typeof value === "number" ||
-        ["select", "combobox", "multiselect"].includes(col.editorType)) {
-        return value;
-    }
-    else if (typeof value === "string") {
-        return parseFloat(value);
-    }
-    else {
-        return NaN;
-    }
-}
-exports.getValueForNumberColumn = getValueForNumberColumn;
-function getComboEditorValue(value, col, row) {
-    var options = getEditorOptions(col, row);
-    return col.editorType === "multiselect" && typeof value === "string"
-        ? value
-            .split(",")
-            .map(function (val) { return getEditorValue(val.trim(), options); })
-            .join(", ")
-        : getEditorValue(value, options);
-}
-exports.getComboEditorValue = getComboEditorValue;
-function getEditorValue(value, options) {
-    var option = options.find(function (option) { return option instanceof Object && option.id == value; });
-    return option ? option.value : value;
-}
-exports.getEditorValue = getEditorValue;
-function getReverseScrollState(grid) {
-    var _a;
-    var scrollState = grid.getScrollState();
-    var scrollBarWidth = (0, common_1.calcScrollBarWidth)(grid.config, !!((_a = grid.scrollView) === null || _a === void 0 ? void 0 : _a.config.enable));
-    var totalScrollX = grid.config.$totalWidth - grid.config.$width + common_1.BORDERS + scrollBarWidth.y;
-    var totalScrollY = grid.config.$totalHeight -
-        grid.config.$height +
-        grid.config.$headerHeight +
-        grid.config.$footerHeight +
-        common_1.BORDERS +
-        scrollBarWidth.x;
-    return {
-        x: totalScrollX > 0 ? totalScrollX - scrollState.x : 0,
-        y: totalScrollY > 0 ? totalScrollY - scrollState.y : 0,
-    };
-}
-exports.getReverseScrollState = getReverseScrollState;
-
-
-/***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNormalizeDateObject = exports.getCurrFixedCols = exports.calcScrollBarWidth = exports.BORDERS = void 0;
+exports.getNormalizeDateObject = exports.getFooterRowCount = exports.getHeaderRowCount = exports.getCurrFixedCols = exports.calcScrollBarWidth = exports.BORDERS = void 0;
 var html_1 = __webpack_require__(2);
-var types_1 = __webpack_require__(4);
-var date_1 = __webpack_require__(18);
+var types_1 = __webpack_require__(5);
+var date_1 = __webpack_require__(17);
 exports.BORDERS = 2;
 function calcScrollBarWidth(config, customScroll, sizes) {
     var _a, _b;
@@ -2608,6 +2753,21 @@ function getCurrFixedCols(config, split) {
         : config.columns.slice(-config.rightSplit)).filter(function (col) { return !col.hidden; });
 }
 exports.getCurrFixedCols = getCurrFixedCols;
+/**
+ * Number of header rows. `aria-rowindex` is a position within the whole grid,
+ * so header rows occupy the first indices and body rows are offset by this.
+ */
+function getHeaderRowCount(config) {
+    var _a;
+    return ((_a = config.$headerHeightMap) === null || _a === void 0 ? void 0 : _a.length) || 0;
+}
+exports.getHeaderRowCount = getHeaderRowCount;
+/** Number of footer rows; they are the last rows of the grid for `aria-rowcount`. */
+function getFooterRowCount(config) {
+    var _a;
+    return ((_a = config.$footerHeightMap) === null || _a === void 0 ? void 0 : _a.length) || 0;
+}
+exports.getFooterRowCount = getFooterRowCount;
 function getNormalizeDateObject(item, dateFormat) {
     if (typeof item === "string") {
         if (!(0, date_1.stringToDate)(item, dateFormat, true)) {
@@ -2649,40 +2809,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(147), exports);
-__exportStar(__webpack_require__(148), exports);
-__exportStar(__webpack_require__(149), exports);
-__exportStar(__webpack_require__(74), exports);
-__exportStar(__webpack_require__(49), exports);
+__exportStar(__webpack_require__(170), exports);
+__exportStar(__webpack_require__(82), exports);
 
 
 /***/ }),
 /* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(165), exports);
-__exportStar(__webpack_require__(76), exports);
-
-
-/***/ }),
-/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2717,8 +2849,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Label = void 0;
 var dom_1 = __webpack_require__(0);
 var html_1 = __webpack_require__(2);
-var view_1 = __webpack_require__(9);
-var ts_popup_1 = __webpack_require__(14);
+var view_1 = __webpack_require__(10);
+var ts_popup_1 = __webpack_require__(13);
 var types_1 = __webpack_require__(6);
 var Label = /** @class */ (function (_super) {
     __extends(Label, _super);
@@ -2798,7 +2930,7 @@ exports.Label = Label;
 
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2818,20 +2950,20 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(47), exports);
-__exportStar(__webpack_require__(146), exports);
-__exportStar(__webpack_require__(48), exports);
+__exportStar(__webpack_require__(51), exports);
+__exportStar(__webpack_require__(151), exports);
+__exportStar(__webpack_require__(52), exports);
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.KeyManager = void 0;
-var FocusManager_1 = __webpack_require__(20);
+var FocusManager_1 = __webpack_require__(21);
 var html_1 = __webpack_require__(2);
 function getHotKeyCode(code) {
     var matches = code.toLowerCase().match(/\w+/g);
@@ -2944,7 +3076,7 @@ exports.KeyManager = KeyManager;
 
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2972,6 +3104,8 @@ exports.locale = {
     daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Monday"],
     cancel: "Cancel",
+    today: "Today",
+    clear: "Clear",
 };
 /*
     %d	day as a number with leading zero, 01..31
@@ -3390,7 +3524,9 @@ var DateHelper = /** @class */ (function () {
     };
     DateHelper.getDayOrdinal = function (d) {
         var dayMS = 24 * 60 * 60 * 1000;
-        return (d.valueOf() - DateHelper.yearStart(d).valueOf()) / dayMS;
+        var dUTC = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
+        var ysUTC = Date.UTC(d.getFullYear(), 0, 1);
+        return (dUTC - ysUTC) / dayMS;
     };
     DateHelper.getWeekNumber = function (d) {
         var currThursday = d.getDay() === 4 ? d : DateHelper.addDay(d, 4 - d.getDay());
@@ -3424,7 +3560,7 @@ exports.stripTime = stripTime;
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {(function () {
@@ -3744,10 +3880,194 @@ exports.stripTime = stripTime;
   } else {}
 })()
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(44), __webpack_require__(129).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(48), __webpack_require__(133).setImmediate))
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+__exportStar(__webpack_require__(152), exports);
+__exportStar(__webpack_require__(153), exports);
+__exportStar(__webpack_require__(154), exports);
+__exportStar(__webpack_require__(78), exports);
+__exportStar(__webpack_require__(53), exports);
+
 
 /***/ }),
 /* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.formatValue = exports.clearCells = exports.normalizeCell = exports.getCellSource = exports.getReducedRowspan = exports.getReducedColspan = exports.getSpanHeight = exports.getSourceCellIndex = exports.getWidth = void 0;
+var date_1 = __webpack_require__(17);
+function getWidth(columns, colspan, index) {
+    return columns
+        .slice(index, index + (colspan || 1))
+        .filter(function (col) { return !col.hidden; })
+        .reduce(function (width, col) { return width + col.$width; }, 0);
+}
+exports.getWidth = getWidth;
+function getSourceCellIndex(currentIdx, minIdx, count) {
+    return minIdx + ((((currentIdx - minIdx) % count) + count) % count);
+}
+exports.getSourceCellIndex = getSourceCellIndex;
+function getSpanHeight(rows, span) {
+    var range = span.$rowsVisibility;
+    return rows.slice(range[0], range[1] + 1).reduce(function (height, row) { return height + row.$height; }, 0);
+}
+exports.getSpanHeight = getSpanHeight;
+function getReducedColspan(columns, colId, colspan) {
+    var index = columns.findIndex(function (item) { return item.id === colId; });
+    return columns.slice(index, index + (colspan || 1)).filter(function (col) { return !col.hidden; }).length;
+}
+exports.getReducedColspan = getReducedColspan;
+function getReducedRowspan(initialRows, currRows, rowIndex, span) {
+    var _a;
+    var spanHeight = span.rowspan || 1;
+    if (initialRows.length === currRows.length)
+        return spanHeight;
+    var initialRowIndex = (_a = initialRows === null || initialRows === void 0 ? void 0 : initialRows.findIndex(function (i) { return i.id === span.row; })) !== null && _a !== void 0 ? _a : -1;
+    var rowCount = 0;
+    if (initialRowIndex !== -1) {
+        for (var i = 1; i < spanHeight; i++) {
+            var curRow = currRows[rowIndex - rowCount + i];
+            var initialRow = initialRows[initialRowIndex + i];
+            if ((curRow === null || curRow === void 0 ? void 0 : curRow.id) !== (initialRow === null || initialRow === void 0 ? void 0 : initialRow.id)) {
+                rowCount++;
+            }
+        }
+    }
+    return spanHeight - rowCount;
+}
+exports.getReducedRowspan = getReducedRowspan;
+/**
+ * Returns the module that owns the active cell position.
+ * @param holder - the grid, or the renderer config built from it
+ * @returns the module answering `getCell`, `setCell` and `restoreFocus`
+ */
+function getCellSource(holder) {
+    return holder.$activeCell || holder.selection;
+}
+exports.getCellSource = getCellSource;
+function normalizeCell(cell, grid) {
+    if (!cell)
+        return;
+    var row = cell.row, column = cell.column;
+    var span = grid.getSpan(row.id, column.id);
+    if (!span)
+        return cell;
+    return {
+        row: row.id === span.row ? row : grid.data.getItem(span.row),
+        column: column.id === span.column ? column : grid.config.columns.find(function (col) { return col.id === span.column; }),
+    };
+}
+exports.normalizeCell = normalizeCell;
+function clearCells(grid, cells) {
+    var rowMap = new Map(cells.map(function (_a) {
+        var row = _a.row;
+        return [row.id, row];
+    }));
+    var colSet = new Map(cells.map(function (_a) {
+        var column = _a.column;
+        return [column.id, column];
+    }));
+    var originalRows = [];
+    var changedRows = [];
+    var index = 0;
+    rowMap.forEach(function (row) {
+        var obj = {};
+        colSet.forEach(function (column, colId) {
+            if (column.editable !== false) {
+                obj[colId] = "";
+            }
+        });
+        originalRows.push(__assign({}, row));
+        changedRows.push(__assign({ id: row.id }, obj));
+        grid.data.update(row.id, obj, index < rowMap.size - 1);
+        ++index;
+    });
+    if (grid.history) {
+        grid.history.add({
+            type: "change",
+            batch: changedRows,
+            inverse: {
+                type: "change",
+                batch: originalRows,
+            },
+        });
+    }
+    grid.paint();
+}
+exports.clearCells = clearCells;
+function formatValue(value, cell) {
+    var column = cell.column;
+    var row = cell.row;
+    var formattedValue = value;
+    switch (column.type) {
+        case "number": {
+            var numValue = parseFloat(formattedValue === null || formattedValue === void 0 ? void 0 : formattedValue.toString().replace(/[^0-9.-]/g, ""));
+            return isNaN(numValue) ? row[column.id] : numValue;
+        }
+        case "boolean": {
+            if (typeof formattedValue === "boolean")
+                return formattedValue;
+            var strValue = formattedValue === null || formattedValue === void 0 ? void 0 : formattedValue.toString().toLowerCase();
+            if (strValue === "true" || strValue === "1" || strValue === "yes")
+                return true;
+            if (strValue === "false" || strValue === "0" || strValue === "no")
+                return false;
+            return row[column.id];
+        }
+        case "date": {
+            var dateFormat = column.dateFormat || "%M %d %Y";
+            if (!(0, date_1.stringToDate)(formattedValue, dateFormat, true)) {
+                var date = new Date(formattedValue);
+                if (date === null || date === void 0 ? void 0 : date.valueOf()) {
+                    formattedValue = (0, date_1.getFormattedDate)(dateFormat, date);
+                }
+                else {
+                    formattedValue = row[column.id];
+                }
+            }
+        }
+    }
+    return formattedValue;
+}
+exports.formatValue = formatValue;
+
+
+/***/ }),
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3759,21 +4079,15 @@ var FocusManager = /** @class */ (function () {
     function FocusManager() {
         var _this = this;
         this._initHandler = function (e) { return (_this._activeWidgetId = (0, html_1.locate)(e, "data-dhx-widget-id")); };
-        this._removeFocusClass = function (e) {
+        this._removeFocusClass = function () {
             var classList = document.body.classList;
             if (classList.contains("utilityfocus"))
                 classList.remove("utilityfocus");
         };
-        this._addFocusClass = function (e) {
+        this._addFocusClass = function () {
             var classList = document.body.classList;
-            if (e.code === "Tab") {
-                if (!classList.contains("utilityfocus"))
-                    classList.add("utilityfocus");
-            }
-            else {
-                if (classList.contains("utilityfocus"))
-                    classList.remove("utilityfocus");
-            }
+            if (!classList.contains("utilityfocus"))
+                classList.add("utilityfocus");
         };
         document.addEventListener("focusin", this._initHandler);
         document.addEventListener("pointerdown", this._initHandler);
@@ -3792,7 +4106,38 @@ exports.focusManager = new FocusManager();
 
 
 /***/ }),
-/* 21 */
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getLocaleString = void 0;
+var en_1 = __webpack_require__(37);
+/**
+ * Returns a localized string by its key, substituting `{name}` placeholders.
+ *
+ * The locale object is read on every call, so `dhx.i18n.setLocale("grid", ...)`
+ * is picked up without rebuilding anything.
+ */
+function getLocaleString(key, params) {
+    var template = en_1.default[key];
+    if (typeof template !== "string") {
+        return "";
+    }
+    if (!params) {
+        return template;
+    }
+    return template.replace(/\{(\w+)\}/g, function (placeholder, name) {
+        var value = params[name];
+        return value === undefined || value === null ? placeholder : "".concat(value);
+    });
+}
+exports.getLocaleString = getLocaleString;
+
+
+/***/ }),
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3800,8 +4145,8 @@ exports.focusManager = new FocusManager();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.splitCsv = exports.throwMoveWarning = exports.isOnlyPermanentFilters = exports.hasJsonOrArrayStructure = exports.isTreeCollection = exports.copyWithoutInner = exports.toDataDriver = exports.toProxy = exports.dhxError = exports.dhxWarning = exports.isDebug = exports.findByConf = exports.naturalCompare = exports.isEqualObj = void 0;
 var core_1 = __webpack_require__(1);
-var dataproxy_1 = __webpack_require__(29);
-var drivers_1 = __webpack_require__(66);
+var dataproxy_1 = __webpack_require__(31);
+var drivers_1 = __webpack_require__(70);
 function isEqualObj(a, b) {
     for (var key in a) {
         if (a[key] !== b[key] || Array.isArray(a[key])) {
@@ -3946,7 +4291,7 @@ exports.splitCsv = splitCsv;
 
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4286,7 +4631,7 @@ exports.ScrollView = ScrollView;
 
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4306,166 +4651,29 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(150), exports);
-__exportStar(__webpack_require__(151), exports);
-__exportStar(__webpack_require__(38), exports);
+__exportStar(__webpack_require__(155), exports);
+__exportStar(__webpack_require__(156), exports);
+__exportStar(__webpack_require__(40), exports);
+__exportStar(__webpack_require__(55), exports);
+__exportStar(__webpack_require__(81), exports);
 
 
 /***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.formatValue = exports.clearCells = exports.normalizeCell = exports.getReducedRowspan = exports.getReducedColspan = exports.getSpanHeight = exports.getWidth = void 0;
-var date_1 = __webpack_require__(18);
-function getWidth(columns, colspan, index) {
-    return columns
-        .slice(index, index + (colspan || 1))
-        .filter(function (col) { return !col.hidden; })
-        .reduce(function (width, col) { return width + col.$width; }, 0);
-}
-exports.getWidth = getWidth;
-function getSpanHeight(rows, span) {
-    var range = span.$rowsVisibility;
-    return rows.slice(range[0], range[1] + 1).reduce(function (height, row) { return height + row.$height; }, 0);
-}
-exports.getSpanHeight = getSpanHeight;
-function getReducedColspan(columns, colId, colspan) {
-    var index = columns.findIndex(function (item) { return item.id === colId; });
-    return columns.slice(index, index + (colspan || 1)).filter(function (col) { return !col.hidden; }).length;
-}
-exports.getReducedColspan = getReducedColspan;
-function getReducedRowspan(initialRows, currRows, rowIndex, span) {
-    var _a;
-    var spanHeight = span.rowspan || 1;
-    if (initialRows.length === currRows.length)
-        return spanHeight;
-    var initialRowIndex = (_a = initialRows === null || initialRows === void 0 ? void 0 : initialRows.findIndex(function (i) { return i.id === span.row; })) !== null && _a !== void 0 ? _a : -1;
-    var rowCount = 0;
-    if (initialRowIndex !== -1) {
-        for (var i = 1; i < spanHeight; i++) {
-            var curRow = currRows[rowIndex - rowCount + i];
-            var initialRow = initialRows[initialRowIndex + i];
-            if ((curRow === null || curRow === void 0 ? void 0 : curRow.id) !== (initialRow === null || initialRow === void 0 ? void 0 : initialRow.id)) {
-                rowCount++;
-            }
-        }
-    }
-    return spanHeight - rowCount;
-}
-exports.getReducedRowspan = getReducedRowspan;
-function normalizeCell(cell, grid) {
-    if (!cell)
-        return;
-    var row = cell.row, column = cell.column;
-    var span = grid.getSpan(row.id, column.id);
-    if (!span)
-        return cell;
-    return {
-        row: row.id === span.row ? row : grid.data.getItem(span.row),
-        column: column.id === span.column ? column : grid.config.columns.find(function (col) { return col.id === span.column; }),
-    };
-}
-exports.normalizeCell = normalizeCell;
-function clearCells(grid, cells) {
-    var rowMap = new Map(cells.map(function (_a) {
-        var row = _a.row;
-        return [row.id, row];
-    }));
-    var colSet = new Map(cells.map(function (_a) {
-        var column = _a.column;
-        return [column.id, column];
-    }));
-    var originalRows = [];
-    var changedRows = [];
-    var index = 0;
-    rowMap.forEach(function (row) {
-        var obj = {};
-        colSet.forEach(function (column, colId) {
-            if (column.editable !== false) {
-                obj[colId] = "";
-            }
-        });
-        originalRows.push(__assign({}, row));
-        changedRows.push(__assign({ id: row.id }, obj));
-        grid.data.update(row.id, obj, index < rowMap.size - 1);
-        ++index;
-    });
-    if (grid.history) {
-        grid.history.add({
-            type: "change",
-            batch: changedRows,
-            inverse: {
-                type: "change",
-                batch: originalRows,
-            },
-        });
-    }
-    grid.paint();
-}
-exports.clearCells = clearCells;
-function formatValue(value, cell) {
-    var column = cell.column;
-    var row = cell.row;
-    var formattedValue = value;
-    switch (column.type) {
-        case "number": {
-            var numValue = parseFloat(formattedValue === null || formattedValue === void 0 ? void 0 : formattedValue.toString().replace(/[^0-9.-]/g, ""));
-            return isNaN(numValue) ? row[column.id] : numValue;
-        }
-        case "boolean": {
-            if (typeof formattedValue === "boolean")
-                return formattedValue;
-            var strValue = formattedValue === null || formattedValue === void 0 ? void 0 : formattedValue.toString().toLowerCase();
-            if (strValue === "true" || strValue === "1" || strValue === "yes")
-                return true;
-            if (strValue === "false" || strValue === "0" || strValue === "no")
-                return false;
-            return row[column.id];
-        }
-        case "date": {
-            var dateFormat = column.dateFormat || "%M %d %Y";
-            if (!(0, date_1.stringToDate)(formattedValue, dateFormat, true)) {
-                var date = new Date(formattedValue);
-                if (date === null || date === void 0 ? void 0 : date.valueOf()) {
-                    formattedValue = (0, date_1.getFormattedDate)(dateFormat, date);
-                }
-                else {
-                    formattedValue = row[column.id];
-                }
-            }
-        }
-    }
-    return formattedValue;
-}
-exports.formatValue = formatValue;
-
-
-/***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DataDriver = exports.DragEvents = exports.DataEvents = exports.TreeFilterType = void 0;
+/** Scope a tree filtering rule is matched against. */
 var TreeFilterType;
 (function (TreeFilterType) {
+    /** Every item at any nesting level. */
     TreeFilterType["all"] = "all";
+    /** Only items at the level given by {@link ITreeFilterConfig.level}. */
     TreeFilterType["level"] = "level";
+    /** Only items without children. */
     TreeFilterType["leafs"] = "leafs";
 })(TreeFilterType || (exports.TreeFilterType = TreeFilterType = {}));
 var DataEvents;
@@ -4510,27 +4718,6 @@ var DataDriver;
 
 
 /***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChartEvents = void 0;
-var ChartEvents;
-(function (ChartEvents) {
-    ChartEvents["toggleSeries"] = "toggleSeries";
-    ChartEvents["chartMouseMove"] = "chartMouseMove";
-    ChartEvents["chartMouseLeave"] = "chartMouseLeave";
-    ChartEvents["resize"] = "resize";
-    ChartEvents["serieClick"] = "serieClick";
-    // private
-    ChartEvents["seriaMouseMove"] = "seriaMouseMove";
-    ChartEvents["seriaMouseLeave"] = "seriaMouseLeave";
-})(ChartEvents || (exports.ChartEvents = ChartEvents = {}));
-
-
-/***/ }),
 /* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4548,13 +4735,14 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.defaultHistoryConfig = exports.defaultDragPanelConfig = exports.defaultSubRowConfig = exports.getGroupDefaultConfig = void 0;
-var en_1 = __webpack_require__(43);
+exports.defaultHistoryConfig = exports.defaultDragPanelConfig = exports.defaultSubRowConfig = exports.getGroupDefaultConfig = exports.DEFAULT_ROW_HEIGHT = void 0;
+var en_1 = __webpack_require__(37);
+exports.DEFAULT_ROW_HEIGHT = 40;
 var getGroupDefaultConfig = function (config) {
     if (typeof config === "boolean") {
         config = {};
     }
-    return __assign(__assign({ type: "column", panel: true, panelHeight: 40, hideableColumns: true, showMissed: true }, config), { column: __assign({ id: typeof config.column === "string" ? config.column : null, header: [{ text: en_1.default.groupText }] }, (typeof config.column === "string" ? {} : config.column)) });
+    return __assign(__assign({ type: "column", panel: true, panelHeight: 40, hideableColumns: true, showMissed: true, showEmptyGroups: false, counter: true }, config), { column: __assign({ id: typeof config.column === "string" ? config.column : null, header: [{ text: en_1.default.groupText }] }, (typeof config.column === "string" ? {} : config.column)) });
 };
 exports.getGroupDefaultConfig = getGroupDefaultConfig;
 exports.defaultSubRowConfig = {
@@ -4580,14 +4768,167 @@ exports.defaultHistoryConfig = {
 
 "use strict";
 
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getNavbarButtonCSS = exports.navbarComponentMixin = exports.getIcon = exports.getButtonLabel = exports.getToggleState = exports.isToggleItem = exports.getCount = void 0;
+var dom_1 = __webpack_require__(0);
+var core_1 = __webpack_require__(1);
+function getCount(item, widgetClass, isLimited) {
+    var countColor = {
+        danger: " dhx_navbar-count--color_danger",
+        secondary: " dhx_navbar-count--color_secondary",
+        primary: " dhx_navbar-count--color_primary",
+        success: " dhx_navbar-count--color_success",
+    }[item.countColor] || " dhx_navbar-count--color_danger";
+    return (0, dom_1.el)(".dhx_navbar-count", {
+        class: widgetClass +
+            countColor +
+            (!isLimited && parseInt(item.count, 10) > 99 ? " dhx_navbar-count--overlimit" : ""),
+    }, isLimited && parseInt(item.count, 10) > 99 ? "99+" : item.count);
+}
+exports.getCount = getCount;
+function isToggleItem(item) {
+    if (item.items || item.$openIcon) {
+        return false;
+    }
+    return item.twoState === true || (0, core_1.isDefined)(item.group);
+}
+exports.isToggleItem = isToggleItem;
+/** The position a toggle item is in, as the string an ARIA state attribute takes. */
+function getToggleState(item) {
+    return item.active ? "true" : "false";
+}
+exports.getToggleState = getToggleState;
+var toName = function (text) { return (text ? String(text).trim() : ""); };
+/** The accessible name of a button: its text, else its tooltip, else the fallback, then its count. */
+function getButtonLabel(item, fallback) {
+    var name = toName(item.value) || toName(item.tooltip) || toName(fallback);
+    if (!name) {
+        return;
+    }
+    return item.count > 0 ? "".concat(name, " ").concat(item.count) : name;
+}
+exports.getButtonLabel = getButtonLabel;
+function getIcon(iconName, type) {
+    if (iconName === void 0) { iconName = ""; }
+    if (iconName.startsWith("dxi")) {
+        iconName = "dxi " + iconName;
+    }
+    return (0, dom_1.el)("span", {
+        class: "dhx_".concat(type, "__icon ").concat(iconName),
+        "aria-hidden": "true",
+    });
+}
+exports.getIcon = getIcon;
+var getNavbarItemClass = function (widgetName, item, asMenuItem) {
+    var baseClassName = "";
+    var resultClassName = "";
+    if (asMenuItem) {
+        baseClassName = "dhx_menu-item";
+    }
+    else {
+        baseClassName = "dhx_" + widgetName + "__item";
+    }
+    resultClassName = baseClassName + (item.css ? " " + item.css : "");
+    if (item.type === "spacer" || item.type === "separator") {
+        resultClassName += " ".concat(baseClassName, "--").concat(item.type);
+    }
+    if (item.type === "button" && widgetName === "sidebar" && !item.icon) {
+        resultClassName += " dhx_navbar-item--colapse_hidden";
+    }
+    return resultClassName;
+};
+function navbarComponentMixin(widgetName, item, asMenuItem, body) {
+    var getAriaAttrs = function (type) {
+        var attrs = {
+            role: "none",
+        };
+        if (type === "separator") {
+            attrs.role = "separator";
+            attrs["aria-orientation"] = "vertical";
+        }
+        return attrs;
+    };
+    var itemClass = getNavbarItemClass(widgetName, item, asMenuItem);
+    var hasRibbonSize = widgetName === "ribbon" && (item.type === "navItem" || item.type === "imageButton");
+    return (0, dom_1.el)("li", __assign({ _key: item.id, class: itemClass +
+            (item.icon && !item.value && hasRibbonSize ? " dhx_ribbon__item--icon" : "") +
+            (item.src && !item.value && hasRibbonSize ? " dhx_ribbon__item--icon" : "") +
+            (item.size && hasRibbonSize ? " dhx_ribbon__item--" + item.size : ""), ".innerHTML": item.type === "customHTML" ? item.html : undefined, "data-dhx-id": item.type === "customHTML" ? item.id : undefined }, getAriaAttrs(item.type)), item.type !== "customHTML" ? [body] : undefined);
+}
+exports.navbarComponentMixin = navbarComponentMixin;
+function getNavbarButtonCSS(_a, widgetName) {
+    var color = _a.color, size = _a.size, view = _a.view, full = _a.full, icon = _a.icon, circle = _a.circle, loading = _a.loading, value = _a.value, active = _a.active, count = _a.count;
+    var colorsCss = {
+        danger: " dhx_button--color_danger",
+        secondary: " dhx_button--color_secondary",
+        primary: " dhx_button--color_primary",
+        success: " dhx_button--color_success",
+    }[color] || " dhx_button--color_primary";
+    var sizeCss = {
+        small: " dhx_button--size_small",
+        medium: " dhx_button--size_medium",
+    }[size] || " dhx_button--size_medium";
+    var viewCss = {
+        flat: " dhx_button--view_flat",
+        link: " dhx_button--view_link",
+    }[view] || " dhx_button--view_flat";
+    var fullCss = full ? " dhx_button--width_full" : "";
+    var circleCss = circle ? " dhx_button--circle" : "";
+    var loadingCss = loading ? " dhx_button--loading" : "";
+    var iconViewCss = icon && !value ? " dhx_button--icon" : "";
+    var activeCss = active ? " dhx_button--active" : "";
+    var countCss = (0, core_1.isDefined)(count) ? " dhx_button--count" : "";
+    return (colorsCss + sizeCss + viewCss + fullCss + circleCss + loadingCss + activeCss + iconViewCss + countCss);
+}
+exports.getNavbarButtonCSS = getNavbarButtonCSS;
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ChartEvents = void 0;
+var ChartEvents;
+(function (ChartEvents) {
+    ChartEvents["toggleSeries"] = "toggleSeries";
+    ChartEvents["chartMouseMove"] = "chartMouseMove";
+    ChartEvents["chartMouseLeave"] = "chartMouseLeave";
+    ChartEvents["resize"] = "resize";
+    ChartEvents["serieClick"] = "serieClick";
+    // private
+    ChartEvents["seriaMouseMove"] = "seriaMouseMove";
+    ChartEvents["seriaMouseLeave"] = "seriaMouseLeave";
+})(ChartEvents || (exports.ChartEvents = ChartEvents = {}));
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getContent = exports.HeaderFilterEvent = void 0;
 var dom_1 = __webpack_require__(0);
-var data_1 = __webpack_require__(11);
+var data_1 = __webpack_require__(8);
 var core_1 = __webpack_require__(1);
-var ComboFilter_1 = __webpack_require__(237);
-var SelectFilter_1 = __webpack_require__(238);
-var InputFilter_1 = __webpack_require__(239);
+var ComboFilter_1 = __webpack_require__(248);
+var SelectFilter_1 = __webpack_require__(249);
+var InputFilter_1 = __webpack_require__(250);
 var HeaderFilterEvent;
 (function (HeaderFilterEvent) {
     HeaderFilterEvent["change"] = "change";
@@ -4666,8 +5007,14 @@ function getContent(grid) {
             },
             match: function (_a) {
                 var val = _a.val, match = _a.match, col = _a.col;
+                if (!match)
+                    return true;
                 var value = (0, data_1.applyPattern)(val, col);
-                return match ? (value || typeof value === "boolean") && value.toString() == match : true;
+                // with a manually defined option list the match is the option id, so the raw cell
+                // value is checked first and the formatted one only as a fallback
+                if ((col === null || col === void 0 ? void 0 : col.$filterOptions) && (0, core_1.isDefined)(val) && val.toString() == match)
+                    return true;
+                return (value || typeof value === "boolean") && value.toString() == match;
             },
         },
         comboFilter: {
@@ -4700,13 +5047,18 @@ function getContent(grid) {
             match: function (_a) {
                 var val = _a.val, _b = _a.match, match = _b === void 0 ? "" : _b, _c = _a.multi, multi = _c === void 0 ? false : _c, col = _a.col;
                 var value = (0, data_1.applyPattern)(val, col);
+                var isEqual = function (item) {
+                    return (col === null || col === void 0 ? void 0 : col.$filterOptions)
+                        ? ((0, core_1.isDefined)(val) && "".concat(val) === item) || "".concat(value) === item
+                        : value === item;
+                };
                 if (Array.isArray(match)) {
                     var result = false;
                     var _loop_1 = function (i) {
                         result =
                             multi && typeof value === "string"
                                 ? value.split(", ").some(function (item) { return item === match[i]; })
-                                : match[i] === value;
+                                : isEqual(match[i]);
                         if (result)
                             return "break";
                     };
@@ -4718,7 +5070,7 @@ function getContent(grid) {
                     return match && match.length ? result : true;
                 }
                 else {
-                    return match !== undefined ? value === match : true;
+                    return match !== undefined ? isEqual(match) : true;
                 }
             },
             destructor: function () {
@@ -4738,14 +5090,14 @@ exports.getContent = getContent;
 
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DataProxy = void 0;
-var ajax_1 = __webpack_require__(45);
+var ajax_1 = __webpack_require__(49);
 var DataProxy = /** @class */ (function () {
     function DataProxy(url, config) {
         if (config === void 0) { config = {}; }
@@ -4782,7 +5134,7 @@ exports.DataProxy = DataProxy;
 
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4799,117 +5151,7 @@ var SelectionEvents;
 
 
 /***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNavbarButtonCSS = exports.navbarComponentMixin = exports.getIcon = exports.getCount = void 0;
-var dom_1 = __webpack_require__(0);
-var core_1 = __webpack_require__(1);
-function getCount(item, widgetClass, isLimited) {
-    var countColor = {
-        danger: " dhx_navbar-count--color_danger",
-        secondary: " dhx_navbar-count--color_secondary",
-        primary: " dhx_navbar-count--color_primary",
-        success: " dhx_navbar-count--color_success",
-    }[item.countColor] || " dhx_navbar-count--color_danger";
-    return (0, dom_1.el)(".dhx_navbar-count", {
-        class: widgetClass +
-            countColor +
-            (!isLimited && parseInt(item.count, 10) > 99 ? " dhx_navbar-count--overlimit" : ""),
-    }, isLimited && parseInt(item.count, 10) > 99 ? "99+" : item.count);
-}
-exports.getCount = getCount;
-function getIcon(iconName, type) {
-    if (iconName === void 0) { iconName = ""; }
-    if (iconName.startsWith("dxi")) {
-        iconName = "dxi " + iconName;
-    }
-    return (0, dom_1.el)("span", {
-        class: "dhx_".concat(type, "__icon ").concat(iconName),
-        "aria-hidden": "true",
-    });
-}
-exports.getIcon = getIcon;
-var getNavbarItemClass = function (widgetName, item, asMenuItem) {
-    var baseClassName = "";
-    var resultClassName = "";
-    if (asMenuItem) {
-        baseClassName = "dhx_menu-item";
-    }
-    else {
-        baseClassName = "dhx_" + widgetName + "__item";
-    }
-    resultClassName = baseClassName + (item.css ? " " + item.css : "");
-    if (item.type === "spacer" || item.type === "separator") {
-        resultClassName += " ".concat(baseClassName, "--").concat(item.type);
-    }
-    if (item.type === "button" && widgetName === "sidebar" && !item.icon) {
-        resultClassName += " dhx_navbar-item--colapse_hidden";
-    }
-    return resultClassName;
-};
-function navbarComponentMixin(widgetName, item, asMenuItem, body) {
-    var getAriaAttrs = function (type) {
-        var attrs = {
-            role: "none",
-        };
-        if (type === "separator") {
-            attrs.role = "separator";
-            attrs["aria-orientation"] = "vertical";
-        }
-        return attrs;
-    };
-    var itemClass = getNavbarItemClass(widgetName, item, asMenuItem);
-    var hasRibbonSize = widgetName === "ribbon" && (item.type === "navItem" || item.type === "imageButton");
-    return (0, dom_1.el)("li", __assign({ _key: item.id, class: itemClass +
-            (item.icon && !item.value && hasRibbonSize ? " dhx_ribbon__item--icon" : "") +
-            (item.src && !item.value && hasRibbonSize ? " dhx_ribbon__item--icon" : "") +
-            (item.size && hasRibbonSize ? " dhx_ribbon__item--" + item.size : ""), ".innerHTML": item.type === "customHTML" ? item.html : undefined, "data-dhx-id": item.type === "customHTML" ? item.id : undefined }, getAriaAttrs(item.type)), item.type !== "customHTML" ? [body] : undefined);
-}
-exports.navbarComponentMixin = navbarComponentMixin;
-function getNavbarButtonCSS(_a, widgetName) {
-    var color = _a.color, size = _a.size, view = _a.view, full = _a.full, icon = _a.icon, circle = _a.circle, loading = _a.loading, value = _a.value, active = _a.active, count = _a.count;
-    var colorsCss = {
-        danger: " dhx_button--color_danger",
-        secondary: " dhx_button--color_secondary",
-        primary: " dhx_button--color_primary",
-        success: " dhx_button--color_success",
-    }[color] || " dhx_button--color_primary";
-    var sizeCss = {
-        small: " dhx_button--size_small",
-        medium: " dhx_button--size_medium",
-    }[size] || " dhx_button--size_medium";
-    var viewCss = {
-        flat: " dhx_button--view_flat",
-        link: " dhx_button--view_link",
-    }[view] || " dhx_button--view_flat";
-    var fullCss = full ? " dhx_button--width_full" : "";
-    var circleCss = circle ? " dhx_button--circle" : "";
-    var loadingCss = loading ? " dhx_button--loading" : "";
-    var iconViewCss = icon && !value ? " dhx_button--icon" : "";
-    var activeCss = active ? " dhx_button--active" : "";
-    var countCss = (0, core_1.isDefined)(count) ? " dhx_button--count" : "";
-    return (colorsCss + sizeCss + viewCss + fullCss + circleCss + loadingCss + activeCss + iconViewCss + countCss);
-}
-exports.getNavbarButtonCSS = getNavbarButtonCSS;
-
-
-/***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4929,12 +5171,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(162), exports);
-__exportStar(__webpack_require__(80), exports);
+__exportStar(__webpack_require__(167), exports);
+__exportStar(__webpack_require__(86), exports);
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5100,17 +5342,17 @@ exports.radarScale = radarScale;
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
-var types_1 = __webpack_require__(26);
+var types_1 = __webpack_require__(29);
 var common_1 = __webpack_require__(7);
-var line_1 = __webpack_require__(90);
-var date_1 = __webpack_require__(18);
+var line_1 = __webpack_require__(94);
+var date_1 = __webpack_require__(17);
 var BaseSeria = /** @class */ (function () {
     function BaseSeria(_data, config, other) {
         var _this = this;
@@ -5218,13 +5460,17 @@ var BaseSeria = /** @class */ (function () {
     BaseSeria.prototype._getPointType = function (form, color) {
         return (0, line_1.getShadeHelper)(form, color);
     };
+    BaseSeria.prototype._getPointColor = function () {
+        var color = this.config.pointColor || this.config.color;
+        return typeof color === "string" ? color : undefined;
+    };
     return BaseSeria;
 }());
 exports.default = BaseSeria;
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5278,6 +5524,14 @@ function numberMask(value, options, input) {
             parts[1] += "0";
         }
     }
+    if (input && parts[0]) {
+        var signPrefix = isNegative ? "-" : "";
+        var digits = isNegative ? parts[0].slice(1) : parts[0];
+        if (digits.length > 1) {
+            var stripped = digits.replace(/^0+/, "") || "0";
+            parts[0] = signPrefix + stripped;
+        }
+    }
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, groupSeparator);
     numericValue = parts.join(decSeparator);
     var maskedValue = prefix + numericValue + suffix;
@@ -5291,9 +5545,6 @@ function numberMask(value, options, input) {
         var firstCharIndex = 0;
         if (isNegative && numericValue[firstCharIndex + 2] !== decSeparator)
             ++firstCharIndex;
-        if (numericValue[firstCharIndex] === "0" && numericValue.length > 1 && numericValue[1] !== decSeparator) {
-            maskedValue = prefix + "0" + suffix;
-        }
         if (numericValue[firstCharIndex] === decSeparator) {
             if (isNegative) {
                 maskedValue = prefix + "-0" + decSeparator + suffix;
@@ -5488,14 +5739,56 @@ exports.removePatternMask = removePatternMask;
 
 
 /***/ }),
-/* 36 */
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var locale = {
+    total: "Total",
+    groupText: "Group",
+    dropAreaTitle: "Group by:",
+    dropAreaPlaceholder: "Drag the column header here",
+    // screen reader announcements
+    aria_sortedAscending: "Sorted by {column}, ascending",
+    aria_sortedDescending: "Sorted by {column}, descending",
+    aria_filterApplied: "{count} rows match the filter",
+    aria_filterCleared: "Filter cleared, {count} rows",
+    aria_rowsLoaded: "{count} rows loaded",
+    aria_valueOutOfRange: "Value must be between {min} and {max}",
+    aria_valueBelowMin: "Value must be greater than {min}",
+    aria_valueAboveMax: "Value must be less than {max}",
+    aria_valueClamped: "Value corrected to {value}",
+    // accessible names
+    aria_filter: "Filter {column}",
+    aria_filterByDate: "Filter by date: {column}",
+    aria_sortBy: "Sort by {column}",
+    aria_expandGroup: "Expand group",
+    aria_collapseGroup: "Collapse group",
+    aria_expandRow: "Expand row",
+    aria_collapseRow: "Collapse row",
+    aria_editContent: "Edit content",
+    aria_subRow: "Details for row {id}",
+    aria_dragPanel: "Drag panel",
+    aria_panelHeader: "Panel header",
+    aria_panelFooter: "Panel footer",
+    aria_panelContent: "Panel content",
+    aria_draggableRows: "Draggable rows",
+    aria_rowId: "Row id {id}",
+};
+exports.default = locale;
+
+
+/***/ }),
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VaultMode = exports.ProgressBarEvents = exports.UploaderEvents = exports.FileStatus = void 0;
-var ts_data_1 = __webpack_require__(5);
+var ts_data_1 = __webpack_require__(4);
 var FileStatus;
 (function (FileStatus) {
     FileStatus["queue"] = "queue";
@@ -5524,56 +5817,6 @@ var VaultMode;
 
 
 /***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(75), exports);
-__exportStar(__webpack_require__(168), exports);
-
-
-/***/ }),
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.NavigationBarEvents = exports.DataEvents = void 0;
-var ts_data_1 = __webpack_require__(5);
-Object.defineProperty(exports, "DataEvents", { enumerable: true, get: function () { return ts_data_1.DataEvents; } });
-var NavigationBarEvents;
-(function (NavigationBarEvents) {
-    NavigationBarEvents["inputCreated"] = "inputCreated";
-    NavigationBarEvents["click"] = "click";
-    NavigationBarEvents["openMenu"] = "openMenu";
-    NavigationBarEvents["beforeHide"] = "beforeHide";
-    NavigationBarEvents["afterHide"] = "afterHide";
-    NavigationBarEvents["inputFocus"] = "inputFocus";
-    NavigationBarEvents["inputBlur"] = "inputBlur";
-    NavigationBarEvents["inputChange"] = "inputChange";
-    NavigationBarEvents["input"] = "input";
-    NavigationBarEvents["keydown"] = "keydown";
-})(NavigationBarEvents || (exports.NavigationBarEvents = NavigationBarEvents = {}));
-
-
-/***/ }),
 /* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5594,14 +5837,37 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(81), exports);
-__exportStar(__webpack_require__(175), exports);
-__exportStar(__webpack_require__(82), exports);
-__exportStar(__webpack_require__(54), exports);
+__exportStar(__webpack_require__(79), exports);
+__exportStar(__webpack_require__(173), exports);
 
 
 /***/ }),
 /* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.NavigationBarEvents = exports.DataEvents = void 0;
+var ts_data_1 = __webpack_require__(4);
+Object.defineProperty(exports, "DataEvents", { enumerable: true, get: function () { return ts_data_1.DataEvents; } });
+var NavigationBarEvents;
+(function (NavigationBarEvents) {
+    NavigationBarEvents["inputCreated"] = "inputCreated";
+    NavigationBarEvents["click"] = "click";
+    NavigationBarEvents["openMenu"] = "openMenu";
+    NavigationBarEvents["beforeHide"] = "beforeHide";
+    NavigationBarEvents["afterHide"] = "afterHide";
+    NavigationBarEvents["inputFocus"] = "inputFocus";
+    NavigationBarEvents["inputBlur"] = "inputBlur";
+    NavigationBarEvents["inputChange"] = "inputChange";
+    NavigationBarEvents["input"] = "input";
+    NavigationBarEvents["keydown"] = "keydown";
+})(NavigationBarEvents || (exports.NavigationBarEvents = NavigationBarEvents = {}));
+
+
+/***/ }),
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5621,13 +5887,229 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(94), exports);
-__exportStar(__webpack_require__(202), exports);
-__exportStar(__webpack_require__(96), exports);
+__exportStar(__webpack_require__(87), exports);
+__exportStar(__webpack_require__(180), exports);
+__exportStar(__webpack_require__(88), exports);
+__exportStar(__webpack_require__(59), exports);
 
 
 /***/ }),
-/* 41 */
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getAlpha = exports.alphaToHex = exports.isHex = exports.HexToHSV = exports.RGBToHSV = exports.HexToRGB = exports.RGBToHex = exports.HSVtoRGB = void 0;
+function HSVtoRGB(hsv) {
+    var rgb = { r: 0, g: 0, b: 0 };
+    var h = hsv.h / 60;
+    var s = hsv.s;
+    var v = hsv.v;
+    var i = Math.floor(h) % 6;
+    var f = h - Math.floor(h);
+    var p = 255 * v * (1 - s);
+    var q = 255 * v * (1 - s * f);
+    var t = 255 * v * (1 - s * (1 - f));
+    v *= 255;
+    switch (i) {
+        case 0:
+            rgb.r = v;
+            rgb.g = t;
+            rgb.b = p;
+            break;
+        case 1:
+            rgb.r = q;
+            rgb.g = v;
+            rgb.b = p;
+            break;
+        case 2:
+            rgb.r = p;
+            rgb.g = v;
+            rgb.b = t;
+            break;
+        case 3:
+            rgb.r = p;
+            rgb.g = q;
+            rgb.b = v;
+            break;
+        case 4:
+            rgb.r = t;
+            rgb.g = p;
+            rgb.b = v;
+            break;
+        case 5:
+            rgb.r = v;
+            rgb.g = p;
+            rgb.b = q;
+            break;
+    }
+    for (var key in rgb) {
+        rgb[key] = Math.round(rgb[key]);
+    }
+    return rgb;
+}
+exports.HSVtoRGB = HSVtoRGB;
+function RGBToHex(rgb) {
+    return Object.keys(rgb).reduce(function (hex, c) {
+        var h = rgb[c].toString(16).toUpperCase();
+        h = h.length === 1 ? "0" + h : h;
+        return (hex += h);
+    }, "#");
+}
+exports.RGBToHex = RGBToHex;
+function HexToRGB(hex) {
+    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, function (_m, r, g, b) { return r + r + g + g + b + b; });
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+        ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16),
+        }
+        : null;
+}
+exports.HexToRGB = HexToRGB;
+function RGBToHSV(rgb) {
+    var h;
+    var s;
+    var r = rgb.r / 255;
+    var g = rgb.g / 255;
+    var b = rgb.b / 255;
+    var v = Math.max(r, g, b);
+    var diff = v - Math.min(r, g, b);
+    var diffc = function (c) {
+        return (v - c) / 6 / diff + 1 / 2;
+    };
+    if (diff === 0) {
+        h = s = 0;
+    }
+    else {
+        s = diff / v;
+        var rdif = diffc(r);
+        var gdif = diffc(g);
+        var bdif = diffc(b);
+        if (r === v) {
+            h = bdif - gdif;
+        }
+        else if (g === v) {
+            h = 1 / 3 + rdif - bdif;
+        }
+        else if (b === v) {
+            h = 2 / 3 + gdif - rdif;
+        }
+        if (h < 0) {
+            h += 1;
+        }
+        else if (h > 1) {
+            h -= 1;
+        }
+    }
+    return {
+        h: h * 360,
+        s: s,
+        v: v,
+    };
+}
+exports.RGBToHSV = RGBToHSV;
+function HexToHSV(hex) {
+    return RGBToHSV(HexToRGB(hex.length === 9 ? hex.slice(0, -2) : hex));
+}
+exports.HexToHSV = HexToHSV;
+function isHex(hex) {
+    return /(^#[0-9A-F]{8}$)|(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(hex);
+}
+exports.isHex = isHex;
+function alphaToHex(alpha) {
+    var hex = Math.round(alpha * 255)
+        .toString(16)
+        .toUpperCase();
+    return hex.length === 1 ? "0" + hex : hex;
+}
+exports.alphaToHex = alphaToHex;
+function getAlpha(hex) {
+    return hex.length === 9 ? Number((parseInt(hex.slice(-2), 16) / 255).toFixed(2)) : 1;
+}
+exports.getAlpha = getAlpha;
+
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var en = {
+    cancel: "Cancel",
+    select: "Select",
+    rightClickToDelete: "Right click to delete",
+    customColors: "Custom colors",
+    addNewColor: "Add new color",
+    // accessible names
+    aria_palette: "Color palette",
+    aria_hexInput: "type color in HEX format",
+    aria_alphaInput: "type opacity in percent",
+    // names of the reference colors in sources/helpers/colorNames.ts, used where a color value
+    // has to be reported as a word. Lowercase, because a product embeds them in a longer name
+    aria_colorBlack: "black",
+    aria_colorDarkGray: "dark gray",
+    aria_colorGray: "gray",
+    aria_colorLightGray: "light gray",
+    aria_colorWhite: "white",
+    aria_colorDarkRed: "dark red",
+    aria_colorRed: "red",
+    aria_colorPink: "pink",
+    aria_colorMagenta: "magenta",
+    aria_colorPurple: "purple",
+    aria_colorViolet: "violet",
+    aria_colorDarkBlue: "dark blue",
+    aria_colorBlue: "blue",
+    aria_colorLightBlue: "light blue",
+    aria_colorCyan: "cyan",
+    aria_colorTeal: "teal",
+    aria_colorDarkGreen: "dark green",
+    aria_colorGreen: "green",
+    aria_colorLightGreen: "light green",
+    aria_colorOlive: "olive",
+    aria_colorBrown: "brown",
+    aria_colorOrange: "orange",
+    aria_colorYellow: "yellow",
+    aria_colorBeige: "beige",
+    aria_colorUnknown: "custom color",
+};
+exports.default = en;
+
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+__exportStar(__webpack_require__(98), exports);
+__exportStar(__webpack_require__(212), exports);
+__exportStar(__webpack_require__(100), exports);
+
+
+/***/ }),
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5671,9 +6153,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Input = exports.Validation = void 0;
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var input_1 = __webpack_require__(35);
-var helper_1 = __webpack_require__(8);
-var label_1 = __webpack_require__(15);
+var input_1 = __webpack_require__(36);
+var helper_1 = __webpack_require__(9);
+var label_1 = __webpack_require__(14);
 var events_1 = __webpack_require__(3);
 var types_1 = __webpack_require__(6);
 var Validation;
@@ -6035,7 +6517,40 @@ exports.Input = Input;
 
 
 /***/ }),
-/* 42 */
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getVisibleRowNode = exports.getCellNode = exports.getRowNode = void 0;
+function getRowNode(id, root, split) {
+    var wrapper = split ? ".dhx_grid__cols_".concat(split, "--fixed") : ":not(.dhx_grid-fixed-cols-wrap)";
+    return root.querySelector("".concat(wrapper, " .dhx_grid-row[data-dhx-id=\"").concat(id, "\"]"));
+}
+exports.getRowNode = getRowNode;
+/** Returns a data cell, or the span that covers it, from any part of the grid, frozen columns included. */
+function getCellNode(root, rowId, colId, span) {
+    var selector = span
+        ? ".dhx_span-spans [data-dhx-col-id=\"".concat(span.column, "\"][data-dhx-id=\"").concat(span.row, "\"]")
+        : "[data-dhx-id=\"".concat(rowId, "\"] [data-dhx-col-id=\"").concat(colId, "\"]");
+    return root.querySelector(selector);
+}
+exports.getCellNode = getCellNode;
+function getVisibleRowNode(row, width, offset) {
+    var container = document.createElement("div");
+    container.style.width = width + "px";
+    container.style.overflow = "hidden";
+    row.style.width = width - offset + "px";
+    row.style.marginLeft = offset + "px";
+    container.appendChild(row);
+    return container;
+}
+exports.getVisibleRowNode = getVisibleRowNode;
+
+
+/***/ }),
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6052,15 +6567,16 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.normalizeSpan = exports.getShifts = exports.getSpans = exports.getCells = exports.getHandlers = void 0;
+exports.normalizeSpan = exports.getShifts = exports.getSpans = exports.getCells = exports.resolveCellState = exports.getHandlers = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var cells_1 = __webpack_require__(24);
-var main_1 = __webpack_require__(10);
-var types_1 = __webpack_require__(4);
-var editors_1 = __webpack_require__(227);
+var cells_1 = __webpack_require__(20);
+var main_1 = __webpack_require__(11);
+var types_1 = __webpack_require__(5);
+var editors_1 = __webpack_require__(238);
 var html_1 = __webpack_require__(2);
-var data_1 = __webpack_require__(11);
+var data_1 = __webpack_require__(8);
+var locale_1 = __webpack_require__(22);
 var common_1 = __webpack_require__(12);
 function handleMouse(rowStart, colStart, conf, type, e) {
     colStart = (0, html_1.locateNodeByClassName)(e.target, "dhx_grid-fixed-cols-wrap") ? 0 : colStart;
@@ -6095,15 +6611,120 @@ function getHandlers(row, column, conf) {
     };
 }
 exports.getHandlers = getHandlers;
-function getTreeCell(content, row, col, conf, isToggleSubRow) {
+function isRangeActive(conf) {
+    var _a;
+    return !!((_a = conf.range) === null || _a === void 0 ? void 0 : _a.getRange());
+}
+function isRangedCell(conf, rowId, colId) {
+    return conf.range.isRanged({ x: colId, y: rowId });
+}
+function getSpanAnchors(conf) {
+    var spans = conf.currentSpans;
+    if (!spans || !spans.length) {
+        return null;
+    }
+    var anchors = null;
+    for (var i = 0; i < spans.length; i++) {
+        var _a = spans[i], row = _a.row, column = _a.column, $rowsVisibility = _a.$rowsVisibility, $colsVisibility = _a.$colsVisibility;
+        if (!($rowsVisibility === null || $rowsVisibility === void 0 ? void 0 : $rowsVisibility.length) || !($colsVisibility === null || $colsVisibility === void 0 ? void 0 : $colsVisibility.length)) {
+            continue;
+        }
+        var colspan = $colsVisibility[1] - $colsVisibility[0] + 1;
+        var rowspan = $rowsVisibility[1] - $rowsVisibility[0] + 1;
+        if (colspan < 2 && rowspan < 2) {
+            continue;
+        }
+        anchors = anchors || new Map();
+        var key = "".concat(row);
+        var rowAnchors = anchors.get(key);
+        if (rowAnchors) {
+            rowAnchors.push({ column: column, colspan: colspan, rowspan: rowspan });
+        }
+        else {
+            anchors.set(key, [{ column: column, colspan: colspan, rowspan: rowspan }]);
+        }
+    }
+    return anchors;
+}
+function getSpanExtent(rowAnchors, colId) {
+    for (var i = 0; i < rowAnchors.length; i++) {
+        if ("".concat(rowAnchors[i].column) === "".concat(colId)) {
+            return rowAnchors[i];
+        }
+    }
+    return null;
+}
+function isCellUnderSpan(spanAreas, dataIndex, colId) {
+    for (var i = 0; i < spanAreas.length; i++) {
+        var span = spanAreas[i];
+        var isFirstCell = dataIndex === span.rowStart && "".concat(colId) === "".concat(span.column);
+        if (!isFirstCell && span.columns.has("".concat(colId))) {
+            return true;
+        }
+    }
+    return false;
+}
+function isSelectedByRange(ranges, rowId, colId) {
+    if (!ranges) {
+        return false;
+    }
+    for (var i = 0; i < ranges.length; i++) {
+        if (ranges[i].rows.has(rowId) && ranges[i].cols.has(colId)) {
+            return true;
+        }
+    }
+    return false;
+}
+/**
+ * Resolves everything the cell renderers need to know about selection, focus and editability,
+ * once per render pass. This is the hottest path in the product — `getCells` runs per visible
+ * cell and again for every frozen zone — so the per-cell work left afterwards is two identity
+ * comparisons for the tabindex and one call for `aria-selected`.
+ *
+ * The state comes from `$cellState` when a host product supplies it, and from the grid's own
+ * selection module otherwise.
+ */
+function resolveCellState(conf) {
+    var _a, _b, _c, _d, _e, _f, _g;
+    var state = conf.$cellState;
+    var selectedCell = (0, cells_1.getCellSource)(conf).getCell();
+    var isRowSelectionMode = ((_a = conf.selection.config) === null || _a === void 0 ? void 0 : _a.type) === "row";
+    var rangeActive = isRangeActive(conf);
+    var activeRow = state ? (_b = state.active) === null || _b === void 0 ? void 0 : _b.row : (_c = selectedCell === null || selectedCell === void 0 ? void 0 : selectedCell.row) === null || _c === void 0 ? void 0 : _c.id;
+    var activeCol = state ? (_d = state.active) === null || _d === void 0 ? void 0 : _d.col : (_e = selectedCell === null || selectedCell === void 0 ? void 0 : selectedCell.column) === null || _e === void 0 ? void 0 : _e.id;
+    var hasActive = (0, core_1.isDefined)(activeRow) && (0, core_1.isDefined)(activeCol);
+    var fallbackRow = ((_f = conf.currentRows) === null || _f === void 0 ? void 0 : _f[0]) || conf.fixedRows.top[0] || conf.fixedRows.bottom[0];
+    var fallbackCol = ((_g = conf.currentColumns) === null || _g === void 0 ? void 0 : _g[0]) || conf.fixedColumns.left[0] || conf.fixedColumns.right[0];
+    var editable = state && (0, core_1.isDefined)(state.editable) ? state.editable : conf.editable;
+    var ranges = state === null || state === void 0 ? void 0 : state.ranges;
+    return {
+        tabRow: hasActive ? activeRow : fallbackRow === null || fallbackRow === void 0 ? void 0 : fallbackRow.id,
+        tabCol: hasActive ? activeCol : fallbackCol === null || fallbackCol === void 0 ? void 0 : fallbackCol.id,
+        readonly: editable ? "false" : "true",
+        readonlyCells: state === null || state === void 0 ? void 0 : state.readonlyCells,
+        exposeSelected: !!state || !isRowSelectionMode || rangeActive,
+        isSelected: state
+            ? function (rowId, colId) {
+                return (rowId === activeRow && colId === activeCol) || isSelectedByRange(ranges, rowId, colId);
+            }
+            : function (rowId, colId) {
+                return conf.selection.isSelectedCell(rowId, colId) ||
+                    (rangeActive && isRangedCell(conf, rowId, colId));
+            },
+    };
+}
+exports.resolveCellState = resolveCellState;
+function getToggleLabel(row) {
+    if (row.$group) {
+        return (0, locale_1.getLocaleString)(row.$opened ? "aria_collapseGroup" : "aria_expandGroup");
+    }
+    return (0, locale_1.getLocaleString)(row.$opened ? "aria_collapseRow" : "aria_expandRow");
+}
+function getTreeCell(content, row, col, conf, ariaAttrs, isToggleSubRow) {
     if (isToggleSubRow === void 0) { isToggleSubRow = false; }
-    var getCellAriaAttrs = function (col, ind) { return ({
-        role: "gridcell",
-        "aria-colindex": ind,
-    }); };
     var getToggleAriaAttrs = function (row) { return ({
         role: "button",
-        "aria-label": row.$opened ? "Collapse group" : "Expand group",
+        "aria-label": getToggleLabel(row),
     }); };
     var isEditable = conf.$editable && conf.$editable.row === row.id && conf.$editable.col === col.id;
     var isFilledCell = !conf.fixedColumns.left.length || conf.$renderFrom === "leftFixedCols";
@@ -6124,7 +6745,7 @@ function getTreeCell(content, row, col, conf, isToggleSubRow) {
             width: col.$width,
             height: row.$height,
             padding: !row.$items ? "0 0 0 ".concat(parentPadding, "px") : 0,
-        }, "data-dhx-col-id": col.id }, getCellAriaAttrs(col, 1)), isFilledCell
+        }, "data-dhx-col-id": col.id }, ariaAttrs), isFilledCell
         ? [
             row.$items || isToggleSubRow
                 ? (0, dom_1.el)(".dhx_grid-expand-cell-icon", __assign(__assign({ class: row.$opened ? "dxi dxi-chevron-down" : "dxi dxi-chevron-right", "data-dhx-id": row.id }, getToggleAriaAttrs(row)), { style: {
@@ -6141,37 +6762,59 @@ function getEditorCell(row, col, conf, span) {
     return (0, editors_1.getEditor)(row, col, conf, span);
 }
 function getCells(conf) {
+    var _a, _b;
     if (!conf.data || !conf.filteredColumns) {
         return [];
     }
-    var getRowAriaAttrs = function (ind) { return ({
-        role: "row",
-        "aria-rowindex": ind,
-    }); };
+    var isTreeMode = conf.type === "tree";
+    var isRowSelectionMode = ((_a = conf.selection.config) === null || _a === void 0 ? void 0 : _a.type) === "row";
+    var getRowAriaAttrs = function (index, row) {
+        var _a;
+        var attrs = __assign({ role: "row", "aria-rowindex": index }, (isRowSelectionMode && {
+            "aria-selected": conf.selection.isSelectedCell(row.id) ? "true" : "false",
+        }));
+        if (isTreeMode && row) {
+            attrs["aria-level"] = ((_a = row.$level) !== null && _a !== void 0 ? _a : 0) + 1;
+            if (row.$items) {
+                attrs["aria-expanded"] = row.$opened ? "true" : "false";
+            }
+        }
+        return attrs;
+    };
     var pos = conf.$positions;
     var isFixed = conf.$renderFrom !== "render";
     var data = (isFixed ? conf.data.slice(pos.yStart, pos.yEnd) : conf.currentRows) || [];
     var columns = conf.filteredColumns.slice(pos.xStart, pos.xEnd);
-    var selectedCell = conf.selection.getCell();
-    var isFirstTabindex = true;
+    var cellState = resolveCellState(conf);
+    var spanAnchors = getSpanAnchors(conf);
+    var dataIndexShift = (_b = conf.$rowIndexShift) !== null && _b !== void 0 ? _b : pos.yStart;
+    var ariaRowIndexShift = (0, common_1.getHeaderRowCount)(conf) + dataIndexShift;
     var filteredDragRows;
-    var dragGhost = document.querySelector(".dhx_drag-ghost");
-    if (dragGhost) {
-        var dragRowIndexes = Array.from(dragGhost.querySelectorAll(".dhx_grid-row")).map(function (elem) {
-            return Number(elem.getAttribute("aria-rowindex")) - 1;
-        });
-        if (dragRowIndexes.length) {
-            filteredDragRows = dragRowIndexes
-                .map(function (i) { return conf.data[i]; })
-                .filter(function (item) { return item && !data.find(function (i) { return i.id === item.id; }); });
-            data.push.apply(data, filteredDragRows);
+    if (conf.$isDragging) {
+        var dragGhost = document.querySelector(".dhx_drag-ghost");
+        if (dragGhost) {
+            var dragRowIndexes = Array.from(dragGhost.querySelectorAll(".dhx_grid-row"))
+                .map(function (elem) { return elem.getAttribute("data-dhx-index"); })
+                .filter(function (index) { return index !== null; })
+                .map(function (index) { return Number(index); });
+            if (dragRowIndexes.length) {
+                filteredDragRows = dragRowIndexes
+                    .map(function (i) { return conf.data[i]; })
+                    .filter(function (item) { return item && !data.find(function (i) { return i.id === item.id; }); });
+                data.push.apply(data, filteredDragRows);
+            }
         }
     }
     return data.map(function (row, index) {
-        var _a;
+        var _a, _b, _c;
         var isFilteredDragRow = filteredDragRows === null || filteredDragRows === void 0 ? void 0 : filteredDragRows.some(function (item) { return item.id === row.id; });
         var isLastRow = data.length - 1 === index;
         var subRow = (_a = conf.$subRowCells) === null || _a === void 0 ? void 0 : _a.get(row.id);
+        var rowSpans = spanAnchors && spanAnchors.get("".concat(row.id));
+        var dataIndex = dataIndexShift + index;
+        var rowIndex = ariaRowIndexShift + index + 1;
+        var rowReadonly = (_b = cellState.readonlyCells) === null || _b === void 0 ? void 0 : _b.get(row.id);
+        var rowSpanAreas = (_c = conf.$spanAreas) === null || _c === void 0 ? void 0 : _c.filter(function (span) { return span.rowStart <= dataIndex && dataIndex <= span.rowEnd; });
         var rowCss = "";
         if (conf.rowCss) {
             rowCss = conf.rowCss(row);
@@ -6186,26 +6829,14 @@ function getCells(conf) {
                 var value = (0, core_1.isDefined)(initValue) && col.options
                     ? (0, data_1.getComboEditorValue)(initValue, col, row)
                     : (0, data_1.applyPattern)(initValue, col);
-                var getTabIndex_1 = function (col, row) {
-                    var attrs = {
-                        tabindex: -1,
-                    };
-                    if (selectedCell) {
-                        // is current cell selected?
-                        if (selectedCell.row.id === row.id && selectedCell.column.id === col.id) {
-                            attrs["tabindex"] = 0;
-                        }
-                    }
-                    else if (isFirstTabindex) {
-                        attrs["tabindex"] = 0;
-                    }
-                    return attrs;
-                };
-                var getEditBtnAriaAttrs = function () { return ({
-                    role: "button",
-                    "aria-label": "Edit content",
-                }); };
-                var getCellAriaAttrs = function (col, colIndex, rowIndex, isEditable) { return (__assign({ role: "gridcell", "aria-colindex": colIndex, "aria-readonly": isEditable ? "false" : "true" }, getTabIndex_1(col, row))); };
+                var spanExtent_1 = rowSpans && getSpanExtent(rowSpans, col.id);
+                var getCellAriaAttrs = function (col, colIndex) { return (__assign(__assign(__assign(__assign({ role: col.$rowHeader ? "rowheader" : "gridcell", "aria-colindex": colIndex, "aria-readonly": (rowReadonly === null || rowReadonly === void 0 ? void 0 : rowReadonly.has(col.id)) ? "true" : cellState.readonly }, (cellState.exposeSelected && {
+                    "aria-selected": cellState.isSelected(row.id, col.id) ? "true" : "false",
+                })), ((spanExtent_1 === null || spanExtent_1 === void 0 ? void 0 : spanExtent_1.colspan) > 1 && { "aria-colspan": spanExtent_1.colspan })), ((spanExtent_1 === null || spanExtent_1 === void 0 ? void 0 : spanExtent_1.rowspan) > 1 && { "aria-rowspan": spanExtent_1.rowspan })), { tabindex: row.id === cellState.tabRow && col.id === cellState.tabCol ? 0 : -1 })); };
+                // a cell under a span is hidden, the first cell of the span has the span attributes
+                var ariaAttrs = (rowSpanAreas === null || rowSpanAreas === void 0 ? void 0 : rowSpanAreas.length) && isCellUnderSpan(rowSpanAreas, dataIndex, col.id)
+                    ? { "aria-hidden": "true" }
+                    : getCellAriaAttrs(col, pos.xStart + colIndex + 1);
                 var defaultTemplate = function (text) {
                     if (typeof text === "boolean" || col.type === "boolean") {
                         if (typeof text !== "string" && !row.$group) {
@@ -6220,7 +6851,7 @@ function getCells(conf) {
                 // content can be a domvm node or a string
                 if (typeof content === "string") {
                     content = (0, main_1.isHtmlEnable)(conf, col)
-                        ? (0, dom_1.el)("div.dhx_grid-cell__content", __assign({ ".innerHTML": content }, getEditBtnAriaAttrs()))
+                        ? (0, dom_1.el)("div.dhx_grid-cell__content", { ".innerHTML": content })
                         : content;
                 }
                 var css = "".concat((col.$cellCss && col.$cellCss[row.id]) || "", " dhx_").concat(col.type, "-cell").replace(/\s+/g, " ");
@@ -6242,7 +6873,7 @@ function getCells(conf) {
                 }
                 var isToggleSubRow = conf.firstColId === col.id && (subRow === null || subRow === void 0 ? void 0 : subRow.toggleIcon) && !!(subRow === null || subRow === void 0 ? void 0 : subRow.height);
                 if ((conf.type === "tree" && conf.firstColId === col.id) || isToggleSubRow) {
-                    return getTreeCell(content, row, col, conf, isToggleSubRow);
+                    return getTreeCell(content, row, col, conf, ariaAttrs, isToggleSubRow);
                 }
                 if (conf.dragMode && !isEditable) {
                     css += row.$draggable ? " dhx_grid-cell--draggable" : "";
@@ -6259,14 +6890,14 @@ function getCells(conf) {
                 return (0, dom_1.el)(".dhx_grid-cell", __assign({ class: css, style: {
                         width: colWidth,
                         height: row.$height + "px",
-                    }, _key: col.id, "data-dhx-col-id": col.id }, getCellAriaAttrs(col, pos.xStart + colIndex + 1, index, conf.editable)), [content]);
+                    }, _key: col.id, "data-dhx-col-id": col.id }, ariaAttrs), [content]);
             }
         });
         var rowHeight = (0, data_1.getTotalRowHeight)(row);
         return (0, dom_1.el)(".dhx_grid-row", __assign({ style: {
                 height: isLastRow ? rowHeight + 1 : rowHeight,
                 display: isFilteredDragRow ? "none" : null,
-            }, "data-dhx-id": row.id, class: rowCss, _key: row.id, _flags: dom_1.KEYED_LIST }, (isFilteredDragRow ? {} : getRowAriaAttrs(pos.yStart + index + 1))), cells);
+            }, "data-dhx-id": row.id, "data-dhx-index": dataIndexShift + index, class: rowCss, _key: row.id, _flags: dom_1.KEYED_LIST }, (isFilteredDragRow ? {} : getRowAriaAttrs(rowIndex, row))), cells);
     });
 }
 exports.getCells = getCells;
@@ -6285,9 +6916,9 @@ function getReverseScrollState(config) {
     };
 }
 function getSpans(config, mode) {
-    var _a, _b;
+    var _a, _b, _c;
     var spanCells = [];
-    var columns = config.columns, filteredColumns = config.filteredColumns, data = config.data, rSpans = config.currentSpans, _c = config.bottomSplit, bottomSplit = _c === void 0 ? 0 : _c;
+    var columns = config.columns, filteredColumns = config.filteredColumns, data = config.data, rSpans = config.currentSpans, _d = config.bottomSplit, bottomSplit = _d === void 0 ? 0 : _d;
     if (!filteredColumns.length || !rSpans)
         return null;
     var rightSplit = config.fixedColumns.right.length;
@@ -6356,24 +6987,22 @@ function getSpans(config, mode) {
             var rowIndexStartSplit = rows.length - bottomSplit;
             top_1 =
                 rowIndex < rowIndexStartSplit
-                    ? -(0, main_1.getTotalHeight)(rows.slice(rowIndex, rowIndexStartSplit))
-                    : (0, main_1.getTotalHeight)(rows.slice(rowIndexStartSplit, rowIndex));
+                    ? -(0, data_1.rowsHeight)(config, rows, rowIndex, rowIndexStartSplit)
+                    : (0, data_1.rowsHeight)(config, rows, rowIndexStartSplit, rowIndex);
         }
         else {
-            top_1 = (0, main_1.getTotalHeight)(rows.slice(0, rowIndex)) - (mode ? 0 : 1);
+            top_1 = (0, data_1.rowsHeight)(config, rows, 0, rowIndex) - (mode ? 0 : 1);
         }
         var left = 0;
         if (config.$renderFrom === "rightFixedCols") {
             var colIndexStartSplit = filteredColumns.length - config.fixedColumns.right.length;
             left =
                 colIndex < colIndexStartSplit
-                    ? -(0, main_1.getTotalWidth)(filteredColumns.slice(colIndex, colIndexStartSplit))
-                    : (0, main_1.getTotalWidth)(filteredColumns.slice(colIndexStartSplit, colIndex));
+                    ? -(0, data_1.colsWidth)(config, filteredColumns, colIndex, colIndexStartSplit)
+                    : (0, data_1.colsWidth)(config, filteredColumns, colIndexStartSplit, colIndex);
         }
         else {
-            for (var s = colIndex - 1; s >= 0; s--) {
-                left += filteredColumns[s].$width;
-            }
+            left = (0, data_1.colsWidth)(config, filteredColumns, 0, colIndex);
         }
         var isExpandingSpan = currRow.$items && colIndex === 0;
         var rowspanWithLastCol = colIndex === filteredColumns.length - 1;
@@ -6422,7 +7051,7 @@ function getSpans(config, mode) {
             (currCol.type === "boolean" &&
                 ((config.editable && ((_b = currCol.editable) !== null && _b !== void 0 ? _b : true)) || (!config.editable && currCol.editable)));
         if (isEditable) {
-            var _d = config.topSplit, topSplit = _d === void 0 ? 0 : _d;
+            var _e = config.topSplit, topSplit = _e === void 0 ? 0 : _e;
             var leftSplit = config.fixedColumns.left.length;
             var allFixedByCol = (leftSplit && colIndex + spanWidth <= leftSplit) ||
                 (rightSplit && colIndex >= filteredColumns.length - rightSplit);
@@ -6527,25 +7156,19 @@ function getSpans(config, mode) {
                 }
             }
         }
-        spanCells.push((0, dom_1.el)("div", {
-            class: css,
-            style: {
+        spanCells.push((0, dom_1.el)("div", __assign({ class: css, style: {
                 width: width,
                 height: height,
                 top: top_1,
                 left: left,
                 zIndex: zIndex,
-            },
-            "data-dhx-col-id": col,
-            "data-dhx-id": row,
-            "aria-instead": "true",
-        }, [
+            }, "data-dhx-col-id": col, "data-dhx-id": row }, (((_c = config.$cellState) === null || _c === void 0 ? void 0 : _c.hideSpans) && { "aria-hidden": "true" })), [
             isExpandingSpan
                 ? (0, dom_1.el)(".dhx_span-expand-cell-icon", {
                     class: currRow.$opened ? "dxi dxi-chevron-down" : "dxi dxi-chevron-right",
                     "data-dhx-id": currRow.id,
                     role: "button",
-                    "aria-label": currRow.$opened ? "Collapse group" : "Expand group",
+                    "aria-label": getToggleLabel(currRow),
                     style: {
                         padding: "0 0 0 ".concat(4 + (0, data_1.getTreeCellWidthOffset)(currRow, true), "px"),
                     },
@@ -6561,11 +7184,9 @@ function getSpans(config, mode) {
 }
 exports.getSpans = getSpans;
 function getShifts(conf) {
-    var columnsLeft = conf.filteredColumns.slice(0, conf.$positions.xStart);
-    var rowsTop = conf.data.slice(0, conf.$positions.yStart);
     return {
-        x: (0, main_1.getTotalWidth)(columnsLeft),
-        y: (0, main_1.getTotalHeight)(rowsTop),
+        x: (0, data_1.colsWidth)(conf, conf.filteredColumns, 0, conf.$positions.xStart),
+        y: (0, data_1.rowsHeight)(conf, conf.data, 0, conf.$positions.yStart),
     };
 }
 exports.getShifts = getShifts;
@@ -6625,23 +7246,7 @@ exports.normalizeSpan = normalizeSpan;
 
 
 /***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var locale = {
-    total: "Total",
-    groupText: "Group",
-    dropAreaTitle: "Group by:",
-    dropAreaPlaceholder: "Drag the column header here",
-};
-exports.default = locale;
-
-
-/***/ }),
-/* 44 */
+/* 48 */
 /***/ (function(module, exports) {
 
 var g;
@@ -6667,15 +7272,15 @@ module.exports = g;
 
 
 /***/ }),
-/* 45 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ajax = void 0;
-var types_1 = __webpack_require__(25);
-var helpers_1 = __webpack_require__(21);
+var types_1 = __webpack_require__(26);
+var helpers_1 = __webpack_require__(23);
 function toQueryString(data) {
     return Object.keys(data)
         .reduce(function (entries, key) {
@@ -6868,10 +7473,10 @@ exports.ajax = {
     },
 };
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(18)))
 
 /***/ }),
-/* 46 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6889,7 +7494,7 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CsvDriver = void 0;
-var helpers_1 = __webpack_require__(21);
+var helpers_1 = __webpack_require__(23);
 var CsvDriver = /** @class */ (function () {
     function CsvDriver(config) {
         var initConfig = {
@@ -6968,7 +7573,7 @@ exports.CsvDriver = CsvDriver;
 
 
 /***/ }),
-/* 47 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6990,8 +7595,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Layout = void 0;
-var types_1 = __webpack_require__(48);
-var Cell_1 = __webpack_require__(71);
+var types_1 = __webpack_require__(52);
+var Cell_1 = __webpack_require__(75);
 var dom_1 = __webpack_require__(0);
 var Layout = /** @class */ (function (_super) {
     __extends(Layout, _super);
@@ -7197,7 +7802,7 @@ exports.Layout = Layout;
 
 
 /***/ }),
-/* 48 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7225,7 +7830,7 @@ var LayoutEvents;
 
 
 /***/ }),
-/* 49 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7258,7 +7863,7 @@ var MessageContainerPosition;
 
 
 /***/ }),
-/* 50 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7267,12 +7872,47 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var locale = {
     apply: "apply",
     reject: "reject",
+    aria_alert: "message",
+    aria_confirm: "confirm",
+    aria_reject: "reject",
+    aria_apply: "apply",
 };
 exports.default = locale;
 
 
 /***/ }),
-/* 51 */
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getNextIndex = exports.KEY_DOWN = exports.KEY_RIGHT = exports.KEY_UP = exports.KEY_LEFT = exports.KEY_HOME = exports.KEY_END = exports.KEY_ESC = exports.KEY_TAB = void 0;
+/*
+    Key codes rather than event.key: the browserslist still includes IE 11, where the arrow keys
+    report "Left" and "Up" instead of "ArrowLeft" and "ArrowUp". KeyManager carries an ie_key_map
+    for the same reason.
+*/
+exports.KEY_TAB = 9;
+exports.KEY_ESC = 27;
+exports.KEY_END = 35;
+exports.KEY_HOME = 36;
+exports.KEY_LEFT = 37;
+exports.KEY_UP = 38;
+exports.KEY_RIGHT = 39;
+exports.KEY_DOWN = 40;
+/* Wraps at both ends. A current position of -1 starts from the edge the step comes from. */
+function getNextIndex(current, length, step) {
+    if (current === -1) {
+        return step > 0 ? 0 : length - 1;
+    }
+    return (current + step + length) % length;
+}
+exports.getNextIndex = getNextIndex;
+
+
+/***/ }),
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7292,12 +7932,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(163), exports);
-__exportStar(__webpack_require__(79), exports);
+__exportStar(__webpack_require__(168), exports);
+__exportStar(__webpack_require__(85), exports);
 
 
 /***/ }),
-/* 52 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7317,12 +7957,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(164), exports);
-__exportStar(__webpack_require__(77), exports);
+__exportStar(__webpack_require__(169), exports);
+__exportStar(__webpack_require__(83), exports);
 
 
 /***/ }),
-/* 53 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7349,7 +7989,7 @@ exports.default = locale;
 
 
 /***/ }),
-/* 54 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7373,7 +8013,7 @@ var ListEvents;
 
 
 /***/ }),
-/* 55 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7394,174 +8034,16 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.locale = void 0;
-__exportStar(__webpack_require__(176), exports);
-__exportStar(__webpack_require__(84), exports);
-__exportStar(__webpack_require__(83), exports);
-__exportStar(__webpack_require__(56), exports);
-var en_1 = __webpack_require__(57);
+__exportStar(__webpack_require__(181), exports);
+__exportStar(__webpack_require__(90), exports);
+__exportStar(__webpack_require__(89), exports);
+__exportStar(__webpack_require__(42), exports);
+var en_1 = __webpack_require__(43);
 Object.defineProperty(exports, "locale", { enumerable: true, get: function () { return en_1.default; } });
 
 
 /***/ }),
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAlpha = exports.alphaToHex = exports.isHex = exports.HexToHSV = exports.RGBToHSV = exports.HexToRGB = exports.RGBToHex = exports.HSVtoRGB = void 0;
-function HSVtoRGB(hsv) {
-    var rgb = { r: 0, g: 0, b: 0 };
-    var h = hsv.h / 60;
-    var s = hsv.s;
-    var v = hsv.v;
-    var i = Math.floor(h) % 6;
-    var f = h - Math.floor(h);
-    var p = 255 * v * (1 - s);
-    var q = 255 * v * (1 - s * f);
-    var t = 255 * v * (1 - s * (1 - f));
-    v *= 255;
-    switch (i) {
-        case 0:
-            rgb.r = v;
-            rgb.g = t;
-            rgb.b = p;
-            break;
-        case 1:
-            rgb.r = q;
-            rgb.g = v;
-            rgb.b = p;
-            break;
-        case 2:
-            rgb.r = p;
-            rgb.g = v;
-            rgb.b = t;
-            break;
-        case 3:
-            rgb.r = p;
-            rgb.g = q;
-            rgb.b = v;
-            break;
-        case 4:
-            rgb.r = t;
-            rgb.g = p;
-            rgb.b = v;
-            break;
-        case 5:
-            rgb.r = v;
-            rgb.g = p;
-            rgb.b = q;
-            break;
-    }
-    for (var key in rgb) {
-        rgb[key] = Math.round(rgb[key]);
-    }
-    return rgb;
-}
-exports.HSVtoRGB = HSVtoRGB;
-function RGBToHex(rgb) {
-    return Object.keys(rgb).reduce(function (hex, c) {
-        var h = rgb[c].toString(16).toUpperCase();
-        h = h.length === 1 ? "0" + h : h;
-        return (hex += h);
-    }, "#");
-}
-exports.RGBToHex = RGBToHex;
-function HexToRGB(hex) {
-    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-    hex = hex.replace(shorthandRegex, function (_m, r, g, b) { return r + r + g + g + b + b; });
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result
-        ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16),
-        }
-        : null;
-}
-exports.HexToRGB = HexToRGB;
-function RGBToHSV(rgb) {
-    var h;
-    var s;
-    var r = rgb.r / 255;
-    var g = rgb.g / 255;
-    var b = rgb.b / 255;
-    var v = Math.max(r, g, b);
-    var diff = v - Math.min(r, g, b);
-    var diffc = function (c) {
-        return (v - c) / 6 / diff + 1 / 2;
-    };
-    if (diff === 0) {
-        h = s = 0;
-    }
-    else {
-        s = diff / v;
-        var rdif = diffc(r);
-        var gdif = diffc(g);
-        var bdif = diffc(b);
-        if (r === v) {
-            h = bdif - gdif;
-        }
-        else if (g === v) {
-            h = 1 / 3 + rdif - bdif;
-        }
-        else if (b === v) {
-            h = 2 / 3 + gdif - rdif;
-        }
-        if (h < 0) {
-            h += 1;
-        }
-        else if (h > 1) {
-            h -= 1;
-        }
-    }
-    return {
-        h: h * 360,
-        s: s,
-        v: v,
-    };
-}
-exports.RGBToHSV = RGBToHSV;
-function HexToHSV(hex) {
-    return RGBToHSV(HexToRGB(hex.length === 9 ? hex.slice(0, -2) : hex));
-}
-exports.HexToHSV = HexToHSV;
-function isHex(hex) {
-    return /(^#[0-9A-F]{8}$)|(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(hex);
-}
-exports.isHex = isHex;
-function alphaToHex(alpha) {
-    var hex = Math.round(alpha * 255)
-        .toString(16)
-        .toUpperCase();
-    return hex.length === 1 ? "0" + hex : hex;
-}
-exports.alphaToHex = alphaToHex;
-function getAlpha(hex) {
-    return hex.length === 9 ? Number((parseInt(hex.slice(-2), 16) / 255).toFixed(2)) : 1;
-}
-exports.getAlpha = getAlpha;
-
-
-/***/ }),
-/* 57 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var en = {
-    cancel: "Cancel",
-    select: "Select",
-    rightClickToDelete: "Right click to delete",
-    customColors: "Custom colors",
-    addNewColor: "Add new color",
-};
-exports.default = en;
-
-
-/***/ }),
-/* 58 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7579,8 +8061,8 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Scale = void 0;
-var AxisCreator_1 = __webpack_require__(185);
-var SvgScales_1 = __webpack_require__(87);
+var AxisCreator_1 = __webpack_require__(193);
+var SvgScales_1 = __webpack_require__(92);
 var common_1 = __webpack_require__(7);
 var renderScale = {
     left: SvgScales_1.left,
@@ -7598,10 +8080,11 @@ var Scale = /** @class */ (function () {
     function Scale(_data, config, position) {
         this._data = _data;
         this._padding = false;
+        this._alignTo = null;
         this._charts = [];
         this._position = position;
         this._setDefaults(config);
-        this._isXDirection = position === "bottom" || position === "top";
+        this._isXDirection = (0, common_1.isXAxis)(position);
         if (position !== "radial") {
             if (position === "left" || position === "right") {
                 this.config.size = this.config.size || 40 + (this.config.title ? 40 : 0);
@@ -7617,12 +8100,20 @@ var Scale = /** @class */ (function () {
     Scale.prototype.getSize = function () {
         return this.config.size;
     };
+    Scale.prototype.getAxis = function () {
+        return this._axis;
+    };
+    Scale.prototype.alignTo = function (scale) {
+        this._alignTo = scale;
+    };
     Scale.prototype.scaleReady = function (sizes) {
         var points = [];
         this._charts.forEach(function (chart) {
             chart.getPoints().forEach(function (item) { return points.push(item[1]); }); // y-value
         });
-        this._axis = new AxisCreator_1.AxisCreator(points, this.config).getScale();
+        var reference = this._alignTo && this._alignTo.getAxis();
+        var exactTicks = reference ? reference.steps.length : 0;
+        this._axis = new AxisCreator_1.AxisCreator(points, exactTicks ? __assign(__assign({}, this.config), { exactTicks: exactTicks }) : this.config).getScale();
         var position = this._position;
         if (position !== "radial") {
             sizes[position] += this.config.size;
@@ -7721,7 +8212,7 @@ exports.Scale = Scale;
 
 
 /***/ }),
-/* 59 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7743,7 +8234,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var common_1 = __webpack_require__(7);
-var BaseSeria_1 = __webpack_require__(34);
+var BaseSeria_1 = __webpack_require__(35);
 var ScaleSeria = /** @class */ (function (_super) {
     __extends(ScaleSeria, _super);
     function ScaleSeria() {
@@ -7800,7 +8291,7 @@ exports.default = ScaleSeria;
 
 
 /***/ }),
-/* 60 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7833,7 +8324,7 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var common_1 = __webpack_require__(7);
-var BaseSeria_1 = __webpack_require__(34);
+var BaseSeria_1 = __webpack_require__(35);
 var NoScaleSeria = /** @class */ (function (_super) {
     __extends(NoScaleSeria, _super);
     function NoScaleSeria() {
@@ -7924,7 +8415,7 @@ exports.default = NoScaleSeria;
 
 
 /***/ }),
-/* 61 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7958,7 +8449,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
 var common_1 = __webpack_require__(7);
-var ScaleSeria_1 = __webpack_require__(59);
+var ScaleSeria_1 = __webpack_require__(62);
 var Line = /** @class */ (function (_super) {
     __extends(Line, _super);
     function Line() {
@@ -7982,13 +8473,12 @@ var Line = /** @class */ (function (_super) {
                 tabindex: 0,
             };
         };
-        var color = this.config.pointColor || this.config.color;
         var svg = [];
         if (this.config.strokeWidth) {
             svg.push(this._getForm(this._points, this.config, width, height));
         }
         if (this.config.pointType) {
-            var point_1 = this._getPointType(this.config.pointType, color);
+            var point_1 = this._getPointType(this.config.pointType, this._getPointColor());
             svg = svg.concat(this._points
                 .map(function (p) { return point_1(p[0], p[1], (0, common_1.calcPointRef)(p[2], _this.id)); })
                 .map(function (node, index) {
@@ -8044,7 +8534,7 @@ exports.default = Line;
 
 
 /***/ }),
-/* 62 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8060,7 +8550,944 @@ exports.default = {
 
 
 /***/ }),
-/* 63 */
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.initEndSentinel = exports.initFocusSentinel = exports.exitThroughSentinel = exports.restoreZoneTabindex = exports.getColIdFromTarget = exports.getActiveColumnId = exports.hasFooter = exports.isAtLastRow = exports.isAtFirstRow = exports.transitionFromBodyToZone = exports.transitionToBody = exports.isFocusInBody = exports.setZoneCellFocus = exports.triggerHeaderSort = exports.deactivateContentCell = exports.activateContentCell = exports.isContentCell = exports.isAtFirstColumn = exports.moveZoneFocusTab = exports.moveZoneFocusVertical = exports.moveZoneFocus = exports.resolveSpanTarget = exports.ensureZoneCellVisible = exports.findZoneCell = exports.getZoneRowCount = exports.getColumnSplitSection = exports.getVisibleColumns = exports.detectFocusZone = void 0;
+var html_1 = __webpack_require__(2);
+var dom_1 = __webpack_require__(0);
+var main_1 = __webpack_require__(11);
+var cells_1 = __webpack_require__(20);
+var sentinelStateMap = new WeakMap();
+/**
+ * Returns the sentinel state for a grid, creating it on first use.
+ * Both sentinels and every zone-focus move read the same entry.
+ * @param grid - the grid instance
+ * @returns the sentinel state
+ */
+function getSentinelState(grid) {
+    var state = sentinelStateMap.get(grid);
+    if (!state) {
+        state = { colId: null, rowIndex: null, navRowIndex: null, initialized: false, exiting: false };
+        sentinelStateMap.set(grid, state);
+    }
+    return state;
+}
+/**
+ * Detects which focus zone the event target belongs to.
+ * Walks up the DOM tree to determine if the target is in the header, footer, body, or group panel.
+ * Span cells require special disambiguation since they exist across multiple zones.
+ * @param event - the DOM event whose target will be inspected
+ * @returns the zone containing the event target
+ */
+function detectFocusZone(event) {
+    var target = event.target;
+    if ((0, html_1.locateNodeByClassName)(target, "dhx_grid-header-cell")) {
+        return "header";
+    }
+    if ((0, html_1.locateNodeByClassName)(target, "dhx_grid-footer-cell")) {
+        return "footer";
+    }
+    // Span cells exist in header, footer, and body — disambiguate by parent container
+    if ((0, html_1.locateNodeByClassName)(target, "dhx_span-cell")) {
+        var node = target;
+        while (node) {
+            if (node.classList) {
+                if (node.classList.contains("dhx_header-spans"))
+                    return "header";
+                if (node.classList.contains("dhx_footer-spans"))
+                    return "footer";
+                if (node.classList.contains("dhx_span-spans"))
+                    return "body";
+            }
+            node = node.parentNode;
+        }
+    }
+    if ((0, html_1.locateNodeByClassName)(target, "dhx_grid-group_item")) {
+        return "groupPanel";
+    }
+    return "body";
+}
+exports.detectFocusZone = detectFocusZone;
+/**
+ * Returns all visible (non-hidden) columns in their configured order.
+ * @param grid - the grid instance
+ * @returns an array of visible column configs
+ */
+function getVisibleColumns(grid) {
+    return grid.config.columns.filter(function (col) { return !col.hidden; });
+}
+exports.getVisibleColumns = getVisibleColumns;
+/**
+ * Determines which split section a column belongs to based on its index
+ * relative to leftSplit and rightSplit boundaries.
+ * @param grid - the grid instance
+ * @param colId - the column ID to look up
+ * @returns "left" for left-fixed, "right" for right-fixed, or "center" for scrollable columns
+ */
+function getColumnSplitSection(grid, colId) {
+    var columns = getVisibleColumns(grid);
+    var col = columns.find(function (c) { return c.id === colId; });
+    if (!col)
+        return "center";
+    var index = col.$index;
+    var leftSplit = grid.config.leftSplit || 0;
+    var rightSplit = grid.config.rightSplit || 0;
+    if (leftSplit > 0 && index < leftSplit)
+        return "left";
+    if (rightSplit > 0 && index >= columns.length - rightSplit)
+        return "right";
+    return "center";
+}
+exports.getColumnSplitSection = getColumnSplitSection;
+/**
+ * Returns the number of rows in a header or footer zone.
+ * Uses the internal $headerHeightMap / $footerHeightMap arrays.
+ * @param grid - the grid instance
+ * @param zone - the focus zone to query
+ * @returns the row count for the zone, or 0 if zone is not header/footer
+ */
+function getZoneRowCount(grid, zone) {
+    var _a, _b;
+    if (zone === "header") {
+        return ((_a = grid.config.$headerHeightMap) === null || _a === void 0 ? void 0 : _a.length) || 0;
+    }
+    if (zone === "footer") {
+        return ((_b = grid.config.$footerHeightMap) === null || _b === void 0 ? void 0 : _b.length) || 0;
+    }
+    return 0;
+}
+exports.getZoneRowCount = getZoneRowCount;
+/**
+ * Finds a zone cell element in the DOM by column ID and row index.
+ * Checks span cells first since they overlay regular cells, then falls back
+ * to regular header/footer cells. Searches section-specific containers first
+ * for performance, falling back to the entire grid root.
+ * @param grid - the grid instance
+ * @param zone - the focus zone to search in
+ * @param colId - the column ID attribute to match
+ * @param rowIndex - the row index attribute to match
+ * @returns the matching DOM element, or null if not found
+ */
+function findZoneCell(grid, zone, colId, rowIndex) {
+    var _a, _b, _c;
+    var gridRoot = ((_a = grid.getRootNode) === null || _a === void 0 ? void 0 : _a.call(grid)) || ((_c = (_b = grid.getRootView()) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.getRootNode());
+    if (!gridRoot)
+        return null;
+    var section = getColumnSplitSection(grid, colId);
+    var containers = getZoneContainers(gridRoot, zone, section);
+    for (var _i = 0, containers_1 = containers; _i < containers_1.length; _i++) {
+        var container = containers_1[_i];
+        var spanCell_1 = container.querySelector(".dhx_span-cell[data-dhx-id=\"".concat(colId, "\"][data-dhx-row-index=\"").concat(rowIndex, "\"]"));
+        if (spanCell_1)
+            return spanCell_1;
+        var cell_1 = container.querySelector(".dhx_grid-".concat(zone, "-cell[data-dhx-id=\"").concat(colId, "\"][data-dhx-row-index=\"").concat(rowIndex, "\"]"));
+        if (cell_1)
+            return cell_1;
+    }
+    // Fallback: search entire grid root if section-specific search failed
+    var spanCell = gridRoot.querySelector(".dhx_span-cell[data-dhx-id=\"".concat(colId, "\"][data-dhx-row-index=\"").concat(rowIndex, "\"]"));
+    if (spanCell)
+        return spanCell;
+    var cell = gridRoot.querySelector(".dhx_grid-".concat(zone, "-cell[data-dhx-id=\"").concat(colId, "\"][data-dhx-row-index=\"").concat(rowIndex, "\"]"));
+    return cell || null;
+}
+exports.findZoneCell = findZoneCell;
+/**
+ * Returns DOM containers for a given zone and split section.
+ * Looks for fixed-column containers for left/right splits, or the main wrapper for center.
+ * Falls back to all zone containers if the section-specific one is not found.
+ * @param gridRoot - the grid root DOM element
+ * @param zone - the focus zone
+ * @param section - the column split section
+ * @returns an array of matching container elements
+ */
+function getZoneContainers(gridRoot, zone, section) {
+    var containers = [];
+    if (section === "left") {
+        var fixed = gridRoot.querySelector(".dhx_".concat(zone, "-fixed-cols.dhx_grid__cols_left--fixed"));
+        if (fixed)
+            containers.push(fixed);
+    }
+    else if (section === "right") {
+        var fixed = gridRoot.querySelector(".dhx_".concat(zone, "-fixed-cols.dhx_grid__cols_right--fixed"));
+        if (fixed)
+            containers.push(fixed);
+    }
+    else {
+        var wrapper = gridRoot.querySelector(".dhx_".concat(zone, "-wrapper"));
+        if (wrapper)
+            containers.push(wrapper);
+    }
+    // Fallback: if no section-specific container found, try all zone containers
+    if (containers.length === 0) {
+        var all = gridRoot.querySelectorAll(".dhx_".concat(zone, "-wrapper, .dhx_").concat(zone, "-fixed-cols"));
+        all.forEach(function (el) { return containers.push(el); });
+    }
+    return containers;
+}
+/**
+ * Scrolls the grid horizontally to ensure a column is visible in the viewport.
+ * Skips fixed (left/right split) columns since they are always visible.
+ * Calculates the column position relative to the scrollable area and adjusts
+ * the scroll offset if the column is outside the visible range.
+ * @param grid - the grid instance
+ * @param colId - the column ID to make visible
+ * @returns true if the grid was scrolled
+ */
+function ensureZoneCellVisible(grid, colId) {
+    var _a, _b, _c;
+    var section = getColumnSplitSection(grid, colId);
+    if (section !== "center")
+        return false;
+    var columns = getVisibleColumns(grid);
+    var leftSplit = grid.config.leftSplit || 0;
+    var colIndex = columns.findIndex(function (c) { return c.id === colId; });
+    if (colIndex < 0)
+        return false;
+    var scrollState = grid.getScrollState();
+    // Column position relative to the scrollable area start
+    var colLeft = (0, main_1.getTotalWidth)(columns.slice(leftSplit, colIndex));
+    var colWidth = columns[colIndex].$width || 0;
+    var colRight = colLeft + colWidth;
+    // Use the scroll container's clientWidth for accurate viewport size
+    var gridBody = (_c = (_b = (_a = grid.getRootView()) === null || _a === void 0 ? void 0 : _a.refs) === null || _b === void 0 ? void 0 : _b.grid_body) === null || _c === void 0 ? void 0 : _c.el;
+    var viewportWidth = gridBody ? gridBody.clientWidth : grid.config.$width;
+    var leftFixedWidth = leftSplit > 0 ? (0, main_1.getTotalWidth)(columns.slice(0, leftSplit)) : 0;
+    var rightSplit = grid.config.rightSplit || 0;
+    var rightFixedWidth = rightSplit > 0 ? (0, main_1.getTotalWidth)(columns.slice(-rightSplit)) : 0;
+    var scrollableWidth = viewportWidth - leftFixedWidth - rightFixedWidth;
+    var scrollLeft = scrollState.x;
+    if (colLeft < scrollLeft) {
+        grid.scroll(colLeft, null);
+        return true;
+    }
+    if (colRight > scrollLeft + scrollableWidth) {
+        grid.scroll(colRight - scrollableWidth, null);
+        return true;
+    }
+    return false;
+}
+exports.ensureZoneCellVisible = ensureZoneCellVisible;
+/**
+ * Resolves the actual owning cell for a position that may be covered by a colspan or rowspan.
+ * Scans all rows (0..rowIndex) and columns (0..colIndex) to find any cell whose
+ * colspan+rowspan coverage includes the target position. Handles colspan-only,
+ * rowspan-only, and combined span cases uniformly.
+ * @param zone - the focus zone (determines whether to use "header" or "footer" config)
+ * @param colId - the target column ID
+ * @param rowIndex - the target row index
+ * @param columns - the visible columns array
+ * @returns the owning cell's colId and rowIndex (unchanged if no span covers the position)
+ */
+function resolveSpanTarget(zone, colId, rowIndex, columns) {
+    var _a;
+    var zoneProp = zone === "footer" ? "footer" : "header";
+    var colIndex = columns.findIndex(function (c) { return c.id === colId; });
+    if (colIndex < 0)
+        return { colId: colId, rowIndex: rowIndex };
+    // Scan all rows (0..rowIndex) and columns (0..colIndex) to find any cell
+    // whose colspan+rowspan coverage includes the target position.
+    // This handles colspan-only, rowspan-only, and combined cases uniformly.
+    for (var r = 0; r <= rowIndex; r++) {
+        for (var c = 0; c <= colIndex; c++) {
+            var cell = (_a = columns[c][zoneProp]) === null || _a === void 0 ? void 0 : _a[r];
+            if (!cell)
+                continue;
+            var colEnd = c + (cell.colspan || 1);
+            var rowEnd = r + (cell.rowspan || 1);
+            if (colEnd > colIndex && rowEnd > rowIndex && (r < rowIndex || c < colIndex)) {
+                return { colId: columns[c].id, rowIndex: r };
+            }
+        }
+    }
+    return { colId: colId, rowIndex: rowIndex };
+}
+exports.resolveSpanTarget = resolveSpanTarget;
+/**
+ * Moves focus horizontally within a header/footer zone (ArrowLeft/ArrowRight).
+ * Preserves the logical navigation row (navRowIndex) across rowspan cells so that
+ * horizontal movement stays on the same logical level. Handles colspan skip when
+ * moving right past a multi-column cell.
+ * @param grid - the grid instance
+ * @param event - the keyboard event (will be preventDefault'd)
+ * @param zone - the current focus zone
+ * @param direction - horizontal direction to move
+ */
+function moveZoneFocus(grid, event, zone, direction) {
+    var _a, _b;
+    event.preventDefault();
+    var target = event.target;
+    var colId = target.getAttribute("data-dhx-id");
+    var spanRowIndex = parseInt(target.getAttribute("data-dhx-row-index") || "0", 10);
+    if (!colId)
+        return;
+    // Use the logical navigation row (preserved across rowspan cells),
+    // falling back to the DOM attribute for initial entry
+    var state = sentinelStateMap.get(grid);
+    var rowIndex = (_a = state === null || state === void 0 ? void 0 : state.navRowIndex) !== null && _a !== void 0 ? _a : spanRowIndex;
+    var columns = getVisibleColumns(grid);
+    var currentIndex = columns.findIndex(function (c) { return c.id === colId; });
+    if (currentIndex < 0)
+        return;
+    var zoneProp = zone === "footer" ? "footer" : "header";
+    var step = direction === "right" ? 1 : -1;
+    // If current cell has colspan and moving right, start from the end of the span
+    // Use the span's actual row to look up colspan config
+    var startIndex = currentIndex;
+    if (direction === "right") {
+        var cell = (_b = columns[currentIndex][zoneProp]) === null || _b === void 0 ? void 0 : _b[spanRowIndex];
+        if ((cell === null || cell === void 0 ? void 0 : cell.colspan) > 1) {
+            startIndex = currentIndex + cell.colspan - 1;
+        }
+    }
+    var nextIndex = startIndex + step;
+    if (nextIndex < 0 || nextIndex >= columns.length)
+        return;
+    var resolved = resolveSpanTarget(zone, columns[nextIndex].id, rowIndex, columns);
+    setZoneCellFocus(grid, zone, resolved.colId, resolved.rowIndex, target, rowIndex);
+}
+exports.moveZoneFocus = moveZoneFocus;
+/**
+ * Moves focus vertically within a header/footer zone (ArrowUp/ArrowDown).
+ * When moving down past a rowspan cell, starts from the span's last row.
+ * Returns false when reaching the zone boundary, signaling the caller
+ * to handle the transition to body or adjacent zone.
+ * @param grid - the grid instance
+ * @param event - the keyboard event (will be preventDefault'd)
+ * @param zone - the current focus zone
+ * @param direction - vertical direction to move
+ * @returns true if focus moved within the zone, false if at the boundary
+ */
+function moveZoneFocusVertical(grid, event, zone, direction) {
+    var _a;
+    event.preventDefault();
+    var target = event.target;
+    var colId = target.getAttribute("data-dhx-id");
+    var rowIndex = parseInt(target.getAttribute("data-dhx-row-index") || "0", 10);
+    if (!colId)
+        return false;
+    var columns = getVisibleColumns(grid);
+    var zoneProp = zone === "footer" ? "footer" : "header";
+    var step = direction === "down" ? 1 : -1;
+    // If current cell has rowspan and moving down, start from the end of the span
+    var startRow = rowIndex;
+    if (direction === "down") {
+        var colIndex = columns.findIndex(function (c) { return c.id === colId; });
+        if (colIndex >= 0) {
+            var cell = (_a = columns[colIndex][zoneProp]) === null || _a === void 0 ? void 0 : _a[rowIndex];
+            if ((cell === null || cell === void 0 ? void 0 : cell.rowspan) > 1) {
+                startRow = rowIndex + cell.rowspan - 1;
+            }
+        }
+    }
+    var nextRowIndex = startRow + step;
+    var rowCount = getZoneRowCount(grid, zone);
+    if (nextRowIndex < 0 || nextRowIndex >= rowCount) {
+        return false; // Boundary reached
+    }
+    var resolved = resolveSpanTarget(zone, colId, nextRowIndex, columns);
+    setZoneCellFocus(grid, zone, resolved.colId, resolved.rowIndex, target, nextRowIndex);
+    return true;
+}
+exports.moveZoneFocusVertical = moveZoneFocusVertical;
+/**
+ * Moves focus via Tab/Shift+Tab within a header/footer zone.
+ * Advances column-by-column with row wrapping: when reaching the last column,
+ * moves to the first column of the next row (and vice versa for backward).
+ * Skips cells that resolve back to the current cell (due to spans) and cells that are
+ * not in the DOM although their column is in view. A cell scrolled into view is focused
+ * after the redraw, not skipped (see setZoneCellFocus).
+ * Does NOT call preventDefault for exit cases — the caller decides.
+ * @param grid - the grid instance
+ * @param event - the keyboard event (preventDefault'd only on successful move)
+ * @param zone - the current focus zone
+ * @param direction - tab direction: "forward" for Tab, "backward" for Shift+Tab
+ * @returns "moved" on success, "exit-end" if past the last cell, "exit-start" if before the first
+ */
+function moveZoneFocusTab(grid, event, zone, direction) {
+    var _a, _b;
+    var target = event.target;
+    // If target is an inner element (e.g., filter input), find the parent cell
+    var cell = target.getAttribute("data-dhx-id")
+        ? target
+        : target.closest("[data-dhx-id]");
+    if (!cell)
+        return direction === "forward" ? "exit-end" : "exit-start";
+    var colId = cell.getAttribute("data-dhx-id");
+    var spanRowIndex = parseInt(cell.getAttribute("data-dhx-row-index") || "0", 10);
+    var columns = getVisibleColumns(grid);
+    var currentIndex = columns.findIndex(function (c) { return c.id === colId; });
+    if (currentIndex < 0)
+        return direction === "forward" ? "exit-end" : "exit-start";
+    var zoneProp = zone === "footer" ? "footer" : "header";
+    var rowCount = getZoneRowCount(grid, zone);
+    var step = direction === "forward" ? 1 : -1;
+    // Use logical navigation row — same as moveZoneFocus (ArrowLeft/Right)
+    var state = sentinelStateMap.get(grid);
+    var rowIndex = (_a = state === null || state === void 0 ? void 0 : state.navRowIndex) !== null && _a !== void 0 ? _a : spanRowIndex;
+    // Initial advance — same colspan handling as moveZoneFocus (ArrowRight)
+    var startIndex = currentIndex;
+    if (direction === "forward") {
+        var cell_2 = (_b = columns[currentIndex][zoneProp]) === null || _b === void 0 ? void 0 : _b[spanRowIndex];
+        if ((cell_2 === null || cell_2 === void 0 ? void 0 : cell_2.colspan) > 1) {
+            startIndex = currentIndex + cell_2.colspan - 1;
+        }
+    }
+    var nextCol = startIndex + step;
+    var nextRow = rowIndex;
+    // Loop: advance with row wrapping, skip same cell, retry on focus failure
+    var maxSteps = columns.length * rowCount;
+    for (var i = 0; i < maxSteps; i++) {
+        if (direction === "forward" && nextCol >= columns.length) {
+            nextRow++;
+            if (nextRow >= rowCount)
+                return "exit-end";
+            nextCol = 0;
+        }
+        else if (direction === "backward" && nextCol < 0) {
+            nextRow--;
+            if (nextRow < 0)
+                return "exit-start";
+            nextCol = columns.length - 1;
+        }
+        var resolved = resolveSpanTarget(zone, columns[nextCol].id, nextRow, columns);
+        if (resolved.colId === colId && resolved.rowIndex === spanRowIndex) {
+            nextCol += step;
+            continue;
+        }
+        // Try to focus — only preventDefault on success
+        if (setZoneCellFocus(grid, zone, resolved.colId, resolved.rowIndex, target, nextRow)) {
+            event.preventDefault();
+            return "moved";
+        }
+        nextCol += step;
+    }
+    return direction === "forward" ? "exit-end" : "exit-start";
+}
+exports.moveZoneFocusTab = moveZoneFocusTab;
+/**
+ * Checks if the active body cell is in the first visible column.
+ * Works with both cell selection and block (range) selection modes.
+ * @param grid - the grid instance
+ * @returns true if the selection is on the first column or no selection exists
+ */
+function isAtFirstColumn(grid) {
+    var _a;
+    var columns = getVisibleColumns(grid);
+    if (columns.length === 0)
+        return true;
+    var firstColId = columns[0].id;
+    if (grid.config.blockSelection) {
+        var ranged = (_a = grid.range) === null || _a === void 0 ? void 0 : _a.getRange();
+        if (ranged)
+            return ranged.xStart == firstColId;
+    }
+    else {
+        var selected = (0, cells_1.getCellSource)(grid).getCell();
+        if (selected)
+            return selected.column.id == firstColId;
+    }
+    return true;
+}
+exports.isAtFirstColumn = isAtFirstColumn;
+/**
+ * Checks if a header/footer cell is a content cell (contains a filter widget).
+ * Content cells have the dhx_grid-custom-content-cell class.
+ * @param target - the DOM element to check
+ * @returns true if the element is a content cell
+ */
+function isContentCell(target) {
+    return target.classList.contains("dhx_grid-custom-content-cell");
+}
+exports.isContentCell = isContentCell;
+// Track Escape listeners added to inner filter elements
+var escapeListeners = new WeakMap();
+/**
+ * Activates the inner widget of a content cell (Enter on a filter cell).
+ * Sets tabindex="0" on the inner input/select and focuses it.
+ * Attaches an Escape keydown listener directly on the inner element to handle
+ * widgets that call stopPropagation (e.g., ComboFilter closing its popup).
+ * @param target - the content cell DOM element
+ */
+function activateContentCell(target) {
+    var inner = target.querySelector("input, select");
+    if (!inner)
+        return;
+    inner.setAttribute("tabindex", "0");
+    inner.focus();
+    // Add Escape handler directly on the inner element —
+    // works even if the widget calls stopPropagation on Escape
+    var existing = escapeListeners.get(inner);
+    if (existing)
+        inner.removeEventListener("keydown", existing);
+    var onEscape = function (e) {
+        if (e.key === "Escape") {
+            e.preventDefault();
+            inner.removeEventListener("keydown", onEscape);
+            escapeListeners.delete(inner);
+            deactivateContentCell(target);
+        }
+    };
+    inner.addEventListener("keydown", onEscape);
+    escapeListeners.set(inner, onEscape);
+}
+exports.activateContentCell = activateContentCell;
+/**
+ * Deactivates the inner widget of a content cell (Escape from an active filter).
+ * Restores tabindex="-1" on the inner element, removes the Escape listener,
+ * and returns focus to the outer cell.
+ * @param cell - the content cell DOM element to deactivate
+ */
+function deactivateContentCell(cell) {
+    var inner = cell.querySelector("input, select");
+    if (inner) {
+        inner.setAttribute("tabindex", "-1");
+        var listener = escapeListeners.get(inner);
+        if (listener) {
+            inner.removeEventListener("keydown", listener);
+            escapeListeners.delete(inner);
+        }
+    }
+    cell.setAttribute("tabindex", "0");
+    cell.focus();
+}
+exports.deactivateContentCell = deactivateContentCell;
+/**
+ * Triggers column sorting on a header cell via keyboard (Enter/Space/Shift+Enter).
+ * Matches the click-based sort logic from ExtendedGrid.
+ * Skips content cells (filters) and colspan cells.
+ * After the sort triggers a re-render, restores focus to the same cell.
+ * @param grid - the grid instance
+ * @param event - the keyboard event
+ * @param isModifierKey - if true, toggles multi-sort behavior (Shift+Enter)
+ */
+function triggerHeaderSort(grid, event, isModifierKey) {
+    var _a, _b;
+    var target = event.target;
+    var colId = target.getAttribute("data-dhx-id");
+    var rowIndex = parseInt(target.getAttribute("data-dhx-row-index") || "0", 10);
+    if (!colId)
+        return;
+    var column = grid.getColumn(colId);
+    if (!column || !(0, main_1.isSortable)(grid.config, column))
+        return;
+    var textId = target.getAttribute("data-dhx-text-id");
+    var cell = (_a = column.header) === null || _a === void 0 ? void 0 : _a.find(function (item) { return item.id === textId; });
+    if (cell === null || cell === void 0 ? void 0 : cell.content)
+        return;
+    if ((cell === null || cell === void 0 ? void 0 : cell.colspan) > 1)
+        return;
+    event.preventDefault();
+    var isPermanent = grid.config.multiSort && (!isModifierKey || (isModifierKey && !((_b = grid._sortingStates) === null || _b === void 0 ? void 0 : _b.length)));
+    grid._sort(colId, cell === null || cell === void 0 ? void 0 : cell.sortAs, isPermanent);
+    setZoneCellFocus(grid, "header", colId, rowIndex);
+}
+exports.triggerHeaderSort = triggerHeaderSort;
+/**
+ * Sets focus on a zone cell using the roving tabindex pattern.
+ * Scrolls the column into view first (the cell may not exist in the DOM due to
+ * virtualized rendering), then sets tabindex="0" and focuses the target cell.
+ * Updates the sentinel state to track the last active position and logical navigation row.
+ * @param grid - the grid instance
+ * @param zone - the focus zone containing the cell
+ * @param colId - the column ID of the cell to focus
+ * @param rowIndex - the row index of the cell to focus
+ * @param prevCell - the previously focused cell (will get tabindex="-1")
+ * @param navRowIndex - the logical navigation row to store (defaults to rowIndex)
+ * @returns true if focus was set, or will be set after the redraw; false if the cell was not found
+ */
+function setZoneCellFocus(grid, zone, colId, rowIndex, prevCell, navRowIndex) {
+    if (prevCell) {
+        prevCell.setAttribute("tabindex", "-1");
+    }
+    // Scroll first — the cell may not be in DOM due to virtualized column rendering.
+    var scrolled = ensureZoneCellVisible(grid, colId);
+    var target = findZoneCell(grid, zone, colId, rowIndex);
+    if (target) {
+        target.setAttribute("tabindex", "0");
+        target.focus();
+    }
+    else if (scrolled) {
+        var prevFocused_1 = document.activeElement;
+        (0, dom_1.awaitRedraw)().then(function () {
+            if (document.activeElement !== prevFocused_1)
+                return;
+            var cell = findZoneCell(grid, zone, colId, rowIndex);
+            if (!cell)
+                return;
+            cell.setAttribute("tabindex", "0");
+            cell.focus();
+        });
+    }
+    else {
+        return false;
+    }
+    var state = sentinelStateMap.get(grid);
+    if (state) {
+        state.colId = colId;
+        state.rowIndex = rowIndex;
+        // navRowIndex tracks the logical navigation row.
+        // Horizontal nav preserves it; vertical nav updates it to the actual target row.
+        state.navRowIndex = navRowIndex !== null && navRowIndex !== void 0 ? navRowIndex : rowIndex;
+    }
+    return true;
+}
+exports.setZoneCellFocus = setZoneCellFocus;
+/**
+ * Checks if a body data cell currently has browser focus.
+ * Verifies the active element is inside the grid root and has a data-dhx-col-id attribute.
+ * @param grid - the grid instance
+ * @returns true if a body cell is focused
+ */
+function isBodyCellFocused(grid) {
+    var _a, _b, _c;
+    var gridRoot = ((_a = grid.getRootNode) === null || _a === void 0 ? void 0 : _a.call(grid)) || ((_c = (_b = grid.getRootView()) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.getRootNode());
+    if (!gridRoot)
+        return false;
+    var active = document.activeElement;
+    return active && gridRoot.contains(active) && !!active.getAttribute("data-dhx-col-id");
+}
+/**
+ * Checks if focus is still in the body data area, or was dropped to the page.
+ * Focus is dropped to the page when the focused editor is removed. Focus that has moved on,
+ * out of the widget or into the header or the footer, is not in the body.
+ * Used after an edit ends, so that focus is returned to the active cell only when nothing moved it away.
+ * @param grid - the grid instance
+ * @returns true if focus is in the body or on the page body element
+ */
+function isFocusInBody(grid) {
+    var _a, _b, _c;
+    var active = document.activeElement;
+    if (!active || active === document.body)
+        return true;
+    var gridRoot = ((_a = grid.getRootNode) === null || _a === void 0 ? void 0 : _a.call(grid)) || ((_c = (_b = grid.getRootView()) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.getRootNode());
+    if (!(gridRoot === null || gridRoot === void 0 ? void 0 : gridRoot.contains(active)))
+        return false;
+    return detectFocusZone({ target: active }) === "body";
+}
+exports.isFocusInBody = isFocusInBody;
+/**
+ * Manually finds and focuses a body cell across all containers, including fixed columns.
+ * Used as a fallback when selection.restoreFocus() doesn't reach fixed-column cells.
+ * @param grid - the grid instance
+ * @param rowId - the row ID to locate
+ * @param colId - the column ID to locate
+ */
+function focusBodyCell(grid, rowId, colId) {
+    var _a, _b, _c;
+    var gridRoot = ((_a = grid.getRootNode) === null || _a === void 0 ? void 0 : _a.call(grid)) || ((_c = (_b = grid.getRootView()) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.getRootNode());
+    if (!gridRoot)
+        return;
+    var cell = gridRoot.querySelector("[data-dhx-id=\"".concat(rowId, "\"] [data-dhx-col-id=\"").concat(colId, "\"]"));
+    if (cell) {
+        cell.tabIndex = 0;
+        cell.focus({ preventScroll: true });
+    }
+}
+/**
+ * Transitions focus from a header/footer zone to the body data area.
+ * Selects the first or last row in the specified column, using either
+ * cell selection or block (range) selection depending on the grid config.
+ * Falls back to manual focus if restoreFocus() doesn't reach the cell
+ * (e.g., fixed columns outside .dhx_grid_data).
+ * @param grid - the grid instance
+ * @param colId - the column to focus in the body
+ * @param position - "first" to select the first row, "last" to select the last row
+ */
+function transitionToBody(grid, colId, position) {
+    if (grid.data.getLength() === 0)
+        return;
+    var rowId;
+    if (position === "first") {
+        rowId = grid.data.getId(0);
+    }
+    else {
+        rowId = grid.data.getId(grid.data.getLength() - 1);
+        if (grid.config.type === "tree") {
+            rowId = (0, main_1.getLastChild)(rowId, grid.data) || rowId;
+        }
+    }
+    if (grid.config.blockSelection && grid.range) {
+        grid.range.setRange({ xStart: colId, yStart: rowId, xEnd: colId, yEnd: rowId });
+        grid.scrollTo(rowId, colId);
+        grid.block.restoreFocus();
+    }
+    else if (grid.selection) {
+        (0, cells_1.getCellSource)(grid).setCell(rowId, colId);
+        grid.scrollTo(rowId, colId);
+        (0, cells_1.getCellSource)(grid).restoreFocus();
+    }
+    if (!isBodyCellFocused(grid)) {
+        focusBodyCell(grid, rowId, colId);
+    }
+    if (!isBodyCellFocused(grid)) {
+        var prevFocused_2 = document.activeElement;
+        (0, dom_1.awaitRedraw)().then(function () {
+            if (document.activeElement !== prevFocused_2 || isBodyCellFocused(grid))
+                return;
+            focusBodyCell(grid, rowId, colId);
+        });
+    }
+}
+exports.transitionToBody = transitionToBody;
+/**
+ * Transitions focus from the body data area to a header/footer zone.
+ * Resolves span targets and sets focus on the appropriate zone cell.
+ * @param grid - the grid instance
+ * @param zone - the target zone to transition to
+ * @param colId - the column to focus in the zone
+ * @param rowIndex - the row index in the zone (defaults to the last row)
+ */
+function transitionFromBodyToZone(grid, zone, colId, rowIndex) {
+    var columns = getVisibleColumns(grid);
+    if (columns.length === 0)
+        return;
+    if (rowIndex === undefined) {
+        rowIndex = getZoneRowCount(grid, zone) - 1;
+    }
+    var resolved = resolveSpanTarget(zone, colId, rowIndex, columns);
+    setZoneCellFocus(grid, zone, resolved.colId, resolved.rowIndex, undefined, rowIndex);
+}
+exports.transitionFromBodyToZone = transitionFromBodyToZone;
+/**
+ * Checks if the active body cell is on the first data row.
+ * Works with both cell selection and block (range) selection modes.
+ * @param grid - the grid instance
+ * @returns true if the selection is on the first row or no selection exists
+ */
+function isAtFirstRow(grid) {
+    var _a;
+    if (grid.config.blockSelection) {
+        var ranged = (_a = grid.range) === null || _a === void 0 ? void 0 : _a.getRange();
+        if (ranged)
+            return ranged.yStart == grid.data.getId(0);
+    }
+    else {
+        var selected = (0, cells_1.getCellSource)(grid).getCell();
+        if (selected)
+            return selected.row.id == grid.data.getId(0);
+    }
+    return true;
+}
+exports.isAtFirstRow = isAtFirstRow;
+/**
+ * Checks if the active body cell is on the last data row.
+ * For tree grids, considers the deepest last child as the last row.
+ * Works with both cell selection and block (range) selection modes.
+ * @param grid - the grid instance
+ * @returns true if the selection is on the last row or no selection exists
+ */
+function isAtLastRow(grid) {
+    var _a;
+    if (grid.data.getLength() === 0)
+        return true;
+    var lastRowId = grid.data.getId(grid.data.getLength() - 1);
+    if (grid.config.type === "tree") {
+        lastRowId = (0, main_1.getLastChild)(lastRowId, grid.data) || lastRowId;
+    }
+    if (grid.config.blockSelection) {
+        var ranged = (_a = grid.range) === null || _a === void 0 ? void 0 : _a.getRange();
+        if (ranged)
+            return ranged.yEnd == lastRowId;
+    }
+    else {
+        var selected = (0, cells_1.getCellSource)(grid).getCell();
+        if (selected)
+            return selected.row.id == lastRowId;
+    }
+    return true;
+}
+exports.isAtLastRow = isAtLastRow;
+/**
+ * Checks if the grid has a footer zone with at least one row.
+ * @param grid - the grid instance
+ * @returns true if footer row count is greater than 0
+ */
+function hasFooter(grid) {
+    return getZoneRowCount(grid, "footer") > 0;
+}
+exports.hasFooter = hasFooter;
+/**
+ * Returns the column ID of the currently active body cell.
+ * Reads from range selection (xStart) or cell selection depending on config.
+ * @param grid - the grid instance
+ * @returns the active column ID, or null if no cell is selected
+ */
+function getActiveColumnId(grid) {
+    var _a;
+    if (grid.config.blockSelection) {
+        var ranged = (_a = grid.range) === null || _a === void 0 ? void 0 : _a.getRange();
+        if (ranged)
+            return ranged.xStart;
+    }
+    else {
+        var selected = (0, cells_1.getCellSource)(grid).getCell();
+        if (selected)
+            return selected.column.id;
+    }
+    return null;
+}
+exports.getActiveColumnId = getActiveColumnId;
+/**
+ * Extracts the column ID from a DOM element's data-dhx-id attribute.
+ * @param target - the DOM element to read from
+ * @returns the column ID string, or null if the attribute is missing
+ */
+function getColIdFromTarget(target) {
+    return (target === null || target === void 0 ? void 0 : target.getAttribute("data-dhx-id")) || null;
+}
+exports.getColIdFromTarget = getColIdFromTarget;
+/**
+ * Resets all zone cells and their inner elements to tabindex="-1".
+ * Called when leaving a zone to ensure the sentinel remains the sole Tab entry point.
+ * Also resets inner filter inputs/selects (including ComboFilter inputs
+ * that don't get tabindex via VDOM).
+ * @param grid - the grid instance
+ * @param zone - the zone whose cells should be reset
+ */
+function restoreZoneTabindex(grid, zone) {
+    var _a, _b, _c;
+    var gridRoot = ((_a = grid.getRootNode) === null || _a === void 0 ? void 0 : _a.call(grid)) || ((_c = (_b = grid.getRootView()) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.getRootNode());
+    if (!gridRoot)
+        return;
+    var selector = ".dhx_grid-".concat(zone, "-cell[tabindex], .dhx_").concat(zone, "-spans .dhx_span-cell[tabindex]");
+    var cells = gridRoot.querySelectorAll(selector);
+    cells.forEach(function (cell) {
+        cell.setAttribute("tabindex", "-1");
+    });
+    // Also reset inner focusable elements in content cells (filters)
+    // Combobox inputs don't have tabindex=-1 set via VDOM, so set imperatively
+    var innerSelector = ".dhx_grid-custom-content-cell input, .dhx_grid-custom-content-cell select";
+    var innerElements = gridRoot.querySelectorAll(innerSelector);
+    innerElements.forEach(function (el) {
+        el.setAttribute("tabindex", "-1");
+    });
+}
+exports.restoreZoneTabindex = restoreZoneTabindex;
+/**
+ * Hands focus to the sentinel on one side of the widget so that the browser's own Tab handling
+ * continues from the edge of the widget instead of from the boundary cell.
+ * The sentinels are the first and the last child of the widget root and are already the widget's
+ * entry points, so their own focus listeners are suppressed for this one focus.
+ * @param grid - the grid instance
+ * @param direction - "forward" for Tab, "backward" for Shift+Tab
+ * @returns true if the sentinel was found and focused
+ */
+function exitThroughSentinel(grid, direction) {
+    var _a, _b, _c;
+    var gridRoot = ((_a = grid.getRootNode) === null || _a === void 0 ? void 0 : _a.call(grid)) || ((_c = (_b = grid.getRootView()) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.getRootNode());
+    if (!gridRoot)
+        return false;
+    // The end sentinel carries both classes, so the plain selector matches the start sentinel first
+    var sentinel = gridRoot.querySelector(direction === "forward" ? ".dhx_grid-focus-sentinel--end" : ".dhx_grid-focus-sentinel");
+    if (!sentinel)
+        return false;
+    var state = getSentinelState(grid);
+    state.exiting = true;
+    sentinel.focus({ preventScroll: true });
+    state.exiting = false;
+    return true;
+}
+exports.exitThroughSentinel = exitThroughSentinel;
+/**
+ * Initializes the start focus sentinel for the grid.
+ * Attaches a focus listener on the .dhx_grid-focus-sentinel element that redirects
+ * focus to the stored header cell position (or the first cell on initial entry).
+ * Validates the stored column and row index before focusing.
+ * Only runs once per grid instance (tracked via sentinelStateMap).
+ * @param grid - the grid instance
+ */
+function initFocusSentinel(grid) {
+    var _a, _b, _c;
+    var state = getSentinelState(grid);
+    if (state.initialized)
+        return;
+    var gridRoot = ((_a = grid.getRootNode) === null || _a === void 0 ? void 0 : _a.call(grid)) || ((_c = (_b = grid.getRootView()) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.getRootNode());
+    if (!gridRoot)
+        return;
+    var sentinel = gridRoot.querySelector(".dhx_grid-focus-sentinel");
+    if (!sentinel)
+        return;
+    sentinel.addEventListener("focus", function () {
+        if (state.exiting) {
+            state.exiting = false;
+            return;
+        }
+        var columns = getVisibleColumns(grid);
+        if (columns.length === 0)
+            return;
+        var headerRowCount = getZoneRowCount(grid, "header");
+        if (headerRowCount === 0)
+            return;
+        var targetColId = state.colId;
+        var targetRowIndex = state.rowIndex;
+        if (targetColId === null || targetRowIndex === null) {
+            targetColId = columns[0].id;
+            targetRowIndex = 0;
+        }
+        var colExists = columns.some(function (c) { return c.id === targetColId; });
+        if (!colExists) {
+            targetColId = columns[0].id;
+            targetRowIndex = 0;
+        }
+        if (targetRowIndex >= headerRowCount) {
+            targetRowIndex = 0;
+        }
+        setZoneCellFocus(grid, "header", targetColId, targetRowIndex);
+    });
+    state.initialized = true;
+}
+exports.initFocusSentinel = initFocusSentinel;
+/**
+ * Initializes the end focus sentinel for backward Tab entry.
+ * When Shift+Tab from outside the grid lands on the end sentinel,
+ * redirects focus to the footer's last cell, or to the header's first cell
+ * if the grid has no footer.
+ * Only runs once per sentinel element (tracked via data-dhx-initialized attribute).
+ * @param grid - the grid instance
+ */
+function initEndSentinel(grid) {
+    var _a, _b, _c;
+    var gridRoot = ((_a = grid.getRootNode) === null || _a === void 0 ? void 0 : _a.call(grid)) || ((_c = (_b = grid.getRootView()) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.getRootNode());
+    if (!gridRoot)
+        return;
+    var sentinel = gridRoot.querySelector(".dhx_grid-focus-sentinel--end");
+    if (!sentinel || sentinel.getAttribute("data-dhx-initialized"))
+        return;
+    var state = getSentinelState(grid);
+    sentinel.addEventListener("focus", function () {
+        if (state.exiting) {
+            state.exiting = false;
+            return;
+        }
+        var columns = getVisibleColumns(grid);
+        if (columns.length === 0)
+            return;
+        var footerRowCount = getZoneRowCount(grid, "footer");
+        if (footerRowCount > 0) {
+            var lastColId = columns[columns.length - 1].id;
+            var lastRowIndex = footerRowCount - 1;
+            setZoneCellFocus(grid, "footer", lastColId, lastRowIndex);
+        }
+        else {
+            // No footer — redirect to header (same as start sentinel)
+            var headerRowCount = getZoneRowCount(grid, "header");
+            if (headerRowCount > 0) {
+                setZoneCellFocus(grid, "header", columns[0].id, 0);
+            }
+        }
+    });
+    sentinel.setAttribute("data-dhx-initialized", "true");
+}
+exports.initEndSentinel = initEndSentinel;
+
+
+/***/ }),
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8080,13 +9507,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(64), exports);
-__exportStar(__webpack_require__(144), exports);
-__exportStar(__webpack_require__(36), exports);
+__exportStar(__webpack_require__(68), exports);
+__exportStar(__webpack_require__(148), exports);
+__exportStar(__webpack_require__(38), exports);
 
 
 /***/ }),
-/* 64 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8096,8 +9523,8 @@ exports.Uploader = void 0;
 /* eslint-disable @typescript-eslint/unbound-method */
 var core_1 = __webpack_require__(1);
 var html_1 = __webpack_require__(2);
-var ts_data_1 = __webpack_require__(5);
-var types_1 = __webpack_require__(36);
+var ts_data_1 = __webpack_require__(4);
+var types_1 = __webpack_require__(38);
 var Uploader = /** @class */ (function () {
     function Uploader(config, data, events) {
         if (config === void 0) { config = {}; }
@@ -8384,10 +9811,10 @@ var Uploader = /** @class */ (function () {
 }());
 exports.Uploader = Uploader;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(18)))
 
 /***/ }),
-/* 65 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8415,15 +9842,15 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DataCollection = void 0;
 var events_1 = __webpack_require__(3);
-var loader_1 = __webpack_require__(136);
-var sort_1 = __webpack_require__(138);
-var dataproxy_1 = __webpack_require__(29);
-var helpers_1 = __webpack_require__(21);
-var types_1 = __webpack_require__(25);
+var loader_1 = __webpack_require__(140);
+var sort_1 = __webpack_require__(142);
+var dataproxy_1 = __webpack_require__(31);
+var helpers_1 = __webpack_require__(23);
+var types_1 = __webpack_require__(26);
 var core_1 = __webpack_require__(1);
-var group_1 = __webpack_require__(139);
-var CsvDriver_1 = __webpack_require__(46);
-var XMLDriver_1 = __webpack_require__(68);
+var group_1 = __webpack_require__(143);
+var CsvDriver_1 = __webpack_require__(50);
+var XMLDriver_1 = __webpack_require__(72);
 var DataCollection = /** @class */ (function () {
     function DataCollection(config, events) {
         var _this = this;
@@ -8494,7 +9921,7 @@ var DataCollection = /** @class */ (function () {
         if (!this.events.fire(types_1.DataEvents.beforeUnGroup, [grouped, groupConfig])) {
             return;
         }
-        this._parse(this._group.ungroup(this._order));
+        this._parse(this._group.ungroup(this._order), types_1.DataDriver.json, true);
         this.events.fire(types_1.DataEvents.afterUnGroup, [grouped, groupConfig]);
     };
     DataCollection.prototype.isGrouped = function () {
@@ -8523,7 +9950,7 @@ var DataCollection = /** @class */ (function () {
                 index: index,
             });
         }
-        this._reapplyFilters();
+        this._reapplyRules();
         return out;
     };
     DataCollection.prototype.remove = function (id) {
@@ -8580,7 +10007,7 @@ var DataCollection = /** @class */ (function () {
                     this._onChange("update", id, this._pull[id]);
                 }
             }
-            this._reapplyFilters();
+            this._reapplyRules();
         }
         else {
             (0, helpers_1.dhxWarning)("item not found");
@@ -8591,6 +10018,39 @@ var DataCollection = /** @class */ (function () {
             return -1;
         }
         return this._order.findIndex(function (i) { return (i === null || i === void 0 ? void 0 : i.id) == id; });
+    };
+    /**
+     * Returns the index of an item among the visible ones, i.e. in the order the items are
+     * rendered in. Unlike {@link DataCollection.getIndex} the hidden items are not counted, and
+     * a range set by {@link DataCollection.setRange} narrows the counting down to that range.
+     * @param id - The id of the item.
+     * @returns The zero-based index of the item, or `-1` if the item doesn't exist, is hidden,
+     * or is out of the currently set range.
+     * @example
+     * ```ts
+     * collection.update("2", { hidden: true });
+     * collection.getIndex("3"); // 2
+     * collection.getVisibleIndex("3"); // 1
+     * collection.getVisibleIndex("2"); // -1
+     * ```
+     */
+    DataCollection.prototype.getVisibleIndex = function (id) {
+        if (!(0, core_1.isId)(id) || !(0, core_1.isDefined)(this._pull[id]) || this._pull[id].hidden) {
+            return -1;
+        }
+        var start = this._range ? this._range[0] : 0;
+        var end = this._range ? Math.min(this._range[1], this._order.length) : this._order.length;
+        var index = 0;
+        for (var i = start; i < end; i++) {
+            var item = this._order[i];
+            if ((item === null || item === void 0 ? void 0 : item.id) == id) {
+                return index;
+            }
+            if (!(item === null || item === void 0 ? void 0 : item.hidden)) {
+                index++;
+            }
+        }
+        return -1;
     };
     DataCollection.prototype.getId = function (index) {
         if (!this._order[index]) {
@@ -8613,6 +10073,31 @@ var DataCollection = /** @class */ (function () {
         }
         return !!this._loaded;
     };
+    /**
+     * Filters the collection.
+     * Replaces the currently applied filters unless `config.add` is set; permanent filters always
+     * survive and are combined with the new rule - they are applied first and the new rule narrows
+     * the result further, so the two act as AND. Calling the method without a rule drops all
+     * non-permanent filters and restores the unfiltered order.
+     * @param rule - A single rule, a set of rules combined with AND, or a predicate. Omit to reset filtering.
+     * @param config - Options that control how the rule is applied and stored.
+     * @param silent - Whether to suppress the `filter` event. Defaults to `false`.
+     * @returns The id the filter is stored under, or `undefined` if no rule was passed or the call
+     * only reapplied the already stored filters.
+     * @example
+     * ```ts
+     * // keep items whose "age" is 30 or more
+     * collection.filter({ by: "age", match: "30", compare: (value, match) => Number(value) >= Number(match) });
+     *
+     * // narrow the current result further instead of replacing it
+     * collection.filter({ by: "country", match: "France" }, { add: true });
+     *
+     * // a filter that survives resetFilter() and data reloading
+     * collection.filter({ by: "archived", match: false }, { permanent: true });
+     *
+     * collection.filter();
+     * ```
+     */
     DataCollection.prototype.filter = function (rule, config, silent) {
         var _a;
         if (config === null || config === void 0 ? void 0 : config.$restore) {
@@ -8651,21 +10136,36 @@ var DataCollection = /** @class */ (function () {
         else {
             this._applyFilters(rule);
         }
+        if (!((config === null || config === void 0 ? void 0 : config.$restore) && (config === null || config === void 0 ? void 0 : config.add))) {
+            this._recalculateGroups();
+        }
         if (!silent) {
             var filters = this._getPureFilters(this._filters);
             this.events.fire(types_1.DataEvents.filter, [(0, core_1.isEmptyObj)(filters) ? null : filters]);
         }
         return id;
     };
+    /**
+     * Removes the applied filters and restores the unfiltered order. Whatever is left after the
+     * removal is reapplied to the restored order.
+     * Permanent filters are kept and reapplied unless `config.permanent` is set.
+     * @param config - Restricts the reset to a single filter or extends it to permanent ones. Omit to
+     * drop all non-permanent filters. `permanent` wins over `id`: passing both removes every filter,
+     * not just the one with that id.
+     * @param silent - Whether to suppress the `filter` event. Defaults to `false`.
+     * @returns `true` if no user-facing filters are left applied. Filters applied internally by a
+     * widget are not counted, so the result can be `true` while such a filter is still in effect.
+     * @example
+     * ```ts
+     * collection.resetFilter();                        // all non-permanent filters
+     * collection.resetFilter({ id: filterId });        // one filter
+     * collection.resetFilter({ permanent: true });     // everything, permanent included
+     * ```
+     */
     DataCollection.prototype.resetFilter = function (config, silent) {
-        var _a;
-        var _b = config || {}, id = _b.id, permanent = _b.permanent;
+        var _a = config || {}, id = _a.id, permanent = _a.permanent;
         if ((0, core_1.isEmptyObj)(config)) {
-            for (var key in this._filters) {
-                if (!((_a = this._filters[key].config) === null || _a === void 0 ? void 0 : _a.permanent)) {
-                    delete this._filters[key];
-                }
-            }
+            this._dropNonPermanentFilters();
         }
         else if (permanent) {
             this._filters = {};
@@ -8676,11 +10176,22 @@ var DataCollection = /** @class */ (function () {
         this.filter(null, { $restore: true }, silent);
         return (0, core_1.isEmptyObj)(this._getPureFilters(this._filters));
     };
+    /**
+     * Returns the currently applied filters, keyed by filter id.
+     * Filters applied internally by a widget are omitted; use {@link DataCollection.getRawFilters} to get them as well.
+     * @param config - Set `permanent` to return only permanent filters.
+     * @returns The applied filters, or `null` if there are none.
+     */
     DataCollection.prototype.getFilters = function (config) {
         var filters = this.getRawFilters(config);
         var pureFilters = filters ? this._getPureFilters(filters) : {};
         return (0, core_1.isEmptyObj)(pureFilters) ? null : pureFilters;
     };
+    /**
+     * Returns the currently applied filters including the ones applied internally by a widget.
+     * @param config - Set `permanent` to return only permanent filters.
+     * @returns The applied filters, or `null` if there are none.
+     */
     DataCollection.prototype.getRawFilters = function (config) {
         var filters = this._filters;
         if (config === null || config === void 0 ? void 0 : config.permanent) {
@@ -8715,6 +10226,33 @@ var DataCollection = /** @class */ (function () {
         }
         return res;
     };
+    /**
+     * Sorts the collection.
+     * A rule applied on its own replaces whatever was applied before. Multi-level sorting is built
+     * by applying the base level with `smartSorting: true`: while that base is in place every next
+     * rule is appended as another level instead of replacing it, whether it comes with
+     * `smartSorting: false` or with no config at all. A rule for a field that is already a level
+     * only changes that level's direction. Calling the method without a rule resets the sorting
+     * and restores the original order.
+     * Does not work while data is being lazy-loaded.
+     * @param rule - The sorting rule. Omit to reset the sorting.
+     * @param config - Options that control how the rule is combined with the already applied ones.
+     * @param ignore - Internal. Reorders the data without recording the rule in the sorting state
+     * and without firing the `change` event. A call that resets the sorting still clears the state.
+     * Defaults to `false`.
+     * @example
+     * ```ts
+     * collection.sort({ by: "country", dir: "asc" });
+     *
+     * // two-level sorting: by country, then by population
+     * collection.sort({ by: "country", dir: "asc" }, { smartSorting: true });
+     * collection.sort({ by: "population", dir: "desc" }, { smartSorting: false });
+     *
+     * // sorting anew while a base is in place - reset first
+     * collection.sort();
+     * collection.sort({ by: "population", dir: "desc" });
+     * ```
+     */
     DataCollection.prototype.sort = function (rule, config, ignore) {
         var _a, _b;
         if (ignore === void 0) { ignore = false; }
@@ -8725,11 +10263,13 @@ var DataCollection = /** @class */ (function () {
         if (config === null || config === void 0 ? void 0 : config.smartSorting) {
             this._sorter = rule;
         }
+        // while a smart base is in place any next rule is another level: an explicit
+        // smartSorting: false, i.e. a ctrl+click, and a call without a config alike
         if (!ignore &&
             (!this._sortingStates.length ||
                 (config === null || config === void 0 ? void 0 : config.smartSorting) ||
                 (!((_a = this._sortingStates[0]) === null || _a === void 0 ? void 0 : _a.smartSorting) && !(config === null || config === void 0 ? void 0 : config.smartSorting)))) {
-            this._sortingStates = [__assign(__assign({}, rule), config)];
+            this._sortingStates = rule ? [__assign(__assign({}, rule), config)] : [];
         }
         if (rule) {
             if (!ignore) {
@@ -8740,25 +10280,26 @@ var DataCollection = /** @class */ (function () {
                         this._sortingStates[sortIndex].dir = rule.dir;
                     }
                     else {
-                        this._sortingStates.push(rule);
+                        // a copy, so that the caller's rule does not leak into the state
+                        // and get mutated by the branch above on a later call
+                        this._sortingStates.push(__assign({}, rule));
                     }
                 }
             }
             this._applySorters();
         }
         else if (this._initSortOrder) {
-            this._sortingStates = [];
-            this._order = this._initSortOrder;
-            this._sorter = this._initSortOrder = null;
-            if (this._initFilterOrder) {
-                this._initFilterOrder = null;
-                this.filter(null, { $restore: true }, true);
-            }
+            this._resetSorting();
         }
         if (!ignore) {
             this.events.fire(types_1.DataEvents.change, [undefined, "sort", rule]);
         }
     };
+    /**
+     * Returns the currently applied sorting rules, from the base level to the last one added.
+     * The array is the one the collection sorts by, not a copy: do not modify it.
+     * @returns The applied rules, or an empty array if the collection is not sorted.
+     */
     DataCollection.prototype.getSortingStates = function () {
         return this._sortingStates;
     };
@@ -8793,8 +10334,9 @@ var DataCollection = /** @class */ (function () {
         }
     };
     DataCollection.prototype.forEach = function (callback) {
-        for (var i = 0; i < this._order.length; i++) {
-            callback.call(this, this._order[i], i, this._order);
+        var order = __spreadArray([], this._order, true);
+        for (var i = 0; i < order.length; i++) {
+            callback.call(this, order[i], i, order);
         }
     };
     DataCollection.prototype.load = function (url, driver) {
@@ -8816,13 +10358,25 @@ var DataCollection = /** @class */ (function () {
     DataCollection.prototype.parse = function (data, driver) {
         return this._parse(data, driver);
     };
-    DataCollection.prototype.$parse = function (data) {
+    /**
+     * Puts already normalized data into the collection and notifies the subscribers.
+     * Called by the loader once a driver has converted the raw input into an array of items.
+     * @param data - Normalized items.
+     * @param resetRules - Whether to drop the sorting and non-permanent filtering rules before
+     * putting the data in. Set for `parse()` and `load()`, which replace the whole dataset, and
+     * not set for grouping, which only rebuilds the order. Defaults to `false`.
+     * @internal
+     */
+    DataCollection.prototype.$parse = function (data, resetRules) {
+        if (resetRules) {
+            this._resetRules();
+        }
         var apx = this.config.approximate;
         if (apx) {
             data = this._approximate(data, apx.value, apx.maxNum);
         }
         this._parse_data(data);
-        this._reapplyFilters();
+        this._reapplyRules();
         this.events.fire(types_1.DataEvents.change, [undefined, "load"]);
         this.events.fire(types_1.DataEvents.load);
     };
@@ -8832,36 +10386,49 @@ var DataCollection = /** @class */ (function () {
         }
         this._loader.save(url);
     };
+    /**
+     * Changes the id of a data item.
+     * @param id - The current id of the item.
+     * @param newId - The new id for the item. If omitted, a unique id is generated automatically.
+     * @param silent - If true, the change event is not fired.
+     * @returns The new id of the item, or the original id if the change was rejected.
+     */
     DataCollection.prototype.changeId = function (id, newId, silent) {
         if (newId === void 0) { newId = (0, core_1.uid)(); }
-        if (id == newId)
-            return;
+        if (!(0, core_1.isId)(newId)) {
+            (0, helpers_1.dhxWarning)("the new id is not valid");
+            return id;
+        }
+        if (id == newId) {
+            return newId;
+        }
+        if (!this.exists(id)) {
+            (0, helpers_1.dhxWarning)("item not found");
+            return id;
+        }
         if (this.exists(newId)) {
             (0, helpers_1.dhxWarning)("item with ID ".concat(newId, " already exists"));
-            return;
+            return id;
         }
-        var item = this.getItem(id);
-        if (!item) {
-            (0, helpers_1.dhxWarning)("item not found");
+        if (this.isGrouped()) {
+            (0, helpers_1.dhxWarning)("the id can't be changed while the data is grouped");
+            return id;
         }
-        else {
-            item.id = newId;
-            (0, core_1.extend)(this._pull[id], item);
-            this._pull[newId] = this._pull[id];
-            if (!silent) {
-                this._onChange("update", newId, this._pull[newId]);
-            }
-            delete this._pull[id];
+        this._changeIdCore(id, newId);
+        if (!silent) {
+            this._onChange("update", newId, this._pull[newId], { oldId: id });
         }
+        return newId;
     };
     // todo: loop through the array and check saved statuses
     DataCollection.prototype.isSaved = function () {
         return !this._changes.order.length; // todo: bad solution, errors and holded elments are missed...
     };
     DataCollection.prototype.map = function (callback) {
+        var order = __spreadArray([], this._order, true);
         var result = [];
-        for (var i = 0; i < this._order.length; i++) {
-            result.push(callback.call(this, this._order[i], i, this._order));
+        for (var i = 0; i < order.length; i++) {
+            result.push(callback.call(this, order[i], i, order));
         }
         return result;
     };
@@ -8977,7 +10544,15 @@ var DataCollection = /** @class */ (function () {
         if (!this.events.fire(types_1.DataEvents.beforeRemove, [removedItem, removedItems, index])) {
             return;
         }
-        this._removeCore(removedItem.id);
+        if (removedItem.$group && !(0, helpers_1.isTreeCollection)(this)) {
+            this._getGroupSubtree(removedItem.id).forEach(function (itemId) { return _this._removeCore(itemId); });
+        }
+        else {
+            this._removeCore(removedItem.id);
+        }
+        if (batch.length === index + 1) {
+            this._recalculateGroups();
+        }
         this._onChange("remove", id, removedItem);
         this.events.fire(types_1.DataEvents.afterRemove, [removedItem, removedItems, index]);
     };
@@ -9098,7 +10673,36 @@ var DataCollection = /** @class */ (function () {
         }
         return newData;
     };
-    DataCollection.prototype._onChange = function (status, id, obj) {
+    /**
+     * Remaps the item to the new id inside all the internal structures.
+     * `_order`, `_initFilterOrder` and `_initSortOrder` keep the references to the same
+     * objects as `_pull`, so changing `item.id` is enough for them.
+     * @internal
+     */
+    DataCollection.prototype._changeIdCore = function (id, newId) {
+        var item = this._pull[id];
+        item.id = newId;
+        this._pull[newId] = item;
+        delete this._pull[id];
+        this._remapChanges(id, newId);
+    };
+    /**
+     * Retargets the pending save operations of the item to its new id,
+     * so that a rename between `add` and `save` doesn't produce a second request.
+     * @internal
+     */
+    DataCollection.prototype._remapChanges = function (id, newId) {
+        for (var _i = 0, _a = this._changes.order; _i < _a.length; _i++) {
+            var change = _a[_i];
+            if (change.id === id) {
+                change.id = newId;
+                if (change.obj) {
+                    change.obj.id = newId;
+                }
+            }
+        }
+    };
+    DataCollection.prototype._onChange = function (status, id, obj, service) {
         var itemCount = 0;
         var maxStack = 10;
         for (var _i = 0, _a = this._changes.order; _i < _a.length; _i++) {
@@ -9123,14 +10727,14 @@ var DataCollection = /** @class */ (function () {
                     this._loader.updateChanges(this._changes);
                     if (status === "remove" && obj.$emptyRow)
                         return;
-                    this.events.fire(types_1.DataEvents.change, [id, status, obj]);
+                    this._fireChange(id, status, obj, service);
                     return;
                 }
             }
         }
         this._changes.order.push({ id: id, status: status, obj: __assign({}, obj), saving: false });
         this._loader.updateChanges(this._changes);
-        this.events.fire(types_1.DataEvents.change, [id, status, obj]);
+        this._fireChange(id, status, obj, service);
     };
     DataCollection.prototype._addToOrder = function (array, obj, index) {
         if (index >= 0 && array[index]) {
@@ -9142,6 +10746,10 @@ var DataCollection = /** @class */ (function () {
             array.push(obj);
         }
     };
+    /**
+     * Reorders the data by all currently stored sorting rules.
+     * @internal
+     */
     DataCollection.prototype._applySorters = function () {
         if (this._sortingStates.length > 0) {
             this._order = this._sort.sort(this._order, this._sortingStates);
@@ -9150,6 +10758,12 @@ var DataCollection = /** @class */ (function () {
             }
         }
     };
+    /**
+     * Narrows the data by a single rule, remembering the unfiltered order on first use.
+     * @param rule - The rule to apply. A missing rule is a no-op.
+     * @throws If the rule is neither a predicate nor a valid field/value pair.
+     * @internal
+     */
     DataCollection.prototype._applyFilters = function (rule) {
         if (!rule)
             return;
@@ -9157,13 +10771,65 @@ var DataCollection = /** @class */ (function () {
             throw new Error("Invalid filter rule");
         }
         var filter = typeof rule !== "function" ? this._getRuleCallback(rule) : rule;
-        var fOrder = this._order.filter(function (item) { return filter(item); });
+        // group headers and their summary rows are structure, not data: the rule is matched against
+        // the items inside a group, and the group is kept or dropped by what is left of them
+        var grouped = this._group.isGrouped();
+        var fOrder = this._order.filter(function (item) { return (grouped && (item.$group || item.$groupSummary)) || filter(item); });
         if (!this._initFilterOrder) {
             this._initFilterOrder = this._order;
         }
         this._order = fOrder;
     };
-    DataCollection.prototype._reapplyFilters = function () {
+    /**
+     * Drops the sorting rules and restores the order the data had before sorting.
+     * If filtering was applied on top of the sorting, it is reapplied to the restored order.
+     * @internal
+     */
+    DataCollection.prototype._resetSorting = function () {
+        this._sortingStates = [];
+        this._sorter = null;
+        if (!this._initSortOrder) {
+            return;
+        }
+        this._order = this._initSortOrder;
+        this._initSortOrder = null;
+        if (this._initFilterOrder) {
+            this._initFilterOrder = null;
+            this.filter(null, { $restore: true }, true);
+        }
+    };
+    /**
+     * Forgets the filters that do not outlive a data change, keeping the permanent ones.
+     * @internal
+     */
+    DataCollection.prototype._dropNonPermanentFilters = function () {
+        var _a;
+        for (var key in this._filters) {
+            if (!((_a = this._filters[key].config) === null || _a === void 0 ? void 0 : _a.permanent)) {
+                delete this._filters[key];
+            }
+        }
+    };
+    /**
+     * Drops the rules that must not outlive a full data replacement: the sorting and
+     * the non-permanent filters. The counterpart of {@link DataCollection._reapplyRules},
+     * which restores everything that does outlive it.
+     * Called before the new data is put in, so the surviving permanent filters are only forgotten
+     * here, not reapplied: applying them to an empty collection would memorize an empty
+     * pre-filter state and lose the data that comes next.
+     * @internal
+     */
+    DataCollection.prototype._resetRules = function () {
+        this._resetSorting();
+        this._dropNonPermanentFilters();
+    };
+    /**
+     * Restores the rules that outlive a data change: the permanent filters and,
+     * while smart sorting is on, the sorting order. Called after items are added, updated or parsed,
+     * and after a tree is sorted.
+     * @internal
+     */
+    DataCollection.prototype._reapplyRules = function () {
         var permFilters = this.getFilters({ permanent: true });
         if (permFilters) {
             this.filter(permFilters, { $restore: true, add: true }, true);
@@ -9171,7 +10837,138 @@ var DataCollection = /** @class */ (function () {
         if (this._sorter) {
             this._applySorters();
         }
+        this._recalculateGroups();
     };
+    /**
+     * Brings the group headers in line with the items the collection holds now: the counts and the
+     * aggregates next to the group names are computed while the tree is built, so every change of
+     * what is in the collection leaves them stale. Headers left with nothing under them are dropped
+     * unless `showEmptyGroups` is set — see {@link DataCollection._dropGroups} for what dropping a
+     * header costs it.
+     * @internal
+     */
+    DataCollection.prototype._recalculateGroups = function () {
+        var _a;
+        if (!this._group.isGrouped()) {
+            return;
+        }
+        // an item counts towards every group above it, so the whole chain of parents is walked up
+        var items = new Map();
+        var counts = new Map();
+        for (var _i = 0, _b = this._order; _i < _b.length; _i++) {
+            var item = _b[_i];
+            if (item.$group || item.$groupSummary) {
+                continue;
+            }
+            var parent_1 = item.parent;
+            while ((0, core_1.isDefined)(parent_1) && this._pull[parent_1]) {
+                counts.set(parent_1, (counts.get(parent_1) || 0) + 1);
+                // a level with no `map` needs the number of the items only, not the items themselves
+                if (this._group.hasMap(parent_1)) {
+                    var bucket = items.get(parent_1) || [];
+                    bucket.push(item);
+                    items.set(parent_1, bucket);
+                }
+                parent_1 = this._pull[parent_1].parent;
+            }
+        }
+        var totals = this._initFilterOrder ? this._countGroupItems(this._initFilterOrder) : counts;
+        var empty = new Set();
+        for (var _c = 0, _d = this._order; _c < _d.length; _c++) {
+            var item = _d[_c];
+            if (!item.$group) {
+                continue;
+            }
+            var count = counts.get(item.id) || 0;
+            var aggregate = this._group.recalculate(item, items.get(item.id) || [], count, totals.get(item.id) || 0);
+            if (aggregate) {
+                var summary = this._pull["".concat(item.id, ":summary")];
+                if (summary) {
+                    Object.assign(summary, aggregate);
+                }
+            }
+            if (!count) {
+                empty.add("".concat(item.id));
+            }
+        }
+        if (empty.size && !((_a = this._group.getGroupConfig()) === null || _a === void 0 ? void 0 : _a.showEmptyGroups)) {
+            this._dropGroups(empty);
+        }
+    };
+    /**
+     * Collects a group header together with everything below it: the nested headers, their summary
+     * rows and the items. Removing the header alone would leave the items with a parent that is not
+     * there any more, and the counts of the groups above it short.
+     * A `TreeCollection` needs none of this, its {@link TreeCollection._removeCore} already takes
+     * the subtree of an item with it.
+     * @param id - The id of the header.
+     * @returns The ids to remove, the header itself last.
+     * @internal
+     */
+    DataCollection.prototype._getGroupSubtree = function (id) {
+        var ids = [];
+        for (var _i = 0, _a = this._initFilterOrder || this._order; _i < _a.length; _i++) {
+            var item = _a[_i];
+            var parent_2 = item.parent;
+            while ((0, core_1.isDefined)(parent_2) && this._pull[parent_2]) {
+                if ("".concat(parent_2) === "".concat(id)) {
+                    ids.push(item.id);
+                    break;
+                }
+                parent_2 = this._pull[parent_2].parent;
+            }
+        }
+        ids.push(id);
+        return ids;
+    };
+    /**
+     * Takes the group headers left with nothing in them out of the data, their summary rows and
+     * their nested groups included: a group is empty only when everything under it is.
+     * While a filter is applied the headers only leave `_order`, because `_initFilterOrder` keeps
+     * the whole grouped order and resetting the filter has to bring them back. Without a filter
+     * there is nothing to restore them from, so they leave the collection for good.
+     * @param ids - Ids of the headers to drop.
+     * @internal
+     */
+    DataCollection.prototype._dropGroups = function (ids) {
+        var _this = this;
+        if (this._initFilterOrder) {
+            this._order = this._order.filter(function (item) { return !ids.has("".concat(item.id)) && !ids.has("".concat(item.parent)); });
+            return;
+        }
+        ids.forEach(function (id) {
+            _this._removeCore("".concat(id, ":summary"));
+            _this._removeCore(id);
+        });
+    };
+    /**
+     * Counts the items every group header holds in a given order, its whole subtree and not just
+     * the items directly under it. Summary rows are not items.
+     * @param order - The order to count over.
+     * @returns The counts, keyed by header id.
+     * @internal
+     */
+    DataCollection.prototype._countGroupItems = function (order) {
+        var counts = new Map();
+        for (var _i = 0, order_1 = order; _i < order_1.length; _i++) {
+            var item = order_1[_i];
+            if (item.$group || item.$groupSummary) {
+                continue;
+            }
+            var parent_3 = item.parent;
+            while ((0, core_1.isDefined)(parent_3) && this._pull[parent_3]) {
+                counts.set(parent_3, (counts.get(parent_3) || 0) + 1);
+                parent_3 = this._pull[parent_3].parent;
+            }
+        }
+        return counts;
+    };
+    /**
+     * Turns a field/value rule into a predicate.
+     * @param rule - The rule to convert.
+     * @returns The predicate, or `undefined` if the rule has no field or no value to match.
+     * @internal
+     */
     DataCollection.prototype._getRuleCallback = function (rule) {
         if (!(0, core_1.isDefined)(rule.by) || !(0, core_1.isDefined)(rule.match))
             return;
@@ -9179,6 +10976,12 @@ var DataCollection = /** @class */ (function () {
             ? function (obj) { return rule.compare(obj[rule.by], rule.match, obj, rule.multi); }
             : function (obj) { return obj[rule.by] == rule.match; };
     };
+    /**
+     * Strips the filters applied by a widget, leaving only those the user set.
+     * @param filters - The filters to strip.
+     * @returns The user-facing filters.
+     * @internal
+     */
     DataCollection.prototype._getPureFilters = function (filters) {
         return Object.keys(filters).reduce(function (obj, key) {
             var _a;
@@ -9188,6 +10991,12 @@ var DataCollection = /** @class */ (function () {
             return obj;
         }, {});
     };
+    /**
+     * Flattens stored filters into a set of predicates that can be reapplied at once.
+     * @param filters - The stored filters.
+     * @returns A set of predicates keyed by index.
+     * @internal
+     */
     DataCollection.prototype._normalizeFilters = function (filters) {
         var rules = [];
         for (var key in filters) {
@@ -9208,14 +11017,37 @@ var DataCollection = /** @class */ (function () {
         }
         return __assign({}, rules);
     };
+    /**
+     * Checks that a rule can be applied: it is either a predicate or has both a field and a value.
+     * @param rule - The rule to check.
+     * @returns Whether the rule is valid.
+     * @internal
+     */
     DataCollection.prototype._checkFilterRule = function (rule) {
         return typeof rule === "function" || ((0, core_1.isDefined)(rule.by) && (0, core_1.isDefined)(rule.match));
     };
+    /**
+     * Clears the collection and hands the data over to the loader.
+     * @param data - Items or a serialized string.
+     * @param driver - Data driver used to parse the input. Defaults to the JSON driver.
+     * @param grouping - Whether the call rebuilds the order for grouping rather than replaces the
+     * dataset. Grouping keeps the sorting and filtering rules, a replacement drops them. Defaults to `false`.
+     * @internal
+     */
     DataCollection.prototype._parse = function (data, driver, grouping) {
         if (driver === void 0) { driver = types_1.DataDriver.json; }
         if (grouping === void 0) { grouping = false; }
         this._reset({ grouping: grouping });
-        return this._loader.parse(data, driver);
+        return this._loader.parse(data, driver, !grouping);
+    };
+    /**
+     * Fires the change event. The service payload is appended only when it is set,
+     * so that the arguments of the event stay exactly the same as before for every
+     * operation that doesn't provide it.
+     * @internal
+     */
+    DataCollection.prototype._fireChange = function (id, status, obj, service) {
+        this.events.fire(types_1.DataEvents.change, service ? [id, status, obj, service] : [id, status, obj]);
     };
     return DataCollection;
 }());
@@ -9223,7 +11055,7 @@ exports.DataCollection = DataCollection;
 
 
 /***/ }),
-/* 66 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9241,9 +11073,9 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dataDriversPro = exports.dataDrivers = void 0;
-var JsonDriver_1 = __webpack_require__(67);
-var CsvDriver_1 = __webpack_require__(46);
-var XMLDriver_1 = __webpack_require__(68);
+var JsonDriver_1 = __webpack_require__(71);
+var CsvDriver_1 = __webpack_require__(50);
+var XMLDriver_1 = __webpack_require__(72);
 exports.dataDrivers = {
     json: JsonDriver_1.JsonDriver,
     csv: CsvDriver_1.CsvDriver,
@@ -9252,7 +11084,7 @@ exports.dataDriversPro = __assign(__assign({}, exports.dataDrivers), { xml: XMLD
 
 
 /***/ }),
-/* 67 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9280,14 +11112,14 @@ exports.JsonDriver = JsonDriver;
 
 
 /***/ }),
-/* 68 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.XMLDriver = void 0;
-var xml_1 = __webpack_require__(137);
+var xml_1 = __webpack_require__(141);
 var ARRAY_NAME = "items";
 var ITEM_NAME = "item";
 // convert xml tag to js object, all subtags and attributes are mapped to the properties of result object
@@ -9419,7 +11251,7 @@ exports.XMLDriver = XMLDriver;
 
 
 /***/ }),
-/* 69 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9427,11 +11259,18 @@ exports.XMLDriver = XMLDriver;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.methods = void 0;
 var core_1 = __webpack_require__(1);
+/**
+ * Aggregation functions shared by the group aggregates and the widget summaries.
+ * `sum` and `count` return `0` for an empty set, the rest return `null`: there is no
+ * meaningful average, minimum or maximum of nothing.
+ */
 exports.methods = {
     sum: function (items, field) {
         return parseFloat(items.reduce(function (sum, item) { return sum + (+item[field] || 0); }, 0).toFixed(12));
     },
     avg: function (items, field) {
+        if (!(items === null || items === void 0 ? void 0 : items.length))
+            return null;
         return parseFloat((items.reduce(function (sum, item) { return sum + (+item[field] || 0); }, 0) / items.length).toFixed(12));
     },
     count: function (items, field) {
@@ -9439,16 +11278,20 @@ exports.methods = {
         return items.filter(function (item) { return (0, core_1.isDefined)(item[field]) && item[field] !== ""; }).length;
     },
     min: function (items, field) {
+        if (!(items === null || items === void 0 ? void 0 : items.length))
+            return null;
         return Math.min.apply(Math, items.map(function (item) { return +item[field]; }));
     },
     max: function (items, field) {
+        if (!(items === null || items === void 0 ? void 0 : items.length))
+            return null;
         return Math.max.apply(Math, items.map(function (item) { return +item[field]; }));
     },
 };
 
 
 /***/ }),
-/* 70 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9491,10 +11334,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TreeCollection = exports.addToOrder = void 0;
 var core_1 = __webpack_require__(1);
-var datacollection_1 = __webpack_require__(65);
-var dataproxy_1 = __webpack_require__(29);
-var helpers_1 = __webpack_require__(21);
-var types_1 = __webpack_require__(25);
+var datacollection_1 = __webpack_require__(69);
+var dataproxy_1 = __webpack_require__(31);
+var helpers_1 = __webpack_require__(23);
+var types_1 = __webpack_require__(26);
 function addToOrder(store, obj, parent, index) {
     if (index !== undefined && index !== -1 && store[parent] && store[parent][index]) {
         store[parent].splice(index, 0, obj);
@@ -9542,7 +11385,7 @@ var TreeCollection = /** @class */ (function (_super) {
                 parent: parent,
             });
         }
-        this._reapplyFilters();
+        this._reapplyRules();
         return out;
     };
     TreeCollection.prototype.getRoot = function () {
@@ -9600,18 +11443,80 @@ var TreeCollection = /** @class */ (function (_super) {
         }
         return this._children[parent].findIndex(function (i) { return (i === null || i === void 0 ? void 0 : i.id) == id; });
     };
+    /**
+     * Returns the index of an item among the visible ones, i.e. in the order the items are
+     * rendered in. Unlike {@link TreeCollection.getIndex} the hidden items are not counted, and an
+     * item that is not rendered at all gets `-1`. A range set by {@link DataCollection.setRange}
+     * leaves the top level items of the current page only.
+     * @param id - The id of the item.
+     * @param flat - Whether the index is counted in the flat list of all the visible items, i.e.
+     * the items of the expanded branches above the item are counted as well. By default the index
+     * is counted within the parent branch of the item only. Defaults to `false`.
+     * @returns The zero-based index of the item, or `-1` if the item doesn't exist, is hidden, is
+     * placed under a hidden or a collapsed parent, or is out of the currently set range.
+     * @example
+     * ```ts
+     * // "1", "2", "3" are top level items, "3" is expanded and holds "3.1" and "3.2"
+     * collection.update("3.1", { hidden: true });
+     * collection.getIndex("3.2"); // 1 - the second child of "3"
+     * collection.getVisibleIndex("3.2"); // 0 - the first rendered child of "3"
+     * collection.getVisibleIndex("3.2", true); // 3 - the fourth rendered item
+     *
+     * collection.update("3", { $opened: false });
+     * collection.getVisibleIndex("3.2"); // -1
+     * collection.getVisibleIndex("3.2", true); // -1
+     * ```
+     */
+    TreeCollection.prototype.getVisibleIndex = function (id, flat) {
+        if (flat === void 0) { flat = false; }
+        if (!(0, core_1.isId)(id)) {
+            return -1;
+        }
+        var item = this._pull[id];
+        if (!item || item.hidden) {
+            return -1;
+        }
+        // nothing of a hidden or a collapsed branch is rendered, up to the top level
+        var top = item;
+        while (top.parent !== this._root) {
+            var parent_1 = this._pull[top.parent];
+            if (!parent_1 || parent_1.hidden || !this._isOpened(parent_1)) {
+                return -1;
+            }
+            top = parent_1;
+        }
+        var _a = this._getRootBounds(), start = _a[0], end = _a[1];
+        if (this._range) {
+            var topIndex = this.getIndex(top.id);
+            if (topIndex < start || topIndex >= end) {
+                return -1;
+            }
+        }
+        return flat ? this._getFlatVisibleIndex(item, start) : this._getBranchVisibleIndex(item, start, end);
+    };
+    /**
+     * Sorts the tree, reordering the items within each parent independently.
+     * The rules are combined the same way as in {@link DataCollection.sort}, but unlike it this
+     * method has no lazy-loading guard and reorders whatever is currently in the tree.
+     * @param rule - The sorting rule. Omit to reset the sorting.
+     * @param config - Options that control how the rule is combined with the already applied ones.
+     * @param ignore - Internal. Reorders the data without recording the rule in the sorting state
+     * and without firing the `change` event. A call that resets the sorting still clears the state.
+     * Defaults to `false`.
+     */
     TreeCollection.prototype.sort = function (rule, config, ignore) {
-        var _this = this;
         var _a, _b;
         if (ignore === void 0) { ignore = false; }
         if (config === null || config === void 0 ? void 0 : config.smartSorting) {
             this._sorter = rule;
         }
+        // while a smart base is in place any next rule is another level: an explicit
+        // smartSorting: false, i.e. a ctrl+click, and a call without a config alike
         if (!ignore &&
             (!this._sortingStates.length ||
                 (config === null || config === void 0 ? void 0 : config.smartSorting) ||
                 (!((_a = this._sortingStates[0]) === null || _a === void 0 ? void 0 : _a.smartSorting) && !(config === null || config === void 0 ? void 0 : config.smartSorting)))) {
-            this._sortingStates = [__assign(__assign({}, rule), config)];
+            this._sortingStates = rule ? [__assign(__assign({}, rule), config)] : [];
         }
         if (rule) {
             if (!ignore) {
@@ -9622,28 +11527,42 @@ var TreeCollection = /** @class */ (function (_super) {
                         this._sortingStates[sortIndex].dir = rule.dir;
                     }
                     else {
-                        this._sortingStates.push(rule);
+                        // stored the same way as the base level: a copy, so that the caller's
+                        // rule does not leak into the state and get mutated on a later call
+                        this._sortingStates.push(__assign({}, rule));
                     }
                 }
             }
             this._applySorters();
         }
         else if (this._initSortOrder) {
-            this._children = {};
-            this._order = [];
-            this._sortingStates = [];
-            this._initSortOrder.forEach(function (item) { return _this._parseItem(item); });
-            this._sorter = this._initSortOrder = this._initChildren = null;
-            if (this._initFilterOrder) {
-                this._initFilterOrder = null;
-                this.filter(null, { $restore: true }, true);
-            }
+            this._resetSorting();
         }
         if (!ignore) {
-            this._reapplyFilters();
+            this._reapplyRules();
             this.events.fire(types_1.DataEvents.change, [undefined, "sort", rule]);
         }
     };
+    /**
+     * Filters the tree, keeping the matched items together with their parent chain.
+     * By default every item at every nesting level is matched; `config.type` narrows that
+     * to a single level or to leaf items only. Rules are stored and combined the same way as in
+     * {@link DataCollection.filter}, but a rule without `compare` is matched differently: the field
+     * value has to contain `match` ignoring case, rather than be loosely equal to it, and a rule
+     * with an empty `match` is skipped instead of filtering everything out.
+     * @param rule - A single rule, a set of rules combined with AND, or a predicate. Omit to reset filtering.
+     * @param config - Options that control which items the rule is matched against and how it is stored.
+     * @param silent - Whether to suppress the `filter` event. Defaults to `false`.
+     * @returns The id the filter is stored under, or `undefined` if no rule was passed.
+     * @example
+     * ```ts
+     * // match every item at any level
+     * collection.filter({ by: "status", match: "done" });
+     *
+     * // match leaf items only
+     * collection.filter({ by: "status", match: "done" }, { type: "leafs" });
+     * ```
+     */
     TreeCollection.prototype.filter = function (rule, config, silent) {
         if (config === null || config === void 0 ? void 0 : config.$restore) {
             rule = this._normalizeFilters(rule || this._filters);
@@ -9679,12 +11598,19 @@ var TreeCollection = /** @class */ (function (_super) {
                 this._applyFilter(rule[key], this._filters[key].config);
             }
         }
+        if (!((config === null || config === void 0 ? void 0 : config.$restore) && (config === null || config === void 0 ? void 0 : config.add))) {
+            this._recalculateGroups();
+        }
         if (!silent) {
             var filters = this._getPureFilters(this._filters);
             this.events.fire(types_1.DataEvents.filter, [(0, core_1.isEmptyObj)(filters) ? null : filters]);
         }
         return id;
     };
+    /**
+     * Restores the original order of the tree, dropping the sorting and every filter,
+     * permanent ones included.
+     */
     TreeCollection.prototype.restoreOrder = function () {
         this.resetFilter({ permanent: true }, true);
         this.sort();
@@ -9729,7 +11655,7 @@ var TreeCollection = /** @class */ (function (_super) {
         if (!this.haveItems(parent) || level < 1) {
             return;
         }
-        var array = this._children[parent];
+        var array = __spreadArray([], this._children[parent], true);
         for (var i = 0; i < array.length; i++) {
             callback.call(this, array[i], i, array);
             if (this.haveItems(array[i].id)) {
@@ -9829,10 +11755,11 @@ var TreeCollection = /** @class */ (function (_super) {
         if (!this.haveItems(parent)) {
             return result;
         }
-        for (var i = 0; i < this._children[parent].length; i++) {
-            result.push(callback.call(this, this._children[parent][i], i, this._children));
+        var children = __spreadArray([], this._children[parent], true);
+        for (var i = 0; i < children.length; i++) {
+            result.push(callback.call(this, children[i], i, this._children));
             if (direct) {
-                var childResult = this.map(callback, this._children[parent][i].id, direct);
+                var childResult = this.map(callback, children[i].id, direct);
                 result = result.concat(childResult);
             }
         }
@@ -9852,13 +11779,118 @@ var TreeCollection = /** @class */ (function (_super) {
         }
         return out;
     };
+    /**
+     * Tells whether the children of an item are rendered. Both flags in use are checked:
+     * `$opened`, set by TreeGrid, and `opened`, set by Tree.
+     * @param item - The item to check.
+     * @returns `true` if the item is expanded.
+     * @internal
+     */
+    TreeCollection.prototype._isOpened = function (item) {
+        return Boolean(item.$opened || item.opened);
+    };
+    /**
+     * Gives the range of the top level items to count, narrowed by {@link DataCollection.setRange}.
+     * @returns The index to count from and the one to stop before.
+     * @internal
+     */
+    TreeCollection.prototype._getRootBounds = function () {
+        var _a;
+        var length = ((_a = this._children[this._root]) === null || _a === void 0 ? void 0 : _a.length) || 0;
+        if (!this._range) {
+            return [0, length];
+        }
+        return [this._range[0], Math.min(this._range[1], length)];
+    };
+    /**
+     * Counts the visible items placed before an item within its parent branch.
+     * @param item - The item to locate.
+     * @param start - The index the top level items are counted from, set by a range.
+     * @param end - The index the top level items are counted up to, set by a range.
+     * @returns The index of the item within its branch, or `-1` if the branch doesn't hold it.
+     * @internal
+     */
+    TreeCollection.prototype._getBranchVisibleIndex = function (item, start, end) {
+        var _a, _b;
+        var siblings = this._children[item.parent];
+        if (!siblings) {
+            return -1;
+        }
+        var isRoot = item.parent === this._root;
+        var from = isRoot ? start : 0;
+        var to = isRoot ? end : siblings.length;
+        var index = 0;
+        for (var i = from; i < to; i++) {
+            if (((_a = siblings[i]) === null || _a === void 0 ? void 0 : _a.id) == item.id) {
+                return index;
+            }
+            if (!((_b = siblings[i]) === null || _b === void 0 ? void 0 : _b.hidden)) {
+                index++;
+            }
+        }
+        return -1;
+    };
+    /**
+     * Counts the visible items placed before an item in the flat list of the visible items: at
+     * every level the branches of the preceding siblings are counted together with the parent
+     * item itself.
+     * @param item - The item to locate.
+     * @param start - The index the top level items are counted from, set by a range.
+     * @returns The index of the item in the flat list, or `-1` if the tree doesn't hold it.
+     * @internal
+     */
+    TreeCollection.prototype._getFlatVisibleIndex = function (item, start) {
+        var index = 0;
+        var node = item;
+        while (node) {
+            var siblings = this._children[node.parent];
+            if (!siblings) {
+                return -1;
+            }
+            var isRoot = node.parent === this._root;
+            var position = siblings.findIndex(function (i) { return (i === null || i === void 0 ? void 0 : i.id) == node.id; });
+            if (position === -1) {
+                return -1;
+            }
+            for (var i = isRoot ? start : 0; i < position; i++) {
+                index += this._getVisibleCount(siblings[i]);
+            }
+            if (isRoot) {
+                return index;
+            }
+            index++; // the parent row itself
+            node = this._pull[node.parent];
+        }
+        return -1;
+    };
+    /**
+     * Counts the rows an item takes in the flat list of the visible items: the item itself plus
+     * the visible items of its branch while it is expanded.
+     * @param item - The item to measure.
+     * @returns The number of the visible rows, `0` for a hidden item.
+     * @internal
+     */
+    TreeCollection.prototype._getVisibleCount = function (item) {
+        if (!item || item.hidden) {
+            return 0;
+        }
+        var count = 1;
+        var children = this._children[item.id];
+        if (children && this._isOpened(item)) {
+            for (var _i = 0, children_2 = children; _i < children_2.length; _i++) {
+                var child = children_2[_i];
+                count += this._getVisibleCount(child);
+            }
+        }
+        return count;
+    };
     TreeCollection.prototype.flatten = function (input) {
         var _this = this;
         var out = [];
         input.forEach(function (a) {
             out.push(a);
             var kids = _this._children[a.id];
-            if (kids && a.$opened) {
+            if (kids && _this._isOpened(a)) {
                 out = out.concat(_this.flatten(kids));
             }
         });
@@ -9958,6 +11990,36 @@ var TreeCollection = /** @class */ (function (_super) {
         this.events.fire(types_1.DataEvents.change, [id, "update", this.getItem(id)]);
         return id;
     };
+    /**
+     * Changes the id of a data item. The root id can't be changed.
+     * @param id - The current id of the item.
+     * @param newId - The new id for the item. If omitted, a unique id is generated automatically.
+     * @param silent - If true, the change event is not fired.
+     * @returns The new id of the item, or the original id if the change was rejected.
+     */
+    TreeCollection.prototype.changeId = function (id, newId, silent) {
+        if (id == this._root || ((0, core_1.isDefined)(newId) && newId == this._root)) {
+            (0, helpers_1.dhxWarning)("the root id can't be changed");
+            return id;
+        }
+        return _super.prototype.changeId.call(this, id, newId, silent);
+    };
+    TreeCollection.prototype._changeIdCore = function (id, newId) {
+        _super.prototype._changeIdCore.call(this, id, newId);
+        // the parent buckets keep the references to the renamed item, so only its own
+        // bucket key and the backward pointers of its children have to be retargeted
+        [this._children, this._initChildren].forEach(function (store) {
+            if (!store || !store[id]) {
+                return;
+            }
+            store[newId] = store[id];
+            delete store[id];
+            for (var _i = 0, _a = store[newId]; _i < _a.length; _i++) {
+                var child = _a[_i];
+                child.parent = newId;
+            }
+        });
+    };
     TreeCollection.prototype._moveItem = function (id, targetId, index) {
         var parentId = this.getParent(id);
         var children = this._initChildren || this._children;
@@ -9974,12 +12036,12 @@ var TreeCollection = /** @class */ (function (_super) {
                 delete store[parentId];
         });
         if (parentId !== this._root && parentId !== targetId) {
-            var parent_1 = this.getItem(parentId);
+            var parent_2 = this.getItem(parentId);
             if (children[parentId]) {
-                parent_1.items = __spreadArray([], children[parentId], true);
+                parent_2.items = __spreadArray([], children[parentId], true);
             }
             else {
-                delete parent_1.items;
+                delete parent_2.items;
             }
         }
         if (targetId !== this._root) {
@@ -9991,8 +12053,8 @@ var TreeCollection = /** @class */ (function (_super) {
         var _a;
         if ((0, core_1.isId)(config === null || config === void 0 ? void 0 : config.id)) {
             var children = __spreadArray([], this._children[config === null || config === void 0 ? void 0 : config.id], true);
-            for (var _i = 0, children_2 = children; _i < children_2.length; _i++) {
-                var child = children_2[_i];
+            for (var _i = 0, children_3 = children; _i < children_3.length; _i++) {
+                var child = children_3[_i];
                 this.remove(child.id);
             }
         }
@@ -10013,9 +12075,9 @@ var TreeCollection = /** @class */ (function (_super) {
         if (this._initChildren) {
             this._removeFromParentList(this._initChildren, parentId, id);
         }
-        if ((_a = this._pull[parentId]) === null || _a === void 0 ? void 0 : _a.items) {
-            var parent_2 = this._pull[parentId];
-            parent_2.items = parent_2.items.filter(function (item) { return item.id !== id; });
+        if (Array.isArray((_a = this._pull[parentId]) === null || _a === void 0 ? void 0 : _a.items)) {
+            var parent_3 = this._pull[parentId];
+            parent_3.items = parent_3.items.filter(function (item) { return item.id !== id; });
         }
         var removedIds = new Set();
         this._removeChildren(this._children, id, removedIds);
@@ -10067,11 +12129,14 @@ var TreeCollection = /** @class */ (function (_super) {
         this._pull[obj.id] = obj;
         if (obj.parent &&
             this._pull[obj.parent] &&
-            this._pull[obj.parent].items &&
+            Array.isArray(this._pull[obj.parent].items) &&
             !this._pull[obj.parent].items.find(function (item) { return item.id === obj.id; })) {
             this._pull[obj.parent].items.push(obj);
         }
         _super.prototype._addToOrder.call(this, _order, obj, index);
+        if (_order !== this._order) {
+            return;
+        }
         addToOrder(children, obj, parent, index);
         if (initChildren) {
             addToOrder(initChildren, obj, parent, index);
@@ -10128,8 +12193,12 @@ var TreeCollection = /** @class */ (function (_super) {
                 }
             }
         };
+        // group headers and their summary rows are structure, not data: the rule is matched against
+        // the items inside a group, and the group is kept or dropped by what is left of them
+        var grouped = this._group.isGrouped();
+        var isStructure = function (item) { return grouped && Boolean(item.$group || item.$groupSummary); };
         if (typeof rule === "function") {
-            var customRule = function (item) { return condition(item) && rule(item); };
+            var customRule = function (item) { return isStructure(item) || (condition(item) && rule(item)); };
             var filtered = children.filter(customRule);
             if (filtered.length) {
                 newChildren[current] = filtered;
@@ -10141,11 +12210,14 @@ var TreeCollection = /** @class */ (function (_super) {
         else {
             var customRule = function (item) {
                 var _a;
+                if (isStructure(item)) {
+                    return true;
+                }
                 var responseOfRule = true;
                 for (var compare in rule) {
                     if (rule[compare].by && rule[compare].match !== "") {
                         responseOfRule = rule[compare].compare
-                            ? rule[compare].compare(item[rule[compare].by], rule[compare].match, item)
+                            ? rule[compare].compare(item[rule[compare].by], rule[compare].match, item, rule[compare].multi)
                             : ((_a = item[rule[compare].by]) === null || _a === void 0 ? void 0 : _a.toString().toLocaleLowerCase().indexOf(rule[compare].match.toString().toLowerCase())) !== -1;
                     }
                     if (!responseOfRule)
@@ -10161,8 +12233,8 @@ var TreeCollection = /** @class */ (function (_super) {
                 newChildren[current] = [];
             }
         }
-        for (var _i = 0, children_3 = children; _i < children_3.length; _i++) {
-            var child = children_3[_i];
+        for (var _i = 0, children_4 = children; _i < children_4.length; _i++) {
+            var child = children_4[_i];
             this._recursiveFilter(rule, config, child.id, level + 1, newChildren);
         }
     };
@@ -10186,6 +12258,14 @@ var TreeCollection = /** @class */ (function (_super) {
             return itemCopy;
         }, parent, false);
     };
+    /**
+     * Narrows the tree by a single rule, keeping the parent chain of every matched item
+     * and remembering the unfiltered tree on first use.
+     * @param rule - The rule to apply. A missing or empty rule is a no-op.
+     * @param config - Options that control which items the rule is matched against.
+     * @throws If the rule is neither a predicate nor a valid field/value pair.
+     * @internal
+     */
     TreeCollection.prototype._applyFilter = function (rule, config) {
         var _this = this;
         if (!rule || (typeof rule !== "function" && (0, core_1.isEmptyObj)(rule)))
@@ -10232,6 +12312,137 @@ var TreeCollection = /** @class */ (function (_super) {
         });
         this._children = newChildren;
     };
+    /**
+     * Recomputes every group header from the items the tree holds now, and drops the groups that
+     * ended up with nothing in them unless `showEmptyGroups` is set. See
+     * {@link TreeCollection._dropGroups} for what dropping a header costs it.
+     * @internal
+     */
+    TreeCollection.prototype._recalculateGroups = function () {
+        var _this = this;
+        var _a;
+        if (!this._group.isGrouped()) {
+            return;
+        }
+        var totals = this._initChildren ? this._countTreeGroups(this._initChildren) : null;
+        var items = [];
+        var empty = new Set();
+        var walk = function (id) {
+            var start = items.length;
+            var children = _this._children[id];
+            if (children) {
+                for (var _i = 0, children_5 = children; _i < children_5.length; _i++) {
+                    var child = children_5[_i];
+                    if (child.$groupSummary) {
+                        continue;
+                    }
+                    if (child.$group) {
+                        walk(child.id);
+                    }
+                    else {
+                        items.push(child);
+                    }
+                }
+            }
+            var node = _this._pull[id];
+            if (!(node === null || node === void 0 ? void 0 : node.$group)) {
+                return;
+            }
+            var count = items.length - start;
+            // a level with no `map` needs the number of the items only, not the items themselves
+            var aggregate = _this._group.recalculate(node, _this._group.hasMap(id) ? items.slice(start) : null, count, totals ? totals.get(id) || 0 : count);
+            if (aggregate) {
+                var summary = _this._pull["".concat(id, ":summary")];
+                if (summary) {
+                    Object.assign(summary, aggregate);
+                }
+            }
+            if (!count) {
+                empty.add("".concat(id));
+            }
+        };
+        walk(this._root);
+        if (empty.size && !((_a = this._group.getGroupConfig()) === null || _a === void 0 ? void 0 : _a.showEmptyGroups)) {
+            this._dropGroups(empty);
+        }
+    };
+    /**
+     * Counts the items every group header holds in a given tree, its whole subtree and not just
+     * the direct children. Summary rows are not items.
+     * @param store - The parent to children map to count over.
+     * @returns The counts, keyed by header id.
+     * @internal
+     */
+    TreeCollection.prototype._countTreeGroups = function (store) {
+        var _this = this;
+        var counts = new Map();
+        var walk = function (id) {
+            var _a;
+            var count = 0;
+            var children = store[id];
+            if (children) {
+                for (var _i = 0, children_6 = children; _i < children_6.length; _i++) {
+                    var child = children_6[_i];
+                    if (child.$groupSummary) {
+                        continue;
+                    }
+                    count += child.$group ? walk(child.id) : 1;
+                }
+            }
+            if ((_a = _this._pull[id]) === null || _a === void 0 ? void 0 : _a.$group) {
+                counts.set(id, count);
+            }
+            return count;
+        };
+        walk(this._root);
+        return counts;
+    };
+    /**
+     * Takes group headers out of the tree together with everything below them, their summary rows
+     * included. While a filter is applied the headers only leave `_children`, because `_initChildren`
+     * keeps the whole grouped tree and resetting the filter has to bring them back. Without a filter
+     * there is nothing to restore them from, so they leave the tree for good.
+     * @param ids - Ids of the headers to drop.
+     * @internal
+     */
+    TreeCollection.prototype._dropGroups = function (ids) {
+        var _this = this;
+        if (!this._initChildren) {
+            ids.forEach(function (id) { return _this._removeCore(id); });
+            return;
+        }
+        var parents = new Set();
+        ids.forEach(function (id) {
+            var _a;
+            var parent = (_a = _this._pull[id]) === null || _a === void 0 ? void 0 : _a.parent;
+            if ((0, core_1.isDefined)(parent)) {
+                parents.add(parent);
+            }
+            delete _this._children[id];
+        });
+        parents.forEach(function (parent) {
+            var children = _this._children[parent];
+            if (!children) {
+                return;
+            }
+            var left = children.filter(function (child) { return !ids.has("".concat(child.id)); });
+            if (!left.length && parent !== _this._root) {
+                delete _this._children[parent];
+            }
+            else {
+                _this._children[parent] = left;
+            }
+        });
+    };
+    /**
+     * Unwraps the stored filters into their bare rules, keeping them keyed by filter id.
+     * Unlike {@link DataCollection._normalizeFilters} it does not turn the rules into predicates:
+     * {@link TreeCollection._applyFilter} needs the original rule to walk the tree, and it needs the
+     * id to look the matching config up.
+     * @param filters - The stored filters.
+     * @returns The bare rules, keyed by filter id.
+     * @internal
+     */
     TreeCollection.prototype._normalizeFilters = function (filters) {
         var rules = {};
         for (var key in filters) {
@@ -10244,6 +12455,31 @@ var TreeCollection = /** @class */ (function (_super) {
         return (_super.prototype._checkFilterRule.call(this, rule) ||
             Object.values(rule).every(function (value) { return typeof value !== "function" && _super.prototype._checkFilterRule.call(_this, value); }));
     };
+    /**
+     * Drops the sorting rules and rebuilds the tree in the order it had before sorting.
+     * If filtering was applied on top of the sorting, it is reapplied to the restored tree.
+     * @internal
+     */
+    TreeCollection.prototype._resetSorting = function () {
+        var _this = this;
+        this._sortingStates = [];
+        this._sorter = null;
+        if (!this._initSortOrder) {
+            return;
+        }
+        this._children = {};
+        this._order = [];
+        this._initSortOrder.forEach(function (item) { return _this._parseItem(item); });
+        this._initSortOrder = this._initChildren = null;
+        if (this._initFilterOrder) {
+            this._initFilterOrder = null;
+            this.filter(null, { $restore: true }, true);
+        }
+    };
+    /**
+     * Reorders the children of every parent by all currently stored sorting rules.
+     * @internal
+     */
     TreeCollection.prototype._applySorters = function () {
         for (var key in this._children) {
             this._sort.sort(this._children[key], this._sortingStates);
@@ -10260,7 +12496,7 @@ exports.TreeCollection = TreeCollection;
 
 
 /***/ }),
-/* 71 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10295,11 +12531,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cell = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var view_1 = __webpack_require__(9);
-var types_1 = __webpack_require__(48);
-var helpers_1 = __webpack_require__(145);
+var html_1 = __webpack_require__(2);
+var view_1 = __webpack_require__(10);
+var types_1 = __webpack_require__(52);
+var helpers_1 = __webpack_require__(149);
+var constants_1 = __webpack_require__(150);
 var events_1 = __webpack_require__(3);
-var Layout_1 = __webpack_require__(47);
+var Layout_1 = __webpack_require__(51);
 var Cell = /** @class */ (function (_super) {
     __extends(Cell, _super);
     function Cell(parent, config) {
@@ -10403,6 +12641,7 @@ var Cell = /** @class */ (function (_super) {
         if (!this.events.fire(types_1.LayoutEvents.beforeCollapse, [this.id])) {
             return;
         }
+        this._saveHeaderSize();
         this.config.collapsed = true;
         this._checkNextSize() || this._checkNextSize(this._getAnyFlexCell());
         this.events.fire(types_1.LayoutEvents.afterCollapse, [this.id]);
@@ -10500,7 +12739,7 @@ var Cell = /** @class */ (function (_super) {
     };
     Cell.prototype.toVDOM = function (nodes) {
         var _a;
-        var _b, _c;
+        var _b, _c, _d, _e;
         this._saveTheme();
         if (this.config === null) {
             this.config = {};
@@ -10577,50 +12816,10 @@ var Cell = /** @class */ (function (_super) {
             ])
             : this.config.full
                 ? [
-                    (0, dom_1.el)("div", {
-                        tabindex: this.config.collapsable ? "0" : "-1",
-                        role: this.config.collapsable ? "button" : null,
-                        "aria-label": this.config.collapsable
-                            ? "click to ".concat(this.config.collapsed ? "expand" : "collapse")
-                            : null,
-                        class: "dhx_layout-cell-header" +
-                            (this._isXDirection()
-                                ? " dhx_layout-cell-header--col"
-                                : " dhx_layout-cell-header--row") +
-                            (this.config.collapsable ? " dhx_layout-cell-header--collapseble" : "") +
-                            (this.config.collapsed ? " dhx_layout-cell-header--collapsed" : "") +
-                            (((this.getParent() || {}).config || {}).isAccordion
-                                ? " dhx_layout-cell-header--accordion"
-                                : ""),
-                        style: {
-                            height: this.config.headerHeight,
-                        },
-                        onclick: this._handlers.toggle,
-                        onkeydown: this._handlers.enterCollapse,
-                    }, [
-                        this.config.headerIcon &&
-                            (0, dom_1.el)("span.dhx_layout-cell-header__icon", {
-                                class: this.config.headerIcon,
-                            }),
-                        this.config.headerImage &&
-                            (0, dom_1.el)(".dhx_layout-cell-header__image-wrapper", [
-                                (0, dom_1.el)("img", {
-                                    src: this.config.headerImage,
-                                    class: "dhx_layout-cell-header__image",
-                                }),
-                            ]),
-                        this.config.header && (0, dom_1.el)("h3.dhx_layout-cell-header__title", this.config.header),
-                        this.config.collapsable
-                            ? (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
-                                class: this._getCollapseIcon(),
-                            })
-                            : (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
-                                class: "dxi dxi-empty",
-                            }),
-                    ]),
+                    this._renderHeader(),
                     !this.config.collapsed
                         ? (0, dom_1.el)("div", {
-                            style: __assign(__assign({}, stylePadding), { height: "calc(100% - ".concat(this.config.headerHeight || 37, "px)") }),
+                            style: stylePadding,
                             class: this._getCss(true) +
                                 " dhx_layout-cell-content" +
                                 (this.config.type ? typeClass : ""),
@@ -10648,12 +12847,93 @@ var Cell = /** @class */ (function (_super) {
                             : null,
                     ]
                     : kids;
-        var cell = (0, dom_1.el)("div", __assign(__assign((_a = { _key: this.config.id || this._uid, _ref: this._uid }, _a["aria-label"] = this.config.id ? "tab-content-" + this.config.id : null, _a["data-cell-id"] = (_b = this.config.id) !== null && _b !== void 0 ? _b : null, _a["data-dhx-theme"] = (_c = this._theme) !== null && _c !== void 0 ? _c : null, _a), handlers), { class: this._getCss(false) +
+        var cell = (0, dom_1.el)("div", __assign(__assign((_a = { _key: this.config.id || this._uid, _ref: this._uid }, _a["aria-label"] = this.config.id && ((_c = (_b = this._parent) === null || _b === void 0 ? void 0 : _b.config) === null || _c === void 0 ? void 0 : _c.views) ? "tab-content-" + this.config.id : null, _a["data-cell-id"] = (_d = this.config.id) !== null && _d !== void 0 ? _d : null, _a["data-dhx-theme"] = (_e = this._theme) !== null && _e !== void 0 ? _e : null, _a), handlers), { class: this._getCss(false) +
                 (this.config.css ? " " + this.config.css : "") +
+                (this.config.full && !isFieldset ? " dhx_layout-cell--full" : "") +
                 (this.config.collapsed ? " dhx_layout-cell--collapsed" : "") +
                 (this.config.resizable ? " dhx_layout-cell--resizable" : "") +
                 (this.config.type && !this.config.full ? typeClass : ""), style: isFieldset ? style : fullStyle }), cellContent || progressBar ? [].concat(cellContent, progressBar) : null);
         return resizer ? [].concat(cell, resizer) : cell;
+    };
+    Cell.prototype._renderHeader = function () {
+        return (0, dom_1.el)("div", {
+            tabindex: this.config.collapsable ? "0" : "-1",
+            role: this.config.collapsable ? "button" : null,
+            "aria-label": this.config.collapsable
+                ? "click to ".concat(this.config.collapsed ? "expand" : "collapse")
+                : null,
+            class: "dhx_layout-cell-header" +
+                (this._isXDirection() ? " dhx_layout-cell-header--col" : " dhx_layout-cell-header--row") +
+                (this.config.collapsable ? " dhx_layout-cell-header--collapseble" : "") +
+                (this.config.collapsed ? " dhx_layout-cell-header--collapsed" : "") +
+                (((this.getParent() || {}).config || {}).isAccordion
+                    ? " dhx_layout-cell-header--accordion"
+                    : ""),
+            _ref: this._uid + "_header",
+            style: this._getHeaderStyle(),
+            onclick: this._handlers.toggle,
+            onkeydown: this._handlers.enterCollapse,
+        }, [
+            this.config.headerIcon &&
+                (0, dom_1.el)("span.dhx_layout-cell-header__icon", {
+                    class: this.config.headerIcon,
+                }),
+            this.config.headerImage &&
+                (0, dom_1.el)(".dhx_layout-cell-header__image-wrapper", [
+                    (0, dom_1.el)("img", {
+                        src: this.config.headerImage,
+                        class: "dhx_layout-cell-header__image",
+                    }),
+                ]),
+            this._renderCellHeaderContent(),
+            this.config.collapsable
+                ? (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
+                    class: this._getCollapseIcon(),
+                })
+                : (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
+                    class: "dxi dxi-empty",
+                }),
+        ]);
+    };
+    Cell.prototype._isRotatedHeader = function () {
+        return Boolean(this.config.collapsed && this._isXDirection());
+    };
+    Cell.prototype._getHeaderStyle = function () {
+        var headerHeight = this.config.headerHeight;
+        var style = { height: headerHeight };
+        if (this._isRotatedHeader()) {
+            style.minWidth = headerHeight || this._headerSize || constants_1.DEFAULT_CELL_HEADER_WIDTH;
+        }
+        return style;
+    };
+    Cell.prototype._saveHeaderSize = function () {
+        var _a, _b;
+        var headerEl = (_b = (_a = this._parent) === null || _a === void 0 ? void 0 : _a.getRefs(this._uid + "_header")) === null || _b === void 0 ? void 0 : _b.el;
+        if (headerEl === null || headerEl === void 0 ? void 0 : headerEl.offsetHeight) {
+            this._headerSize = headerEl.offsetHeight;
+        }
+    };
+    Cell.prototype._renderCellHeaderContent = function () {
+        var header = this.config.header;
+        if (!header) {
+            return null;
+        }
+        if (typeof header !== "function") {
+            return (0, dom_1.el)("h3.dhx_layout-cell-header__title", header);
+        }
+        var content = header(this.config);
+        var key = "".concat(this._uid, "_header");
+        if (content && typeof content !== "string") {
+            var view = content.getRootView ? content.getRootView() : content;
+            if (view.render) {
+                view = (0, dom_1.inject)(view);
+            }
+            return (0, dom_1.el)(".dhx_layout-cell-header__custom.dhx_layout-cell-header__custom--widget", { _key: key }, [view]);
+        }
+        return (0, dom_1.el)(".dhx_layout-cell-header__custom", {
+            _key: key,
+            ".innerHTML": content || "",
+        });
     };
     Cell.prototype._saveTheme = function () {
         var _a;
@@ -10691,7 +12971,7 @@ var Cell = /** @class */ (function (_super) {
         this._handlers = {
             enterCollapse: function (e) {
                 if (e.keyCode === 13) {
-                    _this._handlers.toggle();
+                    _this._handlers.toggle(e);
                 }
             },
             collapse: function () {
@@ -10706,8 +12986,11 @@ var Cell = /** @class */ (function (_super) {
                 }
                 _this.expand();
             },
-            toggle: function () {
+            toggle: function (e) {
                 if (!_this.config.collapsable) {
+                    return;
+                }
+                if (e && (0, html_1.locateNodeByClassName)(e, "dhx_layout-cell-header__custom")) {
                     return;
                 }
                 _this.toggle();
@@ -10827,15 +13110,23 @@ var Cell = /** @class */ (function (_super) {
             return collapsedSize;
         for (var i = index + 1; i < nextIndex; i++) {
             if (parent._cells[i].config.collapsed) {
-                if (!this._isXDirection()) {
-                    collapsedSize += Number(parent._cells[i].config.headerHeight) || 37;
-                }
-                else {
-                    collapsedSize += 45;
-                }
+                collapsedSize += this._getCellSize(parent._cells[i]);
             }
         }
         return collapsedSize;
+    };
+    Cell.prototype._getCellSize = function (cell) {
+        var _a;
+        var isXDirection = this._isXDirection();
+        // a collapsed cell is as big as its header, and a custom header can be of any size
+        var cellEl = (_a = cell.getCellView()) === null || _a === void 0 ? void 0 : _a.el;
+        var size = cellEl && (isXDirection ? cellEl.offsetWidth : cellEl.offsetHeight);
+        if (size) {
+            return size;
+        }
+        return isXDirection
+            ? constants_1.DEFAULT_CELL_HEADER_WIDTH
+            : Number(cell.config.headerHeight) || constants_1.DEFAULT_CELL_HEADER_HEIGHT;
     };
     Cell.prototype._getCollapseIcon = function () {
         if (this._isXDirection() && this.config.collapsed) {
@@ -11059,7 +13350,7 @@ exports.Cell = Cell;
 
 
 /***/ }),
-/* 72 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11094,8 +13385,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProCell = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var ScrollView_1 = __webpack_require__(22);
-var Cell_1 = __webpack_require__(71);
+var ScrollView_1 = __webpack_require__(24);
+var Cell_1 = __webpack_require__(75);
 var ProCell = /** @class */ (function (_super) {
     __extends(ProCell, _super);
     function ProCell(parent, config) {
@@ -11117,7 +13408,7 @@ var ProCell = /** @class */ (function (_super) {
     };
     ProCell.prototype.toVDOM = function (nodes) {
         var _a;
-        var _b, _c;
+        var _b, _c, _d, _e;
         this._saveTheme();
         if (this.config === null) {
             this.config = {};
@@ -11204,46 +13495,10 @@ var ProCell = /** @class */ (function (_super) {
             ])
             : this.config.full
                 ? [
-                    (0, dom_1.el)("div", {
-                        tabindex: this.config.collapsable ? "0" : "-1",
-                        class: "dhx_layout-cell-header" +
-                            (this._isXDirection()
-                                ? " dhx_layout-cell-header--col"
-                                : " dhx_layout-cell-header--row") +
-                            (this.config.collapsable ? " dhx_layout-cell-header--collapseble" : "") +
-                            (this.config.collapsed ? " dhx_layout-cell-header--collapsed" : "") +
-                            (((this.getParent() || {}).config || {}).isAccordion
-                                ? " dhx_layout-cell-header--accordion"
-                                : ""),
-                        style: {
-                            height: this.config.headerHeight,
-                        },
-                        onclick: this._handlers.toggle,
-                        onkeydown: this._handlers.enterCollapse,
-                    }, [
-                        this.config.headerIcon &&
-                            (0, dom_1.el)("span.dhx_layout-cell-header__icon", {
-                                class: this.config.headerIcon,
-                            }),
-                        this.config.headerImage &&
-                            (0, dom_1.el)(".dhx_layout-cell-header__image-wrapper", [
-                                (0, dom_1.el)("img", {
-                                    src: this.config.headerImage,
-                                    class: "dhx_layout-cell-header__image",
-                                }),
-                            ]),
-                        this.config.header && (0, dom_1.el)("h3.dhx_layout-cell-header__title", this.config.header),
-                        this.config.collapsable
-                            ? (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
-                                class: this._getCollapseIcon(),
-                            })
-                            : (0, dom_1.el)("div.dhx_layout-cell-header__collapse-icon", {
-                                class: "dxi dxi-empty",
-                            }),
-                    ]),
+                    this._renderHeader(),
                     !this.config.collapsed
                         ? (0, dom_1.el)("div", {
-                            style: __assign(__assign({}, stylePadding), { height: "calc(100% - ".concat(this.config.headerHeight || 37, "px)") }),
+                            style: stylePadding,
                             class: this._getCss(true) +
                                 " dhx_layout-cell-content" +
                                 (this.config.type ? typeClass : ""),
@@ -11269,8 +13524,9 @@ var ProCell = /** @class */ (function (_super) {
                             : null,
                     ]
                     : kids;
-        var cell = (0, dom_1.el)("div", __assign(__assign((_a = { _key: this.config.id || this._uid, _ref: this._uid }, _a["aria-label"] = this.config.id ? "tab-content-" + this.config.id : null, _a["data-cell-id"] = (_b = this.config.id) !== null && _b !== void 0 ? _b : null, _a["data-dhx-theme"] = (_c = this._theme) !== null && _c !== void 0 ? _c : null, _a), handlers), { class: this._getCss(false) +
+        var cell = (0, dom_1.el)("div", __assign(__assign((_a = { _key: this.config.id || this._uid, _ref: this._uid }, _a["aria-label"] = this.config.id && ((_c = (_b = this._parent) === null || _b === void 0 ? void 0 : _b.config) === null || _c === void 0 ? void 0 : _c.views) ? "tab-content-" + this.config.id : null, _a["data-cell-id"] = (_d = this.config.id) !== null && _d !== void 0 ? _d : null, _a["data-dhx-theme"] = (_e = this._theme) !== null && _e !== void 0 ? _e : null, _a), handlers), { class: this._getCss(false) +
                 (this.config.css ? " " + this.config.css : "") +
+                (this.config.full && !isFieldset ? " dhx_layout-cell--full" : "") +
                 (this.config.collapsed ? " dhx_layout-cell--collapsed" : "") +
                 (this.config.resizable ? " dhx_layout-cell--resizable" : "") +
                 (this.config.type && !this.config.full ? typeClass : ""), style: isFieldset ? style : fullStyle }), cellContent || progressBar ? [].concat(cellContent, progressBar) : null);
@@ -11282,7 +13538,7 @@ exports.ProCell = ProCell;
 
 
 /***/ }),
-/* 73 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11313,7 +13569,7 @@ exports.blockScreen = blockScreen;
 
 
 /***/ }),
-/* 74 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11332,7 +13588,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.disableTooltip = exports.enableTooltip = exports.tooltip = exports.getZIndex = exports.findPosition = void 0;
 var html_1 = __webpack_require__(2);
-var types_1 = __webpack_require__(49);
+var types_1 = __webpack_require__(53);
 var DEFAULT_SHOW_DELAY = 750;
 var DEFAULT_HIDE_DELAY = 200;
 function findPosition(targetRect, position, width, height, margin, recursion) {
@@ -11418,6 +13674,7 @@ var lastNode = null;
 var isActive = false;
 var hideTimeout = null;
 var showTimeout = null;
+var lastHideDelay = null;
 var activeListenersDestructor;
 function getZIndex(node) {
     if (node &&
@@ -11487,22 +13744,54 @@ function showTooltip(node, text, position, css, force, margin, htmlEnable) {
         });
     }
 }
-function hideTooltip(delay) {
-    if (lastNode) {
-        hideTimeout = setTimeout(function () {
-            document.body.removeChild(tooltipBox);
-            isActive = false;
-            hideTimeout = null;
-        }, delay || DEFAULT_HIDE_DELAY);
+function cancelHide() {
+    if (hideTimeout) {
+        clearTimeout(hideTimeout);
+        hideTimeout = null;
     }
 }
+function removeBox() {
+    if (tooltipBox.parentNode) {
+        tooltipBox.parentNode.removeChild(tooltipBox);
+    }
+    isActive = false;
+}
+function scheduleHide(delay) {
+    hideTimeout = setTimeout(function () {
+        removeBox();
+        hideTimeout = null;
+    }, delay || DEFAULT_HIDE_DELAY);
+}
+function hideTooltip(delay) {
+    if (lastNode) {
+        scheduleHide(delay);
+    }
+}
+// WCAG 1.4.13: the pointer has to be able to travel onto the tooltip without it
+// disappearing. By the time it gets there the trigger's own mouseleave has
+// already scheduled the hide, so the box cancels it and takes the hiding over.
+tooltipBox.addEventListener("mouseenter", cancelHide);
+tooltipBox.addEventListener("mouseleave", function () {
+    if (isActive) {
+        scheduleHide(lastHideDelay);
+    }
+});
 function addListeners(node, text, config) {
     var force = config.force, showDelay = config.showDelay, hideDelay = config.hideDelay, position = config.position, css = config.css, htmlEnable = config.htmlEnable, margin = config.margin;
+    lastHideDelay = hideDelay;
     if (!force) {
         showTimeout = setTimeout(function () {
             showTooltip(node, text, position || types_1.Position.bottom, css, false, margin, htmlEnable);
         }, showDelay || DEFAULT_SHOW_DELAY);
     }
+    var dismiss = function (event) {
+        if (event.key !== "Escape") {
+            return;
+        }
+        clearTimeout(showTimeout);
+        cancelHide();
+        removeBox();
+    };
     var hide = function () {
         if (isActive) {
             hideTooltip(hideDelay);
@@ -11511,6 +13800,7 @@ function addListeners(node, text, config) {
         node.removeEventListener("mouseleave", hide);
         node.removeEventListener("blur", hide);
         document.removeEventListener("mousedown", hide);
+        document.removeEventListener("keydown", dismiss);
         lastNode = null;
         activeListenersDestructor = null;
     };
@@ -11520,6 +13810,7 @@ function addListeners(node, text, config) {
     node.addEventListener("mouseleave", hide);
     node.addEventListener("blur", hide);
     document.addEventListener("mousedown", hide);
+    document.addEventListener("keydown", dismiss);
     activeListenersDestructor = hide;
 }
 // default
@@ -11543,7 +13834,7 @@ function tooltip(text, config) {
     }
 }
 exports.tooltip = tooltip;
-function _mousemove(e) {
+function _showFromEvent(e) {
     var node = (0, html_1.locateNode)(e, "dhx_tooltip_text");
     if (!node) {
         return;
@@ -11554,17 +13845,19 @@ function _mousemove(e) {
     });
 }
 function enableTooltip() {
-    document.addEventListener("mousemove", _mousemove);
+    document.addEventListener("mousemove", _showFromEvent);
+    document.addEventListener("focusin", _showFromEvent);
 }
 exports.enableTooltip = enableTooltip;
 function disableTooltip() {
-    document.removeEventListener("mousemove", _mousemove);
+    document.removeEventListener("mousemove", _showFromEvent);
+    document.removeEventListener("focusin", _showFromEvent);
 }
 exports.disableTooltip = disableTooltip;
 
 
 /***/ }),
-/* 75 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11600,8 +13893,9 @@ exports.Toolbar = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var html_1 = __webpack_require__(2);
-var ts_message_1 = __webpack_require__(13);
-var ts_navbar_1 = __webpack_require__(23);
+var ts_message_1 = __webpack_require__(19);
+var en_1 = __webpack_require__(80);
+var ts_navbar_1 = __webpack_require__(25);
 var Toolbar = /** @class */ (function (_super) {
     __extends(Toolbar, _super);
     function Toolbar(element, config) {
@@ -11609,6 +13903,7 @@ var Toolbar = /** @class */ (function (_super) {
             navigationType: "click",
             $name: "toolbar",
         }, config)) || this;
+        _this._hasBarNavigation = true;
         _this._currentRoot = null;
         var render = function () { return _this._draw(element); };
         _this.mount(element, (0, dom_1.create)({ render: render }));
@@ -11745,12 +14040,30 @@ var Toolbar = /** @class */ (function (_super) {
             widgetName: "toolbar",
         });
     };
+    Toolbar.prototype._raiseFocusTooltip = function () {
+        var elem = (0, html_1.locateNode)(document.activeElement);
+        if (!elem) {
+            return;
+        }
+        var item = this.data.getItem(elem.getAttribute("data-dhx-id"));
+        if (item === null || item === void 0 ? void 0 : item.tooltip) {
+            (0, ts_message_1.tooltip)(item.tooltip, {
+                node: elem,
+                position: ts_message_1.Position.bottom,
+                force: true,
+            });
+        }
+    };
+    Toolbar.prototype._getAriaAttrs = function () {
+        return {
+            role: "toolbar",
+            "aria-orientation": "horizontal",
+            "aria-label": this.config.ariaLabel || en_1.default.aria_toolbar,
+        };
+    };
     Toolbar.prototype._draw = function (element) {
         var _this = this;
-        var getAriaAttrs = function (element) { return ({
-            role: "toolbar",
-            "aria-label": element || "", // to differ toolbars if there are 2 or more on page
-        }); };
+        this._resolveBarFocus();
         var toolbarHeight = this.data.getLength()
             ? this.data.reduce(function (result, item) {
                 switch (item.type) {
@@ -11763,31 +14076,12 @@ var Toolbar = /** @class */ (function (_super) {
                 }
             }, 0) + 24
             : null;
-        return (0, dom_1.el)("nav.dhx_widget.dhx_toolbar", {
+        return (0, dom_1.el)("div.dhx_widget.dhx_toolbar", {
             style: { height: toolbarHeight },
             class: this.config.css ? this.config.css : "",
         }, [
-            (0, dom_1.el)("ul.dhx_navbar.dhx_navbar--horizontal", __assign(__assign({ "data-dhx-widget-id": this._uid, tabindex: 0 }, getAriaAttrs(element)), { onclick: this._handlers.onclick, onmousedown: this._handlers.onmousedown, oninput: this._handlers.input, onmouseover: this._handlers.tooltip, onkeydown: this._handlers.onkeydown, onmousemove: this._handlers.onmousemove, onmouseleave: this._handlers.onmouseleave, _hooks: {
-                    didInsert: function (node) {
-                        node.el.addEventListener("keyup", function (e) {
-                            if (e.which !== 9) {
-                                return;
-                            }
-                            var elem = (0, html_1.locateNode)(document.activeElement);
-                            if (!elem) {
-                                return;
-                            }
-                            var id = elem.getAttribute("data-dhx-id");
-                            var item = _this.data.getItem(id);
-                            if (item === null || item === void 0 ? void 0 : item.tooltip) {
-                                (0, ts_message_1.tooltip)(item.tooltip, {
-                                    node: elem,
-                                    position: ts_message_1.Position.bottom,
-                                    force: true,
-                                });
-                            }
-                        }, true);
-                    },
+            (0, dom_1.el)("ul.dhx_navbar.dhx_navbar--horizontal", __assign(__assign({ "data-dhx-widget-id": this._uid }, this._getAriaAttrs()), { onclick: this._handlers.onclick, onmousedown: this._handlers.onmousedown, oninput: this._handlers.input, onmouseover: this._handlers.tooltip, onkeydown: this._handlers.onkeydown, onmousemove: this._handlers.onmousemove, onmouseleave: this._handlers.onmouseleave, _hooks: {
+                    didInsert: function (node) { return _this._bindBarHandlers(node.el); },
                 } }), this.data.map(function (item) { return _this._factory(item); }, this.data.getRoot(), false)),
         ]);
     };
@@ -11810,7 +14104,92 @@ exports.Toolbar = Toolbar;
 
 
 /***/ }),
-/* 76 */
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var en = {
+    aria_toolbar: "Toolbar",
+};
+exports.default = en;
+
+
+/***/ }),
+/* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.fieldKeepsKey = exports.isMenuItemFocusable = exports.isBarItemFocusable = void 0;
+var keys_1 = __webpack_require__(55);
+/* Types that draw no control of their own, in a bar or in a popup. */
+var decorativeTypes = new Set(["separator", "spacer", "title", "customHTML", "block"]);
+var decorativeMenuTypes = new Set(["separator", "spacer", "customHTML"]);
+/* Types the item factory refuses to draw when the item carries no content. */
+var contentRequiredTypes = new Set(["button", "navItem", "menuItem"]);
+function hasContent(item) {
+    return !!(item.value || item.icon || item.html);
+}
+/**
+ * The answer has to match what the item factory draws, including the items it drops, or the moving
+ * tab stop lands on an item that has no element and focus is lost.
+ */
+function isBarItemFocusable(item) {
+    if (item.hidden || item.disabled || decorativeTypes.has(item.type)) {
+        return false;
+    }
+    return !item.type || contentRequiredTypes.has(item.type) ? hasContent(item) : true;
+}
+exports.isBarItemFocusable = isBarItemFocusable;
+function isMenuItemFocusable(item) {
+    if (item.hidden || item.disabled || decorativeMenuTypes.has(item.type)) {
+        return false;
+    }
+    return hasContent(item);
+}
+exports.isMenuItemFocusable = isMenuItemFocusable;
+/**
+ * A field in a bar owns the keys that move its caret, but it must give them back at the edges of
+ * the text. A field that never does traps the keyboard and leaves the controls beyond it
+ * unreachable, which fails WCAG 2.1.1.
+ */
+function fieldKeepsKey(element, which, step) {
+    if (!element) {
+        return false;
+    }
+    var tag = element.tagName;
+    if (tag !== "INPUT" && tag !== "TEXTAREA") {
+        return false;
+    }
+    var field = element;
+    if (field.readOnly || field.disabled) {
+        return false;
+    }
+    if (which === keys_1.KEY_HOME || which === keys_1.KEY_END) {
+        return true;
+    }
+    // a text area uses both axes for its caret, a single line field only the horizontal one
+    if (tag === "TEXTAREA") {
+        return true;
+    }
+    if (which !== keys_1.KEY_LEFT && which !== keys_1.KEY_RIGHT) {
+        return false;
+    }
+    var caret = field.selectionStart;
+    // a field type that reports no caret position, or one with a selection, keeps the key
+    if (caret === null || caret !== field.selectionEnd) {
+        return true;
+    }
+    return step < 0 ? caret > 0 : caret < field.value.length;
+}
+exports.fieldKeepsKey = fieldKeepsKey;
+
+
+/***/ }),
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11828,7 +14207,7 @@ var PopupEvents;
 
 
 /***/ }),
-/* 77 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11848,7 +14227,7 @@ var SliderEvents;
 
 
 /***/ }),
-/* 78 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11863,7 +14242,7 @@ exports.default = locale;
 
 
 /***/ }),
-/* 79 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11888,7 +14267,7 @@ var TimepickerEvents;
 
 
 /***/ }),
-/* 80 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11910,7 +14289,7 @@ var CalendarEvents;
 
 
 /***/ }),
-/* 81 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11953,15 +14332,15 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.List = exports.MOVE_DOWN = exports.MOVE_UP = void 0;
 var core_1 = __webpack_require__(1);
-var ts_data_1 = __webpack_require__(5);
+var ts_data_1 = __webpack_require__(4);
 var dom_1 = __webpack_require__(0);
-var KeyManager_1 = __webpack_require__(17);
-var types_1 = __webpack_require__(30);
-var view_1 = __webpack_require__(9);
-var Selection_1 = __webpack_require__(82);
+var KeyManager_1 = __webpack_require__(16);
+var types_1 = __webpack_require__(32);
+var view_1 = __webpack_require__(10);
+var Selection_1 = __webpack_require__(88);
 var html_1 = __webpack_require__(2);
-var types_2 = __webpack_require__(54);
-var editors_1 = __webpack_require__(173);
+var types_2 = __webpack_require__(59);
+var editors_1 = __webpack_require__(178);
 exports.MOVE_UP = 1;
 exports.MOVE_DOWN = 2;
 var List = /** @class */ (function (_super) {
@@ -12011,7 +14390,10 @@ var List = /** @class */ (function (_super) {
             });
             _this._initHotKey();
         }
-        _this.events.on(ts_data_1.DataEvents.change, function (_, status, item) {
+        _this.events.on(ts_data_1.DataEvents.change, function (id, status, item, service) {
+            if (service && (0, core_1.isId)(service.oldId) && service.oldId === _this._focus) {
+                _this._focus = id;
+            }
             if (status === "setPage") {
                 _this.scrollTo(_this.data.getId(item[0]));
             }
@@ -12491,15 +14873,15 @@ exports.List = List;
 
 
 /***/ }),
-/* 82 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Selection = void 0;
-var types_1 = __webpack_require__(30);
-var ts_data_1 = __webpack_require__(5);
+var types_1 = __webpack_require__(32);
+var ts_data_1 = __webpack_require__(4);
 var core_1 = __webpack_require__(1);
 var Selection = /** @class */ (function () {
     function Selection(config, data, events) {
@@ -12536,6 +14918,18 @@ var Selection = /** @class */ (function () {
             if ((0, core_1.isId)(_this._nextSelection)) {
                 _this.add(_this._nextSelection);
                 _this._nextSelection = null;
+            }
+        });
+        this._data.events.on(ts_data_1.DataEvents.change, function (id, status, item, service) {
+            if (!service || !(0, core_1.isId)(service.oldId)) {
+                return;
+            }
+            var index = _this._selected.indexOf(service.oldId);
+            if (index !== -1) {
+                _this._selected[index] = id;
+            }
+            if (service.oldId === _this._nextSelection) {
+                _this._nextSelection = id;
             }
         });
     }
@@ -12656,7 +15050,7 @@ exports.Selection = Selection;
 
 
 /***/ }),
-/* 83 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12690,7 +15084,7 @@ exports.palette = [
 
 
 /***/ }),
-/* 84 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12714,7 +15108,7 @@ var ColorpickerEvents;
 
 
 /***/ }),
-/* 85 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12745,28 +15139,41 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Chart = void 0;
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
-var view_1 = __webpack_require__(9);
-var ts_data_1 = __webpack_require__(5);
-var ComposeLayer_1 = __webpack_require__(180);
-var Legend_1 = __webpack_require__(86);
-var types_1 = __webpack_require__(26);
-var index_1 = __webpack_require__(183);
-var index_2 = __webpack_require__(88);
-var Stacker_1 = __webpack_require__(93);
+var view_1 = __webpack_require__(10);
+var ts_data_1 = __webpack_require__(4);
+var ComposeLayer_1 = __webpack_require__(187);
+var Legend_1 = __webpack_require__(189);
+var types_1 = __webpack_require__(29);
+var index_1 = __webpack_require__(191);
+var index_2 = __webpack_require__(195);
+var Stacker_1 = __webpack_require__(206);
 var common_1 = __webpack_require__(7);
-var Tooltip_1 = __webpack_require__(197);
+var Tooltip_1 = __webpack_require__(207);
 var core_1 = __webpack_require__(1);
-var Export_1 = __webpack_require__(198);
+var Export_1 = __webpack_require__(208);
+// the scales are created in this order, so that the primary scale of a direction
+// comes first and the grid of that direction belongs to it
+var SCALE_ORDER = ["bottom", "top", "left", "right", "radial"];
 var Chart = /** @class */ (function (_super) {
     __extends(Chart, _super);
     function Chart(node, config) {
         if (config === void 0) { config = {}; }
         var _a;
         var _this = _super.call(this, null, config) || this;
+        _this._primaryScales = {};
         // using zero values ensure that widget will not attempt to render self in the hidden state
         _this._width = 0;
         _this._height = 0;
@@ -12928,105 +15335,206 @@ var Chart = /** @class */ (function (_super) {
     };
     Chart.prototype.setConfig = function (config) {
         var _this = this;
-        var _a;
-        if (config.type === "calendarHeatMap") {
-            throw new TypeError("The calendarHeatMap chart type is a pro functionality");
+        var _a, _b;
+        if (this._isProOnlyType(config.type)) {
+            throw new TypeError("The ".concat(config.type, " chart type is a pro functionality"));
         }
         this.config = config;
         this._layers.clear();
         this._series = {};
         this._scales = {};
-        var min;
-        // let baseLine;
+        this._primaryScales = {};
         if (config.scales) {
-            for (var key in config.scales) {
-                var scale = __assign({}, config.scales[key]);
-                if (config.scales[key].min !== undefined) {
-                    min = config.scales[key].min;
-                }
-                scale.type = scale.type || this._detectScaleType(scale, key);
-                if (config.scales.radial && key !== "radial") {
+            var positions = SCALE_ORDER.filter(function (position) { return config.scales[position]; });
+            var scaleConfigs_1 = {};
+            var hasGridOwner_1 = { x: false, y: false };
+            positions.forEach(function (position) {
+                var scale = __assign({}, config.scales[position]);
+                scale.type = scale.type || _this._detectScaleType(scale, position);
+                if (config.scales.radial && position !== "radial") {
                     scale.hidden = true;
                 }
-                this._setScale(scale, key);
-            }
+                if (position !== "radial") {
+                    // the grid of a direction is drawn by the first scale of that direction only
+                    var direction = (0, common_1.isXAxis)(position) ? "x" : "y";
+                    if (hasGridOwner_1[direction] && scale.grid === undefined) {
+                        scale.grid = false;
+                    }
+                    hasGridOwner_1[direction] = hasGridOwner_1[direction] || scale.grid !== false;
+                    _this._primaryScales[direction] = _this._primaryScales[direction] || position;
+                }
+                scaleConfigs_1[position] = scale;
+            });
+            // an aligned scale is created last, so that the reference axis is already calculated
+            // by the time its own scaleReady runs - the layers are visited in creation order
+            var byAlignment = __spreadArray([], positions, true).sort(function (a, b) { return Number(!!scaleConfigs_1[a].alignTicks) - Number(!!scaleConfigs_1[b].alignTicks); });
+            byAlignment.forEach(function (position) { return _this._setScale(scaleConfigs_1[position], position); });
+            positions.forEach(function (position) { return _this._alignScale(scaleConfigs_1, position); });
         }
-        var stack = new Stacker_1.default();
-        this._layers.add(stack);
-        (_a = config.series) === null || _a === void 0 ? void 0 : _a.forEach(function (cfg, ind) {
-            var _a, _b, _c, _d;
-            if (cfg.baseLine !== undefined && cfg.baseLine < min) {
-                cfg.baseLine = undefined;
+        var bindings = (config.series || []).map(function (cfg) {
+            var type = _this._seriaType(cfg);
+            var scales = _this._resolveSeriaScales(cfg, type);
+            var value = _this._valueAxis(type, scales);
+            return {
+                scales: scales,
+                value: value,
+                group: !cfg.stacked ? null : typeof cfg.stacked === "string" ? cfg.stacked : "$".concat(value),
+            };
+        });
+        var stackers = Object.create(null);
+        var stackGroups = [];
+        var stackedScales = Object.create(null);
+        bindings.forEach(function (_a) {
+            var scales = _a.scales, group = _a.group;
+            if (!group) {
+                return;
             }
-            var serieConfig = __assign({}, cfg);
-            serieConfig.type = serieConfig.type || config.type;
-            switch (serieConfig.type) {
-                case "bar":
-                case "xbar":
-                case "area":
-                case "splineArea":
-                    if (!serieConfig.color)
-                        serieConfig.color = serieConfig.fill || (0, common_1.getDefaultColor)(ind);
-                    if (!serieConfig.fill)
-                        serieConfig.fill = serieConfig.color || (0, common_1.getDefaultColor)(ind);
-                    break;
-                case "treeMap":
-                    serieConfig.legendType = ((_a = config.legend) === null || _a === void 0 ? void 0 : _a.type) || "groupName";
-                    (_c = (_b = config.legend) === null || _b === void 0 ? void 0 : _b.treeSeries) === null || _c === void 0 ? void 0 : _c.map(function (serie, index) {
-                        var _a, _b;
-                        serie.active = (_a = serie.active) !== null && _a !== void 0 ? _a : true;
-                        serie.id = (_b = serie.id) !== null && _b !== void 0 ? _b : (0, core_1.uid)();
-                        if (!serie.color)
-                            serie.color = (0, common_1.getDefaultColor)(index, serieConfig.legendType === "range");
-                    });
-                    serieConfig.treeSeries = (_d = config.legend) === null || _d === void 0 ? void 0 : _d.treeSeries;
-                    break;
-                case "scatter":
-                    if (!serieConfig.pointColor)
-                        serieConfig.pointColor = serieConfig.color || (0, common_1.getDefaultColor)(ind);
-                    break;
+            if (!stackers[group]) {
+                stackers[group] = new Stacker_1.default();
+                stackedScales[group] = [];
+                stackGroups.push(stackers[group]);
+                _this._layers.add(stackers[group]);
+            }
+            scales.forEach(function (position) {
+                if (_this._scales[position] && !stackedScales[group].includes(position)) {
+                    stackedScales[group].push(position);
+                    _this._scales[position].add(stackers[group]);
+                }
+            });
+        });
+        // the room for the totals is reserved once for every group, by the first of them
+        (_a = stackGroups[0]) === null || _a === void 0 ? void 0 : _a.measureTotalsOf(stackGroups);
+        (_b = config.series) === null || _b === void 0 ? void 0 : _b.forEach(function (cfg, ind) {
+            var _a, _b;
+            var serieConfig = _this._prepareSeriaConfig(cfg, ind);
+            var _c = bindings[ind], scales = _c.scales, value = _c.value, group = _c.group;
+            var stacker = group ? stackers[group] : null;
+            var valueMin = (_b = (_a = config.scales) === null || _a === void 0 ? void 0 : _a[value]) === null || _b === void 0 ? void 0 : _b.min;
+            if (serieConfig.baseLine !== undefined && serieConfig.baseLine < valueMin) {
+                serieConfig.baseLine = undefined;
             }
             var chartFactory = index_2.default[serieConfig.type];
-            if (serieConfig.barWidth || _this.config.barWidth) {
-                serieConfig.barWidth = serieConfig.barWidth || _this.config.barWidth;
-            }
             var chart = new chartFactory(_this.data, serieConfig, _this.events);
-            var scales = (0, common_1.getScales)(config.scales);
-            var chartScales = scales.length > 1 && scales[0] !== "radial"
-                ? scales
-                : scales[0] === "radial"
-                    ? scales
-                    : ["bottom", "left"];
-            chartScales.forEach(function (type) {
-                var scale = _this._scales[type];
+            scales.forEach(function (position) {
+                var scale = _this._scales[position];
                 if (!scale) {
                     return;
                 }
-                chart.addScale(type, scale);
-                if (!serieConfig.stacked) {
+                chart.addScale(position, scale);
+                if (!stacker) {
                     scale.add(chart);
-                }
-                else {
-                    scale.add(stack);
                 }
             });
             _this._series[chart.id] = chart;
-            if (serieConfig.stacked) {
-                stack.add(chart);
+            if (stacker) {
+                stacker.add(chart);
             }
             else {
                 _this._layers.add(chart);
             }
         });
         if (config.legend) {
-            var legendConfig = __assign({}, config.legend);
-            if (legendConfig.series) {
-                legendConfig.$seriesInfo = legendConfig.series.map(function (id) { return _this._series[id]; });
-            }
-            var legend = new Legend_1.Legend(this.data, legendConfig, this.events);
+            var legend = new Legend_1.Legend(this.data, this._prepareLegendConfig(config.legend), this.events);
             this._layers.add(legend);
         }
         this.paint();
+    };
+    Chart.prototype._isProOnlyType = function (type) {
+        return type === "calendarHeatMap";
+    };
+    Chart.prototype._seriaType = function (cfg) {
+        return (cfg.type || this.config.type);
+    };
+    /**
+     * Positions of the scales a series is drawn against: the argument axis and the value axis.
+     * The value axis is chosen by the type of the series, not by the direction of the scale -
+     * BarX remaps the positions on its own, see BarX.addScale.
+     */
+    Chart.prototype._resolveSeriaScales = function (cfg, type) {
+        var _this = this;
+        if (this._scales.radial) {
+            return ["radial"];
+        }
+        var horizontal = type === "xbar";
+        var valueAxes = horizontal ? common_1.X_AXES : common_1.Y_AXES;
+        var argumentAxes = horizontal ? common_1.Y_AXES : common_1.X_AXES;
+        var pick = function (axes, preferred) {
+            return (preferred && _this._scales[preferred]
+                ? preferred
+                : axes.find(function (position) { return _this._scales[position]; })) || axes[0];
+        };
+        if (!(0, common_1.hasValueAxis)(type)) {
+            return [pick(argumentAxes), pick(valueAxes)];
+        }
+        var allowed = valueAxes.map(function (position) { return "\"".concat(position, "\""); }).join(" or ");
+        if (cfg.scales) {
+            if (cfg.scales.filter(function (position) { return valueAxes.includes(position); }).length !== 1) {
+                throw new TypeError("The scales of the \"".concat(type, "\" series have to name one value axis, ").concat(allowed));
+            }
+            return cfg.scales;
+        }
+        if (cfg.scale && !valueAxes.includes(cfg.scale)) {
+            throw new TypeError("The \"".concat(cfg.scale, "\" scale can not hold the values of the \"").concat(type, "\" series, use ").concat(allowed));
+        }
+        return [pick(argumentAxes), pick(valueAxes, cfg.scale)];
+    };
+    // the position out of the resolved pair that the values of the series are measured against
+    Chart.prototype._valueAxis = function (type, scales) {
+        return scales.find(function (position) { return (0, common_1.isXAxis)(position) === (type === "xbar"); });
+    };
+    Chart.prototype._prepareSeriaConfig = function (cfg, index) {
+        var _a, _b, _c, _d, _e;
+        var config = this.config;
+        var serieConfig = __assign({}, cfg);
+        serieConfig.type = this._seriaType(cfg);
+        if ((0, common_1.hasValueAxis)(serieConfig.type) &&
+            serieConfig.type !== "bar" &&
+            serieConfig.type !== "xbar" &&
+            (typeof serieConfig.fill === "function" || typeof serieConfig.color === "function")) {
+            throw new TypeError("The \"".concat(serieConfig.type, "\" series is drawn as a single shape, a color callback is supported by the \"bar\" and \"xbar\" series"));
+        }
+        switch (serieConfig.type) {
+            case "bar":
+            case "xbar":
+            case "area":
+            case "splineArea":
+                if (!serieConfig.color)
+                    serieConfig.color = serieConfig.fill || (0, common_1.getDefaultColor)(index);
+                if (!serieConfig.fill)
+                    serieConfig.fill = serieConfig.color || (0, common_1.getDefaultColor)(index);
+                break;
+            case "treeMap":
+                serieConfig.legendType = ((_a = config.legend) === null || _a === void 0 ? void 0 : _a.type) || "groupName";
+                (_c = (_b = config.legend) === null || _b === void 0 ? void 0 : _b.treeSeries) === null || _c === void 0 ? void 0 : _c.map(function (serie, ind) {
+                    var _a, _b;
+                    serie.active = (_a = serie.active) !== null && _a !== void 0 ? _a : true;
+                    serie.id = (_b = serie.id) !== null && _b !== void 0 ? _b : (0, core_1.uid)();
+                    if (!serie.color)
+                        serie.color = (0, common_1.getDefaultColor)(ind, serieConfig.legendType === "range");
+                });
+                serieConfig.treeSeries = (_d = config.legend) === null || _d === void 0 ? void 0 : _d.treeSeries;
+                break;
+            case "scatter":
+                if (!serieConfig.pointColor)
+                    serieConfig.pointColor =
+                        typeof serieConfig.color === "string" ? serieConfig.color : (0, common_1.getDefaultColor)(index);
+                break;
+        }
+        if (serieConfig.barWidth || config.barWidth) {
+            serieConfig.barWidth = serieConfig.barWidth || config.barWidth;
+        }
+        if (config.total !== undefined) {
+            serieConfig.total = (_e = serieConfig.total) !== null && _e !== void 0 ? _e : config.total;
+        }
+        return serieConfig;
+    };
+    Chart.prototype._prepareLegendConfig = function (cfg) {
+        var _this = this;
+        var legendConfig = __assign({}, cfg);
+        if (legendConfig.series) {
+            legendConfig.$seriesInfo = legendConfig.series.map(function (id) { return _this._series[id]; });
+        }
+        return legendConfig;
     };
     Chart.prototype._setScale = function (config, position) {
         if (!config.type)
@@ -13037,6 +15545,32 @@ var Chart = /** @class */ (function (_super) {
         }
         this._layers.add(scale);
         this._scales[position] = scale;
+    };
+    /**
+     * Binds the scale to the one it takes the number of ticks from, so that the grids match.
+     * Both of them have to be linear: the ticks of a logarithmic axis are not evenly spaced,
+     * so an equal number of them would still land at different offsets.
+     */
+    Chart.prototype._alignScale = function (configs, position) {
+        var config = configs[position];
+        var align = config.alignTicks;
+        if (!align || position === "radial" || !this._scales[position]) {
+            return;
+        }
+        var direction = (0, common_1.isXAxis)(position) ? "x" : "y";
+        var axes = direction === "x" ? common_1.X_AXES : common_1.Y_AXES;
+        if (typeof align === "string" && !axes.includes(align)) {
+            throw new TypeError("The \"".concat(align, "\" scale can not be the tick reference of the \"").concat(position, "\" scale"));
+        }
+        var reference = typeof align === "string" ? align : this._primaryScales[direction];
+        if (!reference || reference === position || !this._scales[reference]) {
+            return;
+        }
+        if (config.log || configs[reference].log) {
+            var logarithmic = config.log ? position : reference;
+            throw new TypeError("The alignTicks property does not support the logarithmic \"".concat(logarithmic, "\" scale"));
+        }
+        this._scales[position].alignTo(this._scales[reference]);
     };
     Chart.prototype._detectScaleType = function (config, key) {
         if (key === "radial") {
@@ -13077,330 +15611,7 @@ exports.Chart = Chart;
 
 
 /***/ }),
-/* 86 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Legend = void 0;
-var ts_data_1 = __webpack_require__(5);
-var types_1 = __webpack_require__(26);
-var dom_1 = __webpack_require__(0);
-var common_1 = __webpack_require__(7);
-var legend_1 = __webpack_require__(182);
-var core_1 = __webpack_require__(1);
-function getDefaultMargin(halign, valign, isTreeMap, form) {
-    switch (valign) {
-        case "middle": {
-            switch (halign) {
-                case "right":
-                    return isTreeMap ? 20 : 60;
-                case "left":
-                    return 120;
-                case "center":
-                    throw new Error("cant place legend on center, middle");
-            }
-        }
-        // eslint-disable-next-line no-fallthrough
-        case "top":
-            return 20;
-        case "bottom":
-            return isTreeMap || form === "line" ? 20 : 60;
-    }
-}
-var Legend = /** @class */ (function () {
-    function Legend(_data, config, _events) {
-        var _this = this;
-        this._data = _data;
-        this._events = _events;
-        var defaults = {
-            form: "rect",
-            itemPadding: 20,
-            halign: "right",
-            valign: "top",
-            direction: "row",
-            type: "groupName",
-        };
-        this.config = __assign(__assign({}, defaults), config);
-        this.config.margin =
-            config.margin ||
-                getDefaultMargin(this.config.halign, this.config.valign, (0, ts_data_1.isTreeCollection)(this._data), this.config.form);
-        this._handlers = {
-            onclick: function (id, pieLike) {
-                return _this._events.fire(types_1.ChartEvents.toggleSeries, [id, pieLike]);
-            },
-            onkeyup: function (id, pieLike, event) {
-                // FIXME: set handler correctly according app code style
-                event.preventDefault();
-                // enter or space
-                if (event.key === "Enter" || event.key === " ") {
-                    _this._events.fire(types_1.ChartEvents.toggleSeries, [id, pieLike]);
-                }
-            },
-        };
-    }
-    Legend.prototype.scaleReady = function (sizes) {
-        var isColumnInCorner = this.config.direction === "column" &&
-            (this.config.halign === "left" || this.config.halign === "right");
-        switch (this.config.valign) {
-            case "middle":
-                if (this.config.halign === "right") {
-                    sizes.right += this.config.size >= 0 ? this.config.size : 200;
-                }
-                else if (this.config.halign === "left") {
-                    sizes.left += this.config.size >= 0 ? this.config.size : 200;
-                }
-                break;
-            case "top":
-                if (isColumnInCorner) {
-                    sizes[this.config.halign] += this.config.size >= 0 ? this.config.size : 200;
-                }
-                else {
-                    sizes.top += this.config.size >= 0 ? this.config.size : 40;
-                }
-                break;
-            case "bottom":
-                if (isColumnInCorner) {
-                    sizes[this.config.halign] += this.config.size >= 0 ? this.config.size : 200;
-                }
-                else {
-                    sizes.bottom += this.config.size >= 0 ? this.config.size : 40;
-                }
-                break;
-        }
-    };
-    Legend.prototype.paint = function (width, height) {
-        var _this = this;
-        var getLegendAriaAttrs = function (item) { return ({
-            role: "button",
-            "aria-label": item.active ? "Hide chart ".concat(item.text) : "Show chart ".concat(item.text),
-        }); };
-        var data = this._getData();
-        var config = this.config;
-        config.$sizes = {
-            width: 0,
-            height: 0,
-        };
-        var positionX;
-        var positionY;
-        var font = (0, common_1.getFontStyle)("legend-text");
-        var figureWidth = 10; // get Figure width from config ??
-        var lineWidth = 500; // get Figure width from config ??
-        var margin = config.margin, itemPadding = config.itemPadding;
-        var svg = [];
-        var isMid = config.valign === "middle";
-        var xPadding = 0;
-        var yPadding = 0;
-        var xPaddingMax = 0;
-        var yPaddingMax = 0;
-        data.forEach(function (item, index) {
-            if (!isMid && config.direction === "row") {
-                var textWidth = (0, common_1.getTextWidth)(item.text, font);
-                if (xPadding + textWidth + figureWidth * 1.5 > width && index !== 0) {
-                    xPadding = 0;
-                    yPadding += itemPadding + 2;
-                }
-            }
-            svg.push((0, dom_1.sv)("g", __assign(__assign({ transform: "translate(".concat(xPadding, ",").concat(yPadding, ")"), onclick: [_this._handlers.onclick, item.id, _this.config.values], onkeyup: [_this._handlers.onkeyup, item.id, _this.config.values], class: "legend-item ".concat(!item.active ? "not-active" : "") }, getLegendAriaAttrs(item)), { tabindex: 0 }), [
-                (0, dom_1.sv)("text", {
-                    x: item.maxValue ? 0 : figureWidth / 2 + 5,
-                    y: 0,
-                    class: "start-text legend-text",
-                }, [(0, common_1.verticalCenteredText)(item.text)]),
-                [
-                    (0, legend_1.legendShape)(config.form, item),
-                    !isNaN(item.maxValue) && !isNaN(item.minValue) && (0, legend_1.legendTicks)(config.form, item),
-                ],
-            ]));
-            var itemWidth = config.form !== "line" ? figureWidth * 1.5 + (0, common_1.getTextWidth)(item.text, font) : 0;
-            if (!isMid && config.direction === "row") {
-                xPadding += itemWidth + itemPadding;
-                xPaddingMax = xPaddingMax > xPadding ? xPaddingMax : xPadding;
-            }
-            else {
-                xPadding = 0;
-                xPaddingMax = xPaddingMax > itemWidth ? xPaddingMax : itemWidth;
-                yPadding += itemPadding + 2;
-                yPaddingMax = yPaddingMax > yPadding ? yPaddingMax : yPadding;
-            }
-        });
-        switch (config.valign) {
-            case "top":
-                if (config.direction === "row") {
-                    positionY = -margin - yPadding - figureWidth / 2 - (config.form === "line" ? 15 : 0);
-                }
-                else {
-                    positionY =
-                        config.halign === "center"
-                            ? -yPaddingMax + figureWidth / 2
-                            : margin + figureWidth / 2;
-                }
-                break;
-            case "middle":
-                positionY = (height - yPaddingMax) / 2 + itemPadding / 2;
-                break;
-            case "bottom":
-                if (config.direction === "row") {
-                    positionY = height + (config.form !== "line" ? margin : 10);
-                }
-                else {
-                    positionY =
-                        height + figureWidth - (config.halign === "center" ? 0 : margin + yPaddingMax);
-                }
-                break;
-        }
-        switch (config.halign) {
-            case "left":
-                positionX = isMid
-                    ? -xPaddingMax
-                    : figureWidth / 2 - (config.direction === "row" ? 0 : config.size || 200);
-                break;
-            case "center":
-                positionX = (width - xPaddingMax - (config.form === "line" ? lineWidth : 0)) / 2;
-                break;
-            case "right":
-                if (isMid) {
-                    positionX = width + margin + figureWidth / 2;
-                }
-                else if (config.direction === "row") {
-                    positionX =
-                        width -
-                            xPaddingMax +
-                            itemPadding +
-                            (config.form === "line" ? -lineWidth - margin : figureWidth / 2);
-                }
-                else {
-                    positionX = width + margin + figureWidth / 2;
-                }
-                break;
-        }
-        return (0, dom_1.sv)("g", {
-            transform: "translate(".concat(positionX > 0 ? positionX : 0, ", ").concat(positionY, ")"),
-            "aria-label": "Legend",
-            tabindex: 0,
-        }, svg);
-    };
-    Legend.prototype._getData = function () {
-        var drawData = [];
-        if (this.config.type === "scale") {
-            var _a = this.config.values, color = _a.color, positiveColor = _a.positiveColor, negativeColor = _a.negativeColor, text = _a.text, minValue = _a.minValue, maxValue = _a.maxValue, tick = _a.tick, majorTick = _a.majorTick, step = _a.step, tickTemplate = _a.tickTemplate;
-            var _b = this.setCriticals(), minValueCalc = _b[0], maxValueCalc = _b[1];
-            drawData.push({
-                id: (0, core_1.uid)(),
-                text: text,
-                alpha: 1,
-                fill: color,
-                minValue: minValue !== null && minValue !== void 0 ? minValue : minValueCalc,
-                maxValue: maxValue !== null && maxValue !== void 0 ? maxValue : maxValueCalc,
-                positiveColor: positiveColor,
-                negativeColor: negativeColor,
-                active: true,
-                tick: tick,
-                majorTick: majorTick,
-                step: step,
-                tickTemplate: tickTemplate,
-            });
-        }
-        else if (this.config.values) {
-            var text_1 = (0, common_1.locator)(this.config.values.text);
-            var fill_1 = (0, common_1.locator)(this.config.values.color);
-            this._data.map(function (item, index) {
-                drawData.push({
-                    id: item.id,
-                    text: text_1(item).toString(),
-                    alpha: 1,
-                    fill: fill_1(item).toString() || (0, common_1.getDefaultColor)(index),
-                    active: !item.$hidden,
-                });
-            });
-        }
-        else if (this.config.treeSeries) {
-            var series = this.config.treeSeries;
-            if (this.config.type === "groupName") {
-                series.forEach(function (serie) {
-                    drawData.push({
-                        id: serie.id,
-                        text: serie.name || serie.id,
-                        alpha: 1,
-                        fill: serie.color,
-                        active: serie.active,
-                    });
-                });
-            }
-            else {
-                var getText_1 = function (serie) {
-                    if (serie.from && serie.to)
-                        return "".concat(serie.from, " - ").concat(serie.to);
-                    if (serie.less)
-                        return "<= ".concat(serie.less);
-                    if (serie.greater)
-                        return ">= ".concat(serie.greater);
-                };
-                series.forEach(function (serie) {
-                    drawData.push({
-                        id: serie.id,
-                        text: getText_1(serie),
-                        alpha: 1,
-                        fill: serie.color,
-                        active: serie.active,
-                    });
-                });
-            }
-        }
-        else {
-            var series = this.config.$seriesInfo;
-            for (var _i = 0, _c = series; _i < _c.length; _i++) {
-                var serie = _c[_i];
-                var _d = serie.config, fill = _d.fill, color = _d.color, id = _d.id, alpha = _d.alpha, active = _d.active, label = _d.label, value = _d.value;
-                var useColor = fill && color;
-                var text = label && typeof label === "function" ? label(serie.config) : label || value;
-                drawData.push({
-                    id: id,
-                    text: text,
-                    fill: fill || color,
-                    color: useColor && color,
-                    active: active,
-                    alpha: alpha,
-                });
-            }
-        }
-        return drawData;
-    };
-    Legend.prototype.setCriticals = function () {
-        var value = this.config.values.value;
-        var min;
-        var max;
-        this._data.forEach(function (item) {
-            if (item[value]) {
-                min = !min || item[value] < min ? item[value] : min;
-                max = !max || item[value] > max ? item[value] : max;
-            }
-        });
-        max = Math.ceil(max / 10) * 10;
-        min = Math.floor(min / 10) * 10;
-        if (min === max)
-            min -= 10;
-        return [min, max];
-    };
-    return Legend;
-}());
-exports.Legend = Legend;
-
-
-/***/ }),
-/* 87 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13426,6 +15637,14 @@ var getScaleAriaAttrs = function (axis, text) { return ({
     role: "graphics-object",
     "aria-label": "".concat(axis, "-axis").concat(text ? ", " + text : ""),
 }); };
+// targetLine and targetValue mark a level the user asked for, so they are not a part of the
+// grid and stay visible on a secondary scale, the one whose own grid is turned off
+function verticalTarget(x, height, lineClass) {
+    return (0, dom_1.sv)("path", { d: "M".concat(x, " 0 V ").concat(height), class: "".concat(lineClass, " spec-grid-line") });
+}
+function horizontalTarget(y, width, lineClass) {
+    return (0, dom_1.sv)("path", { d: "M0 ".concat(y, " H ").concat(width), class: "".concat(lineClass, " spec-grid-line") });
+}
 function bottom(points, config, width, height) {
     var title = config.title, textPadding = config.textPadding, scalePadding = config.scalePadding, textTemplate = config.textTemplate, showText = config.showText, scaleRotate = config.scaleRotate;
     var template = textTemplate || defaultTextTemplate;
@@ -13467,30 +15686,29 @@ function bottomGrid(points, width, height, config) {
     var dashed = config.dashed, grid = config.grid, targetLine = config.targetLine, targetValue = config.targetValue;
     var len = points.length;
     var gridLines = [];
-    var className = "grid-line ".concat(dashed ? "dash-line" : "", " ").concat(!grid ? "hidden-line" : "");
+    var lineClass = "grid-line ".concat(dashed ? "dash-line" : "");
+    // the grid of a scale that does not own the direction is kept in the DOM, just transparent:
+    // the tooltip highlights the line of the hovered argument through it
+    var gridClass = "".concat(lineClass, " ").concat(!grid ? "hidden-line" : "");
     for (var i = 0; i < len; i++) {
         if (i === 0 && points[i][0] === 0 && !config.hidden) {
             continue;
         }
         if (i === targetLine) {
-            var d_1 = "M".concat(points[i][0], " 0 V ").concat(height);
-            var path_1 = (0, dom_1.sv)("path", { d: d_1, class: "".concat(className, " spec-grid-line") });
-            gridLines.push(path_1);
+            gridLines.push(verticalTarget(points[i][0], height, lineClass));
             continue;
         }
         var d = "M".concat(points[i][0], " 0 V ").concat(height);
-        var path = (0, dom_1.sv)("path", { d: d, class: className, _ref: "line" + Math.round(points[i][0]) });
+        var path = (0, dom_1.sv)("path", { d: d, class: gridClass, _ref: "line" + Math.round(points[i][0]) });
         gridLines.push(path);
         if (i === len - 1 && points[i][0] !== width) {
             var additionD = "M".concat(width, " 0 V ").concat(height);
-            var additionPath = (0, dom_1.sv)("path", { d: additionD, class: className });
+            var additionPath = (0, dom_1.sv)("path", { d: additionD, class: gridClass });
             gridLines.push(additionPath);
         }
     }
     if (targetValue) {
-        var d = "M".concat(targetValue * width, " 0 V ").concat(height);
-        var path = (0, dom_1.sv)("path", { d: d, class: "".concat(className, " spec-grid-line") });
-        gridLines.push(path);
+        gridLines.push(verticalTarget(targetValue * width, height, lineClass));
     }
     return (0, dom_1.sv)("g", gridLines);
 }
@@ -13528,29 +15746,32 @@ function top(points, config, width, _height) {
     return (0, dom_1.sv)("g", __assign({}, getScaleAriaAttrs("x", title || config.text)), [mainLine, svTitle].concat(text));
 }
 exports.top = top;
-function topGrid(points, _width, height, config) {
-    var dashed = config.dashed, grid = config.grid, targetLine = config.targetLine;
+function topGrid(points, width, height, config) {
+    var dashed = config.dashed, grid = config.grid, targetLine = config.targetLine, targetValue = config.targetValue;
     var len = points.length;
     var gridLines = [];
-    var className = "grid-line ".concat(dashed ? "dash-line" : "", " ").concat(!grid ? "hidden-line" : "");
+    var lineClass = "grid-line ".concat(dashed ? "dash-line" : "");
+    // see bottomGrid on why the grid of a secondary scale is hidden rather than dropped
+    var gridClass = "".concat(lineClass, " ").concat(!grid ? "hidden-line" : "");
     for (var i = 0; i < len; i++) {
         if (i === 0 && points[i][0] === 0 && !config.hidden) {
             continue;
         }
         if (i === targetLine) {
-            var d_2 = "M".concat(points[i][0], " 0 V ").concat(height);
-            var path_2 = (0, dom_1.sv)("path", { d: d_2, class: "".concat(className, " spec-grid-line") });
-            gridLines.push(path_2);
+            gridLines.push(verticalTarget(points[i][0], height, lineClass));
             continue;
         }
         var d = "M".concat(points[i][0], " 0 V ").concat(height);
-        var path = (0, dom_1.sv)("path", { d: d, class: className, _ref: "line" + Math.round(points[i][0]) });
+        var path = (0, dom_1.sv)("path", { d: d, class: gridClass, _ref: "line" + Math.round(points[i][0]) });
         gridLines.push(path);
         if (i === len - 1 && points[i][0] !== 0) {
             var additionD = "M0 0 V ".concat(height);
-            var additionPath = (0, dom_1.sv)("path", { d: additionD, class: className });
+            var additionPath = (0, dom_1.sv)("path", { d: additionD, class: gridClass });
             gridLines.push(additionPath);
         }
+    }
+    if (targetValue) {
+        gridLines.push(verticalTarget(targetValue * width, height, lineClass));
     }
     return (0, dom_1.sv)("g", gridLines);
 }
@@ -13609,32 +15830,28 @@ function leftGrid(points, width, height, config) {
     var dashed = config.dashed, grid = config.grid, targetLine = config.targetLine, targetValue = config.targetValue;
     var len = points.length;
     var gridLines = [];
-    var className = "grid-line ".concat(dashed ? "dash-line" : "");
+    var lineClass = "grid-line ".concat(dashed ? "dash-line" : "");
     for (var i = 0; i < len; i++) {
         if (i === 0 && points[i][0] === height && !config.hidden) {
             continue;
         }
         if (targetLine === i) {
-            var d = "M0 ".concat(points[i][0], " H ").concat(width);
-            var path = (0, dom_1.sv)("path", { d: d, class: "".concat(className, " spec-grid-line") });
-            gridLines.push(path);
+            gridLines.push(horizontalTarget(points[i][0], width, lineClass));
             continue;
         }
         if (grid) {
             var d = "M0 ".concat(points[i][0], " H ").concat(width);
-            var path = (0, dom_1.sv)("path", { d: d, class: className });
+            var path = (0, dom_1.sv)("path", { d: d, class: lineClass });
             gridLines.push(path);
             if (i === len - 1 && points[i][0] !== width) {
                 var additionD = "M0 0 H".concat(width);
-                var additionPath = (0, dom_1.sv)("path", { d: additionD, class: className });
+                var additionPath = (0, dom_1.sv)("path", { d: additionD, class: lineClass });
                 gridLines.push(additionPath);
             }
         }
     }
     if (targetValue) {
-        var d = "M0 ".concat(targetValue * height, " H ").concat(width);
-        var path = (0, dom_1.sv)("path", { d: d, class: "".concat(className, " spec-grid-line") });
-        gridLines.push(path);
+        gridLines.push(horizontalTarget(targetValue * height, width, lineClass));
     }
     return (0, dom_1.sv)("g", gridLines);
 }
@@ -13674,11 +15891,12 @@ function right(points, config, width, height) {
         extraTittlePadding = textPadding + maxTextWidth_2;
     }
     var id = (0, core_1.uid)();
+    // no `line0` ref here: the tooltip looks the grid line of the hovered argument up by its
+    // offset, and this one stands at the far end of the width - the left scale owns offset 0
     var mainLine = (0, dom_1.sv)("path", {
         d: "M".concat(width, " ").concat(height, " V 0"),
         class: "main-scale",
         id: id,
-        _ref: points.length ? "line0" : null,
     });
     var svTitle = null;
     if (title) {
@@ -13690,30 +15908,31 @@ function right(points, config, width, height) {
 }
 exports.right = right;
 function rightGrid(points, width, height, config) {
-    var dashed = config.dashed, grid = config.grid, targetLine = config.targetLine;
+    var dashed = config.dashed, grid = config.grid, targetLine = config.targetLine, targetValue = config.targetValue;
     var len = points.length;
     var gridLines = [];
-    var className = "grid-line ".concat(dashed ? "dash-line" : "");
+    var lineClass = "grid-line ".concat(dashed ? "dash-line" : "");
     for (var i = 0; i < len; i++) {
         if (i === 0 && points[i][0] === height && !config.hidden) {
             continue;
         }
         if (targetLine === i) {
-            var d = "M0 ".concat(points[i][0], " H ").concat(width);
-            var path = (0, dom_1.sv)("path", { d: d, class: "".concat(className, " spec-grid-line") });
-            gridLines.push(path);
+            gridLines.push(horizontalTarget(points[i][0], width, lineClass));
             continue;
         }
         if (grid) {
             var d = "M0 ".concat(points[i][0], " H ").concat(width);
-            var path = (0, dom_1.sv)("path", { d: d, class: className });
+            var path = (0, dom_1.sv)("path", { d: d, class: lineClass });
             gridLines.push(path);
             if (i === len - 1 && points[i][0] !== width) {
                 var additionD = "M0 0 H".concat(width);
-                var additionPath = (0, dom_1.sv)("path", { d: additionD, class: className });
+                var additionPath = (0, dom_1.sv)("path", { d: additionD, class: lineClass });
                 gridLines.push(additionPath);
             }
         }
+    }
+    if (targetValue) {
+        gridLines.push(horizontalTarget(targetValue * height, width, lineClass));
     }
     return (0, dom_1.sv)("g", gridLines);
 }
@@ -13721,45 +15940,7 @@ exports.rightGrid = rightGrid;
 
 
 /***/ }),
-/* 88 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Area_1 = __webpack_require__(89);
-var Bar_1 = __webpack_require__(91);
-var BarX_1 = __webpack_require__(187);
-var Donut_1 = __webpack_require__(188);
-var Line_1 = __webpack_require__(61);
-var Pie_1 = __webpack_require__(189);
-var Pie3D_1 = __webpack_require__(190);
-var Radar_1 = __webpack_require__(191);
-var Scatter_1 = __webpack_require__(192);
-var Spline_1 = __webpack_require__(193);
-var SplineArea_1 = __webpack_require__(194);
-var TreeMap_1 = __webpack_require__(195);
-var CalendarHeatMap_1 = __webpack_require__(196);
-var seriesTypes = {
-    line: Line_1.default,
-    spline: Spline_1.default,
-    area: Area_1.default,
-    splineArea: SplineArea_1.default,
-    scatter: Scatter_1.default,
-    pie: Pie_1.default,
-    pie3D: Pie3D_1.default,
-    donut: Donut_1.default,
-    radar: Radar_1.default,
-    bar: Bar_1.default,
-    xbar: BarX_1.default,
-    treeMap: TreeMap_1.default,
-    calendarHeatMap: CalendarHeatMap_1.default,
-};
-exports.default = seriesTypes;
-
-
-/***/ }),
-/* 89 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13793,7 +15974,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
 var common_1 = __webpack_require__(7);
-var ScaleSeria_1 = __webpack_require__(59);
+var ScaleSeria_1 = __webpack_require__(62);
 var Area = /** @class */ (function (_super) {
     __extends(Area, _super);
     function Area() {
@@ -13823,8 +16004,7 @@ var Area = /** @class */ (function (_super) {
     Area.prototype._markers = function (svg) {
         var _this = this;
         if (this.config.pointType) {
-            var color = this.config.pointColor || this.config.color;
-            var point_1 = this._getPointType(this.config.pointType, color);
+            var point_1 = this._getPointType(this.config.pointType, this._getPointColor());
             svg.push.apply(svg, this._points.map(function (p) { return point_1(p[0], p[1], (0, common_1.calcPointRef)(p[2], _this.id)); }));
         }
     };
@@ -13896,9 +16076,8 @@ var Area = /** @class */ (function (_super) {
         };
         this.config = __assign(__assign({}, defaults), config);
         var point = this.config.pointType;
-        var color = this.config.pointColor || this.config.color;
         if (point) {
-            this._drawPointType = this._getPointType(point, color);
+            this._drawPointType = this._getPointType(point, this._getPointColor());
         }
     };
     return Area;
@@ -13907,7 +16086,7 @@ exports.default = Area;
 
 
 /***/ }),
-/* 90 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14057,7 +16236,7 @@ exports.getShadeHTMLHelper = getShadeHTMLHelper;
 
 
 /***/ }),
-/* 91 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14092,7 +16271,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var common_1 = __webpack_require__(7);
-var ScaleSeria_1 = __webpack_require__(59);
+var ScaleSeria_1 = __webpack_require__(62);
+var constants_1 = __webpack_require__(96);
 var Bar = /** @class */ (function (_super) {
     __extends(Bar, _super);
     function Bar() {
@@ -14105,7 +16285,9 @@ var Bar = /** @class */ (function (_super) {
         scale.addPadding();
     };
     Bar.prototype.seriesShift = function (shift) {
-        this._shift = shift;
+        if (shift !== undefined) {
+            this._shift = shift;
+        }
         return this.config.barWidth;
     };
     Bar.prototype.paint = function (width, height, prev) {
@@ -14116,11 +16298,11 @@ var Bar = /** @class */ (function (_super) {
         if (!this.config.active) {
             return null;
         }
-        var svg = [];
-        if (this._gradient) {
-            svg.push((0, dom_1.sv)("defs", [this._gradient()]));
-        }
         var form = this._getForm(this._points, width, height, prev);
+        var svg = [];
+        if (this._gradients) {
+            svg.push((0, dom_1.sv)("defs", this._gradientDefs()));
+        }
         svg = svg.concat(form);
         return (0, dom_1.sv)("g", __assign(__assign({ class: "seria", _key: this.id }, getChartAriaAttrs(this.config)), { tabindex: 0 }), svg);
     };
@@ -14176,12 +16358,12 @@ var Bar = /** @class */ (function (_super) {
             "aria-roledescription": "bar",
             "aria-label": getPointAriaLabel(barType, item, baseLine),
         }); };
-        var _a = this.config, baseLine = _a.baseLine, fill = _a.fill, alpha = _a.alpha, showText = _a.showText, showTextTemplate = _a.showTextTemplate, showTextRotate = _a.showTextRotate;
+        var _a = this.config, baseLine = _a.baseLine, alpha = _a.alpha, showText = _a.showText, showTextTemplate = _a.showTextTemplate, showTextRotate = _a.showTextRotate;
         var svg = [];
         var base = this._base(height);
         var getPrev = function (index) { return (!prev ? base : prev[index][1]); };
         var series = points.map(function (item, index) {
-            return (0, dom_1.sv)("path", __assign(__assign({ _key: "seria" + _this.config.id + index, _ref: (0, common_1.calcPointRef)(item[2], _this.config.id), d: _this._path(item, getPrev(index)), class: _this._getCss(), fill: fill, onclick: [_this._handlers.onclick, item[2], _this.config.value], onmousemove: [_this._handlers.onmousemove, item[2], _this.config.id], onmouseleave: [_this._handlers.onmouseleave, item[2], _this.config.id], "fill-opacity": alpha }, getPointAriaAttrs(_this.config.type, item, baseLine)), { tabindex: 0 }));
+            return (0, dom_1.sv)("path", __assign(__assign({ _key: "seria" + _this.config.id + index, _ref: (0, common_1.calcPointRef)(item[2], _this.config.id), d: _this._path(item, getPrev(index)), class: _this._getCss(), fill: _this._getFill(item[2]), onclick: [_this._handlers.onclick, item[2], _this.config.value], onmousemove: [_this._handlers.onmousemove, item[2], _this.config.id], onmouseleave: [_this._handlers.onmouseleave, item[2], _this.config.id], "fill-opacity": alpha }, getPointAriaAttrs(_this.config.type, item, baseLine)), { tabindex: 0 }));
         });
         svg.push.apply(svg, series);
         if ((showText || showTextTemplate || showTextRotate) && showText !== false) {
@@ -14200,8 +16382,45 @@ var Bar = /** @class */ (function (_super) {
         }
         return svg;
     };
+    Bar.prototype.paintTotals = function (labels, stack) {
+        var _this = this;
+        return (0, dom_1.sv)("g", { class: "totals" }, labels.map(function (label, index) {
+            return label ? _this._getTotalText(_this._getTotalAnchor(index, stack), label) : null;
+        }));
+    };
+    Bar.prototype.getTotalsPadding = function (_labels) {
+        return { top: constants_1.TOTAL_TEXT_PADDING + this._getTotalTextHeight() };
+    };
     Bar.prototype._getText = function (item) {
         return item[4].toString();
+    };
+    Bar.prototype._getTotalAnchor = function (index, stack) {
+        return [this._points[index][0], Math.min.apply(Math, stack.map(function (points) { return points[index][1]; }))];
+    };
+    Bar.prototype._getTotalText = function (_a, total) {
+        var x = _a[0], y = _a[1];
+        return (0, dom_1.sv)("text", __assign({ x: x, y: y - constants_1.TOTAL_TEXT_PADDING, class: "total-text" }, (0, common_1.getTotalAriaAttrs)(total)), [total]);
+    };
+    Bar.prototype._getTotalTextHeight = function () {
+        return Math.ceil(parseFloat((0, common_1.getFontStyle)("total-text")) || constants_1.TOTAL_TEXT_HEIGHT);
+    };
+    Bar.prototype._getFill = function (id) {
+        var fill = this.config.fill;
+        if (typeof fill !== "function") {
+            return fill;
+        }
+        var color = fill(this._data.getItem(id));
+        return this._gradients ? this._gradientFill(color) : color;
+    };
+    Bar.prototype._gradientFill = function (color) {
+        this._gradients[color] = this._gradients[color] || "gradient" + (0, core_1.uid)();
+        return "url(#".concat(this._gradients[color], ")");
+    };
+    Bar.prototype._gradientDefs = function () {
+        var _this = this;
+        return Object.keys(this._gradients).map(function (color) {
+            return (0, common_1.linearGradient)(_this.config.gradient(color), _this._gradients[color]);
+        });
     };
     Bar.prototype._setDefaults = function (config) {
         var defaults = {
@@ -14213,16 +16432,14 @@ var Bar = /** @class */ (function (_super) {
         };
         this.config = __assign(__assign({}, defaults), config);
         var point = this.config.pointType;
-        var color = this.config.pointColor || this.config.color;
         if (point) {
-            this.config.pointType = point;
-            this._drawPointType = this._getPointType(point, color);
+            this._drawPointType = this._getPointType(point, this._getPointColor());
         }
         if (this.config.gradient) {
-            var id_1 = "gradient" + (0, core_1.uid)();
-            var gradient_1 = this.config.gradient(this.config.fill);
-            this._gradient = function () { return (0, common_1.linearGradient)(gradient_1, id_1); };
-            this.config.fill = "url(#".concat(id_1, ")");
+            this._gradients = {};
+            if (typeof this.config.fill === "string") {
+                this.config.fill = this._gradientFill(this.config.fill);
+            }
         }
     };
     return Bar;
@@ -14231,7 +16448,19 @@ exports.default = Bar;
 
 
 /***/ }),
-/* 92 */
+/* 96 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TOTAL_TEXT_HEIGHT = exports.TOTAL_TEXT_PADDING = void 0;
+exports.TOTAL_TEXT_PADDING = 8;
+exports.TOTAL_TEXT_HEIGHT = 14; // fallback for --dhx-font-size-normal
+
+
+/***/ }),
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14288,61 +16517,7 @@ exports.default = spline;
 
 
 /***/ }),
-/* 93 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var dom_1 = __webpack_require__(0);
-var Stacker = /** @class */ (function () {
-    function Stacker() {
-        this._series = [];
-    }
-    Stacker.prototype.add = function (seria) {
-        this._series.push(seria);
-    };
-    Stacker.prototype.dataReady = function (prev) {
-        this._toPaint = this._series.filter(function (serie) {
-            var next = serie.dataReady(prev);
-            if (next.length) {
-                prev = next;
-                return true;
-            }
-            return false;
-        });
-        return prev || [];
-    };
-    Stacker.prototype.getPoints = function () {
-        if (this._toPaint.length) {
-            return this._toPaint[0].getPoints().concat(this._toPaint[this._toPaint.length - 1].getPoints());
-        }
-        return [];
-    };
-    Stacker.prototype.paint = function (width, height, prev) {
-        var svg = [];
-        var markers = [];
-        this._toPaint.forEach(function (seria) {
-            if (seria.paintformAndMarkers) {
-                var _a = seria.paintformAndMarkers(width, height, prev), content = _a[0], seriesMarkers = _a[1];
-                svg.push(content);
-                markers.push(seriesMarkers);
-            }
-            else {
-                var content = seria.paint(width, height, prev);
-                svg.push(content);
-            }
-            prev = seria.getPoints();
-        });
-        return (0, dom_1.sv)("g", svg.concat(markers));
-    };
-    return Stacker;
-}());
-exports.default = Stacker;
-
-
-/***/ }),
-/* 94 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14377,17 +16552,17 @@ var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
 var html_1 = __webpack_require__(2);
-var keycodes_1 = __webpack_require__(200);
-var view_1 = __webpack_require__(9);
-var ts_data_1 = __webpack_require__(5);
-var ts_layout_1 = __webpack_require__(16);
-var ts_list_1 = __webpack_require__(39);
-var ts_popup_1 = __webpack_require__(14);
-var keyListener_1 = __webpack_require__(201);
-var en_1 = __webpack_require__(62);
-var types_1 = __webpack_require__(30);
-var helper_1 = __webpack_require__(95);
-var types_2 = __webpack_require__(96);
+var keycodes_1 = __webpack_require__(210);
+var view_1 = __webpack_require__(10);
+var ts_data_1 = __webpack_require__(4);
+var ts_layout_1 = __webpack_require__(15);
+var ts_list_1 = __webpack_require__(41);
+var ts_popup_1 = __webpack_require__(13);
+var keyListener_1 = __webpack_require__(211);
+var en_1 = __webpack_require__(65);
+var types_1 = __webpack_require__(32);
+var helper_1 = __webpack_require__(99);
+var types_2 = __webpack_require__(100);
 function itemsCountTemplate(count, templateFN) {
     if (typeof templateFN === "function") {
         return templateFN(count);
@@ -15018,7 +17193,7 @@ var Combobox = /** @class */ (function (_super) {
         if (!this.config) {
             return (0, dom_1.el)("div");
         }
-        var _b = this.config, multiselection = _b.multiselection, labelPosition = _b.labelPosition, hiddenLabel = _b.hiddenLabel, required = _b.required, disabled = _b.disabled, css = _b.css, helpMessage = _b.helpMessage, readOnly = _b.readOnly, placeholder = _b.placeholder;
+        var _b = this.config, multiselection = _b.multiselection, labelPosition = _b.labelPosition, hiddenLabel = _b.hiddenLabel, required = _b.required, disabled = _b.disabled, css = _b.css, helpMessage = _b.helpMessage, readOnly = _b.readOnly, placeholder = _b.placeholder, ariaLabel = _b.ariaLabel;
         var item = multiselection ? null : this.data.getItem(this.list.selection.getId());
         var showPlaceholder = !this.list.selection.getId() ||
             (typeof this.list.selection.getId() === "object" &&
@@ -15100,9 +17275,8 @@ var Combobox = /** @class */ (function (_super) {
                                 readOnly: readOnly || disabled,
                                 required: required,
                                 role: "combobox",
-                                "aria-label": readOnly
-                                    ? "Select value"
-                                    : "Type or select value",
+                                "aria-label": ariaLabel ||
+                                    (readOnly ? "Select value" : "Type or select value"),
                                 "aria-describedby": helpMessage
                                     ? "dhx_label__help_".concat(this._uid)
                                     : null,
@@ -15221,7 +17395,7 @@ exports.Combobox = Combobox;
 
 
 /***/ }),
-/* 95 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15229,7 +17403,7 @@ exports.Combobox = Combobox;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.emptyListHeight = exports.emptyListView = exports.unselectAllView = exports.selectAllView = void 0;
 var dom_1 = __webpack_require__(0);
-var en_1 = __webpack_require__(62);
+var en_1 = __webpack_require__(65);
 function selectAllView() {
     return (0, dom_1.el)(".dhx_list-item.dhx_combobox-options__item.dhx_combobox-options__item--select-all.dhx_combobox__action-select-all", en_1.default.selectAll);
 }
@@ -15257,7 +17431,7 @@ exports.emptyListHeight = emptyListHeight;
 
 
 /***/ }),
-/* 96 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15290,7 +17464,7 @@ var ComboState;
 
 
 /***/ }),
-/* 97 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15325,8 +17499,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DataView = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var ts_list_1 = __webpack_require__(39);
-var editors_1 = __webpack_require__(204);
+var ts_list_1 = __webpack_require__(41);
+var editors_1 = __webpack_require__(214);
 var DataView = /** @class */ (function (_super) {
     __extends(DataView, _super);
     function DataView(node, config) {
@@ -15501,7 +17675,7 @@ exports.DataView = DataView;
 
 
 /***/ }),
-/* 98 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15525,7 +17699,7 @@ var DataViewEvents;
 
 
 /***/ }),
-/* 99 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15579,29 +17753,29 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Form = void 0;
 var events_1 = __webpack_require__(3);
-var view_1 = __webpack_require__(9);
-var ts_layout_1 = __webpack_require__(16);
+var view_1 = __webpack_require__(10);
+var ts_layout_1 = __webpack_require__(15);
 var core_1 = __webpack_require__(1);
-var dateinput_1 = __webpack_require__(208);
-var button_1 = __webpack_require__(209);
-var checkbox_1 = __webpack_require__(100);
-var checkboxGroup_1 = __webpack_require__(210);
-var input_1 = __webpack_require__(41);
-var radioGroup_1 = __webpack_require__(211);
-var select_1 = __webpack_require__(213);
-var textarea_1 = __webpack_require__(214);
-var textinput_1 = __webpack_require__(215);
-var combo_1 = __webpack_require__(216);
-var sliderform_1 = __webpack_require__(217);
-var helper_1 = __webpack_require__(8);
-var simplevault_1 = __webpack_require__(101);
-var timeinput_1 = __webpack_require__(218);
-var colorpicker_1 = __webpack_require__(219);
-var spacer_1 = __webpack_require__(220);
-var avatar_1 = __webpack_require__(221);
-var fieldset_1 = __webpack_require__(222);
-var ToggleButton_1 = __webpack_require__(103);
-var ToggleGroup_1 = __webpack_require__(223);
+var dateinput_1 = __webpack_require__(218);
+var button_1 = __webpack_require__(219);
+var checkbox_1 = __webpack_require__(104);
+var checkboxGroup_1 = __webpack_require__(220);
+var input_1 = __webpack_require__(45);
+var radioGroup_1 = __webpack_require__(221);
+var select_1 = __webpack_require__(223);
+var textarea_1 = __webpack_require__(224);
+var textinput_1 = __webpack_require__(225);
+var combo_1 = __webpack_require__(226);
+var sliderform_1 = __webpack_require__(227);
+var helper_1 = __webpack_require__(9);
+var simplevault_1 = __webpack_require__(105);
+var timeinput_1 = __webpack_require__(228);
+var colorpicker_1 = __webpack_require__(229);
+var spacer_1 = __webpack_require__(230);
+var avatar_1 = __webpack_require__(231);
+var fieldset_1 = __webpack_require__(232);
+var ToggleButton_1 = __webpack_require__(107);
+var ToggleGroup_1 = __webpack_require__(233);
 var types_1 = __webpack_require__(6);
 var dom_1 = __webpack_require__(0);
 var Form = /** @class */ (function (_super) {
@@ -16920,15 +19094,17 @@ var Form = /** @class */ (function (_super) {
     };
     Form.prototype._formContainerShow = function () {
         this.config.hidden = false;
-        if (!this.getRootView().node)
+        if (!this.getRootView().node) {
             return;
+        }
         var root = this.getRootView().node.el;
-        root.style.display = "flex";
+        root.style.display = "";
     };
     Form.prototype._formContainerHide = function () {
         this.config.hidden = true;
-        if (!this.getRootView().node)
+        if (!this.getRootView().node) {
             return;
+        }
         var root = this.getRootView().node.el;
         root.style.display = "none";
     };
@@ -16943,10 +19119,10 @@ var Form = /** @class */ (function (_super) {
 }(view_1.View));
 exports.Form = Form;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(18)))
 
 /***/ }),
-/* 100 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16979,10 +19155,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Checkbox = void 0;
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
-var helper_1 = __webpack_require__(8);
-var ts_popup_1 = __webpack_require__(14);
+var helper_1 = __webpack_require__(9);
+var ts_popup_1 = __webpack_require__(13);
 var types_1 = __webpack_require__(6);
-var label_1 = __webpack_require__(15);
+var label_1 = __webpack_require__(14);
 var core_1 = __webpack_require__(1);
 var Checkbox = /** @class */ (function (_super) {
     __extends(Checkbox, _super);
@@ -17303,7 +19479,7 @@ exports.Checkbox = Checkbox;
 
 
 /***/ }),
-/* 101 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17349,13 +19525,13 @@ var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
 var html_1 = __webpack_require__(2);
 var core_1 = __webpack_require__(1);
-var ts_data_1 = __webpack_require__(5);
-var ts_vault_1 = __webpack_require__(63);
-var ts_popup_1 = __webpack_require__(14);
-var helper_1 = __webpack_require__(8);
-var en_1 = __webpack_require__(102);
+var ts_data_1 = __webpack_require__(4);
+var ts_vault_1 = __webpack_require__(67);
+var ts_popup_1 = __webpack_require__(13);
+var helper_1 = __webpack_require__(9);
+var en_1 = __webpack_require__(106);
 var types_1 = __webpack_require__(6);
-var label_1 = __webpack_require__(15);
+var label_1 = __webpack_require__(14);
 var FileStatus;
 (function (FileStatus) {
     FileStatus["queue"] = "queue";
@@ -17720,7 +19896,7 @@ exports.SimpleVault = SimpleVault;
 
 
 /***/ }),
-/* 102 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17733,7 +19909,7 @@ exports.default = {
 
 
 /***/ }),
-/* 103 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17776,10 +19952,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ToggleButton = void 0;
 var types_1 = __webpack_require__(6);
-var view_1 = __webpack_require__(9);
+var view_1 = __webpack_require__(10);
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
-var helper_1 = __webpack_require__(8);
+var helper_1 = __webpack_require__(9);
 var core_1 = __webpack_require__(1);
 var ToggleButton = /** @class */ (function (_super) {
     __extends(ToggleButton, _super);
@@ -17935,7 +20111,7 @@ exports.ToggleButton = ToggleButton;
 
 
 /***/ }),
-/* 104 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17955,17 +20131,17 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(105), exports);
-__exportStar(__webpack_require__(111), exports);
-__exportStar(__webpack_require__(248), exports);
-__exportStar(__webpack_require__(4), exports);
-__exportStar(__webpack_require__(24), exports);
+__exportStar(__webpack_require__(109), exports);
+__exportStar(__webpack_require__(115), exports);
+__exportStar(__webpack_require__(261), exports);
+__exportStar(__webpack_require__(5), exports);
+__exportStar(__webpack_require__(20), exports);
+__exportStar(__webpack_require__(8), exports);
 __exportStar(__webpack_require__(11), exports);
-__exportStar(__webpack_require__(10), exports);
 
 
 /***/ }),
-/* 105 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18011,28 +20187,33 @@ var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
 var html_1 = __webpack_require__(2);
 var core_1 = __webpack_require__(1);
-var KeyManager_1 = __webpack_require__(17);
-var view_1 = __webpack_require__(9);
-var ts_data_1 = __webpack_require__(5);
-var Exporter_1 = __webpack_require__(106);
-var data_1 = __webpack_require__(11);
-var cells_1 = __webpack_require__(24);
-var main_1 = __webpack_require__(10);
-var Selection_1 = __webpack_require__(226);
-var types_1 = __webpack_require__(4);
-var render_1 = __webpack_require__(107);
+var KeyManager_1 = __webpack_require__(16);
+var view_1 = __webpack_require__(10);
+var ts_data_1 = __webpack_require__(4);
+var Exporter_1 = __webpack_require__(110);
+var data_1 = __webpack_require__(8);
+var locale_1 = __webpack_require__(22);
+var cells_1 = __webpack_require__(20);
+var zoneFocus_1 = __webpack_require__(66);
+var main_1 = __webpack_require__(11);
+var PrefixSums_1 = __webpack_require__(236);
+var Selection_1 = __webpack_require__(237);
+var types_1 = __webpack_require__(5);
+var render_1 = __webpack_require__(111);
 var common_1 = __webpack_require__(12);
-var content_1 = __webpack_require__(28);
-var Resizer_1 = __webpack_require__(240);
-var keys_1 = __webpack_require__(241);
-var cells_2 = __webpack_require__(42);
-var DropManager_1 = __webpack_require__(110);
-var dom_2 = __webpack_require__(242);
+var content_1 = __webpack_require__(30);
+var Resizer_1 = __webpack_require__(251);
+var keys_1 = __webpack_require__(252);
+var cells_2 = __webpack_require__(47);
+var DropManager_1 = __webpack_require__(114);
+var ActiveCell_1 = __webpack_require__(255);
+var dom_2 = __webpack_require__(46);
 var default_1 = __webpack_require__(27);
 var Grid = /** @class */ (function (_super) {
     __extends(Grid, _super);
     function Grid(container, config) {
         if (config === void 0) { config = {}; }
+        var _a;
         var _this = _super.call(this, container, config) || this;
         _this._touch = {
             duration: 350,
@@ -18043,14 +20224,21 @@ var Grid = /** @class */ (function (_super) {
         _this._destructed = false;
         _this._sortingStates = [];
         _this._dropManager = null;
+        _this._cachedSizes = null;
+        _this._resizeObserver = null;
+        _this._rowHeights = new PrefixSums_1.PrefixSums();
+        _this._colWidths = new PrefixSums_1.PrefixSums();
+        _this._rowHeightsRebuild = true;
+        _this._observedEl = null;
+        _this._liveRegion = null;
         _this._commonSummary = {};
         _this._colSummary = {};
-        _this.version = "9.3.0";
+        _this.version = "9.4.0";
         _this.name = "grid";
         _this.config = (0, core_1.extend)({
-            rowHeight: 40,
-            headerRowHeight: 40,
-            footerRowHeight: 40,
+            rowHeight: default_1.DEFAULT_ROW_HEIGHT,
+            headerRowHeight: default_1.DEFAULT_ROW_HEIGHT,
+            footerRowHeight: default_1.DEFAULT_ROW_HEIGHT,
             keyNavigation: true,
             sortable: true,
             columns: [],
@@ -18073,8 +20261,8 @@ var Grid = /** @class */ (function (_super) {
         });
         _this._setHTMLEventHandlers();
         if (_this.config.eventHandlers) {
-            for (var _i = 0, _a = Object.entries(_this.config.eventHandlers); _i < _a.length; _i++) {
-                var _b = _a[_i], name_1 = _b[0], events = _b[1];
+            for (var _i = 0, _b = Object.entries(_this.config.eventHandlers); _i < _b.length; _i++) {
+                var _c = _b[_i], name_1 = _c[0], events = _c[1];
                 _this._htmlEvents[name_1] = (0, html_1.eventHandler)(function (e) {
                     return {
                         col: _this.getColumn((0, html_1.locate)(e, "data-dhx-col-id") || (0, html_1.locate)(e, "data-dhx-id")) ||
@@ -18097,7 +20285,16 @@ var Grid = /** @class */ (function (_super) {
             disabled: !_this.config.selection,
             multiSelection: _this.config.multiselection,
         }, _this.events, _this._uid);
+        if (_this.config.keyNavigation &&
+            !_this.config.selection &&
+            !_this.config.blockSelection &&
+            !_this.config.rangeSelection &&
+            !_this.config.clipboard) {
+            _this.$activeCell = new ActiveCell_1.ActiveCell(_this, _this._uid);
+        }
         _this.mount(container, _this._createView());
+        if ((_a = _this._container) === null || _a === void 0 ? void 0 : _a.tagName)
+            _this._observeResize(_this._container);
         if (config.autoEmptyRow && _this.data.getLength() === 0) {
             _this._addEmptyRow();
             _this.paint();
@@ -18105,17 +20302,30 @@ var Grid = /** @class */ (function (_super) {
         return _this;
     }
     Grid.prototype.destructor = function () {
-        var _a;
+        var _a, _b, _c, _d;
         this._destructed = true;
+        (_a = this.getRootNode()) === null || _a === void 0 ? void 0 : _a.removeEventListener("focusin", this._tooltipFocusHandler);
+        if (this._resizeObserver) {
+            this._resizeObserver.disconnect();
+            this._resizeObserver = null;
+        }
+        this._cachedSizes = null;
+        this._observedEl = null;
+        this._rowHeights = null;
+        this._colWidths = null;
+        (_c = (_b = this._liveRegion) === null || _b === void 0 ? void 0 : _b.parentNode) === null || _c === void 0 ? void 0 : _c.removeChild(this._liveRegion);
+        this._liveRegion = null;
         this._destroyContent();
-        (_a = this.config.$subRowCells) === null || _a === void 0 ? void 0 : _a.forEach(function (view) {
+        (_d = this.config.$subRowCells) === null || _d === void 0 ? void 0 : _d.forEach(function (view) {
             var _a;
             (_a = view.cell) === null || _a === void 0 ? void 0 : _a.destructor();
         });
         this.keyManager && this.keyManager.destructor();
         this.events && this.events.clear();
         this._events && this._events.clear();
-        this.export = this.content = this.selection = null;
+        this.$activeCell && this.$activeCell.destructor();
+        this.export = this.content = this.selection = this.$activeCell = null;
+        this._tooltipFocusHandler = null;
         this._activeFilters = this._filterData = this._scroll = this._touch = this._htmlEvents = this._hiddenFilters = this.config.$subRowCells = null;
         this.unmount();
     };
@@ -18139,6 +20349,37 @@ var Grid = /** @class */ (function (_super) {
                 _this.paint();
             });
         }
+    };
+    Grid.prototype._rebuildRowHeights = function (data) {
+        if (!data)
+            data = this.data.getRawData(0, -1, null, 2);
+        var prefix = this._rowHeights.ensureCapacity(data.length);
+        var visibleCount = 0;
+        for (var i = 0; i < data.length; i++) {
+            var row = data[i];
+            if (row.hidden)
+                continue;
+            prefix[visibleCount + 1] = prefix[visibleCount] + (0, data_1.getTotalRowHeight)(row);
+            visibleCount++;
+        }
+        this._rowHeights.setLength(visibleCount);
+        this.config.$totalHeight = this._rowHeights.totalSize();
+        this.config.$rowHeights = this._rowHeights;
+        this._rowHeightsRebuild = false;
+    };
+    Grid.prototype._rebuildColWidths = function () {
+        var columns = this.config.columns;
+        var prefix = this._colWidths.ensureCapacity(columns.length);
+        var visibleCount = 0;
+        for (var i = 0; i < columns.length; i++) {
+            if (columns[i].hidden)
+                continue;
+            prefix[visibleCount + 1] = prefix[visibleCount] + (columns[i].$width || 0);
+            visibleCount++;
+        }
+        this._colWidths.setLength(visibleCount);
+        this.config.$totalWidth = this._colWidths.totalSize();
+        this.config.$colWidths = this._colWidths;
     };
     Grid.prototype.addRowCss = function (rowId, css) {
         var item = this.data.getItem(rowId);
@@ -18228,6 +20469,7 @@ var Grid = /** @class */ (function (_super) {
         if (!this.events.fire(types_1.GridEvents.beforeRowShow, [row]))
             return;
         this.data.update(id, { hidden: false });
+        this._rowHeightsRebuild = true;
         this._checkFilters(true);
         this.paint();
         this.events.fire(types_1.GridEvents.afterRowShow, [row]);
@@ -18244,6 +20486,7 @@ var Grid = /** @class */ (function (_super) {
         if (!this.events.fire(types_1.GridEvents.beforeRowHide, [row]))
             return;
         this.data.update(id, { hidden: true });
+        this._rowHeightsRebuild = true;
         this._checkFilters(true);
         this._checkSelectFilterValue();
         this.paint();
@@ -18272,7 +20515,7 @@ var Grid = /** @class */ (function (_super) {
         this.paint();
     };
     Grid.prototype.scrollTo = function (rowId, colId) {
-        var _a = this.config, topSplit = _a.topSplit, bottomSplit = _a.bottomSplit, columns = _a.columns, $width = _a.$width, $height = _a.$height, $headerHeight = _a.$headerHeight;
+        var _a = this.config, topSplit = _a.topSplit, bottomSplit = _a.bottomSplit, columns = _a.columns, $width = _a.$width, $height = _a.$height, $headerHeight = _a.$headerHeight, $footerHeight = _a.$footerHeight;
         var filteredColumns = columns.filter(function (col) { return !col.hidden; });
         var rows = this.data.getRawData(0, -1, null, 2);
         var colInd = filteredColumns.findIndex(function (col) { return col.id == colId; });
@@ -18280,7 +20523,7 @@ var Grid = /** @class */ (function (_super) {
         if (!(0, core_1.isDefined)(colInd) || !(0, core_1.isDefined)(rowInd))
             return;
         var scrollState = this.getScrollState();
-        var selectedCell = this.selection.getCell();
+        var selectedCell = (0, cells_1.getCellSource)(this).getCell();
         var prevColInd = selectedCell && columns.findIndex(function (col) { return col.id == selectedCell.column.id; });
         var prevRowInd = selectedCell && rows.findIndex(function (row) { return row.id == selectedCell.row.id; });
         var leftSplit = (0, common_1.getCurrFixedCols)(this.config, types_1.Split.left).length;
@@ -18289,45 +20532,46 @@ var Grid = /** @class */ (function (_super) {
         var isFixedRight = rightSplit && prevColInd >= columns.length - rightSplit;
         var isFixedTop = topSplit && prevRowInd < topSplit;
         var isFixedBottom = bottomSplit && prevRowInd >= rows.length - bottomSplit;
-        var x = (0, main_1.getTotalWidth)(filteredColumns.slice(0, colInd));
-        var y = (0, main_1.getTotalHeight)(rows.slice(0, rowInd));
+        var x = (0, data_1.colsWidth)(this.config, filteredColumns, 0, colInd);
+        var y = (0, data_1.rowsHeight)(this.config, rows, 0, rowInd);
         var rowHeight = (0, data_1.getTotalRowHeight)(rows[rowInd]);
         if (leftSplit) {
-            var leftFixedColsWidth = (0, main_1.getTotalWidth)((0, common_1.getCurrFixedCols)(this.config, types_1.Split.left));
+            var leftFixedColsWidth = (0, data_1.colsWidth)(this.config, filteredColumns, 0, leftSplit);
             if ((!isFixedLeft && !isFixedRight && colInd < prevColInd) ||
                 x - scrollState.x - leftFixedColsWidth < 0) {
                 x -= leftFixedColsWidth;
             }
         }
         if (rightSplit) {
-            var rightFixedColsWidth = (0, main_1.getTotalWidth)((0, common_1.getCurrFixedCols)(this.config, types_1.Split.right));
+            var rightFixedColsWidth = (0, data_1.colsWidth)(this.config, filteredColumns, filteredColumns.length - rightSplit, filteredColumns.length);
             if ((!isFixedLeft && !isFixedRight && colInd > prevColInd) ||
                 $width + scrollState.x - x - filteredColumns[colInd].$width - rightFixedColsWidth < 0) {
                 x += rightFixedColsWidth;
             }
         }
         if (topSplit) {
-            var topFixedRowsHeight = (0, main_1.getTotalHeight)(rows.slice(0, topSplit));
+            var topFixedRowsHeight = (0, data_1.rowsHeight)(this.config, rows, 0, topSplit);
             if ((!isFixedTop && !isFixedBottom && rowInd < prevRowInd) ||
                 y - scrollState.y - topFixedRowsHeight < 0) {
                 y -= topFixedRowsHeight;
             }
         }
         if (bottomSplit) {
-            var bottomFixedRowsHeight = (0, main_1.getTotalHeight)(rows.slice(-bottomSplit));
+            var bottomFixedRowsHeight = (0, data_1.rowsHeight)(this.config, rows, rows.length - bottomSplit, rows.length);
             if ((!isFixedTop && !isFixedBottom && rowInd > prevRowInd) ||
                 $height + scrollState.y - $headerHeight - y - rowHeight - bottomFixedRowsHeight < 0) {
                 y += bottomFixedRowsHeight;
             }
         }
         var gridRight = $width + scrollState.x;
-        var gridBottom = $height + scrollState.y - $headerHeight;
-        var cellTop = y - scrollState.y - rowHeight;
-        var cellLeft = x - scrollState.x - columns[colInd].$width;
+        var gridBottom = $height + scrollState.y - $headerHeight - $footerHeight;
+        var cellWidth = columns[colInd].$width;
+        var cellTop = y - scrollState.y;
+        var cellLeft = x - scrollState.x;
         var cellBottom = y + rowHeight * 2 + 18 - gridBottom;
-        var cellRight = x + columns[colInd].$width * 2 + 18 - gridRight;
-        var scrollTop = cellTop > 0 && cellBottom < 0 ? 0 : cellTop < 0 ? cellTop : cellBottom;
-        var scrollLeft = cellLeft > 0 && cellRight < 0 ? 0 : cellLeft < 0 ? cellLeft : cellRight;
+        var cellRight = x + cellWidth + 18 - gridRight;
+        var scrollTop = cellTop >= 0 && cellBottom < 0 ? 0 : cellTop < 0 ? cellTop : cellBottom;
+        var scrollLeft = cellLeft >= 0 && cellRight < 0 ? 0 : cellLeft < 0 ? cellLeft : cellRight;
         this.scroll(scrollLeft + scrollState.x, scrollTop + scrollState.y);
     };
     Grid.prototype.adjustColumnWidth = function (colId, adjust) {
@@ -18368,8 +20612,8 @@ var Grid = /** @class */ (function (_super) {
         var span = this.getSpan(rowId, colId);
         var colInd = columns.findIndex(function (obj) { return obj.id == (span ? span.column : colId); });
         var rowInd = rows.findIndex(function (obj) { return obj.id == (span ? span.row : rowId); });
-        var x = (0, main_1.getTotalWidth)(columns.slice(0, colInd));
-        var y = (0, main_1.getTotalHeight)(rows.slice(0, rowInd));
+        var x = (0, data_1.colsWidth)(this.config, columns, 0, colInd);
+        var y = (0, data_1.rowsHeight)(this.config, rows, 0, rowInd);
         if (this.config.footerPosition === "bottom" &&
             this.config.height !== "auto" &&
             this.config.$height >= this.config.$totalHeight &&
@@ -18379,7 +20623,8 @@ var Grid = /** @class */ (function (_super) {
             if (splitRows.length && splitRowIndex !== -1) {
                 var scroll_1 = (0, common_1.calcScrollBarWidth)(this.config, !!((_a = this.scrollView) === null || _a === void 0 ? void 0 : _a.config.enable));
                 var rowAreaHeight = this.config.$height - this.config.$footerHeight - this.config.$headerHeight;
-                y = rowAreaHeight - (0, main_1.getTotalHeight)(splitRows.slice(splitRowIndex)) - scroll_1.x - common_1.BORDERS;
+                var splitHeight = (0, data_1.rowsHeight)(this.config, rows, rows.length - this.config.bottomSplit + splitRowIndex, rows.length);
+                y = rowAreaHeight - splitHeight - scroll_1.x - common_1.BORDERS;
             }
         }
         return {
@@ -18494,7 +20739,10 @@ var Grid = /** @class */ (function (_super) {
             isSpan: !!span,
             editorType: editorType,
         };
-        if (!this.selection.config.disabled) {
+        if (this.$activeCell) {
+            this.$activeCell.setCell(rowId.toString(), colId.toString());
+        }
+        else if (!this.selection.config.disabled) {
             this.selection.setCell(rowId.toString(), colId.toString());
         }
         this.paint();
@@ -18514,7 +20762,14 @@ var Grid = /** @class */ (function (_super) {
         var filter = null;
         col.header.forEach(function (cell) {
             if (cell.content) {
-                filter = _this.content[cell.content].element[colId];
+                var content = _this.content[cell.content];
+                if (content) {
+                    // instantiate the widget on demand: it is no longer eagerly created during render
+                    if (!content.element[colId]) {
+                        content.toHtml(col, _this.config);
+                    }
+                    filter = content.element[colId];
+                }
             }
         });
         return filter;
@@ -18522,11 +20777,52 @@ var Grid = /** @class */ (function (_super) {
     Grid.prototype.getSummary = function (colId) {
         return __assign(__assign({}, this._commonSummary), (colId ? this._colSummary[colId] : {}));
     };
+    /**
+     * Sends a message to the grid's polite live region, so a screen reader
+     * announces a status change that happened without moving focus.
+     */
+    Grid.prototype.announce = function (message) {
+        if (this._destructed)
+            return;
+        var region = this._getLiveRegion();
+        if (!region)
+            return;
+        if (!message) {
+            region.textContent = "";
+            return;
+        }
+        // a live region stays silent when its text does not change, so an
+        // identical message is made unique with an invisible marker
+        var ZERO_WIDTH_SPACE = "\u200B";
+        var stripped = message.replace(ZERO_WIDTH_SPACE, "");
+        region.textContent = region.textContent === stripped ? stripped + ZERO_WIDTH_SPACE : stripped;
+    };
+    /**
+     * The live region is kept as a sibling of the widget root, outside the
+     * `role="grid"` element: a `role="status"` node is not an allowed child of
+     * a grid, and the node must survive redraws, so it is not part of the vdom.
+     */
+    Grid.prototype._getLiveRegion = function () {
+        if (this._liveRegion)
+            return this._liveRegion;
+        var root = this.getRootNode();
+        var parent = root && root.parentNode;
+        if (!parent)
+            return null;
+        var region = document.createElement("div");
+        region.className = "dhx_grid-live-region dhx_visually-hidden";
+        region.setAttribute("role", "status");
+        region.setAttribute("aria-live", "polite");
+        region.setAttribute("aria-atomic", "true");
+        parent.insertBefore(region, root.nextSibling);
+        this._liveRegion = region;
+        return region;
+    };
     /** @deprecated See a documentation: https://docs.dhtmlx.com/suite/migration/ */
     Grid.prototype.getSortingState = function () {
         var _a;
         var state = (_a = this._sortingStates) === null || _a === void 0 ? void 0 : _a[0];
-        return { dir: state.dir, by: state.by };
+        return { dir: state === null || state === void 0 ? void 0 : state.dir, by: state === null || state === void 0 ? void 0 : state.by };
     };
     Grid.prototype._createView = function () {
         var _this = this;
@@ -18554,16 +20850,13 @@ var Grid = /** @class */ (function (_super) {
     Grid.prototype._parseColumns = function (configChanged) {
         if (configChanged === void 0) { configChanged = false; }
         var columns = this.config.columns.filter(function (col) { return !col.hidden; });
+        this.config.$filteredColumns = columns;
         this.normalizeColumns({ config: this.config, columns: columns, configChanged: configChanged });
         (0, data_1.countColumns)(this.config, columns);
     };
     Grid.prototype.normalizeColumns = function (_a) {
-        var _this = this;
-        var _b, _c, _d;
+        var _b;
         var config = _a.config, columns = _a.columns, configChanged = _a.configChanged;
-        config.$headerHeightMap = [];
-        config.$footerHeightMap = [];
-        config.$headerHeight = config.$footerHeight = 0;
         for (var _i = 0, columns_1 = columns; _i < columns_1.length; _i++) {
             var col = columns_1[_i];
             col.htmlEnable = (_b = col.htmlEnable) !== null && _b !== void 0 ? _b : config.htmlEnable;
@@ -18603,47 +20896,51 @@ var Grid = /** @class */ (function (_super) {
                 col.$width = col.minWidth;
             }
         }
-        var _loop_1 = function (col) {
-            if ((_c = col.header) === null || _c === void 0 ? void 0 : _c.length) {
-                var currentHeight_1 = 0;
-                col.header.forEach(function (header, index) {
-                    if (config.headerAutoHeight) {
-                        currentHeight_1 = _this.getNormalizeContentHeight(header, col, config);
-                    }
-                    else {
-                        currentHeight_1 = config.headerRowHeight;
-                    }
-                    if (currentHeight_1 > (config.$headerHeightMap[index] || 0)) {
-                        config.$headerHeightMap[index] = Math.max(currentHeight_1, config.headerRowHeight);
-                    }
-                });
-            }
-            if ((_d = col.footer) === null || _d === void 0 ? void 0 : _d.length) {
-                var currentHeight_2 = 0;
-                col.footer.forEach(function (footer, index) {
-                    if (config.footerAutoHeight) {
-                        currentHeight_2 = _this.getNormalizeContentHeight(footer, col, config);
-                    }
-                    else {
-                        currentHeight_2 = config.footerRowHeight;
-                    }
-                    if (currentHeight_2 > (config.$footerHeightMap[index] || 0)) {
-                        config.$footerHeightMap[index] = Math.max(currentHeight_2, config.footerRowHeight);
-                    }
-                });
-            }
-        };
-        for (var _e = 0, columns_2 = columns; _e < columns_2.length; _e++) {
-            var col = columns_2[_e];
-            _loop_1(col);
-        }
+        this._buildFixedRowsHeightMap(config, columns, "header");
+        this._buildFixedRowsHeightMap(config, columns, "footer");
         config.$headerHeight = config.$headerHeightMap.reduce(function (acc, cur) { return (acc += cur); }, 0);
         config.$footerHeight = config.$footerHeightMap.reduce(function (acc, cur) { return (acc += cur); }, 0);
     };
+    Grid.prototype._buildFixedRowsHeightMap = function (config, columns, name) {
+        var _a;
+        var heightMap = [];
+        var autoHeightMap = [];
+        var levels = columns.reduce(function (max, col) { var _a; return Math.max(max, ((_a = col[name]) === null || _a === void 0 ? void 0 : _a.length) || 0); }, 0);
+        for (var index = 0; index < levels; index++) {
+            var _b = this._resolveFixedRowLevel(name, index, config), height = _b.height, auto = _b.auto;
+            var currentHeight = height;
+            if (auto) {
+                for (var _i = 0, columns_2 = columns; _i < columns_2.length; _i++) {
+                    var col = columns_2[_i];
+                    var cell = (_a = col[name]) === null || _a === void 0 ? void 0 : _a[index];
+                    if (!cell)
+                        continue;
+                    currentHeight = Math.max(currentHeight, this.getNormalizeContentHeight(cell, col, config));
+                }
+            }
+            heightMap[index] = currentHeight;
+            autoHeightMap[index] = auto;
+        }
+        if (name === "header") {
+            config.$headerHeightMap = heightMap;
+            config.$headerAutoHeightMap = autoHeightMap;
+        }
+        else {
+            config.$footerHeightMap = heightMap;
+            config.$footerAutoHeightMap = autoHeightMap;
+        }
+    };
+    Grid.prototype._resolveFixedRowLevel = function (name, index, config) {
+        return {
+            height: (0, data_1.resolveFixedRowHeight)(config["".concat(name, "RowHeight")], index).height,
+            auto: false,
+        };
+    };
     Grid.prototype.getNormalizeContentHeight = function (row, col, config) {
-        return this.config.footerRowHeight;
+        return default_1.DEFAULT_ROW_HEIGHT;
     };
     Grid.prototype._parseData = function () {
+        this._rowHeightsRebuild = true;
         this._detectColsTypes();
         this.config.data = this.data.map(function (row) { return row; });
         this.config.data = this._prepareData(this.data);
@@ -18653,9 +20950,6 @@ var Grid = /** @class */ (function (_super) {
     };
     Grid.prototype._createCollection = function () {
         this.data = new ts_data_1.DataCollection(null, this.events);
-    };
-    Grid.prototype._getRowIndex = function (rowId) {
-        return this.data.getIndex(rowId);
     };
     Grid.prototype._setHTMLEventHandlers = function () {
         var _this = this;
@@ -18744,12 +21038,34 @@ var Grid = /** @class */ (function (_super) {
                 }
             }
         };
+        var tooltipMap = [
+            { className: "dhx_grid-header-cell", action: function (node) { return showContentTooltip(node, "header"); } },
+            { className: "dhx_grid-footer-cell", action: function (node) { return showContentTooltip(node, "footer"); } },
+            { className: "dhx_grid-cell", action: showCellTooltip },
+            { className: "dhx_span-cell", action: showSpanCellTooltip },
+        ];
+        // WCAG 1.4.13 covers content shown on hover *or* focus, and grid cells are
+        // focusable through the roving tabindex, so the same lookup serves both.
+        var showTooltipForEvent = function (e) {
+            for (var _i = 0, tooltipMap_1 = tooltipMap; _i < tooltipMap_1.length; _i++) {
+                var _a = tooltipMap_1[_i], className = _a.className, action = _a.action;
+                var node = (0, html_1.locateNodeByClassName)(e, className);
+                if (node) {
+                    action(node);
+                    break;
+                }
+            }
+        };
+        this._tooltipFocusHandler = showTooltipForEvent;
         this._htmlEvents = {
             onclick: (0, html_1.eventHandler)(function (e) { return (0, html_1.locate)(e); }, {
                 "dhx_grid-header-cell--sortable": function (e, id) {
                     var isResizable = e.target.getAttribute("dhx_resized");
                     var column = _this.getColumn(id);
                     if (column && (0, main_1.isSortable)(_this.config, column) && !isResizable) {
+                        if ((0, main_1.isInteractiveTarget)(e.target)) {
+                            return;
+                        }
                         var textId_1 = (0, html_1.locate)(e, "data-dhx-text-id");
                         var cell = column.header.find(function (item) { return item.id === textId_1; });
                         _this._sort(id, cell.sortAs);
@@ -18774,29 +21090,17 @@ var Grid = /** @class */ (function (_super) {
                     },
                 ]);
             },
-            onmouseover: function (e) {
-                var tooltipMap = [
-                    { className: "dhx_grid-header-cell", action: function (node) { return showContentTooltip(node, "header"); } },
-                    { className: "dhx_grid-footer-cell", action: function (node) { return showContentTooltip(node, "footer"); } },
-                    { className: "dhx_grid-cell", action: showCellTooltip },
-                    { className: "dhx_span-cell", action: showSpanCellTooltip },
-                ];
-                for (var _i = 0, tooltipMap_1 = tooltipMap; _i < tooltipMap_1.length; _i++) {
-                    var _a = tooltipMap_1[_i], className = _a.className, action = _a.action;
-                    var node = (0, html_1.locateNodeByClassName)(e, className);
-                    if (node) {
-                        action(node);
-                        break;
-                    }
-                }
-            },
+            onmouseover: showTooltipForEvent,
         };
     };
     Grid.prototype._setEventHandlers = function () {
         var _this = this;
         this.data.events.on(ts_data_1.DataEvents.load, function () {
             _this._applyLocalFilter(true);
+            _this._setSort();
+            _this._resetFilterUI();
             _this._parseData();
+            _this._checkFilters();
             _this._parseColumns();
             if (_this.config.autoEmptyRow) {
                 var emptyRow = _this.data.find({ by: "$emptyRow", match: true });
@@ -18813,12 +21117,17 @@ var Grid = /** @class */ (function (_super) {
             else {
                 _this._normalizeSpans();
             }
+            _this.announce((0, locale_1.getLocaleString)("aria_rowsLoaded", { count: _this.data.getLength() }));
             _this.paint();
         });
-        this.data.events.on(ts_data_1.DataEvents.change, function (id, status, obj) {
+        this.data.events.on(ts_data_1.DataEvents.change, function (id, status, obj, service) {
+            if (service && (0, core_1.isId)(service.oldId)) {
+                _this._remapRowId(service.oldId, id);
+            }
             if (status === "load" || status === "add" || status === "remove") {
                 return;
             }
+            _this._rowHeightsRebuild = true;
             if (status === "setPage") {
                 (0, dom_1.awaitRedraw)().then(function () {
                     var colVisible = _this.config.columns.find(function (col) { return col.hidden !== true; });
@@ -18867,6 +21176,7 @@ var Grid = /** @class */ (function (_super) {
             _this._render();
         });
         this.data.events.on(ts_data_1.DataEvents.filter, function (filters) {
+            _this._rowHeightsRebuild = true;
             if (!filters && !_this.data.getRawFilters({ permanent: true })) {
                 _this._applyLocalFilter();
             }
@@ -18885,18 +21195,10 @@ var Grid = /** @class */ (function (_super) {
             _this.paint();
         });
         this.data.events.on(ts_data_1.DataEvents.removeAll, function () {
-            _this._hiddenFilters = {};
-            _this.config.columns.map(function (col) {
-                col.header.map(function (cell) {
-                    if (cell.content && (cell.content === "selectFilter" || cell.content === "comboFilter")) {
-                        col.$uniqueData = [];
-                    }
-                });
-            });
             if (!(0, core_1.isEmptyObj)(_this._activeFilters)) {
                 _this.data.resetFilter();
             }
-            _this._clearFilterValue(true);
+            _this._resetFilterUI();
         });
         this.data.events.on(ts_data_1.DataEvents.afterAdd, function (obj, batch, index) {
             if (batch.length === ++index)
@@ -18978,14 +21280,14 @@ var Grid = /** @class */ (function (_super) {
                         if (startIndex > -1 && targetIndex > -1) {
                             if ((source === null || source === void 0 ? void 0 : source.length) > 1) {
                                 var moveData = [];
-                                var _loop_2 = function (id) {
+                                var _loop_1 = function (id) {
                                     var itemIndex = initData === null || initData === void 0 ? void 0 : initData.findIndex(function (item) { return item.id == id; });
                                     var moveItem = initData === null || initData === void 0 ? void 0 : initData.splice(itemIndex, 1)[0];
                                     moveData.push(moveItem);
                                 };
                                 for (var _c = 0, source_1 = source; _c < source_1.length; _c++) {
                                     var id = source_1[_c];
-                                    _loop_2(id);
+                                    _loop_1(id);
                                 }
                                 targetIndex = initData === null || initData === void 0 ? void 0 : initData.findIndex(function (item) { return item.id == target; });
                                 if (targetIndex > 0)
@@ -18996,6 +21298,7 @@ var Grid = /** @class */ (function (_super) {
                                 initData === null || initData === void 0 ? void 0 : initData.splice(targetIndex, 0, initData === null || initData === void 0 ? void 0 : initData.splice(startIndex, 1)[0]);
                             }
                         }
+                        _this._rowHeightsRebuild = true;
                         _this._adjustColumns();
                         _this._checkFilters();
                         _this.paint();
@@ -19026,6 +21329,9 @@ var Grid = /** @class */ (function (_super) {
             _this._touch.start = false;
             _this._clearTouchTimer();
         });
+        this._events.on(types_1.GridSystemEvents.announce, function (message) {
+            _this.announce(message);
+        });
         this.events.on(types_1.GridEvents.filterChange, function (val, colId, filter, silent) {
             var _a, _b, _c;
             if (!_this.events.fire(types_1.GridEvents.beforeFilter, [val, colId])) {
@@ -19044,9 +21350,10 @@ var Grid = /** @class */ (function (_super) {
             var conf = columnConfig.header.filter(function (item) { return item.content === filter && item.customFilter !== undefined; })[0];
             if ((filter === "comboFilter" && val !== undefined) || (filter !== "comboFilter" && val !== "")) {
                 var options_1 = (0, data_1.getEditorOptions)(columnConfig);
-                if ((columnConfig.editorType === "combobox" ||
-                    columnConfig.editorType === "select" ||
-                    columnConfig.editorType === "multiselect") &&
+                if (!columnConfig.$filterOptions &&
+                    (columnConfig.editorType === "combobox" ||
+                        columnConfig.editorType === "select" ||
+                        columnConfig.editorType === "multiselect") &&
                     options_1) {
                     if (Array.isArray(val)) {
                         val = val.map(function (item) {
@@ -19081,6 +21388,7 @@ var Grid = /** @class */ (function (_super) {
             }
             if (!silent) {
                 _this.data.filter(_this._activeFilters);
+                _this.announce((0, locale_1.getLocaleString)((0, core_1.isEmptyObj)(_this._activeFilters) ? "aria_filterCleared" : "aria_filterApplied", { count: _this.data.getLength() }));
             }
         });
         this.events.on(types_1.GridEvents.scroll, function (scrollState) {
@@ -19161,6 +21469,7 @@ var Grid = /** @class */ (function (_super) {
     };
     Grid.prototype._afterEditEndProcess = function (value, editableRow, editableColumn) {
         var _a;
+        var _this = this;
         var _b;
         if (((_b = this.config.$editable) === null || _b === void 0 ? void 0 : _b.editor) &&
             (this.config.$editable.col !== editableColumn.id || this.config.$editable.row !== editableRow.id))
@@ -19175,6 +21484,7 @@ var Grid = /** @class */ (function (_super) {
             row = this.config.$editable.row;
             col = this.config.$editable.col;
         }
+        this.config.$editable = null;
         var span = this.getSpan(row, col);
         if ((0, core_1.isDefined)(span === null || span === void 0 ? void 0 : span.text) && (0, core_1.isDefined)(value)) {
             span.text = value.toString();
@@ -19186,8 +21496,14 @@ var Grid = /** @class */ (function (_super) {
                 this.data.update(row, __assign(__assign({}, item), (_a = {}, _a[col] = value, _a)));
             }
         }
-        this.config.$editable = null;
         this.paint();
+        (0, dom_1.awaitRedraw)().then(function () {
+            var _a;
+            if (!(0, zoneFocus_1.isFocusInBody)(_this)) {
+                return;
+            }
+            (_a = (0, cells_1.getCellSource)(_this)) === null || _a === void 0 ? void 0 : _a.restoreFocus();
+        });
     };
     Grid.prototype._addEmptyRow = function () {
         var id = this.data.getId(this.data.getLength() - 1);
@@ -19220,6 +21536,9 @@ var Grid = /** @class */ (function (_super) {
             return item ? "".concat(item) : "";
         };
         this.data.sort({ by: by, dir: dir, as: sortAs !== null && sortAs !== void 0 ? sortAs : defaultAs }, { smartSorting: smartSorting });
+        this.announce((0, locale_1.getLocaleString)(dir === "asc" ? "aria_sortedAscending" : "aria_sortedDescending", {
+            column: column ? (0, data_1.getColumnHeaderText)(column) : "".concat(by),
+        }));
         this.events.fire(types_1.GridEvents.afterSort, [column, dir]);
     };
     Grid.prototype._setSort = function () {
@@ -19263,6 +21582,16 @@ var Grid = /** @class */ (function (_super) {
                 if (!((_a = _this._activeFilters) === null || _a === void 0 ? void 0 : _a[col.id]) &&
                     cell.content &&
                     (cell.content === "selectFilter" || cell.content === "comboFilter")) {
+                    var filterOptions = (0, data_1.getFilterOptions)(col, cell.content);
+                    if (Array.isArray(filterOptions)) {
+                        if (!sync) {
+                            col.$filterOptions = (0, data_1.resolveFilterOptions)(col, cell.content);
+                            col.$uniqueData = col.$filterOptions.map(function (option) { return option.id; });
+                            if (col.$activeFilterData)
+                                delete col.$activeFilterData;
+                        }
+                        return;
+                    }
                     var multi = col.header.some(function (i) { var _a; return (_a = i.filterConfig) === null || _a === void 0 ? void 0 : _a.multiselection; });
                     var customFilter = col.header.some(function (i) { var _a; return (_a = i.filterConfig) === null || _a === void 0 ? void 0 : _a.filter; });
                     if (!sync || (sync && !customFilter)) {
@@ -19283,6 +21612,10 @@ var Grid = /** @class */ (function (_super) {
                             col.type !== "string"
                                 ? Array.from(new Set(unique.map(function (val) { return (0, data_1.applyPattern)(val, col); })))
                                 : unique;
+                        if (filterOptions) {
+                            col.$filterOptions = (0, data_1.resolveFilterOptions)(col, cell.content, unique);
+                            unique = col.$filterOptions.map(function (option) { return option.id; });
+                        }
                         if (!sync) {
                             col.$uniqueData = unique;
                             if (col.$activeFilterData)
@@ -19297,17 +21630,30 @@ var Grid = /** @class */ (function (_super) {
         });
     };
     Grid.prototype._checkSelectFilterValue = function () {
-        var _a;
+        var _a, _b;
         var filter = (_a = this.content) === null || _a === void 0 ? void 0 : _a.selectFilter;
         if (!filter)
             return;
         for (var key in filter.value) {
             var col = this.getColumn(key);
             var val = filter.value[key];
-            if (!col.hidden && val && !col.$uniqueData.includes(val)) {
+            if (!col.hidden && val && !((_b = col.$uniqueData) === null || _b === void 0 ? void 0 : _b.includes(val))) {
                 filter.element[key].clear();
             }
         }
+    };
+    Grid.prototype._resetFilterUI = function () {
+        this._activeFilters = {};
+        this._hiddenFilters = {};
+        this.config.columns.forEach(function (col) {
+            var _a;
+            (_a = col.header) === null || _a === void 0 ? void 0 : _a.forEach(function (cell) {
+                if (cell.content && (cell.content === "selectFilter" || cell.content === "comboFilter")) {
+                    col.$uniqueData = col.$filterOptions ? col.$filterOptions.map(function (option) { return option.id; }) : [];
+                }
+            });
+        });
+        this._clearFilterValue(true);
     };
     Grid.prototype._clearFilterValue = function (allCols) {
         var _this = this;
@@ -19533,7 +21879,7 @@ var Grid = /** @class */ (function (_super) {
         var rightFixedCols = (0, common_1.getCurrFixedCols)(this.config, types_1.Split.right);
         var scrollbarWidth = (0, common_1.calcScrollBarWidth)(this.config, !!((_a = this.scrollView) === null || _a === void 0 ? void 0 : _a.config.enable));
         var rows = [];
-        var _loop_3 = function (index) {
+        var _loop_2 = function (index) {
             var id = ids[index];
             var row = (0, dom_2.getRowNode)(id, root);
             if (!row)
@@ -19564,6 +21910,7 @@ var Grid = /** @class */ (function (_super) {
                     }
                     else {
                         clone.removeAttribute("aria-rowindex");
+                        clone.removeAttribute("data-dhx-index");
                         clone.style.width = el.offsetWidth + "px";
                         complexRowContainer_1.appendChild(clone);
                     }
@@ -19574,7 +21921,7 @@ var Grid = /** @class */ (function (_super) {
             rows.push((0, dom_2.getVisibleRowNode)(clone, rowWidth, (0, html_1.getNodeOffset)(row, root).left - common_1.BORDERS / 2));
         };
         for (var index = 0; index < ids.length; index++) {
-            var state_1 = _loop_3(index);
+            var state_1 = _loop_2(index);
             if (typeof state_1 === "object")
                 return state_1.value;
         }
@@ -19587,6 +21934,8 @@ var Grid = /** @class */ (function (_super) {
         var _this = this;
         return {
             didMount: function () {
+                var _a;
+                (_a = _this.getRootNode()) === null || _a === void 0 ? void 0 : _a.addEventListener("focusin", _this._tooltipFocusHandler);
                 if (_this._canDataParse(true)) {
                     if (!_this._container) {
                         _this._applyAutoWidth();
@@ -19654,6 +22003,28 @@ var Grid = /** @class */ (function (_super) {
         var _a;
         this.config.spans = (_a = this.config.spans) === null || _a === void 0 ? void 0 : _a.map(function (span) { return (0, cells_2.normalizeSpan)(span, _this.config, _this.data); });
     };
+    /**
+     * Retargets the caches that store a row id by value to the new id.
+     * The row objects themselves are shared with the data collection, so everything that
+     * keeps a reference to them (the selected cells, the rendered rows) is already up to date.
+     * @internal
+     */
+    Grid.prototype._remapRowId = function (oldId, newId) {
+        var _a, _b, _c;
+        (_a = this.config.spans) === null || _a === void 0 ? void 0 : _a.forEach(function (span) {
+            if ("".concat(span.row) === "".concat(oldId)) {
+                span.row = newId;
+            }
+        });
+        (_b = this.config.columns) === null || _b === void 0 ? void 0 : _b.forEach(function (col) {
+            if (col.$cellCss && (0, core_1.isDefined)(col.$cellCss[oldId])) {
+                col.$cellCss[newId] = col.$cellCss[oldId];
+                delete col.$cellCss[oldId];
+            }
+        });
+        (_c = this.selection) === null || _c === void 0 ? void 0 : _c.remapRows();
+        this._normalizeSpans();
+    };
     Grid.prototype._hideColumn = function (column) {
         column.hidden = true;
         this.config.$totalWidth -= column.$width;
@@ -19688,7 +22059,7 @@ var Grid = /** @class */ (function (_super) {
     };
     Grid.prototype._setSummary = function () {
         var _this = this;
-        var rows = this.data.map(function (row) { return row; }).filter(function (i) { return i != i.$group && i != i.$groupSummary; });
+        var rows = this.data.map(function (row) { return row; }).filter(function (i) { return !i.$group && !i.$groupSummary; });
         if (this.config.type === "tree") {
             rows = rows.filter(function (i) { return !_this.data.haveItems(i.id); });
         }
@@ -19727,6 +22098,39 @@ var Grid = /** @class */ (function (_super) {
             export: null,
         });
         this._setEventHandlers();
+    };
+    Grid.prototype._observeResize = function (element) {
+        var _this = this;
+        if (!element || element === this._observedEl)
+            return;
+        if (!this._resizeObserver && typeof ResizeObserver !== "undefined") {
+            this._resizeObserver = new ResizeObserver(function (entries) {
+                var _a;
+                var target = (_a = entries[0]) === null || _a === void 0 ? void 0 : _a.target;
+                if (!target || !target.clientWidth)
+                    return;
+                var styles = getComputedStyle(target);
+                var paddingX = parseFloat(styles.paddingLeft) + parseFloat(styles.paddingRight) || 0;
+                var paddingY = parseFloat(styles.paddingTop) + parseFloat(styles.paddingBottom) || 0;
+                var width = target.clientWidth - paddingX;
+                var height = target.clientHeight - paddingY;
+                if (!_this._cachedSizes ||
+                    _this._cachedSizes.width !== width ||
+                    _this._cachedSizes.height !== height) {
+                    var needsRepaint = !!_this._cachedSizes;
+                    _this._cachedSizes = { width: width, height: height };
+                    if (needsRepaint && !_this._destructed)
+                        _this.paint();
+                }
+            });
+        }
+        if (this._resizeObserver) {
+            if (this._observedEl)
+                this._resizeObserver.unobserve(this._observedEl);
+            this._resizeObserver.observe(element);
+            this._observedEl = element;
+            this._cachedSizes = null;
+        }
     };
     Grid.prototype._applyMethod = function (method, rows, colId) {
         var _a;
@@ -19774,6 +22178,12 @@ var Grid = /** @class */ (function (_super) {
             var cell = colCells_1[_i];
             var css = func(cell.data, colCellsData, cell.row, col);
             if (css) {
+                if (!(0, core_1.isDefined)(col.$cellCss)) {
+                    col.$cellCss = {};
+                }
+                if (!(0, core_1.isDefined)(col.$cellCss[cell.id])) {
+                    col.$cellCss[cell.id] = "";
+                }
                 col.$cellCss = col.$cellCss || {};
                 col.$cellCss[cell.id] += " " + css;
             }
@@ -19968,15 +22378,16 @@ var Grid = /** @class */ (function (_super) {
         }
     };
     Grid.prototype._applyAutoWidth = function () {
-        var _a, _b;
-        var parentNode = this._container || ((_a = this.getRootView().node.parent) === null || _a === void 0 ? void 0 : _a.el);
+        var _a, _b, _c, _d;
+        var parentNode = this._container || ((_c = (_b = (_a = this.getRootView()) === null || _a === void 0 ? void 0 : _a.node) === null || _b === void 0 ? void 0 : _b.parent) === null || _c === void 0 ? void 0 : _c.el);
         if (!parentNode)
             return;
         var parentSizes = (0, render_1.getElementSizes)(parentNode);
-        var scrollView = (_b = this.scrollView) === null || _b === void 0 ? void 0 : _b.config.enable;
+        var scrollView = (_d = this.scrollView) === null || _d === void 0 ? void 0 : _d.config.enable;
         (0, render_1.applyAutoWidth)(this.config, parentSizes, scrollView);
     };
     Grid.prototype._handleRow = function (id, status) {
+        this._rowHeightsRebuild = true;
         if ((0, core_1.isId)(id) && status === "remove") {
             var removed = this.selection.getCells().find(function (cell) { return cell.row.id === id; });
             removed && this.selection.removeCell(removed.row.id, removed.column.id);
@@ -20009,7 +22420,7 @@ exports.Grid = Grid;
 
 
 /***/ }),
-/* 106 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20072,14 +22483,14 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Exporter = void 0;
-var main_1 = __webpack_require__(10);
-var ts_data_1 = __webpack_require__(5);
+var main_1 = __webpack_require__(11);
+var ts_data_1 = __webpack_require__(4);
 var core_1 = __webpack_require__(1);
-var date_1 = __webpack_require__(18);
+var date_1 = __webpack_require__(17);
 var html_1 = __webpack_require__(2);
 var dom_1 = __webpack_require__(0);
-var input_1 = __webpack_require__(35);
-var data_1 = __webpack_require__(11);
+var input_1 = __webpack_require__(36);
+var data_1 = __webpack_require__(8);
 var Exporter = /** @class */ (function () {
     function Exporter(config) {
         this._xlsxWorker = null;
@@ -20095,26 +22506,17 @@ var Exporter = /** @class */ (function () {
         return this._rawExport(typeConfig, "png");
     };
     Exporter.prototype.xlsx = function (typeConfig) {
-        if (typeConfig === void 0) { typeConfig = {
-            url: "https://cdn.dhtmlx.com/libs/json2excel/next/worker.js?vx",
-            name: "grid",
-            tableName: "data",
-        }; }
+        if (typeConfig === void 0) { typeConfig = {}; }
         var exportConfig = this._getExportConfig("xlsx");
-        return this._xlsxExport(typeConfig, exportConfig);
+        return this._xlsxExport(__assign({ url: "https://cdn.dhtmlx.com/libs/json2excel/next/worker.js?vx", name: "grid", tableName: "data" }, typeConfig), exportConfig);
     };
     Exporter.prototype.csv = function (typeConfig) {
         var _this = this;
-        if (typeConfig === void 0) { typeConfig = {
-            asFile: true,
-            rowDelimiter: "\n",
-            columnDelimiter: ",",
-            skipHeader: 0,
-        }; }
+        if (typeConfig === void 0) { typeConfig = {}; }
         return new Promise(function (resolve) {
             var csv;
             var exportConfig = _this._getExportConfig("csv");
-            typeConfig = __assign(__assign({}, typeConfig), (exportConfig.typeConfig || {}));
+            typeConfig = __assign(__assign({ asFile: true, rowDelimiter: "\n", columnDelimiter: ",", skipHeader: 0 }, typeConfig), (exportConfig.typeConfig || {}));
             var name = typeConfig.name || "grid";
             if ("getRoot" in _this._grid.data && typeConfig.flat) {
                 csv = _this.getFlatCSV(typeConfig, exportConfig);
@@ -20850,10 +23252,10 @@ function simpleSumTemplate(obj) {
     return Object.values(obj)[0];
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(18)))
 
 /***/ }),
-/* 107 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20873,17 +23275,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.proRender = exports.render = exports.applyAutoWidth = exports.getElementSizes = exports.getRenderConfig = void 0;
 var dom_1 = __webpack_require__(0);
 var html_1 = __webpack_require__(2);
-var data_1 = __webpack_require__(11);
-var main_1 = __webpack_require__(10);
-var types_1 = __webpack_require__(4);
-var cells_1 = __webpack_require__(42);
-var FixedCols_1 = __webpack_require__(108);
-var FixedRows_1 = __webpack_require__(109);
+var data_1 = __webpack_require__(8);
+var main_1 = __webpack_require__(11);
+var ts_data_1 = __webpack_require__(4);
+var types_1 = __webpack_require__(5);
+var cells_1 = __webpack_require__(47);
+var FixedCols_1 = __webpack_require__(112);
+var FixedRows_1 = __webpack_require__(113);
 var core_1 = __webpack_require__(1);
 var common_1 = __webpack_require__(12);
-var groupPanel_1 = __webpack_require__(234);
-var subRow_1 = __webpack_require__(235);
-var dragPanel_1 = __webpack_require__(236);
+var groupPanel_1 = __webpack_require__(245);
+var subRow_1 = __webpack_require__(246);
+var dragPanel_1 = __webpack_require__(247);
 var default_1 = __webpack_require__(27);
 function getWrapperAutoHeight(grid, config, wrapperSizes) {
     var _a, _b;
@@ -20918,10 +23321,32 @@ function isSpanVisible(span, visibility, _a, dataLength) {
         (spanStart <= visStart && visEnd <= spanEnd);
     return isRangeVisible || spanStart < fixedStart || (fixedEnd && spanEnd >= dataLength - fixedEnd);
 }
+function getSpanAreas(config, spans, filteredColumns) {
+    var _a;
+    if (!((_a = config.$cellState) === null || _a === void 0 ? void 0 : _a.hideSpans) || !spans.length) {
+        return null;
+    }
+    var areas = null;
+    for (var i = 0; i < spans.length; i++) {
+        var _b = spans[i], column = _b.column, rows = _b.$rowsVisibility, cols = _b.$colsVisibility;
+        if (!(rows === null || rows === void 0 ? void 0 : rows.length) || !(cols === null || cols === void 0 ? void 0 : cols.length) || (rows[0] === rows[1] && cols[0] === cols[1])) {
+            continue;
+        }
+        var columns = new Set();
+        for (var colIndex = cols[0]; colIndex <= cols[1]; colIndex++) {
+            var col = filteredColumns[colIndex];
+            if (col)
+                columns.add("".concat(col.id));
+        }
+        areas = areas || [];
+        areas.push({ column: column, rowStart: rows[0], rowEnd: rows[1], columns: columns });
+    }
+    return areas;
+}
 function getRenderConfig(obj, data, wrapperSizes) {
     var config = obj.config;
     var _a = config.spans, spans = _a === void 0 ? [] : _a, columns = config.columns, _b = config.leftSplit, leftSplit = _b === void 0 ? 0 : _b, _c = config.topSplit, topSplit = _c === void 0 ? 0 : _c, _d = config.rightSplit, rightSplit = _d === void 0 ? 0 : _d, _e = config.bottomSplit, bottomSplit = _e === void 0 ? 0 : _e;
-    var filteredColumns = columns.filter(function (col) { return !col.hidden; });
+    var filteredColumns = config.$filteredColumns || columns.filter(function (col) { return !col.hidden; });
     var positions = (0, data_1.calculateVisibleRange)(wrapperSizes, obj._scroll, config, data);
     var currentColumns = filteredColumns.slice(positions.xStart, positions.xEnd);
     var currentRows = data.slice(positions.yStart, positions.yEnd);
@@ -20943,7 +23368,7 @@ function getRenderConfig(obj, data, wrapperSizes) {
     };
     if (obj.config.$subRowCells)
         (0, subRow_1.setSubRowCell)(obj, currentRows);
-    return __assign(__assign({}, config), { data: data, columns: config.columns, scroll: obj._scroll, $positions: positions, headerHeight: config.$headerHeight, footerHeight: config.$footerHeight, firstColId: filteredColumns[0] && filteredColumns[0].id, events: obj.events, _events: obj._events, filteredColumns: filteredColumns, currentColumns: currentColumns, currentRows: currentRows, currentSpans: currentSpans, fixedColumns: fixedColumns, fixedRows: fixedRows, sort: obj._sortingStates, content: obj.content, gridId: obj._uid, commonSummary: obj._commonSummary, colSummary: obj._colSummary, dropManager: obj._dropManager, blockSelection: obj.block, $renderFrom: "render" });
+    return __assign(__assign({}, config), { data: data, columns: config.columns, scroll: obj._scroll, $positions: positions, headerHeight: config.$headerHeight, footerHeight: config.$footerHeight, firstColId: filteredColumns[0] && filteredColumns[0].id, events: obj.events, _events: obj._events, filteredColumns: filteredColumns, currentColumns: currentColumns, currentRows: currentRows, currentSpans: currentSpans, fixedColumns: fixedColumns, fixedRows: fixedRows, sort: obj._sortingStates, content: obj.content, gridId: obj._uid, commonSummary: obj._commonSummary, colSummary: obj._colSummary, dropManager: obj._dropManager, blockSelection: obj.block, range: obj.range, $activeCell: obj.$activeCell, $renderFrom: "render", $isDragging: ts_data_1.dragManager.isDrag(), $spanAreas: getSpanAreas(config, currentSpans, filteredColumns) });
 }
 exports.getRenderConfig = getRenderConfig;
 function getElementSizes(element) {
@@ -20965,11 +23390,10 @@ exports.getElementSizes = getElementSizes;
 function getGridData(renderConfig, shifts, footerAtBottom) {
     if (footerAtBottom === void 0) { footerAtBottom = false; }
     var content = (0, cells_1.getCells)(renderConfig);
-    var filteredColumns = renderConfig.filteredColumns, $resizing = renderConfig.$resizing, $totalHeight = renderConfig.$totalHeight, $totalWidth = renderConfig.$totalWidth, leftSplit = renderConfig.leftSplit, data = renderConfig.data, $positions = renderConfig.$positions, $scrollBarWidth = renderConfig.$scrollBarWidth;
+    var filteredColumns = renderConfig.filteredColumns, $resizing = renderConfig.$resizing, $totalHeight = renderConfig.$totalHeight, $totalWidth = renderConfig.$totalWidth, leftSplit = renderConfig.leftSplit, $positions = renderConfig.$positions, $scrollBarWidth = renderConfig.$scrollBarWidth;
     var contentSpans = (0, cells_1.getSpans)(renderConfig);
-    var getRowAriaAttrs = function (count) { return ({
+    var getRowAriaAttrs = function () { return ({
         role: "rowgroup",
-        "aria-rowcount": count,
     }); };
     var resizedLine;
     if ($resizing) {
@@ -21007,7 +23431,7 @@ function getGridData(renderConfig, shifts, footerAtBottom) {
         role: "presentation",
         "data-dhx-drop-area": "row",
     }, [
-        (0, dom_1.el)(".dhx_grid_data".concat(leftSplit ? ".dhx_grid_fixed_left" : ""), __assign(__assign({ _flags: dom_1.KEYED_LIST }, (0, cells_1.getHandlers)(pos.yStart, pos.xStart, renderConfig)), getRowAriaAttrs(data.length)), content),
+        (0, dom_1.el)(".dhx_grid_data".concat(leftSplit ? ".dhx_grid_fixed_left" : ""), __assign(__assign({ _flags: dom_1.KEYED_LIST }, (0, cells_1.getHandlers)(pos.yStart, pos.xStart, renderConfig)), getRowAriaAttrs()), content),
         (0, subRow_1.getSubRowContent)(renderConfig),
         (0, dom_1.el)(".dhx_span-spans", __assign({ role: "presentation" }, (0, cells_1.getHandlers)(pos.yStart, pos.xStart, renderConfig)), contentSpans),
         (0, dom_1.el)(".dhx_grid_selection", { _ref: "selection", "aria-hidden": "true" }, [].concat(selection, resizedLine)),
@@ -21035,7 +23459,7 @@ function applyAutoWidth(config, wrapperSizes, scrollViewConfig) {
     if (totalWidth < 0) {
         return;
     }
-    var columns = (config.columns || []).filter(function (col) { return !col.hidden; });
+    var columns = config.$filteredColumns || (config.columns || []).filter(function (col) { return !col.hidden; });
     var fixedColumns = [];
     var flexibleColumns = [];
     var checkLimit = false;
@@ -21074,12 +23498,12 @@ function applyAutoWidth(config, wrapperSizes, scrollViewConfig) {
 }
 exports.applyAutoWidth = applyAutoWidth;
 function render(vm, obj, htmlEvents, selection, uid) {
-    var parentSizes = getElementSizes(obj._container);
-    // if grid placed inside another component, it will fit to its container
-    if (vm && vm.node && vm.node.parent && vm.node.parent.el) {
-        var parentNode = vm.node.parent.el;
-        parentSizes = getElementSizes(parentNode);
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+    var effectiveEl = ((_b = (_a = vm === null || vm === void 0 ? void 0 : vm.node) === null || _a === void 0 ? void 0 : _a.parent) === null || _b === void 0 ? void 0 : _b.el) || obj._container;
+    if ((effectiveEl === null || effectiveEl === void 0 ? void 0 : effectiveEl.tagName) && obj._observeResize) {
+        obj._observeResize(effectiveEl);
     }
+    var parentSizes = obj._cachedSizes || getElementSizes(effectiveEl);
     var config = obj.config;
     // when grid is destructing and user try to repaint it
     if (!config) {
@@ -21090,18 +23514,25 @@ function render(vm, obj, htmlEvents, selection, uid) {
             "data-dhx-widget-id": uid,
             "data-dhx-root-id": config.rootParent,
             "data-dhx-drop-area": "common",
-            role: "empty-grid",
-        });
+            // there is no "empty-grid" ARIA role; the empty state stays a grid and
+            // is distinguishable through the data attribute for styling
+            "data-dhx-empty": "true",
+            role: "presentation",
+        }, [
+            (0, dom_1.el)(".dhx_visually-hidden", {
+                role: "grid",
+                "aria-label": config.ariaLabel,
+                "aria-rowcount": 0,
+                "aria-colcount": 0,
+            }),
+        ]);
     }
     var data = obj.data.getRawData(0, -1, null, 2);
-    if (config.columns.reduce(function (check, col) { return (check = !col.hidden ? col.hidden : check); }, true)) {
+    if (config.columns.every(function (col) { return col.hidden; })) {
         config.$totalHeight = 0;
     }
-    else {
-        config.$totalHeight = data.reduce(function (total, _a) {
-            var $height = _a.$height;
-            return (total += $height || 0);
-        }, 0);
+    else if (obj._rowHeightsRebuild) {
+        (_d = (_c = obj)._rebuildRowHeights) === null || _d === void 0 ? void 0 : _d.call(_c, data);
     }
     var width = config.width && typeof config.width === "number" ? config.width : parentSizes === null || parentSizes === void 0 ? void 0 : parentSizes.width;
     var height = config.height && typeof config.height === "number" ? config.height : parentSizes === null || parentSizes === void 0 ? void 0 : parentSizes.height;
@@ -21109,8 +23540,8 @@ function render(vm, obj, htmlEvents, selection, uid) {
     // TODO: Remove scroll
     if ((0, main_1.isAutoWidth)(config)) {
         applyAutoWidth(config, wrapperSizes);
-        config.$totalWidth = (0, main_1.getTotalWidth)(config.columns.filter(function (col) { return !col.hidden; }));
     }
+    (_f = (_e = obj)._rebuildColWidths) === null || _f === void 0 ? void 0 : _f.call(_e);
     config.$width = wrapperSizes.width;
     config.$height = wrapperSizes.height;
     var renderConfig = getRenderConfig(obj, data, wrapperSizes);
@@ -21135,25 +23566,35 @@ function render(vm, obj, htmlEvents, selection, uid) {
     var lessByHeight = renderConfig.$totalHeight + common_1.BORDERS < wrapperSizes.height ? "dhx_grid-less-height" : "";
     var fixedRight = renderConfig.fixedColumns.right.length ? "dhx_grid__contains_cols_right--fixed" : "";
     var fixedBottom = config.bottomSplit ? "dhx_grid__contains_rows_bottom--fixed" : "";
-    var getGridAriaAttrs = function (rows, cols, isEditable, isMultiselectable) { return ({
-        role: "grid",
-        "aria-rowcount": rows.length,
+    var getGridAriaAttrs = function (rows, cols, isEditable, isMultiselectable, type) { return ({
+        role: type === "tree" ? "treegrid" : "grid",
+        "aria-label": config.ariaLabel,
+        "aria-rowcount": rows.length + (0, common_1.getHeaderRowCount)(renderConfig) + (0, common_1.getFooterRowCount)(renderConfig),
         "aria-colcount": cols.filter(function (col) { return !col.hidden; }).length,
         "aria-readonly": isEditable ? "false" : "true",
         "aria-multiselectable": isMultiselectable ? "true" : "false",
     }); };
     // dirty: but work. Change checking of rendering Grid
     if (!vm.node) {
-        var _a = obj.getScrollState(), x_1 = _a.x, y_1 = _a.y;
+        var _l = obj.getScrollState(), x_1 = _l.x, y_1 = _l.y;
         (0, dom_1.awaitRedraw)().then(function () {
             obj.scroll(x_1, y_1);
         });
     }
-    return (0, dom_1.el)(".dhx_grid.dhx_widget", __assign({ class: (renderConfig.css || "") +
+    return (0, dom_1.el)(".dhx_grid.dhx_widget", {
+        class: (renderConfig.css || "") +
             (!isSticky ? " dhx_grid_border" : "") +
-            (config.multiselection ? " dhx_no-select--pointer" : ""), "data-dhx-widget-id": uid, "data-dhx-root-id": config.rootParent, "data-dhx-drop-area": "common" }, getGridAriaAttrs(renderConfig.data, config.columns, renderConfig.editable, renderConfig.multiselection)), [
+            (config.multiselection ? " dhx_no-select--pointer" : ""),
+        "data-dhx-widget-id": uid,
+        "data-dhx-root-id": config.rootParent,
+        "data-dhx-drop-area": "common",
+        role: "presentation",
+    }, [
         (0, dom_1.resizer)(function () { return obj.paint(); }),
-        (0, dom_1.el)(".dhx_grid-content", __assign(__assign({ style: __assign({}, wrapperSizes) }, htmlEvents), { class: "".concat(lessByWidth, " ").concat(lessByHeight, " ").concat(fixedRight, " ").concat(fixedBottom).trim(), role: "presentation" }), [
+        (0, dom_1.el)(".dhx_grid-focus-sentinel", {
+            tabindex: 0,
+        }),
+        (0, dom_1.el)(".dhx_grid-content", __assign(__assign(__assign({ style: __assign({}, wrapperSizes) }, htmlEvents), { class: "".concat(lessByWidth, " ").concat(lessByHeight, " ").concat(fixedRight, " ").concat(fixedBottom).trim() }), getGridAriaAttrs(renderConfig.data, config.columns, (_h = (_g = renderConfig.$cellState) === null || _g === void 0 ? void 0 : _g.editable) !== null && _h !== void 0 ? _h : renderConfig.editable, (_k = (_j = renderConfig.$cellState) === null || _j === void 0 ? void 0 : _j.multiselectable) !== null && _k !== void 0 ? _k : (renderConfig.multiselection || !!renderConfig.blockSelection), renderConfig.type)), [
             isSticky ? null : header,
             (0, dom_1.el)(".dhx_grid-body", {
                 style: {
@@ -21178,17 +23619,19 @@ function render(vm, obj, htmlEvents, selection, uid) {
             (0, FixedRows_1.getFixedDataRows)(renderConfig, layoutState, types_1.Split.bottom),
             isSticky ? null : footer,
         ]),
+        (0, dom_1.el)(".dhx_grid-focus-sentinel.dhx_grid-focus-sentinel--end", {
+            tabindex: 0,
+        }),
     ]);
 }
 exports.render = render;
 function proRender(vm, obj, htmlEvents, selection, uid) {
-    var _a;
-    var parentSizes = getElementSizes(obj._container);
-    // if grid placed inside another component, it will fit to its container
-    if (vm && vm.node && vm.node.parent && vm.node.parent.el) {
-        var parentNode = vm.node.parent.el;
-        parentSizes = getElementSizes(parentNode);
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+    var effectiveEl = ((_b = (_a = vm === null || vm === void 0 ? void 0 : vm.node) === null || _a === void 0 ? void 0 : _a.parent) === null || _b === void 0 ? void 0 : _b.el) || obj._container;
+    if ((effectiveEl === null || effectiveEl === void 0 ? void 0 : effectiveEl.tagName) && obj._observeResize) {
+        obj._observeResize(effectiveEl);
     }
+    var parentSizes = obj._cachedSizes || getElementSizes(effectiveEl);
     var config = obj.config;
     // when grid is destructing and user try to repaint it
     if (!config) {
@@ -21199,34 +23642,53 @@ function proRender(vm, obj, htmlEvents, selection, uid) {
             "data-dhx-widget-id": uid,
             "data-dhx-root-id": config.rootParent,
             "data-dhx-drop-area": "common",
-            role: "empty-grid",
-        });
+            // there is no "empty-grid" ARIA role; the empty state stays a grid and
+            // is distinguishable through the data attribute for styling
+            "data-dhx-empty": "true",
+            role: "presentation",
+        }, [
+            (0, dom_1.el)(".dhx_visually-hidden", {
+                role: config.type === "tree" ? "treegrid" : "grid",
+                "aria-label": config.ariaLabel,
+                "aria-rowcount": 0,
+                "aria-colcount": 0,
+            }),
+        ]);
     }
     var data = obj.data.getRawData(0, -1, null, 2);
     var topSplit = config.topSplit || 0;
     var bottomSplit = config.bottomSplit || 0;
-    var topFixedCount = 0;
-    var bottomFixedCount = 0;
-    if (config.columns.reduce(function (check, col) { return (check = !col.hidden ? col.hidden : check); }, true)) {
-        config.$totalHeight = 0;
-    }
-    else {
-        config.$totalHeight = data.reduce(function (total, row, index) {
+    var allColumnsHidden = config.columns.every(function (col) { return col.hidden; });
+    if (obj._rowHeightsRebuild) {
+        var topFixedCount = 0;
+        var bottomFixedCount = 0;
+        for (var index = 0; index < data.length; index++) {
+            var row = data[index];
             if (topSplit && index < topSplit + topFixedCount) {
-                row.$subRowHeight = 0;
-                row.$opened = false;
+                if (config.subRow) {
+                    row.$subRowHeight = 0;
+                    row.$opened = false;
+                }
                 if (row.hidden)
                     topFixedCount++;
             }
             if (bottomSplit && index >= data.length - bottomSplit - bottomFixedCount) {
-                row.$subRowHeight = 0;
-                row.$opened = false;
+                if (config.subRow) {
+                    row.$subRowHeight = 0;
+                    row.$opened = false;
+                }
                 if (row.hidden)
                     bottomFixedCount++;
             }
             row.$index = index;
-            return (total += (0, data_1.getTotalRowHeight)(row));
-        }, 0);
+        }
+        if (allColumnsHidden) {
+            config.$totalHeight = 0;
+            obj._rowHeightsRebuild = false;
+        }
+        else {
+            (_d = (_c = obj)._rebuildRowHeights) === null || _d === void 0 ? void 0 : _d.call(_c, data);
+        }
     }
     var wrapperAutoHeight;
     var autoHeightContent = obj.config.height === "auto";
@@ -21250,15 +23712,15 @@ function proRender(vm, obj, htmlEvents, selection, uid) {
     // TODO: Remove scroll
     if ((0, main_1.isAutoWidth)(config)) {
         applyAutoWidth(config, wrapperSizes, obj.scrollView && obj.scrollView.config.enable);
-        config.$totalWidth = (0, main_1.getTotalWidth)(config.columns.filter(function (col) { return !col.hidden; }));
     }
+    (_f = (_e = obj)._rebuildColWidths) === null || _f === void 0 ? void 0 : _f.call(_e);
     config.$width = wrapperSizes.width;
     config.$height = wrapperSizes.height;
     var renderConfig = getRenderConfig(obj, data, wrapperSizes);
     renderConfig.selection = selection;
     renderConfig.datacollection = obj.data;
     var shifts = (0, cells_1.getShifts)(renderConfig);
-    renderConfig.$scrollBarWidth = (0, common_1.calcScrollBarWidth)(renderConfig, !!((_a = obj.scrollView) === null || _a === void 0 ? void 0 : _a.config.enable));
+    renderConfig.$scrollBarWidth = (0, common_1.calcScrollBarWidth)(renderConfig, !!((_g = obj.scrollView) === null || _g === void 0 ? void 0 : _g.config.enable));
     var isSticky = (0, main_1.isCssSupport)("position", "sticky");
     var gridBodyHeight = getContentHeight(renderConfig, isSticky, wrapperSizes);
     var layoutState = {
@@ -21278,13 +23740,15 @@ function proRender(vm, obj, htmlEvents, selection, uid) {
     var fixedBottom = config.bottomSplit ? "dhx_grid__contains_rows_bottom--fixed" : "";
     var footerAtBottom = config.footerPosition === "bottom" && !!lessByHeight && !autoHeightContent;
     layoutState.footerAtBottom = footerAtBottom;
+    var isEditable = (_j = (_h = renderConfig.$cellState) === null || _h === void 0 ? void 0 : _h.editable) !== null && _j !== void 0 ? _j : renderConfig.editable;
+    var isMultiselectable = (_l = (_k = renderConfig.$cellState) === null || _k === void 0 ? void 0 : _k.multiselectable) !== null && _l !== void 0 ? _l : (renderConfig.multiselection || !!renderConfig.blockSelection);
     var header = (0, FixedRows_1.getFixedRows)(renderConfig, __assign(__assign({}, layoutState), { name: "header", position: "top" }));
     var footer = renderConfig.$footer
         ? (0, FixedRows_1.getFixedRows)(renderConfig, __assign(__assign({}, layoutState), { name: "footer", position: "bottom" }))
         : null;
     // dirty: but work. Change checking of rendering Grid
     if (!vm.node) {
-        var _b = obj.getScrollState(), x_2 = _b.x, y_2 = _b.y;
+        var _m = obj.getScrollState(), x_2 = _m.x, y_2 = _m.y;
         (0, dom_1.awaitRedraw)().then(function () {
             obj.scroll(x_2, y_2);
         });
@@ -21303,15 +23767,20 @@ function proRender(vm, obj, htmlEvents, selection, uid) {
         },
         "data-dhx-widget-id": uid,
         "data-dhx-root-id": config.rootParent,
-        role: "grid",
-        "aria-rowcount": renderConfig.data.length,
-        "aria-colcount": renderConfig.filteredColumns.length,
+        role: "presentation",
         "data-dhx-drop-area": "common",
     }, [
         (0, dom_1.resizer)(function () { return obj.paint(); }),
         (isGroupPanelEnable && (0, groupPanel_1.getGroupPanel)(config.$grouped, obj)) || null,
         (isDropPanelEnable && (0, dragPanel_1.getDragPanelNode)(obj, renderConfig, layoutState, !!lessByHeight)) || null,
-        (0, dom_1.el)(".dhx_grid-content", __assign(__assign({ style: __assign({}, wrapperSizes) }, htmlEvents), { class: "".concat(lessByWidth, " ").concat(lessByHeight, " ").concat(fullWidth, " ").concat(fixedRight, " ").concat(fixedBottom).trim(), role: "presentation" }), [
+        (0, dom_1.el)(".dhx_grid-focus-sentinel", {
+            tabindex: 0,
+        }),
+        (0, dom_1.el)(".dhx_grid-content", __assign(__assign({ style: __assign({}, wrapperSizes) }, htmlEvents), { class: "".concat(lessByWidth, " ").concat(lessByHeight, " ").concat(fullWidth, " ").concat(fixedRight, " ").concat(fixedBottom).trim(), role: config.type === "tree" ? "treegrid" : "grid", "aria-label": config.ariaLabel, 
+            // header and footer rows are part of the grid's row numbering
+            "aria-rowcount": renderConfig.data.length +
+                (0, common_1.getHeaderRowCount)(renderConfig) +
+                (0, common_1.getFooterRowCount)(renderConfig), "aria-colcount": renderConfig.filteredColumns.length, "aria-readonly": isEditable ? "false" : "true", "aria-multiselectable": isMultiselectable ? "true" : "false" }), [
             isSticky ? null : header,
             (0, dom_1.el)(".dhx_grid-body", {
                 style: {
@@ -21334,13 +23803,16 @@ function proRender(vm, obj, htmlEvents, selection, uid) {
             (0, FixedRows_1.getFixedDataRows)(renderConfig, layoutState, types_1.Split.bottom),
             isSticky ? null : footer,
         ]),
+        (0, dom_1.el)(".dhx_grid-focus-sentinel.dhx_grid-focus-sentinel--end", {
+            tabindex: 0,
+        }),
     ]);
 }
 exports.proRender = proRender;
 
 
 /***/ }),
-/* 108 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21368,10 +23840,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getFixedCols = exports.getFixedColsHeader = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(4);
-var cells_1 = __webpack_require__(42);
-var FixedRows_1 = __webpack_require__(109);
-var main_1 = __webpack_require__(10);
+var types_1 = __webpack_require__(5);
+var cells_1 = __webpack_require__(47);
+var FixedRows_1 = __webpack_require__(113);
+var main_1 = __webpack_require__(11);
 var common_1 = __webpack_require__(12);
 function getFixedColsHeader(renderConfig, layout, mode) {
     if ((mode === types_1.Split.left &&
@@ -21384,9 +23856,9 @@ function getFixedColsHeader(renderConfig, layout, mode) {
     var isRightSplit = mode === types_1.Split.right;
     var columns = isRightSplit ? renderConfig.fixedColumns.right : renderConfig.fixedColumns.left;
     var width = (0, main_1.getTotalWidth)(columns);
-    var getRowAriaAttrs = function (count) { return ({
-        role: "rowgroup",
-        "aria-rowcount": count,
+    // the header rows inside are the row group; a row group inside a row group is not allowed
+    var getRowAriaAttrs = function () { return ({
+        role: "presentation",
     }); };
     var frozenHeaderCols = (0, FixedRows_1.getFixedRows)(__assign(__assign({}, renderConfig), { currentColumns: columns, $positions: __assign(__assign({}, $positions), { xStart: 0, xEnd: isRightSplit ? rightSplit : leftSplit }), scroll: { top: 0, left: 0 }, filteredColumns: columns }), __assign(__assign({}, layout), { name: "header", position: "top", shifts: { x: 0, y: 0 } }), mode);
     var headerRowsConfig = __assign(__assign({}, layout), { name: "header", position: "top" });
@@ -21400,7 +23872,7 @@ function getFixedColsHeader(renderConfig, layout, mode) {
                 : 0,
             width: width,
             overflow: "hidden",
-        } }, getRowAriaAttrs(frozenHeaderCols.length)), frozenHeaderCols.body);
+        } }, getRowAriaAttrs()), frozenHeaderCols.body);
 }
 exports.getFixedColsHeader = getFixedColsHeader;
 function getFixedCols(renderConfig, layout, mode, source) {
@@ -21410,7 +23882,7 @@ function getFixedCols(renderConfig, layout, mode, source) {
     if (typeof split !== "number" || !columns.length) {
         return;
     }
-    var $totalWidth = renderConfig.$totalWidth, $totalHeight = renderConfig.$totalHeight, headerHeight = renderConfig.headerHeight, configFooterHeight = renderConfig.footerHeight, $positions = renderConfig.$positions, scroll = renderConfig.scroll, data = renderConfig.data, $scrollBarWidth = renderConfig.$scrollBarWidth, $footer = renderConfig.$footer, $footerHeight = renderConfig.$footerHeight, fixedRows = renderConfig.fixedRows;
+    var $totalWidth = renderConfig.$totalWidth, $totalHeight = renderConfig.$totalHeight, headerHeight = renderConfig.headerHeight, configFooterHeight = renderConfig.footerHeight, $positions = renderConfig.$positions, scroll = renderConfig.scroll, $scrollBarWidth = renderConfig.$scrollBarWidth, $footer = renderConfig.$footer, $footerHeight = renderConfig.$footerHeight, fixedRows = renderConfig.fixedRows;
     var renderFrom = isRightSplit ? "rightFixedCols" : "leftFixedCols";
     var width = (0, main_1.getTotalWidth)(columns);
     var fixedContentHeight = $totalHeight + headerHeight + configFooterHeight;
@@ -21444,9 +23916,9 @@ function getFixedCols(renderConfig, layout, mode, source) {
             ? "".concat(isSticky ? (layout.footerAtBottom && source === types_1.Split.bottom ? -1 : scrollX) : 0, "px")
             : null,
     };
-    var getRowAria = function (count) { return ({ role: "rowgroup", "aria-rowcount": count }); };
+    var getRowAria = function () { return ({ role: "rowgroup" }); };
     var frozenFooter = isSticky && $footer
-        ? (0, dom_1.el)(".dhx_footer-fixed-cols", __assign({ onwheel: main_1.scrollFixedColsAndRows, class: isRightSplit ? "dhx_grid__cols_right--fixed" : "dhx_grid__cols_left--fixed", style: footerStyle }, getRowAria(frozenFooterCols.length)), __spreadArray(__spreadArray([], frozenFooterCols, true), [
+        ? (0, dom_1.el)(".dhx_footer-fixed-cols", __assign({ onwheel: main_1.scrollFixedColsAndRows, class: isRightSplit ? "dhx_grid__cols_right--fixed" : "dhx_grid__cols_left--fixed", style: footerStyle }, getRowAria()), __spreadArray(__spreadArray([], frozenFooterCols, true), [
             (0, dom_1.el)("span.dhx_span-spans", { class: "dhx_footer-spans", role: "presentation" }, frozenFooterSpans),
         ], false))
         : null;
@@ -21467,14 +23939,14 @@ function getFixedCols(renderConfig, layout, mode, source) {
                 width: width,
             },
             role: "presentation",
-            "aria-label": "Fixed column",
+            "data-dhx-drop-area": "row",
         }, [
             (0, dom_1.el)(".dhx_grid-fixed-cols", __assign(__assign({ onwheel: main_1.scrollFixedColsAndRows, class: isRightSplit ? "dhx_grid__cols_right--fixed" : "dhx_grid__cols_left--fixed", style: {
                     top: "".concat(-scroll.top + headerHeight - 1, "px"),
                     paddingTop: layout.shifts.y,
                     height: $totalHeight,
                     position: "absolute",
-                }, _flags: dom_1.KEYED_LIST }, (0, cells_1.getHandlers)($positions.yStart, $positions.xStart, renderConfig)), getRowAria(data.length)), __spreadArray(__spreadArray([], fixedCols, true), [spans && (0, dom_1.el)("span.dhx_span-spans", { role: "presentation" }, spans)], false)),
+                }, _flags: dom_1.KEYED_LIST }, (0, cells_1.getHandlers)($positions.yStart, $positions.xStart, renderConfig)), getRowAria()), __spreadArray(__spreadArray([], fixedCols, true), [spans && (0, dom_1.el)("span.dhx_span-spans", { role: "presentation" }, spans)], false)),
             (0, dom_1.el)(".dhx_grid__cols-border--frozen", {
                 role: "presentation",
                 style: isRightSplit ? { left: 0 } : { right: 0 },
@@ -21487,7 +23959,7 @@ exports.getFixedCols = getFixedCols;
 
 
 /***/ }),
-/* 109 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21515,14 +23987,15 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getFixedDataRows = exports.getFixedRows = exports.getFixedSpans = exports.getRows = void 0;
 var dom_1 = __webpack_require__(0);
-var cells_1 = __webpack_require__(24);
-var main_1 = __webpack_require__(10);
-var types_1 = __webpack_require__(4);
-var cells_2 = __webpack_require__(42);
-var FixedCols_1 = __webpack_require__(108);
+var cells_1 = __webpack_require__(20);
+var main_1 = __webpack_require__(11);
+var types_1 = __webpack_require__(5);
+var cells_2 = __webpack_require__(47);
+var FixedCols_1 = __webpack_require__(112);
 var core_1 = __webpack_require__(1);
 var common_1 = __webpack_require__(12);
-var data_1 = __webpack_require__(11);
+var data_1 = __webpack_require__(8);
+var locale_1 = __webpack_require__(22);
 function handleMouse(cell, col, config, type, event) {
     if (!type)
         return;
@@ -21550,18 +24023,24 @@ function buildRows(columns, name) {
     var header = columns.map(function (col) { return col[name] || [{}]; });
     return (0, main_1.transpose)(header);
 }
+function getHeightMap(config, name) {
+    return (name === "header" ? config.$headerHeightMap : config.$footerHeightMap) || [];
+}
+function getAutoHeightMap(config, name) {
+    return ((name === "header" ? config.$headerAutoHeightMap : config.$footerAutoHeightMap) || []);
+}
+// summed height of the levels from `from` down to the bottom of the zone
+function heightBelow(heightMap, from) {
+    return heightMap.slice(from).reduce(function (acc, cur) { return acc + (cur || 0); }, 0);
+}
+// summed height of the levels above `to`
+function heightAbove(heightMap, to) {
+    return heightMap.slice(0, to).reduce(function (acc, cur) { return acc + (cur || 0); }, 0);
+}
 function getCustomContentCell(cell, column, config, rowName, css, rowIndex) {
     if (css === void 0) { css = ""; }
     var type = column.type ? "dhx_".concat(column.type, "-cell") : "dhx_string-cell";
-    // TODO: over with index of filter inside of header or footer
     var content = config.content[cell.content] && config.content[cell.content].toHtml(column, config);
-    var cellRow = {};
-    config.filteredColumns.forEach(function (col) {
-        var hasContent = !!config.content[col[rowName][rowIndex].content];
-        cellRow[col.id] =
-            (hasContent && config.content[col[rowName][rowIndex].content].toHtml(col, config)) ||
-                col[rowName][rowIndex].text;
-    });
     return (0, dom_1.el)(".".concat(type), {
         style: {
             class: css.trim(),
@@ -21573,21 +24052,23 @@ function getRows(config, rowsConfig) {
     if (!config.data || !config.filteredColumns) {
         return [];
     }
+    var rowName = rowsConfig.name;
+    var rowIndexShift = rowName === "footer" ? (0, common_1.getHeaderRowCount)(config) + (config.$data || config.data).length : 0;
     var getRowAriaAttrs = function (ind) { return ({
         role: "row",
-        "aria-rowindex": ind + 1,
+        "aria-rowindex": rowIndexShift + ind + 1,
     }); };
-    var rowName = rowsConfig.name;
-    var isAutoHeight = rowName === "header" ? config.headerAutoHeight : config.footerAutoHeight;
+    var heightMap = getHeightMap(config, rowName);
+    var autoHeightMap = getAutoHeightMap(config, rowName);
     var pos = config.$positions;
     var columns = config.currentColumns;
     var rows = buildRows(columns, rowName);
     var colRange;
     var colsCount = 1;
     return rows.map(function (row, j) {
-        var rowHeight = (rowName === "header"
-            ? config.$headerHeightMap
-            : config.$footerHeightMap)[j];
+        var rowHeight = heightMap[j];
+        var isAutoHeight = autoHeightMap[j];
+        var gripHeight = heightBelow(heightMap, j);
         return (0, dom_1.el)(".dhx_".concat(rowName, "-row"), __assign({ style: {
                 height: rowHeight,
             } }, getRowAriaAttrs(j)), row.map(function (cell, i) {
@@ -21620,6 +24101,8 @@ function getRows(config, rowsConfig) {
             if (sortIconVisible) {
                 css += " dhx_grid-header-cell--sortable";
             }
+            var isSortCell = !!cell.text && !(cell.colspan > 1);
+            var exposeSort = isSortCell && (sortIconVisible || !!sort);
             var isFirstCol = i === 0 ? "dhx_first-column-cell" : "";
             var isLastCol = i === columns.length - 1 ? "dhx_last-column-cell" : "";
             if (!cell.content) {
@@ -21647,7 +24130,7 @@ function getRows(config, rowsConfig) {
                                 : " dhx_resizer_grip--right"),
                         dhx_resized: column.id,
                         style: {
-                            height: "".concat(rows.length * 100, "%"),
+                            height: gripHeight,
                         },
                     }, [(0, dom_1.el)("div", { class: "dhx_resizer_grip_line" })]),
                 ]);
@@ -21673,21 +24156,17 @@ function getRows(config, rowsConfig) {
             var getCellAriaAttrs = function (rowName, colIndex, ariaSort) {
                 var attrs = {
                     "aria-colindex": colIndex,
+                    tabindex: -1,
+                    "data-dhx-row-index": j,
                 };
-                if (!sortIconVisible) {
-                    // if cell is sortable - set tabindex on button (getInnerCellAriaAttrs),
-                    // else - on cell
-                    // attrs["tabindex"] = 0;
-                    // TODO: after sort AND if first cell is not visible: selection.setCell(first cell) -> scrollTo
-                    // TODO: use arrows to navigate, set tabindex for first cell only
-                }
                 if (rowName === "footer" || cell.content) {
                     attrs["role"] = "gridcell";
                 }
                 else {
                     attrs["role"] = "columnheader";
-                    attrs["aria-sort"] = ariaSort;
-                    // attrs["aria-label"] = title;
+                    if (exposeSort) {
+                        attrs["aria-sort"] = ariaSort;
+                    }
                 }
                 return attrs;
             };
@@ -21701,7 +24180,7 @@ function getRows(config, rowsConfig) {
                 return sortIconVisible
                     ? {
                         role: "button",
-                        "aria-label": "Sort by ".concat(text),
+                        "aria-label": (0, locale_1.getLocaleString)("aria_sortBy", { column: "".concat(text) }),
                         // tabindex: 0,
                         // TODO: after sort AND if first cell is not visible: selection.setCell(first cell) -> scrollTo
                         // TODO: use arrows to navigate, set tabindex for first cell only
@@ -21740,12 +24219,14 @@ function getFixedSpans(config, rowsConfig, mode) {
     var columns = config.columns, cols = config.filteredColumns;
     var rows = (0, main_1.transpose)(cols.map(function (col) { return col[rowsConfig.name] || []; }));
     var rowName = rowsConfig.name;
-    var isAutoHeight = rowName === "header" ? config.headerAutoHeight : config.footerAutoHeight;
-    var heightMap = (rowName === "header" ? config.$headerHeightMap : config.$footerHeightMap);
+    var heightMap = getHeightMap(config, rowName);
+    var autoHeightMap = getAutoHeightMap(config, rowName);
     var leftShift = 0;
     return rows.map(function (row, i) {
         leftShift = 0;
         var rowHeight = heightMap[i];
+        var isAutoHeight = autoHeightMap[i];
+        var spanPositionTop = heightAbove(heightMap, i);
         return (0, dom_1.el)(".dhx_span-row", {
             class: "dhx_header-row",
             "aria-hidden": "true",
@@ -21786,7 +24267,6 @@ function getFixedSpans(config, rowsConfig, mode) {
                 ? "dhx_last-column-cell"
                 : "";
             var spanHeight = rowHeight;
-            var spanPositionTop = rowHeight * i;
             if (nCell.rowspan > 1) {
                 var count = nCell.rowspan - 1;
                 while (count > 0) {
@@ -21794,12 +24274,6 @@ function getFixedSpans(config, rowsConfig, mode) {
                     count--;
                 }
                 spanHeight -= 1;
-            }
-            if (nCell.rowspan > 1 || nCell.colspan > 1) {
-                spanPositionTop = 0;
-                for (var j = i - 1; j >= 0; j--) {
-                    spanPositionTop += heightMap[j];
-                }
             }
             var sortIconVisible = (0, main_1.isSortable)(config, nCol) &&
                 nCell.rowspan > 1 &&
@@ -21870,7 +24344,7 @@ function getFixedSpans(config, rowsConfig, mode) {
                             ((spanPartByRightSplit === null || spanPartByRightSplit === void 0 ? void 0 : spanPartByRightSplit.widthBefore) || 0),
                         borderLeft: borderLeft,
                         top: spanPositionTop,
-                    }, class: css.trim(), "data-dhx-id": nCol.id, "data-dhx-text-id": nCell.id }, getHandlers(nCol, rowName, config, nCell)), [
+                    }, class: css.trim(), "data-dhx-id": nCol.id, "data-dhx-text-id": nCell.id, tabindex: -1, "data-dhx-row-index": i }, getHandlers(nCol, rowName, config, nCell)), [
                     content || nCell.rowspan > 1
                         ? (0, dom_1.el)("div.dhx_grid-header-cell-text", {
                             role: "presentation",
@@ -21907,8 +24381,8 @@ function getFixedSpans(config, rowsConfig, mode) {
     });
 }
 exports.getFixedSpans = getFixedSpans;
-function getRowAriaAttrs(rowCount) {
-    return { role: "rowgroup", "aria-rowcount": rowCount };
+function getRowAriaAttrs() {
+    return { role: "rowgroup" };
 }
 function getFixedRows(config, rowsConfig, mode) {
     var _a;
@@ -21961,7 +24435,7 @@ function getFixedRows(config, rowsConfig, mode) {
             },
             role: "presentation",
         }, [
-            (0, dom_1.el)(".dhx_".concat(rowsConfig.name, "-rows"), __assign({}, getRowAriaAttrs(__spreadArray([], rows, true).length)), __spreadArray([], rows, true)),
+            (0, dom_1.el)(".dhx_".concat(rowsConfig.name, "-rows"), __assign({}, getRowAriaAttrs()), __spreadArray([], rows, true)),
             (0, dom_1.el)(".dhx_".concat(rowsConfig.name, "-spans"), {
                 style: {
                     marginLeft: -rowsConfig.shifts.x,
@@ -21993,12 +24467,13 @@ function getFixedDataRows(config, layout, mode) {
     var isBottomSplit = mode === types_1.Split.bottom;
     var splitedData = isBottomSplit ? config.fixedRows.bottom : config.fixedRows.top;
     var $renderFrom = isBottomSplit ? "bottomFixedRows" : "topFixedRows";
-    var fixedRows = (0, cells_2.getCells)(__assign(__assign({}, config), { data: splitedData, $renderFrom: $renderFrom, $positions: __assign(__assign({}, $positions), { yStart: 0, yEnd: isBottomSplit ? bottomSplit : topSplit }) }));
+    var $rowIndexShift = isBottomSplit ? Math.max(0, data.length - splitedData.length) : 0;
+    var fixedRows = (0, cells_2.getCells)(__assign(__assign({}, config), { data: splitedData, $renderFrom: $renderFrom, $rowIndexShift: $rowIndexShift, $positions: __assign(__assign({}, $positions), { yStart: 0, yEnd: isBottomSplit ? bottomSplit : topSplit }) }));
     var fixedRowsHeight = splitedData.reduce(function (acc, row) { return acc + (0, data_1.getTotalRowHeight)(row); }, 0);
     var spans = (0, cells_2.getSpans)(__assign(__assign({}, config), { $renderFrom: $renderFrom, data: data }), isBottomSplit ? types_1.Split.bottom : types_1.Split.top);
     var bottomSplitHeight = (0, main_1.getTotalHeight)(config.fixedRows.bottom);
     var getCols = function (split) {
-        return ((0, FixedCols_1.getFixedCols)(__assign(__assign({}, config), { headerHeight: 0, data: splitedData, $renderFrom: $renderFrom, scroll: __assign(__assign({}, config.scroll), { top: -1 }), $positions: __assign(__assign({}, $positions), { yStart: 0, yEnd: isBottomSplit ? bottomSplit : topSplit }), $totalHeight: fixedRowsHeight, $data: data }), __assign(__assign({}, layout), { shifts: __assign(__assign({}, layout.shifts), { y: 0 }) }), split, mode) || []);
+        return ((0, FixedCols_1.getFixedCols)(__assign(__assign({}, config), { headerHeight: 0, data: splitedData, $renderFrom: $renderFrom, $rowIndexShift: $rowIndexShift, scroll: __assign(__assign({}, config.scroll), { top: -1 }), $positions: __assign(__assign({}, $positions), { yStart: 0, yEnd: isBottomSplit ? bottomSplit : topSplit }), $totalHeight: fixedRowsHeight, $data: data }), __assign(__assign({}, layout), { shifts: __assign(__assign({}, layout.shifts), { y: 0 }) }), split, mode) || []);
     };
     var fixedCols = __spreadArray(__spreadArray([], getCols(types_1.Split.left), true), getCols(types_1.Split.right), true);
     var style = {
@@ -22030,7 +24505,7 @@ function getFixedDataRows(config, layout, mode) {
                     paddingLeft: layout.shifts.x,
                     position: "absolute",
                     width: $totalWidth,
-                }, _flags: dom_1.KEYED_LIST }, (0, cells_2.getHandlers)(0, $positions.xStart, config)), getRowAriaAttrs(data.length)), [
+                }, _flags: dom_1.KEYED_LIST }, (0, cells_2.getHandlers)(0, $positions.xStart, config)), getRowAriaAttrs()), [
                 (0, dom_1.el)(".dhx_grid-fixed-rows", {
                     class: config.rightSplit ? "dhx_grid__rows_right--fixed" : "",
                 }, __spreadArray(__spreadArray([], fixedRows, true), [spans && (0, dom_1.el)(".dhx_span-spans", { role: "presentation" }, spans)], false)),
@@ -22044,7 +24519,7 @@ exports.getFixedDataRows = getFixedDataRows;
 
 
 /***/ }),
-/* 110 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22052,13 +24527,13 @@ exports.getFixedDataRows = getFixedDataRows;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DropManager = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(4);
-var ts_data_1 = __webpack_require__(5);
+var types_1 = __webpack_require__(5);
+var ts_data_1 = __webpack_require__(4);
 var common_1 = __webpack_require__(12);
-var main_1 = __webpack_require__(10);
+var main_1 = __webpack_require__(11);
 var core_1 = __webpack_require__(1);
-var data_1 = __webpack_require__(11);
-var main_2 = __webpack_require__(10);
+var data_1 = __webpack_require__(8);
+var main_2 = __webpack_require__(11);
 var html_1 = __webpack_require__(2);
 var DropManager = /** @class */ (function () {
     function DropManager(_a) {
@@ -22277,7 +24752,7 @@ exports.DropManager = DropManager;
 
 
 /***/ }),
-/* 111 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22330,29 +24805,31 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ExtendedGrid = void 0;
-var types_1 = __webpack_require__(4);
-var ts_data_1 = __webpack_require__(5);
+var types_1 = __webpack_require__(5);
+var ts_data_1 = __webpack_require__(4);
 var html_1 = __webpack_require__(2);
-var data_1 = __webpack_require__(11);
-var render_1 = __webpack_require__(107);
+var data_1 = __webpack_require__(8);
+var cells_1 = __webpack_require__(20);
+var zoneFocus_1 = __webpack_require__(66);
+var render_1 = __webpack_require__(111);
 var dom_1 = __webpack_require__(0);
-var ScrollView_1 = __webpack_require__(22);
-var main_1 = __webpack_require__(10);
-var Grid_1 = __webpack_require__(105);
+var ScrollView_1 = __webpack_require__(24);
+var main_1 = __webpack_require__(11);
+var Grid_1 = __webpack_require__(109);
 var default_1 = __webpack_require__(27);
 var core_1 = __webpack_require__(1);
-var Range_1 = __webpack_require__(112);
-var BlockSelection_1 = __webpack_require__(243);
-var Clipboard_1 = __webpack_require__(244);
-var en_1 = __webpack_require__(43);
-var DropManager_1 = __webpack_require__(110);
-var History_1 = __webpack_require__(245);
-var Exporter_1 = __webpack_require__(106);
-var proContent_1 = __webpack_require__(246);
+var Range_1 = __webpack_require__(116);
+var BlockSelection_1 = __webpack_require__(256);
+var Clipboard_1 = __webpack_require__(257);
+var en_1 = __webpack_require__(37);
+var DropManager_1 = __webpack_require__(114);
+var History_1 = __webpack_require__(258);
+var Exporter_1 = __webpack_require__(110);
+var proContent_1 = __webpack_require__(259);
 var ExtendedGrid = /** @class */ (function (_super) {
     __extends(ExtendedGrid, _super);
     function ExtendedGrid(container, config) {
-        var _a, _b, _c;
+        var _a, _b;
         var _this = _super.call(this, container, __assign({ autoHeight: false, closable: true, groupable: false, subRow: null, multiSort: true, rangeSelection: false, blockSelection: false, clipboard: false, dragPanel: false, history: false, headerAutoHeight: (_a = config === null || config === void 0 ? void 0 : config.headerAutoHeight) !== null && _a !== void 0 ? _a : config === null || config === void 0 ? void 0 : config.autoHeight, footerAutoHeight: (_b = config === null || config === void 0 ? void 0 : config.footerAutoHeight) !== null && _b !== void 0 ? _b : config === null || config === void 0 ? void 0 : config.autoHeight }, config)) || this;
         _this.content = (0, proContent_1.getProContent)(_this);
         if (_this.config.group) {
@@ -22373,7 +24850,8 @@ var ExtendedGrid = /** @class */ (function (_super) {
             }
         }
         if (_this.config.rangeSelection ||
-            ((_c = _this.config.blockSelection) === null || _c === void 0 ? void 0 : _c.mode) !== "manual") {
+            (_this.config.blockSelection &&
+                _this.config.blockSelection.mode !== "manual")) {
             _this.range = new Range_1.Range(_this);
         }
         if (_this.config.blockSelection) {
@@ -22497,6 +24975,9 @@ var ExtendedGrid = /** @class */ (function (_super) {
                     var isResizable = e.target.getAttribute("dhx_resized");
                     var column = _this.getColumn(id);
                     if (column && (0, main_1.isSortable)(_this.config, column) && !isResizable) {
+                        if ((0, main_1.isInteractiveTarget)(e.target)) {
+                            return;
+                        }
                         var textId_1 = (0, html_1.locate)(e, "data-dhx-text-id");
                         var cell = column.header.find(function (item) { return item.id === textId_1; });
                         var isCtrlKey = e.ctrlKey || e.metaKey;
@@ -22556,16 +25037,12 @@ var ExtendedGrid = /** @class */ (function (_super) {
         });
         this.events.on(types_1.GridEvents.afterResizeEnd, function () {
             if (_this.config.autoHeight) {
-                _this.config.data = _this.data.map(function (row) {
-                    var height = (0, data_1.getMaxRowHeight)({
-                        row: row,
-                        cols: _this.config.columns,
-                    });
-                    row.$height = (0, data_1.getCalculatedRowHeight)(height, {
-                        rowHeight: _this.config.rowHeight,
-                    });
-                    return row;
-                });
+                var columns = _this.config.columns.filter(function (col) { return !col.hidden; });
+                var rows_1 = _this.data.map(function (row) { return row; });
+                var spanCalculationMap = _this._buildSpanCalculationMap(columns, _this._buildRowIdToIndex(rows_1));
+                _this._applyAutoRowHeights(rows_1, columns, spanCalculationMap, function (idx) { return rows_1[idx]; });
+                _this.config.data = rows_1;
+                _this._rowHeightsRebuild = true;
             }
         });
         this.events.on(types_1.GridEvents.afterRowResize, function (row, event, currentHeight) {
@@ -22574,6 +25051,7 @@ var ExtendedGrid = /** @class */ (function (_super) {
                 _this.data.update(id, { height: currentHeight });
             }
             _this.data.update(id, { $height: currentHeight }, true);
+            _this._rowHeightsRebuild = true;
             _this.config.data = _this.data.map(function (row) { return row; });
             _this.paint();
         });
@@ -22582,7 +25060,7 @@ var ExtendedGrid = /** @class */ (function (_super) {
         });
         this.events.on(ts_data_1.DataEvents.dataRequest, function (from, to) {
             var proxy = _this.data.dataProxy;
-            if (proxy && proxy.config) {
+            if (proxy && proxy.config && _this.config.autoHeight) {
                 _this._prepareDataFromTo(_this.data, from, to);
             }
         });
@@ -22804,7 +25282,8 @@ var ExtendedGrid = /** @class */ (function (_super) {
                         if (groupedColumn === null || groupedColumn === void 0 ? void 0 : groupedColumn.options) {
                             value = (0, data_1.getOptionValue)(value, groupedColumn);
                         }
-                        return ((value && "".concat(value, "  ").concat((0, core_1.isDefined)(row.$count) ? "(".concat(row.$count, ")") : "")) || "");
+                        var text = _this._getGroupCounter(row);
+                        return (value && "".concat(value).concat(text ? "  ".concat(text) : "")) || "";
                     };
                 column.template = column.template
                     ? column.template
@@ -22813,14 +25292,15 @@ var ExtendedGrid = /** @class */ (function (_super) {
                             var label = _this.data.getItem(row.parent)[col.id];
                             return "".concat(en_1.default.total, "<span class=\"dhx_tree-cell_group-counter\">&nbsp;(").concat(label, ")</span>");
                         }
-                        var counter = (0, core_1.isDefined)(row.$count)
-                            ? "<span class=\"dhx_tree-cell_group-counter\">&nbsp;(".concat(row.$count, ")</span>")
+                        var text = _this._getGroupCounter(row);
+                        var counter = text
+                            ? "<span class=\"dhx_tree-cell_group-counter\">&nbsp;".concat(text, "</span>")
                             : "";
                         var groupedColumn = _this.config.columns.find(function (i) { return i.id == row.$by; });
                         if (groupedColumn === null || groupedColumn === void 0 ? void 0 : groupedColumn.options) {
                             value = (0, data_1.getOptionValue)(value, groupedColumn);
                         }
-                        return (0, core_1.isDefined)(value) && "".concat(value, " ").concat(counter, " ");
+                        return (0, core_1.isDefined)(value) ? "".concat(value).concat(counter) : "";
                     };
                 _this.setColumns(__spreadArray([column], _this.config.columns, true));
             }
@@ -22840,17 +25320,22 @@ var ExtendedGrid = /** @class */ (function (_super) {
             });
             _this._parseColumns();
         });
-        this.data.events.on(ts_data_1.DataEvents.change, function (id, status, obj) {
-            var _a;
+        this.data.events.on(ts_data_1.DataEvents.change, function (id, status, obj, service) {
+            var _a, _b;
+            if (service && (0, core_1.isId)(service.oldId)) {
+                (_a = _this.history) === null || _a === void 0 ? void 0 : _a.remapId(service.oldId, id);
+            }
             if (status === "sort") {
-                if (((_a = _this.config.$grouped) === null || _a === void 0 ? void 0 : _a.length) && (!obj || (0, main_1.isSortable)(_this.config, obj.by))) {
+                if (((_b = _this.config.$grouped) === null || _b === void 0 ? void 0 : _b.length) && (!obj || (0, main_1.isSortable)(_this.config, obj.by))) {
                     _this._changeGroupItemAfterSort();
                 }
             }
         });
+        this.data.events.on(ts_data_1.DataEvents.afterLazyLoad, function () { return _this._setUniqueData(); });
     };
     ExtendedGrid.prototype._afterEditEndProcess = function (value, editableRow, editableColumn) {
         var _a, _b;
+        var _this = this;
         var _c, _d;
         if (((_c = this.config.$editable) === null || _c === void 0 ? void 0 : _c.editor) &&
             (this.config.$editable.col !== editableColumn.id || this.config.$editable.row !== editableRow.id))
@@ -22865,6 +25350,7 @@ var ExtendedGrid = /** @class */ (function (_super) {
             row = this.config.$editable.row;
             col = this.config.$editable.col;
         }
+        this.config.$editable = null;
         var span = this.getSpan(row, col);
         if ((0, core_1.isDefined)(span === null || span === void 0 ? void 0 : span.text) && (0, core_1.isDefined)(value)) {
             span.text = value.toString();
@@ -22885,13 +25371,28 @@ var ExtendedGrid = /** @class */ (function (_super) {
                 this.data.update(row, __assign(__assign({}, item), (_b = {}, _b[col] = value, _b)));
             }
         }
-        this.config.$editable = null;
         this.paint();
+        (0, dom_1.awaitRedraw)().then(function () {
+            var _a, _b;
+            if (!(0, zoneFocus_1.isFocusInBody)(_this)) {
+                return;
+            }
+            (_a = (0, cells_1.getCellSource)(_this)) === null || _a === void 0 ? void 0 : _a.restoreFocus();
+            (_b = _this.block) === null || _b === void 0 ? void 0 : _b.restoreFocus();
+        });
     };
     ExtendedGrid.prototype._setSort = function () {
         this._sortingStates = this.data.getSortingStates().map(function (sort) {
             return { by: sort.by, dir: sort.dir, permanent: sort.smartSorting };
         });
+    };
+    ExtendedGrid.prototype._resolveFixedRowLevel = function (name, index, config) {
+        var _a;
+        var level = (0, data_1.resolveFixedRowHeight)(config["".concat(name, "RowHeight")], index);
+        return {
+            height: level.height,
+            auto: (_a = level.auto) !== null && _a !== void 0 ? _a : !!config["".concat(name, "AutoHeight")],
+        };
     };
     ExtendedGrid.prototype.getNormalizeContentHeight = function (row, col, config) {
         var _a, _b;
@@ -22924,43 +25425,51 @@ var ExtendedGrid = /** @class */ (function (_super) {
         }) + VERTICAL_OFFSET);
     };
     ExtendedGrid.prototype._prepareData = function (data) {
-        var _this = this;
+        var _a;
         this._normalizeDataType();
         this._setSummary();
         this._adjustColumns();
         var columns = this.config.columns.filter(function (col) { return !col.hidden; });
-        return data.map(function (row) {
-            var _a;
-            if (_this.config.autoHeight && typeof row.height === "undefined") {
-                var height = (0, data_1.getMaxRowHeight)({ row: row, cols: columns });
-                row.$height =
-                    (0, data_1.getCalculatedRowHeight)(height, { rowHeight: _this.config.rowHeight }) ||
-                        _this.config.rowHeight;
+        var rows = data.map(function (row) { return row; });
+        if (this.config.autoHeight) {
+            var spanCalculationMap = this._buildSpanCalculationMap(columns, this._buildRowIdToIndex(rows));
+            this._applyAutoRowHeights(rows, columns, spanCalculationMap, function (idx) { return rows[idx]; });
+        }
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            if (!this.config.autoHeight || typeof row.height !== "undefined") {
+                row.$height = Number(row.height) || this.config.rowHeight;
             }
-            else {
-                row.$height = Number(row.height) || _this.config.rowHeight;
-            }
-            if (_this.config.subRow) {
-                var config = __assign(__assign({}, default_1.defaultSubRowConfig), ((typeof _this.config.subRowConfig === "function"
-                    ? _this.config.subRowConfig(row)
-                    : _this.config.subRowConfig) || {}));
+            if (this.config.subRow) {
+                var config = __assign(__assign({}, default_1.defaultSubRowConfig), ((typeof this.config.subRowConfig === "function"
+                    ? this.config.subRowConfig(row)
+                    : this.config.subRowConfig) || {}));
                 row.$opened = (_a = row.$opened) !== null && _a !== void 0 ? _a : config.expanded;
                 if (!row.$group)
                     row.$subRowHeight = config.height;
             }
-            return row;
-        });
+        }
+        return rows;
     };
     ExtendedGrid.prototype._prepareDataFromTo = function (data, from, to) {
-        var _this = this;
-        return data.mapRange(from, to, function (row) {
-            var height = (0, data_1.getMaxRowHeight)({ row: row, cols: _this.config.columns });
-            row.$height =
-                (0, data_1.getCalculatedRowHeight)(height, {
-                    rowHeight: _this.config.rowHeight,
-                }) || _this.config.rowHeight;
+        var columns = this.config.columns.filter(function (col) { return !col.hidden; });
+        var rowIdToIndex = {};
+        data.forEach(function (row, index) {
+            rowIdToIndex[row.id] = index;
+        });
+        var spanCalculationMap = this._buildSpanCalculationMap(columns, rowIdToIndex);
+        var rangeRows = [];
+        data.mapRange(from, to, function (row) {
+            rangeRows.push(row);
             return row;
         });
+        var getRowByIndex = function (idx) {
+            if (idx >= from && idx <= to)
+                return rangeRows[idx - from];
+            return data.getItem(data.getId(idx));
+        };
+        this._applyAutoRowHeights(rangeRows, columns, spanCalculationMap, getRowByIndex, from);
+        return rangeRows;
     };
     ExtendedGrid.prototype._dragStart = function (event) {
         if (this.config.dragMode &&
@@ -23019,14 +25528,27 @@ var ExtendedGrid = /** @class */ (function (_super) {
         this.data.group(order, {
             displayMode: group.type,
             showMissed: group.showMissed,
+            showEmptyGroups: group.showEmptyGroups,
             field: group.column.id || "group",
         });
+    };
+    ExtendedGrid.prototype._getGroupCounter = function (row) {
+        var _a;
+        var counter = (_a = this.config.group) === null || _a === void 0 ? void 0 : _a.counter;
+        if (!row.$group || counter === false) {
+            return "";
+        }
+        if (typeof counter === "function") {
+            return counter(row) || "";
+        }
+        return (0, core_1.isDefined)(row.$count) ? "(".concat(row.$count, ")") : "";
     };
     ExtendedGrid.prototype._expand = function (row) {
         if (row.$opened || !this.events.fire(types_1.GridEvents.beforeExpand, [row.id])) {
             return false;
         }
         this.data.update(row.id, { $opened: true }, true);
+        this._rowHeightsRebuild = true;
         this.events.fire(types_1.GridEvents.afterExpand, [row.id]);
         return true;
     };
@@ -23035,6 +25557,7 @@ var ExtendedGrid = /** @class */ (function (_super) {
             return false;
         }
         this.data.update(row.id, { $opened: false }, true);
+        this._rowHeightsRebuild = true;
         this.events.fire(types_1.GridEvents.afterCollapse, [row.id]);
         return true;
     };
@@ -23151,7 +25674,8 @@ var ExtendedGrid = /** @class */ (function (_super) {
         }
     };
     ExtendedGrid.prototype._dragStartGroupItem = function (event, id) {
-        if ((0, html_1.locateNodeByClassName)(event, "dhx_grid-group_item-sort")) {
+        if ((0, html_1.locateNodeByClassName)(event, "dhx_grid-group_item-sort") ||
+            (0, html_1.locateNodeByClassName)(event, "dhx_grid-group_item-remove")) {
             return;
         }
         var label = this.config.$grouped.find(function (i) { return i.id == id; }).label;
@@ -23180,13 +25704,143 @@ var ExtendedGrid = /** @class */ (function (_super) {
         var _a;
         return (_a = col.closable) !== null && _a !== void 0 ? _a : this.config.closable;
     };
+    ExtendedGrid.prototype._buildRowIdToIndex = function (rows) {
+        var map = {};
+        for (var i = 0; i < rows.length; i++) {
+            map[rows[i].id] = i;
+        }
+        return map;
+    };
+    ExtendedGrid.prototype._buildSpanCalculationMap = function (columns, rowIdToIndex) {
+        var result = new Map();
+        var spans = this.config.spans;
+        if (!(spans === null || spans === void 0 ? void 0 : spans.length))
+            return result;
+        var colIdToIndex = {};
+        for (var i = 0; i < columns.length; i++) {
+            colIdToIndex[columns[i].id] = i;
+        }
+        for (var s = 0; s < spans.length; s++) {
+            var span = spans[s];
+            var startRowIndex = rowIdToIndex[span.row];
+            var colIndex = colIdToIndex[span.column];
+            if (startRowIndex === undefined || colIndex === undefined)
+                continue;
+            var rowspan = span.rowspan || 1;
+            var colspan = span.colspan || 1;
+            var spanWidth = 0;
+            var endColumnIndex = Math.min(colIndex + colspan, columns.length);
+            for (var c = colIndex; c < endColumnIndex; c++) {
+                spanWidth += columns[c].$width || 0;
+            }
+            var info = {
+                colIndex: colIndex,
+                colspan: colspan,
+                rowspan: rowspan,
+                spanWidth: spanWidth,
+                startRowIndex: startRowIndex,
+                spanText: typeof span.text === "string" ? span.text : undefined,
+            };
+            for (var r = startRowIndex; r < startRowIndex + rowspan; r++) {
+                var list = result.get(r);
+                if (!list) {
+                    list = [];
+                    result.set(r, list);
+                }
+                list.push(info);
+            }
+        }
+        return result;
+    };
+    ExtendedGrid.prototype._applyAutoRowHeights = function (rows, columns, spanCalculationMap, getRowByIndex, startIndex) {
+        if (startIndex === void 0) { startIndex = 0; }
+        var rowHeight = this.config.rowHeight;
+        var calculateHeight = function (cols, targetRow) {
+            return (0, data_1.getCalculatedRowHeight)((0, data_1.getMaxRowHeight)({ row: targetRow, cols: cols }), { rowHeight: rowHeight }) || rowHeight;
+        };
+        for (var i = 0; i < rows.length; i++) {
+            if (typeof rows[i].height !== "undefined") {
+                rows[i].$height = Number(rows[i].height) || rowHeight;
+                continue;
+            }
+            var mapIndex = startIndex + i;
+            var spanInfos = spanCalculationMap.get(mapIndex);
+            if (!(spanInfos === null || spanInfos === void 0 ? void 0 : spanInfos.length)) {
+                rows[i].$height = calculateHeight(columns, rows[i]);
+                continue;
+            }
+            var nonSpanCols = [];
+            for (var c = 0; c < columns.length; c++) {
+                var excluded = false;
+                for (var s = 0; s < spanInfos.length; s++) {
+                    var info = spanInfos[s];
+                    if (c >= info.colIndex && c < info.colIndex + info.colspan) {
+                        excluded = true;
+                        break;
+                    }
+                }
+                if (!excluded)
+                    nonSpanCols.push(columns[c]);
+            }
+            rows[i].$height = nonSpanCols.length ? calculateHeight(nonSpanCols, rows[i]) : rowHeight;
+        }
+        var processedSpans = {};
+        spanCalculationMap.forEach(function (spanInfos) {
+            var _a;
+            var _b;
+            for (var s = 0; s < spanInfos.length; s++) {
+                var info = spanInfos[s];
+                if (info.rowspan < 2)
+                    continue;
+                var key = "".concat(info.startRowIndex, "_").concat(info.colIndex);
+                if (processedSpans[key])
+                    continue;
+                processedSpans[key] = true;
+                var startRow = getRowByIndex(info.startRowIndex);
+                if (!startRow)
+                    return;
+                var mergedColumn = __assign(__assign({}, columns[info.colIndex]), { $width: info.spanWidth });
+                var spanContentHeight = void 0;
+                if (info.spanText !== undefined) {
+                    var fakeRow = (_a = {}, _a[columns[info.colIndex].id] = info.spanText, _a);
+                    spanContentHeight = calculateHeight([mergedColumn], fakeRow);
+                }
+                else {
+                    spanContentHeight = calculateHeight([mergedColumn], startRow);
+                }
+                var sumBaseHeights = 0;
+                for (var r = info.startRowIndex; r < info.startRowIndex + info.rowspan; r++) {
+                    sumBaseHeights += ((_b = getRowByIndex(r)) === null || _b === void 0 ? void 0 : _b.$height) || rowHeight;
+                }
+                if (sumBaseHeights >= spanContentHeight)
+                    return;
+                var deficit = spanContentHeight - sumBaseHeights;
+                var endIndex = startIndex + rows.length;
+                var rowsInRange = 0;
+                for (var r = info.startRowIndex; r < info.startRowIndex + info.rowspan; r++) {
+                    if (r >= startIndex && r < endIndex)
+                        rowsInRange++;
+                }
+                if (rowsInRange === 0)
+                    return;
+                var perRow = Math.ceil(deficit / rowsInRange);
+                for (var r = info.startRowIndex; r < info.startRowIndex + info.rowspan; r++) {
+                    if (r < startIndex || r >= endIndex)
+                        continue;
+                    var row = getRowByIndex(r);
+                    if (row)
+                        row.$height += perRow;
+                }
+            }
+        });
+    };
     return ExtendedGrid;
 }(Grid_1.Grid));
 exports.ExtendedGrid = ExtendedGrid;
 
 
 /***/ }),
-/* 112 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23205,9 +25859,9 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Range = exports.RangeEvents = void 0;
 var events_1 = __webpack_require__(3);
-var ts_data_1 = __webpack_require__(5);
+var ts_data_1 = __webpack_require__(4);
 var core_1 = __webpack_require__(1);
-var main_1 = __webpack_require__(10);
+var main_1 = __webpack_require__(11);
 var RangeEvents;
 (function (RangeEvents) {
     RangeEvents["beforeSetRange"] = "beforeSetRange";
@@ -23428,7 +26082,7 @@ exports.Range = Range;
 
 
 /***/ }),
-/* 113 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23459,11 +26113,20 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TreeGridCollection = void 0;
 var core_1 = __webpack_require__(1);
-var ts_data_1 = __webpack_require__(5);
-var treecollection_1 = __webpack_require__(70);
+var ts_data_1 = __webpack_require__(4);
+var treecollection_1 = __webpack_require__(74);
 var TreeGridCollection = /** @class */ (function (_super) {
     __extends(TreeGridCollection, _super);
     function TreeGridCollection(config, events) {
@@ -23524,10 +26187,11 @@ var TreeGridCollection = /** @class */ (function (_super) {
         if (!this.haveItems(parent)) {
             return result;
         }
-        for (var i = 0; i < this._children[parent].length; i++) {
-            result.push(cb.call(this, this._children[parent][i], i));
-            if (direct && this._children[parent][i].hasOwnProperty("$opened")) {
-                var childResult = this.map(cb, this._children[parent][i].id, direct);
+        var children = __spreadArray([], this._children[parent], true);
+        for (var i = 0; i < children.length; i++) {
+            result.push(cb.call(this, children[i], i));
+            if (direct && children[i].hasOwnProperty("$opened")) {
+                var childResult = this.map(cb, children[i].id, direct);
                 result = result.concat(childResult);
             }
         }
@@ -23627,6 +26291,12 @@ var TreeGridCollection = /** @class */ (function (_super) {
     TreeGridCollection.prototype._setParent = function (item, parent) {
         item.parent = item.parent ? item.parent.toString() : parent;
     };
+    TreeGridCollection.prototype._recalculateGroups = function () {
+        _super.prototype._recalculateGroups.call(this);
+        if (this.isGrouped()) {
+            this._checkItems();
+        }
+    };
     TreeGridCollection.prototype._checkItems = function () {
         var _this = this;
         this.eachChild(this._root, function (item) {
@@ -23662,7 +26332,7 @@ exports.TreeGridCollection = TreeGridCollection;
 
 
 /***/ }),
-/* 114 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23682,13 +26352,24 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Ribbon = void 0;
 var dom_1 = __webpack_require__(0);
-var ts_navbar_1 = __webpack_require__(23);
+var ts_navbar_1 = __webpack_require__(25);
 var core_1 = __webpack_require__(1);
 var html_1 = __webpack_require__(2);
-var ts_message_1 = __webpack_require__(13);
+var ts_message_1 = __webpack_require__(19);
 var Ribbon = /** @class */ (function (_super) {
     __extends(Ribbon, _super);
     function Ribbon(element, config) {
@@ -23696,6 +26377,7 @@ var Ribbon = /** @class */ (function (_super) {
             navigationType: "click",
             $name: "ribbon",
         }, config)) || this;
+        _this._hasBarNavigation = true;
         _this._widgetHeight = [];
         _this._listeners = {
             input: function (e) {
@@ -23812,48 +26494,62 @@ var Ribbon = /** @class */ (function (_super) {
         this._currentRoot = null;
         _super.prototype._close.call(this, e);
     };
+    Ribbon.prototype._getBarItemIds = function () {
+        var ids = [];
+        var collect = function (item) {
+            if (item.hidden) {
+                return;
+            }
+            if (item.type === "block") {
+                (item.items || []).forEach(collect);
+            }
+            else if ((0, ts_navbar_1.isBarItemFocusable)(item)) {
+                ids.push(item.id);
+            }
+        };
+        this.data.eachChild(this.data.getRoot(), collect, false);
+        return ids;
+    };
+    Ribbon.prototype._raiseFocusTooltip = function () {
+        var elem = (0, html_1.locateNode)(document.activeElement);
+        if (!elem) {
+            return;
+        }
+        var item = this.data.getItem(elem.getAttribute("data-dhx-id"));
+        if (item === null || item === void 0 ? void 0 : item.tooltip) {
+            (0, ts_message_1.tooltip)(item.tooltip, {
+                node: elem,
+                position: ts_message_1.Position.bottom,
+                force: true,
+            });
+        }
+    };
+    Ribbon.prototype._getAriaAttrs = function () {
+        var attrs = {
+            role: "toolbar",
+            "aria-orientation": "horizontal",
+        };
+        var label = this.config.ariaLabel;
+        if (label)
+            attrs["aria-label"] = label;
+        return attrs;
+    };
     Ribbon.prototype._draw = function () {
         var _this = this;
+        this._resolveBarFocus();
         this._heightCalculate();
         var itemsHeight = Math.max.apply(Math, this._widgetHeight);
-        return (0, dom_1.el)("ul.dhx_ribbon.dhx_widget", {
-            "data-dhx-widget-id": this._uid,
-            class: this.config.css ? this.config.css : "",
-            tabindex: 0,
-            onclick: this._handlers.onclick,
-            onmousedown: this._handlers.onmousedown,
-            oninput: this._listeners.input,
-            onmouseover: this._listeners.tooltip,
-            onkeydown: this._handlers.onkeydown,
-            _hooks: {
-                didInsert: function (node) {
-                    node.el.addEventListener("keyup", function (e) {
-                        if (e.which !== 9) {
-                            return;
-                        }
-                        var elem = (0, html_1.locateNode)(document.activeElement);
-                        if (!elem) {
-                            return;
-                        }
-                        var id = elem.getAttribute("data-dhx-id");
-                        var item = _this.data.getItem(id);
-                        if (item.tooltip) {
-                            (0, ts_message_1.tooltip)(item.tooltip, {
-                                node: elem,
-                                position: ts_message_1.Position.bottom,
-                                force: true,
-                            });
-                        }
-                    }, true);
-                },
-            },
-        }, [
+        return (0, dom_1.el)("ul.dhx_ribbon.dhx_widget", __assign(__assign({ "data-dhx-widget-id": this._uid, class: this.config.css ? this.config.css : "" }, this._getAriaAttrs()), { onclick: this._handlers.onclick, onmousedown: this._handlers.onmousedown, oninput: this._listeners.input, onmouseover: this._listeners.tooltip, onkeydown: this._handlers.onkeydown, _hooks: {
+                didInsert: function (node) { return _this._bindBarHandlers(node.el); },
+            } }), [
             (0, dom_1.el)("li", {
                 class: "dhx_ribbon-block dhx_ribbon-block--root",
                 style: { height: this._haveTitle ? itemsHeight + 24 : itemsHeight },
+                role: "presentation",
             }, [
                 (0, dom_1.el)("ul.dhx_ribbon-content.dhx_ribbon-content--full-width", {
                     style: { height: itemsHeight },
+                    role: "presentation",
                 }, this.data.map(function (block) {
                     return block.type === "block"
                         ? _this._drawBlock(block, true)
@@ -23889,8 +26585,9 @@ var Ribbon = /** @class */ (function (_super) {
         }, block.id, false);
         return (0, dom_1.el)("li", {
             class: classNames,
+            role: "presentation",
         }, [
-            (0, dom_1.el)("ul.dhx_ribbon-content", childs),
+            (0, dom_1.el)("ul.dhx_ribbon-content", { role: "presentation" }, childs),
             block.title
                 ? (0, dom_1.el)("span.dhx_ribbon-content-label-wrapper", [
                     (0, dom_1.el)("span.dhx_ribbon-content-label", block.title),
@@ -23927,7 +26624,7 @@ exports.Ribbon = Ribbon;
 
 
 /***/ }),
-/* 115 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23951,9 +26648,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Sidebar = void 0;
 var dom_1 = __webpack_require__(0);
 var html_1 = __webpack_require__(2);
-var types_1 = __webpack_require__(116);
-var ts_message_1 = __webpack_require__(13);
-var ts_navbar_1 = __webpack_require__(23);
+var types_1 = __webpack_require__(120);
+var ts_message_1 = __webpack_require__(19);
+var ts_navbar_1 = __webpack_require__(25);
 var core_1 = __webpack_require__(1);
 var Sidebar = /** @class */ (function (_super) {
     __extends(Sidebar, _super);
@@ -23965,6 +26662,8 @@ var Sidebar = /** @class */ (function (_super) {
             collapsed: false,
             $name: "sidebar",
         }, config)) || this;
+        _this._hasBarNavigation = true;
+        _this._barOrientation = "vertical";
         _this._currentRoot = null;
         var render = function () { return _this._draw(); };
         _this.mount(element, (0, dom_1.create)({ render: render }));
@@ -24044,8 +26743,23 @@ var Sidebar = /** @class */ (function (_super) {
             },
         };
     };
+    Sidebar.prototype._raiseFocusTooltip = function () {
+        var elem = (0, html_1.locateNode)(document.activeElement);
+        if (!elem) {
+            return;
+        }
+        var item = this.data.getItem(elem.getAttribute("data-dhx-id"));
+        if (item && (item.tooltip || (this.config.collapsed && item.value))) {
+            (0, ts_message_1.tooltip)(item.tooltip || item.value, {
+                node: elem,
+                position: ts_message_1.Position.right,
+                force: true,
+            });
+        }
+    };
     Sidebar.prototype._draw = function () {
         var _this = this;
+        this._resolveBarFocus();
         var _a = this.config, width = _a.width, minWidth = _a.minWidth;
         var actualWidth = this.config.collapsed ? minWidth : width;
         return (0, dom_1.el)("nav.dhx_widget.dhx_sidebar", {
@@ -24055,7 +26769,9 @@ var Sidebar = /** @class */ (function (_super) {
         }, [
             (0, dom_1.el)("ul.dhx_navbar.dhx_navbar--vertical", {
                 "data-dhx-widget-id": this._uid,
-                tabindex: 0,
+                role: "toolbar",
+                "aria-orientation": "vertical",
+                "aria-label": this.config.ariaLabel,
                 onclick: this._handlers.onclick,
                 onmousedown: this._handlers.onmousedown,
                 oninput: this._handlers.input,
@@ -24064,26 +26780,7 @@ var Sidebar = /** @class */ (function (_super) {
                 onmousemove: this._handlers.onmousemove,
                 onmouseleave: this._handlers.onmouseleave,
                 _hooks: {
-                    didInsert: function (node) {
-                        node.el.addEventListener("keyup", function (e) {
-                            if (e.which !== 9) {
-                                return;
-                            }
-                            var elem = (0, html_1.locateNode)(document.activeElement);
-                            if (!elem) {
-                                return;
-                            }
-                            var id = elem.getAttribute("data-dhx-id");
-                            var item = _this.data.getItem(id);
-                            if (item.tooltip || (_this.config.collapsed && item.value)) {
-                                (0, ts_message_1.tooltip)(item.tooltip || item.value, {
-                                    node: elem,
-                                    position: ts_message_1.Position.right,
-                                    force: true,
-                                });
-                            }
-                        }, true);
-                    },
+                    didInsert: function (node) { return _this._bindBarHandlers(node.el); },
                 },
             }, this.data.map(function (item) { return _this._factory(item, false); }, this.data.getRoot(), false)),
         ]);
@@ -24112,7 +26809,7 @@ exports.Sidebar = Sidebar;
 
 
 /***/ }),
-/* 116 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24131,7 +26828,7 @@ var SidebarEvents;
 
 
 /***/ }),
-/* 117 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24150,7 +26847,7 @@ var TabbarEvents;
 
 
 /***/ }),
-/* 118 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24160,7 +26857,7 @@ exports.Editor = exports.EditorEvents = exports.EditorMode = void 0;
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
 var html_1 = __webpack_require__(2);
-var KeyManager_1 = __webpack_require__(17);
+var KeyManager_1 = __webpack_require__(16);
 var EditorMode;
 (function (EditorMode) {
     EditorMode["editText"] = "text";
@@ -24286,7 +26983,7 @@ exports.Editor = Editor;
 
 
 /***/ }),
-/* 119 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24321,7 +27018,7 @@ var TreeEvents;
 
 
 /***/ }),
-/* 120 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24331,14 +27028,16 @@ exports.Window = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
-var KeyManager_1 = __webpack_require__(17);
-var FocusManager_1 = __webpack_require__(20);
-var ts_layout_1 = __webpack_require__(16);
-var ts_toolbar_1 = __webpack_require__(37);
-var helpers_1 = __webpack_require__(264);
-var types_1 = __webpack_require__(121);
-var WindowController_1 = __webpack_require__(265);
-var ts_navbar_1 = __webpack_require__(23);
+var KeyManager_1 = __webpack_require__(16);
+var FocusManager_1 = __webpack_require__(21);
+var ts_layout_1 = __webpack_require__(15);
+var ts_toolbar_1 = __webpack_require__(39);
+var helpers_1 = __webpack_require__(278);
+var constants_1 = __webpack_require__(279);
+var en_1 = __webpack_require__(125);
+var types_1 = __webpack_require__(280);
+var WindowController_1 = __webpack_require__(281);
+var ts_navbar_1 = __webpack_require__(25);
 var Window = /** @class */ (function () {
     function Window(config) {
         var _this = this;
@@ -24356,9 +27055,12 @@ var Window = /** @class */ (function () {
         this._uid = (0, core_1.uid)();
         this.events = new events_1.EventSystem(this);
         var popup = (this._popup = document.createElement("div"));
-        popup.tabIndex = 1;
+        popup.tabIndex = -1;
         popup.setAttribute("role", "dialog");
-        popup.setAttribute("aria-modal", "".concat(this.config.modal || false));
+        if (this.config.modal) {
+            popup.setAttribute("aria-modal", "true");
+        }
+        popup.setAttribute("aria-label", this.config.ariaLabel || this.config.title || en_1.default.aria_dialog);
         if (!this.config.modal) {
             WindowController_1.default.add(this._uid, this._popup);
         }
@@ -24383,7 +27085,7 @@ var Window = /** @class */ (function () {
         if (!this._fullScreen) {
             this._fullScreen = true;
             this.setSize(window.innerWidth, window.innerHeight);
-            this.setPosition(window.pageXOffset, window.pageYOffset);
+            this.setPosition(window.scrollX, window.scrollY);
         }
     };
     Window.prototype.unsetFullScreen = function () {
@@ -24465,7 +27167,7 @@ var Window = /** @class */ (function () {
             " dhx_popup dhx_widget" +
                 (this.config.modal ? " dhx_popup--window_modal" : " dhx_popup--window") +
                 (this.config.css ? " " + this.config.css : "");
-        this._popup.style.position = this.config.modal ? "fixed" : "absolute";
+        this._popup.style.position = this._isFixedPosition() ? "fixed" : "absolute";
         this._popup.setAttribute("data-dhx-widget-id", this._uid);
         var _a = this._getContainerParams(), containerInnerWidth = _a.containerInnerWidth, containerInnerHeight = _a.containerInnerHeight, containerXOffset = _a.containerXOffset, containerYOffset = _a.containerYOffset;
         var width = (this.config.width =
@@ -24559,7 +27261,10 @@ var Window = /** @class */ (function () {
                 e.preventDefault();
                 (0, helpers_1.detectDrag)(e).then(function (pos) {
                     if (pos) {
-                        _this._startDrag(pos.x, pos.y);
+                        var isFixed = _this._isFixedPosition();
+                        var x = isFixed ? pos.clientX : pos.pageX;
+                        var y = isFixed ? pos.clientY : pos.pageY;
+                        _this._startDrag(x, y);
                     }
                 });
             },
@@ -24649,7 +27354,6 @@ var Window = /** @class */ (function () {
                     id: "title",
                     css: "title_max",
                 });
-                this._popup.setAttribute("aria-label", this.config.title);
             }
             if (this.config.closable) {
                 this.header.data.add({
@@ -24726,10 +27430,19 @@ var Window = /** @class */ (function () {
                 left: _this._popup.offsetLeft,
                 top: _this._popup.offsetTop,
             };
-            var newX = e.pageX - deltaX;
-            var newY = e.pageY - deltaY;
+            var isFixed = _this._isFixedPosition();
+            var pointerX = isFixed ? e.clientX : e.pageX;
+            var pointerY = isFixed ? e.clientY : e.pageY;
+            var newX = pointerX - deltaX;
+            var newY = pointerY - deltaY;
             if (!_this.config.viewportOverflow) {
-                var _a = _this._getContainerParams(), containerXOffset = _a.containerXOffset, containerYOffset = _a.containerYOffset, containerInnerWidth = _a.containerInnerWidth, containerInnerHeight = _a.containerInnerHeight;
+                var params = _this._getContainerParams();
+                var containerInnerWidth = params.containerInnerWidth, containerInnerHeight = params.containerInnerHeight;
+                var containerXOffset = params.containerXOffset, containerYOffset = params.containerYOffset;
+                if (isFixed) {
+                    containerXOffset = 0;
+                    containerYOffset = 0;
+                }
                 if (newX < containerXOffset) {
                     newX = containerXOffset;
                 }
@@ -24764,8 +27477,8 @@ var Window = /** @class */ (function () {
     };
     Window.prototype._startResize = function (resizeConfig) {
         var _this = this;
-        var minWidth = this.config.minWidth | 100;
-        var minHeight = this.config.minHeight | 100;
+        var minWidth = this.config.minWidth || constants_1.WINDOW_MIN_WIDTH;
+        var minHeight = this.config.minHeight || constants_1.WINDOW_MIN_HEIGHT;
         var left = this._popup.offsetLeft;
         var top = this._popup.offsetTop;
         var width = this._popup.offsetWidth;
@@ -24811,12 +27524,30 @@ var Window = /** @class */ (function () {
         this.config.node.classList.add("dhx_window--stop_selection");
         this.config.node.classList.add(resizeClassName);
         var mousemove = function (e) {
-            var _a = _this._getContainerParams(), containerInnerWidth = _a.containerInnerWidth, containerInnerHeight = _a.containerInnerHeight, containerXOffset = _a.containerXOffset, containerYOffset = _a.containerYOffset;
+            var notInNode = _this._notInNode();
+            var params = _this._getContainerParams();
+            var containerInnerWidth = params.containerInnerWidth, containerInnerHeight = params.containerInnerHeight;
+            var containerXOffset = params.containerXOffset, containerYOffset = params.containerYOffset;
+            var isFixed = _this._isFixedPosition();
+            if (isFixed) {
+                containerXOffset = 0;
+                containerYOffset = 0;
+            }
+            var pointerX = isFixed ? e.clientX : e.pageX;
+            var pointerY = isFixed ? e.clientY : e.pageY;
+            var nodeX = notInNode
+                ? 0
+                : _this.config.node.getBoundingClientRect().left +
+                    window.scrollX -
+                    _this.config.node.scrollLeft;
+            var nodeY = notInNode
+                ? 0
+                : _this.config.node.getBoundingClientRect().top + window.scrollY - _this.config.node.scrollTop;
             var size = {
-                width: _this._notInNode() ? e.pageX - left : e.pageX - _this.config.node.offsetLeft - left,
-                height: _this._notInNode() ? e.pageY - top : e.pageY - _this.config.node.offsetTop - top,
-                left: _this._notInNode() ? e.pageX : e.pageX - _this.config.node.offsetLeft,
-                top: _this._notInNode() ? e.pageY : e.pageY - _this.config.node.offsetTop,
+                width: notInNode ? pointerX - left : pointerX - nodeX - left,
+                height: notInNode ? pointerY - top : pointerY - nodeY - top,
+                left: notInNode ? pointerX : pointerX - nodeX,
+                top: notInNode ? pointerY : pointerY - nodeY,
             };
             if (resizeConfig.right) {
                 if (size.width < minWidth) {
@@ -24860,6 +27591,7 @@ var Window = /** @class */ (function () {
             _this.config.width = _this._popup.offsetWidth;
             _this.config.height = _this._popup.offsetHeight;
             _this.events.fire(types_1.WindowEvents.resize, [size, { left: left, top: top, height: height, width: width }, resizeConfig]);
+            _this._onResizeMove(size);
         };
         var mouseup = function () {
             document.removeEventListener("mouseup", mouseup);
@@ -24875,6 +27607,9 @@ var Window = /** @class */ (function () {
         var _this = this;
         var blocker = document.createElement("div");
         blocker.className = "dhx_window__overlay";
+        if (this.config.node !== document.body) {
+            blocker.style.position = "absolute";
+        }
         this.config.node.appendChild(blocker);
         this._blocker = blocker;
         if (this.config.closable) {
@@ -24898,16 +27633,22 @@ var Window = /** @class */ (function () {
         }
     };
     Window.prototype._notInNode = function () {
-        return this.config.node === document.body || this.config.modal;
+        return this.config.node === document.body;
+    };
+    Window.prototype._isFixedPosition = function () {
+        return this.config.modal && this.config.node === document.body;
     };
     Window.prototype._getContainerParams = function () {
         var notInNode = this._notInNode();
         return {
             containerInnerWidth: notInNode ? window.innerWidth : this.config.node.offsetWidth,
             containerInnerHeight: notInNode ? window.innerHeight : this.config.node.offsetHeight,
-            containerXOffset: notInNode ? window.pageXOffset : this.config.node.scrollLeft,
-            containerYOffset: notInNode ? window.pageYOffset : this.config.node.scrollTop,
+            containerXOffset: notInNode ? window.scrollX : this.config.node.scrollLeft,
+            containerYOffset: notInNode ? window.scrollY : this.config.node.scrollTop,
         };
+    };
+    Window.prototype._onResizeMove = function (_size) {
+        // Extension hook for ProWindow.
     };
     return Window;
 }());
@@ -24915,40 +27656,33 @@ exports.Window = Window;
 
 
 /***/ }),
-/* 121 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WindowEvents = void 0;
-var WindowEvents;
-(function (WindowEvents) {
-    WindowEvents["resize"] = "resize";
-    WindowEvents["headerDoubleClick"] = "headerdoubleclick";
-    WindowEvents["move"] = "move";
-    WindowEvents["afterShow"] = "aftershow";
-    WindowEvents["afterHide"] = "afterhide";
-    WindowEvents["beforeShow"] = "beforeshow";
-    WindowEvents["beforeHide"] = "beforehide";
-})(WindowEvents || (exports.WindowEvents = WindowEvents = {}));
+var en = {
+    aria_dialog: "Dialog",
+};
+exports.default = en;
 
 
 /***/ }),
-/* 122 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(123);
-__webpack_require__(124);
-__webpack_require__(125);
-__webpack_require__(126);
 __webpack_require__(127);
 __webpack_require__(128);
-module.exports = __webpack_require__(132);
+__webpack_require__(129);
+__webpack_require__(130);
+__webpack_require__(131);
+__webpack_require__(132);
+module.exports = __webpack_require__(136);
 
 
 /***/ }),
-/* 123 */
+/* 127 */
 /***/ (function(module, exports) {
 
 Object.values = Object.values
@@ -25019,7 +27753,7 @@ if (!Object.assign) {
 
 
 /***/ }),
-/* 124 */
+/* 128 */
 /***/ (function(module, exports) {
 
 /* eslint-disable prefer-rest-params */
@@ -25131,7 +27865,7 @@ if (!Array.prototype.findIndex) {
 
 
 /***/ }),
-/* 125 */
+/* 129 */
 /***/ (function(module, exports) {
 
 if (!String.prototype.includes) {
@@ -25194,7 +27928,7 @@ if (!String.prototype.padEnd) {
 
 
 /***/ }),
-/* 126 */
+/* 130 */
 /***/ (function(module, exports) {
 
 /* eslint-disable @typescript-eslint/no-this-alias */
@@ -25270,7 +28004,7 @@ if (!Event.prototype.composedPath) {
 
 
 /***/ }),
-/* 127 */
+/* 131 */
 /***/ (function(module, exports) {
 
 Math.sign =
@@ -25285,7 +28019,7 @@ Math.sign =
 
 
 /***/ }),
-/* 128 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Promise) {if (!Promise.prototype.finally) {
@@ -25299,10 +28033,10 @@ Math.sign =
     };
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(18)))
 
 /***/ }),
-/* 129 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
@@ -25358,7 +28092,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(130);
+__webpack_require__(134);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -25369,10 +28103,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (typeof global !== "undefined" && global.clearImmediate) ||
                          (this && this.clearImmediate);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(44)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(48)))
 
 /***/ }),
-/* 130 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -25562,10 +28296,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(44), __webpack_require__(131)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(48), __webpack_require__(135)))
 
 /***/ }),
-/* 131 */
+/* 135 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -25755,17 +28489,17 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 132 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.i18n = exports.Window = exports.Tree = exports.Toolbar = exports.Timepicker = exports.Tabbar = exports.Slider = exports.Sidebar = exports.Ribbon = exports.Popup = exports.ContextMenu = exports.Menu = exports.tooltip = exports.disableTooltip = exports.enableTooltip = exports.confirm = exports.alert = exports.message = exports.Grid = exports.Form = exports.DataView = exports.Combobox = exports.Chart = exports.Colorpicker = exports.Calendar = exports.List = exports.Layout = exports.methods = exports.ajax = exports.dataDrivers = exports.DataProxy = exports.TreeCollection = exports.DataCollection = exports.Uploader = exports.setTheme = exports.resizeHandler = exports.awaitRedraw = exports.EventSystem = exports.cssManager = void 0;
-__webpack_require__(133);
+__webpack_require__(137);
 // HELPERS
 /* tslint:disable */
-var CssManager_1 = __webpack_require__(134);
+var CssManager_1 = __webpack_require__(138);
 Object.defineProperty(exports, "cssManager", { enumerable: true, get: function () { return CssManager_1.cssManager; } });
 var events_1 = __webpack_require__(3);
 Object.defineProperty(exports, "EventSystem", { enumerable: true, get: function () { return events_1.EventSystem; } });
@@ -25773,9 +28507,9 @@ var dom_1 = __webpack_require__(0);
 Object.defineProperty(exports, "awaitRedraw", { enumerable: true, get: function () { return dom_1.awaitRedraw; } });
 Object.defineProperty(exports, "resizeHandler", { enumerable: true, get: function () { return dom_1.resizeHandler; } });
 Object.defineProperty(exports, "setTheme", { enumerable: true, get: function () { return dom_1.setTheme; } });
-var ts_vault_1 = __webpack_require__(63);
+var ts_vault_1 = __webpack_require__(67);
 Object.defineProperty(exports, "Uploader", { enumerable: true, get: function () { return ts_vault_1.Uploader; } });
-var ts_data_1 = __webpack_require__(5);
+var ts_data_1 = __webpack_require__(4);
 Object.defineProperty(exports, "DataCollection", { enumerable: true, get: function () { return ts_data_1.DataCollection; } });
 Object.defineProperty(exports, "TreeCollection", { enumerable: true, get: function () { return ts_data_1.TreeCollection; } });
 Object.defineProperty(exports, "DataProxy", { enumerable: true, get: function () { return ts_data_1.DataProxy; } });
@@ -25783,61 +28517,63 @@ Object.defineProperty(exports, "dataDrivers", { enumerable: true, get: function 
 Object.defineProperty(exports, "ajax", { enumerable: true, get: function () { return ts_data_1.ajax; } });
 Object.defineProperty(exports, "methods", { enumerable: true, get: function () { return ts_data_1.methods; } });
 // WIDGETS
-var ts_layout_1 = __webpack_require__(16);
+var ts_layout_1 = __webpack_require__(15);
 Object.defineProperty(exports, "Layout", { enumerable: true, get: function () { return ts_layout_1.Layout; } });
-var ts_list_1 = __webpack_require__(39);
+var ts_list_1 = __webpack_require__(41);
 Object.defineProperty(exports, "List", { enumerable: true, get: function () { return ts_list_1.List; } });
-var ts_calendar_1 = __webpack_require__(32);
+var ts_calendar_1 = __webpack_require__(33);
 Object.defineProperty(exports, "Calendar", { enumerable: true, get: function () { return ts_calendar_1.Calendar; } });
-var ts_colorpicker_1 = __webpack_require__(55);
+var ts_colorpicker_1 = __webpack_require__(60);
 Object.defineProperty(exports, "Colorpicker", { enumerable: true, get: function () { return ts_colorpicker_1.Colorpicker; } });
-var ts_chart_1 = __webpack_require__(179);
+var ts_chart_1 = __webpack_require__(186);
 Object.defineProperty(exports, "Chart", { enumerable: true, get: function () { return ts_chart_1.Chart; } });
-var ts_combobox_1 = __webpack_require__(40);
+var ts_combobox_1 = __webpack_require__(44);
 Object.defineProperty(exports, "Combobox", { enumerable: true, get: function () { return ts_combobox_1.Combobox; } });
-var ts_dataview_1 = __webpack_require__(203);
+var ts_dataview_1 = __webpack_require__(213);
 Object.defineProperty(exports, "DataView", { enumerable: true, get: function () { return ts_dataview_1.DataView; } });
-var ts_form_1 = __webpack_require__(207);
+var ts_form_1 = __webpack_require__(217);
 Object.defineProperty(exports, "Form", { enumerable: true, get: function () { return ts_form_1.Form; } });
-var ts_grid_1 = __webpack_require__(104);
+var ts_grid_1 = __webpack_require__(108);
 Object.defineProperty(exports, "Grid", { enumerable: true, get: function () { return ts_grid_1.Grid; } });
-var ts_message_1 = __webpack_require__(13);
+var ts_message_1 = __webpack_require__(19);
 Object.defineProperty(exports, "message", { enumerable: true, get: function () { return ts_message_1.message; } });
 Object.defineProperty(exports, "alert", { enumerable: true, get: function () { return ts_message_1.alert; } });
 Object.defineProperty(exports, "confirm", { enumerable: true, get: function () { return ts_message_1.confirm; } });
 Object.defineProperty(exports, "enableTooltip", { enumerable: true, get: function () { return ts_message_1.enableTooltip; } });
 Object.defineProperty(exports, "disableTooltip", { enumerable: true, get: function () { return ts_message_1.disableTooltip; } });
 Object.defineProperty(exports, "tooltip", { enumerable: true, get: function () { return ts_message_1.tooltip; } });
-var ts_menu_1 = __webpack_require__(252);
+var ts_menu_1 = __webpack_require__(265);
 Object.defineProperty(exports, "Menu", { enumerable: true, get: function () { return ts_menu_1.Menu; } });
 Object.defineProperty(exports, "ContextMenu", { enumerable: true, get: function () { return ts_menu_1.ContextMenu; } });
-var ts_popup_1 = __webpack_require__(14);
+var ts_popup_1 = __webpack_require__(13);
 Object.defineProperty(exports, "Popup", { enumerable: true, get: function () { return ts_popup_1.Popup; } });
-var ts_ribbon_1 = __webpack_require__(255);
+var ts_ribbon_1 = __webpack_require__(268);
 Object.defineProperty(exports, "Ribbon", { enumerable: true, get: function () { return ts_ribbon_1.Ribbon; } });
-var ts_sidebar_1 = __webpack_require__(257);
+var ts_sidebar_1 = __webpack_require__(270);
 Object.defineProperty(exports, "Sidebar", { enumerable: true, get: function () { return ts_sidebar_1.Sidebar; } });
-var ts_slider_1 = __webpack_require__(52);
+var ts_slider_1 = __webpack_require__(57);
 Object.defineProperty(exports, "Slider", { enumerable: true, get: function () { return ts_slider_1.Slider; } });
-var ts_tabbar_1 = __webpack_require__(259);
+var ts_tabbar_1 = __webpack_require__(272);
 Object.defineProperty(exports, "Tabbar", { enumerable: true, get: function () { return ts_tabbar_1.Tabbar; } });
-var ts_timepicker_1 = __webpack_require__(51);
+var ts_timepicker_1 = __webpack_require__(56);
 Object.defineProperty(exports, "Timepicker", { enumerable: true, get: function () { return ts_timepicker_1.Timepicker; } });
-var ts_toolbar_1 = __webpack_require__(37);
+var ts_toolbar_1 = __webpack_require__(39);
 Object.defineProperty(exports, "Toolbar", { enumerable: true, get: function () { return ts_toolbar_1.Toolbar; } });
-var ts_tree_1 = __webpack_require__(261);
+var ts_tree_1 = __webpack_require__(275);
 Object.defineProperty(exports, "Tree", { enumerable: true, get: function () { return ts_tree_1.Tree; } });
-var ts_window_1 = __webpack_require__(263);
+var ts_window_1 = __webpack_require__(277);
 Object.defineProperty(exports, "Window", { enumerable: true, get: function () { return ts_window_1.Window; } });
 // TOOLS
-var ts_colorpicker_2 = __webpack_require__(55);
-var en_1 = __webpack_require__(50);
-var date_1 = __webpack_require__(18);
-var en_2 = __webpack_require__(62);
-var en_3 = __webpack_require__(102);
-var en_4 = __webpack_require__(78);
-var en_5 = __webpack_require__(43);
-var locale_1 = __webpack_require__(267);
+var ts_colorpicker_2 = __webpack_require__(60);
+var en_1 = __webpack_require__(54);
+var date_1 = __webpack_require__(17);
+var en_2 = __webpack_require__(65);
+var en_3 = __webpack_require__(106);
+var en_4 = __webpack_require__(84);
+var en_5 = __webpack_require__(37);
+var en_6 = __webpack_require__(80);
+var en_7 = __webpack_require__(125);
+var locale_1 = __webpack_require__(283);
 var w = window;
 exports.i18n = w.dhx && w.dhx.i18n ? w.dhx.i18n : {};
 exports.i18n.setLocale = locale_1.setLocale;
@@ -25848,10 +28584,12 @@ exports.i18n.combobox = exports.i18n.combobox || en_2.default;
 exports.i18n.form = exports.i18n.form || en_3.default;
 exports.i18n.timepicker = exports.i18n.timepicker || en_4.default;
 exports.i18n.grid = exports.i18n.grid || en_5.default;
+exports.i18n.toolbar = exports.i18n.toolbar || en_6.default;
+exports.i18n.window = exports.i18n.window || en_7.default;
 
 
 /***/ }),
-/* 133 */
+/* 137 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -25860,7 +28598,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /***/ }),
-/* 134 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25956,7 +28694,7 @@ exports.cssManager = new CssManager();
 
 
 /***/ }),
-/* 135 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -27897,7 +30635,7 @@ return nano;
 
 
 /***/ }),
-/* 136 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27916,8 +30654,8 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Loader = void 0;
 var core_1 = __webpack_require__(1);
-var helpers_1 = __webpack_require__(21);
-var types_1 = __webpack_require__(25);
+var helpers_1 = __webpack_require__(23);
+var types_1 = __webpack_require__(26);
 var core_2 = __webpack_require__(1);
 var Loader = /** @class */ (function () {
     function Loader(parent, changes) {
@@ -27934,7 +30672,7 @@ var Loader = /** @class */ (function () {
             .load()
             .then(function (data) {
             if (data) {
-                return _this.parse(data, driver);
+                return _this.parse(data, driver, true);
             }
             else {
                 return [];
@@ -27944,9 +30682,23 @@ var Loader = /** @class */ (function () {
             _this._parent.events.fire(types_1.DataEvents.loadError, [error]);
         }));
     };
-    Loader.prototype.parse = function (data, driver) {
+    /**
+     * Converts the raw input with a driver and hands it over to the collection.
+     * A partial response of a lazy-loading source is handled differently: into an empty collection
+     * it is expanded to the full length reported by the source, with the items outside the received
+     * range put in as `$empty` placeholders; into a collection that already holds those placeholders
+     * it is merged over them, and the collection is not refilled at all.
+     * @param data - Items or a serialized string.
+     * @param driver - Data driver used to parse the input. Defaults to the JSON driver.
+     * @param resetRules - Whether the collection should drop its sorting and non-permanent
+     * filtering rules before taking the data. Set when the whole dataset is replaced. Defaults to `false`.
+     * @returns The parsed items.
+     * @internal
+     */
+    Loader.prototype.parse = function (data, driver, resetRules) {
         var _this = this;
         if (driver === void 0) { driver = types_1.DataDriver.json; }
+        if (resetRules === void 0) { resetRules = false; }
         if (driver === "json" && !(0, helpers_1.hasJsonOrArrayStructure)(data)) {
             this._parent.events.fire(types_1.DataEvents.loadError, ["Uncaught SyntaxError: Unexpected end of input"]);
         }
@@ -27995,7 +30747,7 @@ var Loader = /** @class */ (function () {
         if (this._parent.getInitialData()) {
             this._parent.removeAll();
         }
-        this._parent.$parse(data);
+        this._parent.$parse(data, resetRules);
         return data;
     };
     Loader.prototype.save = function (url) {
@@ -28118,10 +30870,10 @@ var Loader = /** @class */ (function () {
 }());
 exports.Loader = Loader;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(18)))
 
 /***/ }),
-/* 137 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28162,14 +30914,14 @@ exports.jsonToXML = jsonToXML;
 
 
 /***/ }),
-/* 138 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Sort = void 0;
-var helpers_1 = __webpack_require__(21);
+var helpers_1 = __webpack_require__(23);
 var Sort = /** @class */ (function () {
     function Sort() {
     }
@@ -28228,7 +30980,7 @@ exports.Sort = Sort;
 
 
 /***/ }),
-/* 139 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28256,12 +31008,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Group = void 0;
 var core_1 = __webpack_require__(1);
-var methods_1 = __webpack_require__(69);
+var methods_1 = __webpack_require__(73);
 var Group = /** @class */ (function () {
     function Group() {
         this._init = [];
         this._groupSet = new Set();
         this._groupOrderFields = [];
+        this._nodes = new Map();
     }
     Group.prototype.group = function (order, arr, config) {
         if (config === void 0) { config = {}; }
@@ -28270,6 +31023,7 @@ var Group = /** @class */ (function () {
         }
         this._init = __spreadArray([], arr, true);
         this._groupSet.clear();
+        this._nodes.clear();
         this._config = this.getGroupConfig(config);
         this._groupOrderFields = order.map(function (o) {
             if (typeof o === "string")
@@ -28289,6 +31043,7 @@ var Group = /** @class */ (function () {
         var data = this._init;
         this._init = [];
         this._groupSet.clear();
+        this._nodes.clear();
         if (modifiedData) {
             var pull_1 = {};
             var _loop_1 = function (index) {
@@ -28316,15 +31071,39 @@ var Group = /** @class */ (function () {
         return this._groupOrderFields;
     };
     Group.prototype.getGroupConfig = function (config) {
-        var _a;
+        var _a, _b;
         if (config) {
             return {
                 displayMode: config.displayMode || "column",
                 field: config.field || "group",
                 showMissed: (_a = config.showMissed) !== null && _a !== void 0 ? _a : true,
+                showEmptyGroups: (_b = config.showEmptyGroups) !== null && _b !== void 0 ? _b : false,
             };
         }
         return this._config;
+    };
+    Group.prototype.recalculate = function (node, items, count, total) {
+        var _this = this;
+        if (count === void 0) { count = items === null || items === void 0 ? void 0 : items.length; }
+        if (total === void 0) { total = count; }
+        var group = this._nodes.get(node === null || node === void 0 ? void 0 : node.id);
+        if (!group) {
+            return null;
+        }
+        node.$count = count;
+        node.$totalCount = total;
+        var aggregate = {};
+        if (group.map) {
+            Object.keys(group.map).forEach(function (field) {
+                aggregate[field] = _this._toAggregate(items, group.map[field]);
+            });
+            Object.assign(node, aggregate);
+        }
+        return aggregate;
+    };
+    Group.prototype.hasMap = function (id) {
+        var _a;
+        return !!((_a = this._nodes.get(id)) === null || _a === void 0 ? void 0 : _a.map);
     };
     Group.prototype._group = function (order, arr, parentId, level) {
         var _this = this;
@@ -28374,7 +31153,8 @@ var Group = /** @class */ (function () {
                     aggregate[field] = _this._toAggregate(groupItems, config.map[field]);
                 });
             }
-            var groupNode = __assign((_a = { id: nodeId, $by: config.by, $group: true, $row: _this._config.displayMode === "row", $count: groupItems.length }, _a[config.by] = groupKey, _a), aggregate);
+            var groupNode = __assign((_a = { id: nodeId, $by: config.by, $group: true, $row: _this._config.displayMode === "row", $count: groupItems.length, $totalCount: groupItems.length }, _a[config.by] = groupKey, _a), aggregate);
+            _this._nodes.set(nodeId, config);
             if (_this._config.displayMode === "column") {
                 groupNode[_this._config.field] = groupKey;
             }
@@ -28438,7 +31218,7 @@ exports.Group = Group;
 
 
 /***/ }),
-/* 140 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28466,9 +31246,9 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dragManager = void 0;
 var html_1 = __webpack_require__(2);
-var CollectionStore_1 = __webpack_require__(141);
-var types_1 = __webpack_require__(25);
-var helpers_1 = __webpack_require__(21);
+var CollectionStore_1 = __webpack_require__(145);
+var types_1 = __webpack_require__(26);
+var helpers_1 = __webpack_require__(23);
 var core_1 = __webpack_require__(1);
 function getVerticalPosition(e) {
     var y = e.targetTouches
@@ -29135,7 +31915,7 @@ exports.dragManager = dhx.dragManager;
 
 
 /***/ }),
-/* 141 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29165,7 +31945,7 @@ exports.collectionStore = dhx.collectionStore;
 
 
 /***/ }),
-/* 142 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29187,9 +31967,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LazyDataProxy = void 0;
-var dataproxy_1 = __webpack_require__(29);
+var dataproxy_1 = __webpack_require__(31);
 var core_1 = __webpack_require__(1);
-var ajax_1 = __webpack_require__(45);
+var ajax_1 = __webpack_require__(49);
 var LazyDataProxy = /** @class */ (function (_super) {
     __extends(LazyDataProxy, _super);
     function LazyDataProxy(url, config) {
@@ -29234,10 +32014,10 @@ var LazyDataProxy = /** @class */ (function (_super) {
 }(dataproxy_1.DataProxy));
 exports.LazyDataProxy = LazyDataProxy;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(18)))
 
 /***/ }),
-/* 143 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29245,8 +32025,8 @@ exports.LazyDataProxy = LazyDataProxy;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Selection = void 0;
 var events_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(30);
-var types_2 = __webpack_require__(25);
+var types_1 = __webpack_require__(32);
+var types_2 = __webpack_require__(26);
 var core_1 = __webpack_require__(1);
 var Selection = /** @class */ (function () {
     function Selection(config, data, events) {
@@ -29258,7 +32038,11 @@ var Selection = /** @class */ (function () {
         this._data.events.on(types_2.DataEvents.removeAll, function () {
             _this._selected = null;
         });
-        this._data.events.on(types_2.DataEvents.change, function () {
+        this._data.events.on(types_2.DataEvents.change, function (id, _status, _item, service) {
+            if (service && (0, core_1.isId)(service.oldId) && service.oldId === _this._selected) {
+                _this._selected = id;
+                return;
+            }
             if ((0, core_1.isId)(_this._selected)) {
                 var near = _this._data.getNearId(_this._selected);
                 if (near !== _this._selected) {
@@ -29319,7 +32103,7 @@ exports.Selection = Selection;
 
 
 /***/ }),
-/* 144 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29365,20 +32149,20 @@ var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
 var html_1 = __webpack_require__(2);
-var ScrollView_1 = __webpack_require__(22);
-var view_1 = __webpack_require__(9);
-var ts_data_1 = __webpack_require__(5);
-var ts_layout_1 = __webpack_require__(16);
-var ts_message_1 = __webpack_require__(13);
-var ts_toolbar_1 = __webpack_require__(37);
-var ts_navbar_1 = __webpack_require__(23);
-var en_1 = __webpack_require__(53);
-var types_1 = __webpack_require__(36);
-var Uploader_1 = __webpack_require__(64);
-var configs_1 = __webpack_require__(169);
-var helper_1 = __webpack_require__(170);
-var ProgressBar_1 = __webpack_require__(171);
-var ReadStackPreview_1 = __webpack_require__(172);
+var ScrollView_1 = __webpack_require__(24);
+var view_1 = __webpack_require__(10);
+var ts_data_1 = __webpack_require__(4);
+var ts_layout_1 = __webpack_require__(15);
+var ts_message_1 = __webpack_require__(19);
+var ts_toolbar_1 = __webpack_require__(39);
+var ts_navbar_1 = __webpack_require__(25);
+var en_1 = __webpack_require__(58);
+var types_1 = __webpack_require__(38);
+var Uploader_1 = __webpack_require__(68);
+var configs_1 = __webpack_require__(174);
+var helper_1 = __webpack_require__(175);
+var ProgressBar_1 = __webpack_require__(176);
+var ReadStackPreview_1 = __webpack_require__(177);
 var Vault = /** @class */ (function (_super) {
     __extends(Vault, _super);
     function Vault(container, config) {
@@ -29822,7 +32606,7 @@ exports.Vault = Vault;
 
 
 /***/ }),
-/* 145 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29856,7 +32640,19 @@ exports.getMarginSize = getMarginSize;
 
 
 /***/ }),
-/* 146 */
+/* 150 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DEFAULT_CELL_HEADER_WIDTH = exports.DEFAULT_CELL_HEADER_HEIGHT = void 0;
+exports.DEFAULT_CELL_HEADER_HEIGHT = 37;
+exports.DEFAULT_CELL_HEADER_WIDTH = 45;
+
+
+/***/ }),
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29878,8 +32674,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProLayout = void 0;
-var Layout_1 = __webpack_require__(47);
-var ProCell_1 = __webpack_require__(72);
+var Layout_1 = __webpack_require__(51);
+var ProCell_1 = __webpack_require__(76);
 var ProLayout = /** @class */ (function (_super) {
     __extends(ProLayout, _super);
     function ProLayout(parent, config) {
@@ -29907,7 +32703,7 @@ exports.ProLayout = ProLayout;
 
 
 /***/ }),
-/* 147 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29916,7 +32712,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.message = void 0;
 var core_1 = __webpack_require__(1);
 var html_1 = __webpack_require__(2);
-var types_1 = __webpack_require__(49);
+var types_1 = __webpack_require__(53);
 var nodeTimeout = new WeakMap();
 var containers = new Map();
 function createMessageContainer(parent, position) {
@@ -30019,15 +32815,15 @@ exports.message = message;
 
 
 /***/ }),
-/* 148 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.alert = void 0;
-var en_1 = __webpack_require__(50);
-var common_1 = __webpack_require__(73);
+var en_1 = __webpack_require__(54);
+var common_1 = __webpack_require__(77);
 var core_1 = __webpack_require__(1);
 function alert(props) {
     var apply = props.buttons && props.buttons[0] ? props.buttons[0] : en_1.default.apply;
@@ -30036,10 +32832,15 @@ function alert(props) {
         var contentId = "dhx_alert__".concat((0, core_1.uid)(), "_content");
         var headerId = "dhx_alert__".concat((0, core_1.uid)(), "_header");
         var alertBox = document.createElement("div");
-        alertBox.setAttribute("role", "alert");
+        alertBox.setAttribute("role", "alertdialog");
         alertBox.setAttribute("aria-modal", "true");
         props.text && alertBox.setAttribute("aria-describedby", contentId);
-        props.header && alertBox.setAttribute("aria-labelledby", headerId);
+        if (props.header) {
+            alertBox.setAttribute("aria-labelledby", headerId);
+        }
+        else {
+            alertBox.setAttribute("aria-label", en_1.default.aria_alert);
+        }
         alertBox.className = "dhx_widget dhx_alert " + (props.css || "");
         var closeAlert = function (e) {
             if (e.key === "Escape" || e.key === "Esc") {
@@ -30058,7 +32859,7 @@ function alert(props) {
             ? "<div id=".concat(headerId, " class=\"dhx_alert__header\"> ").concat(props.htmlEnable !== false ? props.header : "", " </div>")
             : "", "\n\t\t\t").concat(props.text
             ? "<div id=".concat(contentId, " class=\"dhx_alert__content\">").concat(props.htmlEnable !== false ? props.text : "", "</div>")
-            : "", "\n\t\t\t<div class=\"dhx_alert__footer ").concat(props.buttonsAlignment ? "dhx_alert__footer--" + props.buttonsAlignment : "", "\">\n\t\t\t\t<button type=\"button\" aria-label=\"confirm\" class=\"dhx_alert__apply-button dhx_button dhx_button--view_flat dhx_button--color_primary dhx_button--size_medium\">").concat(apply, "</button>\n\t\t\t</div>");
+            : "", "\n\t\t\t<div class=\"dhx_alert__footer ").concat(props.buttonsAlignment ? "dhx_alert__footer--" + props.buttonsAlignment : "", "\">\n\t\t\t\t<button type=\"button\" aria-label=\"").concat(en_1.default.aria_confirm, "\" class=\"dhx_alert__apply-button dhx_button dhx_button--view_flat dhx_button--color_primary dhx_button--size_medium\">").concat(apply, "</button>\n\t\t\t</div>");
         if (props.htmlEnable === false) {
             props.header && (alertBox.querySelector("#".concat(headerId)).textContent = props.header);
             props.text && (alertBox.querySelector("#".concat(contentId)).textContent = props.text);
@@ -30074,18 +32875,18 @@ function alert(props) {
 }
 exports.alert = alert;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(18)))
 
 /***/ }),
-/* 149 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Promise) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.confirm = void 0;
-var en_1 = __webpack_require__(50);
-var common_1 = __webpack_require__(73);
+var en_1 = __webpack_require__(54);
+var common_1 = __webpack_require__(77);
 var core_1 = __webpack_require__(1);
 function confirm(props) {
     props.buttonsAlignment = props.buttonsAlignment || "right";
@@ -30137,7 +32938,7 @@ function confirm(props) {
             ? "<div class=\"dhx_alert__header\" id=".concat(headerId, "> ").concat(props.htmlEnable !== false ? props.header : "", " </div>")
             : "", "\n\t\t").concat(props.text
             ? "<div class=\"dhx_alert__content\" id=".concat(textId, ">").concat(props.htmlEnable !== false ? props.text : "", "</div>")
-            : "", "\n\t\t\t<div class=\"dhx_alert__footer ").concat(props.buttonsAlignment ? "dhx_alert__footer--" + props.buttonsAlignment : "", "\">\n\t\t\t\t<button type=\"button\" aria-label=\"reject\" class=\"dhx_alert__confirm-reject dhx_button dhx_button--view_link dhx_button--color_primary dhx_button--size_medium\">").concat(reject, "</button>\n\t\t\t\t<button type=\"button\"  aria-label=\"aply\"class=\"dhx_alert__confirm-aply dhx_button dhx_button--view_flat dhx_button--color_primary dhx_button--size_medium\">").concat(apply, "</button>\n\t\t\t</div>");
+            : "", "\n\t\t\t<div class=\"dhx_alert__footer ").concat(props.buttonsAlignment ? "dhx_alert__footer--" + props.buttonsAlignment : "", "\">\n\t\t\t\t<button type=\"button\" aria-label=\"").concat(en_1.default.aria_reject, "\" class=\"dhx_alert__confirm-reject dhx_button dhx_button--view_link dhx_button--color_primary dhx_button--size_medium\">").concat(reject, "</button>\n\t\t\t\t<button type=\"button\" aria-label=\"").concat(en_1.default.aria_apply, "\" class=\"dhx_alert__confirm-aply dhx_button dhx_button--view_flat dhx_button--color_primary dhx_button--size_medium\">").concat(apply, "</button>\n\t\t\t</div>");
         if (props.htmlEnable === false) {
             props.header && (confirmBox.querySelector("#".concat(headerId)).textContent = props.header);
             props.text && (confirmBox.querySelector("#".concat(textId)).textContent = props.text);
@@ -30151,10 +32952,10 @@ function confirm(props) {
 }
 exports.confirm = confirm;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(18)))
 
 /***/ }),
-/* 150 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30190,12 +32991,14 @@ exports.Navbar = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
-var ts_message_1 = __webpack_require__(13);
+var ts_message_1 = __webpack_require__(19);
 var html_1 = __webpack_require__(2);
-var KeyManager_1 = __webpack_require__(17);
-var view_1 = __webpack_require__(9);
-var ts_data_1 = __webpack_require__(5);
-var types_1 = __webpack_require__(38);
+var KeyManager_1 = __webpack_require__(16);
+var view_1 = __webpack_require__(10);
+var ts_data_1 = __webpack_require__(4);
+var keys_1 = __webpack_require__(55);
+var focus_1 = __webpack_require__(81);
+var types_1 = __webpack_require__(40);
 function isContextMenu(config) {
     return config.$name === "context-menu";
 }
@@ -30219,6 +33022,8 @@ var Navbar = /** @class */ (function (_super) {
         var _this = 
         // super(element, extend({}, config));
         _super.call(this, element, config) || this;
+        _this._hasBarNavigation = false;
+        _this._barOrientation = "horizontal";
         _this._documentHaveListener = false;
         _this.config = (0, core_1.extend)({
             rootId: (typeof element === "string" && element) || _this._uid,
@@ -30270,6 +33075,9 @@ var Navbar = /** @class */ (function (_super) {
     Navbar.prototype.paint = function () {
         _super.prototype.paint.call(this);
         if (isContextMenu(this.config) && !this._vpopups) {
+            if (this._activePosition) {
+                this._enterContextMenu();
+            }
             this._init();
         }
         if (this._vpopups) {
@@ -30375,14 +33183,133 @@ var Navbar = /** @class */ (function (_super) {
         });
         return selected;
     };
+    /**
+     * An open popup and the widget's own bar each carry a moving tab stop: one control of each is
+     * reachable with Tab, and the arrow keys move that stop between the others.
+     * @internal
+     */
+    Navbar.prototype.$getTabindex = function (item, asMenuItem) {
+        if (asMenuItem) {
+            return (0, focus_1.isMenuItemFocusable)(item) ? (item.id === this._menuFocusId ? 0 : -1) : undefined;
+        }
+        if (!this._hasBarNavigation || !(0, focus_1.isBarItemFocusable)(item)) {
+            return undefined;
+        }
+        return item.id === this._resolvedBarFocusId ? 0 : -1;
+    };
     Navbar.prototype._customHandlers = function () {
         return {};
+    };
+    /** The name of the root popup of a context menu, which has no control to take a name from. */
+    Navbar.prototype._getRootMenuLabel = function () {
+        return;
+    };
+    /** The bar controls, in the order they are drawn. A widget that nests them overrides this. */
+    Navbar.prototype._getBarItemIds = function () {
+        var ids = [];
+        this.data.eachChild(this.data.getRoot(), function (item) {
+            if ((0, focus_1.isBarItemFocusable)(item)) {
+                ids.push(item.id);
+            }
+        }, false);
+        return ids;
+    };
+    Navbar.prototype._resolveBarFocus = function () {
+        var ids = this._getBarItemIds();
+        this._resolvedBarFocusId = ids.indexOf(this._barFocusId) === -1 ? ids[0] : this._barFocusId;
+    };
+    Navbar.prototype._focusBarItem = function (id) {
+        var _a;
+        var node = (_a = this.getRootNode()) === null || _a === void 0 ? void 0 : _a.querySelector("[data-dhx-id=\"".concat(id, "\"]"));
+        if (node) {
+            node.focus();
+        }
+    };
+    Navbar.prototype._raiseFocusTooltip = function () {
+        return;
+    };
+    Navbar.prototype._bindBarHandlers = function (node) {
+        var _this = this;
+        node.addEventListener("focusin", function (e) { return _this._onBarFocusIn(e); });
+        node.addEventListener("keyup", function (e) {
+            if (e.which === keys_1.KEY_TAB) {
+                _this._raiseFocusTooltip();
+            }
+        }, true);
+    };
+    Navbar.prototype._onBarFocusIn = function (e) {
+        var itemId = (0, html_1.locate)(e);
+        var item = this.data.getItem(itemId);
+        if (!item || !(0, focus_1.isBarItemFocusable)(item) || this._barFocusId === itemId) {
+            return;
+        }
+        this._barFocusId = itemId;
+        if (this._resolvedBarFocusId !== itemId) {
+            this.paint();
+        }
+    };
+    Navbar.prototype._onBarKeyDown = function (e) {
+        /*
+            An open menu owns the arrow keys. defaultPrevented covers the step the menu handler has
+            just taken on this same key: closing a level leaves no popup open, and the bar must not
+            move as well.
+        */
+        if (e.defaultPrevented || this._popupActive || !this._hasBarNavigation) {
+            return;
+        }
+        var vertical = this._barOrientation === "vertical";
+        var back = vertical ? keys_1.KEY_UP : keys_1.KEY_LEFT;
+        var forward = vertical ? keys_1.KEY_DOWN : keys_1.KEY_RIGHT;
+        var step = e.which === back ? -1 : e.which === forward ? 1 : 0;
+        var toEdge = e.which === keys_1.KEY_HOME || e.which === keys_1.KEY_END;
+        if ((!step && !toEdge) || (0, focus_1.fieldKeepsKey)(document.activeElement, e.which, step)) {
+            return;
+        }
+        var ids = this._getBarItemIds();
+        if (ids.length < 2) {
+            return;
+        }
+        var current = ids.indexOf(this._resolvedBarFocusId);
+        var next;
+        if (toEdge) {
+            next = e.which === keys_1.KEY_HOME ? 0 : ids.length - 1;
+        }
+        else {
+            next = (0, keys_1.getNextIndex)(current, ids.length, step);
+        }
+        if (ids[next] === this._resolvedBarFocusId) {
+            return;
+        }
+        e.preventDefault();
+        this._barFocusId = ids[next];
+        this.paint();
+        this._focusBarItem(this._barFocusId);
+        this._raiseFocusTooltip();
+    };
+    /** Shared by the click handler and the key handler, so that both open a menu the same way. */
+    Navbar.prototype._openMenu = function (id, element, e) {
+        if (this.data.getParent(id) === this.data.getRoot()) {
+            this._menuOpenerId = id;
+        }
+        if (!this._vpopups) {
+            this._init();
+        }
+        if (!this._isActive) {
+            this._isActive = true;
+        }
+        this._setRoot(id);
+        var position = (0, html_1.getRealPosition)(element);
+        this.data.update(id, { $position: position }, false);
+        this._activeItemChange(id, e);
     };
     Navbar.prototype._close = function (e) {
         var _this = this;
         if (!this._popupActive || !this.events.fire(types_1.NavigationBarEvents.beforeHide, [this._activeMenu, e])) {
             return;
         }
+        var restoreFocus = this._isFocusInPopup();
+        this._menuFocusId = null;
+        this._focusMenuOnDraw = false;
         if (this._activeParents) {
             this._activeParents.forEach(function (parentId) { return _this.data.exists(parentId) && _this.data.update(parentId, { $activeParent: false }); });
         }
@@ -30394,8 +33321,16 @@ var Navbar = /** @class */ (function (_super) {
         this._activeMenu = null;
         !!this._vpopups.node && this._vpopups.unmount();
         this._vpopups = null;
+        if (isContextMenu(this.config)) {
+            this._activePosition = null;
+        }
         this.events.fire(types_1.NavigationBarEvents.afterHide, [e]);
         this.paint();
+        if (restoreFocus) {
+            this._focusMenuOpener();
+        }
+        this._menuOpenerId = null;
+        this._menuReturnNode = null;
     };
     Navbar.prototype._init = function () {
         var _this = this;
@@ -30513,16 +33448,15 @@ var Navbar = /** @class */ (function (_super) {
                     return;
                 }
                 if (_this.data.haveItems(id)) {
-                    if (!_this._vpopups) {
-                        _this._init();
+                    var fromKey = !e.detail && _this._isFocusInPopup();
+                    var isOpen = _this._popupActive && _this._activeMenu === id;
+                    if (fromKey && !isOpen) {
+                        _this._focusMenuOnDraw = true;
                     }
-                    if (!_this._isActive) {
-                        _this._isActive = true;
+                    _this._openMenu(id, element, e);
+                    if (fromKey && isOpen) {
+                        _this._focusSubmenu(id);
                     }
-                    _this._setRoot(id);
-                    var position = (0, html_1.getRealPosition)(element);
-                    _this.data.update(id, { $position: position }, false);
-                    _this._activeItemChange(id, e);
                     _this.events.fire(types_1.NavigationBarEvents.click, [id, e]);
                 }
                 else {
@@ -30619,6 +33553,10 @@ var Navbar = /** @class */ (function (_super) {
         this.events.on(types_1.NavigationBarEvents.inputChange, function (id, newValue) {
             _this.data.update(id, { value: newValue });
         });
+        this.events.on(types_1.NavigationBarEvents.keydown, function (e, id) {
+            _this._onMenuKeyDown(e, id);
+            _this._onBarKeyDown(e);
+        });
         this._customInitEvents();
     };
     Navbar.prototype._getMode = function (item, root, _active) {
@@ -30677,16 +33615,31 @@ var Navbar = /** @class */ (function (_super) {
         parentIds.forEach(function (parentId) {
             return _this.data.exists(parentId) && _this.data.update(parentId, { $activeParent: true }, false);
         });
+        /*
+            A popup being entered from the keyboard takes the tab stop onto its own first item:
+            until then it still sits on the item that opened the popup, which belongs to the popup
+            behind it. Otherwise the tab stop is kept as long as the popup holding it is open.
+        */
+        if (this._focusMenuOnDraw || parentIds.indexOf(this.data.getParent(this._menuFocusId)) === -1) {
+            var deepest = parentIds.find(function (parentId) { return _this.data.haveItems(parentId); });
+            this._menuFocusId = this._getMenuItemIds(deepest)[0];
+        }
         return parentIds
             .map(function (itemId) {
             if (!_this.data.haveItems(itemId)) {
                 return null;
             }
-            var getAriaAttrs = function (item) { return ({
-                role: "menu",
-                "aria-labeledby": item.id,
-                "aria-live": "polite",
-            }); };
+            var getAriaAttrs = function (item) {
+                var attrs = {
+                    role: "menu",
+                };
+                var label = isContextMenu(_this.config) && itemId === root
+                    ? _this._getRootMenuLabel()
+                    : item.value || item.tooltip;
+                if (label)
+                    attrs["aria-label"] = label;
+                return attrs;
+            };
             var item = _this.data.getItem(itemId) || _this._rootItem; // for root item
             _this._popupActive = true;
             return (0, dom_1.el)("ul", __assign({ class: "dhx_widget dhx_menu" + (_this.config.menuCss ? " " + _this.config.menuCss : ""), _key: itemId, _hooks: {
@@ -30706,6 +33659,7 @@ var Navbar = /** @class */ (function (_super) {
                                 ? _this._activePosition.zIndex || zIndex
                                 : zIndex });
                         vnode.patch({ style: item.$style });
+                        _this._enterMenu(vnode.el, itemId);
                     },
                     didRecycle: function (_, vnode) {
                         if (isContextMenu(_this.config) && _this._activePosition && itemId === root) {
@@ -30719,11 +33673,181 @@ var Navbar = /** @class */ (function (_super) {
                             vnode.patch({ style: item.$style });
                         }
                     },
-                }, tabindex: 0, style: item.$style || {
+                }, tabindex: -1, style: item.$style || {
                     position: "absolute",
                 } }, getAriaAttrs(item)), _this._drawMenuItems(itemId));
         })
             .reverse();
+    };
+    Navbar.prototype._getMenuItemIds = function (parentId) {
+        var ids = [];
+        this.data.eachChild(parentId, function (item) {
+            if ((0, focus_1.isMenuItemFocusable)(item)) {
+                ids.push(item.id);
+            }
+        }, false);
+        return ids;
+    };
+    Navbar.prototype._enterMenu = function (popupEl, itemId) {
+        // a context menu that has just opened has no active item yet: its root popup is the one to enter
+        var target = isContextMenu(this.config) && !(0, core_1.isId)(this._activeMenu) ? this._currentRoot : this._activeMenu;
+        if (!this._focusMenuOnDraw || itemId !== target) {
+            return;
+        }
+        this._focusMenuOnDraw = false;
+        var node = popupEl.querySelector("[data-dhx-id=\"".concat(this._menuFocusId, "\"]"));
+        if (node) {
+            node.focus();
+        }
+    };
+    Navbar.prototype._focusMenuItem = function (id) {
+        var _a, _b, _c;
+        var node = (_c = (_b = (_a = this._vpopups) === null || _a === void 0 ? void 0 : _a.node) === null || _b === void 0 ? void 0 : _b.el) === null || _c === void 0 ? void 0 : _c.querySelector("[data-dhx-id=\"".concat(id, "\"]"));
+        if (node) {
+            node.focus();
+        }
+    };
+    Navbar.prototype._isFocusInPopup = function () {
+        var _a, _b;
+        var popupRoot = (_b = (_a = this._vpopups) === null || _a === void 0 ? void 0 : _a.node) === null || _b === void 0 ? void 0 : _b.el;
+        return !!popupRoot && popupRoot.contains(document.activeElement);
+    };
+    /* Every way of opening a context menu ends here, so a key and the pointer both move focus into it. */
+    Navbar.prototype._enterContextMenu = function () {
+        var active = document.activeElement;
+        this._menuReturnNode = active && active !== document.body ? active : null;
+        this._focusMenuOnDraw = true;
+    };
+    /* A context menu is opened by no control of ours: focus goes back to where it was when it opened. */
+    Navbar.prototype._focusMenuOpener = function () {
+        var _a;
+        if (isContextMenu(this.config)) {
+            var node_1 = this._menuReturnNode;
+            if (node_1 && document.body.contains(node_1)) {
+                node_1.focus();
+            }
+            return;
+        }
+        if (!(0, core_1.isId)(this._menuOpenerId)) {
+            return;
+        }
+        var node = (_a = this.getRootNode()) === null || _a === void 0 ? void 0 : _a.querySelector("[data-dhx-id=\"".concat(this._menuOpenerId, "\"]"));
+        if (node) {
+            node.focus();
+        }
+    };
+    /* The menu button model of the WAI-ARIA Authoring Practices. */
+    Navbar.prototype._onMenuKeyDown = function (e, id) {
+        if (!this._popupActive || !this._isFocusInPopup()) {
+            // on the control that owns a menu, the key that opens it points at where it appears
+            this._openMenuFromControl(e, id, this._getOpenKey(id));
+            return;
+        }
+        switch (e.which) {
+            case keys_1.KEY_TAB:
+            case keys_1.KEY_ESC:
+                if (isContextMenu(this.config)) {
+                    // focus returns synchronously: the key must not act again where focus lands
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                else if (e.which === keys_1.KEY_ESC) {
+                    e.preventDefault();
+                }
+                this._close(e);
+                return;
+            case keys_1.KEY_RIGHT:
+                this._openMenuFromControl(e, id, keys_1.KEY_RIGHT);
+                return;
+            case keys_1.KEY_LEFT:
+                e.preventDefault();
+                this._closeMenuLevel(e, id);
+                return;
+            case keys_1.KEY_UP:
+            case keys_1.KEY_DOWN:
+            case keys_1.KEY_HOME:
+            case keys_1.KEY_END:
+                e.preventDefault();
+                this._moveMenuFocus(e, id);
+                return;
+            default:
+                return;
+        }
+    };
+    /*
+        The key has to point at the side the menu appears on, and that differs per widget.
+        _getMode already answers it for the drawing code, so it answers it here too.
+    */
+    Navbar.prototype._getOpenKey = function (id) {
+        var item = this.data.getItem(id);
+        if (!item) {
+            return keys_1.KEY_DOWN;
+        }
+        return this._getMode(item, id) === "bottom" ? keys_1.KEY_DOWN : keys_1.KEY_RIGHT;
+    };
+    Navbar.prototype._openMenuFromControl = function (e, id, openKey) {
+        if (e.which !== openKey || !(0, core_1.isId)(id) || !this.data.haveItems(id) || this.isDisabled(id)) {
+            return;
+        }
+        if (this._popupActive && this._activeMenu === id) {
+            e.preventDefault();
+            this._focusSubmenu(id);
+            return;
+        }
+        var element = (0, html_1.locateNode)(e.target);
+        if (!element) {
+            return;
+        }
+        e.preventDefault();
+        this._focusMenuOnDraw = true;
+        this._openMenu(id, element, e);
+    };
+    Navbar.prototype._focusSubmenu = function (id) {
+        if (this.data.getParent(this._menuFocusId) !== id) {
+            this._menuFocusId = this._getMenuItemIds(id)[0];
+            this.paint();
+        }
+        this._focusMenuItem(this._menuFocusId);
+    };
+    Navbar.prototype._moveMenuFocus = function (e, id) {
+        var _a;
+        var parentId = (_a = this.data.getParent(id)) !== null && _a !== void 0 ? _a : this._activeMenu;
+        var ids = this._getMenuItemIds(parentId);
+        if (!ids.length) {
+            return;
+        }
+        var current = ids.indexOf(id);
+        var next;
+        if (e.which === keys_1.KEY_HOME) {
+            next = 0;
+        }
+        else if (e.which === keys_1.KEY_END) {
+            next = ids.length - 1;
+        }
+        else {
+            next = (0, keys_1.getNextIndex)(current, ids.length, e.which === keys_1.KEY_DOWN ? 1 : -1);
+        }
+        this._menuFocusId = ids[next];
+        this.paint();
+        this._focusMenuItem(this._menuFocusId);
+    };
+    /* One level back: onto the item that opened this popup, or onto the control of the bar. */
+    Navbar.prototype._closeMenuLevel = function (e, id) {
+        var owner = this.data.getParent(id);
+        var openPopups = this._activeParents || [];
+        var outermost = openPopups[openPopups.length - 1];
+        if (!(0, core_1.isId)(owner)) {
+            return;
+        }
+        if (owner !== outermost) {
+            this._menuFocusId = owner;
+            this._activeItemChange(this.data.getParent(owner), e);
+            this._focusMenuItem(owner);
+            return;
+        }
+        if (owner !== this.data.getRoot()) {
+            this._close(e);
+        }
     };
     Navbar.prototype._onMenuItemClick = function (id, e) {
         var item = this.data.getItem(id);
@@ -30790,24 +33914,24 @@ exports.Navbar = Navbar;
 
 
 /***/ }),
-/* 151 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createFactory = void 0;
-var button_1 = __webpack_require__(152);
-var navItem_1 = __webpack_require__(153);
-var customHTMLButton_1 = __webpack_require__(154);
-var imageButton_1 = __webpack_require__(155);
-var input_1 = __webpack_require__(156);
-var menuItem_1 = __webpack_require__(157);
-var separator_1 = __webpack_require__(158);
-var spacer_1 = __webpack_require__(159);
-var title_1 = __webpack_require__(160);
-var datePicker_1 = __webpack_require__(161);
-var helpers_1 = __webpack_require__(31);
+var button_1 = __webpack_require__(157);
+var navItem_1 = __webpack_require__(158);
+var customHTMLButton_1 = __webpack_require__(159);
+var imageButton_1 = __webpack_require__(160);
+var input_1 = __webpack_require__(161);
+var menuItem_1 = __webpack_require__(162);
+var separator_1 = __webpack_require__(163);
+var spacer_1 = __webpack_require__(164);
+var title_1 = __webpack_require__(165);
+var datePicker_1 = __webpack_require__(166);
+var helpers_1 = __webpack_require__(28);
 function itemfactory(item, events, widgetName, props) {
     switch (item.type) {
         case "navItem":
@@ -30906,6 +34030,7 @@ function createFactory(_a) {
                 }
             });
         }
+        item.$tabindex = widget.$getTabindex(item, asMenuItem);
         var itemVNode = item.type !== "customHTML" &&
             itemfactory(item, events, widgetName, {
                 asMenuItem: asMenuItem,
@@ -30918,7 +34043,7 @@ exports.createFactory = createFactory;
 
 
 /***/ }),
-/* 152 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30937,14 +34062,17 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.button = void 0;
 var dom_1 = __webpack_require__(0);
-var helpers_1 = __webpack_require__(31);
+var helpers_1 = __webpack_require__(28);
 function button(item, widgetName) {
     var getAriaAttrs = function (item) {
         var isItemActivated = item.active || item.$activeParent;
         var attrs = {
             "aria-disabled": item.disabled ? "true" : "false",
-            "aria-label": item.value || item.tooltip || item.id || "" + " ".concat(item.count || ""),
         };
+        var label = (0, helpers_1.getButtonLabel)(item, item.id);
+        if (label) {
+            attrs["aria-label"] = label;
+        }
         if (item.items) {
             // as menu
             attrs["id"] = item.id;
@@ -30953,11 +34081,14 @@ function button(item, widgetName) {
                 attrs["aria-expanded"] = "true";
             }
         }
+        else if ((0, helpers_1.isToggleItem)(item)) {
+            attrs["aria-pressed"] = (0, helpers_1.getToggleState)(item);
+        }
         return attrs;
     };
     var isIconButton = item.icon && !item.value;
     var counterClass = isIconButton ? " dhx_navbar-count--absolute" : " dhx_navbar-count--button-inline";
-    return (0, dom_1.el)("button.dhx_button", __assign({ class: (0, helpers_1.getNavbarButtonCSS)(item, widgetName), "data-dhx-id": item.id, disabled: item.disabled, type: "button" }, getAriaAttrs(item)), [
+    return (0, dom_1.el)("button.dhx_button", __assign({ class: (0, helpers_1.getNavbarButtonCSS)(item, widgetName), "data-dhx-id": item.id, disabled: item.disabled, type: "button", tabindex: item.$tabindex }, getAriaAttrs(item)), [
         item.icon ? (0, helpers_1.getIcon)(item.icon, "button") : null,
         item.html
             ? (0, dom_1.el)("div.dhx_button__text", { ".innerHTML": item.html })
@@ -30978,7 +34109,7 @@ exports.button = button;
 
 
 /***/ }),
-/* 153 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30997,13 +34128,16 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.navItem = void 0;
 var dom_1 = __webpack_require__(0);
-var helpers_1 = __webpack_require__(31);
+var helpers_1 = __webpack_require__(28);
 function navItem(item, widgetName, collapsed) {
     var getAriaAttrs = function (item) {
         var attrs = {
             "aria-disabled": item.disabled ? "true" : "false",
-            "aria-label": item.value || " ",
         };
+        var label = (0, helpers_1.getButtonLabel)(item);
+        if (label) {
+            attrs["aria-label"] = label;
+        }
         var isItemActivated = item.active || item.$activeParent;
         if (item.type === "selectButton" || item.items) {
             attrs["id"] = item.id;
@@ -31013,11 +34147,8 @@ function navItem(item, widgetName, collapsed) {
             }
         }
         else {
-            if (item.twoState || isItemActivated) {
-                attrs["aria-pressed"] = isItemActivated ? "true" : "false";
-            }
-            if (!item.value && item.icon && item.tooltip) {
-                attrs["aria-label"] = "".concat(item.tooltip, " ").concat(item.count || "");
+            if ((0, helpers_1.isToggleItem)(item)) {
+                attrs["aria-pressed"] = (0, helpers_1.getToggleState)(item);
             }
         }
         return attrs;
@@ -31031,7 +34162,7 @@ function navItem(item, widgetName, collapsed) {
             (item.circle ? baseClass + "--circle" : "") +
             (item.size ? " " + baseClass + "--" + item.size : "") +
             (!item.value && item.icon ? baseClass + "--icon" : "") +
-            (item.css ? " " + item.css : ""), "data-dhx-id": item.id, disabled: item.disabled, type: "button" }, getAriaAttrs(item)), [
+            (item.css ? " " + item.css : ""), "data-dhx-id": item.id, disabled: item.disabled, type: "button", tabindex: item.$tabindex }, getAriaAttrs(item)), [
         item.icon &&
             (0, dom_1.el)("span", {
                 class: item.icon + baseClass + "__icon",
@@ -31059,7 +34190,7 @@ exports.navItem = navItem;
 
 
 /***/ }),
-/* 154 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31078,24 +34209,28 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.customHTMLButton = void 0;
 var dom_1 = __webpack_require__(0);
+var helpers_1 = __webpack_require__(28);
 function customHTMLButton(item, widgetName, asMenuItem) {
     var getAriaAttrs = function (item) {
         var attrs = {
             "aria-disabled": item.disabled ? "true" : "false",
         };
-        if (item.twoState || item.active || item.$activeParent) {
-            attrs["aria-pressed"] = item.active || item.$activeParent ? "true" : "false";
+        if ((0, helpers_1.isToggleItem)(item)) {
+            attrs["aria-pressed"] = (0, helpers_1.getToggleState)(item);
+        }
+        if (item.html && item.tooltip) {
+            attrs["aria-label"] = item.tooltip;
         }
         return attrs;
     };
     var baseClass = asMenuItem ? " dhx_button dhx_menu-button" : " dhx_button dhx_nav-menu-button";
-    return (0, dom_1.el)("button", __assign({ class: "dhx_custom-button" + baseClass + (item.$activeParent ? baseClass + "--active" : ""), "data-dhx-id": item.id, type: "button", ".innerHTML": item.html }, getAriaAttrs(item)), item.html ? "" : item.value);
+    return (0, dom_1.el)("button", __assign({ class: "dhx_custom-button" + baseClass + (item.$activeParent ? baseClass + "--active" : ""), "data-dhx-id": item.id, type: "button", tabindex: item.$tabindex, ".innerHTML": item.html }, getAriaAttrs(item)), item.html ? "" : item.value);
 }
 exports.customHTMLButton = customHTMLButton;
 
 
 /***/ }),
-/* 155 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31114,17 +34249,18 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.imageButton = void 0;
 var dom_1 = __webpack_require__(0);
-var helpers_1 = __webpack_require__(31);
+var helpers_1 = __webpack_require__(28);
 function imageButton(item, widgetName) {
     var getAriaAttrs = function (item) {
         var attrs = {
             "aria-disabled": item.disabled ? "true" : "false",
         };
-        if (item.twoState || item.active) {
-            attrs["aria-pressed"] = item.active ? "true" : "false";
+        var label = (0, helpers_1.getButtonLabel)(item);
+        if (label) {
+            attrs["aria-label"] = label;
         }
-        if (!item.value && item.src && item.tooltip) {
-            attrs["aria-label"] = "".concat(item.tooltip, " ").concat(item.count || "");
+        if ((0, helpers_1.isToggleItem)(item)) {
+            attrs["aria-pressed"] = (0, helpers_1.getToggleState)(item);
         }
         return attrs;
     };
@@ -31134,7 +34270,7 @@ function imageButton(item, widgetName) {
             (item.size ? " " + baseClass + "--" + item.size : "") +
             (!item.value && item.src ? " " + baseClass + "--icon" : "") +
             (isRibbon && item.$openIcon ? " " + baseClass + "--select" : "") +
-            (item.active ? " " + baseClass + "--active" : ""), "data-dhx-id": item.id, type: "button" }, getAriaAttrs(item)), [
+            (item.active ? " " + baseClass + "--active" : ""), "data-dhx-id": item.id, type: "button", tabindex: item.$tabindex }, getAriaAttrs(item)), [
         isRibbon &&
             item.value &&
             item.$openIcon &&
@@ -31164,7 +34300,7 @@ exports.imageButton = imageButton;
 
 
 /***/ }),
-/* 156 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31172,7 +34308,7 @@ exports.imageButton = imageButton;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.input = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(38);
+var types_1 = __webpack_require__(40);
 function onBlur(events, id) {
     events.fire(types_1.NavigationBarEvents.inputBlur, [id]);
 }
@@ -31208,6 +34344,7 @@ function input(item, events, widgetName) {
                 autocomplete: item.autocomplete ? "on" : "off",
                 value: item.value,
                 disabled: item.disabled,
+                tabindex: item.$tabindex,
                 onblur: [onBlur, events, item.id],
                 onfocus: [onFocus, events, item.id],
                 onchange: [onChange, events, item.id],
@@ -31237,7 +34374,7 @@ exports.input = input;
 
 
 /***/ }),
-/* 157 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31256,7 +34393,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.menuItem = void 0;
 var dom_1 = __webpack_require__(0);
-var helpers_1 = __webpack_require__(31);
+var helpers_1 = __webpack_require__(28);
 var core_1 = __webpack_require__(1);
 function menuItem(item, widgetName, asMenuItem) {
     var getAriaAttrs = function (item) {
@@ -31267,6 +34404,10 @@ function menuItem(item, widgetName, asMenuItem) {
         if (item.items) {
             attrs["aria-haspopup"] = "true";
         }
+        else if (asMenuItem && (0, helpers_1.isToggleItem)(item)) {
+            attrs.role = (0, core_1.isDefined)(item.group) ? "menuitemradio" : "menuitemcheckbox";
+            attrs["aria-checked"] = (0, helpers_1.getToggleState)(item);
+        }
         return attrs;
     };
     var baseClass = asMenuItem ? " dhx_menu-button" : " dhx_nav-menu-button";
@@ -31274,7 +34415,7 @@ function menuItem(item, widgetName, asMenuItem) {
     return (0, dom_1.el)("button", __assign({ class: "dhx_button" +
             baseClass +
             (item.disabled ? baseClass + "--disabled" : "") +
-            (item.active || item.$activeParent ? baseClass + "--active" : ""), disabled: item.disabled, "data-dhx-id": item.id, type: "button" }, getAriaAttrs(item)), asMenuItem
+            (item.active || item.$activeParent ? baseClass + "--active" : ""), disabled: item.disabled, "data-dhx-id": item.id, type: "button", tabindex: item.$tabindex }, getAriaAttrs(item)), asMenuItem
         ? [
             item.icon || item.value || item.html
                 ? (0, dom_1.el)("span.dhx_menu-button__block.dhx_menu-button__block--left", [
@@ -31310,7 +34451,7 @@ exports.menuItem = menuItem;
 
 
 /***/ }),
-/* 158 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31324,7 +34465,7 @@ exports.separator = separator;
 
 
 /***/ }),
-/* 159 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31338,7 +34479,7 @@ exports.spacer = spacer;
 
 
 /***/ }),
-/* 160 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31358,7 +34499,7 @@ exports.title = title;
 
 
 /***/ }),
-/* 161 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31377,10 +34518,10 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.datePicker = void 0;
 var dom_1 = __webpack_require__(0);
-var ts_calendar_1 = __webpack_require__(32);
-var ts_popup_1 = __webpack_require__(14);
-var types_1 = __webpack_require__(38);
-var date_1 = __webpack_require__(18);
+var ts_calendar_1 = __webpack_require__(33);
+var ts_popup_1 = __webpack_require__(13);
+var types_1 = __webpack_require__(40);
+var date_1 = __webpack_require__(17);
 var html_1 = __webpack_require__(2);
 function onBlur(events, item, e) {
     var element = e.target;
@@ -31449,6 +34590,7 @@ function datePicker(item, events, widgetName) {
                 class: item.icon ? "dhx_input--icon-padding" : "",
                 value: value,
                 disabled: item.disabled,
+                tabindex: item.$tabindex,
                 onblur: [onBlur, events, item],
                 onfocus: [onFocus, events, item],
                 oninput: [onInput, item, events],
@@ -31479,7 +34621,7 @@ exports.datePicker = datePicker;
 
 
 /***/ }),
-/* 162 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31524,11 +34666,11 @@ exports.Calendar = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
-var view_1 = __webpack_require__(9);
-var ts_timepicker_1 = __webpack_require__(51);
-var helper_1 = __webpack_require__(167);
-var date_1 = __webpack_require__(18);
-var types_1 = __webpack_require__(80);
+var view_1 = __webpack_require__(10);
+var ts_timepicker_1 = __webpack_require__(56);
+var helper_1 = __webpack_require__(172);
+var date_1 = __webpack_require__(17);
+var types_1 = __webpack_require__(86);
 var html_1 = __webpack_require__(2);
 var Calendar = /** @class */ (function (_super) {
     __extends(Calendar, _super);
@@ -31544,6 +34686,9 @@ var Calendar = /** @class */ (function (_super) {
         _this.events = new events_1.EventSystem();
         _this.config.disabledDates = _this.config.disabledDates || _this.config.block; // TODO: remove suite_7.0
         _this.config.mode = _this.config.mode || _this.config.view; // TODO: remove suite_7.0
+        if (_this._normalizeControls().indexOf("timepicker") !== -1) {
+            _this.config.timePicker = true;
+        }
         if (!_this.config.dateFormat) {
             if (_this.config.timePicker) {
                 if (_this.config.timeFormat === 12) {
@@ -31612,10 +34757,10 @@ var Calendar = /** @class */ (function (_super) {
         return _this;
     }
     Calendar.prototype.setValue = function (value) {
-        if (!value || (value instanceof Array && value.length === 0)) {
+        if (!value || (Array.isArray(value) && value.length === 0)) {
             return false;
         }
-        var currentDate = value instanceof Array ? value[0] : value;
+        var currentDate = Array.isArray(value) ? value[0] : value;
         var date = date_1.DateHelper.toDateObject(currentDate, this.config.dateFormat);
         var oldDate = date_1.DateHelper.copy(this._getSelected());
         if (!this.events.fire(types_1.CalendarEvents.beforeChange, [date, oldDate, false])) {
@@ -31668,16 +34813,23 @@ var Calendar = /** @class */ (function (_super) {
         this.unmount();
     };
     Calendar.prototype.clear = function () {
-        var oldDate = this.getValue(true);
-        if (!this.events.fire(types_1.CalendarEvents.beforeChange, ["", oldDate, false]))
+        this._clear(false);
+    };
+    Calendar.prototype._clear = function (byClick) {
+        var selected = this._getSelected();
+        var oldDate = selected ? date_1.DateHelper.copy(selected) : null;
+        if (oldDate && !this.events.fire(types_1.CalendarEvents.beforeChange, ["", oldDate, byClick])) {
             return;
+        }
         if (this.config.timePicker) {
             this._timepicker.clear();
             this._time = this._timepicker.getValue();
         }
         this._selected = [];
         this.showDate(null, this.config.mode);
-        this.events.fire(types_1.CalendarEvents.change, [this.getValue(true), oldDate, false, "clear"]);
+        if (oldDate) {
+            this.events.fire(types_1.CalendarEvents.change, ["", oldDate, byClick, "clear"]);
+        }
     };
     Calendar.prototype.link = function (targetCalendar) {
         var _this = this;
@@ -31747,9 +34899,9 @@ var Calendar = /** @class */ (function (_super) {
     };
     Calendar.prototype._setSelected = function (value) {
         var _this = this;
-        var currentDate = value instanceof Array ? value[0] : value;
+        var currentDate = Array.isArray(value) ? value[0] : value;
         var date = date_1.DateHelper.toDateObject(currentDate, this.config.dateFormat);
-        if (value instanceof Array && this.config.range) {
+        if (Array.isArray(value) && this.config.range) {
             var filterDate_1 = [];
             value.forEach(function (element, index) {
                 if (index < 2) {
@@ -31769,6 +34921,26 @@ var Calendar = /** @class */ (function (_super) {
     };
     Calendar.prototype._getSelected = function () {
         return this._selected[this._selected.length - 1];
+    };
+    Calendar.prototype._normalizeControls = function () {
+        var _a = this.config, controls = _a.controls, timePicker = _a.timePicker;
+        var allowed = ["clear", "today", "timepicker", "spacer"];
+        var result = [];
+        if (controls === true) {
+            result = ["spacer", "clear", "today"];
+        }
+        else if (Array.isArray(controls)) {
+            controls.forEach(function (control) {
+                var normalized = control.toLowerCase();
+                if (allowed.indexOf(normalized) !== -1) {
+                    result.push(normalized);
+                }
+            });
+        }
+        if (timePicker && result.indexOf("timepicker") === -1) {
+            result.unshift("timepicker");
+        }
+        return result;
     };
     Calendar.prototype._draw = function () {
         switch (this._currentViewMode) {
@@ -31886,6 +35058,8 @@ var Calendar = /** @class */ (function (_super) {
                     _this._currentViewMode = "timepicker";
                     _this.paint();
                 },
+                ".dhx_calendar-action__clear": function () { return _this._clear(true); },
+                ".dhx_calendar-action__today": function () { return _this._selectToday(); },
             },
             onmouseover: {
                 ".dhx_calendar-day": function (event, node) {
@@ -32081,15 +35255,7 @@ var Calendar = /** @class */ (function (_super) {
                     ]),
                 !this.config.weekNumbers && (0, dom_1.el)(".dhx_calendar__weekdays", weekDaysHeader),
                 !this.config.weekNumbers && (0, dom_1.el)(".dhx_calendar__days", content),
-                timePicker
-                    ? (0, dom_1.el)(".dhx_timepicker__actions", [
-                        (0, dom_1.el)("button.dhx_calendar__timepicker-button." +
-                            "dhx_button.dhx_button--view_link.dhx_button--size_small.dhx_button--color_secondary.dhx_button--width_full.dhx_button--circle.dhx_calendar-action__show-timepicker", { type: "button" }, [
-                            (0, dom_1.el)("span.dhx_button__icon.dxi.dxi-clock-outline"),
-                            (0, dom_1.el)("span.dhx_button__text", this._time),
-                        ]),
-                    ])
-                    : null,
+                this._drawControls(),
             ]),
         ]);
     };
@@ -32216,6 +35382,39 @@ var Calendar = /** @class */ (function (_super) {
             }, [(0, dom_1.el)(".dhx_button__icon.dxi.dxi-chevron-right")]),
         ]);
     };
+    Calendar.prototype._drawControls = function () {
+        var _this = this;
+        var controls = this._normalizeControls();
+        if (!controls.length) {
+            return null;
+        }
+        var isFullWidth = controls.length === 1 && controls[0] !== "spacer";
+        return (0, dom_1.el)(".dhx_calendar__toolbar", {
+            class: isFullWidth ? "dhx_calendar__toolbar--full" : "",
+        }, controls.map(function (control) {
+            switch (control) {
+                case "spacer":
+                    return (0, dom_1.el)(".dhx_calendar__toolbar-spacer");
+                case "timepicker":
+                    return _this._drawTimepickerControl(isFullWidth);
+                case "clear":
+                case "today":
+                    return _this._drawControlButton(control, isFullWidth);
+            }
+        }));
+    };
+    Calendar.prototype._drawControlButton = function (control, fullWidth) {
+        if (fullWidth === void 0) { fullWidth = false; }
+        var text = date_1.locale[control];
+        return (0, dom_1.el)((0, helper_1.getControlButtonClass)(control, fullWidth), { type: "button" }, text);
+    };
+    Calendar.prototype._drawTimepickerControl = function (fullWidth) {
+        if (fullWidth === void 0) { fullWidth = false; }
+        return (0, dom_1.el)((0, helper_1.getControlButtonClass)("timepicker", fullWidth), { type: "button" }, [
+            (0, dom_1.el)("span.dhx_button__icon.dxi.dxi-clock-outline"),
+            (0, dom_1.el)("span.dhx_button__text", this._time),
+        ]);
+    };
     Calendar.prototype._drawTimepicker = function () {
         var _a = this.config, css = _a.css, weekNumbers = _a.weekNumbers, width = _a.width;
         return (0, dom_1.el)(".dhx_widget.dhx-calendar", {
@@ -32285,6 +35484,24 @@ var Calendar = /** @class */ (function (_super) {
                 }
         }
     };
+    Calendar.prototype._selectToday = function () {
+        var oldDate = date_1.DateHelper.copy(this._getSelected());
+        var today = new Date();
+        var newDate = this.config.timePicker
+            ? date_1.DateHelper.mergeHoursAndMinutes(today, this._getSelected() || this._currentDate)
+            : date_1.DateHelper.dayStart(today);
+        if (!this.events.fire(types_1.CalendarEvents.beforeChange, [newDate, oldDate, true])) {
+            return;
+        }
+        this._selected = [];
+        this._selected[0] = newDate;
+        if (this._timepicker) {
+            this._timepicker.setValue(newDate);
+            this._time = this._timepicker.getValue();
+        }
+        this.showDate(newDate, "calendar");
+        this.events.fire(types_1.CalendarEvents.change, [newDate, oldDate, true]);
+    };
     Calendar.prototype._moveBrowseFocus = function (e, node, range) {
         if (node) {
             var nextNode = node.parent.body[node.idx + range];
@@ -32304,7 +35521,7 @@ exports.Calendar = Calendar;
 
 
 /***/ }),
-/* 163 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32340,12 +35557,12 @@ exports.Timepicker = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
-var view_1 = __webpack_require__(9);
-var ts_layout_1 = __webpack_require__(16);
-var ts_slider_1 = __webpack_require__(52);
-var en_1 = __webpack_require__(78);
-var helper_1 = __webpack_require__(166);
-var types_1 = __webpack_require__(79);
+var view_1 = __webpack_require__(10);
+var ts_layout_1 = __webpack_require__(15);
+var ts_slider_1 = __webpack_require__(57);
+var en_1 = __webpack_require__(84);
+var helper_1 = __webpack_require__(171);
+var types_1 = __webpack_require__(85);
 var html_1 = __webpack_require__(2);
 function validate(value, max) {
     if (isNaN(value)) {
@@ -32677,7 +35894,7 @@ exports.Timepicker = Timepicker;
 
 
 /***/ }),
-/* 164 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32713,10 +35930,10 @@ exports.Slider = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
-var KeyManager_1 = __webpack_require__(17);
-var view_1 = __webpack_require__(9);
-var ts_popup_1 = __webpack_require__(14);
-var types_1 = __webpack_require__(77);
+var KeyManager_1 = __webpack_require__(16);
+var view_1 = __webpack_require__(10);
+var ts_popup_1 = __webpack_require__(13);
+var types_1 = __webpack_require__(83);
 var html_1 = __webpack_require__(2);
 function normalizeValue(value, min, max) {
     if (value < min) {
@@ -33389,7 +36606,7 @@ exports.Slider = Slider;
 
 
 /***/ }),
-/* 165 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33426,8 +36643,8 @@ var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
 var html_1 = __webpack_require__(2);
-var view_1 = __webpack_require__(9);
-var types_1 = __webpack_require__(76);
+var view_1 = __webpack_require__(10);
+var types_1 = __webpack_require__(82);
 var Popup = /** @class */ (function (_super) {
     __extends(Popup, _super);
     function Popup(config) {
@@ -33436,8 +36653,6 @@ var Popup = /** @class */ (function (_super) {
         var popup = (_this._popup = document.createElement("div"));
         popup.className = "dhx_widget dhx_popup" + (_this.config.css ? " " + _this.config.css : "");
         popup.style.position = "absolute";
-        popup.setAttribute("role", "dialog");
-        popup.setAttribute("aria-modal", "true");
         popup.setAttribute("aria-live", "polite");
         _this.config.theme && _this._setTheme(_this.config.theme);
         _this.mount(popup, (0, dom_1.create)({
@@ -33661,7 +36876,7 @@ exports.Popup = Popup;
 
 
 /***/ }),
-/* 166 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33678,18 +36893,31 @@ exports.isTimeCheck = isTimeCheck;
 
 
 /***/ }),
-/* 167 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.linkButtonClasses = void 0;
+exports.getControlButtonClass = exports.linkButtonClasses = void 0;
 exports.linkButtonClasses = ".dhx_button.dhx_button--view_link.dhx_button--icon.dhx_button--size_medium.dhx_button--color_secondary";
+var controlLinkButtonClasses = ".dhx_calendar__toolbar-button.dhx_button.dhx_button--view_link.dhx_button--size_small.dhx_button--color_secondary.dhx_button--circle";
+var controlButtonClasses = {
+    clear: "button.dhx_calendar-action__clear" + controlLinkButtonClasses,
+    today: "button.dhx_calendar-action__today" + controlLinkButtonClasses,
+    timepicker: "button.dhx_calendar__timepicker-button" +
+        controlLinkButtonClasses +
+        ".dhx_calendar-action__show-timepicker",
+};
+var getControlButtonClass = function (control, fullWidth) {
+    if (fullWidth === void 0) { fullWidth = false; }
+    return controlButtonClasses[control] + (fullWidth ? ".dhx_button--width_full" : "");
+};
+exports.getControlButtonClass = getControlButtonClass;
 
 
 /***/ }),
-/* 168 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33722,11 +36950,9 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProToolbar = void 0;
-var Toolbar_1 = __webpack_require__(75);
-var ScrollView_1 = __webpack_require__(22);
+var Toolbar_1 = __webpack_require__(79);
+var ScrollView_1 = __webpack_require__(24);
 var dom_1 = __webpack_require__(0);
-var html_1 = __webpack_require__(2);
-var ts_message_1 = __webpack_require__(13);
 var ProToolbar = /** @class */ (function (_super) {
     __extends(ProToolbar, _super);
     function ProToolbar(element, config) {
@@ -33734,12 +36960,9 @@ var ProToolbar = /** @class */ (function (_super) {
         _this.scrollView = new ScrollView_1.ScrollView(function () { return _this.getRootView(); });
         return _this;
     }
-    ProToolbar.prototype._draw = function (element) {
+    ProToolbar.prototype._draw = function () {
         var _this = this;
-        var getAriaAttrs = function (element) { return ({
-            role: "toolbar",
-            "aria-label": element || "",
-        }); };
+        this._resolveBarFocus();
         var toolbarHeight = this.data.getLength()
             ? this.data.reduce(function (result, item) {
                 switch (item.type) {
@@ -33753,30 +36976,11 @@ var ProToolbar = /** @class */ (function (_super) {
             }, 0) + 24
             : null;
         var navBar = [
-            (0, dom_1.el)("ul.dhx_navbar.dhx_navbar--horizontal", __assign(__assign({ "data-dhx-widget-id": this._uid, tabindex: 0 }, getAriaAttrs(element)), { onclick: this._handlers.onclick, onmousedown: this._handlers.onmousedown, oninput: this._handlers.input, onmouseover: this._handlers.tooltip, onkeydown: this._handlers.onkeydown, onmousemove: this._handlers.onmousemove, onmouseleave: this._handlers.onmouseleave, _hooks: {
-                    didInsert: function (node) {
-                        node.el.addEventListener("keyup", function (e) {
-                            if (e.which !== 9) {
-                                return;
-                            }
-                            var elem = (0, html_1.locateNode)(document.activeElement);
-                            if (!elem) {
-                                return;
-                            }
-                            var id = elem.getAttribute("data-dhx-id");
-                            var item = _this.data.getItem(id);
-                            if (item === null || item === void 0 ? void 0 : item.tooltip) {
-                                (0, ts_message_1.tooltip)(item.tooltip, {
-                                    node: elem,
-                                    position: ts_message_1.Position.bottom,
-                                    force: true,
-                                });
-                            }
-                        }, true);
-                    },
+            (0, dom_1.el)("ul.dhx_navbar.dhx_navbar--horizontal", __assign(__assign({ "data-dhx-widget-id": this._uid }, this._getAriaAttrs()), { onclick: this._handlers.onclick, onmousedown: this._handlers.onmousedown, oninput: this._handlers.input, onmouseover: this._handlers.tooltip, onkeydown: this._handlers.onkeydown, onmousemove: this._handlers.onmousemove, onmouseleave: this._handlers.onmouseleave, _hooks: {
+                    didInsert: function (node) { return _this._bindBarHandlers(node.el); },
                 } }), this.data.map(function (item) { return _this._factory(item); }, this.data.getRoot(), false)),
         ];
-        return (0, dom_1.el)("nav.dhx_widget.dhx_toolbar", {
+        return (0, dom_1.el)("div.dhx_widget.dhx_toolbar", {
             style: { height: toolbarHeight },
             class: this.config.css ? this.config.css : "",
         }, this.scrollView && this.scrollView.config.enable
@@ -33789,7 +36993,7 @@ exports.ProToolbar = ProToolbar;
 
 
 /***/ }),
-/* 169 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33821,14 +37025,14 @@ exports.layoutConfigWithoutTopbar = {
 
 
 /***/ }),
-/* 170 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isImage = exports.getFileClassName = exports.getFileType = exports.FileType = exports.calculateCover = exports.truncateWord = exports.getBasis = void 0;
-var en_1 = __webpack_require__(53);
+var en_1 = __webpack_require__(58);
 var basis = ["byte", "kilobyte", "megabyte", "gigabyte"];
 function getBasis(size, current) {
     if (size === void 0) { size = 0; }
@@ -34058,7 +37262,7 @@ exports.isImage = isImage;
 
 
 /***/ }),
-/* 171 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34081,9 +37285,9 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProgressBar = void 0;
 var dom_1 = __webpack_require__(0);
-var view_1 = __webpack_require__(9);
-var en_1 = __webpack_require__(53);
-var types_1 = __webpack_require__(36);
+var view_1 = __webpack_require__(10);
+var en_1 = __webpack_require__(58);
+var types_1 = __webpack_require__(38);
 var ProgressBar = /** @class */ (function (_super) {
     __extends(ProgressBar, _super);
     function ProgressBar(events, config) {
@@ -34133,7 +37337,7 @@ exports.ProgressBar = ProgressBar;
 
 
 /***/ }),
-/* 172 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34187,14 +37391,14 @@ exports.ReadStackPreview = ReadStackPreview;
 
 
 /***/ }),
-/* 173 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getEditor = void 0;
-var InputEditor_1 = __webpack_require__(174);
+var InputEditor_1 = __webpack_require__(179);
 function getEditor(item, list) {
     return new InputEditor_1.InputEditor(item, list);
 }
@@ -34202,7 +37406,7 @@ exports.getEditor = getEditor;
 
 
 /***/ }),
-/* 174 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34210,7 +37414,7 @@ exports.getEditor = getEditor;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InputEditor = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(54);
+var types_1 = __webpack_require__(59);
 var InputEditor = /** @class */ (function () {
     function InputEditor(item, list) {
         var _this = this;
@@ -34296,7 +37500,7 @@ exports.InputEditor = InputEditor;
 
 
 /***/ }),
-/* 175 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34339,8 +37543,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProList = void 0;
 var dom_1 = __webpack_require__(0);
-var ScrollView_1 = __webpack_require__(22);
-var List_1 = __webpack_require__(81);
+var ScrollView_1 = __webpack_require__(24);
+var List_1 = __webpack_require__(87);
 var ProList = /** @class */ (function (_super) {
     __extends(ProList, _super);
     function ProList(container, config) {
@@ -34392,7 +37596,7 @@ exports.ProList = ProList;
 
 
 /***/ }),
-/* 176 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34426,25 +37630,32 @@ exports.Colorpicker = void 0;
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
 var html_1 = __webpack_require__(2);
-var view_1 = __webpack_require__(9);
+var view_1 = __webpack_require__(10);
 var core_1 = __webpack_require__(1);
-var color_1 = __webpack_require__(56);
-var colors_1 = __webpack_require__(83);
-var en_1 = __webpack_require__(57);
-var types_1 = __webpack_require__(84);
+var color_1 = __webpack_require__(42);
+var colors_1 = __webpack_require__(89);
+var en_1 = __webpack_require__(43);
+var types_1 = __webpack_require__(90);
 // tslint:disable-next-line
-var tooltip_1 = __webpack_require__(74);
+var tooltip_1 = __webpack_require__(78);
 // tslint:disable-next-line
-var ts_message_1 = __webpack_require__(13);
-var picker_1 = __webpack_require__(177);
-var calculations_1 = __webpack_require__(178);
-var KeyManager_1 = __webpack_require__(17);
-var FocusManager_1 = __webpack_require__(20);
+var ts_message_1 = __webpack_require__(19);
+var picker_1 = __webpack_require__(182);
+var colorNames_1 = __webpack_require__(183);
+var constants_1 = __webpack_require__(184);
+var calculations_1 = __webpack_require__(185);
+var KeyManager_1 = __webpack_require__(16);
+var FocusManager_1 = __webpack_require__(21);
 var core_2 = __webpack_require__(1);
 var Colorpicker = /** @class */ (function (_super) {
     __extends(Colorpicker, _super);
     function Colorpicker(container, config) {
         var _this = _super.call(this, container, config) || this;
+        _this._cellRows = [];
+        _this._cellColors = {};
+        _this._grayCellIds = [];
+        _this._paletteRows = [];
+        _this._customCellIds = [];
         _this._setPaletteGrip = function (e) {
             var paletteRect = _this.getRootView().refs.picker_palette.el.getBoundingClientRect();
             var clientX = e.targetTouches ? e.targetTouches[0].clientX : e.clientX;
@@ -34475,6 +37686,7 @@ var Colorpicker = /** @class */ (function (_super) {
         };
         _this._onColorClick = function (_e, node) {
             var color = node.data.color.toUpperCase();
+            _this._focusCellId = node.data.id;
             if (!_this.events.fire(types_1.ColorpickerEvents.beforeChange, [color]))
                 return;
             _this._selected = color;
@@ -34517,6 +37729,8 @@ var Colorpicker = /** @class */ (function (_super) {
         this._keyManager && this._keyManager.destructor();
         this.events && this.events.clear();
         this.config = this.events = this._selected = this._handlers = this._pickerState = this._inputTimeout = this._keyManager = null;
+        this._focusCellId = this._resolvedFocusCellId = this._cellRows = this._cellColors = null;
+        this._grayCellIds = this._paletteRows = this._customCellIds = null;
         this.unmount();
     };
     Colorpicker.prototype.clear = function () {
@@ -34552,10 +37766,14 @@ var Colorpicker = /** @class */ (function (_super) {
     };
     Colorpicker.prototype.setCurrentMode = function (mode) {
         if (mode === "palette" || mode === "picker") {
+            var hadFocus = this._hasFocus();
             this.config.mode = mode;
             this.events.fire(types_1.ColorpickerEvents.modeChange, [mode]);
             this.events.fire(types_1.ColorpickerEvents.viewChange, [mode]); // TODO: remove suite_7.0
             this.paint();
+            if (hadFocus) {
+                this._restoreFocus();
+            }
         }
     };
     Colorpicker.prototype.getCurrentMode = function () {
@@ -34586,6 +37804,7 @@ var Colorpicker = /** @class */ (function (_super) {
                 _this._pickerMove(e);
             },
             buttonsClick: function (button) {
+                var hadFocus = _this._hasFocus();
                 _this.setCurrentMode("palette");
                 if (button === "cancel") {
                     _this.events.fire(types_1.ColorpickerEvents.cancelClick, []);
@@ -34598,6 +37817,9 @@ var Colorpicker = /** @class */ (function (_super) {
                     _this.setValue(color);
                     _this.events.fire(types_1.ColorpickerEvents.apply, []);
                     _this.events.fire(types_1.ColorpickerEvents.selectClick, []); // TODO: remove suite_7.0
+                    if (hadFocus) {
+                        _this._restoreFocus();
+                    }
                 }
             },
             customColorClick: function () {
@@ -34732,58 +37954,69 @@ var Colorpicker = /** @class */ (function (_super) {
     Colorpicker.prototype._removeCustomColor = function (index) {
         this.config.customColors.splice(index, 1);
     };
-    Colorpicker.prototype._getCells = function (colors, cellClass) {
+    Colorpicker.prototype._getCells = function (ids, role, cellClass) {
         var _this = this;
         if (cellClass === void 0) { cellClass = ""; }
-        return colors.reduce(function (cells, color) {
-            var selected = (_this._selected || "").toUpperCase() === color.toUpperCase()
-                ? "dhx_palette__cell--selected"
-                : "";
-            cells.push((0, dom_1.el)(".dhx_palette__cell", {
-                class: "".concat(selected, " ").concat(cellClass),
-                _data: { color: color },
+        return ids.map(function (id) {
+            var color = _this._cellColors[id];
+            var isSelected = (_this._selected || "").toUpperCase() === color.toUpperCase();
+            return (0, dom_1.el)(".dhx_palette__cell", {
+                class: "".concat(isSelected ? "dhx_palette__cell--selected" : "", " ").concat(cellClass),
+                _data: { color: color, id: id },
                 style: "background:".concat(color),
-                tabindex: 0,
-            }));
-            return cells;
-        }, []);
+                role: role,
+                "aria-label": (0, colorNames_1.getColorName)(color),
+                "aria-selected": "".concat(isSelected),
+                "data-dhx-id": id,
+                tabindex: id === _this._resolvedFocusCellId ? 0 : -1,
+            });
+        });
     };
     Colorpicker.prototype._getGrayShades = function () {
-        return (0, dom_1.el)(".dhx_palette__row", this._getCells(colors_1.grayShades));
+        return (0, dom_1.el)(".dhx_palette__row", { role: "row" }, this._getCells(this._grayCellIds, "gridcell"));
     };
     Colorpicker.prototype._getPalette = function () {
         var _this = this;
-        return this.config.palette.reduce(function (total, row) {
-            total.push((0, dom_1.el)(".dhx_palette__col", _this._getCells(row)));
-            return total;
-        }, []);
+        return this._paletteRows.map(function (ids) {
+            return (0, dom_1.el)(".dhx_palette__row.dhx_palette__row--grid", { role: "row" }, _this._getCells(ids, "gridcell"));
+        });
     };
     Colorpicker.prototype._getContent = function () {
+        var isPalette = !this.config.pickerOnly && this.config.mode === "palette";
+        this._buildCellIndex(isPalette);
         var view;
-        if (this.config.pickerOnly) {
-            view = [(0, picker_1.getPicker)(this, this._pickerState, this._handlers)];
+        if (isPalette) {
+            var customHeaderId = "dhx_colorpicker__".concat(this._uid, "_custom");
+            view = [
+                (0, dom_1.el)(".dhx_palette__grid", { role: "grid", "aria-label": en_1.default.aria_palette }, __spreadArray([
+                    this.config.grayShades && this._getGrayShades()
+                ], this._getPalette(), true)),
+                !this.config.paletteOnly &&
+                    (0, dom_1.el)(".dhx_colorpicker-custom-colors", {
+                        onmouseover: this._handlers.mouseover,
+                        role: "group",
+                        "aria-labelledby": customHeaderId,
+                    }, [
+                        (0, dom_1.el)(".dhx_colorpicker-custom-colors__header", { id: customHeaderId }, [
+                            en_1.default.customColors,
+                        ]),
+                        (0, dom_1.el)(".dhx_palette--custom.dhx_palette__row", { role: "listbox", "aria-labelledby": customHeaderId }, __spreadArray(__spreadArray([], this._getCells(this._customCellIds, "option", "dhx_custom-color__cell"), true), [
+                            (0, dom_1.el)(".dhx_colorpicker-custom-colors__picker", {
+                                class: "dxi dxi-plus",
+                                onclick: this._handlers.customColorClick,
+                                onmouseover: this._handlers.mouseover,
+                                role: "option",
+                                "aria-label": en_1.default.addNewColor,
+                                "aria-selected": "false",
+                                "data-dhx-id": constants_1.ADD_COLOR_CELL_ID,
+                                tabindex: this._resolvedFocusCellId === constants_1.ADD_COLOR_CELL_ID ? 0 : -1,
+                            }),
+                        ], false)),
+                    ]),
+            ];
         }
         else {
-            view =
-                this.config.mode === "palette"
-                    ? __spreadArray(__spreadArray([
-                        this.config.grayShades && this._getGrayShades()
-                    ], this._getPalette(), true), [
-                        !this.config.paletteOnly &&
-                            (0, dom_1.el)(".dhx_colorpicker-custom-colors", {
-                                onmouseover: this._handlers.mouseover,
-                            }, [
-                                (0, dom_1.el)(".dhx_colorpicker-custom-colors__header", [en_1.default.customColors]),
-                                (0, dom_1.el)(".dhx_palette--custom.dhx_palette__row", __spreadArray(__spreadArray([], this._getCells(this.config.customColors, "dhx_custom-color__cell"), true), [
-                                    (0, dom_1.el)(".dhx_colorpicker-custom-colors__picker", {
-                                        class: "dxi dxi-plus",
-                                        onclick: this._handlers.customColorClick,
-                                        onmouseover: this._handlers.mouseover,
-                                        tabindex: 0,
-                                    }),
-                                ], false)),
-                            ]),
-                    ], false) : [(0, picker_1.getPicker)(this, this._pickerState, this._handlers)];
+            view = [(0, picker_1.getPicker)(this, this._pickerState, this._handlers)];
         }
         return (0, dom_1.el)(".dhx_widget.dhx_colorpicker", {
             class: this.config.css,
@@ -34791,10 +38024,150 @@ var Colorpicker = /** @class */ (function (_super) {
             "data-dhx-widget-id": this._uid,
         }, [
             (0, dom_1.el)(".dhx_palette", {
+                _key: isPalette ? "palette" : "picker",
                 onclick: this._handlers.click,
                 oncontextmenu: this._handlers.contextmenu,
             }, view),
         ]);
+    };
+    Colorpicker.prototype._buildCellIndex = function (isPalette) {
+        var rows = [];
+        var colors = {};
+        var grayIds = [];
+        var paletteRows = [];
+        var customIds = [];
+        if (isPalette) {
+            if (this.config.grayShades) {
+                colors_1.grayShades.forEach(function (color, index) {
+                    var id = "".concat(constants_1.GRAY_CELL_PREFIX, "-").concat(index);
+                    colors[id] = color;
+                    grayIds.push(id);
+                });
+                rows.push(grayIds);
+            }
+            var columns = this.config.palette || [];
+            var depth = columns.reduce(function (max, column) { return Math.max(max, column.length); }, 0);
+            var _loop_1 = function (row) {
+                var ids = [];
+                columns.forEach(function (column, index) {
+                    if (row < column.length) {
+                        var id = "".concat(constants_1.PALETTE_CELL_PREFIX).concat(index, "-").concat(row);
+                        colors[id] = column[row];
+                        ids.push(id);
+                    }
+                });
+                if (ids.length) {
+                    paletteRows.push(ids);
+                    rows.push(ids);
+                }
+            };
+            for (var row = 0; row < depth; row++) {
+                _loop_1(row);
+            }
+            if (!this.config.paletteOnly) {
+                this.config.customColors.forEach(function (color, index) {
+                    var id = "".concat(constants_1.CUSTOM_CELL_PREFIX, "-").concat(index);
+                    colors[id] = color;
+                    customIds.push(id);
+                });
+                rows.push(__spreadArray(__spreadArray([], customIds, true), [constants_1.ADD_COLOR_CELL_ID], false));
+            }
+        }
+        this._cellRows = rows;
+        this._cellColors = colors;
+        this._grayCellIds = grayIds;
+        this._paletteRows = paletteRows;
+        this._customCellIds = customIds;
+        this._resolvedFocusCellId = this._resolveFocusCellId();
+    };
+    Colorpicker.prototype._resolveFocusCellId = function () {
+        var _this = this;
+        if (!this._cellRows.length) {
+            return null;
+        }
+        if (this._cellRows.some(function (row) { return row.indexOf(_this._focusCellId) !== -1; })) {
+            return this._focusCellId;
+        }
+        var selected = (this._selected || "").toUpperCase();
+        if (selected) {
+            for (var _i = 0, _a = this._cellRows; _i < _a.length; _i++) {
+                var row = _a[_i];
+                for (var _b = 0, row_1 = row; _b < row_1.length; _b++) {
+                    var id = row_1[_b];
+                    if (this._cellColors[id] && this._cellColors[id].toUpperCase() === selected) {
+                        return id;
+                    }
+                }
+            }
+        }
+        return this._cellRows[0][0];
+    };
+    Colorpicker.prototype._getCellPosition = function (id) {
+        for (var row = 0; row < this._cellRows.length; row++) {
+            var column = this._cellRows[row].indexOf(id);
+            if (column !== -1) {
+                return { row: row, column: column };
+            }
+        }
+        return { row: 0, column: 0 };
+    };
+    Colorpicker.prototype._onArrowKey = function (e, rowStep, columnStep) {
+        if (!this._cellRows.length) {
+            return;
+        }
+        e.preventDefault();
+        var position = this._getCellPosition(this._resolvedFocusCellId);
+        var rowIndex = Math.min(Math.max(position.row + rowStep, 0), this._cellRows.length - 1);
+        var row = this._cellRows[rowIndex];
+        var columnIndex = Math.min(Math.max(position.column + columnStep, 0), row.length - 1);
+        this._setFocusCell(row[columnIndex]);
+    };
+    Colorpicker.prototype._onEdgeKey = function (e, isFirst) {
+        if (!this._cellRows.length) {
+            return;
+        }
+        e.preventDefault();
+        var row = isFirst ? this._cellRows[0] : this._cellRows[this._cellRows.length - 1];
+        this._setFocusCell(isFirst ? row[0] : row[row.length - 1]);
+    };
+    Colorpicker.prototype._setFocusCell = function (id) {
+        if (!id) {
+            return;
+        }
+        this._focusCellId = id;
+        this.paint();
+        this._focusCell(id);
+    };
+    Colorpicker.prototype._hasFocus = function () {
+        var root = this.getRootNode();
+        return !!root && root.contains(document.activeElement);
+    };
+    Colorpicker.prototype._restoreFocus = function () {
+        var _this = this;
+        (0, dom_1.awaitRedraw)().then(function () {
+            var root = _this.getRootNode();
+            if (!root || !_this._cellRows) {
+                return;
+            }
+            if (_this._cellRows.length) {
+                _this._focusCell(_this._resolvedFocusCellId);
+                return;
+            }
+            var node = root.querySelector(constants_1.PICKER_FOCUSABLE_SELECTOR);
+            if (node) {
+                node.focus();
+            }
+        });
+    };
+    Colorpicker.prototype._focusCell = function (id) {
+        if (!id) {
+            return;
+        }
+        var root = this.getRootNode();
+        var node = root && root.querySelector("[data-dhx-id=\"".concat(id, "\"]"));
+        if (node) {
+            node.focus();
+        }
     };
     Colorpicker.prototype._initHotKey = function () {
         var _this = this;
@@ -34807,11 +38180,18 @@ var Colorpicker = /** @class */ (function (_super) {
                     _this._selected = color;
                     _this.events.fire(types_1.ColorpickerEvents.change, [_this._selected]);
                     _this.events.fire(types_1.ColorpickerEvents.colorChange, [_this._selected]); // TODO: remove suite_7.0
+                    _this._focusCell(_this._resolvedFocusCellId);
                 }
                 if ((0, html_1.locateNodeByClassName)(e, "dhx_colorpicker-custom-colors__picker")) {
                     _this.setCurrentMode("picker");
                 }
             },
+            arrowLeft: function (e) { return _this._onArrowKey(e, 0, -1); },
+            arrowRight: function (e) { return _this._onArrowKey(e, 0, 1); },
+            arrowUp: function (e) { return _this._onArrowKey(e, -1, 0); },
+            arrowDown: function (e) { return _this._onArrowKey(e, 1, 0); },
+            home: function (e) { return _this._onEdgeKey(e, true); },
+            end: function (e) { return _this._onEdgeKey(e, false); },
         };
         for (var key in handlers) {
             this._keyManager.addHotKey(key, handlers[key]);
@@ -34823,16 +38203,16 @@ exports.Colorpicker = Colorpicker;
 
 
 /***/ }),
-/* 177 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.calculatePaletteGrip = exports.getPicker = void 0;
-var color_1 = __webpack_require__(56);
+var color_1 = __webpack_require__(42);
 var dom_1 = __webpack_require__(0);
-var en_1 = __webpack_require__(57);
+var en_1 = __webpack_require__(43);
 function getPicker(colorpicker, pickerState, handlers) {
     var rgb = (0, color_1.HSVtoRGB)(pickerState.hsv);
     pickerState.background = (0, color_1.RGBToHex)(rgb);
@@ -34919,7 +38299,7 @@ function getPicker(colorpicker, pickerState, handlers) {
                     maxlength: isTransparency ? "9" : "7",
                     _key: "hex_input",
                     "data-dhx-id": "hex_input",
-                    "aria-label": "type color in HEX format",
+                    "aria-label": en_1.default.aria_hexInput,
                 }),
             ]),
             isTransparency
@@ -34931,7 +38311,7 @@ function getPicker(colorpicker, pickerState, handlers) {
                         maxlength: "3",
                         _key: "alpha_input",
                         "data-dhx-id": "alpha_input",
-                        "aria-label": "type opacity in percent",
+                        "aria-label": en_1.default.aria_alphaInput,
                     }),
                 ])
                 : null,
@@ -34965,7 +38345,184 @@ exports.calculatePaletteGrip = calculatePaletteGrip;
 
 
 /***/ }),
-/* 178 */
+/* 183 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getColorName = exports.getColorNameKey = exports.colorNameKeys = exports.unknownColorKey = void 0;
+var color_1 = __webpack_require__(42);
+var en_1 = __webpack_require__(43);
+exports.unknownColorKey = "aria_colorUnknown";
+/**
+ * Reference colors the lookup picks the nearest match from. The first field is the flat locale
+ * key holding the translated name, the second is the reference value the match is measured
+ * against. The set is closed: extending it needs a matching locale key in every translation.
+ */
+var referenceColors = [
+    ["aria_colorBlack", "#000000"],
+    ["aria_colorDarkGray", "#4C4C4C"],
+    ["aria_colorGray", "#808080"],
+    ["aria_colorLightGray", "#CCCCCC"],
+    ["aria_colorWhite", "#FFFFFF"],
+    ["aria_colorDarkRed", "#8B1A0E"],
+    ["aria_colorRed", "#E94633"],
+    ["aria_colorPink", "#FFC0CB"],
+    ["aria_colorMagenta", "#C2185B"],
+    ["aria_colorPurple", "#6A1B9A"],
+    ["aria_colorViolet", "#9F97C1"],
+    ["aria_colorDarkBlue", "#002381"],
+    ["aria_colorBlue", "#0288D1"],
+    ["aria_colorLightBlue", "#81D4FA"],
+    ["aria_colorCyan", "#02D7C5"],
+    ["aria_colorTeal", "#018B80"],
+    ["aria_colorDarkGreen", "#17492D"],
+    ["aria_colorGreen", "#33B579"],
+    ["aria_colorLightGreen", "#90D2AF"],
+    ["aria_colorOlive", "#808000"],
+    ["aria_colorBrown", "#5D4037"],
+    ["aria_colorOrange", "#EA8F00"],
+    ["aria_colorYellow", "#EDB90F"],
+    ["aria_colorBeige", "#F9E6AD"],
+].map(function (_a) {
+    var key = _a[0], hex = _a[1];
+    return ({ key: key, rgb: (0, color_1.HexToRGB)(hex) });
+});
+exports.colorNameKeys = referenceColors.map(function (color) { return color.key; }).concat(exports.unknownColorKey);
+// Highest and lowest RGB channel of a color, 0-255 scale. Below this spread a color reads as
+// gray to the eye even though its channels are not perfectly equal, so it is named by lightness
+// instead of by nearest hue; see `getNeutralKey`.
+var achromaticSpread = 12;
+function getSpread(rgb) {
+    return Math.max(rgb.r, rgb.g, rgb.b) - Math.min(rgb.r, rgb.g, rgb.b);
+}
+var neutralReferences = referenceColors.filter(function (reference) { return getSpread(reference.rgb) <= achromaticSpread; });
+/**
+ * Returns the key of the nearest neutral reference for a color that has no usable hue, and null
+ * for a color that has one.
+ *
+ * The weighted distance below is biased towards hue: it multiplies the green difference by four,
+ * so a neutral gray scores closer to a desaturated color than to gray itself. #999999 and #B3B3B3
+ * were both named "violet" before this. Lightness is the only thing that separates one gray from
+ * another, so a neutral value is matched on lightness alone.
+ */
+function getNeutralKey(rgb) {
+    if (getSpread(rgb) > achromaticSpread) {
+        return null;
+    }
+    var lightness = (rgb.r + rgb.g + rgb.b) / 3;
+    var nearestKey = null;
+    var nearestDistance = Infinity;
+    for (var _i = 0, neutralReferences_1 = neutralReferences; _i < neutralReferences_1.length; _i++) {
+        var reference = neutralReferences_1[_i];
+        var distance = Math.abs(lightness - reference.rgb.r);
+        if (distance < nearestDistance) {
+            nearestDistance = distance;
+            nearestKey = reference.key;
+        }
+    }
+    return nearestKey;
+}
+var rgbFunctionRegex = /^rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*(?:,[^)]*)?\)$/i;
+function toRGB(color) {
+    if (!color || typeof color !== "string") {
+        return null;
+    }
+    var value = color.trim();
+    var parsed = rgbFunctionRegex.exec(value);
+    if (parsed) {
+        return {
+            r: Math.round(Number(parsed[1])),
+            g: Math.round(Number(parsed[2])),
+            b: Math.round(Number(parsed[3])),
+        };
+    }
+    // an 8 digit hex carries the alpha channel in the last two digits, which says
+    // nothing about the color itself
+    return (0, color_1.HexToRGB)(value.length === 9 ? value.slice(0, -2) : value);
+}
+/**
+ * Weighted RGB distance, squared. The weights approximate how the eye separates the channels,
+ * which a plain euclidean distance does not. The square root is skipped because it is monotonic
+ * and only the ordering is used.
+ */
+function getDistance(a, b) {
+    var redMean = (a.r + b.r) / 2;
+    var dr = a.r - b.r;
+    var dg = a.g - b.g;
+    var db = a.b - b.b;
+    return (2 + redMean / 256) * dr * dr + 4 * dg * dg + (2 + (255 - redMean) / 256) * db * db;
+}
+/**
+ * Returns the flat locale key of the name of the nearest reference color, or `aria_colorUnknown`
+ * when the value cannot be read. Pure: it does not read the locale, so a caller that needs the
+ * translated name uses `getColorName` instead.
+ *
+ * Accepts `#RGB`, `#RRGGBB`, `#RRGGBBAA`, `rgb()` and `rgba()`.
+ */
+function getColorNameKey(color) {
+    var rgb = toRGB(color);
+    if (!rgb) {
+        return exports.unknownColorKey;
+    }
+    var neutralKey = getNeutralKey(rgb);
+    if (neutralKey) {
+        return neutralKey;
+    }
+    var nearestKey = exports.unknownColorKey;
+    var nearestDistance = Infinity;
+    for (var _i = 0, referenceColors_1 = referenceColors; _i < referenceColors_1.length; _i++) {
+        var reference = referenceColors_1[_i];
+        var distance = getDistance(rgb, reference.rgb);
+        if (distance < nearestDistance) {
+            nearestDistance = distance;
+            nearestKey = reference.key;
+        }
+    }
+    return nearestKey;
+}
+exports.getColorNameKey = getColorNameKey;
+/**
+ * Returns the translated name of the nearest reference color, so that a color value can be
+ * reported as a word instead of as a color. The locale is read at call time, which is what makes
+ * `dhx.i18n.setLocale("colorpicker", ...)` take effect.
+ */
+function getColorName(color) {
+    var key = getColorNameKey(color);
+    var name = en_1.default[key];
+    return typeof name === "string" ? name : key;
+}
+exports.getColorName = getColorName;
+
+
+/***/ }),
+/* 184 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PICKER_FOCUSABLE_SELECTOR = exports.ADD_COLOR_CELL_ID = exports.CUSTOM_CELL_PREFIX = exports.PALETTE_CELL_PREFIX = exports.GRAY_CELL_PREFIX = void 0;
+/*
+    Identifiers the palette gives its options. The focus model addresses a swatch by identifier
+    rather than by color value, because the same color can appear in more than one block.
+*/
+exports.GRAY_CELL_PREFIX = "gray";
+exports.PALETTE_CELL_PREFIX = "col";
+exports.CUSTOM_CELL_PREFIX = "custom";
+/* The control that opens the custom color picker, addressed by the same model. */
+exports.ADD_COLOR_CELL_ID = "add_color";
+/*
+    The controls of the custom color view, in the order they are drawn: the three grips, the two
+    fields and the two buttons. Used to put focus back inside the widget when the view is switched,
+    so that `Tab` continues from there and reaches the rest of them.
+*/
+exports.PICKER_FOCUSABLE_SELECTOR = '.dhx_colorpicker-picker [tabindex="0"], .dhx_colorpicker-picker input, .dhx_colorpicker-picker button';
+
+
+/***/ }),
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34998,7 +38555,7 @@ exports.calculateRangeGrip = calculateRangeGrip;
 
 
 /***/ }),
-/* 179 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35018,13 +38575,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(85), exports);
-__exportStar(__webpack_require__(199), exports);
-__exportStar(__webpack_require__(26), exports);
+__exportStar(__webpack_require__(91), exports);
+__exportStar(__webpack_require__(209), exports);
+__exportStar(__webpack_require__(29), exports);
 
 
 /***/ }),
-/* 180 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35041,7 +38598,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ComposeLayer = void 0;
 var dom_1 = __webpack_require__(0);
-var Filters_1 = __webpack_require__(181);
+var Filters_1 = __webpack_require__(188);
 var ComposeLayer = /** @class */ (function () {
     function ComposeLayer() {
         this._data = [];
@@ -35063,21 +38620,14 @@ var ComposeLayer = /** @class */ (function () {
         var toPaint = this._data.filter(function (l) { return !l.dataReady || l.dataReady().length; });
         // eslint-disable-next-line @typescript-eslint/unbound-method
         this._data.forEach(function (l) { return !l.scaleReady || l.scaleReady(sizes); });
-        var shift = 0;
-        var shiftCount = 0;
-        toPaint.forEach(function (item) {
-            if (item.seriesShift) {
-                shift += item.seriesShift();
-                shiftCount++;
-            }
-        });
-        var step = shift / shiftCount;
-        shift = shiftCount ? (step - shift) / 2 : 0;
-        toPaint.forEach(function (item) {
-            if (item.seriesShift) {
-                item.seriesShift(shift);
-                shift += step;
-            }
+        var widths = toPaint.map(function (item) { return (item.seriesShift ? item.seriesShift() : 0); });
+        var shiftedSeries = toPaint.filter(function (_, index) { return widths[index] > 0; });
+        var totalWidth = widths.reduce(function (sum, width) { return sum + width; }, 0);
+        var step = shiftedSeries.length ? totalWidth / shiftedSeries.length : 0;
+        var shift = (step - totalWidth) / 2;
+        shiftedSeries.forEach(function (item) {
+            item.seriesShift(shift);
+            shift += step;
         });
         this._sizes = sizes;
         var contentWidth = width - sizes.left - sizes.right;
@@ -35106,7 +38656,7 @@ exports.ComposeLayer = ComposeLayer;
 
 
 /***/ }),
-/* 181 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35153,7 +38703,331 @@ exports.dropShadow = dropShadow;
 
 
 /***/ }),
-/* 182 */
+/* 189 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Legend = void 0;
+var ts_data_1 = __webpack_require__(4);
+var types_1 = __webpack_require__(29);
+var dom_1 = __webpack_require__(0);
+var common_1 = __webpack_require__(7);
+var legend_1 = __webpack_require__(190);
+var core_1 = __webpack_require__(1);
+function getDefaultMargin(halign, valign, isTreeMap, form) {
+    switch (valign) {
+        case "middle": {
+            switch (halign) {
+                case "right":
+                    return isTreeMap ? 20 : 60;
+                case "left":
+                    return 120;
+                case "center":
+                    throw new Error("cant place legend on center, middle");
+            }
+        }
+        // eslint-disable-next-line no-fallthrough
+        case "top":
+            return 20;
+        case "bottom":
+            return isTreeMap || form === "line" ? 20 : 60;
+    }
+}
+var Legend = /** @class */ (function () {
+    function Legend(_data, config, _events) {
+        var _this = this;
+        this._data = _data;
+        this._events = _events;
+        var defaults = {
+            form: "rect",
+            itemPadding: 20,
+            halign: "right",
+            valign: "top",
+            direction: "row",
+            type: "groupName",
+        };
+        this.config = __assign(__assign({}, defaults), config);
+        this.config.margin =
+            config.margin ||
+                getDefaultMargin(this.config.halign, this.config.valign, (0, ts_data_1.isTreeCollection)(this._data), this.config.form);
+        this._handlers = {
+            onclick: function (id, pieLike) {
+                return _this._events.fire(types_1.ChartEvents.toggleSeries, [id, pieLike]);
+            },
+            onkeyup: function (id, pieLike, event) {
+                // FIXME: set handler correctly according app code style
+                event.preventDefault();
+                // enter or space
+                if (event.key === "Enter" || event.key === " ") {
+                    _this._events.fire(types_1.ChartEvents.toggleSeries, [id, pieLike]);
+                }
+            },
+        };
+    }
+    Legend.prototype.scaleReady = function (sizes) {
+        var isColumnInCorner = this.config.direction === "column" &&
+            (this.config.halign === "left" || this.config.halign === "right");
+        switch (this.config.valign) {
+            case "middle":
+                if (this.config.halign === "right") {
+                    sizes.right += this.config.size >= 0 ? this.config.size : 200;
+                }
+                else if (this.config.halign === "left") {
+                    sizes.left += this.config.size >= 0 ? this.config.size : 200;
+                }
+                break;
+            case "top":
+                if (isColumnInCorner) {
+                    sizes[this.config.halign] += this.config.size >= 0 ? this.config.size : 200;
+                }
+                else {
+                    sizes.top += this.config.size >= 0 ? this.config.size : 40;
+                }
+                break;
+            case "bottom":
+                if (isColumnInCorner) {
+                    sizes[this.config.halign] += this.config.size >= 0 ? this.config.size : 200;
+                }
+                else {
+                    sizes.bottom += this.config.size >= 0 ? this.config.size : 40;
+                }
+                break;
+        }
+    };
+    Legend.prototype.paint = function (width, height) {
+        var _this = this;
+        var getLegendAriaAttrs = function (item) { return ({
+            role: "button",
+            "aria-label": item.active ? "Hide chart ".concat(item.text) : "Show chart ".concat(item.text),
+        }); };
+        var data = this._getData();
+        var config = this.config;
+        config.$sizes = {
+            width: 0,
+            height: 0,
+        };
+        var positionX;
+        var positionY;
+        var font = (0, common_1.getFontStyle)("legend-text");
+        var figureWidth = 10; // get Figure width from config ??
+        var lineWidth = 500; // get Figure width from config ??
+        var margin = config.margin, itemPadding = config.itemPadding;
+        var svg = [];
+        var isMid = config.valign === "middle";
+        var xPadding = 0;
+        var yPadding = 0;
+        var xPaddingMax = 0;
+        var yPaddingMax = 0;
+        data.forEach(function (item, index) {
+            if (!isMid && config.direction === "row") {
+                var textWidth = (0, common_1.getTextWidth)(item.text, font);
+                if (xPadding + textWidth + figureWidth * 1.5 > width && index !== 0) {
+                    xPadding = 0;
+                    yPadding += itemPadding + 2;
+                }
+            }
+            svg.push((0, dom_1.sv)("g", __assign(__assign({ transform: "translate(".concat(xPadding, ",").concat(yPadding, ")"), onclick: [_this._handlers.onclick, item.id, _this.config.values], onkeyup: [_this._handlers.onkeyup, item.id, _this.config.values], class: "legend-item ".concat(!item.active ? "not-active" : "") }, getLegendAriaAttrs(item)), { tabindex: 0 }), [
+                (0, dom_1.sv)("text", {
+                    x: item.maxValue ? 0 : figureWidth / 2 + 5,
+                    y: 0,
+                    class: "start-text legend-text",
+                }, [(0, common_1.verticalCenteredText)(item.text)]),
+                [
+                    (0, legend_1.legendShape)(config.form, item),
+                    !isNaN(item.maxValue) && !isNaN(item.minValue) && (0, legend_1.legendTicks)(config.form, item),
+                ],
+            ]));
+            var itemWidth = config.form !== "line" ? figureWidth * 1.5 + (0, common_1.getTextWidth)(item.text, font) : 0;
+            if (!isMid && config.direction === "row") {
+                xPadding += itemWidth + itemPadding;
+                xPaddingMax = xPaddingMax > xPadding ? xPaddingMax : xPadding;
+            }
+            else {
+                xPadding = 0;
+                xPaddingMax = xPaddingMax > itemWidth ? xPaddingMax : itemWidth;
+                yPadding += itemPadding + 2;
+                yPaddingMax = yPaddingMax > yPadding ? yPaddingMax : yPadding;
+            }
+        });
+        switch (config.valign) {
+            case "top":
+                if (config.direction === "row") {
+                    positionY = -margin - yPadding - figureWidth / 2 - (config.form === "line" ? 15 : 0);
+                }
+                else {
+                    positionY =
+                        config.halign === "center"
+                            ? -yPaddingMax + figureWidth / 2
+                            : margin + figureWidth / 2;
+                }
+                break;
+            case "middle":
+                positionY = (height - yPaddingMax) / 2 + itemPadding / 2;
+                break;
+            case "bottom":
+                if (config.direction === "row") {
+                    positionY = height + (config.form !== "line" ? margin : 10);
+                }
+                else {
+                    positionY =
+                        height + figureWidth - (config.halign === "center" ? 0 : margin + yPaddingMax);
+                }
+                break;
+        }
+        switch (config.halign) {
+            case "left":
+                positionX = isMid
+                    ? -xPaddingMax
+                    : figureWidth / 2 - (config.direction === "row" ? 0 : config.size || 200);
+                break;
+            case "center":
+                positionX = (width - xPaddingMax - (config.form === "line" ? lineWidth : 0)) / 2;
+                break;
+            case "right":
+                if (isMid) {
+                    positionX = width + margin + figureWidth / 2;
+                }
+                else if (config.direction === "row") {
+                    positionX =
+                        width -
+                            xPaddingMax +
+                            itemPadding +
+                            (config.form === "line" ? -lineWidth - margin : figureWidth / 2);
+                }
+                else {
+                    positionX = width + margin + figureWidth / 2;
+                }
+                break;
+        }
+        return (0, dom_1.sv)("g", {
+            transform: "translate(".concat(positionX > 0 ? positionX : 0, ", ").concat(positionY, ")"),
+            "aria-label": "Legend",
+            tabindex: 0,
+        }, svg);
+    };
+    Legend.prototype._getData = function () {
+        var drawData = [];
+        if (this.config.type === "scale") {
+            var _a = this.config.values, color = _a.color, positiveColor = _a.positiveColor, negativeColor = _a.negativeColor, text = _a.text, minValue = _a.minValue, maxValue = _a.maxValue, tick = _a.tick, majorTick = _a.majorTick, step = _a.step, tickTemplate = _a.tickTemplate;
+            var _b = this.setCriticals(), minValueCalc = _b[0], maxValueCalc = _b[1];
+            drawData.push({
+                id: (0, core_1.uid)(),
+                text: text,
+                alpha: 1,
+                fill: color,
+                minValue: minValue !== null && minValue !== void 0 ? minValue : minValueCalc,
+                maxValue: maxValue !== null && maxValue !== void 0 ? maxValue : maxValueCalc,
+                positiveColor: positiveColor,
+                negativeColor: negativeColor,
+                active: true,
+                tick: tick,
+                majorTick: majorTick,
+                step: step,
+                tickTemplate: tickTemplate,
+            });
+        }
+        else if (this.config.values) {
+            var text_1 = (0, common_1.locator)(this.config.values.text);
+            var fill_1 = (0, common_1.locator)(this.config.values.color);
+            this._data.map(function (item, index) {
+                drawData.push({
+                    id: item.id,
+                    text: text_1(item).toString(),
+                    alpha: 1,
+                    fill: fill_1(item).toString() || (0, common_1.getDefaultColor)(index),
+                    active: !item.$hidden,
+                });
+            });
+        }
+        else if (this.config.treeSeries) {
+            var series = this.config.treeSeries;
+            if (this.config.type === "groupName") {
+                series.forEach(function (serie) {
+                    drawData.push({
+                        id: serie.id,
+                        text: serie.name || serie.id,
+                        alpha: 1,
+                        fill: serie.color,
+                        active: serie.active,
+                    });
+                });
+            }
+            else {
+                var getText_1 = function (serie) {
+                    if (serie.from && serie.to)
+                        return "".concat(serie.from, " - ").concat(serie.to);
+                    if (serie.less)
+                        return "<= ".concat(serie.less);
+                    if (serie.greater)
+                        return ">= ".concat(serie.greater);
+                };
+                series.forEach(function (serie) {
+                    drawData.push({
+                        id: serie.id,
+                        text: getText_1(serie),
+                        alpha: 1,
+                        fill: serie.color,
+                        active: serie.active,
+                    });
+                });
+            }
+        }
+        else {
+            var series = this.config.$seriesInfo;
+            var first = this._data.getItem(this._data.getId(0));
+            for (var _i = 0, _c = series; _i < _c.length; _i++) {
+                var serie = _c[_i];
+                var _d = serie.config, fill = _d.fill, color = _d.color, id = _d.id, alpha = _d.alpha, active = _d.active, label = _d.label, value = _d.value;
+                var useColor = fill && color;
+                var text = label && typeof label === "function" ? label(serie.config) : label || value;
+                drawData.push({
+                    id: id,
+                    text: text,
+                    fill: (0, common_1.getSeriaColor)(fill, first) || (0, common_1.getSeriaColor)(color, first),
+                    color: useColor && (0, common_1.getSeriaColor)(color, first),
+                    active: active,
+                    alpha: alpha,
+                });
+            }
+        }
+        return drawData;
+    };
+    Legend.prototype.setCriticals = function () {
+        var value = this.config.values.value;
+        var min;
+        var max;
+        this._data.forEach(function (item) {
+            if (item[value]) {
+                min = !min || item[value] < min ? item[value] : min;
+                max = !max || item[value] > max ? item[value] : max;
+            }
+        });
+        max = Math.ceil(max / 10) * 10;
+        min = Math.floor(min / 10) * 10;
+        if (min === max)
+            min -= 10;
+        return [min, max];
+    };
+    return Legend;
+}());
+exports.Legend = Legend;
+
+
+/***/ }),
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35270,15 +39144,15 @@ exports.legendTicks = legendTicks;
 
 
 /***/ }),
-/* 183 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var RadialScale_1 = __webpack_require__(184);
-var Scale_1 = __webpack_require__(58);
-var TextScale_1 = __webpack_require__(186);
+var RadialScale_1 = __webpack_require__(192);
+var Scale_1 = __webpack_require__(61);
+var TextScale_1 = __webpack_require__(194);
 var scaleTypes = {
     radial: RadialScale_1.RadialScale,
     text: TextScale_1.TextScale,
@@ -35288,7 +39162,7 @@ exports.default = scaleTypes;
 
 
 /***/ }),
-/* 184 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35310,8 +39184,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RadialScale = void 0;
-var circle_1 = __webpack_require__(33);
-var Scale_1 = __webpack_require__(58);
+var circle_1 = __webpack_require__(34);
+var Scale_1 = __webpack_require__(61);
 var RadialScale = /** @class */ (function (_super) {
     __extends(RadialScale, _super);
     function RadialScale(_data, config) {
@@ -35339,7 +39213,7 @@ exports.RadialScale = RadialScale;
 
 
 /***/ }),
-/* 185 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35369,6 +39243,16 @@ exports.AxisCreator = void 0;
 var common_1 = __webpack_require__(7);
 var core_1 = __webpack_require__(1);
 var allowedBases = [1, 2, 3, 5, 10];
+// the tick values are cut to this many decimals, so that the float tail of a step
+// such as 0.1 * 3 does not leak into the axis
+var stepPrecision = 8;
+function roundStep(value) {
+    return Math.floor(value) === value ? value : parseFloat(value.toFixed(stepPrecision));
+}
+// whether the value is a whole number of steps, within the precision of the axis
+function isStepMultiple(value) {
+    return Math.abs(value - Math.round(value)) < Math.pow(10, -stepPrecision);
+}
 var AxisCreator = /** @class */ (function () {
     function AxisCreator(_data, conf) {
         if (conf === void 0) { conf = {}; }
@@ -35389,7 +39273,9 @@ var AxisCreator = /** @class */ (function () {
             maxTicks: this._data.length < 20 ? this._data.length : 20,
         };
         this.config = __assign(__assign({}, defaults), conf);
-        if (this.config.type !== "radial" && !(0, core_1.isDefined)(conf.min)) {
+        this._hasFixedMin = (0, core_1.isDefined)(conf.min);
+        this._hasFixedMax = (0, core_1.isDefined)(conf.max);
+        if (this.config.type !== "radial" && !this._hasFixedMin) {
             var min = this.config.min;
             var newMin = min - this._getStep();
             if ((min > 0 && newMin >= 0) || min < 0) {
@@ -35401,7 +39287,11 @@ var AxisCreator = /** @class */ (function () {
         }
     }
     AxisCreator.prototype.getScale = function () {
-        var steps = this.config.log ? this._logSteps() : this._calculateSteps(this._getStep());
+        var steps = this.config.log
+            ? this._logSteps()
+            : this.config.exactTicks
+                ? this._exactSteps(this.config.exactTicks)
+                : this._calculateSteps(this._getStep());
         return {
             min: steps[0],
             max: steps[steps.length - 1],
@@ -35422,11 +39312,80 @@ var AxisCreator = /** @class */ (function () {
         var lastIndex = Math.ceil(this.config.max / step);
         var steps = [];
         for (var i = this.config.type === "radial" ? firstIndex - 1 : firstIndex; i <= lastIndex; i++) {
-            var currentStep = step * i;
-            if (Math.floor(currentStep) !== currentStep) {
-                currentStep = parseFloat(currentStep.toFixed(8));
+            steps.push(roundStep(step * i));
+        }
+        return steps;
+    };
+    // the axis has to hold exactly `count` ticks, so that its grid matches the reference one
+    AxisCreator.prototype._exactSteps = function (count) {
+        var _a = this.config, min = _a.min, max = _a.max;
+        if (count < 2 || !isFinite(min) || !isFinite(max) || min === max) {
+            return this._calculateSteps(this._getStep());
+        }
+        if (!this._hasFixedMin || !this._hasFixedMax) {
+            var roundSteps = this._roundExactSteps(count);
+            if (roundSteps) {
+                return roundSteps;
             }
-            steps.push(currentStep);
+        }
+        var evenStep = (max - min) / (count - 1);
+        return this._buildSteps(count, function (index) { return (index === count - 1 ? max : min + evenStep * index); });
+    };
+    /**
+     * The `count` round ticks that cover the range, or null when no allowed step fits it.
+     * A bound set in the config is never crossed: a step has to land on such a bound exactly,
+     * and the range is only extended past a bound that the axis picked on its own.
+     */
+    AxisCreator.prototype._roundExactSteps = function (count) {
+        var _a = this.config, min = _a.min, max = _a.max;
+        var exponent = Math.floor((0, common_1.log10)((max - min) / (count - 1)));
+        for (var power = exponent - 1; power <= exponent + 2; power++) {
+            var _loop_1 = function (base) {
+                var step = base * Math.pow(10, power);
+                var firstIndex = min / step;
+                var lastIndex = max / step;
+                if (this_1._hasFixedMin && !isStepMultiple(firstIndex)) {
+                    return "continue";
+                }
+                if (this_1._hasFixedMax && !isStepMultiple(lastIndex)) {
+                    return "continue";
+                }
+                var first = this_1._hasFixedMin ? Math.round(firstIndex) : Math.floor(firstIndex);
+                var last = this_1._hasFixedMax ? Math.round(lastIndex) : Math.ceil(lastIndex);
+                if (last - first + 1 > count) {
+                    return "continue";
+                }
+                while (last - first + 1 < count) {
+                    var canGrowDown = !this_1._hasFixedMin && (min < 0 || (first - 1) * step >= 0);
+                    var canGrowUp = !this_1._hasFixedMax;
+                    if (!canGrowDown && !canGrowUp) {
+                        break;
+                    }
+                    if (canGrowDown && (!canGrowUp || (last - first) % 2 === 0)) {
+                        first--;
+                    }
+                    else {
+                        last++;
+                    }
+                }
+                if (last - first + 1 === count) {
+                    return { value: this_1._buildSteps(count, function (index) { return step * (first + index); }) };
+                }
+            };
+            var this_1 = this;
+            for (var _i = 0, allowedBases_1 = allowedBases; _i < allowedBases_1.length; _i++) {
+                var base = allowedBases_1[_i];
+                var state_1 = _loop_1(base);
+                if (typeof state_1 === "object")
+                    return state_1.value;
+            }
+        }
+        return null;
+    };
+    AxisCreator.prototype._buildSteps = function (count, getValue) {
+        var steps = [];
+        for (var index = 0; index < count; index++) {
+            steps.push(roundStep(getValue(index)));
         }
         return steps;
     };
@@ -35456,7 +39415,7 @@ exports.AxisCreator = AxisCreator;
 
 
 /***/ }),
-/* 186 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35490,8 +39449,8 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TextScale = void 0;
 var common_1 = __webpack_require__(7);
-var Scale_1 = __webpack_require__(58);
-var SvgScales_1 = __webpack_require__(87);
+var Scale_1 = __webpack_require__(61);
+var SvgScales_1 = __webpack_require__(92);
 var renderScale = {
     left: SvgScales_1.left,
     right: SvgScales_1.right,
@@ -35589,95 +39548,45 @@ exports.TextScale = TextScale;
 
 
 /***/ }),
-/* 187 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Bar_1 = __webpack_require__(91);
-var BarX = /** @class */ (function (_super) {
-    __extends(BarX, _super);
-    function BarX() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    BarX.prototype.addScale = function (type, scale) {
-        var realtype = type === "top" || type === "bottom" ? "left" : "top";
-        _super.prototype.addScale.call(this, realtype, scale);
-    };
-    BarX.prototype.paint = function (width, height, prev) {
-        return _super.prototype.paint.call(this, height, width, prev);
-    };
-    BarX.prototype.getTooltipType = function (id, x, y) {
-        if (this.config.baseLine !== undefined && this._baseLinePosition > x) {
-            return "left";
-        }
-        return "right";
-    };
-    BarX.prototype.getClosest = function (x, y) {
-        var res = [Infinity, null, null, null];
-        for (var _i = 0, _a = this._points; _i < _a.length; _i++) {
-            var point = _a[_i];
-            var dist = this._getClosestDist(x, y, point[1], point[0]);
-            if (res[0] > dist) {
-                res[0] = dist;
-                res[1] = point[1];
-                res[2] = point[0];
-                res[3] = point[2];
-            }
-        }
-        return res;
-    };
-    BarX.prototype._getText = function (item) {
-        return item[4].toString();
-    };
-    BarX.prototype._getClosestDist = function (x, y, px, py) {
-        if (this.config.stacked && x > px) {
-            return Infinity;
-        }
-        return Math.abs(y - py);
-    };
-    BarX.prototype._path = function (item, prev) {
-        item[0] += this._shift;
-        return "\nM ".concat(prev, " ").concat(item[0] - this.config.barWidth / 2, "\nH ").concat(item[1], "\nv ").concat(this.config.barWidth, "\nH ").concat(prev);
-    };
-    BarX.prototype._base = function (height) {
-        var baseLine = this.config.baseLine;
-        return (this._baseLinePosition = baseLine !== undefined ? this.yScale.point(baseLine) * height : 0);
-    };
-    BarX.prototype._text = function (item, prev, rotate) {
-        var x = (prev + item[1]) / 2;
-        var y = item[0];
-        var canRotate = rotate && !isNaN(rotate);
-        return {
-            x: x,
-            y: y,
-            class: "bar-text",
-            transform: canRotate ? "rotate(".concat(rotate, " ").concat(x, " ").concat(y, ")") : "",
-        };
-    };
-    return BarX;
-}(Bar_1.default));
-exports.default = BarX;
+var Area_1 = __webpack_require__(93);
+var Bar_1 = __webpack_require__(95);
+var BarX_1 = __webpack_require__(196);
+var Donut_1 = __webpack_require__(197);
+var Line_1 = __webpack_require__(64);
+var Pie_1 = __webpack_require__(198);
+var Pie3D_1 = __webpack_require__(199);
+var Radar_1 = __webpack_require__(200);
+var Scatter_1 = __webpack_require__(201);
+var Spline_1 = __webpack_require__(202);
+var SplineArea_1 = __webpack_require__(203);
+var TreeMap_1 = __webpack_require__(204);
+var CalendarHeatMap_1 = __webpack_require__(205);
+var seriesTypes = {
+    line: Line_1.default,
+    spline: Spline_1.default,
+    area: Area_1.default,
+    splineArea: SplineArea_1.default,
+    scatter: Scatter_1.default,
+    pie: Pie_1.default,
+    pie3D: Pie3D_1.default,
+    donut: Donut_1.default,
+    radar: Radar_1.default,
+    bar: Bar_1.default,
+    xbar: BarX_1.default,
+    treeMap: TreeMap_1.default,
+    calendarHeatMap: CalendarHeatMap_1.default,
+};
+exports.default = seriesTypes;
 
 
 /***/ }),
-/* 188 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35710,9 +39619,120 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var circle_1 = __webpack_require__(33);
 var common_1 = __webpack_require__(7);
-var NoScaleSeria_1 = __webpack_require__(60);
+var Bar_1 = __webpack_require__(95);
+var constants_1 = __webpack_require__(96);
+var BarX = /** @class */ (function (_super) {
+    __extends(BarX, _super);
+    function BarX() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    BarX.prototype.addScale = function (type, scale) {
+        var realtype = type === "top" || type === "bottom" ? "left" : "top";
+        _super.prototype.addScale.call(this, realtype, scale);
+    };
+    BarX.prototype.paint = function (width, height, prev) {
+        return _super.prototype.paint.call(this, height, width, prev);
+    };
+    BarX.prototype.getTooltipType = function (id, x, y) {
+        if (this.config.baseLine !== undefined && this._baseLinePosition > x) {
+            return "left";
+        }
+        return "right";
+    };
+    BarX.prototype.getClosest = function (x, y) {
+        var res = [Infinity, null, null, null];
+        for (var _i = 0, _a = this._points; _i < _a.length; _i++) {
+            var point = _a[_i];
+            var dist = this._getClosestDist(x, y, point[1], point[0]);
+            if (res[0] > dist) {
+                res[0] = dist;
+                res[1] = point[1];
+                res[2] = point[0];
+                res[3] = point[2];
+            }
+        }
+        return res;
+    };
+    BarX.prototype.getTotalsPadding = function (labels) {
+        var font = (0, common_1.getFontStyle)("total-text");
+        var width = labels.reduce(function (max, label) { return Math.max(max, (0, common_1.getTextWidth)(label, font)); }, 0);
+        return { right: constants_1.TOTAL_TEXT_PADDING + Math.ceil(width) };
+    };
+    BarX.prototype._getTotalAnchor = function (index, stack) {
+        return [Math.max.apply(Math, stack.map(function (points) { return points[index][1]; })), this._points[index][0]];
+    };
+    BarX.prototype._getTotalText = function (_a, total) {
+        var x = _a[0], y = _a[1];
+        return (0, dom_1.sv)("text", __assign({ x: x + constants_1.TOTAL_TEXT_PADDING, y: y, class: "total-text start-text" }, (0, common_1.getTotalAriaAttrs)(total)), [(0, common_1.verticalCenteredText)(total)]);
+    };
+    BarX.prototype._getClosestDist = function (x, y, px, py) {
+        if (this.config.stacked && x > px) {
+            return Infinity;
+        }
+        return Math.abs(y - py);
+    };
+    BarX.prototype._path = function (item, prev) {
+        item[0] += this._shift;
+        return "\nM ".concat(prev, " ").concat(item[0] - this.config.barWidth / 2, "\nH ").concat(item[1], "\nv ").concat(this.config.barWidth, "\nH ").concat(prev);
+    };
+    BarX.prototype._base = function (height) {
+        var baseLine = this.config.baseLine;
+        return (this._baseLinePosition = baseLine !== undefined ? this.yScale.point(baseLine) * height : 0);
+    };
+    BarX.prototype._text = function (item, prev, rotate) {
+        var x = (prev + item[1]) / 2;
+        var y = item[0];
+        var canRotate = rotate && !isNaN(rotate);
+        return {
+            x: x,
+            y: y,
+            class: "bar-text",
+            transform: canRotate ? "rotate(".concat(rotate, " ").concat(x, " ").concat(y, ")") : "",
+        };
+    };
+    return BarX;
+}(Bar_1.default));
+exports.default = BarX;
+
+
+/***/ }),
+/* 197 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var dom_1 = __webpack_require__(0);
+var circle_1 = __webpack_require__(34);
+var common_1 = __webpack_require__(7);
+var NoScaleSeria_1 = __webpack_require__(63);
 var Donut = /** @class */ (function (_super) {
     __extends(Donut, _super);
     function Donut() {
@@ -35919,6 +39939,11 @@ var Donut = /** @class */ (function (_super) {
             fill: "#FFFFFF",
             role: "presentation",
         }));
+        var total = this.config.total;
+        var totalText = total ? (0, common_1.formatTotal)(total, this._sum) : "";
+        if (totalText) {
+            svg.push((0, dom_1.sv)("text", __assign(__assign({ x: 0, y: 0, class: "donut-total-text" }, (0, common_1.getTotalAriaAttrs)(totalText)), { tabindex: 0 }), [(0, common_1.verticalCenteredText)(totalText)]));
+        }
         return (0, dom_1.sv)("g", __assign(__assign({ transform: "translate(".concat(width / 2, ", ").concat(height / 2, ")") }, getChartAriaAttrs(this.config)), { tabindex: 0 }), svg);
     };
     return Donut;
@@ -35927,7 +39952,7 @@ exports.default = Donut;
 
 
 /***/ }),
-/* 189 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35961,9 +39986,9 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var circle_1 = __webpack_require__(33);
+var circle_1 = __webpack_require__(34);
 var common_1 = __webpack_require__(7);
-var NoScaleSeria_1 = __webpack_require__(60);
+var NoScaleSeria_1 = __webpack_require__(63);
 var Pie = /** @class */ (function (_super) {
     __extends(Pie, _super);
     function Pie() {
@@ -36209,7 +40234,7 @@ exports.default = Pie;
 
 
 /***/ }),
-/* 190 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36242,9 +40267,9 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var circle_1 = __webpack_require__(33);
+var circle_1 = __webpack_require__(34);
 var common_1 = __webpack_require__(7);
-var NoScaleSeria_1 = __webpack_require__(60);
+var NoScaleSeria_1 = __webpack_require__(63);
 var Pie = /** @class */ (function (_super) {
     __extends(Pie, _super);
     function Pie() {
@@ -36487,7 +40512,7 @@ exports.default = Pie;
 
 
 /***/ }),
-/* 191 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36520,9 +40545,9 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var circle_1 = __webpack_require__(33);
+var circle_1 = __webpack_require__(34);
 var common_1 = __webpack_require__(7);
-var BaseSeria_1 = __webpack_require__(34);
+var BaseSeria_1 = __webpack_require__(35);
 var Radar = /** @class */ (function (_super) {
     __extends(Radar, _super);
     function Radar() {
@@ -36648,8 +40673,7 @@ var Radar = /** @class */ (function (_super) {
         config.scales = config.scales || ["radial"];
         this.config = __assign(__assign({}, defaults), config);
         if (this.config.pointType) {
-            var color = this.config.pointColor || this.config.color;
-            this._drawPointType = this._getPointType(this.config.pointType, color);
+            this._drawPointType = this._getPointType(this.config.pointType, this._getPointColor());
         }
     };
     return Radar;
@@ -36658,7 +40682,7 @@ exports.default = Radar;
 
 
 /***/ }),
-/* 192 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36690,7 +40714,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Line_1 = __webpack_require__(61);
+var Line_1 = __webpack_require__(64);
 var common_1 = __webpack_require__(7);
 var Scatter = /** @class */ (function (_super) {
     __extends(Scatter, _super);
@@ -36715,9 +40739,8 @@ var Scatter = /** @class */ (function (_super) {
         };
         this.config = __assign(__assign({}, defaults), config);
         var point = this.config.pointType;
-        var color = this.config.pointColor || this.config.color;
         if (point) {
-            this._drawPointType = this._getPointType(point, color);
+            this._drawPointType = this._getPointType(point, this._getPointColor());
         }
     };
     return Scatter;
@@ -36726,7 +40749,7 @@ exports.default = Scatter;
 
 
 /***/ }),
-/* 193 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36748,8 +40771,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var spline_1 = __webpack_require__(92);
-var Line_1 = __webpack_require__(61);
+var spline_1 = __webpack_require__(97);
+var Line_1 = __webpack_require__(64);
 var Spline = /** @class */ (function (_super) {
     __extends(Spline, _super);
     function Spline() {
@@ -36773,7 +40796,7 @@ exports.default = Spline;
 
 
 /***/ }),
-/* 194 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36795,8 +40818,8 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var dom_1 = __webpack_require__(0);
-var spline_1 = __webpack_require__(92);
-var Area_1 = __webpack_require__(89);
+var spline_1 = __webpack_require__(97);
+var Area_1 = __webpack_require__(93);
 var SplineArea = /** @class */ (function (_super) {
     __extends(SplineArea, _super);
     function SplineArea() {
@@ -36841,7 +40864,7 @@ exports.default = SplineArea;
 
 
 /***/ }),
-/* 195 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36875,10 +40898,10 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var ts_data_1 = __webpack_require__(5);
+var ts_data_1 = __webpack_require__(4);
 var common_1 = __webpack_require__(7);
-var types_1 = __webpack_require__(26);
-var BaseSeria_1 = __webpack_require__(34);
+var types_1 = __webpack_require__(29);
+var BaseSeria_1 = __webpack_require__(35);
 var TreeMap = /** @class */ (function (_super) {
     __extends(TreeMap, _super);
     function TreeMap() {
@@ -37401,7 +41424,7 @@ exports.default = TreeMap;
 
 
 /***/ }),
-/* 196 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37443,11 +41466,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(1);
-var date_1 = __webpack_require__(18);
+var date_1 = __webpack_require__(17);
 var dom_1 = __webpack_require__(0);
-var ts_data_1 = __webpack_require__(5);
+var ts_data_1 = __webpack_require__(4);
 var common_1 = __webpack_require__(7);
-var BaseSeria_1 = __webpack_require__(34);
+var BaseSeria_1 = __webpack_require__(35);
 var CalendarHeatMap = /** @class */ (function (_super) {
     __extends(CalendarHeatMap, _super);
     function CalendarHeatMap() {
@@ -37754,17 +41777,118 @@ exports.default = CalendarHeatMap;
 
 
 /***/ }),
-/* 197 */
+/* 206 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var dom_1 = __webpack_require__(0);
+var common_1 = __webpack_require__(7);
+var Stacker = /** @class */ (function () {
+    function Stacker() {
+        this._series = [];
+        this._toPaint = [];
+        this._measuredStacks = null;
+    }
+    Stacker.prototype.add = function (seria) {
+        this._series.push(seria);
+    };
+    Stacker.prototype.seriesShift = function (shift) {
+        if (shift !== undefined) {
+            this._toPaint.forEach(function (seria) { return seria.seriesShift && seria.seriesShift(shift); });
+        }
+        return this._toPaint.reduce(function (width, seria) { return Math.max(width, seria.seriesShift ? seria.seriesShift() : 0); }, 0);
+    };
+    Stacker.prototype.measureTotalsOf = function (stacks) {
+        this._measuredStacks = stacks;
+    };
+    Stacker.prototype.getTotalsPadding = function () {
+        return this._totalLabels ? this._getTotalsSeria().getTotalsPadding(this._totalLabels) : null;
+    };
+    Stacker.prototype.dataReady = function (prev) {
+        this._toPaint = this._series.filter(function (serie) {
+            var next = serie.dataReady(prev);
+            if (next.length) {
+                prev = next;
+                return true;
+            }
+            return false;
+        });
+        this._totalLabels = this._getTotalLabels();
+        return prev || [];
+    };
+    Stacker.prototype.scaleReady = function (sizes) {
+        if (!this._measuredStacks) {
+            return;
+        }
+        var maxPadding = {};
+        this._measuredStacks.forEach(function (stack) {
+            var padding = stack.getTotalsPadding();
+            for (var side in padding) {
+                maxPadding[side] = Math.max(maxPadding[side] || 0, padding[side]);
+            }
+        });
+        for (var side in maxPadding) {
+            sizes[side] += maxPadding[side];
+        }
+    };
+    Stacker.prototype.getPoints = function () {
+        if (this._toPaint.length) {
+            return this._toPaint[0].getPoints().concat(this._toPaint[this._toPaint.length - 1].getPoints());
+        }
+        return [];
+    };
+    Stacker.prototype.paint = function (width, height, prev) {
+        var svg = [];
+        var markers = [];
+        this._toPaint.forEach(function (seria) {
+            if (seria.paintformAndMarkers) {
+                var _a = seria.paintformAndMarkers(width, height, prev), content_1 = _a[0], seriesMarkers = _a[1];
+                svg.push(content_1);
+                markers.push(seriesMarkers);
+            }
+            else {
+                var content_2 = seria.paint(width, height, prev);
+                svg.push(content_2);
+            }
+            prev = seria.getPoints();
+        });
+        var content = svg.concat(markers);
+        if (this._totalLabels) {
+            content.push(this._getTotalsSeria().paintTotals(this._totalLabels, this._toPaint.map(function (seria) { return seria.getPoints(); })));
+        }
+        return (0, dom_1.sv)("g", content);
+    };
+    Stacker.prototype._getTotalsSeria = function () {
+        var seria = this._toPaint[this._toPaint.length - 1];
+        return seria && seria.paintTotals && seria.getTotalsPadding ? seria : null;
+    };
+    Stacker.prototype._getTotalLabels = function () {
+        var seria = this._getTotalsSeria();
+        if (!seria || !seria.config.total) {
+            return null;
+        }
+        // point[1] of the topmost seria is the cumulative sum of the whole stack
+        return seria.getPoints().map(function (point) { return (0, common_1.formatTotal)(seria.config.total, point[1]); });
+    };
+    return Stacker;
+}());
+exports.default = Stacker;
+
+
+/***/ }),
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Tooltip = void 0;
-var ts_message_1 = __webpack_require__(13);
+var ts_message_1 = __webpack_require__(19);
 var common_1 = __webpack_require__(7);
-var line_1 = __webpack_require__(90);
-var types_1 = __webpack_require__(26);
+var line_1 = __webpack_require__(94);
+var types_1 = __webpack_require__(29);
 var Tooltip = /** @class */ (function () {
     function Tooltip(chart) {
         this._chart = chart;
@@ -37777,6 +41901,7 @@ var Tooltip = /** @class */ (function () {
         }
     };
     Tooltip.prototype._showLineTooltip = function (lineTooltipItems) {
+        var _a;
         var lineTooltip = "";
         var root = this._chart.getRootView();
         var calcPointTop = 0;
@@ -37788,7 +41913,7 @@ var Tooltip = /** @class */ (function () {
                     root.refs &&
                     root.refs["line" + Math.round(item.left)] &&
                     root.refs["line" + Math.round(item.left)].el;
-            this._prevLine.classList.add("grid-line__active");
+            (_a = this._prevLine) === null || _a === void 0 ? void 0 : _a.classList.add("grid-line__active");
             if (!item.text)
                 continue;
             var seria = this._chart.getSeries(item.seriaId);
@@ -37796,9 +41921,9 @@ var Tooltip = /** @class */ (function () {
             if (!point.length || !seria.config.tooltip)
                 continue;
             var shadeColor = seria.config.pointColor ||
-                (seria.config.color && seria.config.color !== "none"
+                (0, common_1.getSeriaColor)(seria.config.color && seria.config.color !== "none"
                     ? seria.config.color
-                    : seria.config.fill);
+                    : seria.config.fill, this._chart.data.getItem(point[0][2]));
             var shadeHTMLHelper = (0, line_1.getShadeHTMLHelper)(seria.config.pointType !== "empty" && seria.config.pointType
                 ? seria.config.pointType
                 : "simpleRect", shadeColor);
@@ -37814,7 +41939,7 @@ var Tooltip = /** @class */ (function () {
         this._tooltip.innerHTML = lineTooltip;
         this._tooltip.classList.add("dhx_chart_tooltip__visible");
         var middlePointHeight = calcPointTop / lineTooltipItems.length;
-        var lineRect = this._prevLine.getBoundingClientRect();
+        var lineRect = (this._prevLine || this._chart.getRootNode()).getBoundingClientRect();
         var contentHight = this._tooltip.offsetHeight;
         var contentWidth = this._tooltip.offsetWidth;
         var top = middlePointHeight - contentHight / 2 + lineRect.top + window.scrollY;
@@ -37939,7 +42064,7 @@ var Tooltip = /** @class */ (function () {
                     }
                 });
                 if (lineTooltipItems_2.length) {
-                    lineTooltipItems_2.sort(function (a, b) { return b.value - a.value; });
+                    lineTooltipItems_2.sort(function (a, b) { return a.top - b.top; });
                     _this._showLineTooltip(lineTooltipItems_2);
                 }
                 else {
@@ -37990,7 +42115,7 @@ exports.Tooltip = Tooltip;
 
 
 /***/ }),
-/* 198 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38013,7 +42138,7 @@ var Exporter = /** @class */ (function () {
     function Exporter(_name, _view) {
         this._name = _name;
         this._view = _view;
-        this._version = "9.3.0";
+        this._version = "9.4.0";
     }
     Exporter.prototype.pdf = function (config) {
         return this._rawExport(config, "pdf", this._view);
@@ -38095,10 +42220,10 @@ var Exporter = /** @class */ (function () {
 }());
 exports.Exporter = Exporter;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(18)))
 
 /***/ }),
-/* 199 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38131,140 +42256,46 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProChart = void 0;
-var Stacker_1 = __webpack_require__(93);
-var index_1 = __webpack_require__(88);
-var core_1 = __webpack_require__(1);
-var common_1 = __webpack_require__(7);
-var Legend_1 = __webpack_require__(86);
-var Chart_1 = __webpack_require__(85);
+var Chart_1 = __webpack_require__(91);
 var ProChart = /** @class */ (function (_super) {
     __extends(ProChart, _super);
     function ProChart(node, config) {
         if (config === void 0) { config = {}; }
         return _super.call(this, node, config) || this;
     }
-    ProChart.prototype.setConfig = function (config) {
-        var _this = this;
-        var _a, _b, _c, _d, _e;
-        this.config = config;
-        this._layers.clear();
-        this._series = {};
-        this._scales = {};
-        var min;
-        if (config.scales) {
-            for (var key in config.scales) {
-                var scale = __assign({}, config.scales[key]);
-                if (config.scales[key].min !== undefined) {
-                    min = config.scales[key].min;
-                }
-                scale.type = scale.type || this._detectScaleType(scale, key);
-                if (config.scales.radial && key !== "radial") {
-                    scale.hidden = true;
-                }
-                this._setScale(scale, key);
-            }
+    ProChart.prototype._isProOnlyType = function (_type) {
+        return false;
+    };
+    ProChart.prototype._prepareSeriaConfig = function (cfg, index) {
+        var serieConfig = _super.prototype._prepareSeriaConfig.call(this, cfg, index);
+        if (serieConfig.type === "calendarHeatMap" && !serieConfig.dateFormat) {
+            serieConfig.dateFormat = "%d/%m/%y";
         }
-        var stack = new Stacker_1.default();
-        this._layers.add(stack);
-        (_a = config.series) === null || _a === void 0 ? void 0 : _a.forEach(function (cfg, ind) {
-            var _a, _b, _c, _d;
-            if (cfg.baseLine !== undefined && cfg.baseLine < min) {
-                cfg.baseLine = undefined;
-            }
-            var serieConfig = __assign({}, cfg);
-            serieConfig.type = serieConfig.type || config.type;
-            switch (serieConfig.type) {
-                case "bar":
-                case "xbar":
-                case "area":
-                case "splineArea":
-                    if (!serieConfig.color)
-                        serieConfig.color = serieConfig.fill || (0, common_1.getDefaultColor)(ind);
-                    if (!serieConfig.fill)
-                        serieConfig.fill = serieConfig.color || (0, common_1.getDefaultColor)(ind);
-                    break;
-                case "treeMap":
-                    serieConfig.legendType = ((_a = config.legend) === null || _a === void 0 ? void 0 : _a.type) || "groupName";
-                    (_c = (_b = config.legend) === null || _b === void 0 ? void 0 : _b.treeSeries) === null || _c === void 0 ? void 0 : _c.map(function (serie, index) {
-                        var _a, _b;
-                        serie.active = (_a = serie.active) !== null && _a !== void 0 ? _a : true;
-                        serie.id = (_b = serie.id) !== null && _b !== void 0 ? _b : (0, core_1.uid)();
-                        if (!serie.color)
-                            serie.color = (0, common_1.getDefaultColor)(index, serieConfig.legendType === "range");
-                    });
-                    serieConfig.treeSeries = (_d = config.legend) === null || _d === void 0 ? void 0 : _d.treeSeries;
-                    break;
-                case "calendarHeatMap":
-                    if (!serieConfig.dateFormat) {
-                        serieConfig.dateFormat = "%d/%m/%y";
-                    }
-                    break;
-                case "scatter":
-                    if (!serieConfig.pointColor)
-                        serieConfig.pointColor = serieConfig.color || (0, common_1.getDefaultColor)(ind);
-                    break;
-            }
-            var chartFactory = index_1.default[serieConfig.type];
-            if (serieConfig.barWidth || _this.config.barWidth) {
-                serieConfig.barWidth = serieConfig.barWidth || _this.config.barWidth;
-            }
-            var chart = new chartFactory(_this.data, serieConfig, _this.events);
-            var scales = (0, common_1.getScales)(config.scales);
-            var chartScales = scales.length > 1 && scales[0] !== "radial"
-                ? scales
-                : scales[0] === "radial"
-                    ? scales
-                    : ["bottom", "left"];
-            chartScales.forEach(function (type) {
-                var scale = _this._scales[type];
-                if (!scale) {
-                    return;
-                }
-                chart.addScale(type, scale);
-                if (!serieConfig.stacked) {
-                    scale.add(chart);
-                }
-                else {
-                    scale.add(stack);
-                }
-            });
-            _this._series[chart.id] = chart;
-            if (serieConfig.stacked) {
-                stack.add(chart);
+        return serieConfig;
+    };
+    ProChart.prototype._prepareLegendConfig = function (cfg) {
+        var _a, _b;
+        var legendConfig = _super.prototype._prepareLegendConfig.call(this, cfg);
+        if (this.config.type === "calendarHeatMap") {
+            var _c = (_b = (_a = this.config) === null || _a === void 0 ? void 0 : _a.series) === null || _b === void 0 ? void 0 : _b[0], value = _c.value, positiveColor = _c.positiveColor, negativeColor = _c.negativeColor, color = _c.color, minValue = _c.minValue, maxValue = _c.maxValue;
+            legendConfig.type = "scale";
+            legendConfig.form = "line";
+            if (!legendConfig.values) {
+                legendConfig.values = {
+                    positiveColor: positiveColor,
+                    negativeColor: negativeColor,
+                    color: color,
+                    text: "",
+                    value: value,
+                    minValue: minValue,
+                    maxValue: maxValue,
+                };
             }
             else {
-                _this._layers.add(chart);
+                legendConfig.values = __assign(__assign({}, legendConfig.values), { color: color, positiveColor: positiveColor, negativeColor: negativeColor, value: value, minValue: minValue, maxValue: maxValue });
             }
-        });
-        if (config.legend) {
-            var legendConfig = __assign({}, config.legend);
-            if (legendConfig.series) {
-                legendConfig.$seriesInfo = legendConfig.series.map(function (id) { return _this._series[id]; });
-            }
-            if (this.config.type === "calendarHeatMap") {
-                var _f = (_c = (_b = this.config) === null || _b === void 0 ? void 0 : _b.series) === null || _c === void 0 ? void 0 : _c[0], value = _f.value, positiveColor = _f.positiveColor, negativeColor = _f.negativeColor, color = _f.color, minValue = _f.minValue, maxValue = _f.maxValue;
-                legendConfig.type = "scale";
-                legendConfig.form = "line";
-                if (!legendConfig.values) {
-                    legendConfig.values = {
-                        positiveColor: positiveColor,
-                        negativeColor: negativeColor,
-                        color: color,
-                        text: "",
-                        value: value,
-                        minValue: minValue,
-                        maxValue: maxValue,
-                    };
-                }
-                else {
-                    var _g = (_e = (_d = this.config) === null || _d === void 0 ? void 0 : _d.series) === null || _e === void 0 ? void 0 : _e[0], color_1 = _g.color, value_1 = _g.value;
-                    legendConfig.values = __assign(__assign({}, legendConfig.values), { color: color_1, positiveColor: positiveColor, negativeColor: negativeColor, value: value_1, minValue: minValue, maxValue: maxValue });
-                }
-            }
-            var legend = new Legend_1.Legend(this.data, legendConfig, this.events);
-            this._layers.add(legend);
         }
-        this.paint();
+        return legendConfig;
     };
     return ProChart;
 }(Chart_1.Chart));
@@ -38272,7 +42303,7 @@ exports.ProChart = ProChart;
 
 
 /***/ }),
-/* 200 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38291,7 +42322,7 @@ exports.KEY_CODES = {
 
 
 /***/ }),
-/* 201 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38356,7 +42387,7 @@ exports.KeyListener = KeyListener;
 
 
 /***/ }),
-/* 202 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38378,10 +42409,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProCombobox = void 0;
-var Combobox_1 = __webpack_require__(94);
-var ts_list_1 = __webpack_require__(39);
-var ts_layout_1 = __webpack_require__(16);
-var helper_1 = __webpack_require__(95);
+var Combobox_1 = __webpack_require__(98);
+var ts_list_1 = __webpack_require__(41);
+var ts_layout_1 = __webpack_require__(15);
+var helper_1 = __webpack_require__(99);
 var ProCombobox = /** @class */ (function (_super) {
     __extends(ProCombobox, _super);
     function ProCombobox(element, config) {
@@ -38431,7 +42462,7 @@ exports.ProCombobox = ProCombobox;
 
 
 /***/ }),
-/* 203 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38451,20 +42482,20 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(97), exports);
-__exportStar(__webpack_require__(206), exports);
-__exportStar(__webpack_require__(98), exports);
+__exportStar(__webpack_require__(101), exports);
+__exportStar(__webpack_require__(216), exports);
+__exportStar(__webpack_require__(102), exports);
 
 
 /***/ }),
-/* 204 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getEditor = void 0;
-var InputEditor_1 = __webpack_require__(205);
+var InputEditor_1 = __webpack_require__(215);
 function getEditor(item, dataView) {
     return new InputEditor_1.InputEditor(item, dataView);
 }
@@ -38472,7 +42503,7 @@ exports.getEditor = getEditor;
 
 
 /***/ }),
-/* 205 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38480,7 +42511,7 @@ exports.getEditor = getEditor;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InputEditor = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(98);
+var types_1 = __webpack_require__(102);
 var InputEditor = /** @class */ (function () {
     function InputEditor(item, dataView) {
         var _this = this;
@@ -38582,7 +42613,7 @@ exports.InputEditor = InputEditor;
 
 
 /***/ }),
-/* 206 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38615,8 +42646,8 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProDataView = void 0;
-var ScrollView_1 = __webpack_require__(22);
-var DataView_1 = __webpack_require__(97);
+var ScrollView_1 = __webpack_require__(24);
+var DataView_1 = __webpack_require__(101);
 var dom_1 = __webpack_require__(0);
 var ProDataView = /** @class */ (function (_super) {
     __extends(ProDataView, _super);
@@ -38676,7 +42707,7 @@ exports.ProDataView = ProDataView;
 
 
 /***/ }),
-/* 207 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38696,13 +42727,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(99), exports);
-__exportStar(__webpack_require__(224), exports);
+__exportStar(__webpack_require__(103), exports);
+__exportStar(__webpack_require__(234), exports);
 __exportStar(__webpack_require__(6), exports);
 
 
 /***/ }),
-/* 208 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38733,16 +42764,16 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DatePicker = void 0;
-var ts_calendar_1 = __webpack_require__(32);
-var date_1 = __webpack_require__(18);
+var ts_calendar_1 = __webpack_require__(33);
+var date_1 = __webpack_require__(17);
 var events_1 = __webpack_require__(3);
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var label_1 = __webpack_require__(15);
-var ts_popup_1 = __webpack_require__(14);
+var label_1 = __webpack_require__(14);
+var ts_popup_1 = __webpack_require__(13);
 var types_1 = __webpack_require__(6);
-var helper_1 = __webpack_require__(8);
-var KeyManager_1 = __webpack_require__(17);
+var helper_1 = __webpack_require__(9);
+var KeyManager_1 = __webpack_require__(16);
 var DatePicker = /** @class */ (function (_super) {
     __extends(DatePicker, _super);
     function DatePicker(container, config) {
@@ -39146,7 +43177,7 @@ exports.DatePicker = DatePicker;
 
 
 /***/ }),
-/* 209 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39189,11 +43220,11 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Button = void 0;
 var dom_1 = __webpack_require__(0);
-var view_1 = __webpack_require__(9);
+var view_1 = __webpack_require__(10);
 var types_1 = __webpack_require__(6);
 var events_1 = __webpack_require__(3);
 var core_1 = __webpack_require__(1);
-var helper_1 = __webpack_require__(8);
+var helper_1 = __webpack_require__(9);
 var Button = /** @class */ (function (_super) {
     __extends(Button, _super);
     function Button(container, config) {
@@ -39349,7 +43380,7 @@ exports.Button = Button;
 
 
 /***/ }),
-/* 210 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39392,14 +43423,14 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CheckboxGroup = void 0;
 var dom_1 = __webpack_require__(0);
-var ts_layout_1 = __webpack_require__(16);
+var ts_layout_1 = __webpack_require__(15);
 var events_1 = __webpack_require__(3);
-var checkbox_1 = __webpack_require__(100);
-var label_1 = __webpack_require__(15);
+var checkbox_1 = __webpack_require__(104);
+var label_1 = __webpack_require__(14);
 var types_1 = __webpack_require__(6);
 var core_1 = __webpack_require__(1);
-var helper_1 = __webpack_require__(8);
-var ts_popup_1 = __webpack_require__(14);
+var helper_1 = __webpack_require__(9);
+var ts_popup_1 = __webpack_require__(13);
 var CheckboxGroup = /** @class */ (function (_super) {
     __extends(CheckboxGroup, _super);
     function CheckboxGroup(container, config) {
@@ -39811,7 +43842,7 @@ exports.CheckboxGroup = CheckboxGroup;
 
 
 /***/ }),
-/* 211 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39855,12 +43886,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RadioGroup = void 0;
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var ts_layout_1 = __webpack_require__(16);
-var ts_popup_1 = __webpack_require__(14);
+var ts_layout_1 = __webpack_require__(15);
+var ts_popup_1 = __webpack_require__(13);
 var events_1 = __webpack_require__(3);
-var radiobutton_1 = __webpack_require__(212);
-var helper_1 = __webpack_require__(8);
-var label_1 = __webpack_require__(15);
+var radiobutton_1 = __webpack_require__(222);
+var helper_1 = __webpack_require__(9);
+var label_1 = __webpack_require__(14);
 var types_1 = __webpack_require__(6);
 var RadioGroup = /** @class */ (function (_super) {
     __extends(RadioGroup, _super);
@@ -40231,7 +44262,7 @@ exports.RadioGroup = RadioGroup;
 
 
 /***/ }),
-/* 212 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40276,8 +44307,8 @@ exports.RadioButton = exports.RadioButtonEvents = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
-var helper_1 = __webpack_require__(8);
-var label_1 = __webpack_require__(15);
+var helper_1 = __webpack_require__(9);
+var label_1 = __webpack_require__(14);
 var RadioButtonEvents;
 (function (RadioButtonEvents) {
     RadioButtonEvents["beforeChange"] = "beforeChange";
@@ -40438,7 +44469,7 @@ exports.RadioButton = RadioButton;
 
 
 /***/ }),
-/* 213 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40482,8 +44513,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Select = void 0;
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var label_1 = __webpack_require__(15);
-var helper_1 = __webpack_require__(8);
+var label_1 = __webpack_require__(14);
+var helper_1 = __webpack_require__(9);
 var events_1 = __webpack_require__(3);
 var types_1 = __webpack_require__(6);
 var Select = /** @class */ (function (_super) {
@@ -40794,7 +44825,7 @@ exports.Select = Select;
 
 
 /***/ }),
-/* 214 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40826,8 +44857,8 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Textarea = void 0;
 var dom_1 = __webpack_require__(0);
-var helper_1 = __webpack_require__(8);
-var input_1 = __webpack_require__(41);
+var helper_1 = __webpack_require__(9);
+var input_1 = __webpack_require__(45);
 var types_1 = __webpack_require__(6);
 var core_1 = __webpack_require__(1);
 var Textarea = /** @class */ (function (_super) {
@@ -40974,7 +45005,7 @@ exports.Textarea = Textarea;
 
 
 /***/ }),
-/* 215 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41007,8 +45038,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Text = void 0;
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var helper_1 = __webpack_require__(8);
-var input_1 = __webpack_require__(41);
+var helper_1 = __webpack_require__(9);
+var input_1 = __webpack_require__(45);
 var types_1 = __webpack_require__(6);
 var Text = /** @class */ (function (_super) {
     __extends(Text, _super);
@@ -41104,7 +45135,7 @@ exports.Text = Text;
 
 
 /***/ }),
-/* 216 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41137,12 +45168,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Combo = void 0;
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var helper_1 = __webpack_require__(8);
-var ts_combobox_1 = __webpack_require__(40);
+var helper_1 = __webpack_require__(9);
+var ts_combobox_1 = __webpack_require__(44);
 var events_1 = __webpack_require__(3);
-var label_1 = __webpack_require__(15);
+var label_1 = __webpack_require__(14);
 var types_1 = __webpack_require__(6);
-var ts_data_1 = __webpack_require__(5);
+var ts_data_1 = __webpack_require__(4);
 var Combo = /** @class */ (function (_super) {
     __extends(Combo, _super);
     function Combo(container, config) {
@@ -41475,7 +45506,7 @@ exports.Combo = Combo;
 
 
 /***/ }),
-/* 217 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41519,11 +45550,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SliderForm = void 0;
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var ts_slider_1 = __webpack_require__(52);
+var ts_slider_1 = __webpack_require__(57);
 var events_1 = __webpack_require__(3);
-var label_1 = __webpack_require__(15);
+var label_1 = __webpack_require__(14);
 var types_1 = __webpack_require__(6);
-var helper_1 = __webpack_require__(8);
+var helper_1 = __webpack_require__(9);
 var SliderForm = /** @class */ (function (_super) {
     __extends(SliderForm, _super);
     function SliderForm(container, config) {
@@ -41720,7 +45751,7 @@ exports.SliderForm = SliderForm;
 
 
 /***/ }),
-/* 218 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41751,15 +45782,15 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TimePicker = void 0;
-var ts_timepicker_1 = __webpack_require__(51);
+var ts_timepicker_1 = __webpack_require__(56);
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var label_1 = __webpack_require__(15);
-var ts_popup_1 = __webpack_require__(14);
+var label_1 = __webpack_require__(14);
+var ts_popup_1 = __webpack_require__(13);
 var events_1 = __webpack_require__(3);
 var types_1 = __webpack_require__(6);
-var helper_1 = __webpack_require__(8);
-var KeyManager_1 = __webpack_require__(17);
+var helper_1 = __webpack_require__(9);
+var KeyManager_1 = __webpack_require__(16);
 var TimePicker = /** @class */ (function (_super) {
     __extends(TimePicker, _super);
     function TimePicker(container, config) {
@@ -41875,17 +45906,27 @@ var TimePicker = /** @class */ (function (_super) {
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        var value = args.length ? args[0] : this.getValue(this._isTimeObject());
+        var value = args.length ? args[0] : this.config.value && this.getValue(this._isTimeObject());
         if (!silent && !this.events.fire(types_1.ItemEvent.beforeValidate, [value])) {
             return false;
         }
         var valid = true;
         if (this.config.required || args.length) {
-            if (typeof value === "string") {
+            if (value === null || value === undefined || value === "") {
+                valid = false;
+            }
+            else if (typeof value === "string") {
                 valid = (0, helper_1.isTimeFormat)(value, this.config.timeFormat);
             }
-            else {
-                valid = (0, helper_1.isTimeFormat)("".concat(value.hour, ":").concat(value.minute).concat((0, core_1.isDefined)(value.AM) ? (value.AM ? "AM" : "PM") : ""), this.config.timeFormat);
+            else if (typeof value === "object") {
+                var h = String(value.hour).padStart(value.hour < 10 ? 1 : 1, "0");
+                var m = String(value.minute).padStart(2, "0");
+                var timeString = "".concat(h, ":").concat(m);
+                if (this.config.timeFormat === 12) {
+                    var suffix = (0, core_1.isDefined)(value.AM) ? (value.AM ? "AM" : "PM") : "";
+                    timeString += suffix;
+                }
+                valid = (0, helper_1.isTimeFormat)(timeString, this.config.timeFormat);
             }
         }
         if (typeof this.config.validation === "function") {
@@ -42222,7 +46263,7 @@ exports.TimePicker = TimePicker;
 
 
 /***/ }),
-/* 219 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42253,15 +46294,15 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ColorPicker = void 0;
-var ts_colorpicker_1 = __webpack_require__(55);
+var ts_colorpicker_1 = __webpack_require__(60);
 var events_1 = __webpack_require__(3);
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
-var label_1 = __webpack_require__(15);
-var ts_popup_1 = __webpack_require__(14);
+var label_1 = __webpack_require__(14);
+var ts_popup_1 = __webpack_require__(13);
 var types_1 = __webpack_require__(6);
-var helper_1 = __webpack_require__(8);
-var KeyManager_1 = __webpack_require__(17);
+var helper_1 = __webpack_require__(9);
+var KeyManager_1 = __webpack_require__(16);
 var ColorPicker = /** @class */ (function (_super) {
     __extends(ColorPicker, _super);
     function ColorPicker(container, config) {
@@ -42647,7 +46688,7 @@ exports.ColorPicker = ColorPicker;
 
 
 /***/ }),
-/* 220 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42681,11 +46722,11 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Spacer = void 0;
 var dom_1 = __webpack_require__(0);
-var view_1 = __webpack_require__(9);
+var view_1 = __webpack_require__(10);
 var types_1 = __webpack_require__(6);
 var events_1 = __webpack_require__(3);
 var core_1 = __webpack_require__(1);
-var helper_1 = __webpack_require__(8);
+var helper_1 = __webpack_require__(9);
 var Spacer = /** @class */ (function (_super) {
     __extends(Spacer, _super);
     function Spacer(container, config) {
@@ -42749,7 +46790,7 @@ exports.Spacer = Spacer;
 
 
 /***/ }),
-/* 221 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42794,10 +46835,10 @@ exports.Avatar = void 0;
 var dom_1 = __webpack_require__(0);
 var core_1 = __webpack_require__(1);
 var events_1 = __webpack_require__(3);
-var label_1 = __webpack_require__(15);
+var label_1 = __webpack_require__(14);
 var types_1 = __webpack_require__(6);
-var helper_1 = __webpack_require__(8);
-var simplevault_1 = __webpack_require__(101);
+var helper_1 = __webpack_require__(9);
+var simplevault_1 = __webpack_require__(105);
 var Avatar = /** @class */ (function (_super) {
     __extends(Avatar, _super);
     function Avatar(container, config) {
@@ -43161,7 +47202,7 @@ exports.Avatar = Avatar;
 
 
 /***/ }),
-/* 222 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43190,7 +47231,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Fieldset = void 0;
 var events_1 = __webpack_require__(3);
 var types_1 = __webpack_require__(6);
-var helper_1 = __webpack_require__(8);
+var helper_1 = __webpack_require__(9);
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var Fieldset = /** @class */ (function () {
@@ -43312,7 +47353,7 @@ exports.Fieldset = Fieldset;
 
 
 /***/ }),
-/* 223 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43355,10 +47396,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ToggleGroup = void 0;
 var types_1 = __webpack_require__(6);
-var ToggleButton_1 = __webpack_require__(103);
-var view_1 = __webpack_require__(9);
+var ToggleButton_1 = __webpack_require__(107);
+var view_1 = __webpack_require__(10);
 var dom_1 = __webpack_require__(0);
-var helper_1 = __webpack_require__(8);
+var helper_1 = __webpack_require__(9);
 var events_1 = __webpack_require__(3);
 var core_1 = __webpack_require__(1);
 var ToggleGroup = /** @class */ (function (_super) {
@@ -43646,7 +47687,7 @@ exports.ToggleGroup = ToggleGroup;
 
 
 /***/ }),
-/* 224 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43668,11 +47709,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProForm = void 0;
-var Form_1 = __webpack_require__(99);
+var Form_1 = __webpack_require__(103);
 var types_1 = __webpack_require__(6);
-var ts_layout_1 = __webpack_require__(16);
-var container_1 = __webpack_require__(225);
-var helper_1 = __webpack_require__(8);
+var ts_layout_1 = __webpack_require__(15);
+var container_1 = __webpack_require__(235);
+var helper_1 = __webpack_require__(9);
 var ProForm = /** @class */ (function (_super) {
     __extends(ProForm, _super);
     function ProForm(container, config) {
@@ -43728,7 +47769,7 @@ exports.ProForm = ProForm;
 
 
 /***/ }),
-/* 225 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43771,12 +47812,12 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Container = void 0;
 var dom_1 = __webpack_require__(0);
-var label_1 = __webpack_require__(15);
+var label_1 = __webpack_require__(14);
 var types_1 = __webpack_require__(6);
 var events_1 = __webpack_require__(3);
 var core_1 = __webpack_require__(1);
-var ts_layout_1 = __webpack_require__(16);
-var helper_1 = __webpack_require__(8);
+var ts_layout_1 = __webpack_require__(15);
+var helper_1 = __webpack_require__(9);
 var Container = /** @class */ (function (_super) {
     __extends(Container, _super);
     function Container(container, config) {
@@ -43886,7 +47927,81 @@ exports.Container = Container;
 
 
 /***/ }),
-/* 226 */
+/* 236 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PrefixSums = void 0;
+var PrefixSums = /** @class */ (function () {
+    function PrefixSums() {
+        this._prefix = new Float64Array(1);
+        this._length = 0;
+    }
+    PrefixSums.prototype.ensureCapacity = function (maxCount) {
+        if (this._prefix.length < maxCount + 1) {
+            this._prefix = new Float64Array(maxCount + 1);
+        }
+        this._prefix[0] = 0;
+        return this._prefix;
+    };
+    PrefixSums.prototype.setLength = function (length) {
+        this._length = length;
+    };
+    PrefixSums.prototype.totalSize = function () {
+        return this._prefix[this._length];
+    };
+    PrefixSums.prototype.rangeSize = function (from, to) {
+        var f = from < 0 ? 0 : from;
+        var t = to > this._length ? this._length : to;
+        if (t <= f)
+            return 0;
+        return this._prefix[t] - this._prefix[f];
+    };
+    PrefixSums.prototype.itemSize = function (visibleIndex) {
+        if (visibleIndex < 0 || visibleIndex >= this._length)
+            return 0;
+        return this._prefix[visibleIndex + 1] - this._prefix[visibleIndex];
+    };
+    PrefixSums.prototype.findIndex = function (target) {
+        if (this._length === 0)
+            return 0;
+        if (target <= 0)
+            return 0;
+        if (target >= this._prefix[this._length])
+            return this._length - 1;
+        var lo = 0;
+        var hi = this._length;
+        while (lo < hi) {
+            var mid = (lo + hi) >> 1;
+            if (this._prefix[mid + 1] > target) {
+                hi = mid;
+            }
+            else {
+                lo = mid + 1;
+            }
+        }
+        return lo;
+    };
+    Object.defineProperty(PrefixSums.prototype, "length", {
+        get: function () {
+            return this._length;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    PrefixSums.prototype.reset = function () {
+        this._length = 0;
+        this._prefix = new Float64Array(1);
+    };
+    return PrefixSums;
+}());
+exports.PrefixSums = PrefixSums;
+
+
+/***/ }),
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43914,15 +48029,16 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Selection = exports.GridSelectionEvents = void 0;
 var dom_1 = __webpack_require__(0);
-var ts_data_1 = __webpack_require__(5);
+var ts_data_1 = __webpack_require__(4);
 var core_1 = __webpack_require__(1);
 var events_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(4);
-var FocusManager_1 = __webpack_require__(20);
+var types_1 = __webpack_require__(5);
+var FocusManager_1 = __webpack_require__(21);
 var common_1 = __webpack_require__(12);
-var main_1 = __webpack_require__(10);
-var cells_1 = __webpack_require__(24);
-var data_1 = __webpack_require__(11);
+var main_1 = __webpack_require__(11);
+var cells_1 = __webpack_require__(20);
+var dom_2 = __webpack_require__(46);
+var data_1 = __webpack_require__(8);
 var GridSelectionEvents;
 (function (GridSelectionEvents) {
     GridSelectionEvents["beforeUnSelect"] = "beforeUnSelect";
@@ -43936,6 +48052,7 @@ var Selection = /** @class */ (function () {
         this._gridId = gridId;
         this._selectedCell = null;
         this._selectedCells = [];
+        this._selectedSet = new Set();
         this.config = __assign({ type: "complex", disabled: false, multiSelection: false }, config);
         this.events = events || new events_1.EventSystem(this);
         this._init();
@@ -43943,7 +48060,7 @@ var Selection = /** @class */ (function () {
     Selection.prototype.setCell = function (row, col, ctrlUp, shiftUp) {
         var _a, _b;
         var _this = this;
-        var _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+        var _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
         if (ctrlUp === void 0) { ctrlUp = false; }
         if (shiftUp === void 0) { shiftUp = false; }
         var isTree = this._grid.config.type === "tree";
@@ -43962,6 +48079,14 @@ var Selection = /** @class */ (function () {
                 });
                 return;
             }
+            if (this.config.type === "row" && col && this._selectedCell) {
+                var resolvedCol = this._grid.getColumn(col.id || col);
+                if (resolvedCol && resolvedCol.id !== ((_h = this._selectedCell.column) === null || _h === void 0 ? void 0 : _h.id)) {
+                    this._selectedCell = { row: this._selectedCell.row, column: resolvedCol };
+                    (0, dom_1.awaitRedraw)().then(function () { return _this._setBrowserFocus(); });
+                    return;
+                }
+            }
             if (!this.config.multiSelection ||
                 (this.config.multiSelection && this._selectedCells.length === 1))
                 return;
@@ -43970,7 +48095,7 @@ var Selection = /** @class */ (function () {
             this._grid.config.$editable ||
             (!this.config.multiSelection &&
                 this._selectedCells.length &&
-                !this._removeCell((_h = this._selectedCell) === null || _h === void 0 ? void 0 : _h.row, (_j = this._selectedCell) === null || _j === void 0 ? void 0 : _j.column))) {
+                !this._removeCell((_j = this._selectedCell) === null || _j === void 0 ? void 0 : _j.row, (_k = this._selectedCell) === null || _k === void 0 ? void 0 : _k.column))) {
             return;
         }
         if (this.config.multiSelection) {
@@ -43989,7 +48114,7 @@ var Selection = /** @class */ (function () {
             }
         }
         row = this._grid.data.getItem((row && row.id) || row);
-        var columns = (_l = (_k = this._grid.config) === null || _k === void 0 ? void 0 : _k.columns) === null || _l === void 0 ? void 0 : _l.filter(function (col) { return !col.hidden; });
+        var columns = (_m = (_l = this._grid.config) === null || _l === void 0 ? void 0 : _l.columns) === null || _m === void 0 ? void 0 : _m.filter(function (col) { return !col.hidden; });
         if (!col)
             col = columns === null || columns === void 0 ? void 0 : columns[0];
         col = this._grid.getColumn(col.id || col);
@@ -43997,7 +48122,7 @@ var Selection = /** @class */ (function () {
             return;
         }
         if (this.config.multiSelection && shiftUp && this._selectedCells.length && !isTree) {
-            var startCell = (_m = this._selectedCells) === null || _m === void 0 ? void 0 : _m[0];
+            var startCell = (_o = this._selectedCells) === null || _o === void 0 ? void 0 : _o[0];
             var startRowIndex = this._grid.data.getIndex(startCell.row.id);
             var endRowIndex = this._grid.data.getIndex(row.id);
             if (startRowIndex > endRowIndex) {
@@ -44078,37 +48203,104 @@ var Selection = /** @class */ (function () {
         this.config.disabled = false;
         this._grid.paint();
     };
+    Selection.prototype.isSelectedCell = function (row, column) {
+        var rowId = (row === null || row === void 0 ? void 0 : row.id) || row;
+        var colId = (column === null || column === void 0 ? void 0 : column.id) || column;
+        return this._selectedSet.has(this._cellKey(rowId, colId));
+    };
+    Selection.prototype.restoreFocus = function () {
+        this._setBrowserFocus();
+    };
+    Selection.prototype.remapRows = function () {
+        this._selectedSet.clear();
+        for (var _i = 0, _a = this._selectedCells; _i < _a.length; _i++) {
+            var cell = _a[_i];
+            if ((cell === null || cell === void 0 ? void 0 : cell.row) && (cell === null || cell === void 0 ? void 0 : cell.column)) {
+                this._selectedSet.add(this._cellKey(cell.row.id, cell.column.id));
+            }
+        }
+    };
     Selection.prototype.toHTML = function () {
         var _this = this;
         if (this._isUnselected()) {
             return;
         }
         if (this.config.multiSelection) {
-            var selection_1 = [];
-            var selectedRows_1 = {};
-            this._selectedCells.forEach(function (cell, index, array) {
+            var rowNodes_1 = [];
+            var cellNodes_1 = [];
+            var renderedCellKeys_1 = new Set();
+            var uniqueCells_1 = [];
+            this._selectedCells.forEach(function (cell, index) {
                 var nCell = (0, cells_1.normalizeCell)(cell, _this._grid);
-                selection_1.push(_this._toHTML(nCell.row, nCell.column, index === array.length - 1 ||
-                    _this.config.type === "cell" ||
-                    _this.config.type === "complex", selectedRows_1[cell.row.id]));
-                selectedRows_1[cell.row.id] = true;
+                var cellKey = String(nCell.row.id) + "_" + String(nCell.column.id);
+                if (renderedCellKeys_1.has(cellKey))
+                    return;
+                renderedCellKeys_1.add(cellKey);
+                uniqueCells_1.push({
+                    nCell: nCell,
+                    index: index,
+                    layout: _this._getSelectionLayout(nCell.row, nCell.column),
+                    span: _this._grid.getSpan(nCell.row.id, nCell.column.id),
+                });
             });
-            return selection_1;
+            if (this.config.type === "row" || this.config.type === "complex") {
+                var renderedRows_1 = new Set();
+                var coveredRows_1 = new Set();
+                uniqueCells_1.forEach(function (_a) {
+                    var nCell = _a.nCell, layout = _a.layout, span = _a.span;
+                    if (!layout || !(span === null || span === void 0 ? void 0 : span.rowspan) || span.rowspan <= 1) {
+                        return;
+                    }
+                    var rowId = String(nCell.row.id);
+                    if (renderedRows_1.has(rowId)) {
+                        return;
+                    }
+                    renderedRows_1.add(rowId);
+                    rowNodes_1.push((0, dom_1.el)(".dhx_grid-selection", { style: { zIndex: 20 } }, [
+                        (0, dom_1.el)(".dhx_grid-selected-row", { style: layout.rowStyle }),
+                    ]));
+                    var startIndex = _this._grid.data.getIndex(span.row);
+                    for (var i = 0; i < span.rowspan; i++) {
+                        var id = _this._grid.data.getId(startIndex + i);
+                        if (id !== undefined)
+                            coveredRows_1.add(String(id));
+                    }
+                });
+                uniqueCells_1.forEach(function (_a) {
+                    var nCell = _a.nCell, layout = _a.layout, span = _a.span;
+                    if (!layout || (span === null || span === void 0 ? void 0 : span.rowspan) > 1) {
+                        return;
+                    }
+                    var rowId = String(nCell.row.id);
+                    if (renderedRows_1.has(rowId) || coveredRows_1.has(rowId)) {
+                        return;
+                    }
+                    renderedRows_1.add(rowId);
+                    rowNodes_1.push((0, dom_1.el)(".dhx_grid-selection", { style: { zIndex: 20 } }, [
+                        (0, dom_1.el)(".dhx_grid-selected-row", { style: layout.rowStyle }),
+                    ]));
+                });
+            }
+            uniqueCells_1.forEach(function (_a) {
+                var index = _a.index, layout = _a.layout;
+                if (!layout) {
+                    return;
+                }
+                var last = index === _this._selectedCells.length - 1 ||
+                    _this.config.type === "cell" ||
+                    _this.config.type === "complex";
+                if ((_this.config.type === "cell" || _this.config.type === "complex") && last) {
+                    cellNodes_1.push((0, dom_1.el)(".dhx_grid-selection", { style: { zIndex: 20 } }, [
+                        (0, dom_1.el)(".dhx_grid-selected-cell", { style: layout.cellStyle }),
+                    ]));
+                }
+            });
+            return __spreadArray(__spreadArray([], rowNodes_1, true), cellNodes_1, true);
         }
         else {
             var nCell = (0, cells_1.normalizeCell)(this._selectedCell, this._grid);
             return this._toHTML(nCell.row, nCell.column, true);
         }
-    };
-    Selection.prototype.isSelectedCell = function (row, column) {
-        var _this = this;
-        return !!this._selectedCells.find(function (cell) {
-            if (_this.config.type === "row") {
-                return cell.row.id === ((row === null || row === void 0 ? void 0 : row.id) || row);
-            }
-            return (cell.row.id === ((row === null || row === void 0 ? void 0 : row.id) || row) &&
-                cell.column.id === ((column === null || column === void 0 ? void 0 : column.id) || column));
-        });
     };
     Selection.prototype._setCell = function (row, column) {
         if (!row || !column || !(0, core_1.isDefined)(row.id) || !(0, core_1.isDefined)(column.id))
@@ -44121,8 +48313,10 @@ var Selection = /** @class */ (function () {
             this._selectedCells.push(this._selectedCell);
         }
         else {
+            this._selectedSet.clear();
             this._selectedCells = [this._selectedCell];
         }
+        this._selectedSet.add(this._cellKey(row.id, column.id));
         this.events.fire(GridSelectionEvents.afterSelect, [row, column]);
     };
     Selection.prototype._removeCell = function (row, col, silent) {
@@ -44135,6 +48329,7 @@ var Selection = /** @class */ (function () {
         }
         var index = this._selectedCells.findIndex(function (item) { return item.row.id === row.id && item.column.id === col.id; });
         this._selectedCells.splice(index, 1);
+        this._selectedSet.delete(this._cellKey(row.id, col.id));
         if (this._selectedCell &&
             col.id === this._selectedCell.column.id &&
             row.id === this._selectedCell.row.id) {
@@ -44146,6 +48341,7 @@ var Selection = /** @class */ (function () {
     Selection.prototype._removeCells = function (silent) {
         var _this = this;
         if (silent === void 0) { silent = false; }
+        this._selectedSet.clear();
         __spreadArray([], this._selectedCells, true).forEach(function (item) {
             _this._removeCell(item === null || item === void 0 ? void 0 : item.row, item === null || item === void 0 ? void 0 : item.column, silent);
         });
@@ -44184,9 +48380,26 @@ var Selection = /** @class */ (function () {
         });
     };
     Selection.prototype._toHTML = function (row, column, last, skipRow) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
         if (last === void 0) { last = false; }
         if (skipRow === void 0) { skipRow = false; }
+        var layout = this._getSelectionLayout(row, column);
+        if (!layout)
+            return null;
+        var selectedRowElement = null;
+        if ((this.config.type === "row" || this.config.type === "complex") && !skipRow) {
+            selectedRowElement = (0, dom_1.el)(".dhx_grid-selected-row", { style: layout.rowStyle });
+        }
+        var selectedCellElement = null;
+        if ((this.config.type === "cell" || this.config.type === "complex") && last) {
+            selectedCellElement = (0, dom_1.el)(".dhx_grid-selected-cell", { style: layout.cellStyle });
+        }
+        return (0, dom_1.el)(".dhx_grid-selection", { style: { zIndex: 20 } }, [
+            selectedRowElement,
+            selectedCellElement,
+        ]);
+    };
+    Selection.prototype._getSelectionLayout = function (row, column) {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
         var rows = this._grid.data.getRawData(0, -1, null, 2);
         var rowInd = (0, core_1.findIndex)(rows, function (obj) { return obj.id == row.id; });
         if (rowInd === -1)
@@ -44342,7 +48555,7 @@ var Selection = /** @class */ (function () {
                         height = cellRect.height - reverseScrollState.y - gap;
                     }
                     else {
-                        top = cellRect.y - reverseScrollState.y;
+                        top = cellRect.y;
                         height =
                             cellRect.height -
                                 (bottomSplit === fixedRowsIds.bottom.indexOf(row.id) + 1 ? 1 : 0);
@@ -44350,45 +48563,32 @@ var Selection = /** @class */ (function () {
                 }
             }
         }
-        var selectedRowElement = null;
-        if ((this.config.type === "row" || this.config.type === "complex") && !skipRow) {
-            selectedRowElement = (0, dom_1.el)(".dhx_grid-selected-row", {
-                style: {
-                    width: ((_m = fixedCols.left) === null || _m === void 0 ? void 0 : _m.length) ? $totalWidth - scrollState.x : $totalWidth,
-                    height: height,
-                    minHeight: minHeight,
-                    minWidth: minWidth,
-                    display: height < 0 && !minHeight ? "none" : "flex",
-                    top: top,
-                    left: ((_o = fixedCols.left) === null || _o === void 0 ? void 0 : _o.length) ? scrollState.x : 0,
-                    position: "absolute",
-                },
-            });
-        }
-        var selectedCellElement = null;
-        if ((this.config.type === "cell" || this.config.type === "complex") && last) {
-            selectedCellElement = (0, dom_1.el)(".dhx_grid-selected-cell", {
-                style: {
-                    width: width,
-                    height: height,
-                    top: top,
-                    minHeight: minHeight,
-                    minWidth: minWidth,
-                    left: left,
-                    position: "absolute",
-                    display: (width < 0 && !minWidth) || (height < 0 && !minHeight) ? "none" : "flex",
-                    borderLeft: isBehindLeftFixedCols && !isLeftFixedCol ? "none" : null,
-                    borderRight: isBehindRightFixedCols && !isRightFixedCol ? "none" : null,
-                    borderTop: isBehindTopFixedRows && !isTopFixedRow ? "none" : null,
-                    borderBottom: isBehindBottomFixedRows && !isBottomFixedRow ? "none" : null,
-                },
-            });
-        }
-        return (0, dom_1.el)(".dhx_grid-selection", {
-            style: {
-                zIndex: 20,
+        return {
+            rowStyle: {
+                width: ((_m = fixedCols.left) === null || _m === void 0 ? void 0 : _m.length) ? $totalWidth - scrollState.x : $totalWidth,
+                height: height,
+                minHeight: minHeight,
+                minWidth: minWidth,
+                display: height < 0 && !minHeight ? "none" : "flex",
+                top: top,
+                left: ((_o = fixedCols.left) === null || _o === void 0 ? void 0 : _o.length) ? scrollState.x : 0,
+                position: "absolute",
             },
-        }, [selectedRowElement, selectedCellElement]);
+            cellStyle: {
+                width: width,
+                height: height,
+                top: top,
+                minHeight: minHeight,
+                minWidth: minWidth,
+                left: left,
+                position: "absolute",
+                display: (width < 0 && !minWidth) || (height < 0 && !minHeight) ? "none" : "flex",
+                borderLeft: isBehindLeftFixedCols && !isLeftFixedCol ? "none" : null,
+                borderRight: isBehindRightFixedCols && !isRightFixedCol ? "none" : null,
+                borderTop: isBehindTopFixedRows && !isTopFixedRow ? "none" : null,
+                borderBottom: isBehindBottomFixedRows && !isBottomFixedRow ? "none" : null,
+            },
+        };
     };
     Selection.prototype._isUnselected = function () {
         return (!this._selectedCell ||
@@ -44416,27 +48616,21 @@ var Selection = /** @class */ (function () {
         });
         return cellIndex;
     };
+    Selection.prototype._cellKey = function (rowId, colId) {
+        return this.config.type === "row" ? "" + rowId : rowId + "_" + colId;
+    };
     Selection.prototype._setBrowserFocus = function () {
+        var _a, _b;
         var gridContainer = this._grid.getRootView().data.getRootNode();
-        if (gridContainer) {
-            var gridDataContainer = gridContainer.querySelector(".dhx_grid_data");
-            if (gridDataContainer &&
-                this._selectedCell &&
-                this._selectedCell.row &&
-                this._selectedCell.column) {
-                var $row = gridDataContainer.querySelector("[data-dhx-id=\"".concat(this._selectedCell.row.id, "\"]"));
-                var span = this._grid.getSpan(this._selectedCell.row.id, this._selectedCell.column.id);
-                if ($row) {
-                    var gridSpansContainer = span ? gridContainer.querySelector(".dhx_span-spans") : null;
-                    var $focusedCell = gridSpansContainer
-                        ? gridSpansContainer.querySelector("[data-dhx-col-id=\"".concat(span.column, "\"][data-dhx-id=\"").concat(span.row, "\"]"))
-                        : $row.querySelector("[data-dhx-col-id=\"".concat(this._selectedCell.column.id, "\"]"));
-                    if ($focusedCell) {
-                        $focusedCell.tabIndex = 0;
-                        $focusedCell.focus({ preventScroll: true });
-                    }
-                }
-            }
+        if (!gridContainer || !((_a = this._selectedCell) === null || _a === void 0 ? void 0 : _a.row) || !((_b = this._selectedCell) === null || _b === void 0 ? void 0 : _b.column))
+            return;
+        var _c = this._selectedCell, row = _c.row, column = _c.column;
+        var span = this._grid.getSpan(row.id, column.id);
+        // the cell can be in the frozen columns, not only in the scrolling data
+        var $focusedCell = (0, dom_2.getCellNode)(gridContainer, row.id, column.id, span);
+        if ($focusedCell) {
+            $focusedCell.tabIndex = 0;
+            $focusedCell.focus({ preventScroll: true });
         }
     };
     return Selection;
@@ -44445,20 +48639,20 @@ exports.Selection = Selection;
 
 
 /***/ }),
-/* 227 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getEditor = void 0;
-var types_1 = __webpack_require__(4);
-var InputEditor_1 = __webpack_require__(228);
-var SelectEditor_1 = __webpack_require__(229);
-var DateEditor_1 = __webpack_require__(230);
-var CheckboxEditor_1 = __webpack_require__(231);
-var ComboboxEditor_1 = __webpack_require__(232);
-var TextAreaEditor_1 = __webpack_require__(233);
+var types_1 = __webpack_require__(5);
+var InputEditor_1 = __webpack_require__(239);
+var SelectEditor_1 = __webpack_require__(240);
+var DateEditor_1 = __webpack_require__(241);
+var CheckboxEditor_1 = __webpack_require__(242);
+var ComboboxEditor_1 = __webpack_require__(243);
+var TextAreaEditor_1 = __webpack_require__(244);
 var lastEditor = {
     cell: {
         row: null,
@@ -44523,7 +48717,7 @@ exports.getEditor = getEditor;
 
 
 /***/ }),
-/* 228 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44542,9 +48736,11 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InputEditor = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(4);
+var types_1 = __webpack_require__(5);
 var core_1 = __webpack_require__(1);
-var input_1 = __webpack_require__(35);
+var data_1 = __webpack_require__(8);
+var locale_1 = __webpack_require__(22);
+var input_1 = __webpack_require__(36);
 var InputEditor = /** @class */ (function () {
     function InputEditor(row, col, config) {
         this.prevValue = "";
@@ -44554,6 +48750,7 @@ var InputEditor = /** @class */ (function () {
         this._initHandlers();
     }
     InputEditor.prototype.endEdit = function (withoutSave) {
+        var _a;
         if (!this._config.$editable)
             return;
         var value;
@@ -44568,10 +48765,16 @@ var InputEditor = /** @class */ (function () {
                     var config = this._cell.col.editorConfig;
                     var min = parseFloat(config === null || config === void 0 ? void 0 : config.min);
                     var max = parseFloat(config === null || config === void 0 ? void 0 : config.max);
+                    var typedValue = value;
                     if ((0, core_1.isDefined)(config === null || config === void 0 ? void 0 : config.min) && value < min)
                         value = min;
                     if ((0, core_1.isDefined)(config === null || config === void 0 ? void 0 : config.max) && value > max)
                         value = max;
+                    if (value !== typedValue) {
+                        (_a = this._config._events) === null || _a === void 0 ? void 0 : _a.fire(types_1.GridSystemEvents.announce, [
+                            (0, locale_1.getLocaleString)("aria_valueClamped", { value: value }),
+                        ]);
+                    }
                 }
             }
         }
@@ -44597,6 +48800,7 @@ var InputEditor = /** @class */ (function () {
         if ((0, core_1.isDefined)(numberMaskConfig === null || numberMaskConfig === void 0 ? void 0 : numberMaskConfig.maxDecLength)) {
             numberMaskConfig = __assign(__assign({}, numberMaskConfig), { maxDecLength: undefined });
         }
+        var isInvalid = this._isValueInvalid(value);
         value = this._applyValuePattern(value, this._input, true, numberMaskConfig);
         this._config.$editable.editor = this;
         return (0, dom_1.el)("input.dhx_cell-editor.dhx_cell-editor__input", {
@@ -44605,6 +48809,8 @@ var InputEditor = /** @class */ (function () {
             },
             _key: "cell_editor",
             "data-dhx-id": "cell_editor",
+            "aria-label": (0, data_1.getColumnHeaderText)(this._cell.col),
+            "aria-invalid": isInvalid ? "true" : "false",
             onblur: this._handlers.onBlur,
             oninput: this._handlers.onInput,
             value: value,
@@ -44625,14 +48831,9 @@ var InputEditor = /** @class */ (function () {
                     else {
                         value = _this.prevValue;
                     }
-                    if (!_this.prevValue.length ||
+                    _this._setValidity(!_this.prevValue.length ||
                         _this.prevValue === "-" ||
-                        _this._isCorrectRange(parseFloat(_this.prevValue))) {
-                        _this._input.classList.remove("dhx_cell-editor__input--not-valid");
-                    }
-                    else {
-                        _this._input.classList.add("dhx_cell-editor__input--not-valid");
-                    }
+                        _this._isCorrectRange(parseFloat(_this.prevValue)));
                 }
                 _this._input.value = _this._applyValuePattern(value, _this._input);
             },
@@ -44641,6 +48842,41 @@ var InputEditor = /** @class */ (function () {
                 _this._input.focus();
             },
         };
+    };
+    InputEditor.prototype._setValidity = function (isValid) {
+        var _a;
+        var wasInvalid = this._input.getAttribute("aria-invalid") === "true";
+        if (isValid) {
+            this._input.classList.remove("dhx_cell-editor__input--not-valid");
+        }
+        else {
+            this._input.classList.add("dhx_cell-editor__input--not-valid");
+        }
+        this._input.setAttribute("aria-invalid", isValid ? "false" : "true");
+        if (!isValid && !wasInvalid) {
+            var message = this._getRangeMessage();
+            message && ((_a = this._config._events) === null || _a === void 0 ? void 0 : _a.fire(types_1.GridSystemEvents.announce, [message]));
+        }
+    };
+    InputEditor.prototype._isValueInvalid = function (value) {
+        if (this.type !== "number") {
+            return false;
+        }
+        var num = parseFloat(this._removeValuePattern("".concat(value)));
+        return !Number.isNaN(num) && !this._isCorrectRange(num);
+    };
+    InputEditor.prototype._getRangeMessage = function () {
+        var config = this._cell.col.editorConfig;
+        if ((0, core_1.isDefined)(config === null || config === void 0 ? void 0 : config.min) && (0, core_1.isDefined)(config === null || config === void 0 ? void 0 : config.max)) {
+            return (0, locale_1.getLocaleString)("aria_valueOutOfRange", { min: config.min, max: config.max });
+        }
+        if ((0, core_1.isDefined)(config === null || config === void 0 ? void 0 : config.min)) {
+            return (0, locale_1.getLocaleString)("aria_valueBelowMin", { min: config.min });
+        }
+        if ((0, core_1.isDefined)(config === null || config === void 0 ? void 0 : config.max)) {
+            return (0, locale_1.getLocaleString)("aria_valueAboveMax", { max: config.max });
+        }
+        return "";
     };
     InputEditor.prototype._isValidWord = function (word) {
         var _a;
@@ -44698,7 +48934,7 @@ exports.InputEditor = InputEditor;
 
 
 /***/ }),
-/* 229 */
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44706,8 +48942,8 @@ exports.InputEditor = InputEditor;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SelectEditor = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(4);
-var data_1 = __webpack_require__(11);
+var types_1 = __webpack_require__(5);
+var data_1 = __webpack_require__(8);
 var SelectEditor = /** @class */ (function () {
     function SelectEditor(row, col, config) {
         this._config = config;
@@ -44754,6 +48990,7 @@ var SelectEditor = /** @class */ (function () {
             },
             _key: "cell_editor",
             "data-dhx-id": "cell_editor",
+            "aria-label": (0, data_1.getColumnHeaderText)(this._cell.col),
         }, options);
     };
     SelectEditor.prototype._initHandlers = function () {
@@ -44782,7 +49019,7 @@ exports.SelectEditor = SelectEditor;
 
 
 /***/ }),
-/* 230 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44801,10 +49038,11 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DateEditor = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(4);
-var ts_calendar_1 = __webpack_require__(32);
-var date_1 = __webpack_require__(18);
-var ts_popup_1 = __webpack_require__(14);
+var types_1 = __webpack_require__(5);
+var data_1 = __webpack_require__(8);
+var ts_calendar_1 = __webpack_require__(33);
+var date_1 = __webpack_require__(17);
+var ts_popup_1 = __webpack_require__(13);
 var DateEditor = /** @class */ (function () {
     function DateEditor(row, col, config) {
         var _this = this;
@@ -44878,6 +49116,7 @@ var DateEditor = /** @class */ (function () {
             },
             _key: "cell_editor",
             "data-dhx-id": "cell_editor",
+            "aria-label": (0, data_1.getColumnHeaderText)(this._cell.col),
             value: value,
         });
     };
@@ -44944,16 +49183,16 @@ exports.DateEditor = DateEditor;
 
 
 /***/ }),
-/* 231 */
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CheckboxEditor = void 0;
-var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(4);
+var types_1 = __webpack_require__(5);
+var data_1 = __webpack_require__(8);
 var CheckboxEditor = /** @class */ (function () {
     function CheckboxEditor(row, col, config) {
         this._config = config;
@@ -44974,14 +49213,7 @@ var CheckboxEditor = /** @class */ (function () {
         if (this._checked === undefined) {
             this._checked = this._cell.row[this._cell.col.id];
         }
-        var id = (0, core_1.uid)();
         return (0, dom_1.el)("div.dhx_checkbox.dhx_cell-editor__checkbox", [
-            (0, dom_1.el)("label", {
-                style: {
-                    display: "none",
-                },
-                for: id,
-            }, this._checked || "false"),
             (0, dom_1.el)("input.dhx_checkbox__input", {
                 type: "checkbox",
                 _hooks: {
@@ -44991,7 +49223,7 @@ var CheckboxEditor = /** @class */ (function () {
                 "data-dhx-id": "cell_editor",
                 "data-dhx-checked": (!!this._checked).toString(),
                 checked: this._checked,
-                id: id,
+                "aria-label": (0, data_1.getColumnHeaderText)(this._cell.col),
                 style: {
                     userSelect: "none",
                 },
@@ -45034,7 +49266,7 @@ exports.CheckboxEditor = CheckboxEditor;
 
 
 /***/ }),
-/* 232 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45053,10 +49285,11 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ComboboxEditor = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(4);
-var ts_combobox_1 = __webpack_require__(40);
-var FocusManager_1 = __webpack_require__(20);
-var data_1 = __webpack_require__(11);
+var types_1 = __webpack_require__(5);
+var data_1 = __webpack_require__(8);
+var ts_combobox_1 = __webpack_require__(44);
+var FocusManager_1 = __webpack_require__(21);
+var data_2 = __webpack_require__(8);
 var ComboboxEditor = /** @class */ (function () {
     function ComboboxEditor(row, col, config) {
         this._config = config;
@@ -45073,7 +49306,7 @@ var ComboboxEditor = /** @class */ (function () {
             value = this._cell.col.editorType === "multiselect" ? val.split(",").join(", ") : val;
         }
         if (this._config.events.fire(types_1.GridEvents.beforeEditEnd, [value, this._cell.row, this._cell.col])) {
-            var options_1 = (0, data_1.getEditorOptions)(this._cell.col, this._cell.row);
+            var options_1 = (0, data_2.getEditorOptions)(this._cell.col, this._cell.row);
             this._input.popup.hide();
             document.removeEventListener("mousedown", this._handlers.onOuterClick);
             this._cell.row = this._config.datacollection.getItem(this._cell.row.id);
@@ -45093,12 +49326,12 @@ var ComboboxEditor = /** @class */ (function () {
     };
     ComboboxEditor.prototype.toHTML = function () {
         var _this = this;
-        var options = (0, data_1.getEditorOptions)(this._cell.col, this._cell.row);
+        var options = (0, data_2.getEditorOptions)(this._cell.col, this._cell.row);
         var content = options.map(function (item) {
             return typeof item === "string" ? { id: "".concat(item), value: item } : item;
         }) || [];
         if (!this._input) {
-            this._input = new ts_combobox_1.ProCombobox(null, __assign({ itemHeight: 37, css: "dhx_cell-editor__combobox", multiselection: this._cell.col.editorType === "multiselect", htmlEnable: this._cell.col.htmlEnable }, this._cell.col.editorConfig));
+            this._input = new ts_combobox_1.ProCombobox(null, __assign({ itemHeight: 37, css: "dhx_cell-editor__combobox", multiselection: this._cell.col.editorType === "multiselect", htmlEnable: this._cell.col.htmlEnable, ariaLabel: (0, data_1.getColumnHeaderText)(this._cell.col) }, this._cell.col.editorConfig));
             this._input.data.parse(content);
             var comboValue = this._cell.row[this._cell.col.id];
             var value = this._cell.col.editorType === "multiselect"
@@ -45174,7 +49407,7 @@ exports.ComboboxEditor = ComboboxEditor;
 
 
 /***/ }),
-/* 233 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45193,10 +49426,11 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TextAreaEditor = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(4);
+var types_1 = __webpack_require__(5);
 var core_1 = __webpack_require__(1);
-var data_1 = __webpack_require__(11);
-var input_1 = __webpack_require__(35);
+var data_1 = __webpack_require__(8);
+var data_2 = __webpack_require__(8);
+var input_1 = __webpack_require__(36);
 var TextAreaEditor = /** @class */ (function () {
     function TextAreaEditor(row, col, config, span) {
         this._config = config;
@@ -45204,7 +49438,7 @@ var TextAreaEditor = /** @class */ (function () {
         this.type = this._cell.col.type;
         this._width = this._getCellWidth(span);
         if (this._config.firstColId === this._cell.col.id && this._cell.row.hasOwnProperty("$level")) {
-            this._width -= (0, data_1.getTreeCellWidthOffset)(this._cell.row) - 12;
+            this._width -= (0, data_2.getTreeCellWidthOffset)(this._cell.row) - 12;
         }
         this._initHandlers();
     }
@@ -45252,6 +49486,7 @@ var TextAreaEditor = /** @class */ (function () {
             _ref: "textarea",
             _key: "cell_editor",
             "data-dhx-id": "cell_editor",
+            "aria-label": (0, data_1.getColumnHeaderText)(this._cell.col),
             value: value,
             onblur: this._handlers.onBlur,
             oninput: this._handlers.onInput,
@@ -45345,8 +49580,8 @@ var TextAreaEditor = /** @class */ (function () {
             maxHeight: this._config.rowHeight,
         });
         var row = __assign(__assign({}, this._cell.row), (_a = {}, _a[this._cell.col.id] = value, _a));
-        var totalHeight = (0, data_1.getCalculatedRowHeight)((0, data_1.getMaxRowHeight)({ row: row, cols: this._config.columns }));
-        var currentRowHeight = (0, data_1.getCalculatedRowHeight)((0, data_1.getMaxRowHeight)({
+        var totalHeight = (0, data_2.getCalculatedRowHeight)((0, data_2.getMaxRowHeight)({ row: row, cols: this._config.columns }));
+        var currentRowHeight = (0, data_2.getCalculatedRowHeight)((0, data_2.getMaxRowHeight)({
             row: (_b = {}, _b[this._cell.col.id] = row[this._cell.col.id], _b),
             cols: this._config.columns,
         }));
@@ -45365,7 +49600,7 @@ exports.TextAreaEditor = TextAreaEditor;
 
 
 /***/ }),
-/* 234 */
+/* 245 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45393,9 +49628,9 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getGroupPanel = exports.getGroupItem = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(4);
+var types_1 = __webpack_require__(5);
 var html_1 = __webpack_require__(2);
-var en_1 = __webpack_require__(43);
+var en_1 = __webpack_require__(37);
 function getGroupChain(_a) {
     var id = _a.id;
     return (0, dom_1.el)("div.dhx_grid-group_chain", {
@@ -45449,6 +49684,7 @@ function getGroupItem(_a) {
         (closable &&
             (0, dom_1.el)("i.dxi.dxi-close-circle.dhx_grid-group_item-remove", {
                 "data-dhx-group-item-remove": "true",
+                "aria-hidden": "true",
             })) ||
             null,
     ]);
@@ -45489,7 +49725,7 @@ exports.getGroupPanel = getGroupPanel;
 
 
 /***/ }),
-/* 235 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45508,9 +49744,10 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setSubRowCell = exports.getSubRowContent = void 0;
 var dom_1 = __webpack_require__(0);
-var main_1 = __webpack_require__(10);
+var main_1 = __webpack_require__(11);
+var locale_1 = __webpack_require__(22);
 var default_1 = __webpack_require__(27);
-var ProCell_1 = __webpack_require__(72);
+var ProCell_1 = __webpack_require__(76);
 var common_1 = __webpack_require__(12);
 function getSubRowContent(config) {
     var _a;
@@ -45527,7 +49764,7 @@ function getSubRowContent(config) {
                     subRowContent.push((0, dom_1.el)(".dhx_grid_subrow__container", {
                         _key: "sub" + row.id,
                         role: "region",
-                        "aria-labelledby": "row-".concat(row.id),
+                        "aria-label": (0, locale_1.getLocaleString)("aria_subRow", { id: row.id }),
                         "data-dhx-id": row.id,
                         "data-dhx-root-widget-id": config.gridId,
                         tabindex: 0,
@@ -45600,7 +49837,7 @@ function addSubRowCell(row, subRow, config, cellMap) {
 
 
 /***/ }),
-/* 236 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45628,11 +49865,12 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getDragPanelNode = void 0;
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(4);
+var types_1 = __webpack_require__(5);
 var default_1 = __webpack_require__(27);
 var common_1 = __webpack_require__(12);
 var html_1 = __webpack_require__(2);
-var main_1 = __webpack_require__(10);
+var main_1 = __webpack_require__(11);
+var locale_1 = __webpack_require__(22);
 var panelHandlers = {
     onclick: function (grid, event) {
         var id = (0, html_1.locate)(event, "data-dhx-id");
@@ -45661,7 +49899,7 @@ function getDragPanelNode(grid, config, scroll, lessByHeight) {
         css += panelConfig.css;
     return (0, dom_1.el)("section", __assign({ class: css, style: {
             width: panelConfig.width || default_1.defaultDragPanelConfig.width,
-        }, role: "region", "aria-label": "Drag panel" }, handlers), [getHeaderNode(config), getMainNode(config, scroll, lessByHeight)]);
+        }, role: "region", "aria-label": (0, locale_1.getLocaleString)("aria_dragPanel") }, handlers), [getHeaderNode(config), getMainNode(config, scroll, lessByHeight)]);
 }
 exports.getDragPanelNode = getDragPanelNode;
 function getHeaderNode(config) {
@@ -45670,7 +49908,7 @@ function getHeaderNode(config) {
             height: config.$headerHeight,
         },
         role: "banner",
-        "aria-label": "Panel header",
+        "aria-label": (0, locale_1.getLocaleString)("aria_panelHeader"),
     });
 }
 function getFooterNode(config, scroll, lessByHeight) {
@@ -45693,7 +49931,7 @@ function getFooterNode(config, scroll, lessByHeight) {
     return (0, dom_1.el)(".dhx_grid-drag-panel_footer".concat(scroll.footerAtBottom ? ".dhx_grid-drag-panel_footer--at-bottom" : ""), {
         style: style,
         role: "contentinfo",
-        "aria-label": "Panel footer",
+        "aria-label": (0, locale_1.getLocaleString)("aria_panelFooter"),
     });
 }
 function getMainNode(config, scroll, lessByHeight) {
@@ -45703,7 +49941,7 @@ function getMainNode(config, scroll, lessByHeight) {
             height: panelHeight,
         },
         role: "main",
-        "aria-label": "Panel content",
+        "aria-label": (0, locale_1.getLocaleString)("aria_panelContent"),
     }, [
         getContentNode(config, scroll),
         getFooterNode(config, scroll, lessByHeight),
@@ -45722,7 +49960,7 @@ function getContentNode(config, scroll) {
         },
         _flags: dom_1.KEYED_LIST,
         role: "list",
-        "aria-label": "Draggable rows",
+        "aria-label": (0, locale_1.getLocaleString)("aria_draggableRows"),
     }, __spreadArray([], items, true));
 }
 function getFixedContentNode(config, scroll, split, lessByHeight) {
@@ -45761,7 +49999,7 @@ function getFixedContentNode(config, scroll, split, lessByHeight) {
         style: style,
         _flags: dom_1.KEYED_LIST,
         role: "list",
-        "aria-label": "Draggable rows",
+        "aria-label": (0, locale_1.getLocaleString)("aria_draggableRows"),
     }, __spreadArray([], items, true));
 }
 function getItemNode(config, icon) {
@@ -45772,7 +50010,7 @@ function getItemNode(config, icon) {
         },
         _key: config.id + "_panel",
         role: "listitem",
-        "aria-label": "Row id ".concat(config.id),
+        "aria-label": (0, locale_1.getLocaleString)("aria_rowId", { id: config.id }),
     }, [
         (0, dom_1.el)("i.dhx_grid-drag-panel_item-icon", {
             class: icon,
@@ -45783,19 +50021,30 @@ function getItemNode(config, icon) {
 
 
 /***/ }),
-/* 237 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ComboFilter = void 0;
-var ts_combobox_1 = __webpack_require__(40);
+var ts_combobox_1 = __webpack_require__(44);
 var events_1 = __webpack_require__(3);
-var ts_data_1 = __webpack_require__(5);
+var ts_data_1 = __webpack_require__(4);
 var core_1 = __webpack_require__(1);
-var types_1 = __webpack_require__(4);
-var content_1 = __webpack_require__(28);
+var types_1 = __webpack_require__(5);
+var content_1 = __webpack_require__(30);
 var ComboFilter = /** @class */ (function () {
     function ComboFilter(_a) {
         var column = _a.column, config = _a.config, headerConfig = _a.headerConfig, uniqueData = _a.uniqueData, value = _a.value, grid = _a.grid;
@@ -45824,13 +50073,17 @@ var ComboFilter = /** @class */ (function () {
         this.config && this.initHandlers();
     }
     ComboFilter.prototype.initFilter = function () {
-        this._filter = new ts_combobox_1.ProCombobox(null, Object.assign({ virtual: true }, this.filterConfig));
+        var comboConfig = __assign({}, this.filterConfig);
+        delete comboConfig.options;
+        this._filter = new ts_combobox_1.ProCombobox(null, Object.assign({ virtual: true }, comboConfig));
         this.data && this._filter.data && this._setData();
     };
     ComboFilter.prototype.initHandlers = function () {
         var _this = this;
         var colId = this.column.id.toString();
-        this._grid.events.on(ts_data_1.DataEvents.load, function () { return _this._setData(); }, this);
+        [ts_data_1.DataEvents.load, ts_data_1.DataEvents.afterLazyLoad].forEach(function (eventName) {
+            _this._grid.events.on(eventName, function () { return _this._setData(); }, true);
+        });
         this._filter.events.on("change", function (id) {
             var value;
             if (id) {
@@ -45841,10 +50094,10 @@ var ComboFilter = /** @class */ (function () {
                     value = _this._filter.config.multiselection
                         ? _this._filter.list.selection.getItem().map(function (item) {
                             if (item && _this._filter.data.getItem(item.id)) {
-                                return item.value;
+                                return _this._getFilterValue(item);
                             }
                         })
-                        : _this._filter.list.selection.getItem().value;
+                        : _this._getFilterValue(_this._filter.list.selection.getItem());
                 }
             }
             _this.value = value;
@@ -45955,9 +50208,11 @@ var ComboFilter = /** @class */ (function () {
             }
         }
         else if ((value === null || value === void 0 ? void 0 : value.length) || value === "") {
-            var item = this.filterConfig.multiselection && Array.isArray(value)
-                ? value.map(function (v) { var _a; return (_a = _this._filter.data.find(function (item) { return item.value === v; })) === null || _a === void 0 ? void 0 : _a.id; })
-                : (_a = this._filter.data.find(function (item) { return item.value === value; })) === null || _a === void 0 ? void 0 : _a.id;
+            var item = this.column.$filterOptions
+                ? value
+                : this.filterConfig.multiselection && Array.isArray(value)
+                    ? value.map(function (v) { var _a; return (_a = _this._filter.data.find(function (item) { return item.value === v; })) === null || _a === void 0 ? void 0 : _a.id; })
+                    : (_a = this._filter.data.find(function (item) { return item.value === value; })) === null || _a === void 0 ? void 0 : _a.id;
             this._filter.setValue(item, silent);
         }
     };
@@ -45991,6 +50246,10 @@ var ComboFilter = /** @class */ (function () {
         var _this = this;
         if (active === void 0) { active = false; }
         var parseData = function () {
+            if (_this.column.$filterOptions) {
+                _this._filter.data.parse(_this.column.$filterOptions.map(function (option) { return (__assign({}, option)); }));
+                return;
+            }
             var uniqueData = _this.column.$activeFilterData || _this.column.$uniqueData;
             if (_this.column.header.some(function (col) { var _a; return (_a = col.filterConfig) === null || _a === void 0 ? void 0 : _a.filter; })) {
                 var data_1 = _this._filter.data.reduce(function (obj, item) {
@@ -46014,15 +50273,24 @@ var ComboFilter = /** @class */ (function () {
             this.setValue(this.value, true);
         }
     };
+    ComboFilter.prototype._getFilterValue = function (item) {
+        if (!item)
+            return undefined;
+        return this.column.$filterOptions ? "".concat(item.id) : item.value;
+    };
     ComboFilter.prototype._checkValue = function () {
+        var _this = this;
+        var _a;
         if (this.value === undefined)
             return;
         var values = Array.isArray(this.value) ? this.value : [this.value];
         var _loop_1 = function (value) {
-            if (this_1.column.$uniqueData.includes(value))
+            if ((_a = this_1.column.$uniqueData) === null || _a === void 0 ? void 0 : _a.includes(value))
                 return "continue";
             if (values.length > 1) {
-                var item = this_1._filter.data.find(function (item) { return item.value === value; });
+                var item = this_1._filter.data.find(function (item) {
+                    return _this.column.$filterOptions ? "".concat(item.id) === value : item.value === value;
+                });
                 this_1._filter.list.selection.remove(item.id);
             }
             else {
@@ -46044,7 +50312,7 @@ exports.ComboFilter = ComboFilter;
 
 
 /***/ }),
-/* 238 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46062,8 +50330,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SelectFilter = void 0;
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(4);
-var content_1 = __webpack_require__(28);
+var types_1 = __webpack_require__(5);
+var content_1 = __webpack_require__(30);
+var data_1 = __webpack_require__(8);
+var locale_1 = __webpack_require__(22);
 var SelectFilter = /** @class */ (function () {
     function SelectFilter(_a) {
         var column = _a.column, config = _a.config, _b = _a.uniqueData, uniqueData = _b === void 0 ? [] : _b, value = _a.value, grid = _a.grid;
@@ -46078,25 +50348,27 @@ var SelectFilter = /** @class */ (function () {
     }
     SelectFilter.prototype.toHTML = function () {
         var _this = this;
-        var _a;
         return (0, dom_1.el)("label.dhx_grid-filter__label.dxi.dxi-menu-down", { _ref: "".concat(this.column.id, "_filter") }, [
             (0, dom_1.el)("select.dxi.dxi-menu-down", {
                 type: "text",
                 class: "dhx_input dhx_grid-filter dhx_grid-filter--select",
+                "aria-label": (0, locale_1.getLocaleString)("aria_filter", {
+                    column: (0, data_1.getColumnHeaderText)(this.column),
+                }),
+                tabindex: -1,
                 onchange: this._handlers.onchange,
                 onfocus: this._handlers.onfocus,
                 onblur: this._handlers.onblur,
                 _key: this.column.id,
             }, __spreadArray([
                 (0, dom_1.el)("option", { value: "", _key: 0 }, "")
-            ], (_a = ((this.value ? [this.value] : this.data) || [])) === null || _a === void 0 ? void 0 : _a.map(function (val) {
-                val = val !== null && val !== void 0 ? val : "";
-                return (val !== "" &&
+            ], this._getOptions().map(function (option) {
+                return (option.id !== "" &&
                     (0, dom_1.el)("option", {
-                        _key: val,
-                        value: val,
-                        selected: _this.value === val.toString(),
-                    }, val));
+                        _key: option.id,
+                        value: option.id,
+                        selected: _this.value === option.id.toString(),
+                    }, option.value));
             }), true)),
         ]);
     };
@@ -46122,6 +50394,16 @@ var SelectFilter = /** @class */ (function () {
         this._isFocused = false;
         var node = (_b = (_a = this._grid.getRootView()) === null || _a === void 0 ? void 0 : _a.refs["".concat(this.column.id, "_filter")]) === null || _b === void 0 ? void 0 : _b.el;
         node && node.blur();
+    };
+    SelectFilter.prototype._getOptions = function () {
+        if (this.column.$filterOptions) {
+            return this.column.$filterOptions;
+        }
+        var data = (this.value ? [this.value] : this.data) || [];
+        return data.map(function (val) {
+            val = val !== null && val !== void 0 ? val : "";
+            return { id: val, value: val };
+        });
     };
     SelectFilter.prototype.initHandlers = function () {
         var _this = this;
@@ -46159,7 +50441,7 @@ exports.SelectFilter = SelectFilter;
 
 
 /***/ }),
-/* 239 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46168,8 +50450,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.InputFilter = void 0;
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(4);
-var content_1 = __webpack_require__(28);
+var types_1 = __webpack_require__(5);
+var content_1 = __webpack_require__(30);
+var data_1 = __webpack_require__(8);
+var locale_1 = __webpack_require__(22);
 var InputFilter = /** @class */ (function () {
     function InputFilter(_a) {
         var column = _a.column, config = _a.config, id = _a.id, value = _a.value, headerConfig = _a.headerConfig, grid = _a.grid;
@@ -46185,8 +50469,11 @@ var InputFilter = /** @class */ (function () {
         this.toHTML();
     }
     InputFilter.prototype.toHTML = function () {
+        var filterLabel = (0, locale_1.getLocaleString)("aria_filter", {
+            column: (0, data_1.getColumnHeaderText)(this.column),
+        });
         return (0, dom_1.el)("div.dhx_grid-filter__label", {
-            "aria-label": "Type to search",
+            "aria-label": filterLabel,
             _ref: "".concat(this.column.id, "_filter"),
         }, [
             (0, dom_1.el)(".dhx_grid-filter__icon.dhx_input__icon", {
@@ -46196,12 +50483,13 @@ var InputFilter = /** @class */ (function () {
                 style: {
                     display: "none",
                 },
-                "aria-label": "Type to search",
                 for: this.id,
-            }, "Type to search"),
+            }, filterLabel),
             (0, dom_1.el)("input", {
                 type: "text",
                 class: "dhx_input dhx_grid-filter",
+                "aria-label": filterLabel,
+                tabindex: -1,
                 oninput: this._handlers.onchange,
                 onfocus: this._handlers.onfocus,
                 onblur: this._handlers.onblur,
@@ -46276,7 +50564,7 @@ exports.InputFilter = InputFilter;
 
 
 /***/ }),
-/* 240 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46293,7 +50581,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.startResize = void 0;
 var core_1 = __webpack_require__(1);
-var types_1 = __webpack_require__(4);
+var types_1 = __webpack_require__(5);
 var common_1 = __webpack_require__(12);
 function startResize(grid, column, ev, cb) {
     var _a;
@@ -46377,7 +50665,649 @@ exports.startResize = startResize;
 
 
 /***/ }),
-/* 241 */
+/* 252 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getKeysHandlers = void 0;
+var html_1 = __webpack_require__(2);
+var cells_1 = __webpack_require__(20);
+var FocusManager_1 = __webpack_require__(21);
+var main_1 = __webpack_require__(11);
+var keysNavigation_1 = __webpack_require__(253);
+var keysEditing_1 = __webpack_require__(254);
+var zoneFocus_1 = __webpack_require__(66);
+/**
+ * Creates keyboard event handlers for grid navigation, editing, and zone transitions.
+ * Initializes focus sentinels and returns a map of key handlers used by KeyManager.
+ * Each handler routes to zone-specific logic (header/footer) or body cell navigation
+ * depending on the current focus position.
+ * @param grid - the grid instance (IProGrid or IExtendedGrid)
+ * @returns an object mapping key names to their handler functions
+ */
+function getKeysHandlers(grid) {
+    var _a, _b, _c;
+    var cellSelection = grid.config.selection === "cell" ||
+        grid.config.selection === "complex" ||
+        grid.config.selection === true;
+    var gridBody = (_c = (_b = (_a = grid.getRootView()) === null || _a === void 0 ? void 0 : _a.refs) === null || _b === void 0 ? void 0 : _b.grid_body) === null || _c === void 0 ? void 0 : _c.el;
+    if (grid.getRootView() && !gridBody) {
+        return;
+    }
+    (0, zoneFocus_1.initFocusSentinel)(grid);
+    (0, zoneFocus_1.initEndSentinel)(grid);
+    (0, zoneFocus_1.restoreZoneTabindex)(grid, "header");
+    /**
+     * Scrolls body selection by one visible page up or down.
+     * Calculates the number of visible rows based on the grid body height
+     * and moves the selection or range accordingly.
+     * @param event - the keyboard event
+     * @param direction - scroll direction: 1 for down, -1 for up
+     * @param shiftUp - if true, extends the multi-selection range
+     */
+    var handlePageMove = function (event, direction, shiftUp) {
+        var _a, _b;
+        if (shiftUp === void 0) { shiftUp = false; }
+        if (grid.config.$editable ||
+            (0, html_1.locateNodeByClassName)(event, "dhx_grid-header-cell") ||
+            (0, html_1.locateNodeByClassName)(event, "dhx_grid-footer-cell"))
+            return;
+        var selected = (0, cells_1.getCellSource)(grid).getCell();
+        var proGrid = grid;
+        var rangedCell = (_a = proGrid.range) === null || _a === void 0 ? void 0 : _a.getRange();
+        if ((selected || rangedCell) && gridBody) {
+            event.preventDefault();
+            var step = Math.max(1, Math.floor(gridBody.clientHeight / grid.config.rowHeight));
+            var steps = direction * step;
+            var multi = grid.config.multiselection && shiftUp;
+            if (selected) {
+                var targetId = (0, keysNavigation_1.walkVisibleRows)(grid, selected.row.id, steps);
+                if (targetId !== selected.row.id) {
+                    grid.scrollTo(targetId.toString(), selected.column.id.toString());
+                    (0, cells_1.getCellSource)(grid).setCell(targetId, selected.column.id, false, multi);
+                }
+            }
+            if (rangedCell && ((_b = proGrid.block) === null || _b === void 0 ? void 0 : _b.config.mode) === "range") {
+                var targetId = (0, keysNavigation_1.walkVisibleRows)(grid, rangedCell.yEnd, steps);
+                if (targetId !== rangedCell.yEnd) {
+                    (0, keysNavigation_1.applyRangeMove)(proGrid, grid.data.getItem(targetId), rangedCell, "vertical", shiftUp);
+                }
+            }
+        }
+        else if (gridBody) {
+            event.preventDefault();
+            gridBody.scrollTop += direction * gridBody.clientHeight;
+        }
+    };
+    /**
+     * Moves selection to the first or last column in the current row.
+     * If no cell is selected, scrolls the grid body to the top or bottom.
+     * @param event - the keyboard event
+     * @param direction - column direction: -1 for first (Home), 1 for last (End)
+     * @param shiftUp - if true, extends the multi-selection range
+     */
+    var handleHomeEnd = function (event, direction, shiftUp) {
+        var _a;
+        if (shiftUp === void 0) { shiftUp = false; }
+        var selected = (0, cells_1.getCellSource)(grid).getCell();
+        var rangedCell = (_a = grid.range) === null || _a === void 0 ? void 0 : _a.getRange();
+        if (selected || rangedCell) {
+            (0, keysNavigation_1.move)({ grid: grid, event: event, dir: "horizontal", rangedIndex: direction, toEnd: true, shiftUp: shiftUp });
+        }
+        else if (gridBody) {
+            event.preventDefault();
+            gridBody.scrollTop = direction > 0 ? gridBody.scrollHeight : 0;
+        }
+    };
+    /**
+     * Moves selection to the absolute first or last cell in the grid.
+     * First cell is row 0, column 0; last cell is last row, last column.
+     * Handles both cell selection and range (block) selection modes.
+     * @param event - the keyboard event
+     * @param direction - -1 for first cell (Ctrl+Home), 1 for last cell (Ctrl+End)
+     * @param shiftUp - if true, extends the multi-selection range
+     */
+    var handleCtrlHomeEnd = function (event, direction, shiftUp) {
+        var _a, _b, _c;
+        if (shiftUp === void 0) { shiftUp = false; }
+        if (grid.config.$editable ||
+            (0, html_1.locateNodeByClassName)(event, "dhx_grid-header-cell") ||
+            (0, html_1.locateNodeByClassName)(event, "dhx_grid-footer-cell"))
+            return;
+        var selected = (0, cells_1.getCellSource)(grid).getCell();
+        var proGrid = grid;
+        var rangedCell = (_a = proGrid.range) === null || _a === void 0 ? void 0 : _a.getRange();
+        if (!selected && !rangedCell)
+            return;
+        event.preventDefault();
+        var columns = grid.config.columns.filter(function (col) { return !col.hidden; });
+        var multi = grid.config.multiselection && shiftUp;
+        var targetRowId;
+        var targetColId;
+        if (direction < 0) {
+            targetRowId = grid.data.getId(0);
+            targetColId = columns[0].id;
+        }
+        else {
+            var lastRowId = grid.data.getId(grid.data.getLength() - 1);
+            if (grid.config.type === "tree") {
+                lastRowId = (0, main_1.getLastChild)(lastRowId, grid.data);
+            }
+            targetRowId = lastRowId;
+            targetColId = columns[columns.length - 1].id;
+        }
+        if (selected) {
+            grid.scrollTo(targetRowId.toString(), targetColId.toString());
+            (0, cells_1.getCellSource)(grid).setCell(targetRowId, targetColId, false, multi);
+        }
+        if (rangedCell && ((_b = proGrid.block) === null || _b === void 0 ? void 0 : _b.config.mode) === "range") {
+            proGrid.scrollTo(targetRowId, targetColId);
+            if (shiftUp) {
+                proGrid.range.setRange({ yEnd: targetRowId, xEnd: targetColId }, true);
+            }
+            else {
+                proGrid.range.setRange({
+                    yStart: targetRowId,
+                    yEnd: targetRowId,
+                    xStart: targetColId,
+                    xEnd: targetColId,
+                });
+            }
+            (_c = proGrid.block) === null || _c === void 0 ? void 0 : _c.restoreFocus();
+        }
+    };
+    return {
+        enter: function (e) {
+            var zone = (0, zoneFocus_1.detectFocusZone)(e);
+            if (zone === "header" || zone === "footer") {
+                var target = e.target;
+                if ((0, zoneFocus_1.isContentCell)(target)) {
+                    e.preventDefault();
+                    (0, zoneFocus_1.activateContentCell)(target);
+                    return;
+                }
+                if (zone === "header")
+                    (0, zoneFocus_1.triggerHeaderSort)(grid, e);
+                return;
+            }
+            if (cellSelection) {
+                var selected = (0, cells_1.normalizeCell)((0, cells_1.getCellSource)(grid).getCell(), grid);
+                if (selected && (0, keysEditing_1.isColumnEditable)(selected.column, grid.config)) {
+                    if (!grid.config.$editable) {
+                        if (selected.column.type === "boolean") {
+                            (0, keysEditing_1.toggleBooleanCell)(grid, selected.row, selected.column);
+                        }
+                        else {
+                            (0, keysEditing_1.startCellEdit)(grid, selected);
+                        }
+                    }
+                    else {
+                        grid.editEnd();
+                    }
+                }
+            }
+            else {
+                if (grid.config.$editable) {
+                    grid.editEnd();
+                }
+                else {
+                    var selected = (0, keysNavigation_1.getActiveCell)(grid, false);
+                    if (selected && (0, keysEditing_1.isColumnEditable)(selected.column, grid.config)) {
+                        if (selected.column.type === "boolean") {
+                            (0, keysEditing_1.toggleBooleanCell)(grid, selected.row, selected.column);
+                        }
+                        else {
+                            (0, keysEditing_1.startCellEdit)(grid, selected);
+                        }
+                    }
+                }
+            }
+        },
+        f2: function () {
+            if (grid.config.$editable)
+                return;
+            var selected = (0, keysNavigation_1.getActiveCell)(grid, cellSelection);
+            if (selected &&
+                (0, keysEditing_1.isColumnEditable)(selected.column, grid.config) &&
+                selected.column.type !== "boolean") {
+                (0, keysEditing_1.startCellEdit)(grid, selected);
+            }
+        },
+        space: function (e) {
+            var zone = (0, zoneFocus_1.detectFocusZone)(e);
+            if (zone === "header" || zone === "footer") {
+                if (zone === "header")
+                    (0, zoneFocus_1.triggerHeaderSort)(grid, e);
+                return;
+            }
+            if (grid.config.$editable)
+                return;
+            var selected = (0, keysNavigation_1.getActiveCell)(grid, cellSelection);
+            if (selected && (0, keysEditing_1.isColumnEditable)(selected.column, grid.config)) {
+                if (selected.column.type === "boolean") {
+                    e.preventDefault();
+                    (0, keysEditing_1.toggleBooleanCell)(grid, selected.row, selected.column);
+                }
+            }
+        },
+        escape: function (e) {
+            var _a, _b, _c, _d;
+            var zone = (0, zoneFocus_1.detectFocusZone)(e);
+            if (zone === "header" || zone === "footer") {
+                e.preventDefault();
+                var target = e.target;
+                // If focus is on inner filter element → return to cell
+                var cell = target.closest(".dhx_grid-".concat(zone, "-cell, .dhx_span-cell"));
+                if (cell && target !== cell && (0, zoneFocus_1.isContentCell)(cell)) {
+                    (0, zoneFocus_1.deactivateContentCell)(cell);
+                    return;
+                }
+                (0, zoneFocus_1.restoreZoneTabindex)(grid, zone);
+                var colId = (0, zoneFocus_1.getActiveColumnId)(grid) ||
+                    (0, zoneFocus_1.getColIdFromTarget)(target) ||
+                    ((_a = (0, zoneFocus_1.getVisibleColumns)(grid)[0]) === null || _a === void 0 ? void 0 : _a.id);
+                if (grid.config.blockSelection && ((_b = grid.range) === null || _b === void 0 ? void 0 : _b.getRange())) {
+                    var ranged = grid.range.getRange();
+                    grid.scrollTo(ranged.yStart, ranged.xStart);
+                    grid.block.restoreFocus();
+                    if (!((_c = document.activeElement) === null || _c === void 0 ? void 0 : _c.getAttribute("data-dhx-col-id"))) {
+                        (0, zoneFocus_1.transitionToBody)(grid, ranged.xStart, "first");
+                    }
+                }
+                else if ((0, cells_1.getCellSource)(grid).getCell()) {
+                    var sel = (0, cells_1.getCellSource)(grid).getCell();
+                    grid.scrollTo(sel.row.id, sel.column.id);
+                    (0, cells_1.getCellSource)(grid).restoreFocus();
+                    if (!((_d = document.activeElement) === null || _d === void 0 ? void 0 : _d.getAttribute("data-dhx-col-id"))) {
+                        (0, zoneFocus_1.transitionToBody)(grid, sel.column.id, "first");
+                    }
+                }
+                else if (colId) {
+                    (0, zoneFocus_1.transitionToBody)(grid, colId, "first");
+                }
+                return;
+            }
+            if (grid.config.$editable) {
+                grid.editEnd(true);
+            }
+        },
+        tab: function (e) {
+            var _a, _b, _c;
+            var zone = (0, zoneFocus_1.detectFocusZone)(e);
+            if (zone === "header" || zone === "footer") {
+                var target = e.target;
+                var cell = target.closest(".dhx_grid-".concat(zone, "-cell, .dhx_span-cell"));
+                if (cell && target !== cell && (0, zoneFocus_1.isContentCell)(cell)) {
+                    e.preventDefault();
+                    (0, zoneFocus_1.deactivateContentCell)(cell);
+                    return;
+                }
+                var result = (0, zoneFocus_1.moveZoneFocusTab)(grid, e, zone, "forward");
+                if (result === "exit-end") {
+                    (0, zoneFocus_1.restoreZoneTabindex)(grid, zone);
+                    var columns_1 = (0, zoneFocus_1.getVisibleColumns)(grid);
+                    if (zone === "header" && grid.data.getLength()) {
+                        e.preventDefault();
+                        (0, zoneFocus_1.transitionToBody)(grid, (_a = columns_1[0]) === null || _a === void 0 ? void 0 : _a.id, "first");
+                    }
+                    else if (zone === "header" && (0, zoneFocus_1.hasFooter)(grid)) {
+                        e.preventDefault();
+                        (0, zoneFocus_1.transitionFromBodyToZone)(grid, "footer", (_b = columns_1[0]) === null || _b === void 0 ? void 0 : _b.id, 0);
+                    }
+                    else {
+                        (0, zoneFocus_1.exitThroughSentinel)(grid, "forward");
+                    }
+                }
+                return;
+            }
+            if (grid.config.$editable) {
+                grid.editEnd();
+            }
+            var selected = (0, cells_1.getCellSource)(grid).getCell();
+            var columns = grid.config.columns.filter(function (col) { return !col.hidden; });
+            if (selected) {
+                if (selected.row.$opened && selected.row.$subRowHeight) {
+                    var _d = grid.getSubRow(selected.row.id), view = _d.view, element = _d.element;
+                    if (view === null || view === void 0 ? void 0 : view.name.includes("grid")) {
+                        (0, cells_1.getCellSource)(view).setCell(view.data.getId(0));
+                        FocusManager_1.focusManager.setFocusId(view._uid);
+                    }
+                    else {
+                        element.focus();
+                    }
+                    return;
+                }
+                var index = columns.indexOf(selected.column) + (0, keysNavigation_1.getRangedIndex)(grid, "right");
+                if (index >= 0 && index < columns.length) {
+                    e && e.preventDefault();
+                    grid.scrollTo(selected.row.id.toString(), columns[index].id.toString());
+                    (0, cells_1.getCellSource)(grid).setCell(selected.row.id, columns[index].id);
+                }
+                else if (index >= 0) {
+                    var nextRowId = (0, keysNavigation_1.getNextVisibleRowId)(grid, selected.row.id, 1);
+                    if (nextRowId) {
+                        e && e.preventDefault();
+                        grid.scrollTo(nextRowId.toString(), columns[0].id.toString());
+                        (0, cells_1.getCellSource)(grid).setCell(nextRowId, columns[0].id);
+                    }
+                    else if ((0, zoneFocus_1.hasFooter)(grid)) {
+                        e && e.preventDefault();
+                        (0, zoneFocus_1.transitionFromBodyToZone)(grid, "footer", columns[0].id, 0);
+                    }
+                    else {
+                        (0, zoneFocus_1.exitThroughSentinel)(grid, "forward");
+                    }
+                }
+            }
+            else {
+                var rangedCell_1 = (_c = grid.range) === null || _c === void 0 ? void 0 : _c.getRange();
+                if (rangedCell_1) {
+                    var colIndex = columns.findIndex(function (col) { return col.id === rangedCell_1.xEnd; });
+                    var nextColIndex = colIndex + 1;
+                    if (nextColIndex < columns.length) {
+                        e && e.preventDefault();
+                        (0, keysNavigation_1.navigateToCell)(grid, false, rangedCell_1.yEnd, columns[nextColIndex].id);
+                    }
+                    else {
+                        var nextRowId = (0, keysNavigation_1.getNextVisibleRowId)(grid, rangedCell_1.yEnd, 1);
+                        if (nextRowId) {
+                            e && e.preventDefault();
+                            (0, keysNavigation_1.navigateToCell)(grid, false, nextRowId, columns[0].id);
+                        }
+                        else if ((0, zoneFocus_1.hasFooter)(grid)) {
+                            e && e.preventDefault();
+                            (0, zoneFocus_1.transitionFromBodyToZone)(grid, "footer", columns[0].id, 0);
+                        }
+                        else {
+                            (0, zoneFocus_1.exitThroughSentinel)(grid, "forward");
+                        }
+                    }
+                }
+            }
+        },
+        delete: function () {
+            var _a, _b;
+            if (((_a = grid.block) === null || _a === void 0 ? void 0 : _a.config.mode) === "range" && grid.config.editable && !grid.config.$editable) {
+                (0, cells_1.clearCells)(grid, (_b = grid.range) === null || _b === void 0 ? void 0 : _b.getRangedCells());
+            }
+        },
+        "shift+tab": function (e) {
+            var _a, _b, _c, _d, _e;
+            var zone = (0, zoneFocus_1.detectFocusZone)(e);
+            if (zone === "header" || zone === "footer") {
+                var target = e.target;
+                var cell = target.closest(".dhx_grid-".concat(zone, "-cell, .dhx_span-cell"));
+                if (cell && target !== cell && (0, zoneFocus_1.isContentCell)(cell)) {
+                    e.preventDefault();
+                    (0, zoneFocus_1.deactivateContentCell)(cell);
+                    return;
+                }
+                var result = (0, zoneFocus_1.moveZoneFocusTab)(grid, e, zone, "backward");
+                if (result === "exit-start") {
+                    (0, zoneFocus_1.restoreZoneTabindex)(grid, zone);
+                    var columns_2 = (0, zoneFocus_1.getVisibleColumns)(grid);
+                    var lastColId = (_a = columns_2[columns_2.length - 1]) === null || _a === void 0 ? void 0 : _a.id;
+                    if (zone === "footer" && grid.data.getLength()) {
+                        e.preventDefault();
+                        (0, zoneFocus_1.transitionToBody)(grid, lastColId, "last");
+                    }
+                    else if (zone === "footer" && (0, zoneFocus_1.getZoneRowCount)(grid, "header")) {
+                        e.preventDefault();
+                        (0, zoneFocus_1.transitionFromBodyToZone)(grid, "header", lastColId);
+                    }
+                    else {
+                        (0, zoneFocus_1.exitThroughSentinel)(grid, "backward");
+                    }
+                }
+                return;
+            }
+            if (zone === "body" && (0, zoneFocus_1.isAtFirstRow)(grid) && (0, zoneFocus_1.isAtFirstColumn)(grid)) {
+                e.preventDefault();
+                var columns_3 = (0, zoneFocus_1.getVisibleColumns)(grid);
+                var lastColId = columns_3[columns_3.length - 1].id;
+                var lastRowIndex = (0, zoneFocus_1.getZoneRowCount)(grid, "header") - 1;
+                (0, zoneFocus_1.transitionFromBodyToZone)(grid, "header", lastColId, lastRowIndex);
+                return;
+            }
+            if (grid.config.$editable) {
+                grid.editEnd();
+            }
+            var selected = (0, cells_1.getCellSource)(grid).getCell();
+            var columns = grid.config.columns.filter(function (col) { return !col.hidden; });
+            if (selected) {
+                var rootGridId = (0, html_1.locate)((_d = (_c = (_b = grid.getRootView().node) === null || _b === void 0 ? void 0 : _b.parent) === null || _c === void 0 ? void 0 : _c.parent) === null || _d === void 0 ? void 0 : _d.el, "data-dhx-root-widget-id");
+                if (rootGridId) {
+                    FocusManager_1.focusManager.setFocusId(rootGridId);
+                    return;
+                }
+                var index = columns.indexOf(selected.column) + (0, keysNavigation_1.getRangedIndex)(grid, "left");
+                if (index >= 0 && index < columns.length) {
+                    e && e.preventDefault();
+                    grid.scrollTo(selected.row.id.toString(), columns[index].id.toString());
+                    (0, cells_1.getCellSource)(grid).setCell(selected.row.id, columns[index].id);
+                }
+                else {
+                    var prevRowId = (0, keysNavigation_1.getNextVisibleRowId)(grid, selected.row.id, -1);
+                    if (prevRowId) {
+                        e && e.preventDefault();
+                        grid.scrollTo(prevRowId.toString(), columns[columns.length - 1].id.toString());
+                        (0, cells_1.getCellSource)(grid).setCell(prevRowId, columns[columns.length - 1].id);
+                    }
+                }
+            }
+            else {
+                var rangedCell_2 = (_e = grid.range) === null || _e === void 0 ? void 0 : _e.getRange();
+                if (rangedCell_2) {
+                    var colIndex = columns.findIndex(function (col) { return col.id === rangedCell_2.xEnd; });
+                    var prevColIndex = colIndex - 1;
+                    if (prevColIndex >= 0) {
+                        e && e.preventDefault();
+                        (0, keysNavigation_1.navigateToCell)(grid, false, rangedCell_2.yEnd, columns[prevColIndex].id);
+                    }
+                    else {
+                        var prevRowId = (0, keysNavigation_1.getNextVisibleRowId)(grid, rangedCell_2.yEnd, -1);
+                        if (prevRowId) {
+                            e && e.preventDefault();
+                            (0, keysNavigation_1.navigateToCell)(grid, false, prevRowId, columns[columns.length - 1].id);
+                        }
+                    }
+                }
+            }
+        },
+        arrowUp: function (e) {
+            var _a;
+            var zone = (0, zoneFocus_1.detectFocusZone)(e);
+            if (zone === "header" || zone === "footer") {
+                var handled = (0, zoneFocus_1.moveZoneFocusVertical)(grid, e, zone, "up");
+                if (!handled && zone === "footer") {
+                    var target = e.target;
+                    var colId = (0, zoneFocus_1.getColIdFromTarget)(target);
+                    (0, zoneFocus_1.restoreZoneTabindex)(grid, "footer");
+                    if (colId)
+                        (0, zoneFocus_1.transitionToBody)(grid, colId, "last");
+                }
+                return;
+            }
+            if (zone !== "body")
+                return;
+            if ((0, zoneFocus_1.isAtFirstRow)(grid)) {
+                e.preventDefault();
+                var colId = (0, zoneFocus_1.getActiveColumnId)(grid) || ((_a = (0, zoneFocus_1.getVisibleColumns)(grid)[0]) === null || _a === void 0 ? void 0 : _a.id);
+                if (colId)
+                    (0, zoneFocus_1.transitionFromBodyToZone)(grid, "header", colId);
+                return;
+            }
+            (0, keysNavigation_1.move)({ grid: grid, event: e, dir: "vertical", rangedIndex: (0, keysNavigation_1.getRangedIndex)(grid, "up") });
+        },
+        "shift+enter": function (e) {
+            var zone = (0, zoneFocus_1.detectFocusZone)(e);
+            if (zone === "header" || zone === "footer") {
+                if (zone === "header")
+                    (0, zoneFocus_1.triggerHeaderSort)(grid, e, true);
+                return;
+            }
+        },
+        "ctrl+z": function () {
+            var _a;
+            if ((_a = grid.history) === null || _a === void 0 ? void 0 : _a.canUndo())
+                grid.history.undo();
+        },
+        "ctrl+shift+z": function () {
+            var _a;
+            if ((_a = grid.history) === null || _a === void 0 ? void 0 : _a.canRedo())
+                grid.history.redo();
+        },
+        "ctrl+enter": function () {
+            var selected = (0, keysNavigation_1.getActiveCell)(grid, cellSelection);
+            if (selected) {
+                if (selected.row.$opened) {
+                    grid.collapse(selected.row.id);
+                }
+                else {
+                    grid.expand(selected.row.id);
+                }
+            }
+        },
+        "ctrl+arrowUp": function (e) {
+            (0, keysNavigation_1.move)({ grid: grid, event: e, dir: "vertical", rangedIndex: -1, toEnd: true });
+        },
+        "shift+arrowUp": function (e) {
+            (0, keysNavigation_1.move)({ grid: grid, event: e, dir: "vertical", rangedIndex: -1, shiftUp: true });
+        },
+        "ctrl+shift+arrowUp": function (e) {
+            (0, keysNavigation_1.move)({ grid: grid, event: e, dir: "vertical", rangedIndex: -1, toEnd: true, shiftUp: true });
+        },
+        arrowDown: function (e) {
+            var _a;
+            var zone = (0, zoneFocus_1.detectFocusZone)(e);
+            if (zone === "header" || zone === "footer") {
+                var handled = (0, zoneFocus_1.moveZoneFocusVertical)(grid, e, zone, "down");
+                if (!handled) {
+                    var target = e.target;
+                    var colId = (0, zoneFocus_1.getColIdFromTarget)(target);
+                    (0, zoneFocus_1.restoreZoneTabindex)(grid, zone);
+                    if (colId)
+                        (0, zoneFocus_1.transitionToBody)(grid, colId, zone === "footer" ? "last" : "first");
+                }
+                return;
+            }
+            if (zone !== "body")
+                return;
+            if ((0, zoneFocus_1.hasFooter)(grid) && (0, zoneFocus_1.isAtLastRow)(grid)) {
+                e.preventDefault();
+                var colId = (0, zoneFocus_1.getActiveColumnId)(grid) || ((_a = (0, zoneFocus_1.getVisibleColumns)(grid)[0]) === null || _a === void 0 ? void 0 : _a.id);
+                if (colId)
+                    (0, zoneFocus_1.transitionFromBodyToZone)(grid, "footer", colId, 0);
+                return;
+            }
+            (0, keysNavigation_1.move)({ grid: grid, event: e, dir: "vertical", rangedIndex: (0, keysNavigation_1.getRangedIndex)(grid, "down") });
+        },
+        "ctrl+arrowDown": function (e) {
+            (0, keysNavigation_1.move)({ grid: grid, event: e, dir: "vertical", rangedIndex: 1, toEnd: true });
+        },
+        "shift+arrowDown": function (e) {
+            (0, keysNavigation_1.move)({ grid: grid, event: e, dir: "vertical", rangedIndex: 1, shiftUp: true });
+        },
+        "ctrl+shift+arrowDown": function (e) {
+            (0, keysNavigation_1.move)({ grid: grid, event: e, dir: "vertical", rangedIndex: 1, toEnd: true, shiftUp: true });
+        },
+        arrowRight: function (e) {
+            var zone = (0, zoneFocus_1.detectFocusZone)(e);
+            if (zone === "header" || zone === "footer") {
+                (0, zoneFocus_1.moveZoneFocus)(grid, e, zone, "right");
+                return;
+            }
+            if (zone !== "body")
+                return;
+            if (grid.config.type === "tree" && !grid.config.$editable) {
+                var selected = (0, keysNavigation_1.getActiveCell)(grid, cellSelection);
+                if (selected && ((0, keysNavigation_1.isTreeColumn)(grid, selected.column.id) || grid.config.selection === "row")) {
+                    var row = selected.row;
+                    var hasChildren = grid.data.haveItems(row.id);
+                    if (hasChildren && !row.$opened) {
+                        e.preventDefault();
+                        grid.expand(row.id);
+                        return;
+                    }
+                    if (hasChildren && row.$opened) {
+                        var children = grid.data.getItems(row.id);
+                        if (children === null || children === void 0 ? void 0 : children.length) {
+                            e.preventDefault();
+                            (0, keysNavigation_1.navigateToCell)(grid, cellSelection, children[0].id, selected.column.id);
+                            return;
+                        }
+                    }
+                }
+            }
+            (0, keysNavigation_1.move)({ grid: grid, event: e, dir: "horizontal", rangedIndex: (0, keysNavigation_1.getRangedIndex)(grid, "right") });
+        },
+        "ctrl+arrowRight": function (e) {
+            (0, keysNavigation_1.move)({ grid: grid, event: e, dir: "horizontal", rangedIndex: 1, toEnd: true });
+        },
+        "shift+arrowRight": function (e) {
+            (0, keysNavigation_1.move)({ grid: grid, event: e, dir: "horizontal", rangedIndex: 1, shiftUp: true });
+        },
+        "ctrl+shift+arrowRight": function (e) {
+            (0, keysNavigation_1.move)({ grid: grid, event: e, dir: "horizontal", rangedIndex: 1, toEnd: true, shiftUp: true });
+        },
+        arrowLeft: function (e) {
+            var zone = (0, zoneFocus_1.detectFocusZone)(e);
+            if (zone === "header" || zone === "footer") {
+                (0, zoneFocus_1.moveZoneFocus)(grid, e, zone, "left");
+                return;
+            }
+            if (zone !== "body")
+                return;
+            if (grid.config.type === "tree" && !grid.config.$editable) {
+                var selected = (0, keysNavigation_1.getActiveCell)(grid, cellSelection);
+                if (selected && ((0, keysNavigation_1.isTreeColumn)(grid, selected.column.id) || grid.config.selection === "row")) {
+                    var row = selected.row;
+                    var hasChildren = grid.data.haveItems(row.id);
+                    if (hasChildren && row.$opened) {
+                        e.preventDefault();
+                        grid.collapse(row.id);
+                        return;
+                    }
+                    var parentId = grid.data.getParent(row.id);
+                    if (parentId && parentId !== grid.data.getRoot()) {
+                        e.preventDefault();
+                        (0, keysNavigation_1.navigateToCell)(grid, cellSelection, parentId, selected.column.id);
+                        return;
+                    }
+                }
+            }
+            (0, keysNavigation_1.move)({ grid: grid, event: e, dir: "horizontal", rangedIndex: (0, keysNavigation_1.getRangedIndex)(grid, "left") });
+        },
+        "ctrl+arrowLeft": function (e) {
+            (0, keysNavigation_1.move)({ grid: grid, event: e, dir: "horizontal", rangedIndex: -1, toEnd: true });
+        },
+        "shift+arrowLeft": function (e) {
+            (0, keysNavigation_1.move)({ grid: grid, event: e, dir: "horizontal", rangedIndex: -1, shiftUp: true });
+        },
+        "ctrl+shift+arrowLeft": function (e) {
+            (0, keysNavigation_1.move)({ grid: grid, event: e, dir: "horizontal", rangedIndex: -1, toEnd: true, shiftUp: true });
+        },
+        pageDown: function (e) { return handlePageMove(e, 1); },
+        pageUp: function (e) { return handlePageMove(e, -1); },
+        "shift+pageDown": function (e) { return handlePageMove(e, 1, true); },
+        "shift+pageUp": function (e) { return handlePageMove(e, -1, true); },
+        home: function (e) { return handleHomeEnd(e, -1); },
+        end: function (e) { return handleHomeEnd(e, 1); },
+        "shift+home": function (e) { return handleHomeEnd(e, -1, true); },
+        "shift+end": function (e) { return handleHomeEnd(e, 1, true); },
+        "ctrl+home": function (e) { return handleCtrlHomeEnd(e, -1); },
+        "ctrl+end": function (e) { return handleCtrlHomeEnd(e, 1); },
+        "ctrl+shift+home": function (e) { return handleCtrlHomeEnd(e, -1, true); },
+        "ctrl+shift+end": function (e) { return handleCtrlHomeEnd(e, 1, true); },
+    };
+}
+exports.getKeysHandlers = getKeysHandlers;
+
+
+/***/ }),
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46394,15 +51324,15 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getKeysHandlers = void 0;
-var types_1 = __webpack_require__(4);
+exports.navigateToCell = exports.isTreeColumn = exports.getNextVisibleRowId = exports.walkVisibleRows = exports.getActiveCell = exports.getRangedIndex = exports.applyRangeMove = exports.move = void 0;
 var html_1 = __webpack_require__(2);
-var cells_1 = __webpack_require__(24);
-var FocusManager_1 = __webpack_require__(20);
-var main_1 = __webpack_require__(10);
+var cells_1 = __webpack_require__(20);
+var main_1 = __webpack_require__(11);
 function move(config) {
     var grid = config.grid, event = config.event;
-    if (grid.config.$editable || (0, html_1.locateNodeByClassName)(event, "dhx_grid-header-cell")) {
+    if (grid.config.$editable ||
+        (0, html_1.locateNodeByClassName)(event, "dhx_grid-header-cell") ||
+        (0, html_1.locateNodeByClassName)(event, "dhx_grid-footer-cell")) {
         return;
     }
     if (event) {
@@ -46412,9 +51342,10 @@ function move(config) {
     moveSelection(__assign(__assign({}, config), { columns: columns }));
     moveRange(__assign(__assign({}, config), { columns: columns }));
 }
+exports.move = move;
 function moveSelection(_a) {
     var grid = _a.grid, columns = _a.columns, dir = _a.dir, rangedIndex = _a.rangedIndex, toEnd = _a.toEnd, shiftUp = _a.shiftUp;
-    var selected = grid.selection.getCell();
+    var selected = (0, cells_1.getCellSource)(grid).getCell();
     var multi = grid.config.multiselection && shiftUp;
     if (!selected) {
         return;
@@ -46430,14 +51361,17 @@ function moveSelection(_a) {
                 target = grid.data.getItem(itemId);
             }
             grid.scrollTo(target.id.toString(), selected.column.id.toString());
-            grid.selection.setCell(target.id, selected.column.id, false, multi);
+            (0, cells_1.getCellSource)(grid).setCell(target.id, selected.column.id, false, multi);
         }
         else {
             var target = null;
             if (grid.config.type === "tree") {
-                target = grid.data.getItem(rangedIndex < 0
+                var nextId = rangedIndex < 0
                     ? (0, main_1.getClosestTop)(selected.row.id, grid.data)
-                    : (0, main_1.getClosestBottom)(selected.row.id, grid.data));
+                    : (0, main_1.getClosestBottom)(selected.row.id, grid.data);
+                if (nextId) {
+                    target = grid.data.getItem(nextId);
+                }
             }
             else {
                 var index = grid.data.getIndex(selected.row.id.toString());
@@ -46447,7 +51381,7 @@ function moveSelection(_a) {
             }
             if (target) {
                 grid.scrollTo(target.id.toString(), selected.column.id.toString());
-                grid.selection.setCell(target.id, selected.column.id, false, multi);
+                (0, cells_1.getCellSource)(grid).setCell(target.id, selected.column.id, false, multi);
             }
         }
     }
@@ -46455,18 +51389,19 @@ function moveSelection(_a) {
         if (toEnd) {
             var target = rangedIndex === 1 ? columns[columns.length - 1] : columns[0];
             grid.scrollTo(selected.row.id.toString(), target.id.toString());
-            grid.selection.setCell(selected.row.id, target.id, false, multi);
+            (0, cells_1.getCellSource)(grid).setCell(selected.row.id, target.id, false, multi);
         }
         else {
             var index = columns.findIndex(function (col) { return col.id == selected.column.id; });
             if (index + rangedIndex >= 0 && index + rangedIndex < columns.length) {
                 grid.scrollTo(selected.row.id.toString(), columns[index + rangedIndex].id.toString());
-                grid.selection.setCell(selected.row.id, columns[index + rangedIndex].id, false, multi);
+                (0, cells_1.getCellSource)(grid).setCell(selected.row.id, columns[index + rangedIndex].id, false, multi);
             }
         }
     }
 }
 function applyRangeMove(proGrid, target, rangedCell, dir, shiftUp) {
+    var _a;
     var isVertical = dir === "vertical";
     var scrollToY = isVertical ? target.id : rangedCell.yEnd;
     var scrollToX = isVertical ? rangedCell.xEnd : target.id;
@@ -46483,7 +51418,9 @@ function applyRangeMove(proGrid, target, rangedCell, dir, shiftUp) {
             : { yStart: rangedCell.yStart, yEnd: rangedCell.yStart, xStart: target.id, xEnd: target.id };
         proGrid.range.setRange(rangeUpdate);
     }
+    (_a = proGrid.block) === null || _a === void 0 ? void 0 : _a.restoreFocus();
 }
+exports.applyRangeMove = applyRangeMove;
 function findVerticalTarget(_a) {
     var grid = _a.grid, rangedCell = _a.rangedCell, toEnd = _a.toEnd, shiftUp = _a.shiftUp, rangedIndex = _a.rangedIndex;
     var _b = grid, data = _b.data, config = _b.config;
@@ -46498,18 +51435,19 @@ function findVerticalTarget(_a) {
         }
         return data.getItem(data.getId(0));
     }
+    var isMovingUp = rangedIndex < 0;
+    if (config.type === "tree") {
+        var activeCellId_1 = shiftUp ? rangedCell.yEnd : isMovingUp ? rangedCell.yStart : rangedCell.yEnd;
+        var nextId = isMovingUp ? (0, main_1.getClosestTop)(activeCellId_1, data) : (0, main_1.getClosestBottom)(activeCellId_1, data);
+        return nextId ? data.getItem(nextId) : null;
+    }
     var rangeStartIndex = data.getIndex(rangedCell.yStart);
     var rangeEndIndex = data.getIndex(rangedCell.yEnd);
-    var isMovingUp = rangedIndex < 0;
     var activeCellId = shiftUp
         ? rangedCell.yEnd
         : data.getId(isMovingUp
             ? Math.min(rangeStartIndex, rangeEndIndex)
             : Math.max(rangeStartIndex, rangeEndIndex));
-    if (config.type === "tree") {
-        var nextId = isMovingUp ? (0, main_1.getClosestTop)(activeCellId, data) : (0, main_1.getClosestBottom)(activeCellId, data);
-        return nextId ? data.getItem(nextId) : null;
-    }
     var activeIndex = data.getIndex(activeCellId);
     var nextIndex = activeIndex + rangedIndex;
     if (nextIndex >= 0 && nextIndex < data.getLength()) {
@@ -46537,11 +51475,11 @@ function findHorizontalTarget(_a) {
     return null;
 }
 function moveRange(config) {
-    var _a, _b;
+    var _a;
     var grid = config.grid, dir = config.dir;
     var proGrid = grid;
     var rangedCell = (_a = proGrid.range) === null || _a === void 0 ? void 0 : _a.getRange();
-    if (!rangedCell && ((_b = proGrid.block) === null || _b === void 0 ? void 0 : _b.config.mode) !== "range") {
+    if (!rangedCell) {
         return;
     }
     var target = dir === "vertical"
@@ -46553,7 +51491,7 @@ function moveRange(config) {
 }
 function getRangedIndex(grid, direction) {
     var _a, _b;
-    var selectedCell = grid.selection.getCell();
+    var selectedCell = (0, cells_1.getCellSource)(grid).getCell();
     var span = selectedCell && grid.getSpan(selectedCell.row.id, selectedCell.column.id);
     if (span) {
         if (direction === "up" || direction === "down") {
@@ -46581,266 +51519,216 @@ function getRangedIndex(grid, direction) {
             return -1;
     }
 }
-function getKeysHandlers(grid) {
-    var _a, _b, _c;
-    var cellSelection = grid.config.selection === "cell" ||
-        grid.config.selection === "complex" ||
-        grid.config.selection === true;
-    var gridBodyHandlers = {};
-    if (grid.getRootView()) {
-        var gridBody_1 = (_c = (_b = (_a = grid.getRootView()) === null || _a === void 0 ? void 0 : _a.refs) === null || _b === void 0 ? void 0 : _b.grid_body) === null || _c === void 0 ? void 0 : _c.el;
-        if (!gridBody_1) {
-            return;
-        }
-        gridBodyHandlers = {
-            pageUp: function (e) {
-                e.preventDefault();
-                gridBody_1.scrollTop -= gridBody_1.clientHeight;
-            },
-            pageDown: function (e) {
-                e.preventDefault();
-                gridBody_1.scrollTop += gridBody_1.clientHeight;
-            },
-            home: function (e) {
-                e.preventDefault();
-                gridBody_1.scrollTop = 0;
-            },
-            end: function (e) {
-                e.preventDefault();
-                gridBody_1.scrollTop += gridBody_1.scrollHeight;
-            },
-        };
+exports.getRangedIndex = getRangedIndex;
+function getActiveCell(grid, cellSelection) {
+    var _a;
+    if (grid.$activeCell) {
+        return (0, cells_1.normalizeCell)(grid.$activeCell.getCell(), grid);
     }
-    return __assign({ enter: function () {
-            if (cellSelection) {
-                var selected = (0, cells_1.normalizeCell)(grid.selection.getCell(), grid);
-                if (selected &&
-                    ((selected.column.editable !== false && grid.config.editable) || selected.column.editable)) {
-                    if (!grid.config.$editable) {
-                        if (selected.column.type === "boolean") {
-                            if (!grid.events.fire(types_1.GridEvents.beforeEditStart, [
-                                selected.row,
-                                selected.column,
-                                "checkbox",
-                            ]))
-                                return;
-                            grid.events.fire(types_1.GridEvents.afterEditStart, [
-                                selected.row,
-                                selected.column,
-                                "checkbox",
-                            ]);
-                            if (!grid.events.fire(types_1.GridEvents.beforeEditEnd, [
-                                !selected.row[selected.column.id],
-                                selected.row,
-                                selected.column,
-                            ]))
-                                return;
-                            grid.events.fire(types_1.GridEvents.afterEditEnd, [
-                                !selected.row[selected.column.id],
-                                selected.row,
-                                selected.column,
-                            ]);
-                        }
-                        else {
-                            grid.editCell(selected.row.id, selected.column.id, selected.column.editorType);
-                        }
-                    }
-                    else {
-                        grid.editEnd();
-                    }
-                }
-            }
-            else {
-                if (grid.config.$editable) {
-                    grid.editEnd();
-                }
-            }
-        }, space: function (e) {
-            var _a;
-            var selected = (0, cells_1.normalizeCell)(grid.selection.getCell(), grid);
-            if (cellSelection &&
-                ((_a = selected === null || selected === void 0 ? void 0 : selected.column.editable) !== null && _a !== void 0 ? _a : grid.config.editable) &&
-                !grid.config.$editable) {
-                if (selected && selected.column.type === "boolean") {
-                    e.preventDefault();
-                    if (!grid.events.fire(types_1.GridEvents.beforeEditStart, [
-                        selected.row,
-                        selected.column,
-                        "checkbox",
-                    ]))
-                        return;
-                    grid.events.fire(types_1.GridEvents.afterEditStart, [selected.row, selected.column, "checkbox"]);
-                    if (!grid.events.fire(types_1.GridEvents.beforeEditEnd, [
-                        !selected.row[selected.column.id],
-                        selected.row,
-                        selected.column,
-                    ]))
-                        return;
-                    grid.events.fire(types_1.GridEvents.afterEditEnd, [
-                        !selected.row[selected.column.id],
-                        selected.row,
-                        selected.column,
-                    ]);
-                }
-            }
-        }, escape: function () {
-            if (grid.config.$editable) {
-                grid.editEnd(true);
-            }
-        }, tab: function (e) {
-            if (!grid.config.selection || (0, html_1.locateNodeByClassName)(e, "dhx_grid-header-cell")) {
-                return;
-            }
-            if (grid.config.$editable) {
-                grid.editEnd();
-            }
-            var selected = grid.selection.getCell();
-            var columns = grid.config.columns.filter(function (col) { return !col.hidden; });
-            if (selected) {
-                if (selected.row.$opened && selected.row.$subRowHeight) {
-                    var _a = grid.getSubRow(selected.row.id), view = _a.view, element = _a.element;
-                    if (view === null || view === void 0 ? void 0 : view.name.includes("grid")) {
-                        view.selection.setCell(view.data.getId(0));
-                        FocusManager_1.focusManager.setFocusId(view._uid);
-                    }
-                    else {
-                        element.focus();
-                    }
-                    return;
-                }
-                var index = columns.indexOf(selected.column) + getRangedIndex(grid, "right");
-                if (index >= 0 && index < columns.length) {
-                    e && e.preventDefault();
-                    grid.scrollTo(selected.row.id.toString(), columns[index].id.toString());
-                    grid.selection.setCell(selected.row.id, columns[index].id);
-                }
-                else if (index >= 0) {
-                    var newLineIndex = grid.data.getIndex(selected.row.id.toString()) + 1;
-                    if (newLineIndex < grid.data.getLength()) {
-                        e && e.preventDefault();
-                        grid.scrollTo(grid.data.getId(newLineIndex).toString(), columns[0].id.toString());
-                        grid.selection.setCell(grid.data.getId(newLineIndex), columns[0].id);
-                    }
-                }
-            }
-        }, delete: function () {
-            var _a, _b;
-            if (((_a = grid.block) === null || _a === void 0 ? void 0 : _a.config.mode) === "range" && grid.config.editable && !grid.config.$editable) {
-                (0, cells_1.clearCells)(grid, (_b = grid.range) === null || _b === void 0 ? void 0 : _b.getRangedCells());
-            }
-        }, "shift+tab": function (e) {
-            var _a, _b, _c;
-            if (!grid.config.selection || (0, html_1.locateNodeByClassName)(e, "dhx_grid-header-cell")) {
-                return;
-            }
-            if (grid.config.$editable) {
-                grid.editEnd();
-            }
-            var selected = grid.selection.getCell();
-            var columns = grid.config.columns.filter(function (col) { return !col.hidden; });
-            if (selected) {
-                var rootGridId = (0, html_1.locate)((_c = (_b = (_a = grid.getRootView().node) === null || _a === void 0 ? void 0 : _a.parent) === null || _b === void 0 ? void 0 : _b.parent) === null || _c === void 0 ? void 0 : _c.el, "data-dhx-root-widget-id");
-                if (rootGridId) {
-                    FocusManager_1.focusManager.setFocusId(rootGridId);
-                    return;
-                }
-                var index = columns.indexOf(selected.column) + getRangedIndex(grid, "left");
-                if (index >= 0 && index < columns.length) {
-                    e && e.preventDefault();
-                    grid.scrollTo(selected.row.id.toString(), columns[index].id.toString());
-                    grid.selection.setCell(selected.row.id, columns[index].id);
-                }
-                else if (index < grid.data.getLength()) {
-                    var newLineIndex = grid.data.getIndex(selected.row.id.toString()) - 1;
-                    if (newLineIndex >= 0) {
-                        e && e.preventDefault();
-                        grid.scrollTo(grid.data.getId(newLineIndex).toString(), columns[columns.length - 1].id.toString());
-                        grid.selection.setCell(grid.data.getId(newLineIndex), columns[columns.length - 1].id);
-                    }
-                }
-            }
-        }, arrowUp: function (event) {
-            move({ grid: grid, event: event, dir: "vertical", rangedIndex: getRangedIndex(grid, "up") });
-        }, "ctrl+z": function () {
-            var _a;
-            if ((_a = grid.history) === null || _a === void 0 ? void 0 : _a.canUndo())
-                grid.history.undo();
-        }, "ctrl+shift+z": function () {
-            var _a;
-            if ((_a = grid.history) === null || _a === void 0 ? void 0 : _a.canRedo())
-                grid.history.redo();
-        }, "ctrl+enter": function () {
-            var selected = (0, cells_1.normalizeCell)(grid.selection.getCell(), grid);
-            if (selected) {
-                if (selected.row.$opened) {
-                    grid.collapse(selected.row.id);
-                }
-                else {
-                    grid.expand(selected.row.id);
-                }
-            }
-        }, "ctrl+arrowUp": function (event) {
-            move({ grid: grid, event: event, dir: "vertical", rangedIndex: -1, toEnd: true });
-        }, "shift+arrowUp": function (event) {
-            move({ grid: grid, event: event, dir: "vertical", rangedIndex: -1, shiftUp: true });
-        }, "ctrl+shift+arrowUp": function (event) {
-            move({ grid: grid, event: event, dir: "vertical", rangedIndex: -1, toEnd: true, shiftUp: true });
-        }, arrowDown: function (event) {
-            move({ grid: grid, event: event, dir: "vertical", rangedIndex: getRangedIndex(grid, "down") });
-        }, "ctrl+arrowDown": function (event) {
-            move({ grid: grid, event: event, dir: "vertical", rangedIndex: 1, toEnd: true });
-        }, "shift+arrowDown": function (event) {
-            move({ grid: grid, event: event, dir: "vertical", rangedIndex: 1, shiftUp: true });
-        }, "ctrl+shift+arrowDown": function (event) {
-            move({ grid: grid, event: event, dir: "vertical", rangedIndex: 1, toEnd: true, shiftUp: true });
-        }, arrowRight: function (event) {
-            move({ grid: grid, event: event, dir: "horizontal", rangedIndex: getRangedIndex(grid, "right") });
-        }, "ctrl+arrowRight": function (event) {
-            move({ grid: grid, event: event, dir: "horizontal", rangedIndex: 1, toEnd: true });
-        }, "shift+arrowRight": function (event) {
-            move({ grid: grid, event: event, dir: "horizontal", rangedIndex: 1, shiftUp: true });
-        }, "ctrl+shift+arrowRight": function (event) {
-            move({ grid: grid, event: event, dir: "horizontal", rangedIndex: 1, toEnd: true, shiftUp: true });
-        }, arrowLeft: function (event) {
-            move({ grid: grid, event: event, dir: "horizontal", rangedIndex: getRangedIndex(grid, "left") });
-        }, "ctrl+arrowLeft": function (event) {
-            move({ grid: grid, event: event, dir: "horizontal", rangedIndex: -1, toEnd: true });
-        }, "shift+arrowLeft": function (event) {
-            move({ grid: grid, event: event, dir: "horizontal", rangedIndex: -1, shiftUp: true });
-        }, "ctrl+shift+arrowLeft": function (event) {
-            move({ grid: grid, event: event, dir: "horizontal", rangedIndex: -1, toEnd: true, shiftUp: true });
-        } }, gridBodyHandlers);
+    if (cellSelection || grid.config.selection === "row") {
+        return (0, cells_1.normalizeCell)(grid.selection.getCell(), grid);
+    }
+    var range = (_a = grid.range) === null || _a === void 0 ? void 0 : _a.getRange();
+    if ((range === null || range === void 0 ? void 0 : range.yEnd) && (range === null || range === void 0 ? void 0 : range.xEnd)) {
+        var row = grid.data.getItem(range.yEnd);
+        var column = grid.config.columns.find(function (col) { return col.id === range.xEnd; });
+        if (row && column) {
+            return { row: row, column: column };
+        }
+    }
+    return null;
 }
-exports.getKeysHandlers = getKeysHandlers;
+exports.getActiveCell = getActiveCell;
+function walkVisibleRows(grid, fromRowId, steps) {
+    var isTree = grid.config.type === "tree";
+    var isUp = steps < 0;
+    var absSteps = Math.abs(steps);
+    var currentId = fromRowId;
+    for (var i = 0; i < absSteps; i++) {
+        var nextId = void 0;
+        if (isTree) {
+            nextId = isUp
+                ? (0, main_1.getClosestTop)(currentId, grid.data)
+                : (0, main_1.getClosestBottom)(currentId, grid.data);
+        }
+        else {
+            var idx = grid.data.getIndex(currentId);
+            var nextIdx = isUp ? idx - 1 : idx + 1;
+            if (nextIdx < 0 || nextIdx >= grid.data.getLength())
+                break;
+            nextId = grid.data.getId(nextIdx);
+        }
+        if (!nextId)
+            break;
+        currentId = nextId;
+    }
+    return currentId;
+}
+exports.walkVisibleRows = walkVisibleRows;
+function getNextVisibleRowId(grid, currentRowId, direction) {
+    if (grid.config.type === "tree") {
+        return direction > 0
+            ? (0, main_1.getClosestBottom)(currentRowId, grid.data)
+            : (0, main_1.getClosestTop)(currentRowId, grid.data);
+    }
+    var index = grid.data.getIndex(currentRowId);
+    var nextIndex = index + direction;
+    if (nextIndex >= 0 && nextIndex < grid.data.getLength()) {
+        return grid.data.getId(nextIndex);
+    }
+    return null;
+}
+exports.getNextVisibleRowId = getNextVisibleRowId;
+function isTreeColumn(grid, colId) {
+    var _a;
+    var columns = grid.config.columns.filter(function (col) { return !col.hidden; });
+    return ((_a = columns[0]) === null || _a === void 0 ? void 0 : _a.id) == colId;
+}
+exports.isTreeColumn = isTreeColumn;
+function navigateToCell(grid, cellSelection, rowId, colId) {
+    var _a;
+    grid.scrollTo(rowId.toString(), colId.toString());
+    // the service module owns the position when no selection module is initialized
+    if (grid.$activeCell || cellSelection || grid.config.selection === "row") {
+        (0, cells_1.getCellSource)(grid).setCell(rowId, colId);
+    }
+    else {
+        var proGrid = grid;
+        if (proGrid.range) {
+            proGrid.range.setRange({
+                yStart: rowId,
+                yEnd: rowId,
+                xStart: colId,
+                xEnd: colId,
+            });
+            (_a = proGrid.block) === null || _a === void 0 ? void 0 : _a.restoreFocus();
+        }
+    }
+}
+exports.navigateToCell = navigateToCell;
 
 
 /***/ }),
-/* 242 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getVisibleRowNode = exports.getRowNode = void 0;
-function getRowNode(id, root, split) {
-    var wrapper = split ? ".dhx_grid__cols_".concat(split, "--fixed") : ":not(.dhx_grid-fixed-cols-wrap)";
-    return root.querySelector("".concat(wrapper, " .dhx_grid-row[data-dhx-id=\"").concat(id, "\"]"));
+exports.startCellEdit = exports.toggleBooleanCell = exports.isColumnEditable = void 0;
+var types_1 = __webpack_require__(5);
+function isColumnEditable(column, config) {
+    return !!((column.editable !== false && config.editable) || column.editable);
 }
-exports.getRowNode = getRowNode;
-function getVisibleRowNode(row, width, offset) {
-    var container = document.createElement("div");
-    container.style.width = width + "px";
-    container.style.overflow = "hidden";
-    row.style.width = width - offset + "px";
-    row.style.marginLeft = offset + "px";
-    container.appendChild(row);
-    return container;
+exports.isColumnEditable = isColumnEditable;
+function toggleBooleanCell(grid, row, column) {
+    if (!grid.events.fire(types_1.GridEvents.beforeEditStart, [row, column, "checkbox"])) {
+        return;
+    }
+    grid.events.fire(types_1.GridEvents.afterEditStart, [row, column, "checkbox"]);
+    if (!grid.events.fire(types_1.GridEvents.beforeEditEnd, [!row[column.id], row, column])) {
+        return;
+    }
+    grid.events.fire(types_1.GridEvents.afterEditEnd, [!row[column.id], row, column]);
 }
-exports.getVisibleRowNode = getVisibleRowNode;
+exports.toggleBooleanCell = toggleBooleanCell;
+function startCellEdit(grid, selected) {
+    grid.editCell(selected.row.id, selected.column.id, selected.column.editorType);
+}
+exports.startCellEdit = startCellEdit;
 
 
 /***/ }),
-/* 243 */
+/* 255 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ActiveCell = void 0;
+var dom_1 = __webpack_require__(0);
+var ts_data_1 = __webpack_require__(4);
+var FocusManager_1 = __webpack_require__(21);
+var types_1 = __webpack_require__(5);
+var dom_2 = __webpack_require__(46);
+/**
+ * Keeps the position the keyboard moves over the data when no selection module is initialized.
+ */
+var ActiveCell = /** @class */ (function () {
+    function ActiveCell(grid, gridId) {
+        this._grid = grid;
+        this._gridId = gridId;
+        this._cell = null;
+        this._init();
+    }
+    /**
+     * Moves the active cell. The `ctrlUp` and `shiftUp` modifiers of the selection module are
+     * accepted by the shared signature and ignored here: there is no selection to extend.
+     * @param row - the row, or the row id, to move to
+     * @param col - the column, or the column id, to move to; the first visible column by default
+     */
+    ActiveCell.prototype.setCell = function (row, col) {
+        var _this = this;
+        var _a, _b;
+        if (this._grid.config.$editable)
+            return;
+        if (this._gridId && FocusManager_1.focusManager.getFocusId() !== this._gridId) {
+            FocusManager_1.focusManager.setFocusId(this._gridId);
+        }
+        var targetRow = this._grid.data.getItem((row && row.id) || row);
+        if (!col)
+            col = (_b = (_a = this._grid.config) === null || _a === void 0 ? void 0 : _a.columns) === null || _b === void 0 ? void 0 : _b.filter(function (item) { return !item.hidden; })[0];
+        var targetCol = col && this._grid.getColumn(col.id || col);
+        if (!targetRow || !targetCol)
+            return;
+        this._cell = { row: targetRow, column: targetCol };
+        (0, dom_1.awaitRedraw)().then(function () {
+            if (_this._grid.config.$editable) {
+                return;
+            }
+            _this._grid.paint();
+            _this._setBrowserFocus();
+        });
+    };
+    ActiveCell.prototype.getCell = function () {
+        return this._cell;
+    };
+    ActiveCell.prototype.restoreFocus = function () {
+        this._setBrowserFocus();
+    };
+    ActiveCell.prototype.destructor = function () {
+        this._cell = null;
+    };
+    ActiveCell.prototype._init = function () {
+        var _this = this;
+        this._grid.events.on(types_1.GridEvents.cellClick, function (row, col) {
+            _this.setCell(row, col);
+        });
+        this._grid.data.events.on(ts_data_1.DataEvents.removeAll, function () {
+            _this._cell = null;
+        });
+        this._grid.data.events.on(ts_data_1.DataEvents.load, function () {
+            _this._cell = null;
+        });
+    };
+    ActiveCell.prototype._setBrowserFocus = function () {
+        var _a, _b, _c;
+        if (!this._cell)
+            return;
+        var gridRoot = this._grid.getRootNode() || ((_b = (_a = this._grid.getRootView()) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.getRootNode());
+        if (!gridRoot)
+            return;
+        var _d = this._cell, row = _d.row, column = _d.column;
+        var span = this._grid.getSpan(row.id, column.id);
+        (_c = (0, dom_2.getCellNode)(gridRoot, row.id, column.id, span)) === null || _c === void 0 ? void 0 : _c.focus({ preventScroll: true });
+    };
+    return ActiveCell;
+}());
+exports.ActiveCell = ActiveCell;
+
+
+/***/ }),
+/* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46869,14 +51757,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BlockSelection = exports.BlockSelectionEvents = void 0;
 /* eslint-disable @typescript-eslint/unbound-method */
 var dom_1 = __webpack_require__(0);
-var types_1 = __webpack_require__(4);
+var types_1 = __webpack_require__(5);
 var events_1 = __webpack_require__(3);
 var html_1 = __webpack_require__(2);
 var core_1 = __webpack_require__(1);
-var cells_1 = __webpack_require__(24);
-var data_1 = __webpack_require__(11);
+var cells_1 = __webpack_require__(20);
+var data_1 = __webpack_require__(8);
+var dom_2 = __webpack_require__(46);
 var common_1 = __webpack_require__(12);
-var Range_1 = __webpack_require__(112);
+var Range_1 = __webpack_require__(116);
 var BlockSelectionEvents;
 (function (BlockSelectionEvents) {
     BlockSelectionEvents["blockSelectionValidate"] = "blockSelectionValidate";
@@ -46925,34 +51814,199 @@ var BlockSelection = /** @class */ (function () {
         this.events.clear();
         this.events = this.config = null;
     };
+    BlockSelection.prototype.restoreFocus = function () {
+        var _a, _b;
+        var gridContainer = this._grid.getRootView().data.getRootNode();
+        if (!gridContainer)
+            return;
+        if (!((_a = this._startCell) === null || _a === void 0 ? void 0 : _a.row) || !((_b = this._startCell) === null || _b === void 0 ? void 0 : _b.column))
+            return;
+        var _c = this._startCell, row = _c.row, column = _c.column;
+        var span = this._grid.getSpan(row.id, column.id);
+        // the cell can be in the frozen columns, not only in the scrolling data
+        var $focusedCell = (0, dom_2.getCellNode)(gridContainer, row.id, column.id, span);
+        if ($focusedCell) {
+            $focusedCell.tabIndex = 0;
+            $focusedCell.focus({ preventScroll: true });
+        }
+    };
     BlockSelection.prototype.toHTML = function () {
         if (this._disabled || !(0, core_1.isDefined)(this._startCell)) {
             return null;
         }
         this._calculateBounds();
-        var _a = this._grid.config, leftSplit = _a.leftSplit, rightSplit = _a.rightSplit, topSplit = _a.topSplit, bottomSplit = _a.bottomSplit;
-        var margin = { top: 0, bottom: 0, left: 0, right: 0 };
+        var geometry = this._calculateClippedGeometry();
+        if (!geometry.isVisible)
+            return null;
+        var renderBounds = geometry.renderBounds, renderStartCellRect = geometry.renderStartCellRect, renderFocusCellRect = geometry.renderFocusCellRect;
+        var zeroMargin = { top: 0, bottom: 0, left: 0, right: 0 };
+        return (0, dom_1.el)(".dhx_grid_block-selection", { "aria-hidden": "true" }, [
+            this.config.area && this._getAreaNode(renderBounds, zeroMargin),
+            this.config.area &&
+                renderStartCellRect &&
+                this._getStartCellNode(renderStartCellRect, zeroMargin),
+            this._focusStartCell &&
+                renderFocusCellRect &&
+                this._getHandleAreaNode(renderBounds, renderFocusCellRect, this._dragDirection, zeroMargin),
+            this.config.handle && this._getHandleNode(renderBounds, zeroMargin),
+        ]);
+    };
+    BlockSelection.prototype._calculateClippedGeometry = function () {
+        var invisible = {
+            isVisible: false,
+            renderBounds: null,
+            renderStartCellRect: null,
+            renderFocusCellRect: null,
+        };
+        var _a = this._grid.config, leftSplit = _a.leftSplit, rightSplit = _a.rightSplit, topSplit = _a.topSplit, bottomSplit = _a.bottomSplit, $totalWidth = _a.$totalWidth, $totalHeight = _a.$totalHeight;
         var scroll = leftSplit || topSplit ? this._grid.getScrollState() : null;
         var reverseScroll = rightSplit || bottomSplit ? (0, data_1.getReverseScrollState)(this._grid) : null;
-        if (topSplit && this._isCellFixed(this._startCellRect, this._endCellRect, types_1.Split.top)) {
-            margin.top = scroll.y;
+        // --- Fixed-area detection ---
+        var isLeftFixed = leftSplit && this._isCellFixed(this._startCellRect, this._endCellRect, types_1.Split.left);
+        var isRightFixed = rightSplit && this._isCellFixed(this._startCellRect, this._endCellRect, types_1.Split.right);
+        var isTopFixed = topSplit && this._isCellFixed(this._startCellRect, this._endCellRect, types_1.Split.top);
+        var isBottomFixed = bottomSplit && this._isCellFixed(this._startCellRect, this._endCellRect, types_1.Split.bottom);
+        // Pre-compute fixed area extents (in content coordinates)
+        var fixedLeftWidth = leftSplit
+            ? (0, common_1.getCurrFixedCols)(this._grid.config, types_1.Split.left).reduce(function (s, c) { return s + (c.$width || 0); }, 0)
+            : 0;
+        var fixedRightWidth = rightSplit
+            ? (0, common_1.getCurrFixedCols)(this._grid.config, types_1.Split.right).reduce(function (s, c) { return s + (c.$width || 0); }, 0)
+            : 0;
+        var fixedTopHeight = topSplit
+            ? this._getFixedItems(types_1.Split.top).reduce(function (s, r) { return s + (0, data_1.getTotalRowHeight)(r); }, 0)
+            : 0;
+        var fixedBottomHeight = bottomSplit
+            ? this._getFixedItems(types_1.Split.bottom).reduce(function (s, r) { return s + (0, data_1.getTotalRowHeight)(r); }, 0)
+            : 0;
+        // --- Clipping (content-space) for non-fixed selections ---
+        var clippedBounds = __assign({}, this._selectionBounds);
+        var clippedStartCellRect = __assign({}, this._startCellRect);
+        var clippedFocusCellRect = this._focusCellRect ? __assign({}, this._focusCellRect) : null;
+        // Clip non-fixed left edge to stay right of frozen left cols
+        if (leftSplit && scroll) {
+            var clipLeft = fixedLeftWidth + scroll.x;
+            if (!isLeftFixed && clippedBounds.left < clipLeft)
+                clippedBounds.left = clipLeft;
+            if (clippedStartCellRect &&
+                clippedStartCellRect.x >= fixedLeftWidth &&
+                clippedStartCellRect.x < clipLeft) {
+                clippedStartCellRect = null;
+            }
+            if (clippedFocusCellRect &&
+                clippedFocusCellRect.x >= fixedLeftWidth &&
+                clippedFocusCellRect.x < clipLeft) {
+                clippedFocusCellRect = null;
+            }
         }
-        if (bottomSplit && this._isCellFixed(this._startCellRect, this._endCellRect, types_1.Split.bottom)) {
-            margin.bottom = reverseScroll.y;
+        // Clip non-fixed right edge to stay left of frozen right cols
+        if (rightSplit && reverseScroll) {
+            var clipRight = $totalWidth - fixedRightWidth - reverseScroll.x;
+            if (!isRightFixed && clippedBounds.right > clipRight)
+                clippedBounds.right = clipRight;
+            if (clippedStartCellRect &&
+                clippedStartCellRect.x < $totalWidth - fixedRightWidth &&
+                clippedStartCellRect.x + clippedStartCellRect.width > clipRight) {
+                clippedStartCellRect = null;
+            }
+            if (clippedFocusCellRect &&
+                clippedFocusCellRect.x < $totalWidth - fixedRightWidth &&
+                clippedFocusCellRect.x + clippedFocusCellRect.width > clipRight) {
+                clippedFocusCellRect = null;
+            }
         }
-        if (leftSplit && this._isCellFixed(this._startCellRect, this._endCellRect, types_1.Split.left)) {
-            margin.left = scroll.x;
+        // Clip non-fixed top edge to stay below frozen top rows
+        if (topSplit && scroll) {
+            var clipTop = fixedTopHeight + scroll.y;
+            if (!isTopFixed && clippedBounds.top < clipTop)
+                clippedBounds.top = clipTop;
+            if (clippedStartCellRect &&
+                clippedStartCellRect.y >= fixedTopHeight &&
+                clippedStartCellRect.y < clipTop) {
+                clippedStartCellRect = null;
+            }
+            if (clippedFocusCellRect &&
+                clippedFocusCellRect.y >= fixedTopHeight &&
+                clippedFocusCellRect.y < clipTop) {
+                clippedFocusCellRect = null;
+            }
         }
-        if (rightSplit && this._isCellFixed(this._startCellRect, this._endCellRect, types_1.Split.right)) {
-            margin.right = reverseScroll.x;
+        // Clip non-fixed bottom edge to stay above frozen bottom rows
+        if (bottomSplit && reverseScroll) {
+            var clipBottom = $totalHeight - fixedBottomHeight - reverseScroll.y;
+            if (!isBottomFixed && clippedBounds.bottom > clipBottom)
+                clippedBounds.bottom = clipBottom;
+            if (clippedStartCellRect &&
+                clippedStartCellRect.y < $totalHeight - fixedBottomHeight &&
+                clippedStartCellRect.y + clippedStartCellRect.height > clipBottom) {
+                clippedStartCellRect = null;
+            }
+            if (clippedFocusCellRect &&
+                clippedFocusCellRect.y < $totalHeight - fixedBottomHeight &&
+                clippedFocusCellRect.y + clippedFocusCellRect.height > clipBottom) {
+                clippedFocusCellRect = null;
+            }
         }
-        return (0, dom_1.el)(".dhx_grid_block-selection", { "aria-hidden": "true" }, [
-            this.config.area && this._getAreaNode(this._selectionBounds, margin),
-            this.config.area && this._getStartCellNode(this._startCellRect, margin),
-            this._focusStartCell &&
-                this._getHandleAreaNode(this._selectionBounds, this._focusCellRect, this._dragDirection, margin),
-            this.config.handle && this._getHandleNode(this._selectionBounds, margin),
-        ]);
+        // Secondary correction: when a fixed selection extends into the scrolled area,
+        // expand the opposite bound to include the scrolled-in content.
+        if (leftSplit && isLeftFixed && scroll && clippedBounds.right > fixedLeftWidth) {
+            var minRight = fixedLeftWidth + scroll.x;
+            if (clippedBounds.right < minRight)
+                clippedBounds.right = minRight;
+        }
+        if (topSplit && isTopFixed && scroll && clippedBounds.bottom > fixedTopHeight) {
+            var minBottom = fixedTopHeight + scroll.y;
+            if (clippedBounds.bottom < minBottom)
+                clippedBounds.bottom = minBottom;
+        }
+        if (rightSplit &&
+            isRightFixed &&
+            reverseScroll &&
+            clippedBounds.left < $totalWidth - fixedRightWidth) {
+            var maxLeft = $totalWidth - fixedRightWidth - reverseScroll.x;
+            if (clippedBounds.left > maxLeft)
+                clippedBounds.left = maxLeft;
+        }
+        if (bottomSplit &&
+            isBottomFixed &&
+            reverseScroll &&
+            clippedBounds.top < $totalHeight - fixedBottomHeight) {
+            var maxTop = $totalHeight - fixedBottomHeight - reverseScroll.y;
+            if (clippedBounds.top > maxTop)
+                clippedBounds.top = maxTop;
+        }
+        if (clippedBounds.left >= clippedBounds.right || clippedBounds.top >= clippedBounds.bottom) {
+            return invisible;
+        }
+        // --- Coordinate transformation: content-space → container-space ---
+        var toContainerX = function (x) {
+            if (isLeftFixed && x <= fixedLeftWidth)
+                return x + ((scroll === null || scroll === void 0 ? void 0 : scroll.x) || 0);
+            if (isRightFixed && x >= $totalWidth - fixedRightWidth)
+                return x - ((reverseScroll === null || reverseScroll === void 0 ? void 0 : reverseScroll.x) || 0);
+            return x;
+        };
+        var toContainerY = function (y) {
+            if (isTopFixed && y <= fixedTopHeight)
+                return y + ((scroll === null || scroll === void 0 ? void 0 : scroll.y) || 0);
+            if (isBottomFixed && y >= $totalHeight - fixedBottomHeight)
+                return y - ((reverseScroll === null || reverseScroll === void 0 ? void 0 : reverseScroll.y) || 0);
+            return y;
+        };
+        var renderBounds = {
+            left: toContainerX(clippedBounds.left),
+            right: toContainerX(clippedBounds.right),
+            top: toContainerY(clippedBounds.top),
+            bottom: toContainerY(clippedBounds.bottom),
+        };
+        var renderStartCellRect = clippedStartCellRect
+            ? __assign(__assign({}, clippedStartCellRect), { x: toContainerX(clippedStartCellRect.x), y: toContainerY(clippedStartCellRect.y) }) : null;
+        var renderFocusCellRect = clippedFocusCellRect
+            ? __assign(__assign({}, clippedFocusCellRect), { x: toContainerX(clippedFocusCellRect.x), y: toContainerY(clippedFocusCellRect.y) }) : null;
+        if (renderBounds.left >= renderBounds.right || renderBounds.top >= renderBounds.bottom) {
+            return invisible;
+        }
+        return { isVisible: true, renderBounds: renderBounds, renderStartCellRect: renderStartCellRect, renderFocusCellRect: renderFocusCellRect };
     };
     BlockSelection.prototype._getAreaNode = function (bound, margin) {
         var height = Math.max(0, bound.bottom - bound.top - margin.top - margin.bottom);
@@ -47471,19 +52525,13 @@ var BlockSelection = /** @class */ (function () {
             switch (dir) {
                 case "up":
                 case "down":
-                    sourceRowIndex =
-                        rangeRowMinIndex +
-                            ((((currentRowIndex - rangeRowMinIndex) % origRowCount) + origRowCount) %
-                                origRowCount);
+                    sourceRowIndex = (0, cells_1.getSourceCellIndex)(currentRowIndex, rangeRowMinIndex, origRowCount);
                     sourceColIndex = currentColIndex;
                     break;
                 case "left":
                 case "right":
                     sourceRowIndex = currentRowIndex;
-                    sourceColIndex =
-                        rangeColMinIndex +
-                            ((((currentColIndex - rangeColMinIndex) % origColCount) + origColCount) %
-                                origColCount);
+                    sourceColIndex = (0, cells_1.getSourceCellIndex)(currentColIndex, rangeColMinIndex, origColCount);
                     break;
             }
         }
@@ -47508,7 +52556,7 @@ exports.BlockSelection = BlockSelection;
 
 
 /***/ }),
-/* 244 */
+/* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47527,11 +52575,11 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Clipboard = exports.ClipboardEvents = void 0;
 var events_1 = __webpack_require__(3);
-var data_1 = __webpack_require__(11);
-var FocusManager_1 = __webpack_require__(20);
+var data_1 = __webpack_require__(8);
+var FocusManager_1 = __webpack_require__(21);
 var core_1 = __webpack_require__(1);
-var main_1 = __webpack_require__(10);
-var cells_1 = __webpack_require__(24);
+var main_1 = __webpack_require__(11);
+var cells_1 = __webpack_require__(20);
 var html_1 = __webpack_require__(2);
 var ClipboardEvents;
 (function (ClipboardEvents) {
@@ -47876,7 +52924,7 @@ exports.Clipboard = Clipboard;
 
 
 /***/ }),
-/* 245 */
+/* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47905,7 +52953,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.History = exports.HistoryEvents = void 0;
 var events_1 = __webpack_require__(3);
 var default_1 = __webpack_require__(27);
-var ts_data_1 = __webpack_require__(5);
+var ts_data_1 = __webpack_require__(4);
 var HistoryEvents;
 (function (HistoryEvents) {
     HistoryEvents["beforeUndo"] = "beforeUndo";
@@ -48023,6 +53071,21 @@ var History = /** @class */ (function () {
         this._isDisabled = true;
         this.events.clear();
     };
+    History.prototype.remapId = function (oldId, newId) {
+        var _a;
+        var remapBatch = function (batch) {
+            batch === null || batch === void 0 ? void 0 : batch.forEach(function (item) {
+                if (item && item.id === oldId) {
+                    item.id = newId;
+                }
+            });
+        };
+        for (var _i = 0, _b = __spreadArray(__spreadArray([], this._history, true), this._redoStack, true); _i < _b.length; _i++) {
+            var action = _b[_i];
+            remapBatch(action === null || action === void 0 ? void 0 : action.batch);
+            remapBatch((_a = action === null || action === void 0 ? void 0 : action.inverse) === null || _a === void 0 ? void 0 : _a.batch);
+        }
+    };
     History.prototype._initConfig = function (grid) {
         this.config = __assign(__assign({}, default_1.defaultHistoryConfig), ((typeof grid.config.history === "object" && grid.config.history) || {}));
         if (this.config.disabled)
@@ -48090,7 +53153,7 @@ exports.History = History;
 
 
 /***/ }),
-/* 246 */
+/* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48108,10 +53171,10 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getProContent = void 0;
-var date_1 = __webpack_require__(18);
-var content_1 = __webpack_require__(28);
+var date_1 = __webpack_require__(17);
+var content_1 = __webpack_require__(30);
 var common_1 = __webpack_require__(12);
-var DateFilter_1 = __webpack_require__(247);
+var DateFilter_1 = __webpack_require__(260);
 var core_1 = __webpack_require__(1);
 function getProContent(grid) {
     return __assign(__assign({}, (0, content_1.getContent)(grid)), { dateFilter: {
@@ -48195,7 +53258,7 @@ exports.getProContent = getProContent;
 
 
 /***/ }),
-/* 247 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48214,14 +53277,16 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DateFilter = void 0;
 var events_1 = __webpack_require__(3);
-var types_1 = __webpack_require__(4);
-var content_1 = __webpack_require__(28);
-var ts_calendar_1 = __webpack_require__(32);
+var types_1 = __webpack_require__(5);
+var content_1 = __webpack_require__(30);
+var ts_calendar_1 = __webpack_require__(33);
 var dom_1 = __webpack_require__(0);
-var ts_popup_1 = __webpack_require__(14);
-var date_1 = __webpack_require__(18);
+var ts_popup_1 = __webpack_require__(13);
+var date_1 = __webpack_require__(17);
 var html_1 = __webpack_require__(2);
-var KeyManager_1 = __webpack_require__(17);
+var data_1 = __webpack_require__(8);
+var locale_1 = __webpack_require__(22);
+var KeyManager_1 = __webpack_require__(16);
 var common_1 = __webpack_require__(12);
 var DateFilter = /** @class */ (function () {
     function DateFilter(_a) {
@@ -48316,18 +53381,20 @@ var DateFilter = /** @class */ (function () {
                 value = (0, date_1.getFormattedDate)(this.filterConfig.dateFormat, this.value);
             }
         }
+        var filterLabel = (0, locale_1.getLocaleString)("aria_filterByDate", {
+            column: (0, data_1.getColumnHeaderText)(this.column),
+        });
         return (0, dom_1.el)("div.dhx_grid-filter__label.dhx_grid-date-filter", {
-            "aria-label": "Type to search",
+            "aria-label": filterLabel,
             _ref: "".concat(this.column.id, "_filter"),
         }, [
             (0, dom_1.el)("label", {
                 style: {
                     display: "none",
                 },
-                "aria-label": "Type to search",
                 for: this.id,
-            }, "Type to search"),
-            (0, dom_1.el)("input", __assign({ _key: this.column.id, type: "text", class: "dhx_input dhx_grid-filter", id: this.id, placeholder: this.filterConfig.placeholder, autocomplete: "off", readOnly: "true", value: value }, this._handlers)),
+            }, filterLabel),
+            (0, dom_1.el)("input", __assign({ _key: this.column.id, type: "text", class: "dhx_input dhx_grid-filter", "aria-label": filterLabel, tabindex: -1, id: this.id, placeholder: this.filterConfig.placeholder, autocomplete: "off", readOnly: "true", value: value }, this._handlers)),
             this.value
                 ? (0, dom_1.el)(".dhx_grid-filter__icon.dhx_input__icon.dhx_grid-filter-clear.dxi.dxi.dxi-close", {
                     onclick: this._handlers.onclick,
@@ -48450,7 +53517,7 @@ exports.DateFilter = DateFilter;
 
 
 /***/ }),
-/* 248 */
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48458,8 +53525,8 @@ exports.DateFilter = DateFilter;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProGrid = void 0;
 var core_1 = __webpack_require__(1);
-var ts_treegrid_1 = __webpack_require__(249);
-var ExtendedGrid_1 = __webpack_require__(111);
+var ts_treegrid_1 = __webpack_require__(262);
+var ExtendedGrid_1 = __webpack_require__(115);
 var ProGrid = /** @class */ (function () {
     function ProGrid(container, config) {
         if (config === void 0) { config = {}; }
@@ -48474,6 +53541,9 @@ var ProGrid = /** @class */ (function () {
         (0, core_1.extendComponent)(this, component);
     }
     ProGrid.prototype.paint = function () {
+        throw new Error("Method not implemented.");
+    };
+    ProGrid.prototype.announce = function (message) {
         throw new Error("Method not implemented.");
     };
     ProGrid.prototype.destructor = function () {
@@ -48583,7 +53653,7 @@ exports.ProGrid = ProGrid;
 
 
 /***/ }),
-/* 249 */
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48603,13 +53673,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(250), exports);
-__exportStar(__webpack_require__(251), exports);
-__exportStar(__webpack_require__(113), exports);
+__exportStar(__webpack_require__(263), exports);
+__exportStar(__webpack_require__(264), exports);
+__exportStar(__webpack_require__(117), exports);
 
 
 /***/ }),
-/* 250 */
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48642,10 +53712,10 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TreeGrid = void 0;
-var ts_grid_1 = __webpack_require__(104);
+var ts_grid_1 = __webpack_require__(108);
 var core_1 = __webpack_require__(1);
-var ts_data_1 = __webpack_require__(5);
-var TreeGridCollection_1 = __webpack_require__(113);
+var ts_data_1 = __webpack_require__(4);
+var TreeGridCollection_1 = __webpack_require__(117);
 var common_1 = __webpack_require__(12);
 var TreeGrid = /** @class */ (function (_super) {
     __extends(TreeGrid, _super);
@@ -48707,6 +53777,7 @@ var TreeGrid = /** @class */ (function (_super) {
                 _this.data.update(i.id, { hidden: false }, true);
             }
         });
+        this._rowHeightsRebuild = true;
         this._checkFilters(true);
         this.paint();
         this.events.fire(ts_grid_1.GridEvents.afterRowShow, [row]);
@@ -48724,6 +53795,7 @@ var TreeGrid = /** @class */ (function (_super) {
             return;
         this.data.update(rowId, { hidden: true, wasHidden: true });
         this.data.eachChild(rowId, function (i) { return _this.data.update(i.id, { hidden: true }, true); });
+        this._rowHeightsRebuild = true;
         this._checkFilters(true);
         this.paint();
         this.events.fire(ts_grid_1.GridEvents.afterRowHide, [row]);
@@ -48887,9 +53959,6 @@ var TreeGrid = /** @class */ (function (_super) {
             collapsed: this.config.collapsed,
         }, this.events);
     };
-    TreeGrid.prototype._getRowIndex = function (rowId) {
-        return (0, core_1.findIndex)(this._serialize(), function (obj) { return obj.id == rowId; });
-    };
     TreeGrid.prototype._applyLocalFilter = function (beforePrepareData) {
         if (beforePrepareData === void 0) { beforePrepareData = false; }
         if (this.data.isGrouped()) {
@@ -48929,9 +53998,10 @@ var TreeGrid = /** @class */ (function (_super) {
             var conf = columnConfig === null || columnConfig === void 0 ? void 0 : columnConfig.header.filter(function (item) { return item.content === filter && item.customFilter !== undefined; })[0];
             if (val !== "") {
                 var options_1 = (0, ts_grid_1.getEditorOptions)(columnConfig);
-                if ((columnConfig.editorType === "combobox" ||
-                    columnConfig.editorType === "select" ||
-                    columnConfig.editorType === "multiselect") &&
+                if (!columnConfig.$filterOptions &&
+                    (columnConfig.editorType === "combobox" ||
+                        columnConfig.editorType === "select" ||
+                        columnConfig.editorType === "multiselect") &&
                     options_1) {
                     if (Array.isArray(val)) {
                         val = val.map(function (item) {
@@ -48950,14 +54020,15 @@ var TreeGrid = /** @class */ (function (_super) {
                 }
                 var match = function (colId) {
                     var col = _this.getColumn(colId);
-                    return function (val, match, obj) {
-                        return _this.content[filter].match({ val: val, match: match, obj: obj, col: col });
+                    return function (val, match, obj, multi) {
+                        return _this.content[filter].match({ val: val, match: match, obj: obj, multi: multi, col: col });
                     };
                 };
                 _this._activeFilters[colId] = {
                     by: colId,
                     match: val,
                     compare: (_c = conf === null || conf === void 0 ? void 0 : conf.customFilter) !== null && _c !== void 0 ? _c : match(colId),
+                    multi: (columnConfig === null || columnConfig === void 0 ? void 0 : columnConfig.editorType) === "multiselect",
                 };
             }
             else {
@@ -48967,32 +54038,13 @@ var TreeGrid = /** @class */ (function (_super) {
                 _this.data.filter(_this._activeFilters);
         });
     };
-    TreeGrid.prototype._serialize = function (driver) {
-        var _this = this;
-        if (driver === void 0) { driver = ts_data_1.DataDriver.json; }
-        var data = [];
-        this.data.eachChild(this.data.getRoot(), function (el) {
-            if (!el) {
-                return;
-            }
-            var cell = __assign(__assign({}, el), { $level: el.$level || _this.data.getLevel(el.id), $items: _this.data.haveItems(el.id) });
-            if (_this.data.haveItems(el.id) && el.$opened === undefined) {
-                el.$opened = cell.$opened = true;
-            }
-            data.push(cell);
-        });
-        var dataDriver = (0, ts_data_1.toDataDriver)(driver);
-        if (dataDriver) {
-            return dataDriver.serialize(data);
-        }
-    };
     return TreeGrid;
 }(ts_grid_1.ExtendedGrid));
 exports.TreeGrid = TreeGrid;
 
 
 /***/ }),
-/* 251 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49001,7 +54053,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 
 /***/ }),
-/* 252 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49021,12 +54073,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(253), exports);
-__exportStar(__webpack_require__(254), exports);
+__exportStar(__webpack_require__(266), exports);
+__exportStar(__webpack_require__(267), exports);
 
 
 /***/ }),
-/* 253 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49050,8 +54102,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContextMenu = void 0;
 var core_1 = __webpack_require__(1);
 var html_1 = __webpack_require__(2);
-var ts_message_1 = __webpack_require__(13);
-var ts_navbar_1 = __webpack_require__(23);
+var ts_message_1 = __webpack_require__(19);
+var ts_navbar_1 = __webpack_require__(25);
 var ContextMenu = /** @class */ (function (_super) {
     __extends(ContextMenu, _super);
     function ContextMenu(element, config) {
@@ -49112,6 +54164,9 @@ var ContextMenu = /** @class */ (function (_super) {
     ContextMenu.prototype._getMode = function (_item, _root, active) {
         return active ? this._mode : "right";
     };
+    ContextMenu.prototype._getRootMenuLabel = function () {
+        return this.config.ariaLabel;
+    };
     ContextMenu.prototype._changeActivePosition = function (position, mode) {
         this._activePosition = position;
         this._mode = mode;
@@ -49124,7 +54179,7 @@ exports.ContextMenu = ContextMenu;
 
 
 /***/ }),
-/* 254 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49144,17 +54199,29 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Menu = void 0;
 var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
-var ts_navbar_1 = __webpack_require__(23);
+var ts_navbar_1 = __webpack_require__(25);
 var Menu = /** @class */ (function (_super) {
     __extends(Menu, _super);
     function Menu(element, config) {
         var _this = _super.call(this, element, (0, core_1.extend)({
             $name: "menu",
         }, config)) || this;
+        _this._hasBarNavigation = true;
         var render = function () { return _this._draw(); };
         _this.mount(element, (0, dom_1.create)({ render: render }));
         return _this;
@@ -49180,16 +54247,22 @@ var Menu = /** @class */ (function (_super) {
             this._currentRoot = id;
         }
     };
+    Menu.prototype._getAriaAttrs = function () {
+        var attrs = {
+            role: "menubar",
+            "aria-orientation": "horizontal",
+        };
+        var label = this.config.ariaLabel;
+        if (label)
+            attrs["aria-label"] = label;
+        return attrs;
+    };
     Menu.prototype._draw = function () {
-        return (0, dom_1.el)("ul.dhx_widget", {
-            "data-dhx-widget-id": this._uid,
-            onmousemove: this._handlers.onmousemove,
-            onmouseleave: this._handlers.onmouseleave,
-            onclick: this._handlers.onclick,
-            onmousedown: this._handlers.onmousedown,
-            onkeydown: this._handlers.onkeydown,
-            class: "dhx_menu-nav " + (this.config.css ? this.config.css : ""),
-        }, this._drawMenuItems(this.data.getRoot(), false));
+        var _this = this;
+        this._resolveBarFocus();
+        return (0, dom_1.el)("ul.dhx_widget", __assign(__assign({ "data-dhx-widget-id": this._uid }, this._getAriaAttrs()), { onmousemove: this._handlers.onmousemove, onmouseleave: this._handlers.onmouseleave, onclick: this._handlers.onclick, onmousedown: this._handlers.onmousedown, onkeydown: this._handlers.onkeydown, class: "dhx_menu-nav " + (this.config.css ? this.config.css : ""), _hooks: {
+                didInsert: function (node) { return _this._bindBarHandlers(node.el); },
+            } }), this._drawMenuItems(this.data.getRoot(), false));
     };
     return Menu;
 }(ts_navbar_1.Navbar));
@@ -49197,7 +54270,7 @@ exports.Menu = Menu;
 
 
 /***/ }),
-/* 255 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49217,12 +54290,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(114), exports);
-__exportStar(__webpack_require__(256), exports);
+__exportStar(__webpack_require__(118), exports);
+__exportStar(__webpack_require__(269), exports);
 
 
 /***/ }),
-/* 256 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49242,13 +54315,22 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProRibbon = void 0;
-var Ribbon_1 = __webpack_require__(114);
-var ScrollView_1 = __webpack_require__(22);
+var Ribbon_1 = __webpack_require__(118);
+var ScrollView_1 = __webpack_require__(24);
 var dom_1 = __webpack_require__(0);
-var html_1 = __webpack_require__(2);
-var ts_message_1 = __webpack_require__(13);
 var ProRibbon = /** @class */ (function (_super) {
     __extends(ProRibbon, _super);
     function ProRibbon(element, config) {
@@ -49258,50 +54340,24 @@ var ProRibbon = /** @class */ (function (_super) {
     }
     ProRibbon.prototype._draw = function () {
         var _this = this;
+        this._resolveBarFocus();
         this._heightCalculate();
         var navBar = [
             (0, dom_1.el)("ul.dhx_ribbon-content.dhx_ribbon-content--full-width", {
                 style: { height: Math.max.apply(Math, this._widgetHeight) },
+                role: "presentation",
             }, this.data.map(function (block) {
                 return block.type === "block" ? _this._drawBlock(block, true) : _this._factory(block);
             }, this.data.getRoot(), false)),
         ];
         var itemsHeight = Math.max.apply(Math, this._widgetHeight);
-        return (0, dom_1.el)("ul.dhx_ribbon.dhx_widget", {
-            "data-dhx-widget-id": this._uid,
-            class: this.config.css ? this.config.css : "",
-            tabindex: 0,
-            onclick: this._handlers.onclick,
-            onmousedown: this._handlers.onmousedown,
-            oninput: this._listeners.input,
-            onmouseover: this._listeners.tooltip,
-            onkeydown: this._handlers.onkeydown,
-            _hooks: {
-                didInsert: function (node) {
-                    node.el.addEventListener("keyup", function (e) {
-                        if (e.which !== 9) {
-                            return;
-                        }
-                        var elem = (0, html_1.locateNode)(document.activeElement);
-                        if (!elem) {
-                            return;
-                        }
-                        var id = elem.getAttribute("data-dhx-id");
-                        var item = _this.data.getItem(id);
-                        if (item.tooltip) {
-                            (0, ts_message_1.tooltip)(item.tooltip, {
-                                node: elem,
-                                position: ts_message_1.Position.bottom,
-                                force: true,
-                            });
-                        }
-                    }, true);
-                },
-            },
-        }, [
+        return (0, dom_1.el)("ul.dhx_ribbon.dhx_widget", __assign(__assign({ "data-dhx-widget-id": this._uid, class: this.config.css ? this.config.css : "" }, this._getAriaAttrs()), { onclick: this._handlers.onclick, onmousedown: this._handlers.onmousedown, oninput: this._listeners.input, onmouseover: this._listeners.tooltip, onkeydown: this._handlers.onkeydown, _hooks: {
+                didInsert: function (node) { return _this._bindBarHandlers(node.el); },
+            } }), [
             (0, dom_1.el)("li", {
                 class: "dhx_ribbon-block dhx_ribbon-block--root",
                 style: { height: this._haveTitle ? itemsHeight + 24 : itemsHeight },
+                role: "presentation",
             }, this.scrollView && this.scrollView.config.enable
                 ? [].concat(this.scrollView.render(navBar))
                 : navBar),
@@ -49313,7 +54369,7 @@ exports.ProRibbon = ProRibbon;
 
 
 /***/ }),
-/* 257 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49333,13 +54389,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(115), exports);
-__exportStar(__webpack_require__(258), exports);
-__exportStar(__webpack_require__(116), exports);
+__exportStar(__webpack_require__(119), exports);
+__exportStar(__webpack_require__(271), exports);
+__exportStar(__webpack_require__(120), exports);
 
 
 /***/ }),
-/* 258 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49362,10 +54418,8 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProSidebar = void 0;
 var dom_1 = __webpack_require__(0);
-var html_1 = __webpack_require__(2);
-var ScrollView_1 = __webpack_require__(22);
-var Sidebar_1 = __webpack_require__(115);
-var ts_message_1 = __webpack_require__(13);
+var ScrollView_1 = __webpack_require__(24);
+var Sidebar_1 = __webpack_require__(119);
 var ProSidebar = /** @class */ (function (_super) {
     __extends(ProSidebar, _super);
     function ProSidebar(element, config) {
@@ -49375,12 +54429,14 @@ var ProSidebar = /** @class */ (function (_super) {
     }
     ProSidebar.prototype._draw = function () {
         var _this = this;
+        this._resolveBarFocus();
         var _a = this.config, width = _a.width, minWidth = _a.minWidth;
         var actualWidth = this.config.collapsed ? minWidth : width;
         var navBar = [
             (0, dom_1.el)("ul.dhx_navbar.dhx_navbar--vertical", {
                 "data-dhx-widget-id": this._uid,
-                tabindex: 0,
+                role: "toolbar",
+                "aria-orientation": "vertical",
                 onclick: this._handlers.onclick,
                 onmousedown: this._handlers.onmousedown,
                 oninput: this._handlers.input,
@@ -49389,26 +54445,7 @@ var ProSidebar = /** @class */ (function (_super) {
                 onmousemove: this._handlers.onmousemove,
                 onmouseleave: this._handlers.onmouseleave,
                 _hooks: {
-                    didInsert: function (node) {
-                        node.el.addEventListener("keyup", function (e) {
-                            if (e.which !== 9) {
-                                return;
-                            }
-                            var elem = (0, html_1.locateNode)(document.activeElement);
-                            if (!elem) {
-                                return;
-                            }
-                            var id = elem.getAttribute("data-dhx-id");
-                            var item = _this.data.getItem(id);
-                            if (item.tooltip || (_this.config.collapsed && item.value)) {
-                                (0, ts_message_1.tooltip)(item.tooltip || item.value, {
-                                    node: elem,
-                                    position: ts_message_1.Position.right,
-                                    force: true,
-                                });
-                            }
-                        }, true);
-                    },
+                    didInsert: function (node) { return _this._bindBarHandlers(node.el); },
                 },
             }, this.data.map(function (item) { return _this._factory(item); }, this.data.getRoot(), false)),
         ];
@@ -49426,7 +54463,7 @@ exports.ProSidebar = ProSidebar;
 
 
 /***/ }),
-/* 259 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49446,12 +54483,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(260), exports);
-__exportStar(__webpack_require__(117), exports);
+__exportStar(__webpack_require__(273), exports);
+__exportStar(__webpack_require__(121), exports);
 
 
 /***/ }),
-/* 260 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49497,10 +54534,11 @@ var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
 var html_1 = __webpack_require__(2);
-var KeyManager_1 = __webpack_require__(17);
-var FocusManager_1 = __webpack_require__(20);
-var ts_layout_1 = __webpack_require__(16);
-var types_1 = __webpack_require__(117);
+var KeyManager_1 = __webpack_require__(16);
+var FocusManager_1 = __webpack_require__(21);
+var ts_layout_1 = __webpack_require__(15);
+var types_1 = __webpack_require__(121);
+var defaults_1 = __webpack_require__(274);
 var Tabbar = /** @class */ (function (_super) {
     __extends(Tabbar, _super);
     function Tabbar(container, config) {
@@ -49680,6 +54718,7 @@ var Tabbar = /** @class */ (function (_super) {
                     _this.paint();
                 });
             }, onScrollClick: function (e) {
+                var _a;
                 var mode = (0, html_1.locate)(e, "mode");
                 if (!mode) {
                     switch (e.key) {
@@ -49697,82 +54736,29 @@ var Tabbar = /** @class */ (function (_super) {
                             break;
                     }
                 }
-                var options = {
-                    behavior: "smooth",
-                };
-                if (_this._isHorizontalMode()) {
-                    var firstCellWidth_1 = _this._normalizeSize({
-                        width: _this._getSizes(_this._cells[0].config).width,
-                    }).width;
-                    var lastCellWidth_1 = _this._normalizeSize({
-                        width: _this._getSizes(_this._cells[_this._cells.length - 1].config).width,
-                    }).width;
-                    var totalWidth_1;
-                    if (_this._tabsContainer) {
-                        totalWidth_1 = _this._tabsContainer.scrollWidth;
-                        _this._cells.reduce(function (sum, tab, i) {
-                            if (sum >= _this._tabsContainer.scrollLeft && i !== 0 && mode === "left") {
-                                firstCellWidth_1 = Math.abs(_this._normalizeSize({
-                                    width: _this._getSizes(_this._cells[i - 1].config).width,
-                                }).width -
-                                    (sum - _this._tabsContainer.scrollLeft));
-                            }
-                            else if (sum > totalWidth_1 + _this._tabsContainer.scrollLeft &&
-                                mode === "right") {
-                                lastCellWidth_1 = Math.abs(totalWidth_1 + _this._tabsContainer.scrollLeft - sum);
-                            }
-                            else {
-                                return (sum +
-                                    _this._normalizeSize({ width: _this._getSizes(tab.config).width }).width);
-                            }
-                        }, 0);
-                    }
-                    options.left =
-                        mode === "left"
-                            ? _this._tabsContainer.scrollLeft - firstCellWidth_1
-                            : _this._tabsContainer.scrollLeft + lastCellWidth_1;
+                if (!mode || !_this._tabsContainer) {
+                    return;
                 }
-                else {
-                    var firstCellHeight_1 = _this._normalizeSize({
-                        height: _this._getSizes(_this._cells[0].config).height,
-                    }).height;
-                    var lastCellHeight_1 = _this._normalizeSize({
-                        height: _this._getSizes(_this._cells[_this._cells.length - 1].config).height,
-                    }).height;
-                    var totalHeight_1;
-                    if (_this._tabsContainer) {
-                        totalHeight_1 = _this._tabsContainer.clientHeight;
-                        _this._cells.reduce(function (sum, tab, i) {
-                            if (sum >= _this._tabsContainer.scrollTop && i !== 0 && mode === "up") {
-                                firstCellHeight_1 = Math.abs(_this._normalizeSize({
-                                    height: _this._getSizes(_this._cells[i - 1].config).height,
-                                }).height -
-                                    (sum - _this._tabsContainer.scrollTop));
-                            }
-                            else if (sum > totalHeight_1 + _this._tabsContainer.scrollTop && mode === "down") {
-                                lastCellHeight_1 = Math.abs(totalHeight_1 + _this._tabsContainer.scrollTop - sum);
-                            }
-                            else {
-                                return (sum +
-                                    _this._normalizeSize({ height: _this._getSizes(tab.config).height }).height);
-                            }
-                        }, 0);
-                    }
-                    options.top =
-                        mode === "up"
-                            ? _this._tabsContainer.scrollTop - firstCellHeight_1
-                            : _this._tabsContainer.scrollTop + lastCellHeight_1;
-                }
+                var isHorizontal = _this._isHorizontalMode();
+                var position = _this._getScrollPosition(mode === "left" || mode === "up");
                 if ((0, html_1.isIE)()) {
-                    _this._tabsContainer.scrollLeft = options.left;
-                    _this._tabsContainer.scrollTop = options.top;
+                    if (isHorizontal) {
+                        _this._tabsContainer.scrollLeft = position;
+                    }
+                    else {
+                        _this._tabsContainer.scrollTop = position;
+                    }
                 }
                 else {
-                    _this._tabsContainer.scrollTo(options);
+                    _this._tabsContainer.scrollTo((_a = {
+                            behavior: "smooth"
+                        },
+                        _a[isHorizontal ? "left" : "top"] = position,
+                        _a));
                 }
             }, onHeaderScroll: (0, core_1.debounce)(function () {
                 _this.paint();
-            }, 10) });
+            }, defaults_1.SCROLL_REPAINT_DELAY) });
     };
     Tabbar.prototype._isHorizontalMode = function () {
         return this.config.mode === "bottom" || this.config.mode === "top";
@@ -49799,40 +54785,40 @@ var Tabbar = /** @class */ (function (_super) {
             var _a = this._normalizeSize({
                 width: this._getSizes(activeCell.config).width,
             }), width = _a.width, unit = _a.unit;
-            var totalWidth_2 = this._tabsContainer.clientWidth;
+            var totalWidth_1 = this._tabsContainer.clientWidth;
             var translateX = this._cells.reduce(function (sum, item, i) {
                 var size = _this._normalizeSize({ width: _this._getSizes(item.config).width });
                 if (size.unit === "%") {
-                    size.width = (totalWidth_2 / 100) * size.width;
+                    size.width = (totalWidth_1 / 100) * size.width;
                 }
                 return i < activeIndex ? sum + size.width : sum;
             }, 0);
             return {
                 left: 0,
                 transform: "translateX(".concat(translateX, "px)"),
-                transition: "all 0.1s ease",
+                transition: defaults_1.INDICATOR_TRANSITION,
                 width: width + unit,
-                height: "2px",
+                height: defaults_1.INDICATOR_SIZE,
             };
         }
         else {
             var _b = this._normalizeSize({
                 height: this._getSizes(activeCell.config).height,
             }), height = _b.height, unit = _b.unit;
-            var totalHeight_2 = this._tabsContainer.clientHeight;
+            var totalHeight_1 = this._tabsContainer.clientHeight;
             var translateY = this._cells.reduce(function (sum, item, i) {
                 var size = _this._normalizeSize({ height: _this._getSizes(item.config).height });
                 if (size.unit === "%") {
-                    size.height = (totalHeight_2 / 100) * size.height;
+                    size.height = (totalHeight_1 / 100) * size.height;
                 }
                 return i < activeIndex ? sum + size.height : sum;
             }, 0);
             return {
                 top: 0,
                 transform: "translateY(".concat(translateY, "px)"),
-                transition: "all 0.1s ease",
+                transition: defaults_1.INDICATOR_TRANSITION,
                 height: height + unit,
-                width: "2px",
+                width: defaults_1.INDICATOR_SIZE,
             };
         }
     };
@@ -49841,6 +54827,7 @@ var Tabbar = /** @class */ (function (_super) {
         if (!this._cells.length) {
             return [];
         }
+        this._prepareTemplates();
         var arrowsStyle;
         var totalSize;
         var totalTabsSize;
@@ -49860,7 +54847,7 @@ var Tabbar = /** @class */ (function (_super) {
                 this._afterScrollSize = totalTabsSize - totalSize;
             }
             arrowsStyle = {
-                height: this.config.tabHeight || "45px",
+                height: this.config.tabHeight || defaults_1.TAB_HEIGHT + "px",
                 top: this.config.mode === "top" ? 0 : "",
             };
         }
@@ -49877,7 +54864,7 @@ var Tabbar = /** @class */ (function (_super) {
                 this._afterScrollSize = totalTabsSize - totalSize;
             }
             arrowsStyle = {
-                width: this.config.tabWidth || "200px",
+                width: this.config.tabWidth || defaults_1.TAB_WIDTH + "px",
                 left: this.config.mode === "left" ? 0 : "",
             };
         }
@@ -49896,6 +54883,7 @@ var Tabbar = /** @class */ (function (_super) {
                 }, __spreadArray(__spreadArray([], this._cells.map(function (cell) {
                     var _a = _this.config, closable = _a.closable, closeButtons = _a.closeButtons, activeView = _a.activeView;
                     var disabled = _this._disabled.includes(cell.config.id);
+                    var template = cell.config.$tabTemplate;
                     return (0, dom_1.el)("li", {
                         class: "dhx_tabbar-tab" +
                             (cell.config.tabCss ? " ".concat(cell.config.tabCss) : ""),
@@ -49904,6 +54892,7 @@ var Tabbar = /** @class */ (function (_super) {
                         style: _this._getSizes(cell.config),
                     }, [
                         (0, dom_1.el)("button.dhx_button.dhx_tabbar-tab-button" +
+                            (template ? ".dhx_tabbar-tab-button--template" : "") +
                             (activeView === cell.id
                                 ? ".dhx_tabbar-tab-button--active"
                                 : "") +
@@ -49915,7 +54904,13 @@ var Tabbar = /** @class */ (function (_super) {
                             _ref: cell.id.toString(),
                             type: "button",
                             disabled: disabled,
-                        }, [(0, dom_1.el)("span.dhx_button__text", cell.config.tab)]),
+                        }, [
+                            template
+                                ? (0, dom_1.el)("span.dhx_button__text.dhx_tabbar-tab__template", {
+                                    ".innerHTML": template.html,
+                                })
+                                : (0, dom_1.el)("span.dhx_button__text", cell.config.tab),
+                        ]),
                         (Array.isArray(closable) &&
                             closable.includes(cell.config.id) &&
                             !disabled) ||
@@ -49952,6 +54947,98 @@ var Tabbar = /** @class */ (function (_super) {
                 }),
         ];
     };
+    Tabbar.prototype._getMeasureWidth = function () {
+        if (this._isHorizontalMode()) {
+            return null;
+        }
+        var tabWidth = this.config.tabWidth;
+        return (typeof tabWidth === "number" ? tabWidth + "px" : tabWidth) || defaults_1.TAB_WIDTH + "px";
+    };
+    /**
+     * Resolves the markup of every tab through the `tabTemplate` callback and measures it.
+     * The callback is invoked at most once per tab per repaint: while its arguments stay the same
+     * (the active tab and the `tab` value), the previously resolved state is reused as is.
+     */
+    Tabbar.prototype._prepareTemplates = function () {
+        var _this = this;
+        var _a = this.config, tabTemplate = _a.tabTemplate, activeView = _a.activeView;
+        if (!tabTemplate) {
+            return;
+        }
+        if (!this._templatesSettled) {
+            this._templatesSettled = true;
+            (0, dom_1.awaitRedraw)().then(function () {
+                if (!_this.config) {
+                    return;
+                }
+                _this._cells.forEach(function (cell) { return (cell.config.$tabTemplate = null); });
+                _this.paint();
+            });
+        }
+        var pending = [];
+        this._cells.forEach(function (cell) {
+            var config = cell.config;
+            var key = "".concat(activeView, " ").concat(config.tab || "");
+            var prev = config.$tabTemplate && config.$tabTemplate.width ? config.$tabTemplate : null;
+            if (prev && prev.key === key) {
+                return;
+            }
+            var html = tabTemplate(config, activeView);
+            if (prev && prev.html === html) {
+                // the markup has not changed, the measured sizes are still valid
+                prev.key = key;
+                return;
+            }
+            config.$tabTemplate = { key: key, html: html, width: 0, height: 0 };
+            pending.push(config.$tabTemplate);
+        });
+        if (pending.length) {
+            this._measureTemplates(pending);
+        }
+    };
+    /**
+     * Measures the templates on a hidden copy of the tab markup placed inside the widget root,
+     * so that the theme and the tab styles are applied to it as to a real tab. The copy carries the
+     * mode class on its own container, the class of the root belongs to the previous render until
+     * domvm patches it.
+     * All the writes are done before the first size is read, which keeps the whole batch at one reflow.
+     */
+    Tabbar.prototype._measureTemplates = function (states) {
+        var root = this.getRootNode();
+        if (!root) {
+            return;
+        }
+        var tabWidth = this._getMeasureWidth();
+        var holder = document.createElement("div");
+        holder.className = "dhx_tabbar dhx_tabbar--" + this.config.mode + " dhx_tabbar--measure";
+        var wrapper = document.createElement("div");
+        wrapper.className = "dhx_tabbar-header__wrapper";
+        var list = document.createElement("ul");
+        list.className = "dhx_tabbar-header " + this.config.mode;
+        wrapper.appendChild(list);
+        holder.appendChild(wrapper);
+        var items = states.map(function (state) {
+            var item = document.createElement("li");
+            item.className = "dhx_tabbar-tab";
+            if (tabWidth) {
+                item.style.width = tabWidth;
+            }
+            item.innerHTML =
+                '<button type="button" class="dhx_button dhx_tabbar-tab-button dhx_tabbar-tab-button--template">' +
+                    '<span class="dhx_button__text dhx_tabbar-tab__template">' +
+                    state.html +
+                    "</span></button>";
+            list.appendChild(item);
+            return item;
+        });
+        root.appendChild(holder);
+        states.forEach(function (state, i) {
+            var rect = items[i].getBoundingClientRect();
+            state.width = Math.ceil(rect.width);
+            state.height = Math.ceil(rect.height);
+        });
+        root.removeChild(holder);
+    };
     Tabbar.prototype._getSizes = function (config) {
         if (typeof config.tabWidth === "number")
             config.tabWidth = config.tabWidth + "px";
@@ -49961,13 +55048,16 @@ var Tabbar = /** @class */ (function (_super) {
             this.config.tabWidth = this.config.tabWidth + "px";
         if (typeof this.config.tabHeight === "number")
             this.config.tabHeight = this.config.tabHeight + "px";
+        var measured = config.$tabTemplate && config.$tabTemplate.width ? config.$tabTemplate : null;
         var width = this.config.tabWidth ||
             (this._isHorizontalMode()
-                ? (0, core_1.getStringWidth)(config.tab.toUpperCase(), { font: "500 ".concat(this._tabFontSize, ".4px Arial") }) +
-                    50 +
-                    "px"
-                : "200px");
-        var height = this.config.tabHeight || "45px";
+                ? (measured
+                    ? measured.width
+                    : (0, core_1.getStringWidth)((config.tab || "").toUpperCase(), {
+                        font: "500 ".concat(this._tabFontSize, ".4px Arial"),
+                    }) + defaults_1.TAB_TEXT_OFFSET) + "px"
+                : defaults_1.TAB_WIDTH + "px");
+        var height = this.config.tabHeight || (measured ? Math.max(defaults_1.TAB_HEIGHT, measured.height) : defaults_1.TAB_HEIGHT) + "px";
         if (this._isHorizontalMode()) {
             if (config.tabWidth !== undefined) {
                 width = config.tabWidth;
@@ -49978,17 +55068,47 @@ var Tabbar = /** @class */ (function (_super) {
                 height = config.tabHeight;
             }
         }
-        if (((this.config.tabAutoWidth && config.tabAutoWidth !== false) || config.tabAutoWidth) &&
+        // each flag shares the size of the container along the axis the tabs are stacked along. On the
+        // other axis that size comes from the tabs themselves, so every repaint would shrink them further
+        if (this._isHorizontalMode() &&
+            ((this.config.tabAutoWidth && config.tabAutoWidth !== false) || config.tabAutoWidth) &&
             this.config.tabWidth === undefined &&
             config.tabWidth === undefined) {
             width = this._getTabAutoWidth();
         }
-        if (((this.config.tabAutoHeight && config.tabAutoHeight !== false) || config.tabAutoHeight) &&
+        if (!this._isHorizontalMode() &&
+            ((this.config.tabAutoHeight && config.tabAutoHeight !== false) || config.tabAutoHeight) &&
             this.config.tabHeight === undefined &&
             config.tabHeight === undefined) {
             height = this._getTabAutoHeight();
         }
         return { width: width, height: height };
+    };
+    Tabbar.prototype._getTabOffsets = function () {
+        var _this = this;
+        var isHorizontal = this._isHorizontalMode();
+        var offsets = [0];
+        this._cells.forEach(function (cell) {
+            var sizes = _this._getSizes(cell.config);
+            var size = isHorizontal
+                ? _this._normalizeSize({ width: sizes.width }).width
+                : _this._normalizeSize({ height: sizes.height }).height;
+            offsets.push(offsets[offsets.length - 1] + size);
+        });
+        return offsets;
+    };
+    Tabbar.prototype._getScrollPosition = function (back) {
+        var isHorizontal = this._isHorizontalMode();
+        var container = this._tabsContainer;
+        var current = isHorizontal ? container.scrollLeft : container.scrollTop;
+        var view = isHorizontal ? container.clientWidth : container.clientHeight;
+        var total = isHorizontal ? container.scrollWidth : container.scrollHeight;
+        var offsets = this._getTabOffsets();
+        var edges = back
+            ? offsets.filter(function (offset) { return offset < current - 1; })
+            : offsets.filter(function (offset) { return offset > current + 1; });
+        var target = back ? edges[edges.length - 1] : edges[0];
+        return Math.max(0, Math.min(target === undefined ? current : target, total - view));
     };
     Tabbar.prototype._normalizeSize = function (size) {
         var sizes = {};
@@ -50127,7 +55247,24 @@ exports.Tabbar = Tabbar;
 
 
 /***/ }),
-/* 261 */
+/* 274 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SCROLL_REPAINT_DELAY = exports.INDICATOR_TRANSITION = exports.INDICATOR_SIZE = exports.TAB_TEXT_OFFSET = exports.TAB_WIDTH = exports.TAB_HEIGHT = void 0;
+exports.TAB_HEIGHT = 45;
+exports.TAB_WIDTH = 200;
+// compensation of the tab button paddings for the canvas measuring
+exports.TAB_TEXT_OFFSET = 50;
+exports.INDICATOR_SIZE = "2px";
+exports.INDICATOR_TRANSITION = "all 0.1s ease";
+exports.SCROLL_REPAINT_DELAY = 10;
+
+
+/***/ }),
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50147,13 +55284,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(262), exports);
-__exportStar(__webpack_require__(118), exports);
-__exportStar(__webpack_require__(119), exports);
+__exportStar(__webpack_require__(276), exports);
+__exportStar(__webpack_require__(122), exports);
+__exportStar(__webpack_require__(123), exports);
 
 
 /***/ }),
-/* 262 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50190,14 +55327,14 @@ var core_1 = __webpack_require__(1);
 var dom_1 = __webpack_require__(0);
 var events_1 = __webpack_require__(3);
 var html_1 = __webpack_require__(2);
-var types_1 = __webpack_require__(30);
-var view_1 = __webpack_require__(9);
-var ts_data_1 = __webpack_require__(5);
-var Editor_1 = __webpack_require__(118);
-var KeyManager_1 = __webpack_require__(17);
-var FocusManager_1 = __webpack_require__(20);
-var types_2 = __webpack_require__(119);
-var ts_message_1 = __webpack_require__(13);
+var types_1 = __webpack_require__(32);
+var view_1 = __webpack_require__(10);
+var ts_data_1 = __webpack_require__(4);
+var Editor_1 = __webpack_require__(122);
+var KeyManager_1 = __webpack_require__(16);
+var FocusManager_1 = __webpack_require__(21);
+var types_2 = __webpack_require__(123);
+var ts_message_1 = __webpack_require__(19);
 function getSelectionIndent(level) {
     return level * 20;
 }
@@ -50457,7 +55594,10 @@ var Tree = /** @class */ (function (_super) {
                 _this.paint();
             }
         });
-        this.data.events.on(ts_data_1.DataEvents.change, function (id, status, obj) {
+        this.data.events.on(ts_data_1.DataEvents.change, function (id, status, obj, service) {
+            if (service && (0, core_1.isId)(service.oldId) && service.oldId === _this._focusId) {
+                _this._focusId = id;
+            }
             if (status === "remove") {
                 _this._updateParents(obj.parent, true);
             }
@@ -51090,7 +56230,7 @@ exports.Tree = Tree;
 
 
 /***/ }),
-/* 263 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51110,12 +56250,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(__webpack_require__(120), exports);
-__exportStar(__webpack_require__(266), exports);
+__exportStar(__webpack_require__(124), exports);
+__exportStar(__webpack_require__(282), exports);
 
 
 /***/ }),
-/* 264 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51138,7 +56278,7 @@ function detectDrag(e) {
                 document.removeEventListener("mousemove", handleMouseMove);
                 document.removeEventListener("mouseup", handleMouseUp);
                 clearTimeout(timeout);
-                res({ x: e.pageX, y: e.pageY });
+                res({ pageX: e.pageX, pageY: e.pageY, clientX: e.clientX, clientY: e.clientY });
             }
         };
         document.addEventListener("mousemove", handleMouseMove);
@@ -51147,10 +56287,42 @@ function detectDrag(e) {
 }
 exports.detectDrag = detectDrag;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(18)))
 
 /***/ }),
-/* 265 */
+/* 279 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.WINDOW_MIN_HEIGHT = exports.WINDOW_MIN_WIDTH = void 0;
+exports.WINDOW_MIN_WIDTH = 100;
+exports.WINDOW_MIN_HEIGHT = 100;
+
+
+/***/ }),
+/* 280 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.WindowEvents = void 0;
+var WindowEvents;
+(function (WindowEvents) {
+    WindowEvents["resize"] = "resize";
+    WindowEvents["headerDoubleClick"] = "headerdoubleclick";
+    WindowEvents["move"] = "move";
+    WindowEvents["afterShow"] = "aftershow";
+    WindowEvents["afterHide"] = "afterhide";
+    WindowEvents["beforeShow"] = "beforeshow";
+    WindowEvents["beforeHide"] = "beforehide";
+})(WindowEvents || (exports.WindowEvents = WindowEvents = {}));
+
+
+/***/ }),
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51197,7 +56369,7 @@ exports.default = {
 
 
 /***/ }),
-/* 266 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51219,125 +56391,18 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProWindow = void 0;
-var Window_1 = __webpack_require__(120);
-var ts_toolbar_1 = __webpack_require__(37);
-var ts_layout_1 = __webpack_require__(16);
-var ts_navbar_1 = __webpack_require__(23);
-var types_1 = __webpack_require__(121);
+var Window_1 = __webpack_require__(124);
+var ts_toolbar_1 = __webpack_require__(39);
+var ts_layout_1 = __webpack_require__(15);
+var ts_navbar_1 = __webpack_require__(25);
 var ProWindow = /** @class */ (function (_super) {
     __extends(ProWindow, _super);
     function ProWindow(config) {
         return _super.call(this, config) || this;
     }
-    ProWindow.prototype._startResize = function (resizeConfig) {
-        var _this = this;
-        var minWidth = this.config.minWidth | 100;
-        var minHeight = this.config.minHeight | 100;
-        var left = this._popup.offsetLeft;
-        var top = this._popup.offsetTop;
-        var width = this._popup.offsetWidth;
-        var height = this._popup.offsetHeight;
-        var root = this.getRootView().refs;
-        var resizer;
-        var resizeClassName;
-        switch (true) {
-            case resizeConfig.bottom && resizeConfig.left:
-                resizeClassName = "dhx_window-body-pointer--bottom_left";
-                resizer = root.bottomLeft;
-                break;
-            case resizeConfig.bottom && resizeConfig.right:
-                resizeClassName = "dhx_window-body-pointer--bottom_right";
-                resizer = root.bottomLeft;
-                break;
-            case resizeConfig.top && resizeConfig.left:
-                resizeClassName = "dhx_window-body-pointer--top_left";
-                resizer = root.bottomLeft;
-                break;
-            case resizeConfig.top && resizeConfig.right:
-                resizeClassName = "dhx_window-body-pointer--top-right";
-                resizer = root.right;
-                break;
-            case resizeConfig.top:
-                resizeClassName = "dhx_window-body-pointer--top";
-                resizer = root.bottomLeft;
-                break;
-            case resizeConfig.bottom:
-                resizeClassName = "dhx_window-body-pointer--bottom";
-                resizer = root.bottomLeft;
-                break;
-            case resizeConfig.left:
-                resizeClassName = "dhx_window-body-pointer--left";
-                resizer = root.bottomLeft;
-                break;
-            case resizeConfig.right:
-                resizeClassName = "dhx_window-body-pointer--right";
-                resizer = root.right;
-                break;
-        }
-        resizer.el.classList.add("dhx_window-resizer--active");
-        this.config.node.classList.add("dhx_window--stop_selection");
-        this.config.node.classList.add(resizeClassName);
-        var mousemove = function (e) {
-            var _a = _this._getContainerParams(), containerInnerWidth = _a.containerInnerWidth, containerInnerHeight = _a.containerInnerHeight, containerXOffset = _a.containerXOffset, containerYOffset = _a.containerYOffset;
-            var size = {
-                width: _this._notInNode() ? e.pageX - left : e.pageX - _this.config.node.offsetLeft - left,
-                height: _this._notInNode() ? e.pageY - top : e.pageY - _this.config.node.offsetTop - top,
-                left: _this._notInNode() ? e.pageX : e.pageX - _this.config.node.offsetLeft,
-                top: _this._notInNode() ? e.pageY : e.pageY - _this.config.node.offsetTop,
-            };
-            if (resizeConfig.right) {
-                if (size.width < minWidth) {
-                    size.width = minWidth;
-                }
-                else if (size.width > containerXOffset + containerInnerWidth - left) {
-                    size.width = containerXOffset + containerInnerWidth - left;
-                }
-                _this._popup.style.width = size.width + "px";
-            }
-            if (resizeConfig.bottom) {
-                if (size.height < minHeight) {
-                    size.height = minHeight;
-                }
-                else if (size.height > containerYOffset + containerInnerHeight - top) {
-                    size.height = containerYOffset + containerInnerHeight - top;
-                }
-                _this._popup.style.height = size.height + "px";
-            }
-            if (resizeConfig.left) {
-                if (left + width - size.left < minWidth) {
-                    size.left = left + width - minWidth;
-                }
-                size.width = left + width - size.left;
-                _this.config.left = size.left;
-                _this._popup.style.left = size.left + "px";
-                _this._popup.style.width = size.width + "px";
-            }
-            if (resizeConfig.top) {
-                if (size.top < containerYOffset) {
-                    size.top = containerYOffset;
-                }
-                else if (top + height - size.top < minHeight) {
-                    size.top = top + height - minHeight;
-                }
-                size.height = top + height - size.top;
-                _this.config.top = size.top;
-                _this._popup.style.top = size.top + "px";
-                _this._popup.style.height = size.height + "px";
-            }
-            _this.config.width = _this._popup.offsetWidth;
-            _this.config.height = _this._popup.offsetHeight;
-            _this.events.fire(types_1.WindowEvents.resize, [size, { left: left, top: top, height: height, width: width }, resizeConfig]);
-            _this.scrollView && _this.scrollView.update();
-        };
-        var mouseup = function () {
-            document.removeEventListener("mouseup", mouseup);
-            document.removeEventListener("mousemove", mousemove);
-            _this.config.node.classList.remove("dhx_window--stop_selection");
-            _this.config.node.classList.remove(resizeClassName);
-            resizer.el.classList.remove("dhx_window-resizer--active");
-        };
-        document.addEventListener("mouseup", mouseup);
-        document.addEventListener("mousemove", mousemove);
+    ProWindow.prototype._onResizeMove = function (_size) {
+        var _a;
+        (_a = this.scrollView) === null || _a === void 0 ? void 0 : _a.update();
     };
     ProWindow.prototype._initUI = function () {
         var _this = this;
@@ -51386,7 +56451,6 @@ var ProWindow = /** @class */ (function (_super) {
                     id: "title",
                     css: "title_max",
                 });
-                this._popup.setAttribute("aria-label", this.config.title);
             }
             if (this.config.closable) {
                 this.header.data.add({
@@ -51423,7 +56487,7 @@ exports.ProWindow = ProWindow;
 
 
 /***/ }),
-/* 267 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

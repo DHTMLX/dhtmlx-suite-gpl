@@ -1,7 +1,7 @@
 {
   "name": "dhx-suite-package",
-  "version": "9.3.0",
-  "description": "dhtmlxSuite widget",
+  "version": "9.4.0",
+  "description": "DHTMLX Suite - modular set of JavaScript UI components. GPL v2 edition for GPL-compatible open-source projects; commercial licenses are available for proprietary and production use.",
   "homepage": "https://docs.dhtmlx.com/suite/",
   "private": true,
   "bugs": {

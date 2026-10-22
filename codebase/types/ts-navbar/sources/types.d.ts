@@ -61,6 +61,9 @@ export interface IMenuItem extends IItem, IHtmlExtendable {
     count?: number | string;
     countColor?: "danger" | "secondary" | "primary" | "success";
     value?: string;
+    twoState?: boolean;
+    group?: string;
+    active?: boolean;
 }
 export interface IPopup {
     data: any[];

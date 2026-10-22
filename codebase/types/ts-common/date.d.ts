@@ -4,6 +4,8 @@ export declare const locale: {
     daysShort: string[];
     days: string[];
     cancel: string;
+    today: string;
+    clear: string;
 };
 export declare function getFormattedDate(format: string, date: Date): string;
 export declare function getExcelDate(date: Date): number;

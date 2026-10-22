@@ -14,6 +14,7 @@ export declare function isContentTooltip(config: IGridConfig, col: ICol, cell: a
 export declare function getTooltipConfig(config: IGridConfig, col?: ICol, cell?: IHeader | IFooter | ISpan, type?: "footer" | "header"): IGridTooltipConfig;
 export declare function isTooltip(config: IGridConfig, element: ICol | ISpan): boolean | IGridTooltipConfig;
 export declare function isHtmlEnable(config: IGridConfig, col: ICol, content?: IHeader | IFooter): boolean;
+export declare function isInteractiveTarget(target: EventTarget): boolean;
 export declare function getTotalWidth(columns: ICol[]): number;
 export declare function getTotalHeight(rows: IRow[]): number;
 export declare function scrollFixedColsAndRows(e: WheelEvent): void;

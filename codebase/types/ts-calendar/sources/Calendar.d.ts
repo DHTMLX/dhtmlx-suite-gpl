@@ -20,10 +20,12 @@ export declare class Calendar extends View implements ICalendar {
     showDate(date?: Date, mode?: ViewMode): void;
     destructor(): void;
     clear(): void;
+    private _clear;
     link(targetCalendar: Calendar): void;
     private _unlink;
     private _setSelected;
     private _getSelected;
+    private _normalizeControls;
     private _draw;
     private _initHandlers;
     private _getData;
@@ -31,7 +33,11 @@ export declare class Calendar extends View implements ICalendar {
     private _drawMonthSelector;
     private _drawYearSelector;
     private _drawHeader;
+    private _drawControls;
+    private _drawControlButton;
+    private _drawTimepickerControl;
     private _drawTimepicker;
     private _selectDate;
+    private _selectToday;
     private _moveBrowseFocus;
 }

@@ -5,6 +5,7 @@ import { EventSystem } from "../../ts-common/events";
 export interface IWindowConfig {
     css?: string;
     title?: string;
+    ariaLabel?: string;
     html?: string;
     minWidth?: number;
     minHeight?: number;

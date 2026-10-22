@@ -27,6 +27,7 @@ export declare class ProGrid implements IProGrid {
     history: IHistory;
     constructor(container: HTMLElement | string | null, config?: IProGridConfig);
     paint(): void;
+    announce(message: string): void;
     destructor(): void;
     expand(rowId: Id): void;
     collapse(rowId: Id): void;

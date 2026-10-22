@@ -29,6 +29,7 @@ export interface IComboboxConfig {
             [className: string]: (event: Event, id: Id) => void | boolean;
         };
     };
+    ariaLabel?: string;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     cellHeight?: number;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */

@@ -14,6 +14,7 @@ export interface ICalendarConfig {
     width?: string | number;
     range?: boolean;
     $rangeMark?: (a: Date) => string;
+    controls?: boolean | TCalendarControlsInput[];
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     block?: (a: Date) => boolean;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
@@ -30,6 +31,8 @@ export interface ICalendar {
     link(calendar: ICalendar): void;
 }
 export type ViewMode = "calendar" | "year" | "month" | "timepicker";
+export type TCalendarControls = "clear" | "today" | "timepicker" | "spacer";
+export type TCalendarControlsInput = TCalendarControls | Uppercase<TCalendarControls> | Capitalize<TCalendarControls>;
 export interface ICalendarDay {
     css: string;
     date: Date;

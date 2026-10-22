@@ -1,5 +1,5 @@
 import { VNode } from "../../../ts-common/dom";
-import { ICol, IExtendedGrid, IGrid, IProGrid, IRendererConfig } from "../types";
+import { ICol, IExtendedGrid, IGrid, IProGrid, IRendererConfig, TFilterOptions } from "../types";
 import { DataCollection, IDataItem } from "../../../ts-data";
 import { Combobox } from "../../../ts-combobox";
 import { IEventSystem } from "../../../ts-common/events";
@@ -12,10 +12,14 @@ export interface IComboFilterConfig {
     readonly?: boolean;
     virtual?: boolean;
     multiselection?: boolean;
+    options?: TFilterOptions;
 }
 export interface IInputFilterConfig {
     placeholder?: string;
     icon?: string;
+}
+export interface ISelectFilterConfig {
+    options?: TFilterOptions;
 }
 export declare enum HeaderFilterEvent {
     change = "change"
@@ -27,7 +31,7 @@ export interface IHeaderFilter {
     events: IEventSystem<HeaderFilterEvent>;
     data?: string[] | IDataItem[];
     id?: Id;
-    filterConfig?: IComboFilterConfig | IInputFilterConfig;
+    filterConfig?: IComboFilterConfig | IInputFilterConfig | ISelectFilterConfig;
     getFilter(): VNode | Combobox;
     setValue(value: string | string[], silent?: boolean): void;
     clear(silent?: boolean): void;

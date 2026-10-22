@@ -10,6 +10,13 @@ export declare class Colorpicker extends View implements IColorpicker {
     private _pickerState;
     private _inputTimeout;
     private _activeRange;
+    private _focusCellId;
+    private _resolvedFocusCellId;
+    private _cellRows;
+    private _cellColors;
+    private _grayCellIds;
+    private _paletteRows;
+    private _customCellIds;
     constructor(container: string | HTMLElement, config?: IColorpickerConfig);
     destructor(): void;
     clear(): void;
@@ -37,5 +44,14 @@ export declare class Colorpicker extends View implements IColorpicker {
     private _getGrayShades;
     private _getPalette;
     private _getContent;
+    private _buildCellIndex;
+    private _resolveFocusCellId;
+    private _getCellPosition;
+    private _onArrowKey;
+    private _onEdgeKey;
+    private _setFocusCell;
+    private _hasFocus;
+    private _restoreFocus;
+    private _focusCell;
     private _initHotKey;
 }

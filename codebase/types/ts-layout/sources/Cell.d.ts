@@ -19,6 +19,7 @@ export declare class Cell extends View implements ICell {
     protected _theme: string;
     private _isLastFlexCell;
     private _afterWindowResized;
+    private _headerSize;
     constructor(parent: string | HTMLElement | ILayout, config: ICellConfig);
     paint(): void;
     isVisible(): boolean;
@@ -39,11 +40,20 @@ export declare class Cell extends View implements ICell {
     progressHide(): void;
     isVisibleProgress(): boolean;
     toVDOM(nodes?: any[]): any;
+    protected _renderHeader(): any;
+    protected _isRotatedHeader(): boolean;
+    protected _getHeaderStyle(): {
+        height?: number;
+        minWidth?: number;
+    };
+    protected _saveHeaderSize(): void;
+    protected _renderCellHeaderContent(): any;
     protected _saveTheme(): void;
     protected _getProgressBar(): any;
     protected _getCss(_content?: boolean): string;
     protected _initHandlers(): void;
     protected _getCollapsedSize(cell: ICell, nextCell: ICell): number;
+    protected _getCellSize(cell: any): number;
     protected _getCollapseIcon(): "dxi dxi-chevron-right" | "dxi dxi-chevron-left" | "dxi dxi-chevron-up" | "dxi dxi-chevron-down";
     protected _isLastCell(): boolean;
     protected _getNextCell(): any;

@@ -10,6 +10,8 @@ export interface ISidebarConfig {
     menuCss?: string;
     collapsed?: boolean;
     navigationType?: NavigationType;
+    /** The accessible name of the sidebar. */
+    ariaLabel?: string;
 }
 export type ISidebarElement = ISeparator | ISpacer | ITitle | INavItem | IMenuItem | ICustomHTML;
 export interface ISidebar extends INavbar {

@@ -4,11 +4,12 @@ import { IEventSystem } from "../../ts-common/events";
 import { FlexDirection } from "../../ts-common/html";
 import { ScrollView } from "../../ts-common/ScrollView";
 import { TLabelAlignment } from "../../ts-common/types";
+export type TCellHeaderTemplate = (cell: ICellConfig) => string | IView;
 export interface ICellConfig {
     id?: string;
     html?: string;
     hidden?: boolean;
-    header?: string;
+    header?: string | TCellHeaderTemplate;
     headerIcon?: string;
     headerImage?: string;
     headerHeight?: number;

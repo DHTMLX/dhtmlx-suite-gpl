@@ -11,14 +11,32 @@ import { IGroupOrder, TDisplayMode } from "../../ts-data/sources/datacollection/
 import { IGroupItem } from "./ui/components/groupPanel";
 import { ITreeGrid, ITreeGridConfig } from "../../ts-treegrid";
 import { ISelection } from "./modules/Selection";
+import { IActiveCell } from "./modules/ActiveCell";
 import { IProCell, IViewConstructor } from "../../ts-layout";
 import { IRange, IRangeConfig } from "./modules/Range";
+import { PrefixSums } from "./helpers/PrefixSums";
 import { IBlockSelection, IBlockSelectionConfig } from "./modules/BlockSelection";
 import { IClipboard, IClipboardConfig } from "./modules/Clipboard";
 import { IHistory, IHistoryConfig } from "./modules/History";
-import { IComboFilterConfig, IContentList, IHeaderFilter, IInputFilterConfig } from "./ui/content";
+import { IComboFilterConfig, IContentList, IHeaderFilter, IInputFilterConfig, ISelectFilterConfig } from "./ui/content";
 import { ExportType, ICsvExportConfig, IXlsxExportConfig } from "./modules/Exporter";
 import { IDateFilterConfig, IProContentList, IProHeaderFilter } from "./ui/proContent";
+/**
+ * @internal The active-cell contract shared by the selection module and the service active-cell
+ * module, so that the key handlers read one position whichever module owns it.
+ */
+export interface ICellSource {
+    getCell(): ICell | void;
+    setCell(row?: IRow | Id, col?: ICol | Id, ctrlUp?: boolean, shiftUp?: boolean): void;
+    restoreFocus(): void;
+}
+/**
+ * @internal Anything that holds the active cell: the grid itself, or a renderer config.
+ */
+export interface ICellSourceHolder {
+    selection: ICellSource;
+    $activeCell?: IActiveCell;
+}
 export interface IGrid {
     data: IDataCollection;
     name: "grid" | string;
@@ -28,7 +46,10 @@ export interface IGrid {
     content: IContentList | IProContentList;
     keyManager: IKeyManager;
     export: any;
+    /** @internal Service module: present only when no selection module is initialized. */
+    $activeCell?: IActiveCell;
     paint(): void;
+    announce(message: string): void;
     destructor(): void;
     setColumns(col: ICol[]): void;
     addRowCss(rowId: Id, css: string): void;
@@ -89,8 +110,8 @@ export interface IGridConfig extends IDragConfig {
     height?: number | "auto";
     autoWidth?: boolean;
     rowHeight?: number;
-    headerRowHeight?: number;
-    footerRowHeight?: number;
+    headerRowHeight?: TFixedRowHeight;
+    footerRowHeight?: TFixedRowHeight;
     footerPosition?: IFooterPosition;
     leftSplit?: number;
     topSplit?: number;
@@ -105,6 +126,7 @@ export interface IGridConfig extends IDragConfig {
     css?: string;
     rowCss?: (row: IRow) => string;
     exportStyles?: boolean | string[];
+    ariaLabel?: string;
     selection?: ISelectionType;
     multiselection?: boolean;
     rangeSelection?: boolean | IRangeConfig;
@@ -146,8 +168,13 @@ export interface IGridConfig extends IDragConfig {
     $footerHeight?: number;
     $headerHeightMap?: number[];
     $footerHeightMap?: number[];
+    $headerAutoHeightMap?: boolean[];
+    $footerAutoHeightMap?: boolean[];
     $totalWidth?: number;
     $totalHeight?: number;
+    $rowHeights?: PrefixSums;
+    $colWidths?: PrefixSums;
+    $filteredColumns?: ICol[];
     $positions?: IPositions;
     $colspans?: boolean;
     $footer?: boolean;
@@ -163,6 +190,7 @@ export interface IGridConfig extends IDragConfig {
     $data?: any[];
     $grouped?: IGroupItem[];
     $subRowCells?: Map<Id, ISubRowCell>;
+    $cellState?: ICellState;
 }
 export type IProGridConfig = IExtendedGridConfig & ITreeGridConfig;
 export interface IExtendedGridConfig extends IGridConfig {
@@ -203,8 +231,10 @@ export interface IRendererConfig extends Required<IProGridConfig> {
     footerHeight?: number;
     events?: IEventSystem<GridEvents, IEventHandlersMap>;
     selection: any;
+    $activeCell?: IActiveCell;
     dropManager: any;
     blockSelection: any;
+    range?: IRange;
     sort: ISortingStates;
     filterLocation?: string;
     content?: IContentList;
@@ -214,6 +244,10 @@ export interface IRendererConfig extends Required<IProGridConfig> {
         [colId: string]: ISummaryList;
     };
     $renderFrom?: RenderFrom;
+    $isDragging?: boolean;
+    $rowIndexShift?: number;
+    /** @internal only for {@link ICellState.hideSpans} in a grid with rendered spans */
+    $spanAreas?: ISpanArea[];
     _events?: IEventSystem<GridSystemEvents>;
 }
 export declare enum GridEvents {
@@ -359,7 +393,8 @@ export declare enum GridSystemEvents {
     headerCellTouchMove = "headerCellTouchMove",
     headerCellTouchEnd = "headerCellTouchEnd",
     groupPanelItemTouchMove = "groupPanelItemTouchMove",
-    groupPanelItemItemTouchEnd = "groupPanelItemItemTouchEnd"
+    groupPanelItemItemTouchEnd = "groupPanelItemItemTouchEnd",
+    announce = "announce"
 }
 export interface ISystemEventHandlersMap {
     [key: string]: (...args: any[]) => any;
@@ -369,6 +404,7 @@ export interface ISystemEventHandlersMap {
     [GridSystemEvents.headerCellTouchEnd]: (cell: IHeader, col: ICol, event: TouchEvent) => void;
     [GridSystemEvents.groupPanelItemTouchMove]: (id: string, event: TouchEvent) => void;
     [GridSystemEvents.groupPanelItemItemTouchEnd]: (id: string, event: TouchEvent) => void;
+    [GridSystemEvents.announce]: (message: string) => void;
 }
 export interface ICol {
     id: Id;
@@ -416,9 +452,12 @@ export interface ICol {
     };
     $uniqueData?: any[];
     $activeFilterData?: any[];
+    $filterOptions?: IOption[];
+    $index?: number;
     $width?: number;
     $fixedWidth?: boolean;
     $customOptions?: any;
+    $rowHeader?: boolean;
 }
 export interface IRow {
     id?: Id;
@@ -430,6 +469,8 @@ export interface IRow {
     $opened?: boolean;
     $subRowHeight?: number;
     $draggable?: boolean;
+    $count?: number;
+    $totalCount?: number;
 }
 export interface ISpan {
     row: Id;
@@ -446,6 +487,14 @@ export interface ISpan {
     $colsVisibility?: number[];
     $renderFrom?: RenderFrom[];
 }
+export interface ISpanCalculationInfo {
+    colIndex: number;
+    colspan: number;
+    rowspan: number;
+    spanWidth: number;
+    startRowIndex: number;
+    spanText?: string;
+}
 export interface IContent {
     id?: string;
     text?: string | ((args: ISummaryList) => string);
@@ -459,7 +508,7 @@ export interface IContent {
 export type TContentFilter = "inputFilter" | "selectFilter" | "comboFilter" | "dateFilter";
 export interface IHeader extends IContent {
     content?: TContentFilter;
-    filterConfig?: IComboFilterConfig | IInputFilterConfig | IDateFilterConfig;
+    filterConfig?: IComboFilterConfig | IInputFilterConfig | IDateFilterConfig | ISelectFilterConfig;
     customFilter?: (item: string | number | Date | Date[], match: string | string[] | Date | Date[]) => boolean;
     headerSort?: boolean;
     sortAs?: SortFunction;
@@ -504,6 +553,8 @@ export interface IGroup {
     panelHeight: number;
     hideableColumns?: boolean;
     showMissed?: boolean | string;
+    showEmptyGroups?: boolean;
+    counter?: boolean | ((row: IRow) => string);
     fields?: {
         [colId: string]: Omit<IGroupOrder, "by">;
     };
@@ -584,6 +635,7 @@ export interface IOption {
     value: string;
 }
 export type TOption = IOption | string;
+export type TFilterOptions = TOption[] | ((uniqueData: IOption[], col: ICol) => TOption[]);
 export type SortFunction = (cellValue: any) => string | number;
 type MarkFunction = (cell: any, columnCells: any[], row: IRow, column: ICol) => string;
 export interface IMark {
@@ -610,7 +662,7 @@ export interface ILayoutState {
     footerAtBottom: boolean;
 }
 export interface IFixedRowsConfig extends ILayoutState {
-    name: "header" | "footer";
+    name: TFixedRowsName;
     position: "top" | "bottom";
 }
 export interface ICoords {
@@ -635,6 +687,12 @@ export type IDragType = "row" | "column" | "both";
 export type AdjustTargetType = "data" | "header" | "footer";
 export type IAdjustBy = AdjustTargetType | boolean;
 export type IFooterPosition = "bottom" | "relative";
+export type TFixedRowsName = "header" | "footer";
+export type TFixedRowHeight = number | (number | "auto")[];
+export interface IFixedRowLevel {
+    height: number;
+    auto: boolean;
+}
 export interface IAdjustColumns {
     rows: IRow[];
     cols: ICol[];
@@ -656,5 +714,43 @@ export interface INormalizeColumnsParams {
 export interface IExportGridCell {
     v: string | number;
     s: number;
+}
+/**
+ * @internal
+ * Cell state supplied by a host product that manages selection and editing itself.
+ * When it is set, it is the source of truth for the roving tabindex, `aria-selected`,
+ * `aria-readonly` and `aria-multiselectable`, and the grid's own selection module is not
+ * consulted. When it is not set, the grid behaves exactly as before.
+ *
+ * A range is a set of row ids by a set of column ids, so that a cell can be tested with two
+ * hash lookups: `getCells` runs per visible cell and again per frozen zone, and the column
+ * index of a cell is not recoverable there because the fixed-column zones replace
+ * `filteredColumns` and reset `$positions.xStart`.
+ */
+export interface ICellState {
+    active?: {
+        row: Id;
+        col: Id;
+    };
+    ranges?: Array<{
+        rows: Set<Id>;
+        cols: Set<Id>;
+    }>;
+    editable?: boolean;
+    multiselectable?: boolean;
+    /** Read-only cells in an editable grid: a row id and a set of column ids. */
+    readonlyCells?: Map<Id, Set<Id>>;
+    /** The first cell of a span shows its content, so the span element and the cells under it are hidden. */
+    hideSpans?: boolean;
+}
+/** @internal the cells of a rendered span */
+export interface ISpanArea {
+    /** the column id of the first cell */
+    column: Id;
+    /** the data index range of the rows */
+    rowStart: number;
+    rowEnd: number;
+    /** the column ids */
+    columns: Set<string>;
 }
 export {};

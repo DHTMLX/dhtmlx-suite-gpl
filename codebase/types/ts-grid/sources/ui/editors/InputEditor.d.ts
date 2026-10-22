@@ -15,6 +15,9 @@ export declare class InputEditor implements IEditor {
     endEdit(withoutSave?: boolean): void;
     toHTML(value?: string | number): any;
     protected _initHandlers(): void;
+    private _setValidity;
+    private _isValueInvalid;
+    private _getRangeMessage;
     private _isValidWord;
     private _isCorrectRange;
     private _applyValuePattern;

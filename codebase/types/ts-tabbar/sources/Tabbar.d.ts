@@ -1,3 +1,4 @@
+import { VNode } from "../../ts-common/dom";
 import { EventSystem } from "../../ts-common/events";
 import { Layout, LayoutEvents, ILayoutEventHandlersMap } from "../../ts-layout";
 import { ITabbarConfig, TabbarEvents, ITabbarEventHandlersMap, ITabbar, ITab } from "./types";
@@ -10,8 +11,9 @@ export declare class Tabbar extends Layout implements ITabbar {
     private _afterScrollSize;
     private _keyManager;
     private _tabFontSize;
+    private _templatesSettled;
     constructor(container: any, config: ITabbarConfig);
-    toVDOM(): any;
+    toVDOM(): VNode;
     destructor(): void;
     getWidget(): any;
     setActive(id: string): void;
@@ -29,7 +31,24 @@ export declare class Tabbar extends Layout implements ITabbar {
     private _getEnableTabs;
     private _getIndicatorPosition;
     private _drawTabs;
+    private _getMeasureWidth;
+    /**
+     * Resolves the markup of every tab through the `tabTemplate` callback and measures it.
+     * The callback is invoked at most once per tab per repaint: while its arguments stay the same
+     * (the active tab and the `tab` value), the previously resolved state is reused as is.
+     */
+    private _prepareTemplates;
+    /**
+     * Measures the templates on a hidden copy of the tab markup placed inside the widget root,
+     * so that the theme and the tab styles are applied to it as to a real tab. The copy carries the
+     * mode class on its own container, the class of the root belongs to the previous render until
+     * domvm patches it.
+     * All the writes are done before the first size is read, which keeps the whole batch at one reflow.
+     */
+    private _measureTemplates;
     private _getSizes;
+    private _getTabOffsets;
+    private _getScrollPosition;
     private _normalizeSize;
     private _getTabAutoWidth;
     private _getTabAutoHeight;

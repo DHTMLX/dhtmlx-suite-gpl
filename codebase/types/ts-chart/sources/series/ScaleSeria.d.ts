@@ -5,7 +5,6 @@ export default class ScaleSeria extends BaseSeria {
     protected _xLocator: Locator;
     protected xScale: IScale;
     protected yScale: IScale;
-    protected _gradient: any;
     addScale(type: ScaleType, scale: IScale): void;
     paint(width: number, height: number): void;
     dataReady(prev?: PointData[]): PointData[];

@@ -1,6 +1,7 @@
-import { ILayoutConfig, LayoutEvents, ILayoutEventHandlersMap, ICellConfig, ICell } from "../../ts-layout";
+import { ILayoutConfig, LayoutEvents, ILayoutEventHandlersMap, ICellConfig, ICell, LayoutCallback } from "../../ts-layout";
 import { EventSystem } from "../../ts-common/events";
 import { Position } from "../../ts-common/html";
+export type TabTemplate = (cell: ITabConfig, activeTab: string) => string;
 export interface ITabbarConfig extends ILayoutConfig {
     mode?: Position;
     noContent?: boolean;
@@ -13,6 +14,7 @@ export interface ITabbarConfig extends ILayoutConfig {
     tabWidth?: number | string;
     tabHeight?: number | string;
     tabAlign?: "left" | "start" | "center" | "middle" | "right" | "end";
+    tabTemplate?: TabTemplate;
     /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
     closeButtons?: boolean;
 }
@@ -24,6 +26,13 @@ export interface ITabConfig extends ICellConfig {
     tabAutoHeight?: boolean;
     tabWidth?: number | string;
     tabHeight?: number | string;
+    $tabTemplate?: ITabTemplateState;
+}
+export interface ITabTemplateState {
+    key: string;
+    html: string;
+    width: number;
+    height: number;
 }
 export declare enum TabbarEvents {
     beforeChange = "beforeChange",
@@ -41,6 +50,7 @@ export interface ITabbar {
     destructor(): void;
     getId(index: number): string;
     getCell(id: string): ICell;
+    forEach(callback: LayoutCallback): void;
     setActive(id: string): void;
     getWidget(): any;
     getActive(): string;

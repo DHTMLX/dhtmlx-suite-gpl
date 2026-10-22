@@ -7,5 +7,6 @@ export declare class ContextMenu extends Navbar<IMenuElement> implements INavbar
     protected _getFactory(): (item: import("../../ts-navbar").IItem, asMenuItem?: boolean) => any;
     protected _close(e: MouseEvent | TouchEvent): void;
     protected _getMode(_item: any, _root: any, active: boolean): ContextMode;
+    protected _getRootMenuLabel(): string | undefined;
     private _changeActivePosition;
 }

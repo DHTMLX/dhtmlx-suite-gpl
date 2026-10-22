@@ -6,5 +6,5 @@ export interface IProToolbar extends IToolbar {
 export declare class ProToolbar extends Toolbar implements IProToolbar {
     scrollView: ScrollView;
     constructor(element?: string | HTMLElement, config?: any);
-    protected _draw(element: any): any;
+    protected _draw(): any;
 }

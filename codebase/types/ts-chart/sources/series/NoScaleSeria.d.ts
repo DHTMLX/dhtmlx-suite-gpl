@@ -9,7 +9,7 @@ export default class NoScaleSeria extends BaseSeria {
     protected _gradient: any;
     protected _center: [number, number];
     protected _tooltipData: Array<[number, number]>;
-    private _sum;
+    protected _sum: number;
     scaleReady(sizes: IFitPosition): IFitPosition;
     dataReady(): PointData[];
     toggle(id?: string): void;

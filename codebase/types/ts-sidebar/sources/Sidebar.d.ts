@@ -6,6 +6,8 @@ import { Id } from "../../ts-common/types";
 export declare class Sidebar extends Navbar<ISidebarElement> implements ISidebar {
     events: IEventSystem<NavigationBarEvents | DataEvents | (SidebarEvents & ISidebarEventHandlersMap)>;
     config: ISidebarConfig;
+    protected _hasBarNavigation: boolean;
+    protected _barOrientation: "horizontal" | "vertical";
     private _waitRestore;
     constructor(element?: string | HTMLElement, config?: any);
     toggle(): void;
@@ -18,6 +20,7 @@ export declare class Sidebar extends Navbar<ISidebarElement> implements ISidebar
     protected _customHandlers(): {
         tooltip: (e: MouseEvent) => void;
     };
+    protected _raiseFocusTooltip(): void;
     protected _draw(): any;
     protected _getMode(): "right" | "bottom";
     protected _customInitEvents(): void;

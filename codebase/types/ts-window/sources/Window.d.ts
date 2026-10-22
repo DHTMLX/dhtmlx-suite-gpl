@@ -47,10 +47,12 @@ export declare class Window implements IWindow {
     protected _startResize(resizeConfig: IDirectionConfig): void;
     private _blockScreen;
     protected _notInNode(): boolean;
+    protected _isFixedPosition(): boolean;
     protected _getContainerParams(): {
         containerInnerWidth: any;
         containerInnerHeight: any;
         containerXOffset: any;
         containerYOffset: any;
     };
+    protected _onResizeMove(_size: ISize & IPosition): void;
 }

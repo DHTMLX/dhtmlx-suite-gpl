@@ -1,5 +1,6 @@
 import { IEventSystem } from "../../../ts-common/events";
 import { IExtendedGrid, IProGrid, IRow } from "../types";
+import { Id } from "../../../ts-common/types";
 export type ActionType = "add" | "remove" | "removeAll" | "change";
 export interface IAction {
     type: ActionType;
@@ -45,6 +46,8 @@ export interface IHistory {
     enable(): void;
     isDisabled(): boolean;
     destructor(): void;
+    /** @internal Retarget the stored actions after a row id has been changed */
+    remapId(oldId: Id, newId: Id): void;
 }
 export declare class History implements IHistory {
     config: IHistoryConfig;
@@ -66,6 +69,7 @@ export declare class History implements IHistory {
     enable(): void;
     isDisabled(): boolean;
     destructor(): void;
+    remapId(oldId: Id, newId: Id): void;
     private _initConfig;
     private _initHandlers;
     private _fireError;

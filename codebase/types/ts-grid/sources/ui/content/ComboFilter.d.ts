@@ -31,5 +31,6 @@ export declare class ComboFilter implements IHeaderFilter {
     blur(): void;
     destructor(): void;
     private _setData;
+    private _getFilterValue;
     private _checkValue;
 }

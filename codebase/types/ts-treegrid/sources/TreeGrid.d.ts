@@ -19,8 +19,6 @@ export declare class TreeGrid extends ExtendedGrid implements ITreeGrid {
     getSpan(rowId: Id, colId: Id): ISpan;
     protected _adjustColumnsWidth({ rows, cols, totalCols, adjust, }: IAdjustColumns): IColumnsWidth;
     protected _createCollection(): void;
-    protected _getRowIndex(rowId: Id): number;
     protected _applyLocalFilter(beforePrepareData?: boolean): void;
     protected _setEventHandlers(): void;
-    private _serialize;
 }

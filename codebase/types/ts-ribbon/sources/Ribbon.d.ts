@@ -5,6 +5,8 @@ export interface IToolbarConfig {
     css?: string;
     menuCss?: string;
     data?: any[] | TreeCollection<IRibbonElement>;
+    /** The accessible name of the ribbon. */
+    ariaLabel?: string;
 }
 export interface IRibbon extends INavbar {
     config: IToolbarConfig;
@@ -25,6 +27,7 @@ interface IRibbonNavItem extends INavItem {
 }
 export type IRibbonElement = IRibbonButton | IInput | IRibbonImageButton | ISeparator | ISpacer | ITitle | IRibbonSelectButton | ICustomHTML | IBlock | IRibbonNavItem | IDatePicker;
 export declare class Ribbon extends Navbar<IRibbonElement> implements IRibbon {
+    protected _hasBarNavigation: boolean;
     protected _listeners: IHandlers;
     protected _widgetHeight: number[];
     protected _haveTitle: boolean;
@@ -34,6 +37,12 @@ export declare class Ribbon extends Navbar<IRibbonElement> implements IRibbon {
     protected _getFactory(): any;
     protected _getMode(item: any, root: any): "right" | "bottom";
     protected _close(e: MouseEvent): void;
+    protected _getBarItemIds(): Id[];
+    protected _raiseFocusTooltip(): void;
+    protected _getAriaAttrs(): {
+        role: string;
+        "aria-orientation": string;
+    };
     protected _draw(): any;
     protected _setRoot(id: Id): void;
     protected _drawBlock(block: IBlock, isFirst?: boolean): any;

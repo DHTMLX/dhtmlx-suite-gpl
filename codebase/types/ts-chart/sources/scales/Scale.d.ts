@@ -8,10 +8,13 @@ export declare class Scale implements IScale {
     protected _axis: IAxisLike<any>;
     protected _position: ScaleType;
     protected _padding: boolean;
+    protected _alignTo: IScale;
     protected _charts: ILikeSeria[];
     constructor(_data: DataCollection, config: IScaleConfig, position: ScaleType);
     addPadding(): void;
     getSize(): number;
+    getAxis(): IAxisLike<any>;
+    alignTo(scale: IScale): void;
     scaleReady(sizes: any): void;
     point(pos: number): number;
     add(val: ILikeSeria): void;

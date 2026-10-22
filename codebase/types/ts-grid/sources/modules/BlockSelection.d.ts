@@ -67,6 +67,7 @@ export interface IBlockSelection {
      * This method is for internal use and should not be called directly
      */
     toHTML(): VNode | VNode[];
+    restoreFocus(): void;
 }
 export declare class BlockSelection implements IBlockSelection {
     config: IBlockSelectionConfig;
@@ -92,7 +93,9 @@ export declare class BlockSelection implements IBlockSelection {
     disable(): void;
     isDisabled(): boolean;
     destructor(): void;
+    restoreFocus(): void;
     toHTML(): VNode | null;
+    private _calculateClippedGeometry;
     private _getAreaNode;
     private _getStartCellNode;
     private _getHandleAreaNode;

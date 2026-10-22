@@ -13,12 +13,12 @@
 		<link rel="icon" href="../common/favicon/icon-96.png" sizes="96x96" />
 		<link rel="icon" href="../common/favicon/icon-144.png" sizes="144x144" />
 		<!-- end meta block -->
-		<script type="text/javascript" src="../../codebase/suite.js?v=9.2.0"></script>
-		<link rel="stylesheet" href="../../codebase/suite.css?v=9.2.0">
+		<script type="text/javascript" src="../../codebase/suite.js?v=9.4.0"></script>
+		<link rel="stylesheet" href="../../codebase/suite.css?v=9.4.0">
 		
-		<link rel="stylesheet" href="../common/index.css?v=9.2.0">
+		<link rel="stylesheet" href="../common/index.css?v=9.4.0">
 		<!-- custom sample head -->
-		<script src="./common/data.js?v=9.2.0"></script>
+		<script src="./common/data.js?v=9.4.0"></script>
 		<style>
 			.footer-content {
 				width: 100%;
@@ -179,14 +179,6 @@
 				headerAutoHeight: true,
 				footerRowHeight: 120,
 				leftSplit: 1
-			});
-
-			// Handle the "change" event on the grid: when a cell is added or updated, recalculate the item
-			grid.events.on("change", (id, status) => {
-				if (status === "add" || status === "update") {  // Check if the status is "add" or "update"
-					const item = grid.data.getItem(id);          // Get the updated item from the grid
-					grid.data.update(id, calc(item));            // Recalculate and update the item in the grid
-				}
 			});
 
 			// Parse and populate the grid with the dataset, calculating values for each item using the `calc` method

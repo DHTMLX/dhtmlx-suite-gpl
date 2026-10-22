@@ -19,7 +19,9 @@ export interface IChartConfig {
     maxPoints?: number;
     data?: DataCollection<any> | any[];
     exportStyles?: boolean | string[];
+    total?: TChartTotal;
 }
+export type TChartTotal = boolean | ((total: number) => string | number);
 export type TChartType = "bar" | "line" | "spline" | "scatter" | "area" | "donut" | "pie" | "pie3D" | "radar" | "xbar" | "splineArea" | "treeMap" | "calendarHeatMap";
 export declare enum ChartEvents {
     toggleSeries = "toggleSeries",
@@ -53,6 +55,8 @@ export interface ISeria extends ILikeSeria {
     getTooltipType(id: string, x?: number, y?: number): TooltipType;
     getClosest(x: number, y: number): [number, number, number, string];
     getClosestVertical(x: number): [number, number, number, string, number];
+    paintTotals?(labels: string[], stack: PointData[][]): SvgElement;
+    getTotalsPadding?(labels: string[]): IFitPosition;
 }
 export type TreeDirectionType = "asc" | "desc";
 export interface ISeriaConfig {
@@ -63,6 +67,7 @@ export interface ISeriaConfig {
     label?: ((item: ISeriaConfig) => string) | string;
     pointType?: PointType;
     legendType?: LegendType;
+    scale?: ScaleType;
     scales?: ScaleType[];
     active?: boolean;
     pointColor?: string;
@@ -71,8 +76,8 @@ export interface ISeriaConfig {
     strokeWidth?: number;
     barWidth?: number;
     css?: string;
-    fill?: string;
-    color?: string;
+    fill?: SmartColor;
+    color?: SmartColor;
     alpha?: number;
     gradient?: Gradient;
     showText?: boolean;
@@ -85,7 +90,8 @@ export interface ISeriaConfig {
     direction?: TreeDirectionType;
     treeSeries?: ITreeSeries[];
     baseLine?: number;
-    stacked?: boolean;
+    stacked?: boolean | string;
+    total?: TChartTotal;
 }
 export type SeriaConfig = ISeriaConfig | INoScaleConfig;
 export interface IScale extends IComposable {
@@ -93,6 +99,8 @@ export interface IScale extends IComposable {
     add(chart: ILikeSeria): void;
     point(item: object | number): number;
     getSize(): number;
+    getAxis(): IAxisLike<any>;
+    alignTo(scale: IScale): void;
     addPadding(): void;
 }
 export interface IScaleConfig extends IAxisCreatorConfig {
@@ -106,6 +114,7 @@ export interface IScaleConfig extends IAxisCreatorConfig {
     textPadding?: number;
     hidden?: boolean;
     grid?: boolean;
+    alignTicks?: boolean | ScaleType;
     dashed?: boolean;
     targetLine?: number | string;
     targetValue?: number;
@@ -236,6 +245,7 @@ export interface IAxisCreatorConfig {
     log?: boolean;
     padding?: number;
     maxTicks?: number;
+    exactTicks?: number;
     type?: string;
 }
 export interface IAxisScale {
@@ -285,8 +295,11 @@ export type Locator = (item: any) => any;
 export type DrawPoint = (x: number, y: number, ref?: string) => any;
 export type NoScaleSubType = "basic" | "percentOnly" | "valueOnly";
 export type SmartLocator = Locator | string;
+export type SmartColor = ((item: any) => string) | string;
 export interface IStacker extends IComposable, ILikeSeria {
     add(seria: ISeria): void;
+    measureTotalsOf(stacks: IStacker[]): void;
+    getTotalsPadding(): IFitPosition | null;
 }
 export type PointData = [number, number, string, (number | string)?, number?, TreePointData?];
 export type TreePointData = {

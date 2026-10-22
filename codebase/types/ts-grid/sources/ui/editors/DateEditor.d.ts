@@ -29,6 +29,7 @@ export declare class DateEditor implements IEditor {
         thisMonthOnly?: boolean;
         width?: string | number;
         $rangeMark?: (a: Date) => string;
+        controls?: boolean | import("../../../../ts-calendar").TCalendarControlsInput[];
         block?: (a: Date) => boolean;
         view?: import("../../../../ts-calendar").ViewMode;
     };

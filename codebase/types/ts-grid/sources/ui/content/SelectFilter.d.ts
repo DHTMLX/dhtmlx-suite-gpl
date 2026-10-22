@@ -24,5 +24,6 @@ export declare class SelectFilter implements IHeaderFilter {
     clear(silent?: boolean): void;
     focus(): void;
     blur(): void;
+    private _getOptions;
     private initHandlers;
 }
